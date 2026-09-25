@@ -1,0 +1,282 @@
+{
+  "status": "MATCHES_RECORDED_MAINNET_DEPLOYMENT",
+  "checkedAtUtc": "2026-09-25T18:38:17.202433+00:00",
+  "chainId": 4663,
+  "block": 72447565,
+  "blockHash": "0x6301300236aea277993fefaea8e16336bf7e4f8e09a3aad056dd132466cb0682",
+  "runtimeChecks": {
+    "guardedSource": {
+      "address": "0x25E02b142E0785a59D85a6CA820c400e601a9E8E",
+      "runtimeCodeHash": "0x4e5e71bba2d335187330d58858da7644bc3515d5f68071af4256e8c17290141b",
+      "matchesHistorical": true
+    },
+    "router": {
+      "address": "0xa32C34F100B4F1f36ECA09c427a098f99F4423F0",
+      "runtimeCodeHash": "0xe713e3ac0b3e0501e8c040760fd2be33daca297114c197a5878ffbf570b05c4a",
+      "matchesHistorical": true
+    },
+    "oracle": {
+      "address": "0x63150Eb3DDf71420dA0b09b66838aab398f7dEdD",
+      "runtimeCodeHash": "0xdda8d2ce7914eff2a3cc0e9686a1f62bb5262db864653f6431585c1958c0722b",
+      "matchesHistorical": true
+    },
+    "flashVault": {
+      "address": "0x79d33c9BbC1D0711e88C5602f86135Ab4C088b06",
+      "runtimeCodeHash": "0x50eee81770d6e7f55c943f22d7f1842c32b81b838ceb416a58f84e47be611bf7",
+      "matchesHistorical": true
+    },
+    "quoter": {
+      "address": "0xeD3c353Ab237329BD53CC7eB24E66B370155FE6e",
+      "runtimeCodeHash": "0x70121c6cda6e58953b390ffbb554cf01312f83f6335d4ab48725f6383c787cf8",
+      "matchesHistorical": true
+    },
+    "swapModule": {
+      "address": "0xa2a022B17e0201894937755584EecC878AEFe1bf",
+      "runtimeCodeHash": "0x13db9938ad42c87566e695c3929296f8d37412d549f8098249b34d628e22ee5b",
+      "matchesHistorical": true
+    },
+    "accountFactory": {
+      "address": "0x88BDf12F3b6B5C11bd0Ed5c117181FeA3130D15C",
+      "runtimeCodeHash": "0xbefc1cdd65cd63a908d73e9cfa9fd1c94dc8055bf18ad80a01123cecb489eb30",
+      "matchesHistorical": true
+    },
+    "config": {
+      "address": "0x09F94fe0B79E000c8a26617c63E3427fdECB528b",
+      "runtimeCodeHash": "0x5c0700b5e1fb03b4e1a3c153c774b2ad0f4eb56c185cc951fd43c568625e51f6",
+      "matchesHistorical": true
+    },
+    "configImplementation": {
+      "address": "0xac01f0565f966406d9ed4e0bfd726d9b4883ee8a",
+      "runtimeCodeHash": "0xa8a0031a0f108e0a39b6e2a12487b2ccd0e02d3b68baea31c5db7c3a47d084ca",
+      "matchesHistorical": true
+    },
+    "configAdmin": {
+      "address": "0xf483213b2f0de3b7501d5e67c494dc8b5e07223f",
+      "runtimeCodeHash": "0xa3ac6468747c1017cfaecfc1e8cca44f0ec726609e9eff4ea9e1e6c72430ba6b",
+      "matchesHistorical": true
+    },
+    "executor": {
+      "address": "0x6A45Ae86bD992d250580d08D340A06A04D478977",
+      "runtimeCodeHash": "0x0b713d84e28867973dfd8b019461aadbbf5e671ac0d1a2c1770531597cc0bd36",
+      "matchesHistorical": true
+    },
+    "executorImplementation": {
+      "address": "0xd44a1d425cfa875efc0263c0cf717840c213fbd8",
+      "runtimeCodeHash": "0xbaa445e0c3c41eb97f9929a3e4b2e7d8764a6755330f079add25c3943812707b",
+      "matchesHistorical": true
+    },
+    "executorAdmin": {
+      "address": "0x561fa1749f4b58a70d0d7d67e74e6fbeeba6f9b8",
+      "runtimeCodeHash": "0xa3ac6468747c1017cfaecfc1e8cca44f0ec726609e9eff4ea9e1e6c72430ba6b",
+      "matchesHistorical": true
+    },
+    "liquidator": {
+      "address": "0x1434CDa56d0Aeac4d5abC16F91ca76a8A989083c",
+      "runtimeCodeHash": "0xba7b353b460a3f64fb4685cfda6f9ffdf66c4fddf796c1775bde9538d5f0fa44",
+      "matchesHistorical": true
+    },
+    "liquidatorImplementation": {
+      "address": "0x868dbcb39fea9060272504e0636a1e068a13e3a2",
+      "runtimeCodeHash": "0x8188387f51547a8fc805c9929455695928a6d6461a87c85ea659eea447982066",
+      "matchesHistorical": true
+    },
+    "liquidatorAdmin": {
+      "address": "0xefabb43f04594734dda642b2e20f3b3e50ae059d",
+      "runtimeCodeHash": "0xa3ac6468747c1017cfaecfc1e8cca44f0ec726609e9eff4ea9e1e6c72430ba6b",
+      "matchesHistorical": true
+    },
+    "riskEngine": {
+      "address": "0xC8b178C3c74570472FF1eeE0DD559e61AF9f9678",
+      "runtimeCodeHash": "0xd4dcf099f244497d1a05789ed257fa13c1a0245ba929b570656aa71fd86e9130",
+      "matchesHistorical": true
+    },
+    "riskEngineImplementation": {
+      "address": "0x6408136abd8182fdc3becaf0f7dea2163baa1676",
+      "runtimeCodeHash": "0x7277003001607079f29ae68b6624be818ee2300f21c42b4059262f19967b24fa",
+      "matchesHistorical": true
+    },
+    "riskEngineAdmin": {
+      "address": "0xba8f4e4554e794d961dd8b928ded1812c6862505",
+      "runtimeCodeHash": "0xa3ac6468747c1017cfaecfc1e8cca44f0ec726609e9eff4ea9e1e6c72430ba6b",
+      "matchesHistorical": true
+    },
+    "marginVault": {
+      "address": "0x04D4A5555b7a37017A67B4D21A1Da5838de28B9e",
+      "runtimeCodeHash": "0x74652ca8422d38ee00005d2eb64c1e859b12f946565854cdbc9119643412c95e",
+      "matchesHistorical": true
+    },
+    "marginVaultImplementation": {
+      "address": "0xa27012f6d0cb100182b736de99354376e75f4022",
+      "runtimeCodeHash": "0x7b311305f3c0a7c9fd06b92b12a97837c81544e304248d4f564434ac6d09d985",
+      "matchesHistorical": true
+    },
+    "marginVaultAdmin": {
+      "address": "0xad132dbd3da0b409ef3cb2522e758283fc6125bd",
+      "runtimeCodeHash": "0xa3ac6468747c1017cfaecfc1e8cca44f0ec726609e9eff4ea9e1e6c72430ba6b",
+      "matchesHistorical": true
+    },
+    "insuranceFund": {
+      "address": "0x17c72B8f171999C4d8863a3517D1C5d9cBfBb068",
+      "runtimeCodeHash": "0xd5e494f8f7084161b4ef709922e77380b700b331a7f68c355b9adb10f081c3a0",
+      "matchesHistorical": true
+    },
+    "insuranceFundImplementation": {
+      "address": "0x568185fc33d05040b60d8432b9988aa82f071fe6",
+      "runtimeCodeHash": "0x1f293ccb84d019cc2574c616d58deee7079a6d804c7e96a90b4272ac8a6dba5e",
+      "matchesHistorical": true
+    },
+    "insuranceFundAdmin": {
+      "address": "0x9ee6c76888b25eacf969dd695bdbba75d5bd57df",
+      "runtimeCodeHash": "0xa3ac6468747c1017cfaecfc1e8cca44f0ec726609e9eff4ea9e1e6c72430ba6b",
+      "matchesHistorical": true
+    },
+    "feeDistributor": {
+      "address": "0x8D2707946A9d7abce3d8fb3FafDc40f4811180b7",
+      "runtimeCodeHash": "0xcc6da3c1255f5b23bcd801904e0b418117156c7bce039f21935b88f8da02d5f3",
+      "matchesHistorical": true
+    },
+    "feeDistributorImplementation": {
+      "address": "0x371e8637082232013d1634e556dbc14cd6d1d094",
+      "runtimeCodeHash": "0x33db0557243a3741ffe694380a299606c48f4d016e95d0096ccf58079b34b355",
+      "matchesHistorical": true
+    },
+    "feeDistributorAdmin": {
+      "address": "0xaa909e7c0d239914a33f2efe8d47b1e66c18675e",
+      "runtimeCodeHash": "0xa3ac6468747c1017cfaecfc1e8cca44f0ec726609e9eff4ea9e1e6c72430ba6b",
+      "matchesHistorical": true
+    },
+    "replacementDelegate": {
+      "address": "0x31d7c960c1eb542e4243e80d2270220e63002d99",
+      "runtimeCodeHash": "0xa6913bd52087e56926b3f17fd131b7f331af194aaa77321e452582e75fb8cc34",
+      "matchesHistorical": true
+    },
+    "borrowAccountingModule": {
+      "address": "0xf7d90127352748d5437be445c01b46892baf5522",
+      "runtimeCodeHash": "0x353dbb2787e2a41e429ebf1a20253735becb84354d38536b1102863143ef1968",
+      "matchesHistorical": true
+    },
+    "accountTemplate": {
+      "address": "0xab543100a65e82e8e0a84cd062500ec0649b7423",
+      "runtimeCodeHash": "0xf5f3b8e3faf11027e44799bd6fcf8afc61a2f8297cb84a5544a8f0bfa87c2f63",
+      "matchesHistorical": true
+    },
+    "vault_adapter": {
+      "address": "0xc4db160750638a92578c0c657ad6ab7c2a1399f9",
+      "runtimeCodeHash": "0x2cde2f75927cccae3835623a08892db3a93e035a2bd805589dfde1af256f8dcd",
+      "matchesHistorical": true
+    },
+    "vault_oracle": {
+      "address": "0x027098b6fe575b39958519da0a970cb2116d3b0e",
+      "runtimeCodeHash": "0x1e66922d562ef1da9b41d783f04ae4af517d4ae6dbbf37d28badd814e0ec4bb4",
+      "matchesHistorical": true
+    },
+    "vault_vault": {
+      "address": "0x21c7e1c2caded480fa373c5c9b3f51492b2d50ac",
+      "runtimeCodeHash": "0x13491ca5a62abb6bde4ff09973465087f23e12a18d6923d8cba62ae4ba319049",
+      "matchesHistorical": true
+    },
+    "SettlementLib": {
+      "address": "0x813AbFeC0DE50f8674798CbaB72Ed7b5D8CcB9cB",
+      "runtimeCodeHash": "0x2db5ef48328c828e38fe4e523a7191c4321f0eb501641c65380313097826724d",
+      "matchesHistorical": true
+    }
+  },
+  "proxyImplementationChecks": {
+    "config": {
+      "proxy": "0x09F94fe0B79E000c8a26617c63E3427fdECB528b",
+      "implementation": "0xac01f0565f966406d9ed4e0bfd726d9b4883ee8a",
+      "matchesHistorical": true
+    },
+    "executor": {
+      "proxy": "0x6A45Ae86bD992d250580d08D340A06A04D478977",
+      "implementation": "0xd44a1d425cfa875efc0263c0cf717840c213fbd8",
+      "matchesHistorical": true
+    },
+    "liquidator": {
+      "proxy": "0x1434CDa56d0Aeac4d5abC16F91ca76a8A989083c",
+      "implementation": "0x868dbcb39fea9060272504e0636a1e068a13e3a2",
+      "matchesHistorical": true
+    },
+    "riskEngine": {
+      "proxy": "0xC8b178C3c74570472FF1eeE0DD559e61AF9f9678",
+      "implementation": "0x6408136abd8182fdc3becaf0f7dea2163baa1676",
+      "matchesHistorical": true
+    },
+    "marginVault": {
+      "proxy": "0x04D4A5555b7a37017A67B4D21A1Da5838de28B9e",
+      "implementation": "0xa27012f6d0cb100182b736de99354376e75f4022",
+      "matchesHistorical": true
+    },
+    "insuranceFund": {
+      "proxy": "0x17c72B8f171999C4d8863a3517D1C5d9cBfBb068",
+      "implementation": "0x568185fc33d05040b60d8432b9988aa82f071fe6",
+      "matchesHistorical": true
+    },
+    "feeDistributor": {
+      "proxy": "0x8D2707946A9d7abce3d8fb3FafDc40f4811180b7",
+      "implementation": "0x371e8637082232013d1634e556dbc14cd6d1d094",
+      "matchesHistorical": true
+    },
+    "vault_adapter": {
+      "proxy": "0xadA73211711e4790bc83B5d6B39f47fE04D276f3",
+      "implementation": "0xc4db160750638a92578c0c657ad6ab7c2a1399f9",
+      "matchesHistorical": true
+    },
+    "vault_oracle": {
+      "proxy": "0xaE4D4DdB8dD646951d54fE9B13BE23DcB61C6741",
+      "implementation": "0x027098b6fe575b39958519da0a970cb2116d3b0e",
+      "matchesHistorical": true
+    },
+    "vault_vault": {
+      "proxy": "0x280825b2d856706Ff7E0d6351CcB2e935E1a9A2f",
+      "implementation": "0x21c7e1c2caded480fa373c5c9b3f51492b2d50ac",
+      "matchesHistorical": true
+    },
+    "strategyReserve": {
+      "proxy": "0x806b182B050f7EcF908758dD6bBF91DB8B2212aF",
+      "implementation": "0xa37ef5f1bf20863cb256158fe3e5e07768f43227",
+      "matchesHistorical": true
+    }
+  },
+  "markets": {
+    "pUsd": {
+      "address": "0x55aed0569c8f0d166d71face57b57c2f2624a563",
+      "implementation": "0x31d7c960c1eb542e4243e80d2270220e63002d99"
+    },
+    "pStock": {
+      "address": "0xa155cccb986774ae818b3f10f07d01d1b7a47b26",
+      "implementation": "0x31d7c960c1eb542e4243e80d2270220e63002d99"
+    }
+  },
+  "risk": {
+    "long": [
+      1,
+      500,
+      2000,
+      1000,
+      12500,
+      5000,
+      5000,
+      500,
+      100,
+      100,
+      2000000000000000000,
+      1000000000000000000
+    ],
+    "short": [
+      1,
+      500,
+      2000,
+      1000,
+      12500,
+      5000,
+      5000,
+      500,
+      100,
+      100,
+      2000000000000000000,
+      1000000000000000000
+    ]
+  },
+  "scope": "Read-only pinned-block code, implementation targets and risk. Does not attest to oracle availability, keeper health, current balances, governance safety or frontend operation."
+}

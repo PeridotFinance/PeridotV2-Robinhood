@@ -1,0 +1,26 @@
+{
+  "chainId": 4663,
+  "surface": "Read-only funding verification; no transactions submitted",
+  "actor": "0x94696d767e65a75581145646960FA0eC886cE5d2",
+  "block": 66354064,
+  "timestamp": 1789747497,
+  "blockHash": "0x43d3670745a8e5c6bc25211e514a40d26e8053c1b663d10c7657ef688a71ca3d",
+  "values": {
+    "USDG6": "10997001",
+    "NVDA18": "105669533924500770",
+    "pUsdTotalBorrows": "0",
+    "pStockTotalBorrows": "0",
+    "marginRiskHook": "0",
+    "ETH18": "42543614909104898"
+  },
+  "requiredFlashReserve": {
+    "USDG6": "2000000",
+    "NVDA18": "10000000000000000"
+  },
+  "flashReserveFundedInDeployerWallet": true,
+  "shortfall": {
+    "USDG6": "0",
+    "NVDA18": "0"
+  },
+  "signerUnlockMethodProvided": false
+}

@@ -1,0 +1,16 @@
+test_ambiguous_submission_stops_across_restarts (test_keeper.KeeperTests) ... ok
+test_execution_url_guard (test_keeper.KeeperTests) ... ok
+test_failed_receipt_never_blindly_retries (test_keeper.KeeperTests) ... ok
+test_full_liquidation_stops_without_second_submission (test_keeper.KeeperTests) ... ok
+test_healthy_position_does_not_send (test_keeper.KeeperTests) ... ok
+test_mismatched_deployment_journal_rejected (test_keeper.KeeperTests) ... ok
+test_pending_hash_is_reconciled_before_requoting (test_keeper.KeeperTests) ... ok
+test_read_only_plan_never_submits (test_keeper.KeeperTests) ... ok
+test_rechecks_and_repeats_partial_liquidations_until_healthy (test_keeper.KeeperTests) ... ok
+test_stale_feed_does_not_simulate_or_send (test_keeper.KeeperTests) ... ok
+test_success_receipt_without_debt_reduction_stops (test_keeper.KeeperTests) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.008s
+
+OK

@@ -1,0 +1,52 @@
+{
+  "chainId": 4663,
+  "governor": "0x94696d767e65a75581145646960FA0eC886cE5d2",
+  "directions": {
+    "long": {
+      "applied": true,
+      "risk": [
+        1,
+        500,
+        2000,
+        1000,
+        12500,
+        5000,
+        5000,
+        500,
+        100,
+        100,
+        2000000000000000000,
+        1000000000000000000
+      ],
+      "queuedUntil": 0
+    },
+    "short": {
+      "applied": true,
+      "risk": [
+        1,
+        500,
+        2000,
+        1000,
+        12500,
+        5000,
+        5000,
+        500,
+        100,
+        100,
+        2000000000000000000,
+        1000000000000000000
+      ],
+      "queuedUntil": 0
+    }
+  },
+  "block": 67180996,
+  "opensPaused": false,
+  "flashPaused": false,
+  "status": "MAINNET_5X_ACTIVE_VERIFIED",
+  "applyReceiptsRechecked": [
+    "0x846dbfb99140ed207ed26b5f108b5e3f0e1e592317ac0529435f775f01763942",
+    "0x0a2198c15ed956b1861a4507112b76ccdc6c6c59b5565bb1ab5ce997946cd819"
+  ],
+  "frontendABIHashesVerified": 16,
+  "productionKeeperInstalledByAssistant": false
+}

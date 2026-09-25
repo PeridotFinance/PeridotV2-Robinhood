@@ -1,0 +1,57 @@
+[profile.default]
+src = "src"
+test = "test"
+script = "script"
+out = "out"
+libs = ["lib"]
+solc_version = "0.8.26"
+evm_version = "cancun"
+optimizer = true
+optimizer_runs = 200
+via_ir = true
+ffi = false
+
+remappings = [
+    "forge-std/=lib/forge-std/src/",
+    "@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/",
+    "@openzeppelin/contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/contracts/",
+    "v4-core/=lib/v4-core/",
+    "v4-periphery/=lib/v4-periphery/",
+    "@uniswap/v4-core/=lib/v4-core/",
+    "@uniswap/v4-periphery/=lib/v4-periphery/",
+    "@uniswap/permit2/=lib/permit2/",
+    "@uniswap/universal-router/=lib/universal-router/",
+    "permit2/=lib/permit2/",
+    "universal-router/=lib/universal-router/",
+    "peridot/=../peridot-contracts-2-5/contracts/contracts/",
+    "peridot-tests/=../peridot-contracts-2-5/contracts/test/",
+    "@chainlink/contracts/=../peridot-contracts-2-5/contracts/node_modules/@chainlink/contracts/"
+]
+
+[profile.margin_testnet]
+src = "margin-testnet"
+test = "margin-testnet/test"
+script = "margin-testnet/script"
+out = "out-margin"
+cache_path = "cache-margin"
+optimizer_runs = 1
+allow_paths = ["../peridot-contracts-2-5/contracts"]
+fs_permissions = [{ access = "read-write", path = "./deployments" }]
+
+[profile.margin_mainnet]
+src = "margin-mainnet"
+test = "margin-mainnet/test"
+script = "margin-mainnet/script"
+out = "out-margin-mainnet"
+cache_path = "cache-margin-mainnet"
+optimizer_runs = 1
+allow_paths = ["../peridot-contracts-2-5/contracts"]
+fs_permissions = [{ access = "read-write", path = "./deployments" }]
+
+[rpc_endpoints]
+robinhood = "${ROBINHOOD_RPC_URL}"
+
+[fmt]
+line_length = 100
+tab_width = 4
+bracket_spacing = true

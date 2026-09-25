@@ -1,0 +1,31 @@
+{
+  "status": "MAINNET_ACTIVE_VERIFIED",
+  "chainId": 4663,
+  "checkedBlock": 66725458,
+  "chainTimeUTC": "2026-09-19T02:28:33+00:00",
+  "sourceFingerprintUnchanged": true,
+  "opensPaused": false,
+  "flashPaused": false,
+  "flashUSDG6": "2000000",
+  "flashNVDA18": "10000000000000000",
+  "insurancePUSDGShares": "4999956251",
+  "borrowPaused": {
+    "pUsd": false,
+    "pStock": false
+  },
+  "completedStages": [
+    "pause",
+    "migrate",
+    "resume-lending",
+    "deploy",
+    "configure",
+    "activate"
+  ],
+  "confirmedTransactions": 66,
+  "activationReceiptsRechecked": 4,
+  "pending": null,
+  "frontendABIHashesVerified": 16,
+  "frontendAddressesMatch": true,
+  "addressRecord": "deployments/margin-mainnet-live/addresses.json",
+  "productionKeeperInstalledByRunner": false
+}

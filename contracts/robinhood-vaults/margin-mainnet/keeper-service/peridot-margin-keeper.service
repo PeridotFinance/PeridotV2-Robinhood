@@ -1,0 +1,24 @@
+# Deployment template for a future DigitalOcean host; not installed or enabled locally.
+[Unit]
+Description=Peridot Robinhood margin liquidation keeper
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=peridot
+Group=peridot
+WorkingDirectory=/opt/peridot/RobinhoodVaults
+Environment=PATH=/home/peridot/.foundry/bin:/usr/local/bin:/usr/bin:/bin
+ExecStart=/usr/bin/python3 -B /opt/peridot/RobinhoodVaults/margin-mainnet/keeper-service/service.py --execute --password-file /etc/peridot/keeper-password --state-dir /var/lib/peridot-margin-keeper
+Restart=on-failure
+RestartSec=30
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=/var/lib/peridot-margin-keeper /opt/peridot/RobinhoodVaults/deployments
+
+[Install]
+WantedBy=multi-user.target

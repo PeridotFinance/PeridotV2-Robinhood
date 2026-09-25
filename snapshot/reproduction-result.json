@@ -1,0 +1,33 @@
+{
+  "compiler": "0.8.26+commit.8a97fa7a",
+  "status": "EXACT_ARCHIVED_ARTIFACT_MATCH",
+  "matches": [
+    "margin/GuardedMarginPriceSource",
+    "margin/RobinhoodV4RouterAdapter",
+    "margin/RobinhoodMarginPriceOracle",
+    "margin/SimpleFlashLoanVault",
+    "margin/IsolatedMarginQuoter",
+    "margin/IsolatedMarginSwapModule",
+    "margin/IsolatedMarginAccountFactory",
+    "margin/PeridotTransparentProxy",
+    "margin/IsolatedMarginConfigUpgradeable",
+    "margin/ProxyAdmin",
+    "margin/IsolatedMarginExecutorUpgradeable",
+    "margin/IsolatedMarginLiquidatorUpgradeable",
+    "margin/IsolatedMarginRiskEngineUpgradeable",
+    "margin/IsolatedMarginVaultUpgradeable",
+    "margin/MarginInsuranceFundUpgradeable",
+    "margin/MarginFeeDistributorUpgradeable",
+    "margin/RobinhoodBoostedDelegate",
+    "margin/BorrowAccountingModule",
+    "margin/IsolatedMarginAccount",
+    "vault/RobinhoodBoostedVault",
+    "vault/UniswapV4PairedAdapter",
+    "vault/StockOracleGuard",
+    "vault/StrategyLossReserve",
+    "vault/SettlementLib",
+    "vault/PeridotTransparentProxy",
+    "vault/PeridotProxyAdmin"
+  ],
+  "scope": "Creation and runtime templates including CBOR metadata; libraries and constructor immutables remain as in archived artifacts. On-chain linkage is established separately by historical deployment verification records."
+}

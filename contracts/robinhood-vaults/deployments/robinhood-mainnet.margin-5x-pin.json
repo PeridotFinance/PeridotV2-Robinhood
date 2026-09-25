@@ -1,0 +1,8 @@
+{
+  "chainId": 4663,
+  "rpc": "https://rpc.mainnet.chain.robinhood.com",
+  "stateBlock": 66736808,
+  "nativeEvmBlockNumber": 26008668,
+  "timestamp": 1789786057,
+  "blockHash": "0x97748e6a1fe383560309231b8468e63c68796cbd6f3d8a2e760fa524ba3d7c20"
+}

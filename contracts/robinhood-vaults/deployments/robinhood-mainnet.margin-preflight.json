@@ -1,0 +1,443 @@
+{
+  "chainId": 4663,
+  "rpc": "https://rpc.mainnet.chain.robinhood.com",
+  "stateBlock": 65499727,
+  "nativeEvmBlockNumber": 25998316,
+  "timestamp": 1789661470,
+  "blockHash": "0x01a1f2e3c6bfb57b53bf88e3eb53f912273df3d6fe2786b69baa1b5e570aa861",
+  "surface": "read-only public-mainnet snapshot",
+  "addresses": {
+    "actor": "0x94696d767e65a75581145646960FA0eC886cE5d2",
+    "usd": "0x5fc5360D0400a0Fd4f2af552ADD042D716F1d168",
+    "stock": "0xd0601CE157Db5bdC3162BbaC2a2C8aF5320D9EEC",
+    "pUsd": "0x55aed0569c8f0d166d71face57b57c2f2624a563",
+    "pStock": "0xa155cccb986774ae818b3f10f07d01d1b7a47b26",
+    "controller": "0x6148183676e304dbe63a85c350c208da3ceac39c",
+    "assetOracle": "0x266f014d1325774f1190f963df4369e07dda1d33",
+    "feed": "0x379EC4f7C378F34a1B47E4F3cbeBCbAC3E8E9F15",
+    "boostedVault": "0x280825b2d856706Ff7E0d6351CcB2e935E1a9A2f",
+    "pairedAdapter": "0xadA73211711e4790bc83B5d6B39f47fE04D276f3",
+    "guard": "0xaE4D4DdB8dD646951d54fE9B13BE23DcB61C6741",
+    "timelock": "0x6797FB8Ce049B42C5BC2b42Bf76c6d15C7B12498",
+    "poolManager": "0x8366a39CC670B4001A1121B8F6A443A643e40951",
+    "universalRouter": "0x8876789976dEcBfCbBbe364623C63652db8C0904",
+    "permit2": "0x000000000022D473030F116dDEE9F6B43aC78BA3"
+  },
+  "pairId": "0xe2050352f4346597cc69d2776d99ae60c9440dfc28f9406ce66be0bbe3fb6b06",
+  "contracts": {
+    "usd": {
+      "address": "0x5fc5360D0400a0Fd4f2af552ADD042D716F1d168",
+      "codeHash": "0x864cc9ad53b338b82da1f7cab85ab0b3d5c8861acb422b6fec63cf36234f36a6",
+      "runtimeBytes": 170
+    },
+    "stock": {
+      "address": "0xd0601CE157Db5bdC3162BbaC2a2C8aF5320D9EEC",
+      "codeHash": "0x6c1fdd40002dcb440c7fff6a84171404d279ccb057803b65826f7546acd65630",
+      "runtimeBytes": 283
+    },
+    "pUsd": {
+      "address": "0x55aed0569c8f0d166d71face57b57c2f2624a563",
+      "codeHash": "0x2445f919df8faee16ae63d0bc1f80d4184ecec233a5d3e9a750824435576a481",
+      "runtimeBytes": 6266
+    },
+    "pStock": {
+      "address": "0xa155cccb986774ae818b3f10f07d01d1b7a47b26",
+      "codeHash": "0x2445f919df8faee16ae63d0bc1f80d4184ecec233a5d3e9a750824435576a481",
+      "runtimeBytes": 6266
+    },
+    "controller": {
+      "address": "0x6148183676e304dbe63a85c350c208da3ceac39c",
+      "codeHash": "0x802476a6ae51aeb614446cedcb1d246a920411c73061f425ce9b130a89ef3d82",
+      "runtimeBytes": 1474
+    },
+    "assetOracle": {
+      "address": "0x266f014d1325774f1190f963df4369e07dda1d33",
+      "codeHash": "0x64e81ef31ff3f7575060ae3a8eb145a9aa4aec41145a988ee40a113f2dc7bcba",
+      "runtimeBytes": 3928
+    },
+    "feed": {
+      "address": "0x379EC4f7C378F34a1B47E4F3cbeBCbAC3E8E9F15",
+      "codeHash": "0xbd6f524cdc4268b6bd1bb6f77a8821faeea9c52ee9e0afa0b6d948ce82c966c2",
+      "runtimeBytes": 9571
+    },
+    "boostedVault": {
+      "address": "0x280825b2d856706Ff7E0d6351CcB2e935E1a9A2f",
+      "codeHash": "0x2db4b3c2423e7f3a92b50b1fb59a50d3226408d821108cb64347f41f510551b6",
+      "runtimeBytes": 793
+    },
+    "pairedAdapter": {
+      "address": "0xadA73211711e4790bc83B5d6B39f47fE04D276f3",
+      "codeHash": "0x8c602cb360a61e711f16e1ed4aa32625aa7b4bc6370cec6da371d2c174c16031",
+      "runtimeBytes": 793
+    },
+    "guard": {
+      "address": "0xaE4D4DdB8dD646951d54fE9B13BE23DcB61C6741",
+      "codeHash": "0xf6324a2a18fce8c0df8fc5b6c980b0d1d439f2d42257efa2e3debda1b7d68faa",
+      "runtimeBytes": 793
+    },
+    "timelock": {
+      "address": "0x6797FB8Ce049B42C5BC2b42Bf76c6d15C7B12498",
+      "codeHash": "0x4135cfbc0feefcb8eb655f35dbb5be07e94f73c6974112c81e4c9d2b47fee3c8",
+      "runtimeBytes": 5450
+    },
+    "poolManager": {
+      "address": "0x8366a39CC670B4001A1121B8F6A443A643e40951",
+      "codeHash": "0xbd3881180b547f5fe817545743cfb4343e96b1bc6640dcd70c106b0066e95626",
+      "runtimeBytes": 24009
+    },
+    "universalRouter": {
+      "address": "0x8876789976dEcBfCbBbe364623C63652db8C0904",
+      "codeHash": "0x2ce6aaaf9f4151f5e1cbf774668772f17f532ae11b15e9284fd0a072a8b0fbde",
+      "runtimeBytes": 24546
+    },
+    "permit2": {
+      "address": "0x000000000022D473030F116dDEE9F6B43aC78BA3",
+      "codeHash": "0x5208783f52488f7d3493e5e38311ab707c1d75457fe472a19b0b4d57d66a7fca",
+      "runtimeBytes": 9152
+    },
+    "marketImplementation": {
+      "address": "0xf64b9835741c91805e96c9fe4d27704d259d769b",
+      "codeHash": "0x9e40397488f537aae7be96a4cc23e409a18b5fa722bc2dd71d8473adf2185481",
+      "runtimeBytes": 23579
+    },
+    "controllerImplementation": {
+      "address": "0x7c4c7431aa8e5165fb82815dfff1a9fb9871b276",
+      "codeHash": "0x824490f8b0807c8bfa9f539796ffb6a378fdc39cd9b68405cd5a3490c877a94e",
+      "runtimeBytes": 23572
+    }
+  },
+  "reads": {
+    "pUsd.underlying": {
+      "values": [
+        546752078524806549824452760637979359403954000232
+      ]
+    },
+    "pUsd.implementation": {
+      "values": [
+        1406097544769320177007157854631661795475638285979
+      ]
+    },
+    "pUsd.admin": {
+      "values": [
+        847281747888270366942346908342717872638559839698
+      ]
+    },
+    "pUsd.getCash": {
+      "values": [
+        4000035
+      ]
+    },
+    "pUsd.totalBorrows": {
+      "values": [
+        0
+      ]
+    },
+    "pUsd.totalBorrowShares": {
+      "error": "{'code': 3, 'message': 'execution reverted', 'data': '0x'}"
+    },
+    "pUsd.borrowAccountingEnabled": {
+      "error": "{'code': 3, 'message': 'execution reverted', 'data': '0x'}"
+    },
+    "pUsd.accrualBlockNumber": {
+      "values": [
+        25909919
+      ]
+    },
+    "pUsd.exchangeRateStored": {
+      "values": [
+        200001750000000
+      ]
+    },
+    "pUsd.totalSupply": {
+      "values": [
+        20000000000
+      ]
+    },
+    "pUsd.vaultAccountedAssets": {
+      "values": [
+        2000035
+      ]
+    },
+    "pUsd.robinhoodVault": {
+      "values": [
+        228541320806944678130922542592412510141562919471
+      ]
+    },
+    "pUsd.actorShares": {
+      "values": [
+        20000000000
+      ]
+    },
+    "pUsd.borrowPaused": {
+      "values": [
+        0
+      ]
+    },
+    "pUsd.borrowCap": {
+      "values": [
+        1000000000
+      ]
+    },
+    "pStock.underlying": {
+      "values": [
+        1189613467694738019150202360368048557920044818156
+      ]
+    },
+    "pStock.implementation": {
+      "values": [
+        1406097544769320177007157854631661795475638285979
+      ]
+    },
+    "pStock.admin": {
+      "values": [
+        847281747888270366942346908342717872638559839698
+      ]
+    },
+    "pStock.getCash": {
+      "values": [
+        19983457829087898
+      ]
+    },
+    "pStock.totalBorrows": {
+      "values": [
+        0
+      ]
+    },
+    "pStock.totalBorrowShares": {
+      "error": "{'code': 3, 'message': 'execution reverted', 'data': '0x'}"
+    },
+    "pStock.borrowAccountingEnabled": {
+      "error": "{'code': 3, 'message': 'execution reverted', 'data': '0x'}"
+    },
+    "pStock.accrualBlockNumber": {
+      "values": [
+        25909919
+      ]
+    },
+    "pStock.exchangeRateStored": {
+      "values": [
+        200000896690404640000000000
+      ]
+    },
+    "pStock.totalSupply": {
+      "values": [
+        100000000
+      ]
+    },
+    "pStock.vaultAccountedAssets": {
+      "values": [
+        16631839952566
+      ]
+    },
+    "pStock.robinhoodVault": {
+      "values": [
+        228541320806944678130922542592412510141562919471
+      ]
+    },
+    "pStock.actorShares": {
+      "values": [
+        100000000
+      ]
+    },
+    "pStock.borrowPaused": {
+      "values": [
+        0
+      ]
+    },
+    "pStock.borrowCap": {
+      "values": [
+        4350000000000000000
+      ]
+    },
+    "controller.admin": {
+      "values": [
+        847281747888270366942346908342717872638559839698
+      ]
+    },
+    "controller.peridottrollerImplementation": {
+      "values": [
+        709619834142956208070670735897243600396418658934
+      ]
+    },
+    "controller.isolatedMarginRiskHook": {
+      "values": [
+        0
+      ]
+    },
+    "controller.isolatedMarginRegistrar": {
+      "values": [
+        0
+      ]
+    },
+    "controller.oracle": {
+      "values": [
+        219417145347820852536961636967979675073723899187
+      ]
+    },
+    "assetOracle.stockChainlinkPriceStaleThreshold": {
+      "values": [
+        259200
+      ]
+    },
+    "assetOracle.chainlinkPriceStaleThreshold": {
+      "values": [
+        90000
+      ]
+    },
+    "assetOracle.stock.assetPrices": {
+      "values": [
+        219672148980000000000
+      ]
+    },
+    "assetOracle.stock.lastValidChainlinkPrice": {
+      "values": [
+        0
+      ]
+    },
+    "assetOracle.stock.isPriceStale": {
+      "values": [
+        0
+      ]
+    },
+    "assetOracle.stock.assetToAggregator": {
+      "values": [
+        317535168454293736067272268642117862456537554709
+      ]
+    },
+    "stock.actorBalance": {
+      "values": [
+        4787149114389371
+      ]
+    },
+    "assetOracle.usd.assetPrices": {
+      "values": [
+        1000000000000000000
+      ]
+    },
+    "assetOracle.usd.lastValidChainlinkPrice": {
+      "values": [
+        0
+      ]
+    },
+    "assetOracle.usd.isPriceStale": {
+      "values": [
+        1
+      ]
+    },
+    "assetOracle.usd.assetToAggregator": {
+      "values": [
+        0
+      ]
+    },
+    "usd.actorBalance": {
+      "values": [
+        997001
+      ]
+    },
+    "stock.oraclePaused": {
+      "values": [
+        0
+      ]
+    },
+    "feed.round": {
+      "values": [
+        18446744073709552670,
+        21967214898,
+        1789654488,
+        1789654501,
+        18446744073709552670
+      ]
+    },
+    "feed.decimals": {
+      "values": [
+        8
+      ]
+    },
+    "guard.prices": {
+      "values": [
+        219672148980000000000,
+        1000000000000000000
+      ]
+    },
+    "guard.config": {
+      "values": [
+        1189613467694738019150202360368048557920044818156,
+        546752078524806549824452760637979359403954000232,
+        317535168454293736067272268642117862456537554709,
+        0,
+        0,
+        27003236278967863204109312873868806080744333147497696458139979107112982825969,
+        43200,
+        3600,
+        300,
+        18,
+        6,
+        8,
+        0,
+        1,
+        1,
+        600
+      ]
+    },
+    "boostedVault.ledger": {
+      "values": [
+        16631839952566,
+        2000035,
+        0,
+        2007104,
+        16788842094030,
+        1789559890
+      ]
+    },
+    "boostedVault.config": {
+      "values": [
+        1189613467694738019150202360368048557920044818156,
+        546752078524806549824452760637979359403954000232,
+        921060917630743658930433200499520319542052289318,
+        489162694012430380559888238609099784326253684067,
+        1000000000000000000000,
+        25000000000000000000,
+        3600,
+        0,
+        300,
+        2000,
+        100,
+        200,
+        18,
+        6,
+        0,
+        1,
+        0,
+        1
+      ]
+    },
+    "pairedAdapter.position": {
+      "values": [
+        2752736,
+        0,
+        0,
+        0
+      ]
+    },
+    "pairedAdapter.poolKey": {
+      "values": [
+        546752078524806549824452760637979359403954000232,
+        1189613467694738019150202360368048557920044818156,
+        3000,
+        60,
+        0
+      ]
+    }
+  },
+  "gates": {
+    "pUsd.borrowAccountingEnabled": false,
+    "pUsd.nativeClock": true,
+    "pStock.borrowAccountingEnabled": false,
+    "pStock.nativeClock": true
+  },
+  "pool": {
+    "sqrtPriceX96": 5350808689071191799540346713839157,
+    "usdPerStock": 219.24026594089017
+  },
+  "actorNonce": 151
+}

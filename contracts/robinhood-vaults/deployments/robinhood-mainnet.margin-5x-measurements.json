@@ -1,0 +1,69 @@
+{
+  "surface": "Pinned mainnet fork; synthetic pool/feed shock only",
+  "pin": {
+    "chainId": 4663,
+    "rpc": "https://rpc.mainnet.chain.robinhood.com",
+    "stateBlock": 66736808,
+    "nativeEvmBlockNumber": 26008668,
+    "timestamp": 1789786057,
+    "blockHash": "0x97748e6a1fe383560309231b8468e63c68796cbd6f3d8a2e760fa524ba3d7c20"
+  },
+  "measurements": {
+    "LongBoundary": {
+      "marginUsd6": 200000,
+      "entryGrossUsd18": 957879448105093905,
+      "entryDebtUsd18": 760091000000000000,
+      "entryLeverageX100": 484,
+      "shockPriceUsd8": 19612235200,
+      "lastHealthyPriceUsd18": 196141964000000000000,
+      "entryOraclePriceUsd18": 222447298490000000000,
+      "firstLiquidatablePriceUsd18": 196122352000000000000,
+      "adverseMoveFromEntryBps": 1183,
+      "poolMoveBps": 1170,
+      "preLiquidationHealthBps": 9997,
+      "adverseMovePercent": 11.834239691242383
+    },
+    "LongBoostedBoundary": {
+      "marginUsd6": 200000,
+      "entryGrossUsd18": 957879448105093905,
+      "entryDebtUsd18": 760091000000000000,
+      "entryLeverageX100": 484,
+      "shockPriceUsd8": 19618119400,
+      "lastHealthyPriceUsd18": 196200813000000000000,
+      "entryOraclePriceUsd18": 222447298490000000000,
+      "firstLiquidatablePriceUsd18": 196181194000000000000,
+      "adverseMoveFromEntryBps": 1180,
+      "poolMoveBps": 1167,
+      "preLiquidationHealthBps": 9991,
+      "adverseMovePercent": 11.807787583080394
+    },
+    "ShortBoundary": {
+      "marginUsd6": 200000,
+      "entryGrossUsd18": 963472000000000000,
+      "entryDebtUsd18": 767763199999999883,
+      "entryLeverageX100": 492,
+      "shockPriceUsd8": 25124443900,
+      "lastHealthyPriceUsd18": 251219317000000000000,
+      "entryOraclePriceUsd18": 222447298490000000000,
+      "firstLiquidatablePriceUsd18": 251244439000000000000,
+      "adverseMoveFromEntryBps": 1294,
+      "poolMoveBps": 1312,
+      "preLiquidationHealthBps": 9996,
+      "adverseMovePercent": 12.945601365122696
+    },
+    "ShortBoostedBoundary": {
+      "marginUsd6": 200000,
+      "entryGrossUsd18": 963472000000000000,
+      "entryDebtUsd18": 767763199999999883,
+      "entryLeverageX100": 492,
+      "shockPriceUsd8": 25114396600,
+      "lastHealthyPriceUsd18": 251118854000000000000,
+      "entryOraclePriceUsd18": 222447298490000000000,
+      "firstLiquidatablePriceUsd18": 251143966000000000000,
+      "adverseMoveFromEntryBps": 1290,
+      "poolMoveBps": 1307,
+      "preLiquidationHealthBps": 9993,
+      "adverseMovePercent": 12.900434262315862
+    }
+  }
+}

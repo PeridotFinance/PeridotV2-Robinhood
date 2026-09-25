@@ -1,0 +1,54 @@
+{
+  "surface": "Read-only mainnet deployment readiness; no transactions sent",
+  "chainId": 4663,
+  "block": 66293892,
+  "nativeEvmBlockNumber": 26004960,
+  "timestamp": 1789741442,
+  "blockHash": "0x1f93ef3d20aad6380233e2e51dc31ff20bcde3f4289e37792f9b1146f845772a",
+  "actor": "0x94696d767e65a75581145646960FA0eC886cE5d2",
+  "reads": {
+    "usd.balanceOf(address)['0x94696d767e65a75581145646960FA0eC886cE5d2']": [
+      10997001
+    ],
+    "stock.balanceOf(address)['0x94696d767e65a75581145646960FA0eC886cE5d2']": [
+      4787149114389371
+    ],
+    "pUsd.totalBorrows()[]": [
+      0
+    ],
+    "pStock.totalBorrows()[]": [
+      0
+    ],
+    "pUsd.implementation()[]": [
+      1406097544769320177007157854631661795475638285979
+    ],
+    "pStock.implementation()[]": [
+      1406097544769320177007157854631661795475638285979
+    ],
+    "controller.isolatedMarginRiskHook()[]": [
+      0
+    ],
+    "controller.isolatedMarginRegistrar()[]": [
+      0
+    ],
+    "controller.borrowGuardianPaused(address)['0x55aed0569c8f0d166d71face57b57c2f2624a563']": [
+      0
+    ],
+    "controller.borrowGuardianPaused(address)['0xa155cccb986774ae818b3f10f07d01d1b7a47b26']": [
+      0
+    ],
+    "feed.latestRoundData()[]": [
+      18446744073709552675,
+      22061057585,
+      1789740734,
+      1789740747,
+      18446744073709552675
+    ],
+    "guard.pricesUSD18(bytes32)['0xe2050352f4346597cc69d2776d99ae60c9440dfc28f9406ce66be0bbe3fb6b06']": [
+      220610575850000000000,
+      1000000000000000000
+    ]
+  },
+  "nativeGasWei": 42543614909104898,
+  "nonce": 152
+}

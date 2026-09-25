@@ -1,0 +1,196 @@
+{
+  "margin/GuardedMarginPriceSource": {
+    "path": "snapshot/artifacts/margin/GuardedMarginPriceSource.json",
+    "sha256": "619c01606198237604cb604f537a4cf8c6273bacb9834d4570231391a408eceb",
+    "roles": [
+      "guardedSource"
+    ]
+  },
+  "margin/RobinhoodV4RouterAdapter": {
+    "path": "snapshot/artifacts/margin/RobinhoodV4RouterAdapter.json",
+    "sha256": "925c429c754e0c9a5c52eaa024bf8647b5fd559ea877ac7ed7d07249e38d64a6",
+    "roles": [
+      "router"
+    ]
+  },
+  "margin/RobinhoodMarginPriceOracle": {
+    "path": "snapshot/artifacts/margin/RobinhoodMarginPriceOracle.json",
+    "sha256": "5ddf2b4166caa22835b72ad88a7febacc13eeae92729f373555f97399857d8dc",
+    "roles": [
+      "oracle"
+    ]
+  },
+  "margin/SimpleFlashLoanVault": {
+    "path": "snapshot/artifacts/margin/SimpleFlashLoanVault.json",
+    "sha256": "30285760e10000ca6778bb36bccdbc0f9de827add9fb5885e437e44b4b9a8cd8",
+    "roles": [
+      "flashVault"
+    ]
+  },
+  "margin/IsolatedMarginQuoter": {
+    "path": "snapshot/artifacts/margin/IsolatedMarginQuoter.json",
+    "sha256": "95c7e80792cbc02bbe1730159cf4fef54d7942f33a5cfe8ac642a8db3a727d34",
+    "roles": [
+      "quoter"
+    ]
+  },
+  "margin/IsolatedMarginSwapModule": {
+    "path": "snapshot/artifacts/margin/IsolatedMarginSwapModule.json",
+    "sha256": "749b21b8a38437fdabcccdd58cd4efa31d69cd5073130174f16ee1adc93e5d5f",
+    "roles": [
+      "swapModule"
+    ]
+  },
+  "margin/IsolatedMarginAccountFactory": {
+    "path": "snapshot/artifacts/margin/IsolatedMarginAccountFactory.json",
+    "sha256": "73308fb6cc966ad7dbd1e18e86fbfb23e1a5b91ce154c9285417044a7fcb82fa",
+    "roles": [
+      "accountFactory"
+    ]
+  },
+  "margin/PeridotTransparentProxy": {
+    "path": "snapshot/artifacts/margin/PeridotTransparentProxy.json",
+    "sha256": "b1b15a24989e7696b532fa945e811155af6520f49f8051d6f072835e6feae0bf",
+    "roles": [
+      "config",
+      "executor",
+      "liquidator",
+      "riskEngine",
+      "marginVault",
+      "insuranceFund",
+      "feeDistributor"
+    ]
+  },
+  "margin/IsolatedMarginConfigUpgradeable": {
+    "path": "snapshot/artifacts/margin/IsolatedMarginConfigUpgradeable.json",
+    "sha256": "1f73ace842dd999ffa21f34ea27a303b6afed9365a379584f7762ce19c59e0b3",
+    "roles": [
+      "configImplementation"
+    ]
+  },
+  "margin/ProxyAdmin": {
+    "path": "snapshot/artifacts/margin/ProxyAdmin.json",
+    "sha256": "f5bd88338c5d97ae6e93433a9edf6afc81a777c0f27dde945bf071efa106d31b",
+    "roles": [
+      "configAdmin",
+      "executorAdmin",
+      "liquidatorAdmin",
+      "riskEngineAdmin",
+      "marginVaultAdmin",
+      "insuranceFundAdmin",
+      "feeDistributorAdmin"
+    ]
+  },
+  "margin/IsolatedMarginExecutorUpgradeable": {
+    "path": "snapshot/artifacts/margin/IsolatedMarginExecutorUpgradeable.json",
+    "sha256": "c1b447b940104590b16aa183cff7bfbe3fd03ebc0244bb70d6bc40a7fad6ec2f",
+    "roles": [
+      "executorImplementation"
+    ]
+  },
+  "margin/IsolatedMarginLiquidatorUpgradeable": {
+    "path": "snapshot/artifacts/margin/IsolatedMarginLiquidatorUpgradeable.json",
+    "sha256": "a4e1fab2e39b412d3d74df18335c4eef8fadd9eeca6fc9032f614bf32998e854",
+    "roles": [
+      "liquidatorImplementation"
+    ]
+  },
+  "margin/IsolatedMarginRiskEngineUpgradeable": {
+    "path": "snapshot/artifacts/margin/IsolatedMarginRiskEngineUpgradeable.json",
+    "sha256": "0f18be74f6da89460fd00edd45816c7cc2eab110ab8be3707283093053b22fc3",
+    "roles": [
+      "riskEngineImplementation"
+    ]
+  },
+  "margin/IsolatedMarginVaultUpgradeable": {
+    "path": "snapshot/artifacts/margin/IsolatedMarginVaultUpgradeable.json",
+    "sha256": "0d88d8270bfd7e1054a18b30a9e5d001fca316fb76ac97bbc0c944bc676c877e",
+    "roles": [
+      "marginVaultImplementation"
+    ]
+  },
+  "margin/MarginInsuranceFundUpgradeable": {
+    "path": "snapshot/artifacts/margin/MarginInsuranceFundUpgradeable.json",
+    "sha256": "0200dadf1ab240fcc9be46d5ce415206dcdc656344274392e62641d2d3d8fe7e",
+    "roles": [
+      "insuranceFundImplementation"
+    ]
+  },
+  "margin/MarginFeeDistributorUpgradeable": {
+    "path": "snapshot/artifacts/margin/MarginFeeDistributorUpgradeable.json",
+    "sha256": "94705c3c7d566508870de163a8da1e62a352069ce93ea7d1f27c52566614157d",
+    "roles": [
+      "feeDistributorImplementation"
+    ]
+  },
+  "margin/RobinhoodBoostedDelegate": {
+    "path": "snapshot/artifacts/margin/RobinhoodBoostedDelegate.json",
+    "sha256": "50461f820d23df5c4d2e9fecaec5e537d90619104b68e7f45fa90cc6f8cc5add",
+    "roles": [
+      "replacementDelegate"
+    ]
+  },
+  "margin/BorrowAccountingModule": {
+    "path": "snapshot/artifacts/margin/BorrowAccountingModule.json",
+    "sha256": "94f1ae0ac1b81301b174d2a9c8723c386d41423e75050772c525975d34884432",
+    "roles": [
+      "borrowAccountingModule"
+    ]
+  },
+  "margin/IsolatedMarginAccount": {
+    "path": "snapshot/artifacts/margin/IsolatedMarginAccount.json",
+    "sha256": "3ed28320341d909cb7b5f4e54a65e8825953f03f3782badcc25a20423e28ebd8",
+    "roles": [
+      "accountTemplate"
+    ]
+  },
+  "vault/RobinhoodBoostedVault": {
+    "path": "snapshot/artifacts/vault/RobinhoodBoostedVault.json",
+    "sha256": "6014932199495772318b9bc9168636e3ddf692bdebbb2846944bc7993d8a3fe2",
+    "roles": [
+      "RobinhoodBoostedVault"
+    ]
+  },
+  "vault/UniswapV4PairedAdapter": {
+    "path": "snapshot/artifacts/vault/UniswapV4PairedAdapter.json",
+    "sha256": "8c487a84e7a70e04b610e1b9654a17a06bd47e2b7bb919716063c4e27d5e320e",
+    "roles": [
+      "UniswapV4PairedAdapter"
+    ]
+  },
+  "vault/StockOracleGuard": {
+    "path": "snapshot/artifacts/vault/StockOracleGuard.json",
+    "sha256": "b16459f1f4f89550effad2cb32890221483a9b7d2fdfdd80c401e7db3a7fbd65",
+    "roles": [
+      "StockOracleGuard"
+    ]
+  },
+  "vault/StrategyLossReserve": {
+    "path": "snapshot/artifacts/vault/StrategyLossReserve.json",
+    "sha256": "20e8c78c0c540c0710f8b5fffce2ddf7ce71da6fcdff24ef820fdb416d08c3ae",
+    "roles": [
+      "StrategyLossReserve"
+    ]
+  },
+  "vault/SettlementLib": {
+    "path": "snapshot/artifacts/vault/SettlementLib.json",
+    "sha256": "715c4ad17f886cbbba00bfa9152d7c1067b4f3e47c5322c9d734ce634f3f14fd",
+    "roles": [
+      "SettlementLib"
+    ]
+  },
+  "vault/PeridotTransparentProxy": {
+    "path": "snapshot/artifacts/vault/PeridotTransparentProxy.json",
+    "sha256": "4e780182960e080df0c2305dba73475c377d8b7813bbd91036948d0d23c34ef6",
+    "roles": [
+      "PeridotTransparentProxy"
+    ]
+  },
+  "vault/PeridotProxyAdmin": {
+    "path": "snapshot/artifacts/vault/PeridotProxyAdmin.json",
+    "sha256": "0c72118a145c6253fb00a0c5678ace3323ac34fb86b851cd85f66a685876bee2",
+    "roles": [
+      "PeridotProxyAdmin"
+    ]
+  }
+}

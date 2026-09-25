@@ -1,0 +1,65 @@
+{
+  "status": "MAINNET_ACTIVE_VERIFIED",
+  "chainId": 4663,
+  "actor": "0x94696d767e65a75581145646960FA0eC886cE5d2",
+  "noTransactionsSubmitted": false,
+  "requestedFinalState": {
+    "opensPaused": false,
+    "flashPaused": false,
+    "maxLeverageX100": 200,
+    "maxPositionValueUsd18": "2000000000000000000",
+    "maxDebtValueUsd18": "1000000000000000000",
+    "perPositionCapsOnly": true,
+    "testerAllowlist": false
+  },
+  "readinessBlock": 66293892,
+  "signer": {
+    "type": "encrypted-foundry-keystore",
+    "account": "robinhood-deployer",
+    "unlockMethodProvided": false,
+    "expectedAddress": "0x94696d767e65a75581145646960FA0eC886cE5d2",
+    "method": "Foundry interactive keystore password prompt in user terminal"
+  },
+  "reserveRequirement": {
+    "USDG6": "2000000",
+    "NVDA18": "10000000000000000",
+    "NVDAAdditionalRequired18": "0",
+    "insuranceUsd6": "1000000"
+  },
+  "blockedSteps": [
+    "Production liquidation operator must be arranged before team positions"
+  ],
+  "frontendManifest": "frontend/margin-mainnet/manifest.json",
+  "runbook": "deployments/robinhood-mainnet.margin-user-runner.md",
+  "temporaryBorrowPauseRequiredForMigration": true,
+  "endWithFinishCanary": false,
+  "governancePlan": {
+    "deploymentAndFrontendSetup": "existing deployer EOA",
+    "destination": "Safe; address not yet supplied",
+    "migrationDeadline": "before total protocol value reaches USD 1000",
+    "thresholdEnforcedOnchain": false,
+    "note": "User clarified this sequencing on 2026-09-18. This does not supply the encrypted deployer unlock method."
+  },
+  "fundingVerifiedAtBlock": 66354064,
+  "fundingEvidence": "deployments/robinhood-mainnet.margin-funding-check.json",
+  "executionOperator": "User runs and signs locally; assistant needs no unlock method",
+  "command": "bash script/deploy-margin-mainnet.sh --broadcast",
+  "repeatCommand": "Deployment complete; no further broadcast required",
+  "liveStateDirectory": "deployments/margin-mainnet-live",
+  "userSignedPublicTransactions": 66,
+  "completedStages": [
+    "pause",
+    "migrate",
+    "resume-lending",
+    "deploy",
+    "configure",
+    "activate"
+  ],
+  "configureReadyUTC": "2026-09-18T19:16:20+00:00",
+  "actualAddressRecord": "deployments/margin-mainnet-live/addresses.json",
+  "stateEvidence": "deployments/robinhood-mainnet.margin-live-stage-check.json",
+  "activateReadyUTC": "2026-09-18T21:26:05+00:00",
+  "deploymentComplete": true,
+  "frontendExportComplete": true,
+  "productionKeeperInstalledByRunner": false
+}

@@ -1,0 +1,141 @@
+No files changed, compilation skipped
+warning: invalid natspec tag '@member', custom tags must use format '@custom:name'
+    ╭▸ /Users/joshua/Peridot/peridot-contracts-2-5/contracts/contracts/PTokenInterfaces.sol:112:5
+    │
+112 │ ┏     /**
+113 │ ┃      * @notice Container for borrow balance information
+114 │ ┃      * @member principal Total balance (with accrued interest), after applying the most recent balance-changing action
+115 │ ┃      * @member interestIndex Global borrowIndex as of the most recent balance-changing action
+116 │ ┃      */
+    ╰╴┗━━━━━━━┛
+
+
+Ran 23 tests for margin-mainnet/test/RobinhoodMainnetMarginFork.t.sol:RobinhoodMainnetMarginForkTest
+[PASS] testActivationRejectsChangedShortRisk() (gas: 452668)
+[PASS] testCachedLendingPriceStaysNonzeroButMarginFailsClosed() (gas: 739558)
+[PASS] testGovernanceCannotActivateBeforeDelay() (gas: 51491)
+[PASS] testHealthyLiquidationRejectedAndTwoXCapEnforced() (gas: 5561056)
+Logs:
+  marginUsd6: 250000
+  entryGrossUsd18: 494044264863573981
+  entryDebtUsd18: 244928000000000000
+  entryLeverageX100: 198
+
+[PASS] testImpossibleCloseOutputRollsBackDebtAndShares() (gas: 6361491)
+Logs:
+  marginUsd6: 500000
+  entryGrossUsd18: 988092486993014758
+  entryDebtUsd18: 489858000000000000
+  entryLeverageX100: 198
+
+[PASS] testLiquidationFailurePreservesStateAndCanBeRequoted() (gas: 9698081)
+Logs:
+  marginUsd6: 500000
+  entryGrossUsd18: 988092486993014758
+  entryDebtUsd18: 489858000000000000
+  entryLeverageX100: 198
+  shockPriceUsd8: 13154627300
+  preLiquidationHealthBps: 6417
+
+[PASS] testLongFortyPercentPoolShockLiquidatesCanary() (gas: 8640402)
+Logs:
+  marginUsd6: 500000
+  entryGrossUsd18: 988092486993014758
+  entryDebtUsd18: 489858000000000000
+  entryLeverageX100: 198
+  shockPriceUsd8: 13154627300
+  preLiquidationHealthBps: 6417
+
+[PASS] testMainnetLongRoundTripHalfDollar() (gas: 5440104)
+Logs:
+  marginUsd6: 500000
+  entryGrossUsd18: 988092486993014758
+  entryDebtUsd18: 489858000000000000
+  entryLeverageX100: 198
+  returnedMarginUsd6: 492596
+
+[PASS] testMainnetLongRoundTripOneDollar() (gas: 5448118)
+Logs:
+  marginUsd6: 1000000
+  entryGrossUsd18: 1976185804007803588
+  entryDebtUsd18: 979717000000000000
+  entryLeverageX100: 198
+  returnedMarginUsd6: 985192
+
+[PASS] testMainnetLongRoundTripQuarterDollar() (gas: 5433123)
+Logs:
+  marginUsd6: 250000
+  entryGrossUsd18: 494044264863573981
+  entryDebtUsd18: 244928000000000000
+  entryLeverageX100: 198
+  returnedMarginUsd6: 246296
+
+[PASS] testMainnetPartialThenFullClose() (gas: 6870866)
+Logs:
+  marginUsd6: 500000
+  entryGrossUsd18: 988092486993014758
+  entryDebtUsd18: 489858000000000000
+  entryLeverageX100: 198
+
+[PASS] testMainnetShortRoundTripHalfDollar() (gas: 6044136)
+Logs:
+  marginUsd6: 500000
+  entryGrossUsd18: 991856000000000000
+  entryDebtUsd18: 494805499999999827
+  entryLeverageX100: 199
+  returnedMarginUsd6: 492574
+
+[PASS] testMainnetShortRoundTripOneDollar() (gas: 6051237)
+Logs:
+  marginUsd6: 1000000
+  entryGrossUsd18: 1983717000000000000
+  entryDebtUsd18: 989612499999999951
+  entryLeverageX100: 199
+  returnedMarginUsd6: 985154
+
+[PASS] testMainnetShortRoundTripQuarterDollar() (gas: 6035365)
+Logs:
+  marginUsd6: 250000
+  entryGrossUsd18: 495926000000000000
+  entryDebtUsd18: 247401999999999984
+  entryLeverageX100: 199
+  returnedMarginUsd6: 246285
+
+[PASS] testMainnetUnderlyingAndPTokenRepayment() (gas: 5917920)
+Logs:
+  marginUsd6: 500000
+  entryGrossUsd18: 988092486993014758
+  entryDebtUsd18: 489858000000000000
+  entryLeverageX100: 198
+
+[PASS] testMigrationAndPausedDeploymentPreserveLiveMarkets() (gas: 116506)
+[PASS] testProxyUpgradeOwnersAreExistingTimelock() (gas: 63708)
+[PASS] testRealBoostedLpCanOpenAndUnwind() (gas: 5939179)
+Logs:
+  marginUsd6: 500000
+  entryGrossUsd18: 988092486993014758
+  entryDebtUsd18: 489858000000000000
+  entryLeverageX100: 198
+
+[PASS] testShortSeventyPercentPoolShockLiquidatesCanary() (gas: 8499229)
+Logs:
+  marginUsd6: 500000
+  entryGrossUsd18: 991856000000000000
+  entryDebtUsd18: 494805499999999827
+  entryLeverageX100: 199
+  shockPriceUsd8: 37271222500
+  preLiquidationHealthBps: 5570
+
+[PASS] testSourceDisagreementFailsClosed() (gas: 64125)
+[PASS] testStaleFeedBlocksOpenCloseAndLiquidationButAllowsDebtRepayAndExit() (gas: 4538685)
+Logs:
+  marginUsd6: 500000
+  entryGrossUsd18: 988092486993014758
+  entryDebtUsd18: 489858000000000000
+  entryLeverageX100: 198
+
+[PASS] testStockOraclePauseBlocksNewRiskEvenWithFreshPrice() (gas: 526789)
+[PASS] testTwelveHourGuardBlocksBeforeSeventyTwoHourLendingThreshold() (gas: 82707)
+Suite result: ok. 23 passed; 0 failed; 0 skipped; finished in 220.39ms (361.67ms CPU time)
+
+Ran 1 test suite in 240.89ms (220.39ms CPU time): 23 tests passed, 0 failed, 0 skipped (23 total tests)
