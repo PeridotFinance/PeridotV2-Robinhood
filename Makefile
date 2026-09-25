@@ -13,6 +13,7 @@ test: verify
 	$(MAKE) test-python
 
 test-python:
+	python3 -m unittest discover -s tools -p 'test_*.py'
 	cd $(CONTRACTS)/margin-mainnet/tools && python3 -m unittest discover -p 'test_*.py'
 	cd $(CONTRACTS)/margin-mainnet/five-x && python3 -m unittest discover -p 'test_*.py'
 	cd $(CONTRACTS)/margin-mainnet/keeper-service && python3 -m unittest discover -p 'test_*.py'

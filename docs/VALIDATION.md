@@ -16,6 +16,7 @@ Prepared September 25, 2026. Environment: Foundry 1.7.1, Solidity 0.8.26, Python
 | Python deployment/keeper tests | 20 passed |
 | Python 5× update tests | 5 passed |
 | Python keeper-service tests | 10 passed |
+| Snapshot portability regression tests | 3 passed; all archived source names resolve inside the clone |
 | Compiler reproduction | 26 archived artifacts exactly reproduced; creation/runtime templates including metadata and equivalent ABIs |
 | Read-only mainnet verification | 35 code hashes, 11 proxy targets, two market delegates and both directional 5× risk configurations matched at block 72447565 |
 

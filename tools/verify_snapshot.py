@@ -11,6 +11,19 @@ import tempfile
 
 ROOT = Path(__file__).resolve().parents[1]
 CONTRACTS = ROOT / "contracts/robinhood-vaults"
+ORIGINAL_PERIDOT = "/Users/joshua/Peridot/peridot-contracts-2-5/"
+
+
+def source_path(source):
+    """Resolve archived source-unit names without reading outside this clone."""
+    if source.startswith(ORIGINAL_PERIDOT):
+        path = ROOT / "contracts/peridot-contracts-2-5" / source.removeprefix(ORIGINAL_PERIDOT)
+    else:
+        path = CONTRACTS / source
+    path = path.resolve()
+    if not path.is_relative_to(ROOT.resolve()):
+        raise RuntimeError("Archived source is outside this snapshot: " + source)
+    return path
 
 
 def digest(path):
@@ -36,6 +49,11 @@ def verify():
     for name, entry in artifacts.items():
         if digest(ROOT / entry["path"]) != entry["sha256"]:
             raise RuntimeError("Archived artifact differs: " + name)
+        artifact = json.loads((ROOT / entry["path"]).read_text())
+        for source in artifact["metadata"]["sources"]:
+            path = source_path(source)
+            if path.relative_to(ROOT.resolve()).as_posix() not in snapshot["files"]:
+                raise RuntimeError("Archived source is not pinned: " + source)
     frontend = CONTRACTS / "frontend/margin-mainnet"
     manifest = json.loads((frontend / "manifest.json").read_text())
     for entry in manifest["artifacts"].values():
@@ -68,7 +86,9 @@ def reproduce(artifacts):
         key = json.dumps(settings, sort_keys=True)
         group = groups.setdefault(key, {"settings": settings, "sources": {}, "targets": []})
         for source in artifact["metadata"]["sources"]:
-            group["sources"][source] = {"content": (CONTRACTS / source).read_text()}
+            # Preserve the source-unit name for identical metadata, but read only
+            # the vendored bytes, even when the original Mac path still exists.
+            group["sources"][source] = {"content": source_path(source).read_text()}
         source, contract = next(iter(target.items()))
         group["targets"].append((name, source, contract, artifact))
     executable = compiler()

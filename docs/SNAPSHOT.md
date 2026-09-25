@@ -21,6 +21,8 @@ Only the compiler-referenced dependency sources, licenses and required tests/scr
 
 The compiler metadata records remappings from the original build environment. Some were unused imports whose directories are absent in the reduced snapshot. Ordinary `forge build` can therefore generate different metadata. `make reproduce` supplies the archived settings explicitly and proves exact artifact reproduction without restoring unrelated dependency trees.
 
+Some artifacts also contain absolute source-unit names from the original Mac. The verifier preserves those names in compiler input for identical metadata, but resolves their contents to the pinned files inside this clone. It rejects external paths and unpinned sources. The initial Linux CI run exposed this path-resolution issue; the follow-up tooling fix leaves every frozen contract, artifact and ABI unchanged.
+
 ## Maintaining the freeze
 
 Treat `snapshot/` and the deployed Solidity source as immutable provenance. The initial Git tag identifies this baseline. CI checks the file hashes and reproducibility. Add the independently developed frontend under `frontend/`; do not update the frozen margin contracts to accommodate an ABI generated from the newer Avalanche stack.
