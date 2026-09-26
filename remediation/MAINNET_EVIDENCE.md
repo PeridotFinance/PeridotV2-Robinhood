@@ -29,9 +29,15 @@ Adapter: [`0xe4e03c2fdaef915ace705d106b2660b1e342a2e4`](https://robinhoodchain.b
 
 ## Vault correction deployed and queued
 
-At block **73,364,898**, independent checks confirmed all five user-signed queue transactions, candidate `0x17f0cf262fbbf27e44756dba6d852815695e9c4a` matching the reviewed linked runtime, exact schedule payload and operation hash. V1 remains active. Execution is eligible **September 26, 2026 at 21:15:52 UTC (5:15:52 PM New York)**. Both supply flags, both borrow flags, ordinary seizure, production allocation and settlement swaps are paused; debt remains zero. Both pair ledgers match the earlier pre-queue snapshot.
+At block **73,364,898**, independent checks confirmed all five user-signed queue transactions, candidate `0x17f0cf262fbbf27e44756dba6d852815695e9c4a` matching the reviewed linked runtime, exact schedule payload and operation hash. V1 remained active at that observation. Execution became eligible **September 26, 2026 at 21:15:52 UTC (5:15:52 PM New York)**. Both supply flags, both borrow flags, ordinary seizure, production allocation and settlement swaps are paused; debt remains zero. Both pair ledgers match the earlier pre-queue snapshot.
 
 The exact receipts and pinned state are in `evidence/vault-upgrade-queue.json` with its SHA-256 digest. See [the upgrade record](VAULT_UPGRADE.md) for addresses and operation identity. This evidence proves deployment/queueing, not activation.
+
+## Vault correction activated and verified
+
+Execution transaction `0x24eb2c2545f073041c37850046f2a4cf2ff561be7a17322bc865d03f7d6d0e41` completed the queued operation. At block **73,403,815**, independent public RPC checks confirmed canonical success and exact execution calldata, the active V2 runtime, timelock completion, unchanged production/canary ledgers and unchanged pToken stored exchange rates. Both markets still have zero debt; all containment flags remain set. Their reported cash equals local balances plus reachable vault cash (currently zero under the unavailable guard).
+
+`evidence/vault-upgrade-execution.json` and its SHA-256 record contain the proof. A read-only reactivation simulation passed implementation/oracle checks and failed at the stock guard with `StaleOracle`; see `evidence/post-upgrade-reactivation.json`. No unpause or stale-price exception is claimed.
 
 ## Validation by scope
 
@@ -52,7 +58,7 @@ The exact receipts and pinned state are in `evidence/vault-upgrade-queue.json` w
 | Operational runner checks | 9 Python tests cover read-only defaults, interactive-only signing, ambiguous submission handling, receipt identity/canonicality and immutable runtime verification. |
 | Fresh runtime audit | At block 73,326,475: 35 recorded runtime hashes, 11 proxy targets, both market delegates and both 5× risk tuples matched. See `evidence/runtime-check.json`. |
 
-The public RPC could not serve the earlier fork block. The fork was rerun successfully against a freshly pinned block; missing historical state is not counted as a passing test. Compiler warnings inherited from archived sources are retained in the test output. The oracle installation changed no proxy layout. The separate vault candidate preserves storage and ABI; mainnet activation must be evidenced separately.
+The public RPC could not serve the earlier fork block. The fork was rerun successfully against a freshly pinned block; missing historical state is not counted as a passing test. Compiler warnings inherited from archived sources are retained in the test output. The oracle installation changed no proxy layout. The installed vault V2 preserves storage and ABI; its mainnet activation is independently evidenced above.
 
 ## Vault and keeper observations
 
@@ -64,7 +70,7 @@ The dedicated keeper's fresh direct health read reported execution enabled, gas 
 
 Use: “Peridot has deployed NVDA/USDG boosted lending, a paired Uniswap v4 strategy with capped in-kind loss mitigation, and isolated long/short margin on Robinhood Chain mainnet under restricted canary limits.” Follow this with the current operational state and dated receipts.
 
-While containment remains active, say: “The lending-oracle correction is deployed and verified; new borrowing remains paused pending the vault correction and guarded reactivation.” Do not present the supply → borrow → leverage journey as currently executable until it has been reactivated and reproduced.
+While containment remains active, say: “The lending-oracle correction is deployed and verified; new borrowing remains paused pending fresh guarded prices and reactivation.” Do not present the supply → borrow → leverage journey as currently executable until it has been reactivated and reproduced.
 
 Use “capped reserve-backed loss mitigation,” not guaranteed impermanent-loss insurance. Use “standard v4 adapter,” not a custom hook. Show 5× as a configured limit, not a claim that new positions can open while borrowing is paused.
 

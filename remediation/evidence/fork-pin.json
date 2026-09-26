@@ -1,8 +1,8 @@
 {
   "chainId": 4663,
-  "stateBlock": 73351896,
-  "blockHash": "0xebc0a83be84eb8f05755e0813106487dc2f53b0717a0e3818c68b19ef5f4f370",
-  "timestamp": 1790452757,
+  "stateBlock": 73404674,
+  "blockHash": "0x2465d26eb490b6a05f6d37b6933e04437e5f0f7439af1de45f64b9863edfedd6",
+  "timestamp": 1790458074,
   "scope": "Read-only mainnet fork. Governance changes and synthetic account snapshots are local only.",
   "exitCode": 0,
   "canonicalAfterTests": true

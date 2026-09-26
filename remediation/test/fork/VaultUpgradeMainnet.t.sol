@@ -39,6 +39,16 @@ contract VaultUpgradeMainnetForkTest is Test {
         vm.createSelectFork(vm.envString("ROBINHOOD_RPC_URL"), vm.envUint("REMEDIATION_FORK_BLOCK"));
         assertEq(block.chainid, 4663);
         assertEq(ProxyAdmin(ADMIN).owner(), TIMELOCK);
+        // Reconstruct the archived implementation locally; never broadcast this test setup.
+        address current = address(uint160(uint256(vm.load(VAULT, IMPLEMENTATION_SLOT))));
+        address archived = 0x21c7e1c2cAdeD480fa373c5c9b3F51492B2D50ac;
+        if (current != archived) {
+            assertEq(
+                current.codehash, 0xfd8fba1858dc625afd24cdbf0d0461329ae83943cb7639800e4618c762c48c84
+            );
+            vm.prank(TIMELOCK);
+            ProxyAdmin(ADMIN).upgradeAndCall(ITransparentUpgradeableProxy(VAULT), archived, "");
+        }
     }
 
     function _upgrade() internal returns (address implementation) {

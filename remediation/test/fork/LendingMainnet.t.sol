@@ -53,6 +53,26 @@ contract LendingMainnetForkTest is Test {
     function setUp() public {
         vm.createSelectFork(vm.envString("ROBINHOOD_RPC_URL"), vm.envUint("REMEDIATION_FORK_BLOCK"));
         assertEq(block.chainid, 4663);
+        // Reconstruct V1 only on this fork so its rejection remains reproducible after the upgrade.
+        address vault = 0x280825b2d856706Ff7E0d6351CcB2e935E1a9A2f;
+        address current = address(
+            uint160(
+                uint256(
+                    vm.load(
+                        vault, 0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc
+                    )
+                )
+            )
+        );
+        address archived = 0x21c7e1c2cAdeD480fa373c5c9b3F51492B2D50ac;
+        if (current != archived) {
+            assertEq(
+                current.codehash, 0xfd8fba1858dc625afd24cdbf0d0461329ae83943cb7639800e4618c762c48c84
+            );
+            vm.prank(0x6797FB8Ce049B42C5BC2b42Bf76c6d15C7B12498);
+            ProxyAdmin(0xad2165E6f3b8146D17815968470eDb8B9a0A4ab7)
+                .upgradeAndCall(ITransparentUpgradeableProxy(vault), archived, "");
+        }
         if (controller.oracle() != SOURCE) {
             assertEq(
                 controller.oracle(),

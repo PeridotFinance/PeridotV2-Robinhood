@@ -1,0 +1,12 @@
+{
+  "status": "BLOCKED_BY_STALE_STOCK_ORACLE",
+  "simulationOnly": true,
+  "broadcast": false,
+  "vaultImplementation": "0x17f0cf262fbbf27e44756dba6d852815695e9c4a",
+  "errorSelector": "0x4e93360c",
+  "error": "StaleOracle(address,uint256)",
+  "feed": "0x379EC4f7C378F34a1B47E4F3cbeBCbAC3E8E9F15",
+  "feedUpdatedAt": 1790366165,
+  "feedUpdatedAtUTC": "2026-09-25T19:56:05+00:00",
+  "scope": "Unpinned live read-only forge script simulation after independently verified vault upgrade. Oracle/vault identity checks passed before guard rejection. No reactivation transactions were sent."
+}

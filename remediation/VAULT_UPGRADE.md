@@ -1,15 +1,17 @@
 # Native-backing correction for closed LP positions
 
-Status: **V2 deployed and upgrade queued on mainnet; activation pending**. Independent verification at block **73,364,898** confirmed all five canonical receipts, exact creation/call data, runtime equality, operation hash, timelock ownership and containment. Both pair ledgers match the earlier snapshot. The separate lending-oracle adapter is already installed.
+Status: **V2 installed and independently verified on mainnet; markets remain paused**. Verification at block **73,403,815** confirmed the active proxy implementation matches the reviewed runtime, the timelock operation is complete, both pair ledgers are unchanged, and both pToken stored exchange rates are unchanged. The separate lending-oracle adapter is also installed.
 
-- Deployed V2: `0x17f0cf262fbbf27e44756dba6d852815695e9c4a`.
+- Active V2: `0x17f0cf262fbbf27e44756dba6d852815695e9c4a`.
+- Execution transaction: `0x24eb2c2545f073041c37850046f2a4cf2ff561be7a17322bc865d03f7d6d0e41`.
 - Deployment transaction: `0x42d4f224e9aad9bc93cc25c0c0791e912b39a024e01fc723dfd4b5fb587f2a72`.
 - Queue transaction: `0x867a7f0c0e1177b91b1efbdeb3a9d7eb8f24a5e3a96dcbd759475d2134a14b42`.
-- Operation: `0xacc0e39a4de59d916d7ddb337dedc5717ab64479bb449714d70fcd05ad7b6067`.
-- Earliest execution: **September 26, 2026, 21:15:52 UTC / 5:15:52 PM America/New_York** (`1790457352`).
-- Supply, borrowing, ordinary seizure, production allocation and settlement swaps are paused. Both markets have zero debt. V1 remains the active proxy implementation until execution.
+- Completed operation: `0xacc0e39a4de59d916d7ddb337dedc5717ab64479bb449714d70fcd05ad7b6067`.
+- Supply, borrowing, ordinary seizure, production allocation and settlement swaps remain paused. Both markets have zero debt. Vault cash is currently guard-blocked; pToken local cash remains separate, without reducing recorded NAV merely because of that restriction.
 
-Evidence: [`vault-upgrade-queue.json`](evidence/vault-upgrade-queue.json) and its SHA-256 digest. Reproduce the read-only verification with `python3 remediation/tools/record_vault_queue.py` before execution; it intentionally rejects a changed implementation or overwritten queue journal.
+Evidence: [`vault-upgrade-execution.json`](evidence/vault-upgrade-execution.json), [`vault-upgrade-queue.json`](evidence/vault-upgrade-queue.json) and their SHA-256 digests. `python3 remediation/tools/record_vault_execution.py` independently checks the current installation while containment remains in place. The older queue verifier intentionally rejects the now-completed upgrade/overwritten broadcast journal; use its archived evidence.
+
+The post-upgrade reactivation simulation passed the oracle/vault identity gates, then reverted with `StaleOracle` for the stock feed. No reactivation transaction was sent. Fresh guarded prices are required before reopening or settling the remaining composition imbalance; weekend staleness is not bypassed.
 
 ## Finding and change
 
@@ -33,11 +35,11 @@ The public ABI, every declared storage slot/offset/type, nested struct and stora
 
 - 50 unique V2 tests: 40 compatibility tests, four post-exit regressions including 256 fuzz runs, three recovery tests and three invariants. One compatibility expectation deliberately changes: a closed but natively underbacked pair remains blocked in emergency mode. Derived suites repeat those 40 tests; totals in the raw runner output are not unique coverage.
 - Three mainnet-fork tests exercise actual proxy state/roles, pToken cash versus NAV, and the full queue/execute script including rejection before the timelock deadline.
-- Six lending-fork tests include reactivation rejection on V1, rejection with unavailable guard prices, and successful restoration with V2 plus locally simulated fresh prices.
+- Current-state lending and vault fork fixtures reconstruct archived V1 locally before replaying their regressions; no mainnet downgrade is performed. Six lending-fork tests include reactivation rejection on V1, rejection with unavailable guard prices, and successful restoration with V2 plus locally simulated fresh prices.
 - `verify_vault_layout.py` compares storage topology and public ABI. `artifacts/RobinhoodBoostedVaultV2.json` archives the candidate compiled with the existing mainnet library link.
 - `evidence/vault-queue-simulation.txt` records a successful read-only live simulation. No signing credential was accessed by these checks.
 
-## Local governor steps
+## Completed local governor procedure (historical)
 
 The governor signs locally; these steps do not deploy/fund a Safe or migrate any authority. Both borrow flags and ordinary seizure must already be paused. The script checks chain 4663, existing implementation, ProxyAdmin owner and linked library hash.
 
@@ -55,7 +57,7 @@ It sends five transactions: pause pUSDG supply, pause pNVDA supply, pause produc
 
 After submission, independently verify canonical receipts, exact creation/runtime and schedule calldata, pause flags, actual operation ID and execution timestamp. If submission is interrupted, reconcile the public broadcast journal before retrying. `NEW_VAULT_IMPLEMENTATION` supports reusing a verified deployment only when the upgrade operation was not already scheduled; it is not a blind resume switch.
 
-Rehearse the actual queued operation with `python3 remediation/tools/fork.py --queued` (fork time only). After the actual operation becomes ready, simulate `UpgradeNativeBacking.s.sol:ExecuteNativeBacking` using `FOUNDRY_PROFILE=vault_upgrade` and `NEW_VAULT_IMPLEMENTATION` set to the independently verified deployed address. The governor then signs that same invocation locally. The runner checks candidate runtime, executes through the timelock, verifies the new implementation and preserves the production ledger. Record the public receipt, implementation slot/code and both pair ledgers independently afterward.
+Before mainnet execution, `python3 remediation/tools/fork.py --queued` rehearsed the actual pending operation using fork time only; its pinned log is retained as historical evidence. It requires pre-execution state and is not a current-state rerun. The subsequent completed execution used `UpgradeNativeBacking.s.sol:ExecuteNativeBacking` using `FOUNDRY_PROFILE=vault_upgrade` and `NEW_VAULT_IMPLEMENTATION` set to the independently verified deployed address. The governor signed that invocation locally; do not rerun it. The runner checks candidate runtime, executes through the timelock, verifies the new implementation and preserves the production ledger. The public receipt, implementation slot/code and both pair ledgers were independently verified afterward.
 
 Neither script reopens markets. `ReactivateLending` requires the installed V2 runtime and fresh guarded prices matching the corrected oracle APIs before restoring seizure, borrowing and supply. Allocation and settlement remain paused pending their separate [settlement review](VAULT_RECOVERY.md). Weekend/holiday feed closure is not bypassed. The Safe and Telegram work remain explicitly deferred until the user resumes them.
 

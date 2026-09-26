@@ -6,7 +6,7 @@ The original canary record called `24,697,449,583` raw NVDA of residue permanent
 
 The three recovery tests below did not cover a price change after closing LP liquidity while a native-token deficit remains. A fourth test confirmed a defect in the archived implementation: its zero-liquidity fast path lets an adequately stocked side withdraw before a shared economic loss is recognized. With 10 NVDA/1,000 USDG claims and 9 NVDA/1,100 USDG idle, a stock-price move from $100 to $200 leaves $2,900 assets against $3,000 claims. The old path pays the USDG side 1,000 instead of its loss-adjusted 966.666666 USDG.
 
-`RobinhoodBoostedVaultV2` retains the fast path only when both native claims are fully backed. Otherwise withdrawal must pass the existing oracle/emergency/deadline and shared-loss accounting path, even with zero LP liquidity. The cash view uses the same native-backing condition. This correction is prepared and tested; see [deployment status and procedure](VAULT_UPGRADE.md). Do not describe the original composition review as fully resolved on mainnet until that upgrade is independently verified.
+`RobinhoodBoostedVaultV2` retains the fast path only when both native claims are fully backed. Otherwise withdrawal must pass the existing oracle/emergency/deadline and shared-loss accounting path, even with zero LP liquidity. The cash view uses the same native-backing condition. This correction is now installed and independently verified; see [deployment status and procedure](VAULT_UPGRADE.md). The bypass is corrected, but the existing native composition mismatch and terminal-surplus recovery still require fresh guarded prices and a separate settlement transaction.
 
 ## Composition is also a liquidity constraint
 

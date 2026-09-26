@@ -28,4 +28,6 @@ Robinhood Chain, chain ID **4663**. These are the archived canary addresses, ver
 
 The installed lending adapter is [`0xe4e03c2fdaef915ace705d106b2660b1e342a2e4`](https://robinhoodchain.blockscout.com/address/0xe4e03c2fdaef915ace705d106b2660b1e342a2e4). Runtime, immutable wiring, price units and controller pointer were verified at block 73,329,306 in `evidence/installed-adapter.json`. The original StockSimplePriceOracle remains the USD18 backing source; its address is not the controller’s current oracle pointer.
 
+The vault proxy remains `0x280825b2d856706Ff7E0d6351CcB2e935E1a9A2f`; its current implementation is [`0x17f0cf262fbbf27e44756dba6d852815695e9c4a`](https://robinhoodchain.blockscout.com/address/0x17f0cf262fbbf27e44756dba6d852815695e9c4a), independently verified at block 73,403,815. The archived V1 implementation is no longer active. See [execution evidence](evidence/vault-upgrade-execution.json).
+
 The frozen address manifest remains unchanged until a separately versioned integration update is prepared.
