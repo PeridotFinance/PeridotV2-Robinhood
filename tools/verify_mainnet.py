@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Read-only, pinned-block comparison with the archived Robinhood deployment."""
 from concurrent.futures import ThreadPoolExecutor
+import argparse
 from datetime import datetime, timezone
 import hashlib
 import json
@@ -38,6 +39,9 @@ def cast(*args):
 
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--output", type=Path, default=ROOT / "snapshot/mainnet-check.json")
+    args = parser.parse_args()
     if int(rpc("eth_chainId", []), 16) != 4663:
         raise RuntimeError("Wrong chain")
     tip = rpc("eth_getBlockByNumber", ["latest", False])
@@ -105,7 +109,8 @@ def main():
               "chainId": 4663, "block": int(tag, 16), "blockHash": block["hash"],
               "runtimeChecks": codes, "proxyImplementationChecks": slots, "markets": markets, "risk": risks,
               "scope": "Read-only pinned-block code, implementation targets and risk. Does not attest to oracle availability, keeper health, current balances, governance safety or frontend operation."}
-    target = ROOT / "snapshot/mainnet-check.json"
+    target = args.output
+    target.parent.mkdir(parents=True, exist_ok=True)
     target.write_text(json.dumps(result, indent=2) + "\n")
     target.with_suffix(".sha256").write_text(hashlib.sha256(target.read_bytes()).hexdigest() + "  " + target.name + "\n")
     print(f"Verified {len(slots)} proxy targets, two market delegates and both 5x risk tuples.")

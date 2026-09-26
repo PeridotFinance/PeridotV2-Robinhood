@@ -1,0 +1,2924 @@
+{
+  "abi": [
+    {
+      "type": "constructor",
+      "inputs": [
+        {
+          "name": "source_",
+          "type": "address",
+          "internalType": "address"
+        },
+        {
+          "name": "stockMarket_",
+          "type": "address",
+          "internalType": "address"
+        },
+        {
+          "name": "dollarMarket_",
+          "type": "address",
+          "internalType": "address"
+        }
+      ],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "assetPrices",
+      "inputs": [
+        {
+          "name": "asset",
+          "type": "address",
+          "internalType": "address"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256",
+          "internalType": "uint256"
+        }
+      ],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "dollar",
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "",
+          "type": "address",
+          "internalType": "address"
+        }
+      ],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "dollarMarket",
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "",
+          "type": "address",
+          "internalType": "address"
+        }
+      ],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "getUnderlyingPrice",
+      "inputs": [
+        {
+          "name": "market",
+          "type": "address",
+          "internalType": "address"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256",
+          "internalType": "uint256"
+        }
+      ],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "isPriceOracle",
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool",
+          "internalType": "bool"
+        }
+      ],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "source",
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "",
+          "type": "address",
+          "internalType": "contract IUsd18PriceSource"
+        }
+      ],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "stock",
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "",
+          "type": "address",
+          "internalType": "address"
+        }
+      ],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "stockMarket",
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "",
+          "type": "address",
+          "internalType": "address"
+        }
+      ],
+      "stateMutability": "view"
+    },
+    {
+      "type": "error",
+      "name": "InvalidConfiguration",
+      "inputs": []
+    },
+    {
+      "type": "error",
+      "name": "UnsupportedAsset",
+      "inputs": []
+    },
+    {
+      "type": "error",
+      "name": "UnsupportedMarket",
+      "inputs": []
+    }
+  ],
+  "bytecode": {
+    "object": "0x610120806040523461028257606081610903803803809161002082856102df565b8339810103126102825761003381610316565b9061004c604061004560208401610316565b9201610316565b823b1580156102ca575b61017257604051636f307dc360e01b8152916020836004816001600160a01b0385165afa9283156101e9575f9361028e575b50604051636f307dc360e01b8152936020856004816001600160a01b0387165afa9485156101e9575f9561024e575b506001600160a01b038481169086168181149182156101f4575b508115610181575b50610172576001600160a01b031660805260a05260c05260e052610100526040516105bf9081610344823960805181818161010801528181610210015281816104480152610527015260a051818181610328015261039b015260c05181818161016701526103c3015260e05181818160c4015281816101be01526104f50152610100518181816102a2015281816102e701526104160152f35b63c52a9bd360e01b5f5260045ffd5b60405163313ce56760e01b81529150602090829060049082905afa9081156101e95760069160ff915f916101ba575b501614155f6100d9565b6101dc915060203d6020116101e2575b6101d481836102df565b81019061032a565b5f6101b0565b503d6101ca565b6040513d5f823e3d90fd5b60405163313ce56760e01b8152919250602090829060049082905afa9081156101e95760129160ff915f9161022f575b50161415905f6100d1565b610248915060203d6020116101e2576101d481836102df565b5f610224565b9094506020813d602011610286575b8161026a602093836102df565b810103126102825761027b90610316565b935f6100b7565b5f80fd5b3d915061025d565b9092506020813d6020116102c2575b816102aa602093836102df565b81010312610282576102bb90610316565b915f610088565b3d915061029d565b506001600160a01b0382811690821614610056565b601f909101601f19168101906001600160401b0382119082101761030257604052565b634e487b7160e01b5f52604160045260245ffd5b51906001600160a01b038216820361028257565b90816020910312610282575160ff81168103610282579056fe6080806040526004361015610012575f80fd5b5f3560e01c908163324726e5146103165750806351adeb57146102d25780635e9a523c14610196578063646e0cea1461015257806366331bba1461013757806367e828bf146100f3578063bdf3c4ae146100af5763fc57d4df14610074575f80fd5b346100ab5760203660031901126100ab576004356001600160a01b03811681036100ab576100a360209161038d565b604051908152f35b5f80fd5b346100ab575f3660031901126100ab576040517f00000000000000000000000000000000000000000000000000000000000000006001600160a01b03168152602090f35b346100ab575f3660031901126100ab576040517f00000000000000000000000000000000000000000000000000000000000000006001600160a01b03168152602090f35b346100ab575f3660031901126100ab57602060405160018152f35b346100ab575f3660031901126100ab576040517f00000000000000000000000000000000000000000000000000000000000000006001600160a01b03168152602090f35b346100ab5760203660031901126100ab576004356001600160a01b038116908190036100ab577f00000000000000000000000000000000000000000000000000000000000000006001600160a01b03168114158061029f575b610290576040516317a6948f60e21b815260048101919091526020816024817f00000000000000000000000000000000000000000000000000000000000000006001600160a01b03165afa8015610285575f90610252575b602090604051908152f35b506020813d60201161027d575b8161026c60209383610357565b810103126100ab5760209051610247565b3d915061025f565b6040513d5f823e3d90fd5b630928045160e21b5f5260045ffd5b507f00000000000000000000000000000000000000000000000000000000000000006001600160a01b03168114156101ef565b346100ab575f3660031901126100ab576040517f00000000000000000000000000000000000000000000000000000000000000006001600160a01b03168152602090f35b346100ab575f3660031901126100ab577f00000000000000000000000000000000000000000000000000000000000000006001600160a01b03168152602090f35b90601f8019910116810190811067ffffffffffffffff82111761037957604052565b634e487b7160e01b5f52604160045260245ffd5b6001600160a01b03908116907f00000000000000000000000000000000000000000000000000000000000000001681146104dd577f00000000000000000000000000000000000000000000000000000000000000006001600160a01b0316146103ff5763be03589160e01b5f5260045ffd5b6040516317a6948f60e21b81526001600160a01b037f000000000000000000000000000000000000000000000000000000000000000081166004830152602090829060249082907f0000000000000000000000000000000000000000000000000000000000000000165afa908115610285575f916104ab575b5064e8d4a5100081029080820464e8d4a5100014901517156104975790565b634e487b7160e01b5f52601160045260245ffd5b90506020813d6020116104d5575b816104c660209383610357565b810103126100ab57515f610478565b3d91506104b9565b506040516317a6948f60e21b81526001600160a01b037f000000000000000000000000000000000000000000000000000000000000000081166004830152602090829060249082907f0000000000000000000000000000000000000000000000000000000000000000165afa908115610285575f9161055a575090565b90506020813d602011610581575b8161057560209383610357565b810103126100ab575190565b3d915061056856fea2646970667358221220680894d464f25d42cee6152d01a0875b8942a4ea670eb924ccd94e156737aef164736f6c634300081a0033",
+    "sourceMap": "613:1762:0:-:0;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;:::i;:::-;;;;;;;;;:::i;:::-;;;;:::i;:::-;1115:19;;:24;:57;;;;-1:-1:-1;1111:117:0;;613:1762;;-1:-1:-1;;;1254:44:0;;613:1762;;;1254:44;613:1762;-1:-1:-1;;;;;613:1762:0;;1254:44;;;;;;;-1:-1:-1;1254:44:0;;;-1:-1:-1;;613:1762:0;;-1:-1:-1;;;1326:45:0;;613:1762;;;1254:44;613:1762;-1:-1:-1;;;;;613:1762:0;;1326:45;;;;;;;-1:-1:-1;1326:45:0;;;-1:-1:-1;;;;;;;613:1762:0;;;;;;1398:17;;;;:60;;;;-1:-1:-1;1398:119:0;;;;;-1:-1:-1;1381:176:0;;;-1:-1:-1;;;;;613:1762:0;1567:35;;613:1762;1612:26;1648:28;;613:1762;1686:14;1710:16;;613:1762;;;;;;;;1567:35;613:1762;;;;;;;;;;;;;;;;;;;;1612:26;613:1762;;;;;;;;;;1648:28;613:1762;;;;;;;;;;;;;;;;;;;;;;;;;;1710:16;613:1762;;;;;;;;;;;;;;;;1381:176;1195:22;;;-1:-1:-1;1535:22:0;1254:44;-1:-1:-1;1535:22:0;1398:119;613:1762;;-1:-1:-1;;;1478:34:0;;613:1762;-1:-1:-1;613:1762:0;;;;1254:44;;613:1762;;1478:34;;;;;;;1516:1;1478:34;613:1762;1478:34;-1:-1:-1;1478:34:0;;;1398:119;613:1762;;1478:39;;1398:119;;;1478:34;;;;613:1762;1478:34;613:1762;1478:34;;;;;;;;:::i;:::-;;;;;:::i;:::-;;;;;;;;;;613:1762;;;-1:-1:-1;613:1762:0;;;;;1398:60;613:1762;;-1:-1:-1;;;1419:33:0;;613:1762;;-1:-1:-1;613:1762:0;;;;1254:44;;613:1762;;1419:33;;;;;;;1456:2;1419:33;613:1762;1419:33;-1:-1:-1;1419:33:0;;;1398:60;613:1762;;1419:39;;1398:60;;;;1419:33;;;;613:1762;1419:33;613:1762;1419:33;;;;;;;:::i;:::-;;;;1326:45;;;;613:1762;1326:45;;613:1762;1326:45;;;;;;613:1762;1326:45;;;:::i;:::-;;;613:1762;;;;;;;:::i;:::-;1326:45;;;;613:1762;-1:-1:-1;613:1762:0;;1326:45;;;-1:-1:-1;1326:45:0;;1254:44;;;;613:1762;1254:44;;613:1762;1254:44;;;;;;613:1762;1254:44;;;:::i;:::-;;;613:1762;;;;;;;:::i;:::-;1254:44;;;;;;;-1:-1:-1;1254:44:0;;1115:57;-1:-1:-1;;;;;;613:1762:0;;;;;;1143:29;1115:57;;613:1762;;;;;-1:-1:-1;;613:1762:0;;;;-1:-1:-1;;;;;613:1762:0;;;;;;;;;;:::o;:::-;;;;-1:-1:-1;613:1762:0;;;;;-1:-1:-1;613:1762:0;;;;-1:-1:-1;;;;;613:1762:0;;;;;;:::o;:::-;;;;;;;;;;;;;;;;;;:::o",
+    "linkReferences": {}
+  },
+  "deployedBytecode": {
+    "object": "0x6080806040526004361015610012575f80fd5b5f3560e01c908163324726e5146103165750806351adeb57146102d25780635e9a523c14610196578063646e0cea1461015257806366331bba1461013757806367e828bf146100f3578063bdf3c4ae146100af5763fc57d4df14610074575f80fd5b346100ab5760203660031901126100ab576004356001600160a01b03811681036100ab576100a360209161038d565b604051908152f35b5f80fd5b346100ab575f3660031901126100ab576040517f00000000000000000000000000000000000000000000000000000000000000006001600160a01b03168152602090f35b346100ab575f3660031901126100ab576040517f00000000000000000000000000000000000000000000000000000000000000006001600160a01b03168152602090f35b346100ab575f3660031901126100ab57602060405160018152f35b346100ab575f3660031901126100ab576040517f00000000000000000000000000000000000000000000000000000000000000006001600160a01b03168152602090f35b346100ab5760203660031901126100ab576004356001600160a01b038116908190036100ab577f00000000000000000000000000000000000000000000000000000000000000006001600160a01b03168114158061029f575b610290576040516317a6948f60e21b815260048101919091526020816024817f00000000000000000000000000000000000000000000000000000000000000006001600160a01b03165afa8015610285575f90610252575b602090604051908152f35b506020813d60201161027d575b8161026c60209383610357565b810103126100ab5760209051610247565b3d915061025f565b6040513d5f823e3d90fd5b630928045160e21b5f5260045ffd5b507f00000000000000000000000000000000000000000000000000000000000000006001600160a01b03168114156101ef565b346100ab575f3660031901126100ab576040517f00000000000000000000000000000000000000000000000000000000000000006001600160a01b03168152602090f35b346100ab575f3660031901126100ab577f00000000000000000000000000000000000000000000000000000000000000006001600160a01b03168152602090f35b90601f8019910116810190811067ffffffffffffffff82111761037957604052565b634e487b7160e01b5f52604160045260245ffd5b6001600160a01b03908116907f00000000000000000000000000000000000000000000000000000000000000001681146104dd577f00000000000000000000000000000000000000000000000000000000000000006001600160a01b0316146103ff5763be03589160e01b5f5260045ffd5b6040516317a6948f60e21b81526001600160a01b037f000000000000000000000000000000000000000000000000000000000000000081166004830152602090829060249082907f0000000000000000000000000000000000000000000000000000000000000000165afa908115610285575f916104ab575b5064e8d4a5100081029080820464e8d4a5100014901517156104975790565b634e487b7160e01b5f52601160045260245ffd5b90506020813d6020116104d5575b816104c660209383610357565b810103126100ab57515f610478565b3d91506104b9565b506040516317a6948f60e21b81526001600160a01b037f000000000000000000000000000000000000000000000000000000000000000081166004830152602090829060249082907f0000000000000000000000000000000000000000000000000000000000000000165afa908115610285575f9161055a575090565b90506020813d602011610581575b8161057560209383610357565b810103126100ab575190565b3d915061056856fea2646970667358221220680894d464f25d42cee6152d01a0875b8942a4ea670eb924ccd94e156737aef164736f6c634300081a0033",
+    "sourceMap": "613:1762:0:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;;613:1762:0;;;;;;-1:-1:-1;;;;;613:1762:0;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;-1:-1:-1;;613:1762:0;;;;;;857:30;-1:-1:-1;;;;;613:1762:0;;;;;;;;;;;;-1:-1:-1;;613:1762:0;;;;;;725:41;-1:-1:-1;;;;;613:1762:0;;;;;;;;;;;;-1:-1:-1;;613:1762:0;;;;;;;715:4;613:1762;;;;;;;;;-1:-1:-1;;613:1762:0;;;;;;814:37;-1:-1:-1;;;;;613:1762:0;;;;;;;;;;;;-1:-1:-1;;613:1762:0;;;;;;-1:-1:-1;;;;;613:1762:0;;;;;;;;2273:5;-1:-1:-1;;;;;613:1762:0;2264:14;;;;:33;;613:1762;2260:64;;613:1762;;-1:-1:-1;;;2341:25:0;;613:1762;2341:25;;613:1762;;;;;;2341:25;613:1762;2341:6;-1:-1:-1;;;;;613:1762:0;2341:25;;;;;;613:1762;2341:25;;;613:1762;;;;;;;;;2341:25;;613:1762;2341:25;;613:1762;2341:25;;;;;;613:1762;2341:25;;;:::i;:::-;;;613:1762;;;;;;;2341:25;;;;;-1:-1:-1;2341:25:0;;;613:1762;;;;;;;;;2260:64;2306:18;;;613:1762;2306:18;613:1762;;2306:18;2264:33;-1:-1:-1;2291:6:0;-1:-1:-1;;;;;613:1762:0;2282:15;;;2264:33;;613:1762;;;;;;-1:-1:-1;;613:1762:0;;;;;;893:31;-1:-1:-1;;;;;613:1762:0;;;;;;;;;;;;-1:-1:-1;;613:1762:0;;;;772:36;-1:-1:-1;;;;;613:1762:0;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;:::-;;;;-1:-1:-1;613:1762:0;;;;;-1:-1:-1;613:1762:0;1739:347;-1:-1:-1;;;;;613:1762:0;;;;1839:11;613:1762;1829:21;;1825:59;;1989:12;-1:-1:-1;;;;;613:1762:0;1979:22;1975:68;;2060:19;;;613:1762;2060:19;;613:1762;2060:19;1975:68;613:1762;;-1:-1:-1;;;2010:26:0;;-1:-1:-1;;;;;2029:6:0;613:1762;;2010:26;;;613:1762;;;;;2010:26;;613:1762;;2010:6;613:1762;2010:26;;;;;;;613:1762;2010:26;;;1975:68;613:1762;2039:4;613:1762;;;;;;2039:4;613:1762;;;;;;;2003:40;:::o;613:1762::-;;;;;;;2010:26;613:1762;2010:26;613:1762;;2010:26;;;613:1762;2010:26;;613:1762;2010:26;;;;;;613:1762;2010:26;;;:::i;:::-;;;613:1762;;;;;2010:26;;;;;;-1:-1:-1;2010:26:0;;1825:59;-1:-1:-1;613:1762:0;;-1:-1:-1;;;1859:25:0;;-1:-1:-1;;;;;1878:5:0;613:1762;;1859:25;;;613:1762;;;;;1859:25;;613:1762;;1859:6;613:1762;1859:25;;;;;;;613:1762;1859:25;;;1852:32;;:::o;1859:25::-;;;613:1762;1859:25;;613:1762;1859:25;;;;;;613:1762;1859:25;;;:::i;:::-;;;613:1762;;;;;1852:32;:::o;1859:25::-;;;-1:-1:-1;1859:25:0;",
+    "linkReferences": {},
+    "immutableReferences": {
+      "30": [
+        {
+          "start": 264,
+          "length": 32
+        },
+        {
+          "start": 528,
+          "length": 32
+        },
+        {
+          "start": 1096,
+          "length": 32
+        },
+        {
+          "start": 1319,
+          "length": 32
+        }
+      ],
+      "32": [
+        {
+          "start": 808,
+          "length": 32
+        },
+        {
+          "start": 923,
+          "length": 32
+        }
+      ],
+      "34": [
+        {
+          "start": 359,
+          "length": 32
+        },
+        {
+          "start": 963,
+          "length": 32
+        }
+      ],
+      "36": [
+        {
+          "start": 196,
+          "length": 32
+        },
+        {
+          "start": 446,
+          "length": 32
+        },
+        {
+          "start": 1269,
+          "length": 32
+        }
+      ],
+      "38": [
+        {
+          "start": 674,
+          "length": 32
+        },
+        {
+          "start": 743,
+          "length": 32
+        },
+        {
+          "start": 1046,
+          "length": 32
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "compiler": {
+      "version": "0.8.26+commit.8a97fa7a"
+    },
+    "language": "Solidity",
+    "output": {
+      "abi": [
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "source_",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "stockMarket_",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "dollarMarket_",
+              "type": "address"
+            }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "constructor"
+        },
+        {
+          "inputs": [],
+          "type": "error",
+          "name": "InvalidConfiguration"
+        },
+        {
+          "inputs": [],
+          "type": "error",
+          "name": "UnsupportedAsset"
+        },
+        {
+          "inputs": [],
+          "type": "error",
+          "name": "UnsupportedMarket"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "asset",
+              "type": "address"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "assetPrices",
+          "outputs": [
+            {
+              "internalType": "uint256",
+              "name": "",
+              "type": "uint256"
+            }
+          ]
+        },
+        {
+          "inputs": [],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "dollar",
+          "outputs": [
+            {
+              "internalType": "address",
+              "name": "",
+              "type": "address"
+            }
+          ]
+        },
+        {
+          "inputs": [],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "dollarMarket",
+          "outputs": [
+            {
+              "internalType": "address",
+              "name": "",
+              "type": "address"
+            }
+          ]
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "market",
+              "type": "address"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "getUnderlyingPrice",
+          "outputs": [
+            {
+              "internalType": "uint256",
+              "name": "",
+              "type": "uint256"
+            }
+          ]
+        },
+        {
+          "inputs": [],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "isPriceOracle",
+          "outputs": [
+            {
+              "internalType": "bool",
+              "name": "",
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "inputs": [],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "source",
+          "outputs": [
+            {
+              "internalType": "contract IUsd18PriceSource",
+              "name": "",
+              "type": "address"
+            }
+          ]
+        },
+        {
+          "inputs": [],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "stock",
+          "outputs": [
+            {
+              "internalType": "address",
+              "name": "",
+              "type": "address"
+            }
+          ]
+        },
+        {
+          "inputs": [],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "stockMarket",
+          "outputs": [
+            {
+              "internalType": "address",
+              "name": "",
+              "type": "address"
+            }
+          ]
+        }
+      ],
+      "devdoc": {
+        "kind": "dev",
+        "methods": {},
+        "version": 1
+      },
+      "userdoc": {
+        "kind": "user",
+        "methods": {
+          "assetPrices(address)": {
+            "notice": "Compatibility API: USD18 per whole asset, never Compound-scaled."
+          }
+        },
+        "version": 1
+      }
+    },
+    "settings": {
+      "remappings": [
+        "@chainlink/contracts/=contracts/peridot-contracts-2-5/contracts/node_modules/@chainlink/contracts/",
+        "@openzeppelin/contracts-upgradeable/=contracts/robinhood-vaults/lib/openzeppelin-contracts-upgradeable/contracts/",
+        "@openzeppelin/contracts/=contracts/robinhood-vaults/lib/openzeppelin-contracts/contracts/",
+        "@uniswap/permit2/=contracts/robinhood-vaults/lib/permit2/",
+        "@uniswap/universal-router/=contracts/robinhood-vaults/lib/universal-router/",
+        "@uniswap/v4-core/=contracts/robinhood-vaults/lib/v4-core/",
+        "@uniswap/v4-periphery/=contracts/robinhood-vaults/lib/v4-periphery/",
+        "baseline/=contracts/robinhood-vaults/",
+        "forge-std/=contracts/robinhood-vaults/lib/forge-std/src/",
+        "openzeppelin-contracts-upgradeable/=contracts/robinhood-vaults/lib/openzeppelin-contracts-upgradeable/contracts/",
+        "openzeppelin-contracts/=contracts/robinhood-vaults/lib/openzeppelin-contracts/contracts/",
+        "peridot-tests/=contracts/peridot-contracts-2-5/contracts/test/",
+        "peridot/=contracts/peridot-contracts-2-5/contracts/contracts/",
+        "permit2/=contracts/robinhood-vaults/lib/permit2/",
+        "universal-router/=contracts/robinhood-vaults/lib/universal-router/",
+        "v4-core/=contracts/robinhood-vaults/lib/v4-core/",
+        "v4-periphery/=contracts/robinhood-vaults/lib/v4-periphery/"
+      ],
+      "optimizer": {
+        "enabled": true,
+        "runs": 200
+      },
+      "metadata": {
+        "bytecodeHash": "ipfs"
+      },
+      "compilationTarget": {
+        "remediation/src/RobinhoodLendingPriceAdapter.sol": "RobinhoodLendingPriceAdapter"
+      },
+      "evmVersion": "cancun",
+      "libraries": {},
+      "viaIR": true
+    },
+    "sources": {
+      "remediation/src/RobinhoodLendingPriceAdapter.sol": {
+        "keccak256": "0x149a1986f27adbffee346b483b5ddb51aa2549ae26840b24f70c7baddfa0e51d",
+        "urls": [
+          "bzz-raw://5f9014bc8e57f266c62803be682f518f35617c0a66901fd9c006fae539a2cc68",
+          "dweb:/ipfs/QmW2M7wzDo7fuPfwoCpNPuSTiRr8PBpHofxVC6YGDLAMHM"
+        ],
+        "license": "MIT"
+      }
+    },
+    "version": 1
+  },
+  "ast": {
+    "absolutePath": "remediation/src/RobinhoodLendingPriceAdapter.sol",
+    "id": 188,
+    "exportedSymbols": {
+      "IMarketUnderlying": [
+        15
+      ],
+      "ITokenDecimals": [
+        21
+      ],
+      "IUsd18PriceSource": [
+        9
+      ],
+      "RobinhoodLendingPriceAdapter": [
+        187
+      ]
+    },
+    "nodeType": "SourceUnit",
+    "src": "32:2344:0",
+    "nodes": [
+      {
+        "id": 1,
+        "nodeType": "PragmaDirective",
+        "src": "32:24:0",
+        "nodes": [],
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".26"
+        ]
+      },
+      {
+        "id": 9,
+        "nodeType": "ContractDefinition",
+        "src": "58:104:0",
+        "nodes": [
+          {
+            "id": 8,
+            "nodeType": "FunctionDefinition",
+            "src": "92:68:0",
+            "nodes": [],
+            "functionSelector": "5e9a523c",
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "assetPrices",
+            "nameLocation": "101:11:0",
+            "parameters": {
+              "id": 4,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 3,
+                  "mutability": "mutable",
+                  "name": "asset",
+                  "nameLocation": "121:5:0",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 8,
+                  "src": "113:13:0",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 2,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "113:7:0",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "112:15:0"
+            },
+            "returnParameters": {
+              "id": 7,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 6,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 8,
+                  "src": "151:7:0",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 5,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "151:7:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "150:9:0"
+            },
+            "scope": 9,
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "IUsd18PriceSource",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "fullyImplemented": false,
+        "linearizedBaseContracts": [
+          9
+        ],
+        "name": "IUsd18PriceSource",
+        "nameLocation": "68:17:0",
+        "scope": 188,
+        "usedErrors": [],
+        "usedEvents": []
+      },
+      {
+        "id": 15,
+        "nodeType": "ContractDefinition",
+        "src": "164:90:0",
+        "nodes": [
+          {
+            "id": 14,
+            "nodeType": "FunctionDefinition",
+            "src": "198:54:0",
+            "nodes": [],
+            "functionSelector": "6f307dc3",
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "underlying",
+            "nameLocation": "207:10:0",
+            "parameters": {
+              "id": 10,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "217:2:0"
+            },
+            "returnParameters": {
+              "id": 13,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 14,
+                  "src": "243:7:0",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 11,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "243:7:0",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "242:9:0"
+            },
+            "scope": 15,
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "IMarketUnderlying",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "fullyImplemented": false,
+        "linearizedBaseContracts": [
+          15
+        ],
+        "name": "IMarketUnderlying",
+        "nameLocation": "174:17:0",
+        "scope": 188,
+        "usedErrors": [],
+        "usedEvents": []
+      },
+      {
+        "id": 21,
+        "nodeType": "ContractDefinition",
+        "src": "256:83:0",
+        "nodes": [
+          {
+            "id": 20,
+            "nodeType": "FunctionDefinition",
+            "src": "287:50:0",
+            "nodes": [],
+            "functionSelector": "313ce567",
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "decimals",
+            "nameLocation": "296:8:0",
+            "parameters": {
+              "id": 16,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "304:2:0"
+            },
+            "returnParameters": {
+              "id": 19,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 18,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 20,
+                  "src": "330:5:0",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint8",
+                    "typeString": "uint8"
+                  },
+                  "typeName": {
+                    "id": 17,
+                    "name": "uint8",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "330:5:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint8",
+                      "typeString": "uint8"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "329:7:0"
+            },
+            "scope": 21,
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "ITokenDecimals",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "fullyImplemented": false,
+        "linearizedBaseContracts": [
+          21
+        ],
+        "name": "ITokenDecimals",
+        "nameLocation": "266:14:0",
+        "scope": 188,
+        "usedErrors": [],
+        "usedEvents": []
+      },
+      {
+        "id": 187,
+        "nodeType": "ContractDefinition",
+        "src": "613:1762:0",
+        "nodes": [
+          {
+            "id": 27,
+            "nodeType": "VariableDeclaration",
+            "src": "678:41:0",
+            "nodes": [],
+            "constant": true,
+            "functionSelector": "66331bba",
+            "mutability": "constant",
+            "name": "isPriceOracle",
+            "nameLocation": "699:13:0",
+            "scope": 187,
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_bool",
+              "typeString": "bool"
+            },
+            "typeName": {
+              "id": 25,
+              "name": "bool",
+              "nodeType": "ElementaryTypeName",
+              "src": "678:4:0",
+              "typeDescriptions": {
+                "typeIdentifier": "t_bool",
+                "typeString": "bool"
+              }
+            },
+            "value": {
+              "hexValue": "74727565",
+              "id": 26,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "bool",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "715:4:0",
+              "typeDescriptions": {
+                "typeIdentifier": "t_bool",
+                "typeString": "bool"
+              },
+              "value": "true"
+            },
+            "visibility": "public"
+          },
+          {
+            "id": 30,
+            "nodeType": "VariableDeclaration",
+            "src": "725:41:0",
+            "nodes": [],
+            "constant": false,
+            "functionSelector": "67e828bf",
+            "mutability": "immutable",
+            "name": "source",
+            "nameLocation": "760:6:0",
+            "scope": 187,
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_contract$_IUsd18PriceSource_$9",
+              "typeString": "contract IUsd18PriceSource"
+            },
+            "typeName": {
+              "id": 29,
+              "nodeType": "UserDefinedTypeName",
+              "pathNode": {
+                "id": 28,
+                "name": "IUsd18PriceSource",
+                "nameLocations": [
+                  "725:17:0"
+                ],
+                "nodeType": "IdentifierPath",
+                "referencedDeclaration": 9,
+                "src": "725:17:0"
+              },
+              "referencedDeclaration": 9,
+              "src": "725:17:0",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_IUsd18PriceSource_$9",
+                "typeString": "contract IUsd18PriceSource"
+              }
+            },
+            "visibility": "public"
+          },
+          {
+            "id": 32,
+            "nodeType": "VariableDeclaration",
+            "src": "772:36:0",
+            "nodes": [],
+            "constant": false,
+            "functionSelector": "324726e5",
+            "mutability": "immutable",
+            "name": "stockMarket",
+            "nameLocation": "797:11:0",
+            "scope": 187,
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_address",
+              "typeString": "address"
+            },
+            "typeName": {
+              "id": 31,
+              "name": "address",
+              "nodeType": "ElementaryTypeName",
+              "src": "772:7:0",
+              "stateMutability": "nonpayable",
+              "typeDescriptions": {
+                "typeIdentifier": "t_address",
+                "typeString": "address"
+              }
+            },
+            "visibility": "public"
+          },
+          {
+            "id": 34,
+            "nodeType": "VariableDeclaration",
+            "src": "814:37:0",
+            "nodes": [],
+            "constant": false,
+            "functionSelector": "646e0cea",
+            "mutability": "immutable",
+            "name": "dollarMarket",
+            "nameLocation": "839:12:0",
+            "scope": 187,
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_address",
+              "typeString": "address"
+            },
+            "typeName": {
+              "id": 33,
+              "name": "address",
+              "nodeType": "ElementaryTypeName",
+              "src": "814:7:0",
+              "stateMutability": "nonpayable",
+              "typeDescriptions": {
+                "typeIdentifier": "t_address",
+                "typeString": "address"
+              }
+            },
+            "visibility": "public"
+          },
+          {
+            "id": 36,
+            "nodeType": "VariableDeclaration",
+            "src": "857:30:0",
+            "nodes": [],
+            "constant": false,
+            "functionSelector": "bdf3c4ae",
+            "mutability": "immutable",
+            "name": "stock",
+            "nameLocation": "882:5:0",
+            "scope": 187,
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_address",
+              "typeString": "address"
+            },
+            "typeName": {
+              "id": 35,
+              "name": "address",
+              "nodeType": "ElementaryTypeName",
+              "src": "857:7:0",
+              "stateMutability": "nonpayable",
+              "typeDescriptions": {
+                "typeIdentifier": "t_address",
+                "typeString": "address"
+              }
+            },
+            "visibility": "public"
+          },
+          {
+            "id": 38,
+            "nodeType": "VariableDeclaration",
+            "src": "893:31:0",
+            "nodes": [],
+            "constant": false,
+            "functionSelector": "51adeb57",
+            "mutability": "immutable",
+            "name": "dollar",
+            "nameLocation": "918:6:0",
+            "scope": 187,
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_address",
+              "typeString": "address"
+            },
+            "typeName": {
+              "id": 37,
+              "name": "address",
+              "nodeType": "ElementaryTypeName",
+              "src": "893:7:0",
+              "stateMutability": "nonpayable",
+              "typeDescriptions": {
+                "typeIdentifier": "t_address",
+                "typeString": "address"
+              }
+            },
+            "visibility": "public"
+          },
+          {
+            "id": 40,
+            "nodeType": "ErrorDefinition",
+            "src": "931:29:0",
+            "nodes": [],
+            "errorSelector": "c52a9bd3",
+            "name": "InvalidConfiguration",
+            "nameLocation": "937:20:0",
+            "parameters": {
+              "id": 39,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "957:2:0"
+            }
+          },
+          {
+            "id": 42,
+            "nodeType": "ErrorDefinition",
+            "src": "965:26:0",
+            "nodes": [],
+            "errorSelector": "be035891",
+            "name": "UnsupportedMarket",
+            "nameLocation": "971:17:0",
+            "parameters": {
+              "id": 41,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "988:2:0"
+            }
+          },
+          {
+            "id": 44,
+            "nodeType": "ErrorDefinition",
+            "src": "996:25:0",
+            "nodes": [],
+            "errorSelector": "24a01144",
+            "name": "UnsupportedAsset",
+            "nameLocation": "1002:16:0",
+            "parameters": {
+              "id": 43,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1018:2:0"
+            }
+          },
+          {
+            "id": 129,
+            "nodeType": "FunctionDefinition",
+            "src": "1027:706:0",
+            "nodes": [],
+            "body": {
+              "id": 128,
+              "nodeType": "Block",
+              "src": "1101:632:0",
+              "nodes": [],
+              "statements": [
+                {
+                  "condition": {
+                    "commonType": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    },
+                    "id": 61,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftExpression": {
+                      "commonType": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      },
+                      "id": 57,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "leftExpression": {
+                        "expression": {
+                          "expression": {
+                            "id": 53,
+                            "name": "source_",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 46,
+                            "src": "1115:7:0",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          },
+                          "id": 54,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "memberLocation": "1123:4:0",
+                          "memberName": "code",
+                          "nodeType": "MemberAccess",
+                          "src": "1115:12:0",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_bytes_memory_ptr",
+                            "typeString": "bytes memory"
+                          }
+                        },
+                        "id": 55,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberLocation": "1128:6:0",
+                        "memberName": "length",
+                        "nodeType": "MemberAccess",
+                        "src": "1115:19:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      "nodeType": "BinaryOperation",
+                      "operator": "==",
+                      "rightExpression": {
+                        "hexValue": "30",
+                        "id": 56,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "number",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "1138:1:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_rational_0_by_1",
+                          "typeString": "int_const 0"
+                        },
+                        "value": "0"
+                      },
+                      "src": "1115:24:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_bool",
+                        "typeString": "bool"
+                      }
+                    },
+                    "nodeType": "BinaryOperation",
+                    "operator": "||",
+                    "rightExpression": {
+                      "commonType": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      },
+                      "id": 60,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "leftExpression": {
+                        "id": 58,
+                        "name": "stockMarket_",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 48,
+                        "src": "1143:12:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      "nodeType": "BinaryOperation",
+                      "operator": "==",
+                      "rightExpression": {
+                        "id": 59,
+                        "name": "dollarMarket_",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 50,
+                        "src": "1159:13:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      "src": "1143:29:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_bool",
+                        "typeString": "bool"
+                      }
+                    },
+                    "src": "1115:57:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "id": 66,
+                  "nodeType": "IfStatement",
+                  "src": "1111:117:0",
+                  "trueBody": {
+                    "id": 65,
+                    "nodeType": "Block",
+                    "src": "1174:54:0",
+                    "statements": [
+                      {
+                        "errorCall": {
+                          "arguments": [],
+                          "expression": {
+                            "argumentTypes": [],
+                            "id": 62,
+                            "name": "InvalidConfiguration",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 40,
+                            "src": "1195:20:0",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_function_error_pure$__$returns$_t_error_$",
+                              "typeString": "function () pure returns (error)"
+                            }
+                          },
+                          "id": 63,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "kind": "functionCall",
+                          "lValueRequested": false,
+                          "nameLocations": [],
+                          "names": [],
+                          "nodeType": "FunctionCall",
+                          "src": "1195:22:0",
+                          "tryCall": false,
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_error",
+                            "typeString": "error"
+                          }
+                        },
+                        "id": 64,
+                        "nodeType": "RevertStatement",
+                        "src": "1188:29:0"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "assignments": [
+                    68
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 68,
+                      "mutability": "mutable",
+                      "name": "stock_",
+                      "nameLocation": "1245:6:0",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 128,
+                      "src": "1237:14:0",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      },
+                      "typeName": {
+                        "id": 67,
+                        "name": "address",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "1237:7:0",
+                        "stateMutability": "nonpayable",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 74,
+                  "initialValue": {
+                    "arguments": [],
+                    "expression": {
+                      "argumentTypes": [],
+                      "expression": {
+                        "arguments": [
+                          {
+                            "id": 70,
+                            "name": "stockMarket_",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 48,
+                            "src": "1272:12:0",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          }
+                        ],
+                        "expression": {
+                          "argumentTypes": [
+                            {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          ],
+                          "id": 69,
+                          "name": "IMarketUnderlying",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 15,
+                          "src": "1254:17:0",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_type$_t_contract$_IMarketUnderlying_$15_$",
+                            "typeString": "type(contract IMarketUnderlying)"
+                          }
+                        },
+                        "id": 71,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "kind": "typeConversion",
+                        "lValueRequested": false,
+                        "nameLocations": [],
+                        "names": [],
+                        "nodeType": "FunctionCall",
+                        "src": "1254:31:0",
+                        "tryCall": false,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_contract$_IMarketUnderlying_$15",
+                          "typeString": "contract IMarketUnderlying"
+                        }
+                      },
+                      "id": 72,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberLocation": "1286:10:0",
+                      "memberName": "underlying",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 14,
+                      "src": "1254:42:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_external_view$__$returns$_t_address_$",
+                        "typeString": "function () view external returns (address)"
+                      }
+                    },
+                    "id": 73,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "nameLocations": [],
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1254:44:0",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "1237:61:0"
+                },
+                {
+                  "assignments": [
+                    76
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 76,
+                      "mutability": "mutable",
+                      "name": "dollar_",
+                      "nameLocation": "1316:7:0",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 128,
+                      "src": "1308:15:0",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      },
+                      "typeName": {
+                        "id": 75,
+                        "name": "address",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "1308:7:0",
+                        "stateMutability": "nonpayable",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 82,
+                  "initialValue": {
+                    "arguments": [],
+                    "expression": {
+                      "argumentTypes": [],
+                      "expression": {
+                        "arguments": [
+                          {
+                            "id": 78,
+                            "name": "dollarMarket_",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 50,
+                            "src": "1344:13:0",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          }
+                        ],
+                        "expression": {
+                          "argumentTypes": [
+                            {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          ],
+                          "id": 77,
+                          "name": "IMarketUnderlying",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 15,
+                          "src": "1326:17:0",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_type$_t_contract$_IMarketUnderlying_$15_$",
+                            "typeString": "type(contract IMarketUnderlying)"
+                          }
+                        },
+                        "id": 79,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "kind": "typeConversion",
+                        "lValueRequested": false,
+                        "nameLocations": [],
+                        "names": [],
+                        "nodeType": "FunctionCall",
+                        "src": "1326:32:0",
+                        "tryCall": false,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_contract$_IMarketUnderlying_$15",
+                          "typeString": "contract IMarketUnderlying"
+                        }
+                      },
+                      "id": 80,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberLocation": "1359:10:0",
+                      "memberName": "underlying",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 14,
+                      "src": "1326:43:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_external_view$__$returns$_t_address_$",
+                        "typeString": "function () view external returns (address)"
+                      }
+                    },
+                    "id": 81,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "nameLocations": [],
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1326:45:0",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "1308:63:0"
+                },
+                {
+                  "condition": {
+                    "commonType": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    },
+                    "id": 101,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftExpression": {
+                      "commonType": {
+                        "typeIdentifier": "t_bool",
+                        "typeString": "bool"
+                      },
+                      "id": 93,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "leftExpression": {
+                        "commonType": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        },
+                        "id": 85,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "leftExpression": {
+                          "id": 83,
+                          "name": "stock_",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 68,
+                          "src": "1398:6:0",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          }
+                        },
+                        "nodeType": "BinaryOperation",
+                        "operator": "==",
+                        "rightExpression": {
+                          "id": 84,
+                          "name": "dollar_",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 76,
+                          "src": "1408:7:0",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          }
+                        },
+                        "src": "1398:17:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      },
+                      "nodeType": "BinaryOperation",
+                      "operator": "||",
+                      "rightExpression": {
+                        "commonType": {
+                          "typeIdentifier": "t_uint8",
+                          "typeString": "uint8"
+                        },
+                        "id": 92,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "leftExpression": {
+                          "arguments": [],
+                          "expression": {
+                            "argumentTypes": [],
+                            "expression": {
+                              "arguments": [
+                                {
+                                  "id": 87,
+                                  "name": "stock_",
+                                  "nodeType": "Identifier",
+                                  "overloadedDeclarations": [],
+                                  "referencedDeclaration": 68,
+                                  "src": "1434:6:0",
+                                  "typeDescriptions": {
+                                    "typeIdentifier": "t_address",
+                                    "typeString": "address"
+                                  }
+                                }
+                              ],
+                              "expression": {
+                                "argumentTypes": [
+                                  {
+                                    "typeIdentifier": "t_address",
+                                    "typeString": "address"
+                                  }
+                                ],
+                                "id": 86,
+                                "name": "ITokenDecimals",
+                                "nodeType": "Identifier",
+                                "overloadedDeclarations": [],
+                                "referencedDeclaration": 21,
+                                "src": "1419:14:0",
+                                "typeDescriptions": {
+                                  "typeIdentifier": "t_type$_t_contract$_ITokenDecimals_$21_$",
+                                  "typeString": "type(contract ITokenDecimals)"
+                                }
+                              },
+                              "id": 88,
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": false,
+                              "kind": "typeConversion",
+                              "lValueRequested": false,
+                              "nameLocations": [],
+                              "names": [],
+                              "nodeType": "FunctionCall",
+                              "src": "1419:22:0",
+                              "tryCall": false,
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_contract$_ITokenDecimals_$21",
+                                "typeString": "contract ITokenDecimals"
+                              }
+                            },
+                            "id": 89,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": false,
+                            "lValueRequested": false,
+                            "memberLocation": "1442:8:0",
+                            "memberName": "decimals",
+                            "nodeType": "MemberAccess",
+                            "referencedDeclaration": 20,
+                            "src": "1419:31:0",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_function_external_view$__$returns$_t_uint8_$",
+                              "typeString": "function () view external returns (uint8)"
+                            }
+                          },
+                          "id": 90,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "kind": "functionCall",
+                          "lValueRequested": false,
+                          "nameLocations": [],
+                          "names": [],
+                          "nodeType": "FunctionCall",
+                          "src": "1419:33:0",
+                          "tryCall": false,
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint8",
+                            "typeString": "uint8"
+                          }
+                        },
+                        "nodeType": "BinaryOperation",
+                        "operator": "!=",
+                        "rightExpression": {
+                          "hexValue": "3138",
+                          "id": 91,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "kind": "number",
+                          "lValueRequested": false,
+                          "nodeType": "Literal",
+                          "src": "1456:2:0",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_rational_18_by_1",
+                            "typeString": "int_const 18"
+                          },
+                          "value": "18"
+                        },
+                        "src": "1419:39:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      },
+                      "src": "1398:60:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_bool",
+                        "typeString": "bool"
+                      }
+                    },
+                    "nodeType": "BinaryOperation",
+                    "operator": "||",
+                    "rightExpression": {
+                      "commonType": {
+                        "typeIdentifier": "t_uint8",
+                        "typeString": "uint8"
+                      },
+                      "id": 100,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "leftExpression": {
+                        "arguments": [],
+                        "expression": {
+                          "argumentTypes": [],
+                          "expression": {
+                            "arguments": [
+                              {
+                                "id": 95,
+                                "name": "dollar_",
+                                "nodeType": "Identifier",
+                                "overloadedDeclarations": [],
+                                "referencedDeclaration": 76,
+                                "src": "1493:7:0",
+                                "typeDescriptions": {
+                                  "typeIdentifier": "t_address",
+                                  "typeString": "address"
+                                }
+                              }
+                            ],
+                            "expression": {
+                              "argumentTypes": [
+                                {
+                                  "typeIdentifier": "t_address",
+                                  "typeString": "address"
+                                }
+                              ],
+                              "id": 94,
+                              "name": "ITokenDecimals",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 21,
+                              "src": "1478:14:0",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_type$_t_contract$_ITokenDecimals_$21_$",
+                                "typeString": "type(contract ITokenDecimals)"
+                              }
+                            },
+                            "id": 96,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": false,
+                            "kind": "typeConversion",
+                            "lValueRequested": false,
+                            "nameLocations": [],
+                            "names": [],
+                            "nodeType": "FunctionCall",
+                            "src": "1478:23:0",
+                            "tryCall": false,
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_contract$_ITokenDecimals_$21",
+                              "typeString": "contract ITokenDecimals"
+                            }
+                          },
+                          "id": 97,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "memberLocation": "1502:8:0",
+                          "memberName": "decimals",
+                          "nodeType": "MemberAccess",
+                          "referencedDeclaration": 20,
+                          "src": "1478:32:0",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_function_external_view$__$returns$_t_uint8_$",
+                            "typeString": "function () view external returns (uint8)"
+                          }
+                        },
+                        "id": 98,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "kind": "functionCall",
+                        "lValueRequested": false,
+                        "nameLocations": [],
+                        "names": [],
+                        "nodeType": "FunctionCall",
+                        "src": "1478:34:0",
+                        "tryCall": false,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint8",
+                          "typeString": "uint8"
+                        }
+                      },
+                      "nodeType": "BinaryOperation",
+                      "operator": "!=",
+                      "rightExpression": {
+                        "hexValue": "36",
+                        "id": 99,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "number",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "1516:1:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_rational_6_by_1",
+                          "typeString": "int_const 6"
+                        },
+                        "value": "6"
+                      },
+                      "src": "1478:39:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_bool",
+                        "typeString": "bool"
+                      }
+                    },
+                    "src": "1398:119:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "id": 105,
+                  "nodeType": "IfStatement",
+                  "src": "1381:176:0",
+                  "trueBody": {
+                    "errorCall": {
+                      "arguments": [],
+                      "expression": {
+                        "argumentTypes": [],
+                        "id": 102,
+                        "name": "InvalidConfiguration",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 40,
+                        "src": "1535:20:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_function_error_pure$__$returns$_t_error_$",
+                          "typeString": "function () pure returns (error)"
+                        }
+                      },
+                      "id": 103,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "kind": "functionCall",
+                      "lValueRequested": false,
+                      "nameLocations": [],
+                      "names": [],
+                      "nodeType": "FunctionCall",
+                      "src": "1535:22:0",
+                      "tryCall": false,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_error",
+                        "typeString": "error"
+                      }
+                    },
+                    "id": 104,
+                    "nodeType": "RevertStatement",
+                    "src": "1528:29:0"
+                  }
+                },
+                {
+                  "expression": {
+                    "id": 110,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "id": 106,
+                      "name": "source",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 30,
+                      "src": "1567:6:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_contract$_IUsd18PriceSource_$9",
+                        "typeString": "contract IUsd18PriceSource"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "arguments": [
+                        {
+                          "id": 108,
+                          "name": "source_",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 46,
+                          "src": "1594:7:0",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          }
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": [
+                          {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          }
+                        ],
+                        "id": 107,
+                        "name": "IUsd18PriceSource",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 9,
+                        "src": "1576:17:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_type$_t_contract$_IUsd18PriceSource_$9_$",
+                          "typeString": "type(contract IUsd18PriceSource)"
+                        }
+                      },
+                      "id": 109,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "kind": "typeConversion",
+                      "lValueRequested": false,
+                      "nameLocations": [],
+                      "names": [],
+                      "nodeType": "FunctionCall",
+                      "src": "1576:26:0",
+                      "tryCall": false,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_contract$_IUsd18PriceSource_$9",
+                        "typeString": "contract IUsd18PriceSource"
+                      }
+                    },
+                    "src": "1567:35:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_IUsd18PriceSource_$9",
+                      "typeString": "contract IUsd18PriceSource"
+                    }
+                  },
+                  "id": 111,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1567:35:0"
+                },
+                {
+                  "expression": {
+                    "id": 114,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "id": 112,
+                      "name": "stockMarket",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 32,
+                      "src": "1612:11:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "id": 113,
+                      "name": "stockMarket_",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 48,
+                      "src": "1626:12:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "src": "1612:26:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "id": 115,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1612:26:0"
+                },
+                {
+                  "expression": {
+                    "id": 118,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "id": 116,
+                      "name": "dollarMarket",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 34,
+                      "src": "1648:12:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "id": 117,
+                      "name": "dollarMarket_",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 50,
+                      "src": "1663:13:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "src": "1648:28:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "id": 119,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1648:28:0"
+                },
+                {
+                  "expression": {
+                    "id": 122,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "id": 120,
+                      "name": "stock",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 36,
+                      "src": "1686:5:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "id": 121,
+                      "name": "stock_",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 68,
+                      "src": "1694:6:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "src": "1686:14:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "id": 123,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1686:14:0"
+                },
+                {
+                  "expression": {
+                    "id": 126,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "id": 124,
+                      "name": "dollar",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 38,
+                      "src": "1710:6:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "id": 125,
+                      "name": "dollar_",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 76,
+                      "src": "1719:7:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "src": "1710:16:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "id": 127,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1710:16:0"
+                }
+              ]
+            },
+            "implemented": true,
+            "kind": "constructor",
+            "modifiers": [],
+            "name": "",
+            "nameLocation": "-1:-1:-1",
+            "parameters": {
+              "id": 51,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 46,
+                  "mutability": "mutable",
+                  "name": "source_",
+                  "nameLocation": "1047:7:0",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 129,
+                  "src": "1039:15:0",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 45,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1039:7:0",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 48,
+                  "mutability": "mutable",
+                  "name": "stockMarket_",
+                  "nameLocation": "1064:12:0",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 129,
+                  "src": "1056:20:0",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 47,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1056:7:0",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 50,
+                  "mutability": "mutable",
+                  "name": "dollarMarket_",
+                  "nameLocation": "1086:13:0",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 129,
+                  "src": "1078:21:0",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 49,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1078:7:0",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1038:62:0"
+            },
+            "returnParameters": {
+              "id": 52,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1101:0:0"
+            },
+            "scope": 187,
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "public"
+          },
+          {
+            "id": 160,
+            "nodeType": "FunctionDefinition",
+            "src": "1739:347:0",
+            "nodes": [],
+            "body": {
+              "id": 159,
+              "nodeType": "Block",
+              "src": "1815:271:0",
+              "nodes": [],
+              "statements": [
+                {
+                  "condition": {
+                    "commonType": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    },
+                    "id": 138,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftExpression": {
+                      "id": 136,
+                      "name": "market",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 131,
+                      "src": "1829:6:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "nodeType": "BinaryOperation",
+                    "operator": "==",
+                    "rightExpression": {
+                      "id": 137,
+                      "name": "stockMarket",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 32,
+                      "src": "1839:11:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "src": "1829:21:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "id": 144,
+                  "nodeType": "IfStatement",
+                  "src": "1825:59:0",
+                  "trueBody": {
+                    "expression": {
+                      "arguments": [
+                        {
+                          "id": 141,
+                          "name": "stock",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 36,
+                          "src": "1878:5:0",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          }
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": [
+                          {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          }
+                        ],
+                        "expression": {
+                          "id": 139,
+                          "name": "source",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 30,
+                          "src": "1859:6:0",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_contract$_IUsd18PriceSource_$9",
+                            "typeString": "contract IUsd18PriceSource"
+                          }
+                        },
+                        "id": 140,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberLocation": "1866:11:0",
+                        "memberName": "assetPrices",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 8,
+                        "src": "1859:18:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_function_external_view$_t_address_$returns$_t_uint256_$",
+                          "typeString": "function (address) view external returns (uint256)"
+                        }
+                      },
+                      "id": 142,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "kind": "functionCall",
+                      "lValueRequested": false,
+                      "nameLocations": [],
+                      "names": [],
+                      "nodeType": "FunctionCall",
+                      "src": "1859:25:0",
+                      "tryCall": false,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "functionReturnParameters": 135,
+                    "id": 143,
+                    "nodeType": "Return",
+                    "src": "1852:32:0"
+                  }
+                },
+                {
+                  "condition": {
+                    "commonType": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    },
+                    "id": 147,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftExpression": {
+                      "id": 145,
+                      "name": "market",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 131,
+                      "src": "1979:6:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "nodeType": "BinaryOperation",
+                    "operator": "==",
+                    "rightExpression": {
+                      "id": 146,
+                      "name": "dollarMarket",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 34,
+                      "src": "1989:12:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "src": "1979:22:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "id": 155,
+                  "nodeType": "IfStatement",
+                  "src": "1975:68:0",
+                  "trueBody": {
+                    "expression": {
+                      "commonType": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      },
+                      "id": 153,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "leftExpression": {
+                        "arguments": [
+                          {
+                            "id": 150,
+                            "name": "dollar",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 38,
+                            "src": "2029:6:0",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          }
+                        ],
+                        "expression": {
+                          "argumentTypes": [
+                            {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          ],
+                          "expression": {
+                            "id": 148,
+                            "name": "source",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 30,
+                            "src": "2010:6:0",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_contract$_IUsd18PriceSource_$9",
+                              "typeString": "contract IUsd18PriceSource"
+                            }
+                          },
+                          "id": 149,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "memberLocation": "2017:11:0",
+                          "memberName": "assetPrices",
+                          "nodeType": "MemberAccess",
+                          "referencedDeclaration": 8,
+                          "src": "2010:18:0",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_function_external_view$_t_address_$returns$_t_uint256_$",
+                            "typeString": "function (address) view external returns (uint256)"
+                          }
+                        },
+                        "id": 151,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "kind": "functionCall",
+                        "lValueRequested": false,
+                        "nameLocations": [],
+                        "names": [],
+                        "nodeType": "FunctionCall",
+                        "src": "2010:26:0",
+                        "tryCall": false,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      "nodeType": "BinaryOperation",
+                      "operator": "*",
+                      "rightExpression": {
+                        "hexValue": "31653132",
+                        "id": 152,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "number",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "2039:4:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_rational_1000000000000_by_1",
+                          "typeString": "int_const 1000000000000"
+                        },
+                        "value": "1e12"
+                      },
+                      "src": "2010:33:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "functionReturnParameters": 135,
+                    "id": 154,
+                    "nodeType": "Return",
+                    "src": "2003:40:0"
+                  }
+                },
+                {
+                  "errorCall": {
+                    "arguments": [],
+                    "expression": {
+                      "argumentTypes": [],
+                      "id": 156,
+                      "name": "UnsupportedMarket",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 42,
+                      "src": "2060:17:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_error_pure$__$returns$_t_error_$",
+                        "typeString": "function () pure returns (error)"
+                      }
+                    },
+                    "id": 157,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "nameLocations": [],
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "2060:19:0",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_error",
+                      "typeString": "error"
+                    }
+                  },
+                  "id": 158,
+                  "nodeType": "RevertStatement",
+                  "src": "2053:26:0"
+                }
+              ]
+            },
+            "functionSelector": "fc57d4df",
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getUnderlyingPrice",
+            "nameLocation": "1748:18:0",
+            "parameters": {
+              "id": 132,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 131,
+                  "mutability": "mutable",
+                  "name": "market",
+                  "nameLocation": "1775:6:0",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 160,
+                  "src": "1767:14:0",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 130,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1767:7:0",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1766:16:0"
+            },
+            "returnParameters": {
+              "id": 135,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 134,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 160,
+                  "src": "1806:7:0",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 133,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1806:7:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1805:9:0"
+            },
+            "scope": 187,
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "id": 186,
+            "nodeType": "FunctionDefinition",
+            "src": "2173:200:0",
+            "nodes": [],
+            "body": {
+              "id": 185,
+              "nodeType": "Block",
+              "src": "2250:123:0",
+              "nodes": [],
+              "statements": [
+                {
+                  "condition": {
+                    "commonType": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    },
+                    "id": 175,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftExpression": {
+                      "commonType": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      },
+                      "id": 171,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "leftExpression": {
+                        "id": 169,
+                        "name": "asset",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 163,
+                        "src": "2264:5:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      "nodeType": "BinaryOperation",
+                      "operator": "!=",
+                      "rightExpression": {
+                        "id": 170,
+                        "name": "stock",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 36,
+                        "src": "2273:5:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      "src": "2264:14:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_bool",
+                        "typeString": "bool"
+                      }
+                    },
+                    "nodeType": "BinaryOperation",
+                    "operator": "&&",
+                    "rightExpression": {
+                      "commonType": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      },
+                      "id": 174,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "leftExpression": {
+                        "id": 172,
+                        "name": "asset",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 163,
+                        "src": "2282:5:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      "nodeType": "BinaryOperation",
+                      "operator": "!=",
+                      "rightExpression": {
+                        "id": 173,
+                        "name": "dollar",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 38,
+                        "src": "2291:6:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      "src": "2282:15:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_bool",
+                        "typeString": "bool"
+                      }
+                    },
+                    "src": "2264:33:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "id": 179,
+                  "nodeType": "IfStatement",
+                  "src": "2260:64:0",
+                  "trueBody": {
+                    "errorCall": {
+                      "arguments": [],
+                      "expression": {
+                        "argumentTypes": [],
+                        "id": 176,
+                        "name": "UnsupportedAsset",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 44,
+                        "src": "2306:16:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_function_error_pure$__$returns$_t_error_$",
+                          "typeString": "function () pure returns (error)"
+                        }
+                      },
+                      "id": 177,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "kind": "functionCall",
+                      "lValueRequested": false,
+                      "nameLocations": [],
+                      "names": [],
+                      "nodeType": "FunctionCall",
+                      "src": "2306:18:0",
+                      "tryCall": false,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_error",
+                        "typeString": "error"
+                      }
+                    },
+                    "id": 178,
+                    "nodeType": "RevertStatement",
+                    "src": "2299:25:0"
+                  }
+                },
+                {
+                  "expression": {
+                    "arguments": [
+                      {
+                        "id": 182,
+                        "name": "asset",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 163,
+                        "src": "2360:5:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      ],
+                      "expression": {
+                        "id": 180,
+                        "name": "source",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 30,
+                        "src": "2341:6:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_contract$_IUsd18PriceSource_$9",
+                          "typeString": "contract IUsd18PriceSource"
+                        }
+                      },
+                      "id": 181,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberLocation": "2348:11:0",
+                      "memberName": "assetPrices",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 8,
+                      "src": "2341:18:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_external_view$_t_address_$returns$_t_uint256_$",
+                        "typeString": "function (address) view external returns (uint256)"
+                      }
+                    },
+                    "id": 183,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "nameLocations": [],
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "2341:25:0",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "functionReturnParameters": 168,
+                  "id": 184,
+                  "nodeType": "Return",
+                  "src": "2334:32:0"
+                }
+              ]
+            },
+            "baseFunctions": [
+              8
+            ],
+            "documentation": {
+              "id": 161,
+              "nodeType": "StructuredDocumentation",
+              "src": "2092:76:0",
+              "text": "@notice Compatibility API: USD18 per whole asset, never Compound-scaled."
+            },
+            "functionSelector": "5e9a523c",
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "assetPrices",
+            "nameLocation": "2182:11:0",
+            "overrides": {
+              "id": 165,
+              "nodeType": "OverrideSpecifier",
+              "overrides": [],
+              "src": "2223:8:0"
+            },
+            "parameters": {
+              "id": 164,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 163,
+                  "mutability": "mutable",
+                  "name": "asset",
+                  "nameLocation": "2202:5:0",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 186,
+                  "src": "2194:13:0",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 162,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2194:7:0",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2193:15:0"
+            },
+            "returnParameters": {
+              "id": 168,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 167,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 186,
+                  "src": "2241:7:0",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 166,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2241:7:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2240:9:0"
+            },
+            "scope": 187,
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "abstract": false,
+        "baseContracts": [
+          {
+            "baseName": {
+              "id": 23,
+              "name": "IUsd18PriceSource",
+              "nameLocations": [
+                "654:17:0"
+              ],
+              "nodeType": "IdentifierPath",
+              "referencedDeclaration": 9,
+              "src": "654:17:0"
+            },
+            "id": 24,
+            "nodeType": "InheritanceSpecifier",
+            "src": "654:17:0"
+          }
+        ],
+        "canonicalName": "RobinhoodLendingPriceAdapter",
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": {
+          "id": 22,
+          "nodeType": "StructuredDocumentation",
+          "src": "341:272:0",
+          "text": "@notice Adapts the existing USD18 price API to Compound's 36-underlyingDecimals scale.\n @dev No storage upgrade, pricing-policy change, or change to the margin price source.\n      The source's existing manual/cached-price trust and freshness limitations remain."
+        },
+        "fullyImplemented": true,
+        "linearizedBaseContracts": [
+          187,
+          9
+        ],
+        "name": "RobinhoodLendingPriceAdapter",
+        "nameLocation": "622:28:0",
+        "scope": 188,
+        "usedErrors": [
+          40,
+          42,
+          44
+        ],
+        "usedEvents": []
+      }
+    ],
+    "license": "MIT"
+  }
+}

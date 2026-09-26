@@ -4,6 +4,8 @@ Peridot's deployed NVDA/USDG boosted lending vaults and isolated long/short marg
 
 The frontend is being developed by another team member and will be added to [`frontend/`](frontend/README.md). There is no runnable frontend application in this initial snapshot.
 
+**September 26 remediation:** the ordinary lending oracle's USDG scaling defect has been corrected on mainnet with a separately deployed adapter. Runtime, immutable wiring, price units and both liquidation quote directions were independently verified. Both markets' borrowing and ordinary collateral seizure remain paused, with zero outstanding debt at the verification block. Receipts and validation are in the [hardening record](remediation/README.md). The frozen contract snapshot remains unchanged. Safe migration and external keeper alerts are still outstanding.
+
 ## Run locally
 
 Install Foundry with Solidity 0.8.26 support, Python 3.10+, and Make. Solidity dependencies are vendored as the exact source files required by the snapshot; no npm install, sibling repository, submodule update or dependency upgrade is required for the contracts.
@@ -46,7 +48,7 @@ The paired liquidity vault is not ERC-4626 and only accepts deposits from its co
 | Margin deployment | Completed September 18, 2026 |
 | Risk-only 5× update | Completed September 19, 2026 |
 
-These are dated deployment observations, not a live availability guarantee. Stock oracle updates follow trading sessions; weekends and holidays can leave prices stale. Price-dependent actions fail closed when guards fail. Underlying debt repayment followed by debt-free exit to pTokens is the tested fallback; redemption into underlying still depends on liquidity.
+These are dated deployment observations, not a live availability guarantee. Stock oracle updates follow trading sessions; weekends and holidays can leave prices stale. The vault and margin guards reject unavailable/stale prices; the original ordinary-lending source has cached/manual fallback and must be assessed separately. Underlying debt repayment followed by debt-free exit to pTokens is the tested fallback; redemption into underlying still depends on liquidity. The current containment borrow pauses also prevent new isolated margin borrowing.
 
 ## Repository map
 

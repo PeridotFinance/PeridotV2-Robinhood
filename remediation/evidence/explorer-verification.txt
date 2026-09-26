@@ -1,0 +1,3 @@
+2026-09-26: forge verify-contract --verifier blockscout attempted against https://robinhoodchain.blockscout.com/api/.
+Status: BLOCKED_BY_EXPLORER_CHALLENGE. The endpoint returned an HTML Cloudflare browser challenge instead of API JSON. No verified-explorer badge is claimed.
+Independent RPC runtime/immutable and receipt verification succeeded; see installed-adapter.json and installation-transactions.json.

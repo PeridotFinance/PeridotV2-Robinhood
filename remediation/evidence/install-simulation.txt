@@ -1,0 +1,29 @@
+Compiling 16 files with Solc 0.8.26
+Solc 0.8.26 finished in 980.79ms
+Compiler run successful!
+Script ran successfully.
+
+== Logs ==
+  Lending adapter: 0xe4e03C2FdaeF915ACe705D106b2660B1E342A2E4
+  Borrows and ordinary seizure remain paused. Independently verify before reactivation.
+
+## Setting up 1 EVM.
+
+==========================
+
+Chain 4663
+
+Estimated gas price: 0.054132001 gwei
+
+Estimated total gas used for script: 588834
+
+Estimated amount required: 0.000031874762676834 ETH
+
+==========================
+
+SIMULATION COMPLETE. To broadcast these transactions, add --broadcast and wallet configuration(s) to the previous command. See forge script --help for more.
+
+Transactions saved to: /Users/joshua/Peridot/RobinhoodVaults/PeridotV2-Robinhood/broadcast/InstallLendingPriceAdapter.s.sol/4663/dry-run/run-latest.json
+
+Sensitive values saved to: /Users/joshua/Peridot/RobinhoodVaults/PeridotV2-Robinhood/remediation/cache/InstallLendingPriceAdapter.s.sol/4663/dry-run/run-latest.json
+

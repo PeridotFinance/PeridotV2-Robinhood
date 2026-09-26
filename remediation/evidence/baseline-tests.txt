@@ -1,0 +1,203 @@
+python3 tools/verify_snapshot.py
+Original robinhood-mainnet.margin-user-runner-validation.json: 119 inputs match
+Original robinhood-mainnet.margin-5x-validation.json: 168 inputs match
+Frozen snapshot: 216 files, 26 artifacts and 16 ABIs match
+cd contracts/robinhood-vaults && forge test --no-match-path 'test/fork/*'
+No files changed, compilation skipped
+
+Ran 4 tests for test/PeridotTransparentProxy.t.sol:PeridotTransparentProxyTest
+[PASS] testDeploymentInitializesAtomically() (gas: 528035)
+[PASS] testDeploymentRejectsCalldataThatDoesNotInitialize() (gas: 326419)
+[PASS] testDeploymentRequiresInitializationCalldata() (gas: 39437)
+[PASS] testDeploymentRequiresNonzeroOwner() (gas: 39389)
+Suite result: ok. 4 passed; 0 failed; 0 skipped; finished in 432.00µs (221.54µs CPU time)
+
+Ran 5 tests for test/VaultMath.t.sol:VaultMathTest
+[PASS] testAmountRejectsZeroPrice() (gas: 8729)
+[PASS] testLiquidityAmountsRejectZeroSqrtPrice() (gas: 8667)
+[PASS] testQuoteRejectsIdenticalTokens() (gas: 10439)
+[PASS] testValueAvoidsIntermediateScalingOverflow() (gas: 9074)
+[PASS] testValueRejectsZeroPrice() (gas: 8491)
+Suite result: ok. 5 passed; 0 failed; 0 skipped; finished in 460.17µs (252.92µs CPU time)
+
+Ran 13 tests for test/StockOracleGuard.t.sol:StockOracleGuardTest
+[PASS] testConfiguredDeviationIsExposedForRemovalSafetyChecks() (gas: 18286)
+[PASS] testFeedDecimalsAbove36AreRejectedAtConfiguration() (gas: 416357)
+[PASS] testManipulatedPoolPriceIsRejected() (gas: 76464)
+[PASS] testNormalizesFeedWithoutApplyingMultiplierAgain() (gas: 43563)
+[PASS] testOutOfBoundsChainlinkReferenceSqrtPriceIsRejected() (gas: 462635)
+[PASS] testPositiveAnswerThatNormalizesToZeroIsRejected() (gas: 448397)
+[PASS] testReturnsChainlinkDerivedReferenceSqrtPriceInPoolOrder() (gas: 77202)
+[PASS] testSequencerDownIsRejected() (gas: 466683)
+[PASS] testSequencerRequiresMinimumGracePeriod() (gas: 396661)
+[PASS] testStaleRoundIsRejected() (gas: 54880)
+[PASS] testStockOraclePauseBlocksRisk() (gas: 46608)
+[PASS] testStockTokenMustImplementOraclePauseInterface() (gas: 101358)
+[PASS] testTokenDecimalsAbove36AreRejectedAtConfiguration() (gas: 642858)
+Suite result: ok. 13 passed; 0 failed; 0 skipped; finished in 1.88ms (1.14ms CPU time)
+
+Ran 5 tests for test/VaultTimelock.t.sol:VaultTimelockTest
+[PASS] testDelayCanOnlyChangeThroughTimelock() (gas: 67092)
+[PASS] testSingleEoaCanBeProposerCancellerAndExecutorWithoutAdminBypass() (gas: 1265853)
+[PASS] testTargetCallRequiresScheduledDelay() (gas: 96263)
+[PASS] testTimelockOwnsProxyAdminAndImplementationRolesFromGenesis() (gas: 2975047)
+[PASS] testTopologyHasNoExternalAdminBypass() (gas: 41463)
+Suite result: ok. 5 passed; 0 failed; 0 skipped; finished in 1.46ms (822.25µs CPU time)
+
+Ran 6 tests for test/TimelockGovernanceMigration.t.sol:TimelockGovernanceMigrationTest
+[PASS] testDelayIncreaseAppliesToLaterOperationsOnly() (gas: 299389)
+[PASS] testGrantThenRevokeLeavesOnlyTheMultisigInControl() (gas: 463815)
+[PASS] testOpenExecutorLetsAnyoneExecuteAnAlreadyDelayedOperation() (gas: 376927)
+[PASS] testOutgoingGovernorCannotScheduleAfterMigration() (gas: 386320)
+[PASS] testRevokingBeforeGrantingWouldStrandTheTimelock() (gas: 86996)
+[PASS] testRolesCanOnlyChangeThroughTheTimelockItself() (gas: 34002)
+Suite result: ok. 6 passed; 0 failed; 0 skipped; finished in 2.66ms (2.06ms CPU time)
+
+Ran 7 tests for test/StrategyLossReserve.t.sol:StrategyLossReserveTest
+[PASS] testConfiguredReserveTokensCannotChangeButLimitsCan() (gas: 669531)
+[PASS] testCoverageEnforcesPerEventAndDailyCaps() (gas: 125239)
+[PASS] testDailyUsageRoundsCoverageValueUp() (gas: 130050)
+[PASS] testFeeOnTransferDepositIsRejectedWithoutAccountingDrift() (gas: 139625)
+[PASS] testFeeOnTransferFromReserveToVaultRevertsWithoutAccountingDrift() (gas: 173687)
+[PASS] testOnlyUnaccountedSurplusCanBeSwept() (gas: 84209)
+[PASS] testPausedReserveCannotCoverButCanBeGovernanceWithdrawn() (gas: 103260)
+Suite result: ok. 7 passed; 0 failed; 0 skipped; finished in 1.51ms (854.91µs CPU time)
+
+Ran 9 tests for test/UniswapV4PairedAdapter.t.sol:UniswapV4PairedAdapterTest
+[PASS] testCollectFeesReturnsZeroForEmptyUnburnedPosition() (gas: 477688)
+[PASS] testDiscoversMintedNftAfterAdvancedGlobalCounterAndReturnsActualLiquidity() (gas: 401320)
+[PASS] testExactPermit2AllowancesAreRevokedAfterSwap() (gas: 214942)
+[PASS] testFeeOnTransferFromAdapterToVaultRevertsWithoutLiquidityDrift() (gas: 489734)
+[PASS] testFeeOnTransferFromVaultToAdapterRevertsAtomically() (gas: 143349)
+[PASS] testPermit2DeadlineCannotTruncateToUint48() (gas: 23579)
+[PASS] testRegistrationRejectsUnsafeRemovalTolerance() (gas: 30511)
+[PASS] testRemovalMinimumsUseReferencePriceAndReturnObservedLiquidityDelta() (gas: 473504)
+[PASS] testRemovalRejectsOutOfBoundsReferencePrice() (gas: 359344)
+Suite result: ok. 9 passed; 0 failed; 0 skipped; finished in 3.96ms (3.13ms CPU time)
+
+Ran 40 tests for test/RobinhoodBoostedVault.t.sol:RobinhoodBoostedVaultTest
+[PASS] testAggregateUsdgCapFailsClosedAcrossDeposits() (gas: 172840)
+[PASS] testCheckpointSharesLossAtEqualPercentage() (gas: 466960)
+[PASS] testCheckpointUsesCheckedSignedPnlConversion() (gas: 475200)
+[PASS] testConfiguredPairValueCapStillFailsClosed() (gas: 177752)
+[PASS] testCurrentTimestampDeadlineIsAcceptedForLPWithdrawal() (gas: 573441)
+[PASS] testDepositsRemainSeparatelyAttributed() (gas: 266438)
+[PASS] testDeprecatedMinimumDeadlineSlotMustRemainZero() (gas: 36627)
+[PASS] testEmergencyDecreaseRecognizesLossBeforeIdleWithdrawal() (gas: 609020)
+[PASS] testExitsStillFailClosedBeyondTheRemovalBound() (gas: 465135)
+[PASS] testExitsToleratePoolDeviationThatBlocksAllocation() (gas: 529825)
+[PASS] testFeeOnTransferFromVaultToReserveRevertsWithoutLedgerDrift() (gas: 604376)
+[PASS] testFeeOnTransferToWithdrawalReceiverRevertsWithoutLedgerDrift() (gas: 245487)
+[PASS] testFeesAreSplitInKindBeforeClaimsIncrease() (gas: 689140)
+[PASS] testFuzzRebalanceNeverConsumesUnmatchedStock(uint96,uint64) (runs: 256, μ: 445147, ~: 445324)
+[PASS] testGuardianCanPauseButCannotUnpause() (gas: 48771)
+[PASS] testIdleWithdrawalDoesNotNeedOracle() (gas: 322513)
+[PASS] testIdleWithdrawalRecognizesSharedLossWhileLiquidityRemains() (gas: 515123)
+[PASS] testIdleWithdrawalWithOpenLiquidityFailsClosedOnOracleError() (gas: 473603)
+[PASS] testManipulatedGuardianExitFailsClosedWithoutEnteringEmergencyMode() (gas: 443764)
+[PASS] testManipulatedLPBackedWithdrawalFailsClosed() (gas: 439116)
+[PASS] testPartialEmergencyDecreaseBlocksIdleWithdrawalUntilFullyExited() (gas: 540384)
+[PASS] testRebalanceAutoPausesAllocationWhenExistingPairExceedsCap() (gas: 384432)
+[PASS] testRebalanceDeploysOnlyMatchedOracleValue() (gas: 458440)
+[PASS] testRegistrationRequiresRemovalToleranceToCoverHalfTheRemovalDeviation() (gas: 370800)
+[PASS] testRemovalToleranceCheckRoundsTheHalfUp() (gas: 371592)
+[PASS] testReserveReportCannotOvercreditObservedVaultBalance() (gas: 631588)
+[PASS] testSettlementSlippageCannotExceedFivePercent() (gas: 36359)
+[PASS] testSideAccountLookupSupportsBoostedPTokenValidation() (gas: 37023)
+[PASS] testSingleSidedPositionCanSettleUsingCounterPrincipal() (gas: 662525)
+[PASS] testSkewedPoolCannotManufactureLossAtCheckpoint() (gas: 513467)
+[PASS] testSkewedPoolCannotMaskRealLossAtCheckpoint() (gas: 524389)
+[PASS] testStaleCheckpointIsRefreshedInsideLPWithdrawal() (gas: 597128)
+[PASS] testWithdrawableAssetsIsZeroInEmergencyModeWithOpenLiquidity() (gas: 454514)
+[PASS] testWithdrawableAssetsNeverExceedsRemainingPrincipal() (gas: 511455)
+[PASS] testWithdrawableAssetsRejectsUnsupportedToken() (gas: 258679)
+[PASS] testWithdrawableAssetsReportsIdleWhenNoLiquidityIsOpen() (gas: 284495)
+[PASS] testWithdrawableAssetsTracksOracleHealthWhileLiquidityIsOpen() (gas: 468486)
+[PASS] testWithdrawalReportsLossAppliedToRemainingClaim() (gas: 608794)
+[PASS] testWithdrawalUnwindsOnlyNeededSlice() (gas: 577578)
+[PASS] testZeroAggregateCapDisablesLimitAfterPrincipalExists() (gas: 182758)
+Suite result: ok. 40 passed; 0 failed; 0 skipped; finished in 49.79ms (55.18ms CPU time)
+
+Ran 3 tests for test/invariant/VaultAccountingInvariant.t.sol:VaultAccountingInvariant
+[PASS] invariantAggregateUsdgMatchesSinglePairClaim() (runs: 256, calls: 128000, reverts: 0)
+
+╭--------------+---------------+-------+---------+----------╮
+| Contract     | Selector      | Calls | Reverts | Discards |
++===========================================================+
+| VaultHandler | checkpoint    | 21626 | 0       | 0        |
+|--------------+---------------+-------+---------+----------|
+| VaultHandler | depositStock  | 21344 | 0       | 0        |
+|--------------+---------------+-------+---------+----------|
+| VaultHandler | depositUsdg   | 21393 | 0       | 0        |
+|--------------+---------------+-------+---------+----------|
+| VaultHandler | rebalance     | 21292 | 0       | 0        |
+|--------------+---------------+-------+---------+----------|
+| VaultHandler | withdrawStock | 21206 | 0       | 0        |
+|--------------+---------------+-------+---------+----------|
+| VaultHandler | withdrawUsdg  | 21139 | 0       | 0        |
+╰--------------+---------------+-------+---------+----------╯
+
+[PASS] invariantCustodyCoversCachedClaims() (runs: 256, calls: 128000, reverts: 0)
+
+╭--------------+---------------+-------+---------+----------╮
+| Contract     | Selector      | Calls | Reverts | Discards |
++===========================================================+
+| VaultHandler | checkpoint    | 21626 | 0       | 0        |
+|--------------+---------------+-------+---------+----------|
+| VaultHandler | depositStock  | 21344 | 0       | 0        |
+|--------------+---------------+-------+---------+----------|
+| VaultHandler | depositUsdg   | 21393 | 0       | 0        |
+|--------------+---------------+-------+---------+----------|
+| VaultHandler | rebalance     | 21292 | 0       | 0        |
+|--------------+---------------+-------+---------+----------|
+| VaultHandler | withdrawStock | 21206 | 0       | 0        |
+|--------------+---------------+-------+---------+----------|
+| VaultHandler | withdrawUsdg  | 21139 | 0       | 0        |
+╰--------------+---------------+-------+---------+----------╯
+
+[PASS] invariantIdleNeverExceedsVaultCustody() (runs: 256, calls: 128000, reverts: 0)
+
+╭--------------+---------------+-------+---------+----------╮
+| Contract     | Selector      | Calls | Reverts | Discards |
++===========================================================+
+| VaultHandler | checkpoint    | 21626 | 0       | 0        |
+|--------------+---------------+-------+---------+----------|
+| VaultHandler | depositStock  | 21344 | 0       | 0        |
+|--------------+---------------+-------+---------+----------|
+| VaultHandler | depositUsdg   | 21393 | 0       | 0        |
+|--------------+---------------+-------+---------+----------|
+| VaultHandler | rebalance     | 21292 | 0       | 0        |
+|--------------+---------------+-------+---------+----------|
+| VaultHandler | withdrawStock | 21206 | 0       | 0        |
+|--------------+---------------+-------+---------+----------|
+| VaultHandler | withdrawUsdg  | 21139 | 0       | 0        |
+╰--------------+---------------+-------+---------+----------╯
+
+Suite result: ok. 3 passed; 0 failed; 0 skipped; finished in 27.88s (78.60s CPU time)
+
+Ran 9 test suites in 27.90s (27.95s CPU time): 92 tests passed, 0 failed, 0 skipped (92 total tests)
+/Library/Developer/CommandLineTools/usr/bin/make test-python
+python3 -m unittest discover -s tools -p 'test_*.py'
+...
+----------------------------------------------------------------------
+Ran 3 tests in 0.049s
+
+OK
+cd contracts/robinhood-vaults/margin-mainnet/tools && python3 -m unittest discover -p 'test_*.py'
+....................
+----------------------------------------------------------------------
+Ran 20 tests in 0.011s
+
+OK
+cd contracts/robinhood-vaults/margin-mainnet/five-x && python3 -m unittest discover -p 'test_*.py'
+.....
+----------------------------------------------------------------------
+Ran 5 tests in 0.008s
+
+OK
+cd contracts/robinhood-vaults/margin-mainnet/keeper-service && python3 -m unittest discover -p 'test_*.py'
+..........
+----------------------------------------------------------------------
+Ran 10 tests in 0.006s
+
+OK

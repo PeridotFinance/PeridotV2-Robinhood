@@ -1,6 +1,16 @@
 CONTRACTS := contracts/robinhood-vaults
 .PHONY: verify build test test-python reproduce fork-vault fork-margin frontend
 
+.PHONY: test-remediation fork-remediation
+test-remediation:
+	forge fmt --check remediation/src remediation/script remediation/test
+	forge test --no-match-path '*/fork/*' --match-contract 'LendingPriceAdapterTest|VaultRecoveryTest'
+	python3 remediation/tools/verify_artifact.py
+	python3 -m unittest discover -s remediation/tools -p 'test_*.py'
+
+fork-remediation:
+	python3 remediation/tools/fork.py
+
 verify:
 	python3 tools/verify_snapshot.py
 

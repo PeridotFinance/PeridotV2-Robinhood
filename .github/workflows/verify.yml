@@ -18,4 +18,5 @@ jobs:
       - run: make verify
       - run: make build
       - run: make test
+      - run: make test-remediation
       - run: make reproduce
