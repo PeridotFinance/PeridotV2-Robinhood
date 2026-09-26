@@ -37,6 +37,7 @@ Adapter: [`0xe4e03c2fdaef915ace705d106b2660b1e342a2e4`](https://robinhoodchain.b
 | Vault review regressions | 3 new tests against unchanged deployed source prove composition/terminal-surplus behavior. The runner also repeats 40 inherited vault tests; these are not 40 additional unique tests. |
 | Mainnet fork | 5 passing tests: three controller price/account/quote checks plus two reactivation tests. The successful reactivation test simulates fresh matching guard prices locally; the failure test confirms unavailable guards preserve all pauses. All pointer, balance and pause changes stay on the fork. Block/hash are in `evidence/fork-pin.json`. |
 | Static analysis | Slither 0.11.4 analyzed the adapter and its three interfaces with 100 detectors: zero findings after explicitly implementing the compatibility interface. This is not an audit of the entire protocol. |
+| Standalone reproduction | Standard JSON input reproduces exact creation/runtime templates including metadata; ABI matches after top-level entry ordering normalization. |
 | Size | Adapter runtime 1,471 bytes; constructor/init code 2,307 bytes with the recorded compiler settings. |
 | Installation simulation | Deployment and oracle switch simulated successfully; no automatic unpause. Simulation address is not proof of deployment. |
 | Operational runner checks | 9 Python tests cover read-only defaults, interactive-only signing, ambiguous submission handling, receipt identity/canonicality and immutable runtime verification. |

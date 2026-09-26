@@ -1,0 +1,8 @@
+{
+  "status": "EXACT_MATCH",
+  "input": "remediation/artifacts/adapter-standard-input.json",
+  "solc": "0.8.26+commit.8a97fa7a",
+  "creationBytecodeIncludingMetadataMatches": true,
+  "runtimeTemplateIncludingMetadataMatches": true,
+  "abiMatchesAfterTopLevelOrderingNormalization": true
+}
