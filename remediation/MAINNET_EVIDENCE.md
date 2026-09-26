@@ -27,6 +27,12 @@ Adapter: [`0xe4e03c2fdaef915ace705d106b2660b1e342a2e4`](https://robinhoodchain.b
 
 `evidence/installed-adapter.json` verifies all immutable occurrences, compiled runtime outside those values, getters, prices and both liquidation quotes. `evidence/installation-transactions.json` independently checks canonical successful receipts, exact reviewed creation bytecode/constructor arguments, and switch calldata.
 
+## Vault correction deployed and queued
+
+At block **73,364,898**, independent checks confirmed all five user-signed queue transactions, candidate `0x17f0cf262fbbf27e44756dba6d852815695e9c4a` matching the reviewed linked runtime, exact schedule payload and operation hash. V1 remains active. Execution is eligible **September 26, 2026 at 21:15:52 UTC (5:15:52 PM New York)**. Both supply flags, both borrow flags, ordinary seizure, production allocation and settlement swaps are paused; debt remains zero. Both pair ledgers match the earlier pre-queue snapshot.
+
+The exact receipts and pinned state are in `evidence/vault-upgrade-queue.json` with its SHA-256 digest. See [the upgrade record](VAULT_UPGRADE.md) for addresses and operation identity. This evidence proves deployment/queueing, not activation.
+
 ## Validation by scope
 
 | Evidence | Scope |

@@ -1,6 +1,15 @@
 # Native-backing correction for closed LP positions
 
-Status: **candidate tested; mainnet queue and execution not yet recorded**. The separate lending-oracle adapter is already installed. A simulation address is not a deployed implementation.
+Status: **V2 deployed and upgrade queued on mainnet; activation pending**. Independent verification at block **73,364,898** confirmed all five canonical receipts, exact creation/call data, runtime equality, operation hash, timelock ownership and containment. Both pair ledgers match the earlier snapshot. The separate lending-oracle adapter is already installed.
+
+- Deployed V2: `0x17f0cf262fbbf27e44756dba6d852815695e9c4a`.
+- Deployment transaction: `0x42d4f224e9aad9bc93cc25c0c0791e912b39a024e01fc723dfd4b5fb587f2a72`.
+- Queue transaction: `0x867a7f0c0e1177b91b1efbdeb3a9d7eb8f24a5e3a96dcbd759475d2134a14b42`.
+- Operation: `0xacc0e39a4de59d916d7ddb337dedc5717ab64479bb449714d70fcd05ad7b6067`.
+- Earliest execution: **September 26, 2026, 21:15:52 UTC / 5:15:52 PM America/New_York** (`1790457352`).
+- Supply, borrowing, ordinary seizure, production allocation and settlement swaps are paused. Both markets have zero debt. V1 remains the active proxy implementation until execution.
+
+Evidence: [`vault-upgrade-queue.json`](evidence/vault-upgrade-queue.json) and its SHA-256 digest. Reproduce the read-only verification with `python3 remediation/tools/record_vault_queue.py` before execution; it intentionally rejects a changed implementation or overwritten queue journal.
 
 ## Finding and change
 
@@ -32,7 +41,7 @@ The public ABI, every declared storage slot/offset/type, nested struct and stora
 
 The governor signs locally; these steps do not deploy/fund a Safe or migrate any authority. Both borrow flags and ordinary seizure must already be paused. The script checks chain 4663, existing implementation, ProxyAdmin owner and linked library hash.
 
-From this repository root, the following invocation has passed read-only simulation:
+**The queue invocation below has already completed; do not rerun it.** It is retained to reproduce the recorded procedure:
 
 ```sh
 FOUNDRY_PROFILE=vault_upgrade forge script \
@@ -46,7 +55,7 @@ It sends five transactions: pause pUSDG supply, pause pNVDA supply, pause produc
 
 After submission, independently verify canonical receipts, exact creation/runtime and schedule calldata, pause flags, actual operation ID and execution timestamp. If submission is interrupted, reconcile the public broadcast journal before retrying. `NEW_VAULT_IMPLEMENTATION` supports reusing a verified deployment only when the upgrade operation was not already scheduled; it is not a blind resume switch.
 
-After the actual operation becomes ready, simulate `UpgradeNativeBacking.s.sol:ExecuteNativeBacking` using `FOUNDRY_PROFILE=vault_upgrade` and `NEW_VAULT_IMPLEMENTATION` set to the independently verified deployed address. The governor then signs that same invocation locally. The runner checks candidate runtime, executes through the timelock, verifies the new implementation and preserves the production ledger. Record the public receipt, implementation slot/code and both pair ledgers independently afterward.
+Rehearse the actual queued operation with `python3 remediation/tools/fork.py --queued` (fork time only). After the actual operation becomes ready, simulate `UpgradeNativeBacking.s.sol:ExecuteNativeBacking` using `FOUNDRY_PROFILE=vault_upgrade` and `NEW_VAULT_IMPLEMENTATION` set to the independently verified deployed address. The governor then signs that same invocation locally. The runner checks candidate runtime, executes through the timelock, verifies the new implementation and preserves the production ledger. Record the public receipt, implementation slot/code and both pair ledgers independently afterward.
 
 Neither script reopens markets. `ReactivateLending` requires the installed V2 runtime and fresh guarded prices matching the corrected oracle APIs before restoring seizure, borrowing and supply. Allocation and settlement remain paused pending their separate [settlement review](VAULT_RECOVERY.md). Weekend/holiday feed closure is not bypassed. The Safe and Telegram work remain explicitly deferred until the user resumes them.
 
