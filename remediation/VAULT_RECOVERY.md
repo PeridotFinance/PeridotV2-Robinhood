@@ -2,7 +2,13 @@
 
 The original canary record called `24,697,449,583` raw NVDA of residue permanently unattributable. Review of the deployed source shows that statement was too strong: when both principal claims are zero, a successful checkpoint's gain branch credits the remaining accounted idle tokens to their respective side account. A subsequent authorized withdrawal can return them. Recovery still depends on the oracle and emergency/pause settings.
 
-## Composition is a liquidity constraint
+## Confirmed withdrawal defect and correction
+
+The three recovery tests below did not cover a price change after closing LP liquidity while a native-token deficit remains. A fourth test confirmed a defect in the archived implementation: its zero-liquidity fast path lets an adequately stocked side withdraw before a shared economic loss is recognized. With 10 NVDA/1,000 USDG claims and 9 NVDA/1,100 USDG idle, a stock-price move from $100 to $200 leaves $2,900 assets against $3,000 claims. The old path pays the USDG side 1,000 instead of its loss-adjusted 966.666666 USDG.
+
+`RobinhoodBoostedVaultV2` retains the fast path only when both native claims are fully backed. Otherwise withdrawal must pass the existing oracle/emergency/deadline and shared-loss accounting path, even with zero LP liquidity. The cash view uses the same native-backing condition. This correction is prepared and tested; see [deployment status and procedure](VAULT_UPGRADE.md). Do not describe the original composition review as fully resolved on mainnet until that upgrade is independently verified.
+
+## Composition is also a liquidity constraint
 
 A pair can hold enough total USD value while lacking one native token. For example, at $100/NVDA, 11 NVDA plus 901 USDG is worth $2,001, but cannot immediately pay claims of 10 NVDA plus 1,000 USDG without conversion.
 
@@ -12,7 +18,7 @@ The existing bounded settlement swap is the mechanism for conversion. When pause
 
 ## Settlement-only wind-down
 
-1. Inspect pair config, both ledger principals/idles, reserve availability and the live position. Check the oracle and pool-removal guard before scheduling an exit.
+1. Verify the V2 correction is installed before resuming production activity. Inspect pair config, both ledger principals/idles, reserve availability and the live position. Check the oracle and pool-removal guard before scheduling an exit.
 2. Keep allocation paused. Fully unwind the LP using the existing guarded guardian path. A partial emergency exit is not a drained pair.
 3. After review, the timelock may clear emergency mode and enable settlement swaps while allocation remains paused. The guardian cannot unpause either flag. Do not bypass stale prices or widen bounds merely to force a weekend transaction.
 4. Checkpoint, then request native withdrawal from the configured side account. Bounded settlement and reserve rules remain active. Read state after each transaction, because the integrating boosted delegate can catch an inner withdrawal failure.
@@ -30,4 +36,4 @@ For the historical canary, recovery must use its own pair ID and side accounts, 
 - `testBoundedSettlementThenCheckpointRecoversAllSurplus`: after bounded conversion and a final checkpoint, both principal and idle ledgers reach zero, with zero LP liquidity and approvals.
 - `testUncheckpointedSurplusIsRecoverableButStillOracleGated`: the same zero-claim residue is recoverable after checkpoint; stale-oracle and side-account authorization guards still apply.
 
-These are local regressions, not a new mainnet withdrawal. No upgrade or claim reallocation has been performed for these findings.
+These are local regressions, not a new mainnet withdrawal. No mainnet recovery or V2 activation is established by those tests. Equivalent recovery tests also pass against the candidate V2.

@@ -4,7 +4,7 @@ Peridot's deployment is a mainnet canary. It has not completed an independent ex
 
 ## Lending and prices
 
-The original ordinary-lending oracle returned uniform USD18 prices while the controller combines prices with raw underlying amounts. USDG's six decimals require a `1e30` controller price at $1. The candidate adapter repairs only this unit mismatch. Borrow-limit and bidirectional liquidation regressions exercise the controller implementation and a current mainnet fork.
+The original ordinary-lending oracle returned uniform USD18 prices while the controller combines prices with raw underlying amounts. USDG's six decimals require a `1e30` controller price at $1. The installed adapter repairs only this unit mismatch. Borrow-limit and bidirectional liquidation regressions exercise the controller implementation and a current mainnet fork.
 
 The original source remains privileged and can use cached/manual prices. Ordinary lending must not be described as universally failing closed on stale stock feeds. The separate vault guard and guarded margin price source enforce their configured freshness/pause checks; the adapter does not weaken or replace them.
 
@@ -12,7 +12,7 @@ USDG is fixed at $1 under the recorded policy; a depeg is not detected. The stoc
 
 ## Paired strategy and withdrawals
 
-Vault positions use standard Uniswap v4 PoolManager/PositionManager through an adapter, with a full-range zero-hook position. Only configured pToken side accounts may deposit/withdraw. Idle liquidity remains exposed to shared strategy loss while any LP liquidity is open. Oracle-free idle withdrawal is confined to the zero-liquidity case.
+Vault positions use standard Uniswap v4 PoolManager/PositionManager through an adapter, with a full-range zero-hook position. Only configured pToken side accounts may deposit/withdraw. Idle liquidity remains exposed to shared strategy loss while LP liquidity is open OR native claims depend on the other token’s surplus. The deployed V1 bypasses guarded loss recognition once LP liquidity reaches zero; a confirmed regression demonstrates the remaining composition exposure. The prepared V2 restricts oracle-free withdrawal to zero LP liquidity with both native claims fully backed. Until the upgrade is verified, treat this defect as open; see [vault correction](VAULT_UPGRADE.md).
 
 Loss accounting values liquidity at the oracle reference price. Allocation and removal deviation bounds, amount floors, approval cleanup and exact balance-delta checks limit pool manipulation and token-transfer ambiguity. Cash buffers and allocation caps constrain deployment; they do not guarantee immediate native-token redemption.
 
@@ -36,4 +36,4 @@ Proxy upgrades/configuration remain behind the timelock. Bootstrap EOA control p
 
 The correction changes no deployed proxy layout and does not import later Avalanche code. Archived source hashes remain independently checked. The new adapter has immutable wiring and no setters, token custody or approvals. Constructor checks bind it to an 18-decimal stock and six-decimal dollar market; unsupported markets/assets revert.
 
-Local/fork tests and Slither are engineering evidence, not an external audit or proof of every economic invariant. Static analysis covers the new adapter; it does not retrospectively audit the full protocol. Keep historical test reports separate from current test counts and avoid counting inherited tests twice.
+Local/fork tests and Slither are engineering evidence, not an external audit or proof of every economic invariant. Adapter static analysis returned zero findings. A separate V2-versus-V1 Slither comparison returned 25 findings in each, with the same detector/severity counts; the [triage](VAULT_UPGRADE.md#static-analysis) records their disposition. Matching counts alone do not establish safety, and neither scan is an external audit. Keep historical test reports separate from current test counts and avoid counting inherited tests twice.

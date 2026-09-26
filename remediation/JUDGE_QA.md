@@ -10,7 +10,7 @@ Fees affect strategy economics; the reserve can provide capped in-kind cover und
 
 **What if the pair is solvent but cannot return the requested token?**
 
-It needs a bounded conversion or replenishment. With settlement swaps paused, available native tokens can be paid and the unpaid claim remains outstanding. We now test that behavior and the final checkpoint that recovers residual tracked surplus.
+It needs a bounded conversion or replenishment. With settlement swaps paused, available native tokens can be paid and the unpaid claim remains outstanding. Tests establish that behavior and terminal-surplus recovery. Further testing exposed an old zero-LP withdrawal bypass while claims remain composition-dependent; V2 adds guarded loss recognition in that state. Its deployment status is tracked separately in [the vault upgrade record](VAULT_UPGRADE.md).
 
 **What was the USDG bug?**
 

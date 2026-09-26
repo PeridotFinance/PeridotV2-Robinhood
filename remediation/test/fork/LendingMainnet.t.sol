@@ -4,12 +4,19 @@ pragma solidity ^0.8.26;
 import { Test } from "forge-std/Test.sol";
 import { RobinhoodLendingPriceAdapter } from "../../src/RobinhoodLendingPriceAdapter.sol";
 import { ReactivateLending } from "../../script/ReactivateLending.s.sol";
+import { RobinhoodBoostedVaultV2 } from "../../src/RobinhoodBoostedVaultV2.sol";
+import { ProxyAdmin } from "@openzeppelin/contracts/proxy/transparent/ProxyAdmin.sol";
+import {
+    ITransparentUpgradeableProxy
+} from "@openzeppelin/contracts/proxy/transparent/TransparentUpgradeableProxy.sol";
 
 interface ILiveController {
     function borrowGuardianPaused(address) external view returns (bool);
     function seizeGuardianPaused() external view returns (bool);
     function _setBorrowPaused(address, bool) external returns (bool);
     function _setSeizePaused(bool) external returns (bool);
+    function _setMintPaused(address, bool) external returns (bool);
+    function mintGuardianPaused(address) external view returns (bool);
     function admin() external view returns (address);
     function oracle() external view returns (address);
     function _setPriceOracle(address) external returns (uint256);
@@ -74,11 +81,37 @@ contract LendingMainnetForkTest is Test {
         controller._setBorrowPaused(PUSDG, true);
         controller._setBorrowPaused(PSTOCK, true);
         controller._setSeizePaused(true);
+        controller._setMintPaused(PUSDG, true);
+        controller._setMintPaused(PSTOCK, true);
         vm.stopPrank();
+    }
+
+    function _upgradeVault() internal {
+        address candidate = address(new RobinhoodBoostedVaultV2());
+        vm.prank(0x6797FB8Ce049B42C5BC2b42Bf76c6d15C7B12498);
+        ProxyAdmin(0xad2165E6f3b8146D17815968470eDb8B9a0A4ab7)
+            .upgradeAndCall(
+                ITransparentUpgradeableProxy(0x280825b2d856706Ff7E0d6351CcB2e935E1a9A2f),
+                candidate,
+                ""
+            );
+    }
+
+    function testReactivationRejectsOriginalVaultBeforeAnyUnpause() public {
+        _prepareReactivation();
+        ReactivateLending script = new ReactivateLending();
+        vm.expectRevert("VAULT_CORRECTION_REQUIRED");
+        script.run();
+        assertTrue(controller.seizeGuardianPaused());
+        assertTrue(controller.borrowGuardianPaused(PUSDG));
+        assertTrue(controller.borrowGuardianPaused(PSTOCK));
+        assertTrue(controller.mintGuardianPaused(PUSDG));
+        assertTrue(controller.mintGuardianPaused(PSTOCK));
     }
 
     function testReactivationRejectsUnavailableGuardBeforeAnyUnpause() public {
         _prepareReactivation();
+        _upgradeVault();
         ReactivateLending script = new ReactivateLending();
         vm.mockCallRevert(
             0xaE4D4DdB8dD646951d54fE9B13BE23DcB61C6741,
@@ -94,6 +127,7 @@ contract LendingMainnetForkTest is Test {
 
     function testReactivationWithSimulatedFreshMatchingPricesRestoresFlags() public {
         _prepareReactivation();
+        _upgradeVault();
         uint256 stockPrice = ILiveSource(SOURCE).assetPrices(STOCK);
         vm.mockCall(
             0xaE4D4DdB8dD646951d54fE9B13BE23DcB61C6741,
@@ -104,6 +138,8 @@ contract LendingMainnetForkTest is Test {
         assertFalse(controller.seizeGuardianPaused());
         assertFalse(controller.borrowGuardianPaused(PUSDG));
         assertFalse(controller.borrowGuardianPaused(PSTOCK));
+        assertFalse(controller.mintGuardianPaused(PUSDG));
+        assertFalse(controller.mintGuardianPaused(PSTOCK));
     }
 
     function testLiveOldQuoteReproducesThenFixesDollarDebt() public {

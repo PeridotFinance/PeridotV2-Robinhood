@@ -1,0 +1,377 @@
+{
+  "status": "MATCH",
+  "storage": [
+    {
+      "label": "oracleGuard",
+      "slot": "0",
+      "offset": 0,
+      "type": {
+        "encoding": "inplace",
+        "label": "contract IStockOracleGuard",
+        "numberOfBytes": "20"
+      }
+    },
+    {
+      "label": "lossReserve",
+      "slot": "1",
+      "offset": 0,
+      "type": {
+        "encoding": "inplace",
+        "label": "contract IStrategyLossReserve",
+        "numberOfBytes": "20"
+      }
+    },
+    {
+      "label": "liquidityAdapter",
+      "slot": "2",
+      "offset": 0,
+      "type": {
+        "encoding": "inplace",
+        "label": "contract IUniswapV4PairedAdapter",
+        "numberOfBytes": "20"
+      }
+    },
+    {
+      "label": "_pairConfig",
+      "slot": "3",
+      "offset": 0,
+      "type": {
+        "encoding": "mapping",
+        "label": "mapping(bytes32 => struct PairConfig)",
+        "numberOfBytes": "32",
+        "key": {
+          "encoding": "inplace",
+          "label": "bytes32",
+          "numberOfBytes": "32"
+        },
+        "value": {
+          "encoding": "inplace",
+          "label": "struct PairConfig",
+          "numberOfBytes": "192",
+          "members": [
+            {
+              "label": "stockToken",
+              "slot": "0",
+              "offset": 0,
+              "type": {
+                "encoding": "inplace",
+                "label": "address",
+                "numberOfBytes": "20"
+              }
+            },
+            {
+              "label": "usdg",
+              "slot": "1",
+              "offset": 0,
+              "type": {
+                "encoding": "inplace",
+                "label": "address",
+                "numberOfBytes": "20"
+              }
+            },
+            {
+              "label": "stockAccount",
+              "slot": "2",
+              "offset": 0,
+              "type": {
+                "encoding": "inplace",
+                "label": "address",
+                "numberOfBytes": "20"
+              }
+            },
+            {
+              "label": "usdgAccount",
+              "slot": "3",
+              "offset": 0,
+              "type": {
+                "encoding": "inplace",
+                "label": "address",
+                "numberOfBytes": "20"
+              }
+            },
+            {
+              "label": "maxPairValueUSDG",
+              "slot": "4",
+              "offset": 0,
+              "type": {
+                "encoding": "inplace",
+                "label": "uint128",
+                "numberOfBytes": "16"
+              }
+            },
+            {
+              "label": "maxSettlementSwapUSDG",
+              "slot": "4",
+              "offset": 16,
+              "type": {
+                "encoding": "inplace",
+                "label": "uint128",
+                "numberOfBytes": "16"
+              }
+            },
+            {
+              "label": "maxCheckpointAge",
+              "slot": "5",
+              "offset": 0,
+              "type": {
+                "encoding": "inplace",
+                "label": "uint64",
+                "numberOfBytes": "8"
+              }
+            },
+            {
+              "label": "deprecatedMinDeadlineDelay",
+              "slot": "5",
+              "offset": 8,
+              "type": {
+                "encoding": "inplace",
+                "label": "uint32",
+                "numberOfBytes": "4"
+              }
+            },
+            {
+              "label": "maxDeadlineDelay",
+              "slot": "5",
+              "offset": 12,
+              "type": {
+                "encoding": "inplace",
+                "label": "uint32",
+                "numberOfBytes": "4"
+              }
+            },
+            {
+              "label": "reserveFeeBps",
+              "slot": "5",
+              "offset": 16,
+              "type": {
+                "encoding": "inplace",
+                "label": "uint16",
+                "numberOfBytes": "2"
+              }
+            },
+            {
+              "label": "maxSwapSlippageBps",
+              "slot": "5",
+              "offset": 18,
+              "type": {
+                "encoding": "inplace",
+                "label": "uint16",
+                "numberOfBytes": "2"
+              }
+            },
+            {
+              "label": "withdrawOverUnwindBps",
+              "slot": "5",
+              "offset": 20,
+              "type": {
+                "encoding": "inplace",
+                "label": "uint16",
+                "numberOfBytes": "2"
+              }
+            },
+            {
+              "label": "stockDecimals",
+              "slot": "5",
+              "offset": 22,
+              "type": {
+                "encoding": "inplace",
+                "label": "uint8",
+                "numberOfBytes": "1"
+              }
+            },
+            {
+              "label": "usdgDecimals",
+              "slot": "5",
+              "offset": 23,
+              "type": {
+                "encoding": "inplace",
+                "label": "uint8",
+                "numberOfBytes": "1"
+              }
+            },
+            {
+              "label": "allocationPaused",
+              "slot": "5",
+              "offset": 24,
+              "type": {
+                "encoding": "inplace",
+                "label": "bool",
+                "numberOfBytes": "1"
+              }
+            },
+            {
+              "label": "swapsPaused",
+              "slot": "5",
+              "offset": 25,
+              "type": {
+                "encoding": "inplace",
+                "label": "bool",
+                "numberOfBytes": "1"
+              }
+            },
+            {
+              "label": "emergencyMode",
+              "slot": "5",
+              "offset": 26,
+              "type": {
+                "encoding": "inplace",
+                "label": "bool",
+                "numberOfBytes": "1"
+              }
+            },
+            {
+              "label": "exists",
+              "slot": "5",
+              "offset": 27,
+              "type": {
+                "encoding": "inplace",
+                "label": "bool",
+                "numberOfBytes": "1"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "label": "_ledger",
+      "slot": "4",
+      "offset": 0,
+      "type": {
+        "encoding": "mapping",
+        "label": "mapping(bytes32 => struct PairLedger)",
+        "numberOfBytes": "32",
+        "key": {
+          "encoding": "inplace",
+          "label": "bytes32",
+          "numberOfBytes": "32"
+        },
+        "value": {
+          "encoding": "inplace",
+          "label": "struct PairLedger",
+          "numberOfBytes": "192",
+          "members": [
+            {
+              "label": "stockPrincipal",
+              "slot": "0",
+              "offset": 0,
+              "type": {
+                "encoding": "inplace",
+                "label": "uint256",
+                "numberOfBytes": "32"
+              }
+            },
+            {
+              "label": "usdgPrincipal",
+              "slot": "1",
+              "offset": 0,
+              "type": {
+                "encoding": "inplace",
+                "label": "uint256",
+                "numberOfBytes": "32"
+              }
+            },
+            {
+              "label": "stockIdle",
+              "slot": "2",
+              "offset": 0,
+              "type": {
+                "encoding": "inplace",
+                "label": "uint256",
+                "numberOfBytes": "32"
+              }
+            },
+            {
+              "label": "usdgIdle",
+              "slot": "3",
+              "offset": 0,
+              "type": {
+                "encoding": "inplace",
+                "label": "uint256",
+                "numberOfBytes": "32"
+              }
+            },
+            {
+              "label": "cumulativeLossUSDG",
+              "slot": "4",
+              "offset": 0,
+              "type": {
+                "encoding": "inplace",
+                "label": "uint256",
+                "numberOfBytes": "32"
+              }
+            },
+            {
+              "label": "lastCheckpoint",
+              "slot": "5",
+              "offset": 0,
+              "type": {
+                "encoding": "inplace",
+                "label": "uint64",
+                "numberOfBytes": "8"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "label": "aggregateUsdgPrincipal",
+      "slot": "5",
+      "offset": 0,
+      "type": {
+        "encoding": "mapping",
+        "label": "mapping(address => uint256)",
+        "numberOfBytes": "32",
+        "key": {
+          "encoding": "inplace",
+          "label": "address",
+          "numberOfBytes": "20"
+        },
+        "value": {
+          "encoding": "inplace",
+          "label": "uint256",
+          "numberOfBytes": "32"
+        }
+      }
+    },
+    {
+      "label": "aggregateUsdgDepositCap",
+      "slot": "6",
+      "offset": 0,
+      "type": {
+        "encoding": "mapping",
+        "label": "mapping(address => uint256)",
+        "numberOfBytes": "32",
+        "key": {
+          "encoding": "inplace",
+          "label": "address",
+          "numberOfBytes": "20"
+        },
+        "value": {
+          "encoding": "inplace",
+          "label": "uint256",
+          "numberOfBytes": "32"
+        }
+      }
+    },
+    {
+      "label": "__gap",
+      "slot": "7",
+      "offset": 0,
+      "type": {
+        "encoding": "inplace",
+        "label": "uint256[42]",
+        "numberOfBytes": "1344",
+        "base": {
+          "encoding": "inplace",
+          "label": "uint256",
+          "numberOfBytes": "32"
+        }
+      }
+    }
+  ],
+  "abiUnchanged": true,
+  "runtimeBytes": 22352,
+  "scope": "Every declared field/gap, nested struct member, slot/offset/type and public ABI. Inherited OpenZeppelin namespace implementations are unchanged imports."
+}

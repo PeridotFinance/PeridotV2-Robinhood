@@ -1,0 +1,19 @@
+Compiling 85 files with Solc 0.8.26
+Solc 0.8.26 finished in 15.95s
+Compiler run successful!
+
+Ran 3 tests for remediation/test/fork/VaultUpgradeMainnet.t.sol:VaultUpgradeMainnetForkTest
+[PASS] testActualProxyUpgradePreservesPairStateAndAuthorities() (gas: 4659044)
+[PASS] testQueueAndExecuteScriptsRespectRealTimelock() (gas: 20281259)
+Logs:
+  Vault V2 implementation: 0x17f0cf262Fbbf27e44756dbA6d852815695E9C4a
+  Operation:
+  0xacc0e39a4de59d916d7ddb337dedc5717ab64479bb449714d70fcd05ad7b6067
+  Earliest execution timestamp: 1790455871
+  Supply, borrowing, ordinary seizure and new LP allocation remain paused.
+  Vault V2 applied. Pauses remain enabled; no Safe migration performed.
+
+[PASS] testRealMarketsKeepNAVButExcludeGuardBlockedVaultCash() (gas: 4787382)
+Suite result: ok. 3 passed; 0 failed; 0 skipped; finished in 3.03s (4.77s CPU time)
+
+Ran 1 test suite in 3.05s (3.03s CPU time): 3 tests passed, 0 failed, 0 skipped (3 total tests)

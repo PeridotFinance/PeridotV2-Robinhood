@@ -1,13 +1,14 @@
-Compiling 1 files with Solc 0.8.26
-Solc 0.8.26 finished in 1.53s
+Compiling 2 files with Solc 0.8.26
+Solc 0.8.26 finished in 7.19s
 Compiler run successful!
 
-Ran 5 tests for remediation/test/fork/LendingMainnet.t.sol:LendingMainnetForkTest
-[PASS] testLiveControllerBorrowValuationAndDollarApiCompatibility() (gas: 242395)
-[PASS] testLiveOldQuoteReproducesThenFixesDollarDebt() (gas: 191912)
-[PASS] testLiveStockDebtLiquidationUsesSixDecimalCollateral() (gas: 148762)
-[PASS] testReactivationRejectsUnavailableGuardBeforeAnyUnpause() (gas: 641351)
-[PASS] testReactivationWithSimulatedFreshMatchingPricesRestoresFlags() (gas: 698856)
-Suite result: ok. 5 passed; 0 failed; 0 skipped; finished in 2.37s (3.28s CPU time)
+Ran 6 tests for remediation/test/fork/LendingMainnet.t.sol:LendingMainnetForkTest
+[PASS] testLiveControllerBorrowValuationAndDollarApiCompatibility() (gas: 242587)
+[PASS] testLiveOldQuoteReproducesThenFixesDollarDebt() (gas: 192094)
+[PASS] testLiveStockDebtLiquidationUsesSixDecimalCollateral() (gas: 148858)
+[PASS] testReactivationRejectsOriginalVaultBeforeAnyUnpause() (gas: 876670)
+[PASS] testReactivationRejectsUnavailableGuardBeforeAnyUnpause() (gas: 5423227)
+[PASS] testReactivationWithSimulatedFreshMatchingPricesRestoresFlags() (gas: 5458221)
+Suite result: ok. 6 passed; 0 failed; 0 skipped; finished in 4.35s (13.58s CPU time)
 
-Ran 1 test suite in 2.40s (2.37s CPU time): 5 tests passed, 0 failed, 0 skipped (5 total tests)
+Ran 1 test suite in 4.39s (4.35s CPU time): 6 tests passed, 0 failed, 0 skipped (6 total tests)

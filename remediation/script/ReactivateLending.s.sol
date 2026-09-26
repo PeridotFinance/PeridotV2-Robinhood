@@ -9,6 +9,7 @@ interface IReactivationController {
     function oracle() external view returns (address);
     function _setBorrowPaused(address, bool) external returns (bool);
     function _setSeizePaused(bool) external returns (bool);
+    function _setMintPaused(address, bool) external returns (bool);
 }
 
 interface IReactivationGuard {
@@ -22,6 +23,11 @@ contract ReactivateLending is Script {
     address constant CONTROLLER = 0x6148183676E304dbe63a85C350c208DA3cEAc39C;
     address constant ADAPTER = 0xe4e03C2FdaeF915ACe705D106b2660B1E342A2E4;
     address constant GUARD = 0xaE4D4DdB8dD646951d54fE9B13BE23DcB61C6741;
+    address constant VAULT = 0x280825b2d856706Ff7E0d6351CcB2e935E1a9A2f;
+    bytes32 constant IMPLEMENTATION_SLOT =
+        0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc;
+    bytes32 constant EXPECTED_VAULT_RUNTIME =
+        0xfd8fba1858dc625afd24cdbf0d0461329ae83943cb7639800e4618c762c48c84;
     bytes32 constant EXPECTED_RUNTIME =
         0x8a44437ef2c35e187c49f54aa92fcc3c51c3a30c1dc795cc713f610eaf353404;
 
@@ -32,6 +38,8 @@ contract ReactivateLending is Script {
         require(
             controller.oracle() == ADAPTER && ADAPTER.codehash == EXPECTED_RUNTIME, "ORACLE_CHANGED"
         );
+        address implementation = address(uint160(uint256(vm.load(VAULT, IMPLEMENTATION_SLOT))));
+        require(implementation.codehash == EXPECTED_VAULT_RUNTIME, "VAULT_CORRECTION_REQUIRED");
         RobinhoodLendingPriceAdapter adapter = RobinhoodLendingPriceAdapter(ADAPTER);
         // Reverts on stale/paused stock feed. Closed-market staleness is not waived.
         (uint256 stockPrice, uint256 dollarPrice) =
@@ -54,6 +62,11 @@ contract ReactivateLending is Script {
             !controller._setBorrowPaused(adapter.dollarMarket(), false),
             "DOLLAR_BORROW_STILL_PAUSED"
         );
+        require(!controller._setMintPaused(adapter.stockMarket(), false), "STOCK_MINT_STILL_PAUSED");
+        require(
+            !controller._setMintPaused(adapter.dollarMarket(), false), "DOLLAR_MINT_STILL_PAUSED"
+        );
+        // Pair allocation/swaps stay paused pending a separate settlement review.
         vm.stopBroadcast();
     }
 }
