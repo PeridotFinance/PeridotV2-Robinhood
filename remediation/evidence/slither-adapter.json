@@ -1,0 +1,96 @@
+{
+  "success": true,
+  "error": null,
+  "results": {
+    "detectors": [
+      {
+        "elements": [
+          {
+            "type": "contract",
+            "name": "RobinhoodLendingPriceAdapter",
+            "source_mapping": {
+              "start": 613,
+              "length": 1732,
+              "filename_relative": "remediation/src/RobinhoodLendingPriceAdapter.sol",
+              "filename_absolute": "/Users/joshua/Peridot/RobinhoodVaults/PeridotV2-Robinhood/remediation/src/RobinhoodLendingPriceAdapter.sol",
+              "filename_short": "remediation/src/RobinhoodLendingPriceAdapter.sol",
+              "is_dependency": false,
+              "lines": [
+                19,
+                20,
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32,
+                33,
+                34,
+                35,
+                36,
+                37,
+                38,
+                39,
+                40,
+                41,
+                42,
+                43,
+                44,
+                45,
+                46,
+                47,
+                48,
+                49,
+                50,
+                51,
+                52,
+                53,
+                54,
+                55,
+                56,
+                57,
+                58,
+                59,
+                60
+              ],
+              "starting_column": 1,
+              "ending_column": 2
+            }
+          },
+          {
+            "type": "contract",
+            "name": "IUsd18PriceSource",
+            "source_mapping": {
+              "start": 58,
+              "length": 104,
+              "filename_relative": "remediation/src/RobinhoodLendingPriceAdapter.sol",
+              "filename_absolute": "/Users/joshua/Peridot/RobinhoodVaults/PeridotV2-Robinhood/remediation/src/RobinhoodLendingPriceAdapter.sol",
+              "filename_short": "remediation/src/RobinhoodLendingPriceAdapter.sol",
+              "is_dependency": false,
+              "lines": [
+                4,
+                5,
+                6
+              ],
+              "starting_column": 1,
+              "ending_column": 2
+            }
+          }
+        ],
+        "description": "RobinhoodLendingPriceAdapter (remediation/src/RobinhoodLendingPriceAdapter.sol#19-60) should inherit from IUsd18PriceSource (remediation/src/RobinhoodLendingPriceAdapter.sol#4-6)\n",
+        "markdown": "[RobinhoodLendingPriceAdapter](remediation/src/RobinhoodLendingPriceAdapter.sol#L19-L60) should inherit from [IUsd18PriceSource](remediation/src/RobinhoodLendingPriceAdapter.sol#L4-L6)\n",
+        "first_markdown_element": "remediation/src/RobinhoodLendingPriceAdapter.sol#L19-L60",
+        "id": "3f24e2428b677a6c617c76e5264e54f6693f3e31fc9a4862661e7b560cda43b6",
+        "check": "missing-inheritance",
+        "impact": "Informational",
+        "confidence": "High"
+      }
+    ]
+  }
+}

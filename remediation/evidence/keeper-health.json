@@ -1,0 +1,10 @@
+{
+  "status": "monitoring",
+  "checkedAtUnix": 1790450454,
+  "executionEnabled": true,
+  "sender": "0x16aEC17597E5224998e2043C9c83C4a35dD95A86",
+  "gasBalanceWei": "2000000000000000",
+  "gasReady": true,
+  "journalId": "43864aac-a4af-4575-9a65-92cad29cebc2",
+  "positions": []
+}

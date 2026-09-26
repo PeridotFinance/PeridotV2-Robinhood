@@ -1,0 +1,10 @@
+/private/tmp/robinhood-security-venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+'forge clean' running (wd: /Users/joshua/Peridot/RobinhoodVaults/PeridotV2-Robinhood)
+'forge config --json' running
+'forge build --build-info remediation/src/RobinhoodLendingPriceAdapter.sol' running (wd: /Users/joshua/Peridot/RobinhoodVaults/PeridotV2-Robinhood)
+
+Detector: missing-inheritance
+RobinhoodLendingPriceAdapter (remediation/src/RobinhoodLendingPriceAdapter.sol#19-60) should inherit from IUsd18PriceSource (remediation/src/RobinhoodLendingPriceAdapter.sol#4-6)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-inheritance
+remediation/src/RobinhoodLendingPriceAdapter.sol analyzed (4 contracts with 100 detectors), 1 result(s) found

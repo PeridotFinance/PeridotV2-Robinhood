@@ -1,0 +1,9 @@
+{
+  "chainId": 4663,
+  "stateBlock": 73404793,
+  "blockHash": "0x40bc83f8f6155260d21b0254f08b4fa043dc3af7fa51446c665119c0b62df4ff",
+  "timestamp": 1790458086,
+  "scope": "Local-only vault implementation upgrade / state and market integration checks.",
+  "exitCode": 0,
+  "canonicalAfterTests": true
+}

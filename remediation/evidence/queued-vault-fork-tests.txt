@@ -1,0 +1,12 @@
+Compiling 1 files with Solc 0.8.26
+Solc 0.8.26 finished in 10.67s
+Compiler run successful!
+
+Ran 1 test for remediation/test/fork/QueuedVaultExecution.t.sol:QueuedVaultExecutionForkTest
+[PASS] testActualQueuedOperationExecutesAfterDelayWithoutChangingPairLedgers() (gas: 5527743)
+Logs:
+  Vault V2 applied. Pauses remain enabled; no Safe migration performed.
+
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 1.64s (1.64s CPU time)
+
+Ran 1 test suite in 1.66s (1.64s CPU time): 1 tests passed, 0 failed, 0 skipped (1 total tests)

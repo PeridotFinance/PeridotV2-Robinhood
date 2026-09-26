@@ -1,0 +1,44 @@
+[profile.default]
+src = "remediation/src"
+test = "remediation/test"
+script = "remediation/script"
+out = "remediation/out"
+cache_path = "remediation/cache"
+libs = ["contracts/robinhood-vaults/lib"]
+solc_version = "0.8.26"
+evm_version = "cancun"
+optimizer = true
+optimizer_runs = 200
+via_ir = true
+ffi = false
+extra_output = ["storageLayout"]
+
+remappings = [
+    "baseline/=contracts/robinhood-vaults/",
+    "forge-std/=contracts/robinhood-vaults/lib/forge-std/src/",
+    "@openzeppelin/contracts/=contracts/robinhood-vaults/lib/openzeppelin-contracts/contracts/",
+    "@openzeppelin/contracts-upgradeable/=contracts/robinhood-vaults/lib/openzeppelin-contracts-upgradeable/contracts/",
+    "v4-core/=contracts/robinhood-vaults/lib/v4-core/",
+    "v4-periphery/=contracts/robinhood-vaults/lib/v4-periphery/",
+    "@uniswap/v4-core/=contracts/robinhood-vaults/lib/v4-core/",
+    "@uniswap/v4-periphery/=contracts/robinhood-vaults/lib/v4-periphery/",
+    "@uniswap/permit2/=contracts/robinhood-vaults/lib/permit2/",
+    "@uniswap/universal-router/=contracts/robinhood-vaults/lib/universal-router/",
+    "permit2/=contracts/robinhood-vaults/lib/permit2/",
+    "universal-router/=contracts/robinhood-vaults/lib/universal-router/",
+    "peridot/=contracts/peridot-contracts-2-5/contracts/contracts/",
+    "peridot-tests/=contracts/peridot-contracts-2-5/contracts/test/",
+    "@chainlink/contracts/=contracts/peridot-contracts-2-5/contracts/node_modules/@chainlink/contracts/"
+]
+
+
+allow_paths = ["contracts"]
+
+[profile.vault_upgrade]
+out = "remediation/out-vault-upgrade"
+cache_path = "remediation/cache-vault-upgrade"
+libraries = ["contracts/robinhood-vaults/src/libraries/SettlementLib.sol:SettlementLib:0x813AbFeC0DE50f8674798CbaB72Ed7b5D8CcB9cB"]
+
+[fmt]
+line_length = 100
+bracket_spacing = true

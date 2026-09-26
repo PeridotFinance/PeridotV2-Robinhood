@@ -1,0 +1,316 @@
+{
+  "tool": "Slither 0.11.4",
+  "scope": "Vault target findings; imported library/interface/dependency paths filtered. Compare inherited findings, not a full-protocol audit.",
+  "reports": {
+    "baseline": {
+      "count": 25,
+      "detectors": [
+        {
+          "check": "reentrancy-no-eth",
+          "impact": "Medium",
+          "confidence": "Medium",
+          "description": "Reentrancy in RobinhoodBoostedVault.registerPair(bytes32,PairConfig,IUniswapV4PairedAdapter.RegisterPairParams) (src/RobinhoodBoostedVault.sol#141-170):\n\tExternal calls:\n\t- liquidityAdapter.registerPair(pairId,adapterConfig) (src/RobinhoodBoostedVault.sol#161)\n\tState variables written after the call(s):\n\t- _pairConfig[pairId] = config (src/RobinhoodBoostedVault.sol#163)\n\tRobinhoodBoostedVault._pairConfig (src/RobinhoodBoostedVault.sol#43) can be used in cross function reentrancies:\n\t- RobinhoodBoostedVault._config(bytes32) (src/RobinhoodBoostedVault.sol#885-888)\n\t- RobinhoodBoostedVault.pairConfig(bytes32) (src/RobinhoodBoostedVault.sol#226-228)\n\t- RobinhoodBoostedVault.updatePairRisk(bytes32,PairConfig) (src/RobinhoodBoostedVault.sol#186-202)\n\t- _pairConfig[pairId].exists = true (src/RobinhoodBoostedVault.sol#164)\n\tRobinhoodBoostedVault._pairConfig (src/RobinhoodBoostedVault.sol#43) can be used in cross function reentrancies:\n\t- RobinhoodBoostedVault._config(bytes32) (src/RobinhoodBoostedVault.sol#885-888)\n\t- RobinhoodBoostedVault.pairConfig(bytes32) (src/RobinhoodBoostedVault.sol#226-228)\n\t- RobinhoodBoostedVault.updatePairRisk(bytes32,PairConfig) (src/RobinhoodBoostedVault.sol#186-202)\n"
+        },
+        {
+          "check": "reentrancy-no-eth",
+          "impact": "Medium",
+          "confidence": "Medium",
+          "description": "Reentrancy in RobinhoodBoostedVault._unwindForWithdrawal(bytes32,PairConfig,PairLedger,bool,uint256,uint256) (src/RobinhoodBoostedVault.sol#667-707):\n\tExternal calls:\n\t- (stockReceived,usdgReceived,None) = liquidityAdapter.decreaseLiquidity(pairId,liquidityToRemove,referenceSqrtPriceX96,deadline) (src/RobinhoodBoostedVault.sol#700-702)\n\tState variables written after the call(s):\n\t- pairLedger.stockIdle += stockReceived (src/RobinhoodBoostedVault.sol#705)\n\tRobinhoodBoostedVault._ledger (src/RobinhoodBoostedVault.sol#44) can be used in cross function reentrancies:\n\t- RobinhoodBoostedVault._sideAmounts(bytes32,address) (src/RobinhoodBoostedVault.sol#240-250)\n\t- RobinhoodBoostedVault.ledger(bytes32) (src/RobinhoodBoostedVault.sol#230-232)\n\t- RobinhoodBoostedVault.totalPairAssets(bytes32) (src/RobinhoodBoostedVault.sol#300-312)\n\t- pairLedger.usdgIdle += usdgReceived (src/RobinhoodBoostedVault.sol#706)\n\tRobinhoodBoostedVault._ledger (src/RobinhoodBoostedVault.sol#44) can be used in cross function reentrancies:\n\t- RobinhoodBoostedVault._sideAmounts(bytes32,address) (src/RobinhoodBoostedVault.sol#240-250)\n\t- RobinhoodBoostedVault.ledger(bytes32) (src/RobinhoodBoostedVault.sol#230-232)\n\t- RobinhoodBoostedVault.totalPairAssets(bytes32) (src/RobinhoodBoostedVault.sol#300-312)\n"
+        },
+        {
+          "check": "reentrancy-no-eth",
+          "impact": "Medium",
+          "confidence": "Medium",
+          "description": "Reentrancy in RobinhoodBoostedVault.withdrawForSide(bytes32,address,uint256,address,uint256) (src/RobinhoodBoostedVault.sol#459-525):\n\tExternal calls:\n\t- (None,stockPrice,usdgPrice,referenceSqrtPriceX96) = _checkpointPair(pairId,config,pairLedger,deadline) (src/RobinhoodBoostedVault.sol#488-489)\n\t\t- (stockFees,usdgFees) = liquidityAdapter.collectFees(pairId,deadline) (src/RobinhoodBoostedVault.sol#581)\n\t\t- received = lossReserve.deposit(pairId,config.stockToken,stockReserve) (src/RobinhoodBoostedVault.sol#589)\n\t\t- received_scope_1 = lossReserve.deposit(pairId,config.usdg,usdgReserve) (src/RobinhoodBoostedVault.sol#597)\n\t- _collectFees(pairId,config,pairLedger,deadline) (src/RobinhoodBoostedVault.sol#494)\n\t\t- (stockFees,usdgFees) = liquidityAdapter.collectFees(pairId,deadline) (src/RobinhoodBoostedVault.sol#581)\n\t\t- received = lossReserve.deposit(pairId,config.stockToken,stockReserve) (src/RobinhoodBoostedVault.sol#589)\n\t\t- received_scope_1 = lossReserve.deposit(pairId,config.usdg,usdgReserve) (src/RobinhoodBoostedVault.sol#597)\n\t- _unwindForWithdrawal(pairId,config,pairLedger,stockSide,requested,deadline) (src/RobinhoodBoostedVault.sol#497)\n\t\t- (stockReceived,usdgReceived,None) = liquidityAdapter.decreaseLiquidity(pairId,liquidityToRemove,referenceSqrtPriceX96,deadline) (src/RobinhoodBoostedVault.sol#700-702)\n\tState variables written after the call(s):\n\t- _unwindForWithdrawal(pairId,config,pairLedger,stockSide,requested,deadline) (src/RobinhoodBoostedVault.sol#497)\n\t\t- pairLedger.stockIdle += stockReceived (src/RobinhoodBoostedVault.sol#705)\n\t\t- pairLedger.usdgIdle += usdgReceived (src/RobinhoodBoostedVault.sol#706)\n\tRobinhoodBoostedVault._ledger (src/RobinhoodBoostedVault.sol#44) can be used in cross function reentrancies:\n\t- RobinhoodBoostedVault._sideAmounts(bytes32,address) (src/RobinhoodBoostedVault.sol#240-250)\n\t- RobinhoodBoostedVault.ledger(bytes32) (src/RobinhoodBoostedVault.sol#230-232)\n\t- RobinhoodBoostedVault.totalPairAssets(bytes32) (src/RobinhoodBoostedVault.sol#300-312)\n"
+        },
+        {
+          "check": "reentrancy-no-eth",
+          "impact": "Medium",
+          "confidence": "Medium",
+          "description": "Reentrancy in RobinhoodBoostedVault.rebalance(bytes32,uint256) (src/RobinhoodBoostedVault.sol#379-433):\n\tExternal calls:\n\t- _collectFees(pairId,config,pairLedger,deadline) (src/RobinhoodBoostedVault.sol#395)\n\t\t- (stockFees,usdgFees) = liquidityAdapter.collectFees(pairId,deadline) (src/RobinhoodBoostedVault.sol#581)\n\t\t- received = lossReserve.deposit(pairId,config.stockToken,stockReserve) (src/RobinhoodBoostedVault.sol#589)\n\t\t- received_scope_1 = lossReserve.deposit(pairId,config.usdg,usdgReserve) (src/RobinhoodBoostedVault.sol#597)\n\t- (stockUsed,usdgUsed,liquidityAdded) = liquidityAdapter.addLiquidity(pairId,stockToPair,usdgToPair,deadline) (src/RobinhoodBoostedVault.sol#421-422)\n\tState variables written after the call(s):\n\t- pairLedger.stockIdle -= stockUsed (src/RobinhoodBoostedVault.sol#430)\n\tRobinhoodBoostedVault._ledger (src/RobinhoodBoostedVault.sol#44) can be used in cross function reentrancies:\n\t- RobinhoodBoostedVault._sideAmounts(bytes32,address) (src/RobinhoodBoostedVault.sol#240-250)\n\t- RobinhoodBoostedVault.ledger(bytes32) (src/RobinhoodBoostedVault.sol#230-232)\n\t- RobinhoodBoostedVault.totalPairAssets(bytes32) (src/RobinhoodBoostedVault.sol#300-312)\n\t- pairLedger.usdgIdle -= usdgUsed (src/RobinhoodBoostedVault.sol#431)\n\tRobinhoodBoostedVault._ledger (src/RobinhoodBoostedVault.sol#44) can be used in cross function reentrancies:\n\t- RobinhoodBoostedVault._sideAmounts(bytes32,address) (src/RobinhoodBoostedVault.sol#240-250)\n\t- RobinhoodBoostedVault.ledger(bytes32) (src/RobinhoodBoostedVault.sol#230-232)\n\t- RobinhoodBoostedVault.totalPairAssets(bytes32) (src/RobinhoodBoostedVault.sol#300-312)\n"
+        },
+        {
+          "check": "reentrancy-no-eth",
+          "impact": "Medium",
+          "confidence": "Medium",
+          "description": "Reentrancy in RobinhoodBoostedVault._checkpointPair(bytes32,PairConfig,PairLedger,uint256) (src/RobinhoodBoostedVault.sol#612-665):\n\tExternal calls:\n\t- _collectFees(pairId,config,pairLedger,deadline) (src/RobinhoodBoostedVault.sol#630)\n\t\t- (stockFees,usdgFees) = liquidityAdapter.collectFees(pairId,deadline) (src/RobinhoodBoostedVault.sol#581)\n\t\t- received = lossReserve.deposit(pairId,config.stockToken,stockReserve) (src/RobinhoodBoostedVault.sol#589)\n\t\t- received_scope_1 = lossReserve.deposit(pairId,config.usdg,usdgReserve) (src/RobinhoodBoostedVault.sol#597)\n\tState variables written after the call(s):\n\t- pairLedger.stockPrincipal = Math.mulDiv(pairLedger.stockPrincipal,gross,benchmark) (src/RobinhoodBoostedVault.sol#638)\n\tRobinhoodBoostedVault._ledger (src/RobinhoodBoostedVault.sol#44) can be used in cross function reentrancies:\n\t- RobinhoodBoostedVault._sideAmounts(bytes32,address) (src/RobinhoodBoostedVault.sol#240-250)\n\t- RobinhoodBoostedVault.ledger(bytes32) (src/RobinhoodBoostedVault.sol#230-232)\n\t- RobinhoodBoostedVault.totalPairAssets(bytes32) (src/RobinhoodBoostedVault.sol#300-312)\n\t- pairLedger.usdgPrincipal = Math.mulDiv(pairLedger.usdgPrincipal,gross,benchmark) (src/RobinhoodBoostedVault.sol#639)\n\tRobinhoodBoostedVault._ledger (src/RobinhoodBoostedVault.sol#44) can be used in cross function reentrancies:\n\t- RobinhoodBoostedVault._sideAmounts(bytes32,address) (src/RobinhoodBoostedVault.sol#240-250)\n\t- RobinhoodBoostedVault.ledger(bytes32) (src/RobinhoodBoostedVault.sol#230-232)\n\t- RobinhoodBoostedVault.totalPairAssets(bytes32) (src/RobinhoodBoostedVault.sol#300-312)\n\t- pairLedger.cumulativeLossUSDG += loss (src/RobinhoodBoostedVault.sol#641)\n\tRobinhoodBoostedVault._ledger (src/RobinhoodBoostedVault.sol#44) can be used in cross function reentrancies:\n\t- RobinhoodBoostedVault._sideAmounts(bytes32,address) (src/RobinhoodBoostedVault.sol#240-250)\n\t- RobinhoodBoostedVault.ledger(bytes32) (src/RobinhoodBoostedVault.sol#230-232)\n\t- RobinhoodBoostedVault.totalPairAssets(bytes32) (src/RobinhoodBoostedVault.sol#300-312)\n\t- pairLedger.stockPrincipal += stockGain (src/RobinhoodBoostedVault.sol#648)\n\tRobinhoodBoostedVault._ledger (src/RobinhoodBoostedVault.sol#44) can be used in cross function reentrancies:\n\t- RobinhoodBoostedVault._sideAmounts(bytes32,address) (src/RobinhoodBoostedVault.sol#240-250)\n\t- RobinhoodBoostedVault.ledger(bytes32) (src/RobinhoodBoostedVault.sol#230-232)\n\t- RobinhoodBoostedVault.totalPairAssets(bytes32) (src/RobinhoodBoostedVault.sol#300-312)\n\t- pairLedger.usdgPrincipal += usdgGain (src/RobinhoodBoostedVault.sol#649)\n\tRobinhoodBoostedVault._ledger (src/RobinhoodBoostedVault.sol#44) can be used in cross function reentrancies:\n\t- RobinhoodBoostedVault._sideAmounts(bytes32,address) (src/RobinhoodBoostedVault.sol#240-250)\n\t- RobinhoodBoostedVault.ledger(bytes32) (src/RobinhoodBoostedVault.sol#230-232)\n\t- RobinhoodBoostedVault.totalPairAssets(bytes32) (src/RobinhoodBoostedVault.sol#300-312)\n\t- pairLedger.lastCheckpoint = uint64(block.timestamp) (src/RobinhoodBoostedVault.sol#654)\n\tRobinhoodBoostedVault._ledger (src/RobinhoodBoostedVault.sol#44) can be used in cross function reentrancies:\n\t- RobinhoodBoostedVault._sideAmounts(bytes32,address) (src/RobinhoodBoostedVault.sol#240-250)\n\t- RobinhoodBoostedVault.ledger(bytes32) (src/RobinhoodBoostedVault.sol#230-232)\n\t- RobinhoodBoostedVault.totalPairAssets(bytes32) (src/RobinhoodBoostedVault.sol#300-312)\n\t- aggregateUsdgPrincipal[config.usdg] -= oldUsdgPrincipal - pairLedger.usdgPrincipal (src/RobinhoodBoostedVault.sol#640)\n\tRobinhoodBoostedVault.aggregateUsdgPrincipal (src/RobinhoodBoostedVault.sol#45) can be used in cross function reentrancies:\n\t- RobinhoodBoostedVault.aggregateUsdgPrincipal (src/RobinhoodBoostedVault.sol#45)\n\t- RobinhoodBoostedVault.setAggregateUsdgDepositCap(address,uint256) (src/RobinhoodBoostedVault.sol#172-184)\n\t- aggregateUsdgPrincipal[config.usdg] += usdgGain (src/RobinhoodBoostedVault.sol#650)\n\tRobinhoodBoostedVault.aggregateUsdgPrincipal (src/RobinhoodBoostedVault.sol#45) can be used in cross function reentrancies:\n\t- RobinhoodBoostedVault.aggregateUsdgPrincipal (src/RobinhoodBoostedVault.sol#45)\n\t- RobinhoodBoostedVault.setAggregateUsdgDepositCap(address,uint256) (src/RobinhoodBoostedVault.sol#172-184)\n"
+        },
+        {
+          "check": "uninitialized-local",
+          "impact": "Medium",
+          "confidence": "Medium",
+          "description": "RobinhoodBoostedVault.withdrawableAssets(bytes32,address).key (src/RobinhoodBoostedVault.sol#287) is a local variable never initialized\n"
+        },
+        {
+          "check": "unused-return",
+          "impact": "Medium",
+          "confidence": "Medium",
+          "description": "RobinhoodBoostedVault._unwindForWithdrawal(bytes32,PairConfig,PairLedger,bool,uint256,uint256) (src/RobinhoodBoostedVault.sol#667-707) ignores return value by (stockReceived,usdgReceived,None) = liquidityAdapter.decreaseLiquidity(pairId,liquidityToRemove,referenceSqrtPriceX96,deadline) (src/RobinhoodBoostedVault.sol#700-702)\n"
+        },
+        {
+          "check": "unused-return",
+          "impact": "Medium",
+          "confidence": "Medium",
+          "description": "RobinhoodBoostedVault._checkpointPair(bytes32,PairConfig,PairLedger,uint256) (src/RobinhoodBoostedVault.sol#612-665) ignores return value by (None,None,referenceSqrtPriceX96) = oracleGuard.validateRemovalPrice(pairId,key) (src/RobinhoodBoostedVault.sol#627)\n"
+        },
+        {
+          "check": "unused-return",
+          "impact": "Medium",
+          "confidence": "Medium",
+          "description": "RobinhoodBoostedVault.emergencyDecrease(bytes32,uint128,uint256) (src/RobinhoodBoostedVault.sol#527-554) ignores return value by (None,None,referenceSqrtPriceX96) = oracleGuard.validateRemovalPrice(pairId,key) (src/RobinhoodBoostedVault.sol#538)\n"
+        },
+        {
+          "check": "unused-return",
+          "impact": "Medium",
+          "confidence": "Medium",
+          "description": "RobinhoodBoostedVault._unwindForWithdrawal(bytes32,PairConfig,PairLedger,bool,uint256,uint256) (src/RobinhoodBoostedVault.sol#667-707) ignores return value by (None,None,referenceSqrtPriceX96) = oracleGuard.validateRemovalPrice(pairId,key) (src/RobinhoodBoostedVault.sol#697)\n"
+        },
+        {
+          "check": "unused-return",
+          "impact": "Medium",
+          "confidence": "Medium",
+          "description": "RobinhoodBoostedVault.rebalance(bytes32,uint256) (src/RobinhoodBoostedVault.sol#379-433) ignores return value by oracleGuard.validatePoolPrice(pairId,key) (src/RobinhoodBoostedVault.sol#391)\n"
+        },
+        {
+          "check": "unused-return",
+          "impact": "Medium",
+          "confidence": "Medium",
+          "description": "RobinhoodBoostedVault.withdrawableAssets(bytes32,address) (src/RobinhoodBoostedVault.sol#270-298) ignores return value by () = oracleGuard.validateRemovalPrice(pairId,key) (src/RobinhoodBoostedVault.sol#293-297)\n"
+        },
+        {
+          "check": "unused-return",
+          "impact": "Medium",
+          "confidence": "Medium",
+          "description": "RobinhoodBoostedVault.registerPair(bytes32,PairConfig,IUniswapV4PairedAdapter.RegisterPairParams) (src/RobinhoodBoostedVault.sol#141-170) ignores return value by oracleGuard.validatePoolPrice(pairId,adapterConfig.poolKey) (src/RobinhoodBoostedVault.sol#153)\n"
+        },
+        {
+          "check": "unused-return",
+          "impact": "Medium",
+          "confidence": "Medium",
+          "description": "RobinhoodBoostedVault.withdrawForSide(bytes32,address,uint256,address,uint256) (src/RobinhoodBoostedVault.sol#459-525) ignores return value by (None,None,referenceSqrtPriceX96) = oracleGuard.validateRemovalPrice(pairId,key) (src/RobinhoodBoostedVault.sol#492)\n"
+        },
+        {
+          "check": "unused-return",
+          "impact": "Medium",
+          "confidence": "Medium",
+          "description": "RobinhoodBoostedVault.registerPair(bytes32,PairConfig,IUniswapV4PairedAdapter.RegisterPairParams) (src/RobinhoodBoostedVault.sol#141-170) ignores return value by oracleGuard.pricesUSD18(pairId) (src/RobinhoodBoostedVault.sol#152)\n"
+        },
+        {
+          "check": "reentrancy-benign",
+          "impact": "Low",
+          "confidence": "Medium",
+          "description": "Reentrancy in RobinhoodBoostedVault.emergencyDecrease(bytes32,uint128,uint256) (src/RobinhoodBoostedVault.sol#527-554):\n\tExternal calls:\n\t- (stockReceived,usdgReceived,liquidityRemoved) = liquidityAdapter.decreaseLiquidity(pairId,liquidity,referenceSqrtPriceX96,deadline) (src/RobinhoodBoostedVault.sol#542-543)\n\tState variables written after the call(s):\n\t- pairLedger.stockIdle += stockReceived (src/RobinhoodBoostedVault.sol#547)\n\t- pairLedger.usdgIdle += usdgReceived (src/RobinhoodBoostedVault.sol#548)\n\t- _recognizeLoss(pairId,config,pairLedger,stockPrice,usdgPrice,referenceSqrtPriceX96) (src/RobinhoodBoostedVault.sol#551)\n\t\t- pairLedger.stockPrincipal = Math.mulDiv(pairLedger.stockPrincipal,gross,benchmark) (src/RobinhoodBoostedVault.sol#750)\n\t\t- pairLedger.usdgPrincipal = Math.mulDiv(pairLedger.usdgPrincipal,gross,benchmark) (src/RobinhoodBoostedVault.sol#751)\n\t\t- pairLedger.cumulativeLossUSDG += loss (src/RobinhoodBoostedVault.sol#753)\n\t\t- pairLedger.lastCheckpoint = uint64(block.timestamp) (src/RobinhoodBoostedVault.sol#754)\n\t- _recognizeLoss(pairId,config,pairLedger,stockPrice,usdgPrice,referenceSqrtPriceX96) (src/RobinhoodBoostedVault.sol#551)\n\t\t- aggregateUsdgPrincipal[config.usdg] -= oldUsdgPrincipal - pairLedger.usdgPrincipal (src/RobinhoodBoostedVault.sol#752)\n"
+        },
+        {
+          "check": "reentrancy-benign",
+          "impact": "Low",
+          "confidence": "Medium",
+          "description": "Reentrancy in RobinhoodBoostedVault.burnEmptyPosition(bytes32,uint256) (src/RobinhoodBoostedVault.sol#556-571):\n\tExternal calls:\n\t- (stockReceived,usdgReceived) = liquidityAdapter.burnEmptyPosition(pairId,deadline) (src/RobinhoodBoostedVault.sol#565-566)\n\tState variables written after the call(s):\n\t- _ledger[pairId].stockIdle += stockReceived (src/RobinhoodBoostedVault.sol#569)\n\t- _ledger[pairId].usdgIdle += usdgReceived (src/RobinhoodBoostedVault.sol#570)\n"
+        },
+        {
+          "check": "reentrancy-benign",
+          "impact": "Low",
+          "confidence": "Medium",
+          "description": "Reentrancy in RobinhoodBoostedVault._collectFees(bytes32,PairConfig,PairLedger,uint256) (src/RobinhoodBoostedVault.sol#573-610):\n\tExternal calls:\n\t- (stockFees,usdgFees) = liquidityAdapter.collectFees(pairId,deadline) (src/RobinhoodBoostedVault.sol#581)\n\t- received = lossReserve.deposit(pairId,config.stockToken,stockReserve) (src/RobinhoodBoostedVault.sol#589)\n\t- received_scope_1 = lossReserve.deposit(pairId,config.usdg,usdgReserve) (src/RobinhoodBoostedVault.sol#597)\n\tState variables written after the call(s):\n\t- pairLedger.stockIdle += netStock (src/RobinhoodBoostedVault.sol#604)\n\t- pairLedger.usdgIdle += netUsdg (src/RobinhoodBoostedVault.sol#605)\n\t- pairLedger.stockPrincipal += netStock (src/RobinhoodBoostedVault.sol#606)\n\t- pairLedger.usdgPrincipal += netUsdg (src/RobinhoodBoostedVault.sol#607)\n\t- aggregateUsdgPrincipal[config.usdg] += netUsdg (src/RobinhoodBoostedVault.sol#608)\n"
+        },
+        {
+          "check": "reentrancy-benign",
+          "impact": "Low",
+          "confidence": "Medium",
+          "description": "Reentrancy in RobinhoodBoostedVault.registerPair(bytes32,PairConfig,IUniswapV4PairedAdapter.RegisterPairParams) (src/RobinhoodBoostedVault.sol#141-170):\n\tExternal calls:\n\t- liquidityAdapter.registerPair(pairId,adapterConfig) (src/RobinhoodBoostedVault.sol#161)\n\tState variables written after the call(s):\n\t- _ledger[pairId].lastCheckpoint = uint64(block.timestamp) (src/RobinhoodBoostedVault.sol#165)\n"
+        },
+        {
+          "check": "timestamp",
+          "impact": "Low",
+          "confidence": "Medium",
+          "description": "RobinhoodBoostedVault._checkDeadline(PairConfig,uint256) (src/RobinhoodBoostedVault.sol#879-883) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- deadline < block.timestamp (src/RobinhoodBoostedVault.sol#880)\n\t- delay > config.maxDeadlineDelay (src/RobinhoodBoostedVault.sol#882)\n"
+        },
+        {
+          "check": "timestamp",
+          "impact": "Low",
+          "confidence": "Medium",
+          "description": "RobinhoodBoostedVault._checkpointIsStale(PairConfig,PairLedger) (src/RobinhoodBoostedVault.sol#824-831) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- pairLedger.lastCheckpoint == 0 || block.timestamp - pairLedger.lastCheckpoint > config.maxCheckpointAge (src/RobinhoodBoostedVault.sol#829-830)\n"
+        },
+        {
+          "check": "cyclomatic-complexity",
+          "impact": "Informational",
+          "confidence": "High",
+          "description": "RobinhoodBoostedVault.withdrawForSide(bytes32,address,uint256,address,uint256) (src/RobinhoodBoostedVault.sol#459-525) has a high cyclomatic complexity (14).\n"
+        },
+        {
+          "check": "naming-convention",
+          "impact": "Informational",
+          "confidence": "High",
+          "description": "Variable RobinhoodBoostedVault.__gap (src/RobinhoodBoostedVault.sol#909) is not in mixedCase\n"
+        },
+        {
+          "check": "redundant-statements",
+          "impact": "Informational",
+          "confidence": "High",
+          "description": "Redundant expression \"config (src/RobinhoodBoostedVault.sol#311)\" inRobinhoodBoostedVault (src/RobinhoodBoostedVault.sol#25-910)\n"
+        },
+        {
+          "check": "unused-state",
+          "impact": "Informational",
+          "confidence": "High",
+          "description": "RobinhoodBoostedVault.__gap (src/RobinhoodBoostedVault.sol#909) is never used in RobinhoodBoostedVault (src/RobinhoodBoostedVault.sol#25-910)\n"
+        }
+      ]
+    },
+    "candidate": {
+      "count": 25,
+      "detectors": [
+        {
+          "check": "reentrancy-no-eth",
+          "impact": "Medium",
+          "confidence": "Medium",
+          "description": "Reentrancy in RobinhoodBoostedVaultV2._unwindForWithdrawal(bytes32,PairConfig,PairLedger,bool,uint256,uint256) (remediation/src/RobinhoodBoostedVaultV2.sol#667-707):\n\tExternal calls:\n\t- (stockReceived,usdgReceived,None) = liquidityAdapter.decreaseLiquidity(pairId,liquidityToRemove,referenceSqrtPriceX96,deadline) (remediation/src/RobinhoodBoostedVaultV2.sol#700-702)\n\tState variables written after the call(s):\n\t- pairLedger.stockIdle += stockReceived (remediation/src/RobinhoodBoostedVaultV2.sol#705)\n\tRobinhoodBoostedVaultV2._ledger (remediation/src/RobinhoodBoostedVaultV2.sol#44) can be used in cross function reentrancies:\n\t- RobinhoodBoostedVaultV2._sideAmounts(bytes32,address) (remediation/src/RobinhoodBoostedVaultV2.sol#240-250)\n\t- RobinhoodBoostedVaultV2.ledger(bytes32) (remediation/src/RobinhoodBoostedVaultV2.sol#230-232)\n\t- RobinhoodBoostedVaultV2.totalPairAssets(bytes32) (remediation/src/RobinhoodBoostedVaultV2.sol#300-312)\n\t- RobinhoodBoostedVaultV2.withdrawableAssets(bytes32,address) (remediation/src/RobinhoodBoostedVaultV2.sol#270-298)\n\t- pairLedger.usdgIdle += usdgReceived (remediation/src/RobinhoodBoostedVaultV2.sol#706)\n\tRobinhoodBoostedVaultV2._ledger (remediation/src/RobinhoodBoostedVaultV2.sol#44) can be used in cross function reentrancies:\n\t- RobinhoodBoostedVaultV2._sideAmounts(bytes32,address) (remediation/src/RobinhoodBoostedVaultV2.sol#240-250)\n\t- RobinhoodBoostedVaultV2.ledger(bytes32) (remediation/src/RobinhoodBoostedVaultV2.sol#230-232)\n\t- RobinhoodBoostedVaultV2.totalPairAssets(bytes32) (remediation/src/RobinhoodBoostedVaultV2.sol#300-312)\n\t- RobinhoodBoostedVaultV2.withdrawableAssets(bytes32,address) (remediation/src/RobinhoodBoostedVaultV2.sol#270-298)\n"
+        },
+        {
+          "check": "reentrancy-no-eth",
+          "impact": "Medium",
+          "confidence": "Medium",
+          "description": "Reentrancy in RobinhoodBoostedVaultV2.registerPair(bytes32,PairConfig,IUniswapV4PairedAdapter.RegisterPairParams) (remediation/src/RobinhoodBoostedVaultV2.sol#141-170):\n\tExternal calls:\n\t- liquidityAdapter.registerPair(pairId,adapterConfig) (remediation/src/RobinhoodBoostedVaultV2.sol#161)\n\tState variables written after the call(s):\n\t- _pairConfig[pairId] = config (remediation/src/RobinhoodBoostedVaultV2.sol#163)\n\tRobinhoodBoostedVaultV2._pairConfig (remediation/src/RobinhoodBoostedVaultV2.sol#43) can be used in cross function reentrancies:\n\t- RobinhoodBoostedVaultV2._config(bytes32) (remediation/src/RobinhoodBoostedVaultV2.sol#893-896)\n\t- RobinhoodBoostedVaultV2.pairConfig(bytes32) (remediation/src/RobinhoodBoostedVaultV2.sol#226-228)\n\t- RobinhoodBoostedVaultV2.updatePairRisk(bytes32,PairConfig) (remediation/src/RobinhoodBoostedVaultV2.sol#186-202)\n\t- _pairConfig[pairId].exists = true (remediation/src/RobinhoodBoostedVaultV2.sol#164)\n\tRobinhoodBoostedVaultV2._pairConfig (remediation/src/RobinhoodBoostedVaultV2.sol#43) can be used in cross function reentrancies:\n\t- RobinhoodBoostedVaultV2._config(bytes32) (remediation/src/RobinhoodBoostedVaultV2.sol#893-896)\n\t- RobinhoodBoostedVaultV2.pairConfig(bytes32) (remediation/src/RobinhoodBoostedVaultV2.sol#226-228)\n\t- RobinhoodBoostedVaultV2.updatePairRisk(bytes32,PairConfig) (remediation/src/RobinhoodBoostedVaultV2.sol#186-202)\n"
+        },
+        {
+          "check": "reentrancy-no-eth",
+          "impact": "Medium",
+          "confidence": "Medium",
+          "description": "Reentrancy in RobinhoodBoostedVaultV2._checkpointPair(bytes32,PairConfig,PairLedger,uint256) (remediation/src/RobinhoodBoostedVaultV2.sol#612-665):\n\tExternal calls:\n\t- _collectFees(pairId,config,pairLedger,deadline) (remediation/src/RobinhoodBoostedVaultV2.sol#630)\n\t\t- (stockFees,usdgFees) = liquidityAdapter.collectFees(pairId,deadline) (remediation/src/RobinhoodBoostedVaultV2.sol#581)\n\t\t- received = lossReserve.deposit(pairId,config.stockToken,stockReserve) (remediation/src/RobinhoodBoostedVaultV2.sol#589)\n\t\t- received_scope_1 = lossReserve.deposit(pairId,config.usdg,usdgReserve) (remediation/src/RobinhoodBoostedVaultV2.sol#597)\n\tState variables written after the call(s):\n\t- pairLedger.stockPrincipal = Math.mulDiv(pairLedger.stockPrincipal,gross,benchmark) (remediation/src/RobinhoodBoostedVaultV2.sol#638)\n\tRobinhoodBoostedVaultV2._ledger (remediation/src/RobinhoodBoostedVaultV2.sol#44) can be used in cross function reentrancies:\n\t- RobinhoodBoostedVaultV2._sideAmounts(bytes32,address) (remediation/src/RobinhoodBoostedVaultV2.sol#240-250)\n\t- RobinhoodBoostedVaultV2.ledger(bytes32) (remediation/src/RobinhoodBoostedVaultV2.sol#230-232)\n\t- RobinhoodBoostedVaultV2.totalPairAssets(bytes32) (remediation/src/RobinhoodBoostedVaultV2.sol#300-312)\n\t- RobinhoodBoostedVaultV2.withdrawableAssets(bytes32,address) (remediation/src/RobinhoodBoostedVaultV2.sol#270-298)\n\t- pairLedger.usdgPrincipal = Math.mulDiv(pairLedger.usdgPrincipal,gross,benchmark) (remediation/src/RobinhoodBoostedVaultV2.sol#639)\n\tRobinhoodBoostedVaultV2._ledger (remediation/src/RobinhoodBoostedVaultV2.sol#44) can be used in cross function reentrancies:\n\t- RobinhoodBoostedVaultV2._sideAmounts(bytes32,address) (remediation/src/RobinhoodBoostedVaultV2.sol#240-250)\n\t- RobinhoodBoostedVaultV2.ledger(bytes32) (remediation/src/RobinhoodBoostedVaultV2.sol#230-232)\n\t- RobinhoodBoostedVaultV2.totalPairAssets(bytes32) (remediation/src/RobinhoodBoostedVaultV2.sol#300-312)\n\t- RobinhoodBoostedVaultV2.withdrawableAssets(bytes32,address) (remediation/src/RobinhoodBoostedVaultV2.sol#270-298)\n\t- pairLedger.cumulativeLossUSDG += loss (remediation/src/RobinhoodBoostedVaultV2.sol#641)\n\tRobinhoodBoostedVaultV2._ledger (remediation/src/RobinhoodBoostedVaultV2.sol#44) can be used in cross function reentrancies:\n\t- RobinhoodBoostedVaultV2._sideAmounts(bytes32,address) (remediation/src/RobinhoodBoostedVaultV2.sol#240-250)\n\t- RobinhoodBoostedVaultV2.ledger(bytes32) (remediation/src/RobinhoodBoostedVaultV2.sol#230-232)\n\t- RobinhoodBoostedVaultV2.totalPairAssets(bytes32) (remediation/src/RobinhoodBoostedVaultV2.sol#300-312)\n\t- RobinhoodBoostedVaultV2.withdrawableAssets(bytes32,address) (remediation/src/RobinhoodBoostedVaultV2.sol#270-298)\n\t- pairLedger.stockPrincipal += stockGain (remediation/src/RobinhoodBoostedVaultV2.sol#648)\n\tRobinhoodBoostedVaultV2._ledger (remediation/src/RobinhoodBoostedVaultV2.sol#44) can be used in cross function reentrancies:\n\t- RobinhoodBoostedVaultV2._sideAmounts(bytes32,address) (remediation/src/RobinhoodBoostedVaultV2.sol#240-250)\n\t- RobinhoodBoostedVaultV2.ledger(bytes32) (remediation/src/RobinhoodBoostedVaultV2.sol#230-232)\n\t- RobinhoodBoostedVaultV2.totalPairAssets(bytes32) (remediation/src/RobinhoodBoostedVaultV2.sol#300-312)\n\t- RobinhoodBoostedVaultV2.withdrawableAssets(bytes32,address) (remediation/src/RobinhoodBoostedVaultV2.sol#270-298)\n\t- pairLedger.usdgPrincipal += usdgGain (remediation/src/RobinhoodBoostedVaultV2.sol#649)\n\tRobinhoodBoostedVaultV2._ledger (remediation/src/RobinhoodBoostedVaultV2.sol#44) can be used in cross function reentrancies:\n\t- RobinhoodBoostedVaultV2._sideAmounts(bytes32,address) (remediation/src/RobinhoodBoostedVaultV2.sol#240-250)\n\t- RobinhoodBoostedVaultV2.ledger(bytes32) (remediation/src/RobinhoodBoostedVaultV2.sol#230-232)\n\t- RobinhoodBoostedVaultV2.totalPairAssets(bytes32) (remediation/src/RobinhoodBoostedVaultV2.sol#300-312)\n\t- RobinhoodBoostedVaultV2.withdrawableAssets(bytes32,address) (remediation/src/RobinhoodBoostedVaultV2.sol#270-298)\n\t- pairLedger.lastCheckpoint = uint64(block.timestamp) (remediation/src/RobinhoodBoostedVaultV2.sol#654)\n\tRobinhoodBoostedVaultV2._ledger (remediation/src/RobinhoodBoostedVaultV2.sol#44) can be used in cross function reentrancies:\n\t- RobinhoodBoostedVaultV2._sideAmounts(bytes32,address) (remediation/src/RobinhoodBoostedVaultV2.sol#240-250)\n\t- RobinhoodBoostedVaultV2.ledger(bytes32) (remediation/src/RobinhoodBoostedVaultV2.sol#230-232)\n\t- RobinhoodBoostedVaultV2.totalPairAssets(bytes32) (remediation/src/RobinhoodBoostedVaultV2.sol#300-312)\n\t- RobinhoodBoostedVaultV2.withdrawableAssets(bytes32,address) (remediation/src/RobinhoodBoostedVaultV2.sol#270-298)\n\t- aggregateUsdgPrincipal[config.usdg] -= oldUsdgPrincipal - pairLedger.usdgPrincipal (remediation/src/RobinhoodBoostedVaultV2.sol#640)\n\tRobinhoodBoostedVaultV2.aggregateUsdgPrincipal (remediation/src/RobinhoodBoostedVaultV2.sol#45) can be used in cross function reentrancies:\n\t- RobinhoodBoostedVaultV2.aggregateUsdgPrincipal (remediation/src/RobinhoodBoostedVaultV2.sol#45)\n\t- RobinhoodBoostedVaultV2.setAggregateUsdgDepositCap(address,uint256) (remediation/src/RobinhoodBoostedVaultV2.sol#172-184)\n\t- aggregateUsdgPrincipal[config.usdg] += usdgGain (remediation/src/RobinhoodBoostedVaultV2.sol#650)\n\tRobinhoodBoostedVaultV2.aggregateUsdgPrincipal (remediation/src/RobinhoodBoostedVaultV2.sol#45) can be used in cross function reentrancies:\n\t- RobinhoodBoostedVaultV2.aggregateUsdgPrincipal (remediation/src/RobinhoodBoostedVaultV2.sol#45)\n\t- RobinhoodBoostedVaultV2.setAggregateUsdgDepositCap(address,uint256) (remediation/src/RobinhoodBoostedVaultV2.sol#172-184)\n"
+        },
+        {
+          "check": "reentrancy-no-eth",
+          "impact": "Medium",
+          "confidence": "Medium",
+          "description": "Reentrancy in RobinhoodBoostedVaultV2.withdrawForSide(bytes32,address,uint256,address,uint256) (remediation/src/RobinhoodBoostedVaultV2.sol#459-525):\n\tExternal calls:\n\t- (None,stockPrice,usdgPrice,referenceSqrtPriceX96) = _checkpointPair(pairId,config,pairLedger,deadline) (remediation/src/RobinhoodBoostedVaultV2.sol#488-489)\n\t\t- (stockFees,usdgFees) = liquidityAdapter.collectFees(pairId,deadline) (remediation/src/RobinhoodBoostedVaultV2.sol#581)\n\t\t- received = lossReserve.deposit(pairId,config.stockToken,stockReserve) (remediation/src/RobinhoodBoostedVaultV2.sol#589)\n\t\t- received_scope_1 = lossReserve.deposit(pairId,config.usdg,usdgReserve) (remediation/src/RobinhoodBoostedVaultV2.sol#597)\n\t- _collectFees(pairId,config,pairLedger,deadline) (remediation/src/RobinhoodBoostedVaultV2.sol#494)\n\t\t- (stockFees,usdgFees) = liquidityAdapter.collectFees(pairId,deadline) (remediation/src/RobinhoodBoostedVaultV2.sol#581)\n\t\t- received = lossReserve.deposit(pairId,config.stockToken,stockReserve) (remediation/src/RobinhoodBoostedVaultV2.sol#589)\n\t\t- received_scope_1 = lossReserve.deposit(pairId,config.usdg,usdgReserve) (remediation/src/RobinhoodBoostedVaultV2.sol#597)\n\t- _unwindForWithdrawal(pairId,config,pairLedger,stockSide,requested,deadline) (remediation/src/RobinhoodBoostedVaultV2.sol#497)\n\t\t- (stockReceived,usdgReceived,None) = liquidityAdapter.decreaseLiquidity(pairId,liquidityToRemove,referenceSqrtPriceX96,deadline) (remediation/src/RobinhoodBoostedVaultV2.sol#700-702)\n\tState variables written after the call(s):\n\t- _unwindForWithdrawal(pairId,config,pairLedger,stockSide,requested,deadline) (remediation/src/RobinhoodBoostedVaultV2.sol#497)\n\t\t- pairLedger.stockIdle += stockReceived (remediation/src/RobinhoodBoostedVaultV2.sol#705)\n\t\t- pairLedger.usdgIdle += usdgReceived (remediation/src/RobinhoodBoostedVaultV2.sol#706)\n\tRobinhoodBoostedVaultV2._ledger (remediation/src/RobinhoodBoostedVaultV2.sol#44) can be used in cross function reentrancies:\n\t- RobinhoodBoostedVaultV2._sideAmounts(bytes32,address) (remediation/src/RobinhoodBoostedVaultV2.sol#240-250)\n\t- RobinhoodBoostedVaultV2.ledger(bytes32) (remediation/src/RobinhoodBoostedVaultV2.sol#230-232)\n\t- RobinhoodBoostedVaultV2.totalPairAssets(bytes32) (remediation/src/RobinhoodBoostedVaultV2.sol#300-312)\n\t- RobinhoodBoostedVaultV2.withdrawableAssets(bytes32,address) (remediation/src/RobinhoodBoostedVaultV2.sol#270-298)\n"
+        },
+        {
+          "check": "reentrancy-no-eth",
+          "impact": "Medium",
+          "confidence": "Medium",
+          "description": "Reentrancy in RobinhoodBoostedVaultV2.rebalance(bytes32,uint256) (remediation/src/RobinhoodBoostedVaultV2.sol#379-433):\n\tExternal calls:\n\t- _collectFees(pairId,config,pairLedger,deadline) (remediation/src/RobinhoodBoostedVaultV2.sol#395)\n\t\t- (stockFees,usdgFees) = liquidityAdapter.collectFees(pairId,deadline) (remediation/src/RobinhoodBoostedVaultV2.sol#581)\n\t\t- received = lossReserve.deposit(pairId,config.stockToken,stockReserve) (remediation/src/RobinhoodBoostedVaultV2.sol#589)\n\t\t- received_scope_1 = lossReserve.deposit(pairId,config.usdg,usdgReserve) (remediation/src/RobinhoodBoostedVaultV2.sol#597)\n\t- (stockUsed,usdgUsed,liquidityAdded) = liquidityAdapter.addLiquidity(pairId,stockToPair,usdgToPair,deadline) (remediation/src/RobinhoodBoostedVaultV2.sol#421-422)\n\tState variables written after the call(s):\n\t- pairLedger.stockIdle -= stockUsed (remediation/src/RobinhoodBoostedVaultV2.sol#430)\n\tRobinhoodBoostedVaultV2._ledger (remediation/src/RobinhoodBoostedVaultV2.sol#44) can be used in cross function reentrancies:\n\t- RobinhoodBoostedVaultV2._sideAmounts(bytes32,address) (remediation/src/RobinhoodBoostedVaultV2.sol#240-250)\n\t- RobinhoodBoostedVaultV2.ledger(bytes32) (remediation/src/RobinhoodBoostedVaultV2.sol#230-232)\n\t- RobinhoodBoostedVaultV2.totalPairAssets(bytes32) (remediation/src/RobinhoodBoostedVaultV2.sol#300-312)\n\t- RobinhoodBoostedVaultV2.withdrawableAssets(bytes32,address) (remediation/src/RobinhoodBoostedVaultV2.sol#270-298)\n\t- pairLedger.usdgIdle -= usdgUsed (remediation/src/RobinhoodBoostedVaultV2.sol#431)\n\tRobinhoodBoostedVaultV2._ledger (remediation/src/RobinhoodBoostedVaultV2.sol#44) can be used in cross function reentrancies:\n\t- RobinhoodBoostedVaultV2._sideAmounts(bytes32,address) (remediation/src/RobinhoodBoostedVaultV2.sol#240-250)\n\t- RobinhoodBoostedVaultV2.ledger(bytes32) (remediation/src/RobinhoodBoostedVaultV2.sol#230-232)\n\t- RobinhoodBoostedVaultV2.totalPairAssets(bytes32) (remediation/src/RobinhoodBoostedVaultV2.sol#300-312)\n\t- RobinhoodBoostedVaultV2.withdrawableAssets(bytes32,address) (remediation/src/RobinhoodBoostedVaultV2.sol#270-298)\n"
+        },
+        {
+          "check": "uninitialized-local",
+          "impact": "Medium",
+          "confidence": "Medium",
+          "description": "RobinhoodBoostedVaultV2.withdrawableAssets(bytes32,address).key (remediation/src/RobinhoodBoostedVaultV2.sol#287) is a local variable never initialized\n"
+        },
+        {
+          "check": "unused-return",
+          "impact": "Medium",
+          "confidence": "Medium",
+          "description": "RobinhoodBoostedVaultV2._checkpointPair(bytes32,PairConfig,PairLedger,uint256) (remediation/src/RobinhoodBoostedVaultV2.sol#612-665) ignores return value by (None,None,referenceSqrtPriceX96) = oracleGuard.validateRemovalPrice(pairId,key) (remediation/src/RobinhoodBoostedVaultV2.sol#627)\n"
+        },
+        {
+          "check": "unused-return",
+          "impact": "Medium",
+          "confidence": "Medium",
+          "description": "RobinhoodBoostedVaultV2.registerPair(bytes32,PairConfig,IUniswapV4PairedAdapter.RegisterPairParams) (remediation/src/RobinhoodBoostedVaultV2.sol#141-170) ignores return value by oracleGuard.pricesUSD18(pairId) (remediation/src/RobinhoodBoostedVaultV2.sol#152)\n"
+        },
+        {
+          "check": "unused-return",
+          "impact": "Medium",
+          "confidence": "Medium",
+          "description": "RobinhoodBoostedVaultV2.emergencyDecrease(bytes32,uint128,uint256) (remediation/src/RobinhoodBoostedVaultV2.sol#527-554) ignores return value by (None,None,referenceSqrtPriceX96) = oracleGuard.validateRemovalPrice(pairId,key) (remediation/src/RobinhoodBoostedVaultV2.sol#538)\n"
+        },
+        {
+          "check": "unused-return",
+          "impact": "Medium",
+          "confidence": "Medium",
+          "description": "RobinhoodBoostedVaultV2.registerPair(bytes32,PairConfig,IUniswapV4PairedAdapter.RegisterPairParams) (remediation/src/RobinhoodBoostedVaultV2.sol#141-170) ignores return value by oracleGuard.validatePoolPrice(pairId,adapterConfig.poolKey) (remediation/src/RobinhoodBoostedVaultV2.sol#153)\n"
+        },
+        {
+          "check": "unused-return",
+          "impact": "Medium",
+          "confidence": "Medium",
+          "description": "RobinhoodBoostedVaultV2.withdrawForSide(bytes32,address,uint256,address,uint256) (remediation/src/RobinhoodBoostedVaultV2.sol#459-525) ignores return value by (None,None,referenceSqrtPriceX96) = oracleGuard.validateRemovalPrice(pairId,key) (remediation/src/RobinhoodBoostedVaultV2.sol#492)\n"
+        },
+        {
+          "check": "unused-return",
+          "impact": "Medium",
+          "confidence": "Medium",
+          "description": "RobinhoodBoostedVaultV2._unwindForWithdrawal(bytes32,PairConfig,PairLedger,bool,uint256,uint256) (remediation/src/RobinhoodBoostedVaultV2.sol#667-707) ignores return value by (stockReceived,usdgReceived,None) = liquidityAdapter.decreaseLiquidity(pairId,liquidityToRemove,referenceSqrtPriceX96,deadline) (remediation/src/RobinhoodBoostedVaultV2.sol#700-702)\n"
+        },
+        {
+          "check": "unused-return",
+          "impact": "Medium",
+          "confidence": "Medium",
+          "description": "RobinhoodBoostedVaultV2._unwindForWithdrawal(bytes32,PairConfig,PairLedger,bool,uint256,uint256) (remediation/src/RobinhoodBoostedVaultV2.sol#667-707) ignores return value by (None,None,referenceSqrtPriceX96) = oracleGuard.validateRemovalPrice(pairId,key) (remediation/src/RobinhoodBoostedVaultV2.sol#697)\n"
+        },
+        {
+          "check": "unused-return",
+          "impact": "Medium",
+          "confidence": "Medium",
+          "description": "RobinhoodBoostedVaultV2.withdrawableAssets(bytes32,address) (remediation/src/RobinhoodBoostedVaultV2.sol#270-298) ignores return value by () = oracleGuard.validateRemovalPrice(pairId,key) (remediation/src/RobinhoodBoostedVaultV2.sol#293-297)\n"
+        },
+        {
+          "check": "unused-return",
+          "impact": "Medium",
+          "confidence": "Medium",
+          "description": "RobinhoodBoostedVaultV2.rebalance(bytes32,uint256) (remediation/src/RobinhoodBoostedVaultV2.sol#379-433) ignores return value by oracleGuard.validatePoolPrice(pairId,key) (remediation/src/RobinhoodBoostedVaultV2.sol#391)\n"
+        },
+        {
+          "check": "reentrancy-benign",
+          "impact": "Low",
+          "confidence": "Medium",
+          "description": "Reentrancy in RobinhoodBoostedVaultV2.registerPair(bytes32,PairConfig,IUniswapV4PairedAdapter.RegisterPairParams) (remediation/src/RobinhoodBoostedVaultV2.sol#141-170):\n\tExternal calls:\n\t- liquidityAdapter.registerPair(pairId,adapterConfig) (remediation/src/RobinhoodBoostedVaultV2.sol#161)\n\tState variables written after the call(s):\n\t- _ledger[pairId].lastCheckpoint = uint64(block.timestamp) (remediation/src/RobinhoodBoostedVaultV2.sol#165)\n"
+        },
+        {
+          "check": "reentrancy-benign",
+          "impact": "Low",
+          "confidence": "Medium",
+          "description": "Reentrancy in RobinhoodBoostedVaultV2.emergencyDecrease(bytes32,uint128,uint256) (remediation/src/RobinhoodBoostedVaultV2.sol#527-554):\n\tExternal calls:\n\t- (stockReceived,usdgReceived,liquidityRemoved) = liquidityAdapter.decreaseLiquidity(pairId,liquidity,referenceSqrtPriceX96,deadline) (remediation/src/RobinhoodBoostedVaultV2.sol#542-543)\n\tState variables written after the call(s):\n\t- pairLedger.stockIdle += stockReceived (remediation/src/RobinhoodBoostedVaultV2.sol#547)\n\t- pairLedger.usdgIdle += usdgReceived (remediation/src/RobinhoodBoostedVaultV2.sol#548)\n\t- _recognizeLoss(pairId,config,pairLedger,stockPrice,usdgPrice,referenceSqrtPriceX96) (remediation/src/RobinhoodBoostedVaultV2.sol#551)\n\t\t- pairLedger.stockPrincipal = Math.mulDiv(pairLedger.stockPrincipal,gross,benchmark) (remediation/src/RobinhoodBoostedVaultV2.sol#758)\n\t\t- pairLedger.usdgPrincipal = Math.mulDiv(pairLedger.usdgPrincipal,gross,benchmark) (remediation/src/RobinhoodBoostedVaultV2.sol#759)\n\t\t- pairLedger.cumulativeLossUSDG += loss (remediation/src/RobinhoodBoostedVaultV2.sol#761)\n\t\t- pairLedger.lastCheckpoint = uint64(block.timestamp) (remediation/src/RobinhoodBoostedVaultV2.sol#762)\n\t- _recognizeLoss(pairId,config,pairLedger,stockPrice,usdgPrice,referenceSqrtPriceX96) (remediation/src/RobinhoodBoostedVaultV2.sol#551)\n\t\t- aggregateUsdgPrincipal[config.usdg] -= oldUsdgPrincipal - pairLedger.usdgPrincipal (remediation/src/RobinhoodBoostedVaultV2.sol#760)\n"
+        },
+        {
+          "check": "reentrancy-benign",
+          "impact": "Low",
+          "confidence": "Medium",
+          "description": "Reentrancy in RobinhoodBoostedVaultV2.burnEmptyPosition(bytes32,uint256) (remediation/src/RobinhoodBoostedVaultV2.sol#556-571):\n\tExternal calls:\n\t- (stockReceived,usdgReceived) = liquidityAdapter.burnEmptyPosition(pairId,deadline) (remediation/src/RobinhoodBoostedVaultV2.sol#565-566)\n\tState variables written after the call(s):\n\t- _ledger[pairId].stockIdle += stockReceived (remediation/src/RobinhoodBoostedVaultV2.sol#569)\n\t- _ledger[pairId].usdgIdle += usdgReceived (remediation/src/RobinhoodBoostedVaultV2.sol#570)\n"
+        },
+        {
+          "check": "reentrancy-benign",
+          "impact": "Low",
+          "confidence": "Medium",
+          "description": "Reentrancy in RobinhoodBoostedVaultV2._collectFees(bytes32,PairConfig,PairLedger,uint256) (remediation/src/RobinhoodBoostedVaultV2.sol#573-610):\n\tExternal calls:\n\t- (stockFees,usdgFees) = liquidityAdapter.collectFees(pairId,deadline) (remediation/src/RobinhoodBoostedVaultV2.sol#581)\n\t- received = lossReserve.deposit(pairId,config.stockToken,stockReserve) (remediation/src/RobinhoodBoostedVaultV2.sol#589)\n\t- received_scope_1 = lossReserve.deposit(pairId,config.usdg,usdgReserve) (remediation/src/RobinhoodBoostedVaultV2.sol#597)\n\tState variables written after the call(s):\n\t- pairLedger.stockIdle += netStock (remediation/src/RobinhoodBoostedVaultV2.sol#604)\n\t- pairLedger.usdgIdle += netUsdg (remediation/src/RobinhoodBoostedVaultV2.sol#605)\n\t- pairLedger.stockPrincipal += netStock (remediation/src/RobinhoodBoostedVaultV2.sol#606)\n\t- pairLedger.usdgPrincipal += netUsdg (remediation/src/RobinhoodBoostedVaultV2.sol#607)\n\t- aggregateUsdgPrincipal[config.usdg] += netUsdg (remediation/src/RobinhoodBoostedVaultV2.sol#608)\n"
+        },
+        {
+          "check": "timestamp",
+          "impact": "Low",
+          "confidence": "Medium",
+          "description": "RobinhoodBoostedVaultV2._checkDeadline(PairConfig,uint256) (remediation/src/RobinhoodBoostedVaultV2.sol#887-891) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- deadline < block.timestamp (remediation/src/RobinhoodBoostedVaultV2.sol#888)\n\t- delay > config.maxDeadlineDelay (remediation/src/RobinhoodBoostedVaultV2.sol#890)\n"
+        },
+        {
+          "check": "timestamp",
+          "impact": "Low",
+          "confidence": "Medium",
+          "description": "RobinhoodBoostedVaultV2._checkpointIsStale(PairConfig,PairLedger) (remediation/src/RobinhoodBoostedVaultV2.sol#832-839) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- pairLedger.lastCheckpoint == 0 || block.timestamp - pairLedger.lastCheckpoint > config.maxCheckpointAge (remediation/src/RobinhoodBoostedVaultV2.sol#837-838)\n"
+        },
+        {
+          "check": "cyclomatic-complexity",
+          "impact": "Informational",
+          "confidence": "High",
+          "description": "RobinhoodBoostedVaultV2.withdrawForSide(bytes32,address,uint256,address,uint256) (remediation/src/RobinhoodBoostedVaultV2.sol#459-525) has a high cyclomatic complexity (14).\n"
+        },
+        {
+          "check": "naming-convention",
+          "impact": "Informational",
+          "confidence": "High",
+          "description": "Variable RobinhoodBoostedVaultV2.__gap (remediation/src/RobinhoodBoostedVaultV2.sol#917) is not in mixedCase\n"
+        },
+        {
+          "check": "redundant-statements",
+          "impact": "Informational",
+          "confidence": "High",
+          "description": "Redundant expression \"config (remediation/src/RobinhoodBoostedVaultV2.sol#311)\" inRobinhoodBoostedVaultV2 (remediation/src/RobinhoodBoostedVaultV2.sol#25-918)\n"
+        },
+        {
+          "check": "unused-state",
+          "impact": "Informational",
+          "confidence": "High",
+          "description": "RobinhoodBoostedVaultV2.__gap (remediation/src/RobinhoodBoostedVaultV2.sol#917) is never used in RobinhoodBoostedVaultV2 (remediation/src/RobinhoodBoostedVaultV2.sol#25-918)\n"
+        }
+      ]
+    }
+  }
+}

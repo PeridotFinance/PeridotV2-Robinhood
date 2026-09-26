@@ -1,0 +1,80 @@
+forge fmt --check remediation/src remediation/script remediation/test
+forge test --no-match-path '*/fork/*' --match-contract 'LendingPriceAdapterTest|VaultRecoveryTest'
+No files changed, compilation skipped
+warning: invalid natspec tag '@member', custom tags must use format '@custom:name'
+    ╭▸ contracts/peridot-contracts-2-5/contracts/contracts/PTokenInterfaces.sol:112:5
+    │
+112 │ ┏     /**
+113 │ ┃      * @notice Container for borrow balance information
+114 │ ┃      * @member principal Total balance (with accrued interest), after applying the most recent balance-changing action
+115 │ ┃      * @member interestIndex Global borrowIndex as of the most recent balance-changing action
+116 │ ┃      */
+    ╰╴┗━━━━━━━┛
+
+
+Ran 8 tests for remediation/test/LendingPriceAdapter.t.sol:LendingPriceAdapterTest
+[PASS] testDollarCollateralSupportsStockBorrowAtCorrectLimit() (gas: 189651)
+[PASS] testFuzzCollateralAndDebtShareDollarUnits(uint64,uint64) (runs: 256, μ: 106686, ~: 107367)
+[PASS] testFuzzLiquidationDollarDebt(uint96) (runs: 256, μ: 40149, ~: 40016)
+[PASS] testLiquidationBothDirections() (gas: 49407)
+[PASS] testPriceApiScalesRemainDistinct() (gas: 31925)
+[PASS] testRejectsWrongDecimalsAndUnknownMarkets() (gas: 297979)
+[PASS] testReproducesUnsafeBorrowBeforeFix() (gas: 197478)
+[PASS] testZeroPriceFailsClosed() (gas: 64924)
+Suite result: ok. 8 passed; 0 failed; 0 skipped; finished in 40.35ms (58.62ms CPU time)
+
+Ran 43 tests for remediation/test/VaultRecovery.t.sol:VaultRecoveryTest
+[PASS] testAggregateUsdgCapFailsClosedAcrossDeposits() (gas: 172862)
+[PASS] testBoundedSettlementThenCheckpointRecoversAllSurplus() (gas: 757901)
+[PASS] testCheckpointSharesLossAtEqualPercentage() (gas: 466978)
+[PASS] testCheckpointUsesCheckedSignedPnlConversion() (gas: 475236)
+[PASS] testCompositionDoesNotWriteOffSolventClaimsWhenSwapsPaused() (gas: 631303)
+[PASS] testConfiguredPairValueCapStillFailsClosed() (gas: 177796)
+[PASS] testCurrentTimestampDeadlineIsAcceptedForLPWithdrawal() (gas: 573463)
+[PASS] testDepositsRemainSeparatelyAttributed() (gas: 266460)
+[PASS] testDeprecatedMinimumDeadlineSlotMustRemainZero() (gas: 36671)
+[PASS] testEmergencyDecreaseRecognizesLossBeforeIdleWithdrawal() (gas: 609037)
+[PASS] testExitsStillFailClosedBeyondTheRemovalBound() (gas: 465157)
+[PASS] testExitsToleratePoolDeviationThatBlocksAllocation() (gas: 529869)
+[PASS] testFeeOnTransferFromVaultToReserveRevertsWithoutLedgerDrift() (gas: 604420)
+[PASS] testFeeOnTransferToWithdrawalReceiverRevertsWithoutLedgerDrift() (gas: 245487)
+[PASS] testFeesAreSplitInKindBeforeClaimsIncrease() (gas: 689158)
+[PASS] testFuzzRebalanceNeverConsumesUnmatchedStock(uint96,uint64) (runs: 256, μ: 445135, ~: 445109)
+[PASS] testGuardianCanPauseButCannotUnpause() (gas: 48815)
+[PASS] testIdleWithdrawalDoesNotNeedOracle() (gas: 322513)
+[PASS] testIdleWithdrawalRecognizesSharedLossWhileLiquidityRemains() (gas: 515189)
+[PASS] testIdleWithdrawalWithOpenLiquidityFailsClosedOnOracleError() (gas: 473625)
+[PASS] testManipulatedGuardianExitFailsClosedWithoutEnteringEmergencyMode() (gas: 443799)
+[PASS] testManipulatedLPBackedWithdrawalFailsClosed() (gas: 439134)
+[PASS] testPartialEmergencyDecreaseBlocksIdleWithdrawalUntilFullyExited() (gas: 540406)
+[PASS] testRebalanceAutoPausesAllocationWhenExistingPairExceedsCap() (gas: 384476)
+[PASS] testRebalanceDeploysOnlyMatchedOracleValue() (gas: 458462)
+[PASS] testRegistrationRequiresRemovalToleranceToCoverHalfTheRemovalDeviation() (gas: 370822)
+[PASS] testRemovalToleranceCheckRoundsTheHalfUp() (gas: 371636)
+[PASS] testReserveReportCannotOvercreditObservedVaultBalance() (gas: 631624)
+[PASS] testSettlementSlippageCannotExceedFivePercent() (gas: 36359)
+[PASS] testSideAccountLookupSupportsBoostedPTokenValidation() (gas: 37067)
+[PASS] testSingleSidedPositionCanSettleUsingCounterPrincipal() (gas: 662543)
+[PASS] testSkewedPoolCannotManufactureLossAtCheckpoint() (gas: 513533)
+[PASS] testSkewedPoolCannotMaskRealLossAtCheckpoint() (gas: 524411)
+[PASS] testStaleCheckpointIsRefreshedInsideLPWithdrawal() (gas: 597194)
+[PASS] testUncheckpointedSurplusIsRecoverableButStillOracleGated() (gas: 695401)
+[PASS] testWithdrawableAssetsIsZeroInEmergencyModeWithOpenLiquidity() (gas: 454558)
+[PASS] testWithdrawableAssetsNeverExceedsRemainingPrincipal() (gas: 511477)
+[PASS] testWithdrawableAssetsRejectsUnsupportedToken() (gas: 258679)
+[PASS] testWithdrawableAssetsReportsIdleWhenNoLiquidityIsOpen() (gas: 284517)
+[PASS] testWithdrawableAssetsTracksOracleHealthWhileLiquidityIsOpen() (gas: 468508)
+[PASS] testWithdrawalReportsLossAppliedToRemainingClaim() (gas: 608794)
+[PASS] testWithdrawalUnwindsOnlyNeededSlice() (gas: 577578)
+[PASS] testZeroAggregateCapDisablesLimitAfterPrincipalExists() (gas: 182780)
+Suite result: ok. 43 passed; 0 failed; 0 skipped; finished in 41.80ms (50.96ms CPU time)
+
+Ran 2 test suites in 51.29ms (82.16ms CPU time): 51 tests passed, 0 failed, 0 skipped (51 total tests)
+python3 remediation/tools/verify_artifact.py
+Installed adapter creation/runtime templates (including metadata) and ABI match.
+python3 -m unittest discover -s remediation/tools -p 'test_*.py'
+.........
+----------------------------------------------------------------------
+Ran 9 tests in 0.002s
+
+OK
