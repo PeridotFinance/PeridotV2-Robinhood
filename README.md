@@ -4,14 +4,18 @@ Peridot's deployed NVDA/USDG boosted lending vaults and isolated long/short marg
 
 The frontend is being developed by another team member and will be added to [`frontend/`](frontend/README.md). There is no runnable frontend application in this initial snapshot.
 
+For application reviewers, [submission evidence and remaining gaps](docs/SUBMISSION_READINESS.md) separates deployed contracts, current operational status, missing frontend/access-layer proof and usage measurements. Historical deployment notes are dated evidence, not the current status page.
+
 **September 26 remediation:** the ordinary lending oracle's USDG scaling defect has been corrected on mainnet with a separately deployed adapter. Runtime, immutable wiring, price units and both liquidation quote directions were independently verified. Both markets' borrowing and ordinary collateral seizure remain paused, with zero outstanding debt at the verification block. Receipts and validation are in the [hardening record](remediation/README.md). A further vault regression found a zero-LP withdrawal accounting bypass; the [V2 correction](remediation/VAULT_UPGRADE.md) is now active on mainnet, with its runtime and unchanged pair ledgers independently verified at block 73,403,815. Reactivation remains blocked by the stale stock feed. New supply and allocation are also paused. The frozen contract snapshot remains unchanged. Safe migration and external keeper alerts are explicitly deferred by the user.
 
 ## Run locally
 
+The current corrections and evidence are on `fix/robinhood-mainnet-hardening` ([PR #1](https://github.com/PeridotFinance/PeridotV2-Robinhood/pull/1)); the default branch still contains the original snapshot.
+
 Install Foundry with Solidity 0.8.26 support, Python 3.10+, and Make. Solidity dependencies are vendored as the exact source files required by the snapshot; no npm install, sibling repository, submodule update or dependency upgrade is required for the contracts.
 
 ```sh
-git clone https://github.com/PeridotFinance/PeridotV2-Robinhood.git
+git clone --branch fix/robinhood-mainnet-hardening https://github.com/PeridotFinance/PeridotV2-Robinhood.git
 cd PeridotV2-Robinhood
 make verify       # Deployment source hashes, archived artifacts and frontend ABI hashes
 make build        # Vault and margin builds

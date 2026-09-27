@@ -1,6 +1,6 @@
 # September 26 hardening work
 
-This directory contains the installed lending-oracle correction, a separately prepared vault correction, and dated evidence. It is separate from the frozen deployed source under `contracts/` and the `robinhood-mainnet-5x-2026-09-19.1` tag. A passing local test is not evidence of a mainnet installation.
+This directory contains the installed lending-oracle correction, the installed vault correction, and dated evidence. It is separate from the frozen deployed source under `contracts/` and the `robinhood-mainnet-5x-2026-09-19.1` tag. A passing local test is not evidence of a mainnet installation.
 
 | Workstream | Current status |
 | --- | --- |

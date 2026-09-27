@@ -16,7 +16,7 @@ Vault positions use standard Uniswap v4 PoolManager/PositionManager through an a
 
 Loss accounting values liquidity at the oracle reference price. Allocation and removal deviation bounds, amount floors, approval cleanup and exact balance-delta checks limit pool manipulation and token-transfer ambiguity. Cash buffers and allocation caps constrain deployment; they do not guarantee immediate native-token redemption.
 
-The reserve offers capped, available, in-kind deficit coverage. Coverage depends on balances, per-event/daily budgets and the coverage ratio. Uncovered loss can reduce both NVDA and USDG claims. This is not insurance guaranteeing principal or outperformance against holding. Composition shortages require conversion or replenishment; paused settlement can leave solvent claims temporarily unpaid. See [recovery](VAULT_RECOVERY.md).
+The reserve offers capped, available, in-kind deficit coverage. Coverage depends on balances, per-event/daily budgets and the coverage ratio. Uncovered loss can reduce both NVDA and USDG claims. This is not insurance guaranteeing principal or outperformance against holding. Composition shortages require conversion or replenishment; paused settlement can leave solvent claims temporarily unpaid. See [recovery](VAULT_RECOVERY.md) and the [September 27 reserve bounds/balances](../docs/OPERATIONS.md#exact-reserve-bounds).
 
 `totalPairAssets` is a pool-priced market view and must not replace oracle-priced loss accounting. A “drained” check must include idle ledger amounts and remaining LP fees/NFT state, not principals alone.
 

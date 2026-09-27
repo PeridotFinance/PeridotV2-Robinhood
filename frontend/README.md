@@ -4,6 +4,12 @@ The frontend is being developed separately. Add that application's source and lo
 
 Use the pinned Robinhood mainnet [manifest](../contracts/robinhood-vaults/frontend/margin-mainnet/manifest.json), [16 ABIs](../contracts/robinhood-vaults/frontend/margin-mainnet), and [implementation guide](../contracts/robinhood-vaults/frontend/margin-mainnet/FRONTEND_IMPLEMENTATION_GUIDE.md). They describe the deployed executor's exact tuple layouts and 5× settings. Do not generate interfaces from newer Avalanche margin sources.
 
+The September 26 corrections preserve the vault proxy address and public ABI. Read [current deployment status](../remediation/MAINNET_EVIDENCE.md) alongside the historical manifest. USDG has 6 decimals, NVDA 18, and pTokens 8. The controller's USDG price is `1e30` at $1 while the USD18 API remains `1e18`; use `controller.oracle()` instead of an old hardcoded oracle. Display actual market pause flags, price availability and LP allocation separately. Never treat a successful outer receipt as proof of a vault operation when a `VaultDepositFailed` or `VaultWithdrawalFailed` event was emitted.
+
+## Submission acceptance criteria
+
+The separate frontend developer owns implementation. The deliverable is a runnable app with a live preview (or clear local start instructions), wallet connection on chain 4663, portfolio/market reads, honest paused/unavailable states, and transaction/explorer links. When the protocol reopens, record one real supply → borrow → repay/redeem flow and small long/short lifecycle tests; label them operator acceptance tests unless they are independent user activity. Show actual LP allocation and reserve bounds rather than a fixed yield or coverage promise. Fiat/IBAN and cross-chain screens require linked implementation/transaction evidence before being presented as working features.
+
 When adding the app:
 
 1. Keep the frozen contracts and `snapshot/` records unchanged.
