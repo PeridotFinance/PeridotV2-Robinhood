@@ -4,7 +4,7 @@ This repository describes an existing mainnet deployment with deliberately small
 
 ## Current status and record precedence
 
-Read [the current dated evidence](../remediation/MAINNET_EVIDENCE.md) before archived reports. The margin rollout completed September 18 and the 5× configuration September 19. The lending price adapter and vault V2 correction were installed September 26. At the latest recorded verification, new supply/borrowing, ordinary seizure and strategy allocation/settlement remained paused, with zero outstanding debt. Fresh guarded prices, signed reactivation and observed transaction flows are still needed before claiming operational availability. Zero debt is not proof of zero historical usage.
+Read [the current dated evidence](../remediation/MAINNET_EVIDENCE.md) before archived reports. The margin rollout completed September 18 and the 5× configuration September 19. The lending price adapter and vault V2 correction were installed September 26. At block 75,678,599 on September 29, five user-signed reactivation calls were verified: supply/borrow and ordinary seizure are enabled. Guarded prices were available and both margin markets were priceable. Strategy allocation/settlement remain paused with zero LP liquidity. Actual lending and long/short acceptance flows remain outstanding. Zero debt at this block is not proof of zero historical usage.
 
 ## Prices and withdrawals
 
@@ -31,7 +31,7 @@ Use **“capped reserve-backed loss mitigation”**. “IL cushion” may be inf
 
 ## Historical keeper and governance status
 
-September 20 records describe a DigitalOcean worker with a durable PostgreSQL journal and funded dedicated liquidation signer. The signer has no checked protocol admin/owner roles. No live cloud liquidation was observed in that record. A later [September 26 health read](../remediation/evidence/keeper-health.json) reported execution enabled, gas ready and no positions. External heartbeat alerts are not installed; recheck health before reopening.
+September 20 records describe a DigitalOcean worker with a durable PostgreSQL journal and funded dedicated liquidation signer. The signer has no checked protocol admin/owner roles. No live cloud liquidation was observed in that record. A later [September 26 health read](../remediation/evidence/keeper-health.json) reported execution enabled, gas ready and no positions. The [September 29 readiness record](../remediation/evidence/reactivation-readiness-2026-09-29.json) also records execution enabled, gas ready and no positions. External heartbeat alerts remain deferred; recheck health before live acceptance testing.
 
 The archived local keeper service code is included for review and tests. Existing cloud credentials, operator keystores, passwords, local database state and cloud app configuration are excluded from this repository.
 

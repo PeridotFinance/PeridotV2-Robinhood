@@ -1,10 +1,30 @@
 # Mainnet evidence and submission claims
 
-**September 29 readiness update (not an unpause):** at block 75,671,997, stock prices passed the guard and both margin markets reported priceable. The stock feed last updated at 07:36:58 UTC / 09:36:58 Europe/Berlin. The dedicated keeper reported execution enabled, gas ready and no positions. The existing reactivation script simulated all five admin calls successfully without signing/broadcast. Both supply/borrow pauses and ordinary seizure remain enabled, debt is zero, and LP allocation/settlement remain paused with zero position liquidity. [Pinned reads and keeper health](evidence/reactivation-readiness-2026-09-29.json), [simulation](evidence/reactivation-simulation-2026-09-29.txt). Actual reopening and transaction-flow verification are pending.
+## September 29: lending reactivation verified
+
+At block **75,678,599**, all five user-signed transactions passed independent checks for sender, controller target, exact calldata, successful canonical receipt, matching `ActionPaused` event and execution order. Both markets have supply/borrow enabled; ordinary seizure is restored. Oracle, vault V2, controller and pToken delegate runtime identities match their recorded hashes. Guarded prices were available and both margin markets were priceable. Directional margin limits remain unchanged.
+
+| Action | Transaction |
+| --- | --- |
+| Restore ordinary seizure | `0xfd6bc0cbe1f86f2fc03e6f6ff41d9d11f7d993eafd36f6536373e017eec47fd9` |
+| Restore pNVDA borrowing | `0x816853d5053089b59c61ed28646ca5235cec3a09dc16344ec09cb0b4fae4a240` |
+| Restore pUSDG borrowing | `0x09c649506646b6259de074167129729f34b7d4ba9ca519eedb0e007353e1ca35` |
+| Restore pNVDA supply | `0x8278e138dfcfd3690d9b37059d003fa75c1d60495dd5419df8425eb98c8d9581` |
+| Restore pUSDG supply | `0x6534fe8caf90d2e5036ea290e18bcfd7f4256eb3592f2acecd6499704349f667` |
+
+**LP allocation and settlement swaps remain paused; production LP liquidity is zero.** Supply/borrow/repay/redeem and small long/short acceptance flows remain outstanding. Zero debt at this block is not a lifetime usage measurement. Safe migration and Telegram alerts remain explicitly deferred.
+
+[Execution record](evidence/reactivation-execution-2026-09-29.json), [SHA-256](evidence/reactivation-execution-2026-09-29.sha256), [read-only verifier](tools/record_reactivation.py). Verification uses one public RPC. Its `safe` and `finalized` block tags did not yet cover all receipts when sampled; this is canonical L2 inclusion and state verification, not independent L1 settlement proof.
+
+## Earlier dated observations
+
+The records below describe their stated blocks. The September 29 execution above supersedes earlier paused/pending operational status.
+
+**September 29 readiness update (not an unpause):** at block 75,671,997, stock prices passed the guard and both margin markets reported priceable. The stock feed last updated at 07:36:58 UTC / 09:36:58 Europe/Berlin. The dedicated keeper reported execution enabled, gas ready and no positions. The existing reactivation script simulated all five admin calls successfully without signing/broadcast. Both supply/borrow pauses and ordinary seizure remain enabled, debt is zero, and LP allocation/settlement remain paused with zero position liquidity. [Pinned reads and keeper health](evidence/reactivation-readiness-2026-09-29.json), [simulation](evidence/reactivation-simulation-2026-09-29.txt). At this pre-execution observation, reopening was still pending. The execution record above supersedes that status; transaction-flow verification remains outstanding.
 
 All observations are dated/pinned. Code deployment, enabled operations, a successful local fork and an observed mainnet transaction are distinct claims.
 
-## Current containment
+## September 26 containment
 
 The governor signed three mainnet transactions locally. Receipt identities and resulting flags are recorded in `evidence/containment-transactions.json` and `evidence/contained-state.json`, with SHA-256 digests:
 
@@ -72,9 +92,9 @@ The dedicated keeper's fresh direct health read reported execution enabled, gas 
 
 Use: “Peridot has deployed NVDA/USDG boosted lending, a paired Uniswap v4 strategy with capped in-kind loss mitigation, and isolated long/short margin on Robinhood Chain mainnet under restricted canary limits.” Follow this with the current operational state and dated receipts.
 
-While containment remains active, say: “The lending-oracle correction is deployed and verified; new borrowing remains paused pending fresh guarded prices and reactivation.” Do not present the supply → borrow → leverage journey as currently executable until it has been reactivated and reproduced.
+Current wording: “Lending reactivation was verified September 29; supply and borrowing are enabled, while LP allocation/settlement remain paused. User lifecycle and frontend acceptance testing remain outstanding.” Do not claim successful margin fills or a reproduced supply → borrow → leverage journey from cleared pause flags alone.
 
-Use “capped reserve-backed loss mitigation,” not guaranteed impermanent-loss insurance. Use “standard v4 adapter,” not a custom hook. Show 5× as a configured limit, not a claim that new positions can open while borrowing is paused.
+Use “capped reserve-backed loss mitigation,” not guaranteed impermanent-loss insurance. Use “standard v4 adapter,” not a custom hook. Show 5× as a configured limit; actual margin fills remain to be demonstrated after reopening.
 
 Cross-chain access, fiat onboarding, IBANs and the separate frontend require their own repository/provider/transaction evidence. This contract package does not prove those integrations.
 

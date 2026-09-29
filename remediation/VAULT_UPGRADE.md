@@ -1,6 +1,6 @@
 # Native-backing correction for closed LP positions
 
-Status: **V2 installed and independently verified on mainnet; markets remain paused**. Verification at block **73,403,815** confirmed the active proxy implementation matches the reviewed runtime, the timelock operation is complete, both pair ledgers are unchanged, and both pToken stored exchange rates are unchanged. The separate lending-oracle adapter is also installed.
+Status: **V2 installed; lending reactivated September 29, LP allocation/settlement still paused**. See [current execution evidence](evidence/reactivation-execution-2026-09-29.json). The following upgrade observations are pinned to September 26, before lending reactivation. Verification at block **73,403,815** confirmed the active proxy implementation matches the reviewed runtime, the timelock operation is complete, both pair ledgers are unchanged, and both pToken stored exchange rates are unchanged. The separate lending-oracle adapter is also installed.
 
 - Active V2: `0x17f0cf262fbbf27e44756dba6d852815695e9c4a`.
 - Execution transaction: `0x24eb2c2545f073041c37850046f2a4cf2ff561be7a17322bc865d03f7d6d0e41`.
@@ -9,9 +9,9 @@ Status: **V2 installed and independently verified on mainnet; markets remain pau
 - Completed operation: `0xacc0e39a4de59d916d7ddb337dedc5717ab64479bb449714d70fcd05ad7b6067`.
 - Supply, borrowing, ordinary seizure, production allocation and settlement swaps remain paused. Both markets have zero debt. Vault cash is currently guard-blocked; pToken local cash remains separate, without reducing recorded NAV merely because of that restriction.
 
-Evidence: [`vault-upgrade-execution.json`](evidence/vault-upgrade-execution.json), [`vault-upgrade-queue.json`](evidence/vault-upgrade-queue.json) and their SHA-256 digests. `python3 remediation/tools/record_vault_execution.py` independently checks the current installation while containment remains in place. The older queue verifier intentionally rejects the now-completed upgrade/overwritten broadcast journal; use its archived evidence.
+Evidence: [`vault-upgrade-execution.json`](evidence/vault-upgrade-execution.json), [`vault-upgrade-queue.json`](evidence/vault-upgrade-queue.json) and their SHA-256 digests. `python3 remediation/tools/record_vault_execution.py` verifies the installation only while its expected containment flags remain in place; after September 29 reactivation, use `record_reactivation.py` for the current runtime and flag checks. The older queue verifier intentionally rejects the now-completed upgrade/overwritten broadcast journal; use its archived evidence.
 
-The post-upgrade reactivation simulation passed the oracle/vault identity gates, then reverted with `StaleOracle` for the stock feed. No reactivation transaction was sent. Fresh guarded prices are required before reopening or settling the remaining composition imbalance; weekend staleness is not bypassed.
+On September 26, the post-upgrade reactivation simulation passed the oracle/vault identity gates, then reverted with `StaleOracle` for the stock feed. No reactivation transaction was sent. Fresh guarded prices are required before reopening or settling the remaining composition imbalance; weekend staleness is not bypassed.
 
 ## Finding and change
 
