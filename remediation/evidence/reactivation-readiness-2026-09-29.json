@@ -1,0 +1,79 @@
+{
+  "status": "REACTIVATION_SIMULATION_PASSED_NOT_BROADCAST",
+  "chainId": 4663,
+  "block": 75671997,
+  "blockHash": "0x57dfa7067570bd115385acc0d63dc66e6579fe54a6f959243955c02687ba4624",
+  "timestamp": 1790686494,
+  "feedUpdatedAt": 1790667418,
+  "feedUpdatedAtUTC": "2026-09-29T07:36:58+00:00",
+  "feedUpdatedAtBerlin": "2026-09-29T09:36:58+02:00",
+  "feedAgeSeconds": 19076,
+  "guardPricesUSD18": [
+    "230558581160000000000",
+    "1000000000000000000"
+  ],
+  "marginMarketPriceable": {
+    "pUSDG": true,
+    "pNVDA": true
+  },
+  "allocationPaused": true,
+  "settlementSwapsPaused": true,
+  "positionStateRaw": [
+    "2752736",
+    "0",
+    "0",
+    "0"
+  ],
+  "preReactivationState": {
+    "chainId": 4663,
+    "block": 75671179,
+    "blockHash": "0x3f2476685064ece069f03b6a5f2cc5311c8a245948ab73176f28490658bcc460",
+    "timestamp": 1790686411,
+    "controller": "0x6148183676e304dbe63a85c350c208da3ceac39c",
+    "admin": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+    "pauseGuardian": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+    "oracle": "0xe4e03c2fdaef915ace705d106b2660b1e342a2e4",
+    "seizePaused": true,
+    "markets": {
+      "pUSDG": {
+        "address": "0x55aed0569c8f0d166d71face57b57c2f2624a563",
+        "underlying": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+        "underlyingDecimals": 6,
+        "pTokenDecimals": 8,
+        "admin": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+        "borrowPaused": true,
+        "mintPaused": true,
+        "totalBorrowsRaw": "0",
+        "totalSupplyRaw": "20000000000",
+        "localCashRaw": "2000000",
+        "exchangeRateStored": "200001750000000",
+        "controllerOraclePrice": "1000000000000000000000000000000"
+      },
+      "pNVDA": {
+        "address": "0xa155cccb986774ae818b3f10f07d01d1b7a47b26",
+        "underlying": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
+        "underlyingDecimals": 18,
+        "pTokenDecimals": 8,
+        "admin": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+        "borrowPaused": true,
+        "mintPaused": true,
+        "totalBorrowsRaw": "0",
+        "totalSupplyRaw": "114745933",
+        "localCashRaw": "11474644834520232",
+        "exchangeRateStored": "200000898236981209608535755",
+        "controllerOraclePrice": "230558581160000000000"
+      }
+    }
+  },
+  "keeperHealth": {
+    "status": "monitoring",
+    "checkedAtUnix": 1790686417,
+    "executionEnabled": true,
+    "sender": "0x16aEC17597E5224998e2043C9c83C4a35dD95A86",
+    "gasBalanceWei": "2000000000000000",
+    "gasReady": true,
+    "journalId": "43864aac-a4af-4575-9a65-92cad29cebc2",
+    "positions": []
+  },
+  "scope": "Pinned public reads plus an unpinned live forge simulation without signing/broadcast. Admin flags remain paused. Does not establish successful margin fills or resumed LP allocation."
+}

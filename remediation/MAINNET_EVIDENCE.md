@@ -1,5 +1,7 @@
 # Mainnet evidence and submission claims
 
+**September 29 readiness update (not an unpause):** at block 75,671,997, stock prices passed the guard and both margin markets reported priceable. The stock feed last updated at 07:36:58 UTC / 09:36:58 Europe/Berlin. The dedicated keeper reported execution enabled, gas ready and no positions. The existing reactivation script simulated all five admin calls successfully without signing/broadcast. Both supply/borrow pauses and ordinary seizure remain enabled, debt is zero, and LP allocation/settlement remain paused with zero position liquidity. [Pinned reads and keeper health](evidence/reactivation-readiness-2026-09-29.json), [simulation](evidence/reactivation-simulation-2026-09-29.txt). Actual reopening and transaction-flow verification are pending.
+
 All observations are dated/pinned. Code deployment, enabled operations, a successful local fork and an observed mainnet transaction are distinct claims.
 
 ## Current containment
