@@ -60,3 +60,7 @@ No frontend application is changed here. Frontend implementation remains with th
 ## Small operator lending test
 
 The [lending acceptance commands](LENDING_ACCEPTANCE.md) simulate a 0.001 NVDA supply / 0.05 USDG borrow round trip, then separate locally signed opening and closing stages with receipt/state checks. The user-signed opening is now independently verified at block 76,556,183: 0.001 NVDA supplied and 0.05 USDG borrowed. The six closing transactions are also verified at block 76,565,683: zero debt, 0.001 NVDA returned, approvals cleared and original token/share balances and memberships restored. The verifier journal-path defect was fixed and the existing transactions reconciled without rebroadcast.
+
+## Small isolated-margin tests
+
+Both directions pass current-mainnet-state open/close/withdraw simulation. [Margin acceptance](MARGIN_ACCEPTANCE.md) uses about 0.20 USDG of existing pUSDG collateral at 2× requested leverage, with separate user-local signing and receipt/state checks. Live margin acceptance remains pending; no caps, LP pauses or governance settings are changed.
