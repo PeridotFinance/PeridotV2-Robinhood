@@ -56,3 +56,7 @@ The adapter deliberately preserves the source oracle's policy, including cached/
 - [Judge questions](JUDGE_QA.md)
 
 No frontend application is changed here. Frontend implementation remains with the separate developer.
+
+## Small operator lending test
+
+The [lending acceptance commands](LENDING_ACCEPTANCE.md) simulate a 0.001 NVDA supply / 0.05 USDG borrow round trip, then separate locally signed opening and closing stages with receipt/state checks. The earlier full simulation passed; the latest check is stale-oracle blocked. No live acceptance flow is claimed.

@@ -1,0 +1,13 @@
+{
+  "chainId": 4663,
+  "stateBlock": 76447247,
+  "blockHash": "0x7a048ef01eb9bb640dbe2b683cb80f93c1b002948f9d661ad30d2cfbd9c95f11",
+  "nativeEvmBlockNumber": 26089723,
+  "stage": "roundtrip",
+  "broadcast": false,
+  "stockSupplyRaw": "1000000000000000",
+  "dollarBorrowRaw": "50000",
+  "repaymentApprovalCapRaw": "51000",
+  "exitCode": 1,
+  "scope": "Local simulation only; no signing or mainnet transactions"
+}
