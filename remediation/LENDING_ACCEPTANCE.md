@@ -2,9 +2,9 @@
 
 The runner tests **0.001 NVDA supplied and 0.05 USDG borrowed**, then repays the complete USDG debt and redeems 0.001 NVDA. Repayment approval is capped at 0.051 USDG; unused approval is revoked. It preserves existing supply shares apart from rounding/interest and restores the initially absent market memberships. It refuses existing debt/membership for opening. This is an operator test, not independent adoption.
 
-The full ten-transaction round trip passed a local mainnet-fork simulation at block 76,020,704. A subsequent check at block 76,447,247 stopped at the stock guard's stale-oracle check. After prices refreshed, the user signed the four opening transactions. Independent verification at block **76,556,183** confirms the 0.001 NVDA supply and 0.05 USDG borrow, with matching receipts, events and balances. [Opening evidence](evidence/lending-acceptance-open-verified.json). Repayment and redemption remain pending; their native-clock script simulation passed at block 76,557,388. Earlier simulation success is not continuous readiness. No oracle threshold, protocol limit, strategy pause or governance setting is changed.
+The full ten-transaction round trip passed a local mainnet-fork simulation at block 76,020,704. A subsequent check at block 76,447,247 stopped at the stock guard's stale-oracle check. After prices refreshed, the user signed the four opening transactions. Independent verification at block **76,556,183** confirms the 0.001 NVDA supply and 0.05 USDG borrow, with matching receipts, events and balances. [Opening evidence](evidence/lending-acceptance-open-verified.json). The six user-signed closing transactions were independently verified at block **76,565,683**: zero debt in both markets, 0.001 NVDA returned, approvals cleared and memberships restored. The final underlying balances and original pNVDA share balance exactly match the pre-test snapshot (ETH gas costs are separate). [Closing evidence](evidence/lending-acceptance-close-verified.json). Earlier simulation success is not continuous readiness. No oracle threshold, protocol limit, strategy pause or governance setting is changed.
 
-## Commands
+## Historical commands — completed; do not rerun
 
 Run from the local checkout:
 
@@ -43,4 +43,4 @@ To verify an already-signed opening without sending anything:
 python3 remediation/tools/lending_acceptance.py --stage open --verify
 ```
 
-Use `--stage close --verify` for an already-signed close. Verification needs the saved stage intent and expected public Foundry journal. It never signs, simulates or rebroadcasts. The opening has already been reconciled; do not run the opening broadcast again.
+Use `--stage close --verify` for an already-signed close. Verification needs the saved stage intent and expected public Foundry journal. It never signs, simulates or rebroadcasts. Both stages have already been reconciled; do not run either broadcast again.

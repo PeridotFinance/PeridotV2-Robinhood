@@ -1,6 +1,6 @@
 # Submission evidence and remaining gaps
 
-Updated September 29, 2026. This page separates implementation evidence from product availability and adoption. Contract observations are pinned in the linked records; they are not continuous monitoring.
+Updated September 30, 2026. This page separates implementation evidence from product availability and adoption. Contract observations are pinned in the linked records; they are not continuous monitoring.
 
 The current submission review branch is `fix/robinhood-mainnet-hardening`, [PR #1](https://github.com/PeridotFinance/PeridotV2-Robinhood/pull/1). The public default branch still contains the earlier snapshot. Share the explicit branch link until the reviewed corrections are incorporated into the default submission view; do not expect judges to infer this distinction.
 
@@ -10,7 +10,7 @@ The current submission review branch is `fix/robinhood-mainnet-hardening`, [PR #
 | --- | --- |
 | Robinhood Chain mainnet contracts | Deployed NVDA/USDG lending, paired v4 vault/reserve, isolated long/short margin and liquidation contracts. [Addresses](../remediation/MAINNET_DEPLOYMENTS.md), [dated receipts](../remediation/MAINNET_EVIDENCE.md). Deployment is not proof that all actions are currently enabled. |
 | Installed hardening | Oracle units corrected and vault post-LP shared-loss bypass fixed on mainnet. Independent runtime/receipt/state checks confirm the installations. Both pair ledgers and stored exchange rates were preserved. |
-| Operational product | At block 75,678,599 on September 29, supply/borrow and ordinary seizure are enabled; guarded prices and both margin priceability checks passed. Five signed transactions and resulting state are verified. LP allocation/settlement remain paused with zero liquidity. Actual lending and long/short acceptance flows remain outstanding. |
+| Operational product | At block 75,678,599 on September 29, supply/borrow and ordinary seizure are enabled; guarded prices and both margin priceability checks passed. Five signed transactions and resulting state are verified. LP allocation/settlement remain paused with zero liquidity. The operator lending round trip completed September 30 with zero final debt at block 76,565,683; [evidence](../remediation/evidence/lending-acceptance-close-verified.json). Long/short and frontend acceptance tests remain outstanding. |
 | Runnable frontend | Missing from this repository. A separate developer is building it. No public app or runnable local frontend is established by these sources. [Acceptance criteria](../frontend/README.md). |
 | Cross-chain entry, fiat on-ramp, virtual IBAN | Not evidenced here. Link working code plus reproducible flows/provider evidence separately, or label as planned/unverified. A diagram, provider capability or UI mock is not implementation proof. |
 | Loss mitigation | Capped, available, in-kind reserve support for qualifying realized deficits. Both NVDA and USDG claims can absorb uncovered losses. [Current bounds](OPERATIONS.md#exact-reserve-bounds) include the small actual token balances; dollar ceilings are not funded guarantees. |
@@ -19,7 +19,7 @@ The current submission review branch is `fix/robinhood-mainnet-hardening`, [PR #
 | Governance | Bootstrap EOA control and historical governor credential exposure remain unresolved. Safe deployment/funding/migration is explicitly user-deferred. Do not call governance migrated, multisig-controlled or the prior credential fully retired. |
 | Security | Unit/fuzz/invariant, fork, reproducibility and scoped static-analysis evidence exists. There is no completed independent external audit. Preserve separate test scopes; inherited repetitions are not new unique tests. |
 
-Suggested current description: “Peridot has deployed productive lending liquidity and isolated margin infrastructure for NVDA Stock Token/USDG markets on Robinhood Chain mainnet, under restricted canary limits. The reserve provides capped in-kind loss mitigation. Lending has been reactivated; LP allocation remains paused, and user lifecycle/frontend acceptance testing is in progress.”
+Suggested current description: “Peridot has deployed productive lending liquidity and isolated margin infrastructure for NVDA Stock Token/USDG markets on Robinhood Chain mainnet, under restricted canary limits. The reserve provides capped in-kind loss mitigation. Lending has been reactivated and an operator supply/borrow/repay/redeem cycle completed on mainnet; LP allocation remains paused, and margin/frontend acceptance testing is in progress.”
 
 ## Finish in this order
 

@@ -1,0 +1,32 @@
+{
+  "chainId": 4663,
+  "stateBlock": 76564507,
+  "blockHash": "0xea4783b852ca6969fd6f76757a3d89780517822fb17f9bbd830ee76fe5b32033",
+  "nativeEvmBlockNumber": 26090705,
+  "stage": "close",
+  "broadcast": true,
+  "secondaryReplaySkipped": true,
+  "stockSupplyRaw": "1000000000000000",
+  "dollarBorrowRaw": "50000",
+  "repaymentApprovalCapRaw": "51000",
+  "nonceBefore": 244,
+  "before": {
+    "block": 76564517,
+    "hash": "0x5888aca11a34d7d05469c80ab6e9199eeef3a579a38357e149c71327860c1c1a",
+    "stockWallet": 94669533924500770,
+    "dollarWallet": 9047001,
+    "stockShares": 104999977,
+    "stockAllowance": 0,
+    "dollarAllowance": 0,
+    "pUSDG": {
+      "debt": 50000,
+      "member": true
+    },
+    "pNVDA": {
+      "debt": 0,
+      "member": true
+    }
+  },
+  "exitCode": 0,
+  "scope": "User-local signing attempt. Independent receipt/event/state verification still required."
+}

@@ -1,5 +1,13 @@
 # Mainnet evidence and submission claims
 
+## September 30: operator lending round trip completed
+
+All ten user-signed transactions are verified: 0.001 NVDA supplied, collateral market entered, 0.05 USDG borrowed, full debt repaid, approval revoked, 0.001 NVDA redeemed, and original market memberships restored. Opening was verified at block 76,556,183 and closing at block **76,565,683**. Both final debts and approvals are zero. The two underlying wallet balances and pre-existing pNVDA share balance exactly match the pre-test snapshot; gas costs are separate.
+
+[Opening receipts and state](evidence/lending-acceptance-open-verified.json), [closing receipts and state](evidence/lending-acceptance-close-verified.json), [runner and recovery notes](LENDING_ACCEPTANCE.md). Exact calldata/sender/nonce/chain, canonical successful receipts, action events and before/after balances were checked through one public RPC. This is an operator acceptance test, not independent adoption, margin execution, LP reactivation or independent L1 settlement proof.
+
+The initial opening verifier filename error was reconciled without rebroadcast. The closing simulation required the existing native-EVM-clock handling to avoid Foundry's incorrect RPC-height interest replay. No oracle threshold, allowance cap or risk limit was relaxed. LP allocation/settlement remain paused; long/short and frontend acceptance remain outstanding. Safe and Telegram work remain deferred.
+
 ## September 29: lending reactivation verified
 
 At block **75,678,599**, all five user-signed transactions passed independent checks for sender, controller target, exact calldata, successful canonical receipt, matching `ActionPaused` event and execution order. Both markets have supply/borrow enabled; ordinary seizure is restored. Oracle, vault V2, controller and pToken delegate runtime identities match their recorded hashes. Guarded prices were available and both margin markets were priceable. Directional margin limits remain unchanged.
@@ -12,7 +20,7 @@ At block **75,678,599**, all five user-signed transactions passed independent ch
 | Restore pNVDA supply | `0x8278e138dfcfd3690d9b37059d003fa75c1d60495dd5419df8425eb98c8d9581` |
 | Restore pUSDG supply | `0x6534fe8caf90d2e5036ea290e18bcfd7f4256eb3592f2acecd6499704349f667` |
 
-**LP allocation and settlement swaps remain paused; production LP liquidity is zero.** Supply/borrow/repay/redeem and small long/short acceptance flows remain outstanding. Zero debt at this block is not a lifetime usage measurement. Safe migration and Telegram alerts remain explicitly deferred.
+**LP allocation and settlement swaps remain paused; production LP liquidity is zero.** At this September 29 observation, lending and margin acceptance flows were outstanding; the September 30 lending result above supersedes that portion. Zero debt at this block is not a lifetime usage measurement. Safe migration and Telegram alerts remain explicitly deferred.
 
 [Execution record](evidence/reactivation-execution-2026-09-29.json), [SHA-256](evidence/reactivation-execution-2026-09-29.sha256), [read-only verifier](tools/record_reactivation.py). Verification uses one public RPC. Its `safe` and `finalized` block tags did not yet cover all receipts when sampled; this is canonical L2 inclusion and state verification, not independent L1 settlement proof.
 
@@ -20,7 +28,7 @@ At block **75,678,599**, all five user-signed transactions passed independent ch
 
 The records below describe their stated blocks. The September 29 execution above supersedes earlier paused/pending operational status.
 
-**September 29 readiness update (not an unpause):** at block 75,671,997, stock prices passed the guard and both margin markets reported priceable. The stock feed last updated at 07:36:58 UTC / 09:36:58 Europe/Berlin. The dedicated keeper reported execution enabled, gas ready and no positions. The existing reactivation script simulated all five admin calls successfully without signing/broadcast. Both supply/borrow pauses and ordinary seizure remain enabled, debt is zero, and LP allocation/settlement remain paused with zero position liquidity. [Pinned reads and keeper health](evidence/reactivation-readiness-2026-09-29.json), [simulation](evidence/reactivation-simulation-2026-09-29.txt). At this pre-execution observation, reopening was still pending. The execution record above supersedes that status; transaction-flow verification remains outstanding.
+**September 29 readiness update (not an unpause):** at block 75,671,997, stock prices passed the guard and both margin markets reported priceable. The stock feed last updated at 07:36:58 UTC / 09:36:58 Europe/Berlin. The dedicated keeper reported execution enabled, gas ready and no positions. The existing reactivation script simulated all five admin calls successfully without signing/broadcast. Both supply/borrow pauses and ordinary seizure remain enabled, debt is zero, and LP allocation/settlement remain paused with zero position liquidity. [Pinned reads and keeper health](evidence/reactivation-readiness-2026-09-29.json), [simulation](evidence/reactivation-simulation-2026-09-29.txt). At this pre-execution observation, reopening was still pending. The execution record above supersedes that status; transaction-flow verification was outstanding at that time; the September 30 lending record above supersedes it.
 
 All observations are dated/pinned. Code deployment, enabled operations, a successful local fork and an observed mainnet transaction are distinct claims.
 
@@ -92,7 +100,7 @@ The dedicated keeper's fresh direct health read reported execution enabled, gas 
 
 Use: “Peridot has deployed NVDA/USDG boosted lending, a paired Uniswap v4 strategy with capped in-kind loss mitigation, and isolated long/short margin on Robinhood Chain mainnet under restricted canary limits.” Follow this with the current operational state and dated receipts.
 
-Current wording: “Lending reactivation was verified September 29; supply and borrowing are enabled, while LP allocation/settlement remain paused. User lifecycle and frontend acceptance testing remain outstanding.” Do not claim successful margin fills or a reproduced supply → borrow → leverage journey from cleared pause flags alone.
+Current wording: “Lending reactivation was verified September 29; supply and borrowing are enabled, while LP allocation/settlement remain paused. An operator lending cycle completed September 30; margin and frontend acceptance testing remain outstanding.” Do not claim successful margin fills or a reproduced supply → borrow → leverage journey from cleared pause flags alone.
 
 Use “capped reserve-backed loss mitigation,” not guaranteed impermanent-loss insurance. Use “standard v4 adapter,” not a custom hook. Show 5× as a configured limit; actual margin fills remain to be demonstrated after reopening.
 
