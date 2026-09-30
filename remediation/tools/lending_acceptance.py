@@ -12,6 +12,7 @@ from rpc import rpc, RPC
 
 STOCK = '0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec'
 USDG = '0x5fc5360d0400a0fd4f2af552add042d716f1d168'
+ENTRYPOINTS = {'roundtrip': 'run', 'open': 'supplyAndBorrow', 'close': 'repayAndRedeem'}
 
 
 def snapshot():
@@ -34,7 +35,9 @@ def snapshot():
 
 
 def verify(stage, pin):
-    journal_path = ROOT / 'broadcast/LendingAcceptance.s.sol/4663/run-latest.json'
+    if stage not in ('open', 'close'):
+        raise ValueError('Receipt verification requires open or close stage')
+    journal_path = ROOT / ('broadcast/LendingAcceptance.s.sol/4663/' + ENTRYPOINTS[stage] + '-latest.json')
     journal = json.loads(journal_path.read_text())
     save(ROOT / ('remediation/evidence/lending-acceptance-' + stage + '-broadcast.json'), journal)
     stock, dollar = MARKETS['pNVDA'], MARKETS['pUSDG']
@@ -106,7 +109,9 @@ def verify(stage, pin):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--stage', choices=('roundtrip', 'open', 'close'), default='roundtrip')
-    parser.add_argument('--broadcast', action='store_true')
+    mode = parser.add_mutually_exclusive_group()
+    mode.add_argument('--broadcast', action='store_true')
+    mode.add_argument('--verify', action='store_true', help='Verify the existing signed stage only; never signs or rebroadcasts')
     args = parser.parse_args()
     if args.broadcast and args.stage == 'roundtrip':
         raise RuntimeError('Broadcast separate --stage open and --stage close, with verification between them')
@@ -114,19 +119,35 @@ def main():
         raise RuntimeError('Run in your terminal; Foundry prompts for your keystore password locally')
     if int(rpc('eth_chainId', []), 16) != 4663:
         raise RuntimeError('Wrong chain')
+    if args.verify:
+        if args.stage not in ('open', 'close'):
+            raise RuntimeError('--verify requires --stage open or --stage close')
+        intent = ROOT / ('remediation/evidence/lending-acceptance-' + args.stage + '-intent.json')
+        pin = json.loads(intent.read_text())
+        if pin['stage'] != args.stage or pin['chainId'] != 4663 or not pin['broadcast']:
+            raise RuntimeError('Intent stage/chain mismatch')
+        verify(args.stage, pin)
+        return
     block = rpc('eth_getBlockByNumber', ['latest', False])
     probe = '0x000000000000000000000000000000000000dead'
     native = int(rpc('eth_call', [{'to': probe, 'data': '0x'}, block['number'],
                      {probe: {'code': '0x4360005260206000f3'}}]), 16)
+    if not 0 < native <= int(block['number'], 16):
+        raise RuntimeError('Unexpected native clock')
     pin = {'chainId': 4663, 'stateBlock': int(block['number'], 16), 'blockHash': block['hash'],
            'nativeEvmBlockNumber': native, 'stage': args.stage, 'broadcast': args.broadcast,
+           'secondaryReplaySkipped': native != int(block['number'], 16),
            'stockSupplyRaw': '1000000000000000', 'dollarBorrowRaw': '50000',
            'repaymentApprovalCapRaw': '51000'}
     print(json.dumps(pin, indent=2), flush=True)
     env = dict(os.environ, ACCEPTANCE_NATIVE_BLOCK=str(native), FOUNDRY_PROFILE='vault_upgrade')
-    signature = {'roundtrip': 'run()', 'open': 'supplyAndBorrow()', 'close': 'repayAndRedeem()'}[args.stage]
+    signature = ENTRYPOINTS[args.stage] + '()'
     command = ['forge', 'script', 'remediation/script/LendingAcceptance.s.sol:LendingAcceptance',
                '--sig', signature, '--rpc-url', RPC, '--sender', GOVERNOR, '-vvv']
+    if pin['secondaryReplaySkipped']:
+        # The initial script simulation remains mandatory and vm.roll uses the probed native clock.
+        # Foundry's secondary replay uses the RPC height and invents excess accrued interest.
+        command += ['--skip-simulation']
     if not args.broadcast:
         command += ['--fork-block-number', str(pin['stateBlock'])]
         result = subprocess.run(command, cwd=ROOT, env=env)

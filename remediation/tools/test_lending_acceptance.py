@@ -36,7 +36,7 @@ class AcceptanceVerificationTest(unittest.TestCase):
                 sig = 'Mint(address,uint256,uint256)' if i == 1 else 'Borrow(address,uint256,uint256,uint256)'
                 logs = [{'address': target, 'topics': [runner.cast('keccak', sig)]}]
             self.receipts[h] = {'transactionHash': h, 'status': '0x1', 'blockNumber': hex(100+i), 'blockHash': '0xabc', 'logs': logs}
-        path = self.root/'broadcast/LendingAcceptance.s.sol/4663/run-latest.json'
+        path = self.root/'broadcast/LendingAcceptance.s.sol/4663/supplyAndBorrow-latest.json'
         path.parent.mkdir(parents=True)
         path.write_text(json.dumps({'transactions': entries}))
         self.journal_path = path
@@ -72,6 +72,7 @@ class AcceptanceVerificationTest(unittest.TestCase):
                 sig = 'RepayBorrow(address,address,uint256,uint256,uint256)' if i == 1 else 'Redeem(address,uint256,uint256)'
                 logs = [{'address': target, 'topics': [runner.cast('keccak', sig)]}]
             self.receipts[h] = {'transactionHash': h, 'status': '0x1', 'blockNumber': hex(100+i), 'blockHash': '0xabc', 'logs': logs}
+        self.journal_path = self.journal_path.with_name('repayAndRedeem-latest.json')
         self.journal_path.write_text(json.dumps({'transactions': entries}))
         self.pin['before'] = copy.deepcopy(self.after)
         self.after.update(stockWallet=10**16, dollarWallet=999999, stockAllowance=0, dollarAllowance=0,
@@ -86,6 +87,46 @@ class AcceptanceVerificationTest(unittest.TestCase):
         self.after['pUSDG']['debt'] = 1
         with self.assertRaisesRegex(RuntimeError, 'final balances'):
             self.verify('close')
+
+    def test_stale_generic_journal_is_ignored(self):
+        self.journal_path.with_name('run-latest.json').write_text('{"transactions": []}')
+        self.verify()
+
+    def test_missing_stage_journal_does_not_fall_back(self):
+        self.journal_path.rename(self.journal_path.with_name('run-latest.json'))
+        with self.assertRaises(FileNotFoundError):
+            self.verify()
+
+    def test_verify_cli_never_signs_or_simulates(self):
+        intent = self.root/'remediation/evidence/lending-acceptance-open-intent.json'
+        intent.parent.mkdir(parents=True)
+        intent.write_text(json.dumps(dict(self.pin, chainId=4663, stage='open', broadcast=True)))
+        with patch.object(runner, 'ROOT', self.root), patch.object(runner, 'rpc', return_value=hex(4663)), patch.object(runner, 'verify') as verify, patch.object(runner.subprocess, 'run', side_effect=AssertionError('must not execute subprocess')), patch.object(runner.sys, 'argv', ['lending_acceptance.py', '--stage', 'open', '--verify']):
+            runner.main()
+        verify.assert_called_once()
+        self.assertEqual(verify.call_args.args[0], 'open')
+
+    def test_native_clock_skips_only_secondary_replay(self):
+        def chain(method, args):
+            if method == 'eth_chainId':
+                return hex(4663)
+            if method == 'eth_getBlockByNumber':
+                return {'number': hex(76000000), 'hash': '0xabc'}
+            if method == 'eth_call':
+                return hex(26000000)
+            raise AssertionError(method)
+        with patch.object(runner, 'ROOT', self.root), patch.object(runner, 'rpc', side_effect=chain), patch.object(runner.subprocess, 'run') as process, patch.object(runner.sys, 'argv', ['lending_acceptance.py', '--stage', 'close']):
+            process.return_value.returncode = 0
+            with self.assertRaises(SystemExit) as result:
+                runner.main()
+        self.assertEqual(result.exception.code, 0)
+        command = process.call_args.args[0]
+        self.assertEqual(command[:2], ['forge', 'script'])
+        self.assertIn('--skip-simulation', command)
+        self.assertIn('repayAndRedeem()', command)
+        self.assertNotIn('--broadcast', command)
+        self.assertNotIn('--account', command)
+        self.assertEqual(process.call_args.kwargs['env']['ACCEPTANCE_NATIVE_BLOCK'], '26000000')
 
     def test_valid_open(self):
         self.verify()

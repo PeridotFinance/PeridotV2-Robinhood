@@ -59,4 +59,4 @@ No frontend application is changed here. Frontend implementation remains with th
 
 ## Small operator lending test
 
-The [lending acceptance commands](LENDING_ACCEPTANCE.md) simulate a 0.001 NVDA supply / 0.05 USDG borrow round trip, then separate locally signed opening and closing stages with receipt/state checks. The earlier full simulation passed; the latest check is stale-oracle blocked. No live acceptance flow is claimed.
+The [lending acceptance commands](LENDING_ACCEPTANCE.md) simulate a 0.001 NVDA supply / 0.05 USDG borrow round trip, then separate locally signed opening and closing stages with receipt/state checks. The user-signed opening is now independently verified at block 76,556,183: 0.001 NVDA supplied and 0.05 USDG borrowed. Closing remains pending. The verifier journal-path defect was fixed and the existing transactions reconciled without rebroadcast.
