@@ -1,19 +1,19 @@
 {
   "chainId": 4663,
-  "side": "long",
-  "stage": "open",
-  "stateBlock": 76601924,
-  "blockHash": "0x68971485acddc3940a0a792a31700ab55958b57188bd7679e92d9fb9919545c7",
-  "nativeBlock": 26091016,
+  "side": "short",
+  "stage": "roundtrip",
+  "stateBlock": 76612898,
+  "blockHash": "0x2f5a9eb83ec9eba7d92110d500d9644a5f39517d9493983b307a943f849295bf",
+  "nativeBlock": 26091108,
   "broadcast": false,
   "before": {
-    "block": 76601924,
-    "hash": "0x68971485acddc3940a0a792a31700ab55958b57188bd7679e92d9fb9919545c7",
-    "walletShares": 15000043749,
+    "block": 76612898,
+    "hash": "0x2f5a9eb83ec9eba7d92110d500d9644a5f39517d9493983b307a943f849295bf",
+    "walletShares": 14985234934,
     "free": 0,
     "locked": 0,
     "allowance": 0,
-    "exchangeRate": 200001750000000
+    "exchangeRate": 200001789475000
   },
   "positionId": null,
   "account": null,
@@ -53,16 +53,6 @@
   "collateralShares": 1000000000,
   "requestedLeverageX100": 200,
   "scriptSha256": "013b6d694c080ed0683f21b1f482621a896ece4ebe2cd92eceda5867a7c7fedb",
-  "keeperHealth": {
-    "status": "monitoring",
-    "checkedAtUnix": 1790780005,
-    "executionEnabled": true,
-    "sender": "0x16aEC17597E5224998e2043C9c83C4a35dD95A86",
-    "gasBalanceWei": "2000000000000000",
-    "gasReady": true,
-    "journalId": "43864aac-a4af-4575-9a65-92cad29cebc2",
-    "positions": []
-  },
   "exitCode": 0,
   "scope": "No signing; complete initial script simulation at native EVM clock"
 }

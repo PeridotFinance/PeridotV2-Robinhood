@@ -1,5 +1,15 @@
 # Mainnet evidence and submission claims
 
+## September 30: long margin round trip completed
+
+Position **1**, account `0xa1a7a0f0c270fd9229ff7a2e6a67b0c2eb67d45b`, opened with 10 pUSDG collateral at **2× requested gross leverage**; its entry metric was **1.98×**. Six user-signed transactions deposited collateral, opened, fully closed and withdrew the returned shares. At final block **76,612,481**, status is CLOSED, both account debts and position pToken balances are zero, and free margin, locked margin and the pUSDG approval are zero.
+
+The wallet received **9.85191185 pUSDG**, equivalent to **0.197039 USDG** at the recorded exchange rate, versus approximately **0.200001 USDG** supplied. These are pToken underlying equivalents, not redeemed USDG cash. Gas costs are separate; the difference is the observed aggregate round-trip result, not a fee-only attribution.
+
+[Summary](evidence/margin-acceptance-long-completed.json), [opening](evidence/margin-acceptance-long-open-verified.json), [closing](evidence/margin-acceptance-long-close-verified.json), [withdrawal](evidence/margin-acceptance-long-withdraw-verified.json), [independent receipt/event recheck](evidence/margin-acceptance-long-receipt-recheck.json). The older balance snapshots could not be re-served by the public RPC; their original verification records are retained and final state was independently refreshed. No independent L1 finality claim is made.
+
+This is one operator long lifecycle, not independent adoption, a short lifecycle, LP reactivation or a live cloud liquidation. The short is next; it passed a fresh post-long simulation. Protocol 5×/$2 gross/$1 debt limits are unchanged. LP reactivation, Safe migration and Telegram alerts were not performed.
+
 ## September 30: operator lending round trip completed
 
 All ten user-signed transactions are verified: 0.001 NVDA supplied, collateral market entered, 0.05 USDG borrowed, full debt repaid, approval revoked, 0.001 NVDA redeemed, and original market memberships restored. Opening was verified at block 76,556,183 and closing at block **76,565,683**. Both final debts and approvals are zero. The two underlying wallet balances and pre-existing pNVDA share balance exactly match the pre-test snapshot; gas costs are separate.

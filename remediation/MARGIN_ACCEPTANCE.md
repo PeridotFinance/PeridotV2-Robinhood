@@ -1,10 +1,10 @@
 # Small isolated-margin acceptance tests
 
-The deployed long and short contracts each passed an **open → full close → withdraw** simulation against mainnet state, with the native EVM clock and no injected balances, oracle overrides or governance changes. This does not establish successful live margin usage. Lending's separate ten-transaction mainnet round trip is already verified.
+The deployed long and short contracts each passed an **open → full close → withdraw** simulation against mainnet state, with the native EVM clock and no injected balances, oracle overrides or governance changes. The **long live test has since completed**: position 1 opened, fully closed and withdrew; final block **76,612,481** confirms zero debts, position pToken balances, free/locked margin and approval. It used 10 pUSDG and returned 9.85191185 pUSDG (0.197039 USDG equivalent at the recorded rate). [Completed long evidence](evidence/margin-acceptance-long-completed.json). The short live test remains pending. Lending's separate ten-transaction mainnet round trip is also verified.
 
 The operator uses **1,000,000,000 raw pUSDG shares (10 pUSDG, about 0.20 USDG)** from existing wallet holdings per direction and requests **2× gross leverage**. The configured 5× maximum, $2 gross/$1 debt per-position caps and 1% swap/deviation guards are unchanged. There are no new token purchases, reserve funding or LP allocations. Returns remain in pUSDG; this margin test does not redeem them into USDG. Trading/flash fees and interest can reduce the returned shares. The close quote targets at least 0.18 USDG returned at the quoted debt and prices; the first-swap minimum also accounts for the short's second-leg guard. Debt can accrue before mining, so this is not an unconditional net-return guarantee. Post-transaction verification flags a return below the target (allowing one raw USDG unit of share rounding). A failed postcheck does not undo a mined close.
 
-## Run the long first
+## Long commands — completed; do not rerun broadcasts
 
 From the checkout:
 
@@ -56,6 +56,8 @@ Change the side/stage to the actual attempt. Do not delete intents, rerun a broa
 - The full initial Foundry script simulation is mandatory. The incompatible secondary replay is skipped because it uses RPC block height instead of Robinhood Chain's native EVM block number; that replay can invent excess interest. The native number is read through an eth_call code override and only local simulation is adjusted.
 - Post-close pToken valuation can round down by one raw USDG unit. Verification permits that rounding unit when checking the 0.18 USDG return floor; it requires exactly zero remaining debt and position pToken balances.
 
-[Long simulation](evidence/margin-long-roundtrip-simulation.json), [short simulation](evidence/margin-short-roundtrip-simulation.json), [readiness observation](evidence/margin-acceptance-readiness.json). Live acceptance is still pending. Operator tests are not independent adoption or evidence of a live cloud liquidation. Verification uses a single public RPC; no independent L1 finality proof is claimed.
+[Long simulation](evidence/margin-long-roundtrip-simulation.json), [short simulation](evidence/margin-short-roundtrip-simulation.json), [readiness observation](evidence/margin-acceptance-readiness.json). Long live acceptance is complete; short live acceptance is still pending. A fresh short round trip passed simulation after the long closed: [current short simulation](evidence/margin-acceptance-short-roundtrip-simulation.json). Operator tests are not independent adoption or evidence of a live cloud liquidation. Verification uses a single public RPC; no independent L1 finality proof is claimed.
 
 The Safe, Telegram alerts, risk-limit increases and LP allocation/settlement remain outside this test.
+
+The long's six canonical receipts and success events were independently rechecked. The public RPC could no longer serve the older balance snapshots; their original stage records remain archived, and the final closed/withdrawn state was read afresh. [Receipt recheck and limitation](evidence/margin-acceptance-long-receipt-recheck.json).
