@@ -30,5 +30,5 @@ fork-margin:
 	cd $(CONTRACTS) && FOUNDRY_PROFILE=margin_mainnet forge test
 
 frontend:
-	@echo 'The frontend is being developed separately. See frontend/README.md for integration requirements.'
-	@exit 1
+	@echo 'Serving the repository root. Open http://127.0.0.1:5173/frontend/'
+	python3 -m http.server 5173 --bind 127.0.0.1

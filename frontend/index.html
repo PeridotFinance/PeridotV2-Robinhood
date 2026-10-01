@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Peridot · Robinhood Chain Markets</title>
+    <meta name="description" content="Supply and borrow USDG and tokenized NVDA on Robinhood Chain with Peridot." />
+    <meta name="theme-color" content="#080a06" />
+    <link rel="icon" href="./assets/robinhood-chain.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="modulepreload" href="./vendor/viem-2.33.2.min.js" />
+  </head>
+  <body>
+    <main class="page">
+      <div class="container">
+        <div class="toolbar">
+          <a class="brand" id="brand" href="https://peridot.finance" aria-label="Peridot, visit peridot.finance">
+            <img src="./assets/peridot.svg" alt="" />
+          </a>
+          <h1>Robinhood Chain Markets</h1>
+          <div class="search" id="search">
+            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" /></svg>
+            <input type="text" placeholder="Search…" aria-label="Search markets" autocomplete="off" />
+            <button type="button" class="clear" aria-label="Clear search">
+              <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
+            </button>
+          </div>
+          <span class="pill pill-network" title="Robinhood Chain (4663)">
+            <img src="./assets/robinhood-chain.png" alt="" />
+            <span>Robinhood</span>
+          </span>
+          <button type="button" class="pill pill-wallet" id="wallet-pill"></button>
+        </div>
+
+        <div id="strip"><div class="strip-skeleton skeleton"></div></div>
+
+        <div class="table-card">
+          <table>
+            <thead>
+              <tr>
+                <th class="th-asset">Asset</th>
+                <th class="th-apy-mobile mobile-cell">APY</th>
+                <th class="th-center desktop-cell">
+                  <span data-tip="The yearly interest rate you earn for providing your assets. This is passive income on your holdings." data-tip-title="Supply APY">Supply APY</span>
+                </th>
+                <th class="th-center desktop-cell">
+                  <span data-tip="The yearly interest rate you pay to borrow assets. This allows you to get liquidity without selling your holdings." data-tip-title="Borrow APY">Borrow APY</span>
+                </th>
+                <th class="th-right desktop-cell">
+                  <span data-tip="Total Value Locked: the total value of all assets supplied to this pool by all users." data-tip-title="TVL">TVL</span>
+                </th>
+                <th class="th-chev"></th>
+              </tr>
+            </thead>
+            <tbody id="markets"></tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+    <noscript><p class="footnote">This page needs JavaScript to read Robinhood Chain.</p></noscript>
+    <script type="module" src="./src/app.js"></script>
+  </body>
+</html>
