@@ -1,5 +1,7 @@
 # Robinhood mainnet deployment evidence
 
+**Current-state reading order:** this directory records the original deployment and 5× update. The later installed oracle and vault corrections, retained pauses, receipts and limitations are in [the September 26 evidence record](../../../remediation/MAINNET_EVIDENCE.md). Read that first for the submission; historical “undeployed” or “zero Borrow events” statements are scoped to their stated dates/blocks.
+
 This folder preserves historical public deployment records for the snapshot. The final selected state is the deployed margin stack plus the **September 19, 2026 5× risk update**. Earlier paused/2×/preparation records describe completed earlier stages and do not imply that deployment must be rerun.
 
 Start with:

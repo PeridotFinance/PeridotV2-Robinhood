@@ -1,5 +1,7 @@
 # Mainnet margin preparation and fork rehearsal
 
+> **Historical fork-only report — superseded for current deployment status.** The statements below describe September 17, 2026, before the September 18 mainnet rollout. They do not describe today's deployment. See [actual mainnet addresses](margin-mainnet-live/addresses.json), [mainnet verification](margin-mainnet-live/active-verification.json), [September 19 5× activation](margin-mainnet-5x-live/completion-check.json), and [September 26 installed corrections/current dated status](../../../remediation/MAINNET_EVIDENCE.md). The zero-Borrow-event observation below ends at its recorded block; it is not a lifetime usage measurement. The original report body is preserved as historical evidence.
+
 Prepared 2026-09-17. **No public-mainnet transactions were submitted.** The new
 margin addresses and transaction receipts in this package exist only on a local
 fork of Robinhood Chain, chain ID 4663. Mainnet margin remains undeployed.

@@ -1,0 +1,44 @@
+{
+  "status": "INSTALLED_VERIFIED_PAUSED",
+  "chainId": 4663,
+  "adapter": "0xe4e03c2fdaef915ace705d106b2660b1e342a2e4",
+  "solc": "0.8.26",
+  "optimizerRuns": 200,
+  "viaIR": true,
+  "evmVersion": "cancun",
+  "baseline": {
+    "solidityTests": 92,
+    "pythonTests": 38
+  },
+  "newCoverage": {
+    "adapterTests": 8,
+    "fuzzTestsIncluded": 2,
+    "fuzzRunsEach": 256,
+    "vaultRecoveryTests": 3,
+    "forkTests": 5,
+    "pythonTests": 9,
+    "forkPriceTests": 3,
+    "forkReactivationTests": 2
+  },
+  "overlap": "40 inherited vault tests are repeated by remediation; not additional unique tests.",
+  "staticAnalysis": {
+    "tool": "Slither",
+    "version": "0.11.4",
+    "detectors": 100,
+    "findings": 0,
+    "scope": "new adapter and three interfaces only"
+  },
+  "runtimeBytes": 1471,
+  "initBytes": 2307,
+  "originalSnapshotUnchanged": true,
+  "proxyStorageLayoutChanged": false,
+  "deferredByUser": [
+    "Safe deployment, funding and governance transfers until explicit later instruction",
+    "Telegram monitor setup"
+  ],
+  "pending": [
+    "fresh guarded prices for physical canary residue recovery",
+    "fresh-price-gated user-signed reactivation",
+    "explorer source verification blocked by Cloudflare API challenge"
+  ]
+}

@@ -1,0 +1,26 @@
+{"block": 76020704, "nativeBlock": 26086158}
+Compiling 1 files with Solc 0.8.26
+Solc 0.8.26 finished in 725.82ms
+Compiler run successful!
+Script ran successfully.
+
+## Setting up 1 EVM.
+
+==========================
+
+Chain 4663
+
+Estimated gas price: 0.045632001 gwei
+
+Estimated total gas used for script: 2901325
+
+Estimated amount required: 0.000132393265301325 ETH
+
+==========================
+
+SIMULATION COMPLETE. To broadcast these transactions, add --broadcast and wallet configuration(s) to the previous command. See forge script --help for more.
+
+Transactions saved to: /Users/joshua/Peridot/RobinhoodVaults/PeridotV2-Robinhood/broadcast/LendingAcceptance.s.sol/4663/dry-run/run-latest.json
+
+Sensitive values saved to: /Users/joshua/Peridot/RobinhoodVaults/PeridotV2-Robinhood/remediation/cache-vault-upgrade/LendingAcceptance.s.sol/4663/dry-run/run-latest.json
+

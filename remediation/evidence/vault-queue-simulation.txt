@@ -1,0 +1,25 @@
+No files changed, compilation skipped
+Script ran successfully.
+
+== Logs ==
+  Vault V2 implementation: 0x17f0cf262Fbbf27e44756dbA6d852815695E9C4a
+  Operation:
+  0xacc0e39a4de59d916d7ddb337dedc5717ab64479bb449714d70fcd05ad7b6067
+  Earliest execution timestamp: 1790456023
+  Supply, borrowing, ordinary seizure and new LP allocation remain paused.
+
+## Setting up 1 EVM.
+
+==========================
+
+Chain 4663
+
+Estimated gas price: 0.053868001 gwei
+
+Estimated total gas used for script: 6691781
+
+Estimated amount required: 0.000360472865599781 ETH
+
+==========================
+
+SIMULATION COMPLETE. To broadcast these transactions, add --broadcast and wallet configuration(s) to the previous command. See forge script --help for more.

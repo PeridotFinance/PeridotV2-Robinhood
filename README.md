@@ -4,12 +4,18 @@ Peridot's deployed NVDA/USDG boosted lending vaults and isolated long/short marg
 
 The frontend is being developed by another team member and will be added to [`frontend/`](frontend/README.md). There is no runnable frontend application in this initial snapshot.
 
+For application reviewers, [submission evidence and remaining gaps](docs/SUBMISSION_READINESS.md) separates deployed contracts, current operational status, missing frontend/access-layer proof and usage measurements. Historical deployment notes are dated evidence, not the current status page.
+
+**September 29 lending reactivation:** all five user-signed transactions were independently verified at block **75,678,599**, including exact calldata, successful canonical receipts, emitted events and resulting flags. Supply and borrowing are enabled in both markets, and ordinary collateral seizure is restored. The corrected lending oracle, vault V2, controller and market delegate runtimes match the recorded identities. Both margin markets were priceable at that block; their canary limits are unchanged. **LP allocation and settlement swaps remain paused, with zero LP liquidity.** The [operator lending round trip](remediation/LENDING_ACCEPTANCE.md) completed September 30: 0.001 NVDA supplied, 0.05 USDG borrowed, debt repaid and supplied NVDA redeemed; zero final debt verified at block 76,565,683. The [long margin operator test](remediation/evidence/margin-acceptance-long-completed.json) also completed: position 1 opened, fully closed and withdrew, with zero final debt/custody at block 76,612,481. The [short margin operator test](remediation/evidence/margin-acceptance-short-completed.json) completed October 1: position 2 closed and withdrew, with zero final debt/custody at block 77,263,055. Frontend acceptance remains outstanding. See [execution evidence](remediation/evidence/reactivation-execution-2026-09-29.json) and the [hardening record](remediation/README.md). These are dated observations, not continuous availability guarantees. The frozen snapshot is unchanged. Safe migration and external keeper alerts remain user-deferred.
+
 ## Run locally
+
+The current corrections and evidence are on `fix/robinhood-mainnet-hardening` ([PR #1](https://github.com/PeridotFinance/PeridotV2-Robinhood/pull/1)); the default branch still contains the original snapshot.
 
 Install Foundry with Solidity 0.8.26 support, Python 3.10+, and Make. Solidity dependencies are vendored as the exact source files required by the snapshot; no npm install, sibling repository, submodule update or dependency upgrade is required for the contracts.
 
 ```sh
-git clone https://github.com/PeridotFinance/PeridotV2-Robinhood.git
+git clone --branch fix/robinhood-mainnet-hardening https://github.com/PeridotFinance/PeridotV2-Robinhood.git
 cd PeridotV2-Robinhood
 make verify       # Deployment source hashes, archived artifacts and frontend ABI hashes
 make build        # Vault and margin builds
@@ -46,7 +52,7 @@ The paired liquidity vault is not ERC-4626 and only accepts deposits from its co
 | Margin deployment | Completed September 18, 2026 |
 | Risk-only 5× update | Completed September 19, 2026 |
 
-These are dated deployment observations, not a live availability guarantee. Stock oracle updates follow trading sessions; weekends and holidays can leave prices stale. Price-dependent actions fail closed when guards fail. Underlying debt repayment followed by debt-free exit to pTokens is the tested fallback; redemption into underlying still depends on liquidity.
+These are dated deployment observations, not a live availability guarantee. Stock oracle updates follow trading sessions; weekends and holidays can leave prices stale. The vault and margin guards reject unavailable/stale prices; the original ordinary-lending source has cached/manual fallback and must be assessed separately. Underlying debt repayment followed by debt-free exit to pTokens is the tested fallback; redemption into underlying still depends on liquidity. The September 29 reactivation cleared both borrow pauses; margin execution still depends on current prices, liquidity and the unchanged canary limits.
 
 ## Repository map
 

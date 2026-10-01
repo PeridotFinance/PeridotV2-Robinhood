@@ -1,0 +1,21 @@
+Compiling 2 files with Solc 0.8.26
+Solc 0.8.26 finished in 4.94s
+Compiler run successful!
+
+Ran 5 tests for remediation/test/fork/VaultSettlementMainnet.t.sol:VaultSettlementMainnetForkTest
+[PASS] testCanaryRecoveryRejectsWrongSideCaller() (gas: 208661)
+[PASS] testCanaryRecoveryReturnsExactResidueAndPreservesProduction() (gas: 303849)
+[PASS] testExactCanarySigningScriptAndRepeatRefusal() (gas: 1720821)
+[PASS] testProductionSettlementDollarFirstThroughActualTimelock() (gas: 1324753)
+Logs:
+  stock returned to pNVDA: 11474700317638473
+  USDG returned to pUSDG: 2005167
+
+[PASS] testProductionSettlementStockFirstThroughActualTimelock() (gas: 1273492)
+Logs:
+  stock returned to pNVDA: 11474700317638473
+  USDG returned to pUSDG: 2005167
+
+Suite result: ok. 5 passed; 0 failed; 0 skipped; finished in 16.53s (36.75s CPU time)
+
+Ran 1 test suite in 16.56s (16.53s CPU time): 5 tests passed, 0 failed, 0 skipped (5 total tests)

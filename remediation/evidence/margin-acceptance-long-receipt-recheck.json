@@ -1,0 +1,29 @@
+{
+  "chainId": 4663,
+  "side": "long",
+  "scope": "Independent canonical public receipt, calldata and event checks. The public RPC could not re-serve the older balance snapshots; earlier archived stage checks are retained, and final closed/withdrawn state was independently refreshed. Single-RPC L2 proof, not L1 finality.",
+  "historicalBalanceRereadAvailable": false,
+  "stages": {
+    "open": {
+      "receiptHashes": [
+        "0xbb085c1998d0d3ca887d3154758b0de08956dc25df93d4893b87f46b9e4cdada",
+        "0xa06f3ba7ed8f1d59382aaa10b3e4c8b8d5daf13331948af6fd47458dca647603",
+        "0x17c6c172f81d3966761a760d2093c8a5991e79529b87a30bdcfe458fae420caa",
+        "0xff13ffc94ee989590a9944f5d8b2545246185e4063c306a03c79ae3390ba0d1f"
+      ],
+      "exactReceiptsAndEventsVerified": true
+    },
+    "close": {
+      "receiptHashes": [
+        "0xbec99fcb85c0780b64bf27c1580e228fda4f5431a49caa5501b2a2a38bf7b34b"
+      ],
+      "exactReceiptsAndEventsVerified": true
+    },
+    "withdraw": {
+      "receiptHashes": [
+        "0x3d1bb3d34c36fc80fad2915b7ad6a7fec9e7908efc2e0d9ca99b4060de4a3989"
+      ],
+      "exactReceiptsAndEventsVerified": true
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "chainId": 4663,
+  "stateBlock": 73365798,
+  "blockHash": "0xcb3aba56192dfc6064828756c8f3004284c4bfebef4d326450555594a62e9613",
+  "timestamp": 1790454158,
+  "scope": "Actual queued mainnet operation executed on a local fork after advancing fork time only. No mainnet execution.",
+  "exitCode": 0,
+  "canonicalAfterTests": true
+}

@@ -1,0 +1,11 @@
+No files changed, compilation skipped
+Script ran successfully.
+
+SKIPPING ON CHAIN SIMULATION.
+
+SIMULATION COMPLETE. To broadcast these transactions, add --broadcast and wallet configuration(s) to the previous command. See forge script --help for more.
+
+Transactions saved to: /Users/joshua/Peridot/RobinhoodVaults/PeridotV2-Robinhood/broadcast/MarginAcceptance.s.sol/4663/dry-run/run-latest.json
+
+Sensitive values saved to: /Users/joshua/Peridot/RobinhoodVaults/PeridotV2-Robinhood/remediation/cache-vault-upgrade/MarginAcceptance.s.sol/4663/dry-run/run-latest.json
+

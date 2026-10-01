@@ -1,0 +1,81 @@
+{
+  "status": "INSTALLED_AND_VERIFIED_PAUSED",
+  "chainId": 4663,
+  "block": 73329306,
+  "blockHash": "0xeecaba2f7d9aeaab16009d017c242cde49792ff6ee0a5153d0625854ac227251",
+  "adapter": "0xe4e03c2fdaef915ace705d106b2660b1e342a2e4",
+  "runtimeCodeHash": "0x8a44437ef2c35e187c49f54aa92fcc3c51c3a30c1dc795cc713f610eaf353404",
+  "runtimeTemplateMatches": true,
+  "immutableWiring": {
+    "source": "0x266f014d1325774f1190f963df4369e07dda1d33",
+    "stockMarket": "0xa155cccb986774ae818b3f10f07d01d1b7a47b26",
+    "dollarMarket": "0x55aed0569c8f0d166d71face57b57c2f2624a563",
+    "stock": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
+    "dollar": "0x5fc5360d0400a0fd4f2af552add042d716f1d168"
+  },
+  "prices": {
+    "pUSDG": {
+      "assetPriceUSD18": "1000000000000000000",
+      "controllerPrice": "1000000000000000000000000000000"
+    },
+    "pNVDA": {
+      "assetPriceUSD18": "225660187070000000000",
+      "controllerPrice": "225660187070000000000"
+    }
+  },
+  "liquidationQuotes": {
+    "pUSDG": {
+      "repayRaw": "1000000",
+      "collateralSharesRaw": "23929678",
+      "expectedSharesRaw": "23929678"
+    },
+    "pNVDA": {
+      "repayRaw": "10000000000000000",
+      "collateralSharesRaw": "12185543478",
+      "expectedSharesRaw": "12185543478"
+    }
+  },
+  "marginBackingSourceUnchanged": true,
+  "state": {
+    "chainId": 4663,
+    "block": 73329306,
+    "blockHash": "0xeecaba2f7d9aeaab16009d017c242cde49792ff6ee0a5153d0625854ac227251",
+    "timestamp": 1790450485,
+    "controller": "0x6148183676e304dbe63a85c350c208da3ceac39c",
+    "admin": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+    "pauseGuardian": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+    "oracle": "0xe4e03c2fdaef915ace705d106b2660b1e342a2e4",
+    "seizePaused": true,
+    "markets": {
+      "pUSDG": {
+        "address": "0x55aed0569c8f0d166d71face57b57c2f2624a563",
+        "underlying": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+        "underlyingDecimals": 6,
+        "pTokenDecimals": 8,
+        "admin": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+        "borrowPaused": true,
+        "mintPaused": false,
+        "totalBorrowsRaw": "0",
+        "totalSupplyRaw": "20000000000",
+        "localCashRaw": "2000000",
+        "exchangeRateStored": "200001750000000",
+        "controllerOraclePrice": "1000000000000000000000000000000"
+      },
+      "pNVDA": {
+        "address": "0xa155cccb986774ae818b3f10f07d01d1b7a47b26",
+        "underlying": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
+        "underlyingDecimals": 18,
+        "pTokenDecimals": 8,
+        "admin": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+        "borrowPaused": true,
+        "mintPaused": false,
+        "totalBorrowsRaw": "0",
+        "totalSupplyRaw": "114745933",
+        "localCashRaw": "11474644834520232",
+        "exchangeRateStored": "200000898236981209608535755",
+        "controllerOraclePrice": "225660187070000000000"
+      }
+    }
+  },
+  "scope": "Runtime, immutable wiring, price units, quotes and pause flags. No unpause or fresh-price/depeg guarantee."
+}

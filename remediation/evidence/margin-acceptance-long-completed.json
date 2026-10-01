@@ -1,0 +1,28 @@
+{
+  "chainId": 4663,
+  "positionId": 1,
+  "account": "0xa1a7a0f0c270fd9229ff7a2e6a67b0c2eb67d45b",
+  "side": "long",
+  "requestedLeverageX100": 200,
+  "entryLeverageX100": 198,
+  "startingMarginShares": 1000000000,
+  "returnedMarginShares": 985191185,
+  "startingMarginUnderlyingEquivalentRaw": 200001,
+  "returnedMarginUnderlyingEquivalentRaw": 197039,
+  "finalBlock": 76612481,
+  "finalStatus": 5,
+  "finalDollarDebt": 0,
+  "finalStockDebt": 0,
+  "finalFreeMargin": 0,
+  "finalLockedMargin": 0,
+  "finalAllowance": 0,
+  "transactions": [
+    "0xbb085c1998d0d3ca887d3154758b0de08956dc25df93d4893b87f46b9e4cdada",
+    "0xa06f3ba7ed8f1d59382aaa10b3e4c8b8d5daf13331948af6fd47458dca647603",
+    "0x17c6c172f81d3966761a760d2093c8a5991e79529b87a30bdcfe458fae420caa",
+    "0xff13ffc94ee989590a9944f5d8b2545246185e4063c306a03c79ae3390ba0d1f",
+    "0xbec99fcb85c0780b64bf27c1580e228fda4f5431a49caa5501b2a2a38bf7b34b",
+    "0x3d1bb3d34c36fc80fad2915b7ad6a7fec9e7908efc2e0d9ca99b4060de4a3989"
+  ],
+  "scope": "Operator mainnet long round trip. Returned asset is pUSDG, not redeemed USDG. Underlying equivalents use recorded exchange rates; gas costs are separate. Does not establish independent adoption, short execution, LP reactivation or a cloud liquidation."
+}

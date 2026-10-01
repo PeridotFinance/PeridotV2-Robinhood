@@ -1,0 +1,163 @@
+{
+  "chainId": 4663,
+  "block": 73320683,
+  "blockHash": "0x8cbc95cd2d457d273e33c1ebdcfb5ee555379d68004f76754b10e56d8c37b5cd",
+  "safe": {
+    "address": "0x80f4207e0810EA2C39B6C8387E5ffC6FF34dfB12",
+    "codePresent": false
+  },
+  "owners": {
+    "config": {
+      "address": "0x09F94fe0B79E000c8a26617c63E3427fdECB528b",
+      "owner": "0x94696d767e65a75581145646960fa0ec886ce5d2"
+    },
+    "flashVault": {
+      "address": "0x79d33c9BbC1D0711e88C5602f86135Ab4C088b06",
+      "owner": "0x94696d767e65a75581145646960fa0ec886ce5d2"
+    },
+    "insuranceFund": {
+      "address": "0x17c72B8f171999C4d8863a3517D1C5d9cBfBb068",
+      "owner": "0x94696d767e65a75581145646960fa0ec886ce5d2"
+    },
+    "feeDistributor": {
+      "address": "0x8D2707946A9d7abce3d8fb3FafDc40f4811180b7",
+      "owner": "0x94696d767e65a75581145646960fa0ec886ce5d2"
+    },
+    "oracle": {
+      "address": "0x63150Eb3DDf71420dA0b09b66838aab398f7dEdD",
+      "owner": "0x94696d767e65a75581145646960fa0ec886ce5d2"
+    },
+    "router": {
+      "address": "0xa32C34F100B4F1f36ECA09c427a098f99F4423F0",
+      "owner": "0x94696d767e65a75581145646960fa0ec886ce5d2"
+    }
+  },
+  "admins": {
+    "controller": {
+      "address": "0x6148183676e304dbe63a85c350c208da3ceac39c",
+      "admin": "0x94696d767e65a75581145646960fa0ec886ce5d2"
+    },
+    "pUSDG": {
+      "address": "0x55aed0569c8f0d166d71face57b57c2f2624a563",
+      "admin": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+      "pendingAdmin": "0x0000000000000000000000000000000000000000"
+    },
+    "pNVDA": {
+      "address": "0xa155cccb986774ae818b3f10f07d01d1b7a47b26",
+      "admin": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+      "pendingAdmin": "0x0000000000000000000000000000000000000000"
+    }
+  },
+  "sourceOracle": {
+    "address": "0x266f014d1325774f1190f963df4369e07dda1d33",
+    "ownerFromStorageSlot4": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+    "outgoingIsPriceAdmin": true,
+    "safeIsPriceAdmin": false
+  },
+  "roles": {
+    "timelock": {
+      "PROPOSER_ROLE": {
+        "id": "0xb09aa5aeb3702cfd50b6b62bc4532604938f21248a27a1d5ca736082b6819cc1",
+        "outgoing": true,
+        "safe": false,
+        "timelock": false,
+        "openToEveryone": false
+      },
+      "EXECUTOR_ROLE": {
+        "id": "0xd8aa0f3194971a2a116679f7c2090f6939c8d4e01a2a8d7e41d55e5351469e63",
+        "outgoing": true,
+        "safe": false,
+        "timelock": false,
+        "openToEveryone": false
+      },
+      "CANCELLER_ROLE": {
+        "id": "0xfd643c72710c63c0180259aba6b2d05451e3591a24e58b62239378085726f783",
+        "outgoing": true,
+        "safe": false,
+        "timelock": false,
+        "openToEveryone": false
+      },
+      "DEFAULT_ADMIN_ROLE": {
+        "id": "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "outgoing": false,
+        "safe": false,
+        "timelock": true,
+        "openToEveryone": false
+      }
+    },
+    "vault": {
+      "KEEPER_ROLE": {
+        "id": "0xfc8737ab85eb45125971625a9ebdb75cc78e01d5c1fa80c4c6e5203f47bc4fab",
+        "outgoing": true,
+        "safe": false,
+        "timelock": false,
+        "openToEveryone": false
+      },
+      "GUARDIAN_ROLE": {
+        "id": "0x55435dd261a4b9b3364963f7738a7a662ad9c84396d64be3365284bb7f0a5041",
+        "outgoing": true,
+        "safe": false,
+        "timelock": false,
+        "openToEveryone": false
+      },
+      "CONFIG_ROLE": {
+        "id": "0x82db594318110a04b6349ce48645aa69f0892751bc893d15e61d9e2b9c4630f5",
+        "outgoing": false,
+        "safe": false,
+        "timelock": true,
+        "openToEveryone": false
+      },
+      "DEFAULT_ADMIN_ROLE": {
+        "id": "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "outgoing": false,
+        "safe": false,
+        "timelock": true,
+        "openToEveryone": false
+      }
+    }
+  },
+  "marginProxyAdmins": {
+    "config": {
+      "proxy": "0x09F94fe0B79E000c8a26617c63E3427fdECB528b",
+      "proxyAdmin": "0xf483213b2f0de3b7501d5e67c494dc8b5e07223f",
+      "owner": "0x6797fb8ce049b42c5bc2b42bf76c6d15c7b12498"
+    },
+    "executor": {
+      "proxy": "0x6A45Ae86bD992d250580d08D340A06A04D478977",
+      "proxyAdmin": "0x561fa1749f4b58a70d0d7d67e74e6fbeeba6f9b8",
+      "owner": "0x6797fb8ce049b42c5bc2b42bf76c6d15c7b12498"
+    },
+    "liquidator": {
+      "proxy": "0x1434CDa56d0Aeac4d5abC16F91ca76a8A989083c",
+      "proxyAdmin": "0xefabb43f04594734dda642b2e20f3b3e50ae059d",
+      "owner": "0x6797fb8ce049b42c5bc2b42bf76c6d15c7b12498"
+    },
+    "riskEngine": {
+      "proxy": "0xC8b178C3c74570472FF1eeE0DD559e61AF9f9678",
+      "proxyAdmin": "0xba8f4e4554e794d961dd8b928ded1812c6862505",
+      "owner": "0x6797fb8ce049b42c5bc2b42bf76c6d15c7b12498"
+    },
+    "marginVault": {
+      "proxy": "0x04D4A5555b7a37017A67B4D21A1Da5838de28B9e",
+      "proxyAdmin": "0xad132dbd3da0b409ef3cb2522e758283fc6125bd",
+      "owner": "0x6797fb8ce049b42c5bc2b42bf76c6d15c7b12498"
+    },
+    "insuranceFund": {
+      "proxy": "0x17c72B8f171999C4d8863a3517D1C5d9cBfBb068",
+      "proxyAdmin": "0x9ee6c76888b25eacf969dd695bdbba75d5bd57df",
+      "owner": "0x6797fb8ce049b42c5bc2b42bf76c6d15c7b12498"
+    },
+    "feeDistributor": {
+      "proxy": "0x8D2707946A9d7abce3d8fb3FafDc40f4811180b7",
+      "proxyAdmin": "0xaa909e7c0d239914a33f2efe8d47b1e66c18675e",
+      "owner": "0x6797fb8ce049b42c5bc2b42bf76c6d15c7b12498"
+    }
+  },
+  "routerManager": "0xa2a022b17e0201894937755584eecc878aefe1bf",
+  "outgoingRouterOperator": false,
+  "factoryExecutor": "0x6a45ae86bd992d250580d08d340a06a04d478977",
+  "factoryConfigurator": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+  "controllerPauseGuardian": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+  "controllerBorrowCapGuardian": "0x0000000000000000000000000000000000000000",
+  "scope": "Known deployed roles and outgoing governor. Unenumerable oracle admins require transaction-history review. No transfers or funding performed."
+}

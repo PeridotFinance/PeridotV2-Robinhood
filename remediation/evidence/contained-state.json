@@ -1,0 +1,41 @@
+{
+  "chainId": 4663,
+  "block": 73320748,
+  "blockHash": "0x8af87563f561888090ea918cc975947126edcd07d3ef6be276b0470ba0560c36",
+  "timestamp": 1790449620,
+  "controller": "0x6148183676e304dbe63a85c350c208da3ceac39c",
+  "admin": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+  "pauseGuardian": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+  "oracle": "0x266f014d1325774f1190f963df4369e07dda1d33",
+  "seizePaused": true,
+  "markets": {
+    "pUSDG": {
+      "address": "0x55aed0569c8f0d166d71face57b57c2f2624a563",
+      "underlying": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+      "underlyingDecimals": 6,
+      "pTokenDecimals": 8,
+      "admin": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+      "borrowPaused": true,
+      "mintPaused": false,
+      "totalBorrowsRaw": "0",
+      "totalSupplyRaw": "20000000000",
+      "localCashRaw": "2000000",
+      "exchangeRateStored": "200001750000000",
+      "controllerOraclePrice": "1000000000000000000"
+    },
+    "pNVDA": {
+      "address": "0xa155cccb986774ae818b3f10f07d01d1b7a47b26",
+      "underlying": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
+      "underlyingDecimals": 18,
+      "pTokenDecimals": 8,
+      "admin": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+      "borrowPaused": true,
+      "mintPaused": false,
+      "totalBorrowsRaw": "0",
+      "totalSupplyRaw": "114745933",
+      "localCashRaw": "11474644834520232",
+      "exchangeRateStored": "200000898236981209608535755",
+      "controllerOraclePrice": "225660187070000000000"
+    }
+  }
+}

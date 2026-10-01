@@ -1,0 +1,57 @@
+{
+  "chainId": 4663,
+  "side": "short",
+  "stages": {
+    "open": {
+      "receiptHashes": [
+        "0xe7529108448fe7a4cdfb69aa960f51430b7f7fcc53b947a05a6df6cf662926dc",
+        "0x8784dc485e89a4ee9ef67a53b33c06f66248e6d5a644d8524671a54ac9fe4a5c",
+        "0xc60f6b11bf6e5e57d9ca7daf5c9cb9b85c1064ef8c609e11628686e445413388",
+        "0xfcfcf14c030265d4827d916d528e7acf62b02e1d1517f9ef03706d7194330632"
+      ],
+      "exactReceiptsAndEventsVerified": true,
+      "archivedPostStateConsistent": true
+    },
+    "close": {
+      "receiptHashes": [
+        "0x4e8eafbe9030d22883b75a1a5704295039615cd31d6f0c698e7e336dd30dce09"
+      ],
+      "exactReceiptsAndEventsVerified": true,
+      "archivedPostStateConsistent": true
+    },
+    "withdraw": {
+      "receiptHashes": [
+        "0xb887f9c282b279bab38826982d1174e83f6338a29ca079224d201a7b6e8d6759"
+      ],
+      "exactReceiptsAndEventsVerified": true,
+      "archivedPostStateConsistent": true
+    }
+  },
+  "scope": "Independent current RPC canonical receipt/calldata/event recheck; stage balance checks use archived original observations. Final closed/withdrawn state freshly read. Single-RPC L2 verification, not independent L1 finality.",
+  "freshFinalState": {
+    "block": 77263055,
+    "hash": "0xc34107a9ebeea15435ce1f3734a6fe01ee2bc5ba1a3f15d4e096c98599bf423e",
+    "walletShares": 14970355655,
+    "free": 0,
+    "locked": 0,
+    "allowance": 0,
+    "exchangeRate": 200001883736226,
+    "position": {
+      "id": 2,
+      "owner": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+      "account": "0x4fe6a2daff417572675a5173a25d167dff02981d",
+      "margin": "0x55aed0569c8f0d166d71face57b57c2f2624a563",
+      "asset": "0x55aed0569c8f0d166d71face57b57c2f2624a563",
+      "debtMarket": "0xa155cccb986774ae818b3f10f07d01d1b7a47b26",
+      "locked": 0,
+      "side": 1,
+      "status": 5,
+      "requestedLeverage": 200,
+      "dollarDebt": 0,
+      "stockDebt": 0,
+      "dollarShares": 0,
+      "stockShares": 0,
+      "metrics": null
+    }
+  }
+}

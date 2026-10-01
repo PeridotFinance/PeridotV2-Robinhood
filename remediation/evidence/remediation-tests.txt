@@ -1,0 +1,319 @@
+forge fmt --check remediation/src remediation/script remediation/test
+forge test --no-match-path '*/fork/*' --match-contract 'LendingPriceAdapterTest|VaultRecoveryTest|VaultV2|RobinhoodBoostedVaultV2CompatibilityTest|VaultPostExitExposureTest'
+No files changed, compilation skipped
+warning: invalid natspec tag '@member', custom tags must use format '@custom:name'
+    ╭▸ contracts/peridot-contracts-2-5/contracts/contracts/PTokenInterfaces.sol:112:5
+    │
+112 │ ┏     /**
+113 │ ┃      * @notice Container for borrow balance information
+114 │ ┃      * @member principal Total balance (with accrued interest), after applying the most recent balance-changing action
+115 │ ┃      * @member interestIndex Global borrowIndex as of the most recent balance-changing action
+116 │ ┃      */
+    ╰╴┗━━━━━━━┛
+
+
+Ran 8 tests for remediation/test/LendingPriceAdapter.t.sol:LendingPriceAdapterTest
+[PASS] testDollarCollateralSupportsStockBorrowAtCorrectLimit() (gas: 189651)
+[PASS] testFuzzCollateralAndDebtShareDollarUnits(uint64,uint64) (runs: 256, μ: 106949, ~: 107380)
+[PASS] testFuzzLiquidationDollarDebt(uint96) (runs: 256, μ: 40159, ~: 40016)
+[PASS] testLiquidationBothDirections() (gas: 49407)
+[PASS] testPriceApiScalesRemainDistinct() (gas: 31925)
+[PASS] testRejectsWrongDecimalsAndUnknownMarkets() (gas: 297979)
+[PASS] testReproducesUnsafeBorrowBeforeFix() (gas: 197478)
+[PASS] testZeroPriceFailsClosed() (gas: 64924)
+Suite result: ok. 8 passed; 0 failed; 0 skipped; finished in 99.53ms (84.56ms CPU time)
+
+Ran 41 tests for remediation/test/VaultPostExitExposure.t.sol:VaultPostExitExposureTest
+[PASS] testAggregateUsdgCapFailsClosedAcrossDeposits() (gas: 172840)
+[PASS] testArchivedVaultLetsBackedSideExitBeforeSharedLoss() (gas: 574368)
+[PASS] testCheckpointSharesLossAtEqualPercentage() (gas: 466960)
+[PASS] testCheckpointUsesCheckedSignedPnlConversion() (gas: 475218)
+[PASS] testConfiguredPairValueCapStillFailsClosed() (gas: 177774)
+[PASS] testCurrentTimestampDeadlineIsAcceptedForLPWithdrawal() (gas: 573441)
+[PASS] testDepositsRemainSeparatelyAttributed() (gas: 266438)
+[PASS] testDeprecatedMinimumDeadlineSlotMustRemainZero() (gas: 36627)
+[PASS] testEmergencyDecreaseRecognizesLossBeforeIdleWithdrawal() (gas: 609020)
+[PASS] testExitsStillFailClosedBeyondTheRemovalBound() (gas: 465135)
+[PASS] testExitsToleratePoolDeviationThatBlocksAllocation() (gas: 529847)
+[PASS] testFeeOnTransferFromVaultToReserveRevertsWithoutLedgerDrift() (gas: 604398)
+[PASS] testFeeOnTransferToWithdrawalReceiverRevertsWithoutLedgerDrift() (gas: 245487)
+[PASS] testFeesAreSplitInKindBeforeClaimsIncrease() (gas: 689140)
+[PASS] testFuzzRebalanceNeverConsumesUnmatchedStock(uint96,uint64) (runs: 256, μ: 445123, ~: 445087)
+[PASS] testGuardianCanPauseButCannotUnpause() (gas: 48793)
+[PASS] testIdleWithdrawalDoesNotNeedOracle() (gas: 322513)
+[PASS] testIdleWithdrawalRecognizesSharedLossWhileLiquidityRemains() (gas: 515145)
+[PASS] testIdleWithdrawalWithOpenLiquidityFailsClosedOnOracleError() (gas: 473603)
+[PASS] testManipulatedGuardianExitFailsClosedWithoutEnteringEmergencyMode() (gas: 443782)
+[PASS] testManipulatedLPBackedWithdrawalFailsClosed() (gas: 439116)
+[PASS] testPartialEmergencyDecreaseBlocksIdleWithdrawalUntilFullyExited() (gas: 540384)
+[PASS] testRebalanceAutoPausesAllocationWhenExistingPairExceedsCap() (gas: 384432)
+[PASS] testRebalanceDeploysOnlyMatchedOracleValue() (gas: 458440)
+[PASS] testRegistrationRequiresRemovalToleranceToCoverHalfTheRemovalDeviation() (gas: 370800)
+[PASS] testRemovalToleranceCheckRoundsTheHalfUp() (gas: 371614)
+[PASS] testReserveReportCannotOvercreditObservedVaultBalance() (gas: 631606)
+[PASS] testSettlementSlippageCannotExceedFivePercent() (gas: 36359)
+[PASS] testSideAccountLookupSupportsBoostedPTokenValidation() (gas: 37045)
+[PASS] testSingleSidedPositionCanSettleUsingCounterPrincipal() (gas: 662525)
+[PASS] testSkewedPoolCannotManufactureLossAtCheckpoint() (gas: 513489)
+[PASS] testSkewedPoolCannotMaskRealLossAtCheckpoint() (gas: 524389)
+[PASS] testStaleCheckpointIsRefreshedInsideLPWithdrawal() (gas: 597150)
+[PASS] testWithdrawableAssetsIsZeroInEmergencyModeWithOpenLiquidity() (gas: 454536)
+[PASS] testWithdrawableAssetsNeverExceedsRemainingPrincipal() (gas: 511455)
+[PASS] testWithdrawableAssetsRejectsUnsupportedToken() (gas: 258679)
+[PASS] testWithdrawableAssetsReportsIdleWhenNoLiquidityIsOpen() (gas: 284495)
+[PASS] testWithdrawableAssetsTracksOracleHealthWhileLiquidityIsOpen() (gas: 468486)
+[PASS] testWithdrawalReportsLossAppliedToRemainingClaim() (gas: 608794)
+[PASS] testWithdrawalUnwindsOnlyNeededSlice() (gas: 577578)
+[PASS] testZeroAggregateCapDisablesLimitAfterPrincipalExists() (gas: 182758)
+Suite result: ok. 41 passed; 0 failed; 0 skipped; finished in 112.72ms (101.06ms CPU time)
+
+Ran 43 tests for remediation/test/VaultRecovery.t.sol:VaultRecoveryTest
+[PASS] testAggregateUsdgCapFailsClosedAcrossDeposits() (gas: 172862)
+[PASS] testBoundedSettlementThenCheckpointRecoversAllSurplus() (gas: 757901)
+[PASS] testCheckpointSharesLossAtEqualPercentage() (gas: 466978)
+[PASS] testCheckpointUsesCheckedSignedPnlConversion() (gas: 475236)
+[PASS] testCompositionDoesNotWriteOffSolventClaimsWhenSwapsPaused() (gas: 631303)
+[PASS] testConfiguredPairValueCapStillFailsClosed() (gas: 177796)
+[PASS] testCurrentTimestampDeadlineIsAcceptedForLPWithdrawal() (gas: 573463)
+[PASS] testDepositsRemainSeparatelyAttributed() (gas: 266460)
+[PASS] testDeprecatedMinimumDeadlineSlotMustRemainZero() (gas: 36671)
+[PASS] testEmergencyDecreaseRecognizesLossBeforeIdleWithdrawal() (gas: 609037)
+[PASS] testExitsStillFailClosedBeyondTheRemovalBound() (gas: 465157)
+[PASS] testExitsToleratePoolDeviationThatBlocksAllocation() (gas: 529869)
+[PASS] testFeeOnTransferFromVaultToReserveRevertsWithoutLedgerDrift() (gas: 604420)
+[PASS] testFeeOnTransferToWithdrawalReceiverRevertsWithoutLedgerDrift() (gas: 245487)
+[PASS] testFeesAreSplitInKindBeforeClaimsIncrease() (gas: 689158)
+[PASS] testFuzzRebalanceNeverConsumesUnmatchedStock(uint96,uint64) (runs: 256, μ: 445145, ~: 445109)
+[PASS] testGuardianCanPauseButCannotUnpause() (gas: 48815)
+[PASS] testIdleWithdrawalDoesNotNeedOracle() (gas: 322513)
+[PASS] testIdleWithdrawalRecognizesSharedLossWhileLiquidityRemains() (gas: 515189)
+[PASS] testIdleWithdrawalWithOpenLiquidityFailsClosedOnOracleError() (gas: 473625)
+[PASS] testManipulatedGuardianExitFailsClosedWithoutEnteringEmergencyMode() (gas: 443799)
+[PASS] testManipulatedLPBackedWithdrawalFailsClosed() (gas: 439134)
+[PASS] testPartialEmergencyDecreaseBlocksIdleWithdrawalUntilFullyExited() (gas: 540406)
+[PASS] testRebalanceAutoPausesAllocationWhenExistingPairExceedsCap() (gas: 384476)
+[PASS] testRebalanceDeploysOnlyMatchedOracleValue() (gas: 458462)
+[PASS] testRegistrationRequiresRemovalToleranceToCoverHalfTheRemovalDeviation() (gas: 370822)
+[PASS] testRemovalToleranceCheckRoundsTheHalfUp() (gas: 371636)
+[PASS] testReserveReportCannotOvercreditObservedVaultBalance() (gas: 631624)
+[PASS] testSettlementSlippageCannotExceedFivePercent() (gas: 36359)
+[PASS] testSideAccountLookupSupportsBoostedPTokenValidation() (gas: 37067)
+[PASS] testSingleSidedPositionCanSettleUsingCounterPrincipal() (gas: 662543)
+[PASS] testSkewedPoolCannotManufactureLossAtCheckpoint() (gas: 513533)
+[PASS] testSkewedPoolCannotMaskRealLossAtCheckpoint() (gas: 524411)
+[PASS] testStaleCheckpointIsRefreshedInsideLPWithdrawal() (gas: 597194)
+[PASS] testUncheckpointedSurplusIsRecoverableButStillOracleGated() (gas: 695401)
+[PASS] testWithdrawableAssetsIsZeroInEmergencyModeWithOpenLiquidity() (gas: 454558)
+[PASS] testWithdrawableAssetsNeverExceedsRemainingPrincipal() (gas: 511477)
+[PASS] testWithdrawableAssetsRejectsUnsupportedToken() (gas: 258679)
+[PASS] testWithdrawableAssetsReportsIdleWhenNoLiquidityIsOpen() (gas: 284517)
+[PASS] testWithdrawableAssetsTracksOracleHealthWhileLiquidityIsOpen() (gas: 468508)
+[PASS] testWithdrawalReportsLossAppliedToRemainingClaim() (gas: 608794)
+[PASS] testWithdrawalUnwindsOnlyNeededSlice() (gas: 577578)
+[PASS] testZeroAggregateCapDisablesLimitAfterPrincipalExists() (gas: 182780)
+Suite result: ok. 43 passed; 0 failed; 0 skipped; finished in 118.97ms (103.77ms CPU time)
+
+Ran 40 tests for remediation/test/VaultV2Compatibility.t.sol:RobinhoodBoostedVaultV2CompatibilityTest
+[PASS] testAggregateUsdgCapFailsClosedAcrossDeposits() (gas: 172840)
+[PASS] testCheckpointSharesLossAtEqualPercentage() (gas: 466978)
+[PASS] testCheckpointUsesCheckedSignedPnlConversion() (gas: 475200)
+[PASS] testConfiguredPairValueCapStillFailsClosed() (gas: 177752)
+[PASS] testCurrentTimestampDeadlineIsAcceptedForLPWithdrawal() (gas: 573461)
+[PASS] testDepositsRemainSeparatelyAttributed() (gas: 266438)
+[PASS] testDeprecatedMinimumDeadlineSlotMustRemainZero() (gas: 36627)
+[PASS] testEmergencyDecreaseRecognizesLossAndRetainsGuardForNativeDeficit() (gas: 659315)
+[PASS] testExitsStillFailClosedBeyondTheRemovalBound() (gas: 465172)
+[PASS] testExitsToleratePoolDeviationThatBlocksAllocation() (gas: 529845)
+[PASS] testFeeOnTransferFromVaultToReserveRevertsWithoutLedgerDrift() (gas: 604376)
+[PASS] testFeeOnTransferToWithdrawalReceiverRevertsWithoutLedgerDrift() (gas: 250021)
+[PASS] testFeesAreSplitInKindBeforeClaimsIncrease() (gas: 689158)
+[PASS] testFuzzRebalanceNeverConsumesUnmatchedStock(uint96,uint64) (runs: 256, μ: 445097, ~: 445087)
+[PASS] testGuardianCanPauseButCannotUnpause() (gas: 48771)
+[PASS] testIdleWithdrawalDoesNotNeedOracle() (gas: 323047)
+[PASS] testIdleWithdrawalRecognizesSharedLossWhileLiquidityRemains() (gas: 515143)
+[PASS] testIdleWithdrawalWithOpenLiquidityFailsClosedOnOracleError() (gas: 473662)
+[PASS] testManipulatedGuardianExitFailsClosedWithoutEnteringEmergencyMode() (gas: 443764)
+[PASS] testManipulatedLPBackedWithdrawalFailsClosed() (gas: 439132)
+[PASS] testPartialEmergencyDecreaseBlocksIdleWithdrawalUntilFullyExited() (gas: 540426)
+[PASS] testRebalanceAutoPausesAllocationWhenExistingPairExceedsCap() (gas: 384432)
+[PASS] testRebalanceDeploysOnlyMatchedOracleValue() (gas: 458440)
+[PASS] testRegistrationRequiresRemovalToleranceToCoverHalfTheRemovalDeviation() (gas: 370800)
+[PASS] testRemovalToleranceCheckRoundsTheHalfUp() (gas: 371592)
+[PASS] testReserveReportCannotOvercreditObservedVaultBalance() (gas: 631604)
+[PASS] testSettlementSlippageCannotExceedFivePercent() (gas: 36359)
+[PASS] testSideAccountLookupSupportsBoostedPTokenValidation() (gas: 37023)
+[PASS] testSingleSidedPositionCanSettleUsingCounterPrincipal() (gas: 662541)
+[PASS] testSkewedPoolCannotManufactureLossAtCheckpoint() (gas: 513467)
+[PASS] testSkewedPoolCannotMaskRealLossAtCheckpoint() (gas: 524411)
+[PASS] testStaleCheckpointIsRefreshedInsideLPWithdrawal() (gas: 597148)
+[PASS] testWithdrawableAssetsIsZeroInEmergencyModeWithOpenLiquidity() (gas: 454531)
+[PASS] testWithdrawableAssetsNeverExceedsRemainingPrincipal() (gas: 511472)
+[PASS] testWithdrawableAssetsRejectsUnsupportedToken() (gas: 258679)
+[PASS] testWithdrawableAssetsReportsIdleWhenNoLiquidityIsOpen() (gas: 285695)
+[PASS] testWithdrawableAssetsTracksOracleHealthWhileLiquidityIsOpen() (gas: 468559)
+[PASS] testWithdrawalReportsLossAppliedToRemainingClaim() (gas: 608814)
+[PASS] testWithdrawalUnwindsOnlyNeededSlice() (gas: 577598)
+[PASS] testZeroAggregateCapDisablesLimitAfterPrincipalExists() (gas: 182780)
+Suite result: ok. 40 passed; 0 failed; 0 skipped; finished in 120.70ms (112.44ms CPU time)
+
+Ran 43 tests for remediation/test/VaultV2Recovery.t.sol:VaultV2RecoveryTest
+[PASS] testAggregateUsdgCapFailsClosedAcrossDeposits() (gas: 172862)
+[PASS] testBoundedSettlementThenCheckpointRecoversAllSurplus() (gas: 758366)
+[PASS] testCheckpointSharesLossAtEqualPercentage() (gas: 466996)
+[PASS] testCheckpointUsesCheckedSignedPnlConversion() (gas: 475236)
+[PASS] testCompositionDoesNotWriteOffSolventClaimsWhenSwapsPaused() (gas: 631340)
+[PASS] testConfiguredPairValueCapStillFailsClosed() (gas: 177796)
+[PASS] testCurrentTimestampDeadlineIsAcceptedForLPWithdrawal() (gas: 573483)
+[PASS] testDepositsRemainSeparatelyAttributed() (gas: 266460)
+[PASS] testDeprecatedMinimumDeadlineSlotMustRemainZero() (gas: 36671)
+[PASS] testEmergencyDecreaseRecognizesLossAndRetainsGuardForNativeDeficit() (gas: 659363)
+[PASS] testExitsStillFailClosedBeyondTheRemovalBound() (gas: 465194)
+[PASS] testExitsToleratePoolDeviationThatBlocksAllocation() (gas: 529889)
+[PASS] testFeeOnTransferFromVaultToReserveRevertsWithoutLedgerDrift() (gas: 604420)
+[PASS] testFeeOnTransferToWithdrawalReceiverRevertsWithoutLedgerDrift() (gas: 250021)
+[PASS] testFeesAreSplitInKindBeforeClaimsIncrease() (gas: 689176)
+[PASS] testFuzzRebalanceNeverConsumesUnmatchedStock(uint96,uint64) (runs: 256, μ: 445140, ~: 445109)
+[PASS] testGuardianCanPauseButCannotUnpause() (gas: 48815)
+[PASS] testIdleWithdrawalDoesNotNeedOracle() (gas: 323047)
+[PASS] testIdleWithdrawalRecognizesSharedLossWhileLiquidityRemains() (gas: 515209)
+[PASS] testIdleWithdrawalWithOpenLiquidityFailsClosedOnOracleError() (gas: 473684)
+[PASS] testManipulatedGuardianExitFailsClosedWithoutEnteringEmergencyMode() (gas: 443799)
+[PASS] testManipulatedLPBackedWithdrawalFailsClosed() (gas: 439150)
+[PASS] testPartialEmergencyDecreaseBlocksIdleWithdrawalUntilFullyExited() (gas: 540448)
+[PASS] testRebalanceAutoPausesAllocationWhenExistingPairExceedsCap() (gas: 384476)
+[PASS] testRebalanceDeploysOnlyMatchedOracleValue() (gas: 458462)
+[PASS] testRegistrationRequiresRemovalToleranceToCoverHalfTheRemovalDeviation() (gas: 370822)
+[PASS] testRemovalToleranceCheckRoundsTheHalfUp() (gas: 371636)
+[PASS] testReserveReportCannotOvercreditObservedVaultBalance() (gas: 631640)
+[PASS] testSettlementSlippageCannotExceedFivePercent() (gas: 36359)
+[PASS] testSideAccountLookupSupportsBoostedPTokenValidation() (gas: 37067)
+[PASS] testSingleSidedPositionCanSettleUsingCounterPrincipal() (gas: 662559)
+[PASS] testSkewedPoolCannotManufactureLossAtCheckpoint() (gas: 513533)
+[PASS] testSkewedPoolCannotMaskRealLossAtCheckpoint() (gas: 524433)
+[PASS] testStaleCheckpointIsRefreshedInsideLPWithdrawal() (gas: 597214)
+[PASS] testUncheckpointedSurplusIsRecoverableButStillOracleGated() (gas: 696704)
+[PASS] testWithdrawableAssetsIsZeroInEmergencyModeWithOpenLiquidity() (gas: 454575)
+[PASS] testWithdrawableAssetsNeverExceedsRemainingPrincipal() (gas: 511494)
+[PASS] testWithdrawableAssetsRejectsUnsupportedToken() (gas: 258679)
+[PASS] testWithdrawableAssetsReportsIdleWhenNoLiquidityIsOpen() (gas: 285717)
+[PASS] testWithdrawableAssetsTracksOracleHealthWhileLiquidityIsOpen() (gas: 468581)
+[PASS] testWithdrawalReportsLossAppliedToRemainingClaim() (gas: 608814)
+[PASS] testWithdrawalUnwindsOnlyNeededSlice() (gas: 577598)
+[PASS] testZeroAggregateCapDisablesLimitAfterPrincipalExists() (gas: 182802)
+Suite result: ok. 43 passed; 0 failed; 0 skipped; finished in 66.42ms (71.53ms CPU time)
+
+Ran 44 tests for remediation/test/VaultV2PostExit.t.sol:VaultV2PostExitTest
+[PASS] testAggregateUsdgCapFailsClosedAcrossDeposits() (gas: 172884)
+[PASS] testCheckpointSharesLossAtEqualPercentage() (gas: 466996)
+[PASS] testCheckpointUsesCheckedSignedPnlConversion() (gas: 475253)
+[PASS] testClosedCompositionCannotExitAheadOfUnavailableOracle() (gas: 568571)
+[PASS] testClosedCompositionRemainsBlockedDuringEmergency() (gas: 549969)
+[PASS] testClosedPositionCompositionSharesPriceLossBeforeExit() (gas: 625241)
+[PASS] testConfiguredPairValueCapStillFailsClosed() (gas: 177818)
+[PASS] testCurrentTimestampDeadlineIsAcceptedForLPWithdrawal() (gas: 573505)
+[PASS] testDepositsRemainSeparatelyAttributed() (gas: 266438)
+[PASS] testDeprecatedMinimumDeadlineSlotMustRemainZero() (gas: 36693)
+[PASS] testEmergencyDecreaseRecognizesLossAndRetainsGuardForNativeDeficit() (gas: 659324)
+[PASS] testExitsStillFailClosedBeyondTheRemovalBound() (gas: 465172)
+[PASS] testExitsToleratePoolDeviationThatBlocksAllocation() (gas: 529911)
+[PASS] testFeeOnTransferFromVaultToReserveRevertsWithoutLedgerDrift() (gas: 604442)
+[PASS] testFeeOnTransferToWithdrawalReceiverRevertsWithoutLedgerDrift() (gas: 250021)
+[PASS] testFeesAreSplitInKindBeforeClaimsIncrease() (gas: 689193)
+[PASS] testFuzzClosedCompositionRecognizesSharedDeficit(uint96) (runs: 256, μ: 626030, ~: 626061)
+[PASS] testFuzzRebalanceNeverConsumesUnmatchedStock(uint96,uint64) (runs: 256, μ: 445209, ~: 445195)
+[PASS] testGuardianCanPauseButCannotUnpause() (gas: 48849)
+[PASS] testIdleWithdrawalDoesNotNeedOracle() (gas: 323047)
+[PASS] testIdleWithdrawalRecognizesSharedLossWhileLiquidityRemains() (gas: 515209)
+[PASS] testIdleWithdrawalWithOpenLiquidityFailsClosedOnOracleError() (gas: 473706)
+[PASS] testManipulatedGuardianExitFailsClosedWithoutEnteringEmergencyMode() (gas: 443817)
+[PASS] testManipulatedLPBackedWithdrawalFailsClosed() (gas: 439185)
+[PASS] testPartialEmergencyDecreaseBlocksIdleWithdrawalUntilFullyExited() (gas: 540470)
+[PASS] testRebalanceAutoPausesAllocationWhenExistingPairExceedsCap() (gas: 384498)
+[PASS] testRebalanceDeploysOnlyMatchedOracleValue() (gas: 458440)
+[PASS] testRegistrationRequiresRemovalToleranceToCoverHalfTheRemovalDeviation() (gas: 370800)
+[PASS] testRemovalToleranceCheckRoundsTheHalfUp() (gas: 371658)
+[PASS] testReserveReportCannotOvercreditObservedVaultBalance() (gas: 631657)
+[PASS] testSettlementSlippageCannotExceedFivePercent() (gas: 36359)
+[PASS] testSideAccountLookupSupportsBoostedPTokenValidation() (gas: 37089)
+[PASS] testSingleSidedPositionCanSettleUsingCounterPrincipal() (gas: 662541)
+[PASS] testSkewedPoolCannotManufactureLossAtCheckpoint() (gas: 513533)
+[PASS] testSkewedPoolCannotMaskRealLossAtCheckpoint() (gas: 524455)
+[PASS] testStaleCheckpointIsRefreshedInsideLPWithdrawal() (gas: 597212)
+[PASS] testWithdrawableAssetsIsZeroInEmergencyModeWithOpenLiquidity() (gas: 454609)
+[PASS] testWithdrawableAssetsNeverExceedsRemainingPrincipal() (gas: 511472)
+[PASS] testWithdrawableAssetsRejectsUnsupportedToken() (gas: 258679)
+[PASS] testWithdrawableAssetsReportsIdleWhenNoLiquidityIsOpen() (gas: 285739)
+[PASS] testWithdrawableAssetsTracksOracleHealthWhileLiquidityIsOpen() (gas: 468603)
+[PASS] testWithdrawalReportsLossAppliedToRemainingClaim() (gas: 608814)
+[PASS] testWithdrawalUnwindsOnlyNeededSlice() (gas: 577598)
+[PASS] testZeroAggregateCapDisablesLimitAfterPrincipalExists() (gas: 182824)
+Suite result: ok. 44 passed; 0 failed; 0 skipped; finished in 29.46s (231.45ms CPU time)
+
+Ran 3 tests for remediation/test/VaultV2Invariant.t.sol:VaultV2AccountingInvariant
+[PASS] invariantAggregateUsdgMatchesSinglePairClaim() (runs: 256, calls: 128000, reverts: 0)
+
+╭----------------+---------------+-------+---------+----------╮
+| Contract       | Selector      | Calls | Reverts | Discards |
++=============================================================+
+| VaultV2Handler | checkpoint    | 21519 | 0       | 0        |
+|----------------+---------------+-------+---------+----------|
+| VaultV2Handler | depositStock  | 21335 | 0       | 0        |
+|----------------+---------------+-------+---------+----------|
+| VaultV2Handler | depositUsdg   | 20975 | 0       | 0        |
+|----------------+---------------+-------+---------+----------|
+| VaultV2Handler | rebalance     | 21430 | 0       | 0        |
+|----------------+---------------+-------+---------+----------|
+| VaultV2Handler | withdrawStock | 21260 | 0       | 0        |
+|----------------+---------------+-------+---------+----------|
+| VaultV2Handler | withdrawUsdg  | 21481 | 0       | 0        |
+╰----------------+---------------+-------+---------+----------╯
+
+[PASS] invariantCustodyCoversCachedClaims() (runs: 256, calls: 128000, reverts: 0)
+
+╭----------------+---------------+-------+---------+----------╮
+| Contract       | Selector      | Calls | Reverts | Discards |
++=============================================================+
+| VaultV2Handler | checkpoint    | 21519 | 0       | 0        |
+|----------------+---------------+-------+---------+----------|
+| VaultV2Handler | depositStock  | 21335 | 0       | 0        |
+|----------------+---------------+-------+---------+----------|
+| VaultV2Handler | depositUsdg   | 20975 | 0       | 0        |
+|----------------+---------------+-------+---------+----------|
+| VaultV2Handler | rebalance     | 21430 | 0       | 0        |
+|----------------+---------------+-------+---------+----------|
+| VaultV2Handler | withdrawStock | 21260 | 0       | 0        |
+|----------------+---------------+-------+---------+----------|
+| VaultV2Handler | withdrawUsdg  | 21481 | 0       | 0        |
+╰----------------+---------------+-------+---------+----------╯
+
+[PASS] invariantIdleNeverExceedsVaultCustody() (runs: 256, calls: 128000, reverts: 0)
+
+╭----------------+---------------+-------+---------+----------╮
+| Contract       | Selector      | Calls | Reverts | Discards |
++=============================================================+
+| VaultV2Handler | checkpoint    | 21519 | 0       | 0        |
+|----------------+---------------+-------+---------+----------|
+| VaultV2Handler | depositStock  | 21335 | 0       | 0        |
+|----------------+---------------+-------+---------+----------|
+| VaultV2Handler | depositUsdg   | 20975 | 0       | 0        |
+|----------------+---------------+-------+---------+----------|
+| VaultV2Handler | rebalance     | 21430 | 0       | 0        |
+|----------------+---------------+-------+---------+----------|
+| VaultV2Handler | withdrawStock | 21260 | 0       | 0        |
+|----------------+---------------+-------+---------+----------|
+| VaultV2Handler | withdrawUsdg  | 21481 | 0       | 0        |
+╰----------------+---------------+-------+---------+----------╯
+
+Suite result: ok. 3 passed; 0 failed; 0 skipped; finished in 32.05s (89.98s CPU time)
+
+Ran 7 test suites in 32.07s (62.03s CPU time): 222 tests passed, 0 failed, 0 skipped (222 total tests)
+python3 remediation/tools/verify_artifact.py
+Installed adapter creation/runtime templates (including metadata) and ABI match.
+python3 remediation/tools/verify_vault_layout.py
+Vault fields, gaps, nested types and ABI unchanged. Runtime: 22352 bytes.
+python3 -m unittest discover -s remediation/tools -p 'test_*.py'
+.........
+----------------------------------------------------------------------
+Ran 9 tests in 0.004s
+
+OK
