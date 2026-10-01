@@ -2,7 +2,7 @@
 
 Peridot's deployed NVDA/USDG boosted lending vaults and isolated long/short margin on **Robinhood Chain mainnet (4663)**. This repository freezes the contract inputs used for the September 18, 2026 margin deployment and September 19 risk update to **5×**. It includes the paired vault's deployed source revision, historical deployment evidence, tests, and the frontend integration interfaces.
 
-The frontend is being developed by another team member and will be added to [`frontend/`](frontend/README.md). There is no runnable frontend application in this initial snapshot.
+A static lending frontend lives in [`frontend/`](frontend/README.md): USDG and NVDA supply / borrow, styled like the Peridot app's Expert view. Run it with `make frontend` and open http://127.0.0.1:5173/frontend/. Margin is not part of it yet.
 
 ## Run locally
 
@@ -59,7 +59,7 @@ These are dated deployment observations, not a live availability guarantee. Stoc
 | [`contracts/robinhood-vaults/deployments`](contracts/robinhood-vaults/deployments/README.md) | Historical mainnet addresses, receipts, hashes and validation evidence |
 | [`contracts/robinhood-vaults/frontend/margin-mainnet`](contracts/robinhood-vaults/frontend/margin-mainnet/README.md) | Verified address manifest, 16 ABIs and frontend implementation guide |
 | [`snapshot`](snapshot) | Source digests and archived deployment compiler artifacts |
-| [`frontend`](frontend/README.md) | Reserved for the independently developed runnable frontend |
+| [`frontend`](frontend/README.md) | Static lending frontend (no build step), reads the pinned manifest and ABIs at runtime |
 
 The internal two-directory layout preserves original Solidity import paths. The embedded Peridot tree intentionally contains only the deployed Robinhood dependency closure. Later Avalanche/Pharaoh margin features are not included. Do not replace it with the latest upstream checkout.
 
