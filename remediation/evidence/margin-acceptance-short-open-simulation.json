@@ -1,14 +1,14 @@
 {
   "chainId": 4663,
   "side": "short",
-  "stage": "roundtrip",
-  "stateBlock": 77256943,
-  "blockHash": "0x71d2a4e32191f91bd8b8de36a097eeb752ee621e68b9a7d4330149353b7d9dd1",
-  "nativeBlock": 26096483,
+  "stage": "open",
+  "stateBlock": 77258184,
+  "blockHash": "0xdc6febac9bca7a2c2b4d97430db5db42563ffd81c1a47135a614a72b0d5fee28",
+  "nativeBlock": 26096494,
   "broadcast": false,
   "before": {
-    "block": 77256943,
-    "hash": "0x71d2a4e32191f91bd8b8de36a097eeb752ee621e68b9a7d4330149353b7d9dd1",
+    "block": 77258184,
+    "hash": "0xdc6febac9bca7a2c2b4d97430db5db42563ffd81c1a47135a614a72b0d5fee28",
     "walletShares": 14985234934,
     "free": 0,
     "locked": 0,
@@ -53,6 +53,21 @@
   "collateralShares": 1000000000,
   "requestedLeverageX100": 200,
   "scriptSha256": "013b6d694c080ed0683f21b1f482621a896ece4ebe2cd92eceda5867a7c7fedb",
+  "keeperHealth": {
+    "status": "monitoring",
+    "checkedAtUnix": 1790845981,
+    "executionEnabled": true,
+    "sender": "0x16aEC17597E5224998e2043C9c83C4a35dD95A86",
+    "gasBalanceWei": "2000000000000000",
+    "gasReady": true,
+    "journalId": "43864aac-a4af-4575-9a65-92cad29cebc2",
+    "positions": [
+      {
+        "positionId": 1,
+        "status": "resolved"
+      }
+    ]
+  },
   "exitCode": 0,
   "scope": "No signing; complete initial script simulation at native EVM clock"
 }

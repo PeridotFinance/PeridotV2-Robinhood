@@ -1,5 +1,17 @@
 # Mainnet evidence and submission claims
 
+## October 1: short margin round trip completed
+
+Position **2**, account `0x4fe6a2daff417572675a5173a25d167dff02981d`, opened with 10 pUSDG at **2× requested gross leverage**; its entry metric was **1.99×**. All six user-signed transactions were independently checked for exact sender, nonce, calldata, successful canonical receipts and action events. At final block **77,263,055**, the position is CLOSED with both debts, position pToken balances, free/locked margin and approval zero.
+
+The wallet received **9.85120721 pUSDG**, approximately **0.197025 USDG** at the recorded exchange rate, from approximately **0.200001 USDG** equivalent supplied. These are shares, not redeemed USDG; gas is separate. The difference is the aggregate round-trip result, not a fee-only measurement. Short gross leverage includes stable collateral and does not mean 2× directional stock exposure.
+
+[Summary](evidence/margin-acceptance-short-completed.json), [opening](evidence/margin-acceptance-short-open-verified.json), [closing](evidence/margin-acceptance-short-close-verified.json), [withdrawal](evidence/margin-acceptance-short-withdraw-verified.json), [independent receipt/event recheck](evidence/margin-acceptance-short-receipt-recheck.json). Stage balance observations remain archived; final state was freshly read. Verification uses one public RPC, not independent L1 finality proof. The initial unsigned password-error attempt is retained in [its recovery archive](evidence/attempts/short-open-77254313-unsigned/recovery.json).
+
+**Operator lending, long and short lifecycles are now complete.** This does not establish frontend acceptance, independent adoption or a live cloud liquidation. The configured 5×/$2 gross/$1 debt limits are unchanged.
+
+The [October 1 vault observation](evidence/vault-state-2026-10-01.json) at block **77,263,036** confirms allocation/settlement paused, zero production LP liquidity and an empty NFT still present. Both guarded pair prices were available. Production has a native stock shortage of **16,631,839,952,566 raw NVDA** and a **7,069 raw USDG** surplus relative to its ledger principals. The historical canary still holds **24,697,449,583 raw NVDA** with zero principal. These require separate guarded settlement/recovery; this turn neither settled nor reactivated LP. Safe migration and Telegram alerts remain user-deferred.
+
 ## September 30: long margin round trip completed
 
 Position **1**, account `0xa1a7a0f0c270fd9229ff7a2e6a67b0c2eb67d45b`, opened with 10 pUSDG collateral at **2× requested gross leverage**; its entry metric was **1.98×**. Six user-signed transactions deposited collateral, opened, fully closed and withdrew the returned shares. At final block **76,612,481**, status is CLOSED, both account debts and position pToken balances are zero, and free margin, locked margin and the pUSDG approval are zero.
@@ -8,7 +20,7 @@ The wallet received **9.85191185 pUSDG**, equivalent to **0.197039 USDG** at the
 
 [Summary](evidence/margin-acceptance-long-completed.json), [opening](evidence/margin-acceptance-long-open-verified.json), [closing](evidence/margin-acceptance-long-close-verified.json), [withdrawal](evidence/margin-acceptance-long-withdraw-verified.json), [independent receipt/event recheck](evidence/margin-acceptance-long-receipt-recheck.json). The older balance snapshots could not be re-served by the public RPC; their original verification records are retained and final state was independently refreshed. No independent L1 finality claim is made.
 
-This is one operator long lifecycle, not independent adoption, a short lifecycle, LP reactivation or a live cloud liquidation. The short is next; it passed a fresh post-long simulation. Protocol 5×/$2 gross/$1 debt limits are unchanged. LP reactivation, Safe migration and Telegram alerts were not performed.
+This is one operator long lifecycle, not independent adoption, a short lifecycle, LP reactivation or a live cloud liquidation. At this September 30 observation the short was next; its October 1 completion above supersedes that status. Protocol 5×/$2 gross/$1 debt limits are unchanged. LP reactivation, Safe migration and Telegram alerts were not performed.
 
 ## September 30: operator lending round trip completed
 
@@ -16,7 +28,7 @@ All ten user-signed transactions are verified: 0.001 NVDA supplied, collateral m
 
 [Opening receipts and state](evidence/lending-acceptance-open-verified.json), [closing receipts and state](evidence/lending-acceptance-close-verified.json), [runner and recovery notes](LENDING_ACCEPTANCE.md). Exact calldata/sender/nonce/chain, canonical successful receipts, action events and before/after balances were checked through one public RPC. This is an operator acceptance test, not independent adoption, margin execution, LP reactivation or independent L1 settlement proof.
 
-The initial opening verifier filename error was reconciled without rebroadcast. The closing simulation required the existing native-EVM-clock handling to avoid Foundry's incorrect RPC-height interest replay. No oracle threshold, allowance cap or risk limit was relaxed. LP allocation/settlement remain paused; long/short and frontend acceptance remain outstanding. Safe and Telegram work remain deferred.
+The initial opening verifier filename error was reconciled without rebroadcast. The closing simulation required the existing native-EVM-clock handling to avoid Foundry's incorrect RPC-height interest replay. No oracle threshold, allowance cap or risk limit was relaxed. LP allocation/settlement remain paused. At this lending-only observation margin/frontend acceptance was outstanding; the completed margin evidence above supersedes that portion. Safe and Telegram work remain deferred.
 
 ## September 29: lending reactivation verified
 
@@ -110,9 +122,9 @@ The dedicated keeper's fresh direct health read reported execution enabled, gas 
 
 Use: “Peridot has deployed NVDA/USDG boosted lending, a paired Uniswap v4 strategy with capped in-kind loss mitigation, and isolated long/short margin on Robinhood Chain mainnet under restricted canary limits.” Follow this with the current operational state and dated receipts.
 
-Current wording: “Lending reactivation was verified September 29; supply and borrowing are enabled, while LP allocation/settlement remain paused. An operator lending cycle completed September 30; margin and frontend acceptance testing remain outstanding.” Do not claim successful margin fills or a reproduced supply → borrow → leverage journey from cleared pause flags alone.
+Current wording: “Lending reactivation was verified September 29; supply and borrowing are enabled, while LP allocation/settlement remain paused. Operator lending, long and short margin cycles completed September 30–October 1; frontend acceptance remains outstanding.” Do not claim successful margin fills or a reproduced supply → borrow → leverage journey from cleared pause flags alone.
 
-Use “capped reserve-backed loss mitigation,” not guaranteed impermanent-loss insurance. Use “standard v4 adapter,” not a custom hook. Show 5× as a configured limit; actual margin fills remain to be demonstrated after reopening.
+Use “capped reserve-backed loss mitigation,” not guaranteed impermanent-loss insurance. Use “standard v4 adapter,” not a custom hook. Show 5× as a configured limit; the completed operator margin tests requested 2× gross leverage, with 1.98× long and 1.99× short entry metrics.
 
 Cross-chain access, fiat onboarding, IBANs and the separate frontend require their own repository/provider/transaction evidence. This contract package does not prove those integrations.
 

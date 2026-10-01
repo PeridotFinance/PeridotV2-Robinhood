@@ -1,0 +1,32 @@
+{
+  "status": "UNSIGNED_ATTEMPT_ARCHIVED_FOR_FRESH_USER_LOCAL_RETRY",
+  "chainId": 4663,
+  "intentStateBlock": 77254313,
+  "intentSha256": "3bbb1906ee573157366c0ec042d2d32debbe00021b754bf81cb29ad5ec83b37d",
+  "onchainState": {
+    "block": 77256821,
+    "hash": "0xb9fa072cee2d148e09d76913ecfc89eab39f523ff71e4992028303a0196513b4",
+    "walletShares": 14985234934,
+    "free": 0,
+    "locked": 0,
+    "allowance": 0,
+    "exchangeRate": 200001789475000
+  },
+  "nonces": {
+    "latest": 256,
+    "pending": 256
+  },
+  "journalTransactionsUnsigned": true,
+  "originalFilesSha256": {
+    "remediation/evidence/margin-acceptance-short-open-intent.json": "3bbb1906ee573157366c0ec042d2d32debbe00021b754bf81cb29ad5ec83b37d",
+    "remediation/evidence/margin-acceptance-short-open-intent.sha256": "f2ca805b6959992a2b7ee89b792196319634e1ba12bc84cda7592f92e13e5ec1",
+    "broadcast/MarginAcceptance.s.sol/4663/openTest-latest.json": "ad0b2a3e45c2d80738a073e68025324c1f320ae1d96baf9700f2c342e913cc48",
+    "broadcast/MarginAcceptance.s.sol/4663/dry-run/openTest-latest.json": "21513f512a7138875440ead6a89d2ca89d1a3e29ff33a9b54e69be7182bcfe61",
+    "remediation/evidence/margin-acceptance-short-open-simulation.json": "0d630c7993510ae1fbac5832049a6597ae8d5cfe856d68f2e142234ecb552606",
+    "remediation/evidence/margin-acceptance-short-open-simulation.sha256": "327ba1a5cb1acc1f1cbcc437cc0a9fa9a176bb577a4e47373811bdf3adb68aa7"
+  },
+  "reason": "User terminal reported keystore decryption failure before signing; journal contains no hashes, pending submissions or receipts.",
+  "scope": "Single public RPC plus local journal reconciliation. No keys, passwords or sensitive caches read. No onchain mutation. Does not prove absence from all possible private relays.",
+  "retry": "Fresh user-local open --broadcast must repeat the initial simulation and password prompt; never resume this archived plan.",
+  "restore": "Keep archive immutable. If restoration is needed, stop signing and review any newer attempt before copying the archived intent and checksum back; never overwrite a newer intent."
+}

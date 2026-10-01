@@ -1,0 +1,31 @@
+{
+  "chainId": 4663,
+  "positionId": 2,
+  "account": "0x4fe6a2daff417572675a5173a25d167dff02981d",
+  "side": "short",
+  "requestedLeverageX100": 200,
+  "entryLeverageX100": 199,
+  "startingMarginShares": 1000000000,
+  "returnedMarginShares": 985120721,
+  "startingMarginUnderlyingEquivalentRaw": 200001,
+  "returnedMarginUnderlyingEquivalentRaw": 197025,
+  "finalBlock": 77263055,
+  "finalBlockHash": "0xc34107a9ebeea15435ce1f3734a6fe01ee2bc5ba1a3f15d4e096c98599bf423e",
+  "finalStatus": 5,
+  "finalDollarDebt": 0,
+  "finalStockDebt": 0,
+  "finalDollarShares": 0,
+  "finalStockShares": 0,
+  "finalFreeMargin": 0,
+  "finalLockedMargin": 0,
+  "finalAllowance": 0,
+  "transactions": [
+    "0xe7529108448fe7a4cdfb69aa960f51430b7f7fcc53b947a05a6df6cf662926dc",
+    "0x8784dc485e89a4ee9ef67a53b33c06f66248e6d5a644d8524671a54ac9fe4a5c",
+    "0xc60f6b11bf6e5e57d9ca7daf5c9cb9b85c1064ef8c609e11628686e445413388",
+    "0xfcfcf14c030265d4827d916d528e7acf62b02e1d1517f9ef03706d7194330632",
+    "0x4e8eafbe9030d22883b75a1a5704295039615cd31d6f0c698e7e336dd30dce09",
+    "0xb887f9c282b279bab38826982d1174e83f6338a29ca079224d201a7b6e8d6759"
+  ],
+  "scope": "Operator mainnet short round trip. Returned asset is pUSDG, not redeemed USDG; equivalents use recorded exchange rates, gas separate. 2x requested GROSS leverage includes stable collateral and is not 2x directional stock exposure. Not independent adoption, LP reactivation or a cloud liquidation."
+}
