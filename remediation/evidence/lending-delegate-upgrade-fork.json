@@ -1,17 +1,17 @@
 {
   "chainId": 4663,
-  "stateBlock": 77361908,
-  "blockHash": "0xc8dbd4e55608bdb53a4d2db5c83320234f0931d8e6c7b1f3da93ee98e57fe9a0",
-  "nativeBlock": 26097362,
-  "timestamp": 1790856439,
+  "stateBlock": 77435263,
+  "blockHash": "0x5b5171e320231e215978942d05d01cb6fe3c99ce00b3715f9d8c5171ba1d50f2",
+  "nativeBlock": 26097973,
+  "timestamp": 1790863809,
   "exitCode": 0,
   "canonicalAfterTests": true,
   "testSha256": {
-    "LendingDelegateUpgradeMainnet.t.sol": "17802cc96fa1ea0348a95e3adafe6b0ef9f8ac208a7ad7dd507bde5b238c8c1c",
+    "LendingDelegateUpgradeMainnet.t.sol": "a3bed6954ebaf93ee925abcf1d7f4ae319bee8f47db6aaca7b9390cdabe54eaf",
     "LendingDelegateMarginCompat.t.sol": "3512ad9f00412ea8f10768ad03d3f78e694b8364c95d3d7360313bc6858f605c"
   },
   "candidateSourceSha256": "0c8ebc234704589e4e177c35fa4dc8d65fa28d80862631a1741880391deaf26f",
-  "logSha256": "235f9c93d69d87b2a36b38eabde757a3d55aa859a3c1359da80a9fe3a17ef441",
+  "logSha256": "1e5c7687c4e0fb8e7253d7a404b296661603966bef6158137a0a278eaf2cbf9e",
   "foundryProfile": "lending_candidate",
   "scope": "Candidate deployed and installed on local fork only. Current installed markets, vault and governor balances, no oracle mocks or funding overrides. Not a mainnet deployment. No keys, signing or broadcasts."
 }

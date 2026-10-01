@@ -14,8 +14,8 @@ test-remediation:
 # Lending-delegate rounding candidate. Needs the dedicated profile: the candidate does not fit
 # EIP-170 under the default or lending_upgrade settings. See remediation/LENDING_DELEGATE_CANDIDATE.md.
 test-lending-candidate:
-	forge fmt --check remediation/script/UpgradeLendingDelegate.s.sol remediation/test/LendingRoundingVault.t.sol remediation/test/fork/LendingDelegateUpgradeMainnet.t.sol
-	FOUNDRY_PROFILE=lending_candidate forge test --match-path 'remediation/test/LendingRounding*.t.sol'
+	forge fmt --check remediation/src remediation/script remediation/test/LendingRoundingVault.t.sol remediation/test/LendingMintRouter.t.sol remediation/test/fork/LendingDelegateUpgradeMainnet.t.sol remediation/test/fork/LendingDelegateMarginCompat.t.sol remediation/test/fork/LendingDelegateMintRouter.t.sol
+	FOUNDRY_PROFILE=lending_candidate forge test --match-path 'remediation/test/Lending*.t.sol'
 	FOUNDRY_PROFILE=lending_upgrade forge build
 	FOUNDRY_PROFILE=lending_candidate forge build --sizes --skip 'remediation/test/**' --skip 'remediation/script/**'
 	python3 remediation/tools/verify_lending_delegate_candidate.py

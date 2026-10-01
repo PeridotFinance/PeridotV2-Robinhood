@@ -10,10 +10,15 @@ warning: invalid natspec tag '@member', custom tags must use format '@custom:nam
     ╰╴┗━━━━━━━┛
 
 
-Ran 12 tests for remediation/test/fork/LendingDelegateUpgradeMainnet.t.sol:LendingDelegateUpgradeMainnetForkTest
-[PASS] testBorrowAfterUpgradeUsesTheNewModuleAndCanBeRepaid() (gas: 14524996)
+Ran 2 tests for remediation/test/fork/LendingDelegateMintRouter.t.sol:LendingDelegateMintRouterForkTest
+[PASS] testRouterOnTheInstalledOriginalDelegate() (gas: 1269876)
+[PASS] testRouterWithTheCorrectedDelegateInstalled() (gas: 6826605)
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 13.23s (7.23s CPU time)
+
+Ran 11 tests for remediation/test/fork/LendingDelegateUpgradeMainnet.t.sol:LendingDelegateUpgradeMainnetForkTest
+[PASS] testBorrowAfterUpgradeUsesTheNewModuleAndCanBeRepaid() (gas: 14524932)
 [PASS] testBothMarketsReferenceTheCandidateModuleAfterUpgrade() (gas: 14026812)
-[PASS] testDeployAndInstallScriptsUpgradeBothMarketsAndAreRepeatable() (gas: 36337355)
+[PASS] testDeployAndInstallScriptsRejectMismatchUpgradeBothMarketsAndAreRepeatable() (gas: 36354907)
 Logs:
   delegate 0x0C6F6962d80390F6104f80811a150e8233bd8FF1
   module 0xbE99A699E81AB667C0Be517E6AAe4d92EA6C4557
@@ -22,33 +27,25 @@ Logs:
   Next: python3 remediation/tools/verify_lending_delegate_deployment.py --delegate <address>
 
 [PASS] testDroppedMinSharesSelectorIsNotExposedOnInstalledProxies() (gas: 14032071)
-[PASS] testExactUnderlyingRedeemBurnsRoundedUpShares() (gas: 14265174)
-[PASS] testInstallRejectsAMismatchedExpectedCodehash() (gas: 21938373)
-Logs:
-  delegate 0x0C6F6962d80390F6104f80811a150e8233bd8FF1
-  module 0xbE99A699E81AB667C0Be517E6AAe4d92EA6C4557
-  runtime bytes 24572
-  0x0528316d15799703f9c86146ecaf14c98835e704cfd9eb0e82acf4a9ce8d11d8
-  Next: python3 remediation/tools/verify_lending_delegate_deployment.py --delegate <address>
-
-[PASS] testLegacyMintStillWorksThroughBothInstalledProxiesAndRoundTrips() (gas: 14626796)
-[PASS] testShareDenominatedRedeemStillPaysTheRoundedDownValue() (gas: 14261036)
-[PASS] testSmallestUsdgUnitStillMintsSharesAfterUpgrade() (gas: 14252515)
+[PASS] testExactUnderlyingRedeemBurnsRoundedUpShares() (gas: 14265142)
+[PASS] testLegacyMintStillWorksThroughBothInstalledProxiesAndRoundTrips() (gas: 14626732)
+[PASS] testShareDenominatedRedeemStillPaysTheRoundedDownValue() (gas: 14261004)
+[PASS] testSmallestUsdgUnitStillMintsSharesAfterUpgrade() (gas: 14252483)
 [PASS] testUpgradePreservesInstalledStorageAndViews() (gas: 14022133)
-[PASS] testUpgradePreservesOutstandingBorrowAndAllowsRepayment() (gas: 14576158)
-[PASS] testZeroShareNvdaMintIsRejectedAtomicallyAfterUpgrade() (gas: 14368009)
-Suite result: ok. 12 passed; 0 failed; 0 skipped; finished in 59.31s (50.38s CPU time)
+[PASS] testUpgradePreservesOutstandingBorrowAndAllowsRepayment() (gas: 14576094)
+[PASS] testZeroShareNvdaMintIsRejectedAtomicallyAfterUpgrade() (gas: 14367977)
+Suite result: ok. 11 passed; 0 failed; 0 skipped; finished in 52.68s (43.15s CPU time)
 
 Ran 9 tests for remediation/test/fork/LendingDelegateMarginCompat.t.sol:LendingDelegateMarginCompatForkTest
-[PASS] testLongRoundTripWithCandidateInstalled() (gas: 10105394)
-[PASS] testLongSevereShockLiquidationWithCandidateInstalled() (gas: 12731597)
-[PASS] testPartialThenFullCloseBothDirections() (gas: 17907431)
-[PASS] testRepayWithPTokenRemainderMintsOnUsdgDebt() (gas: 9560808)
-[PASS] testRepayWithUnderlyingThenDebtFreeExit() (gas: 9202983)
-[PASS] testShortRepayWithPTokenNvdaDustRemainderRevertsBeforeAndAfter() (gas: 10926670)
-[PASS] testShortRoundTripWithCandidateInstalled() (gas: 10540752)
-[PASS] testShortSevereShockLiquidationWithCandidateInstalled() (gas: 12204713)
-[PASS] testZeroAmountMintNowRevertsAfterInstall() (gas: 5910806)
-Suite result: ok. 9 passed; 0 failed; 0 skipped; finished in 60.94s (200.60s CPU time)
+[PASS] testLongRoundTripWithCandidateInstalled() (gas: 10105234)
+[PASS] testLongSevereShockLiquidationWithCandidateInstalled() (gas: 12664301)
+[PASS] testPartialThenFullCloseBothDirections() (gas: 17906732)
+[PASS] testRepayWithPTokenRemainderMintsOnUsdgDebt() (gas: 9560680)
+[PASS] testRepayWithUnderlyingThenDebtFreeExit() (gas: 9202855)
+[PASS] testShortRepayWithPTokenNvdaDustRemainderRevertsBeforeAndAfter() (gas: 10926052)
+[PASS] testShortRoundTripWithCandidateInstalled() (gas: 10540070)
+[PASS] testShortSevereShockLiquidationWithCandidateInstalled() (gas: 12204059)
+[PASS] testZeroAmountMintNowRevertsAfterInstall() (gas: 5910774)
+Suite result: ok. 9 passed; 0 failed; 0 skipped; finished in 53.33s (166.33s CPU time)
 
-Ran 2 test suites in 60.97s (120.24s CPU time): 21 tests passed, 0 failed, 0 skipped (21 total tests)
+Ran 3 test suites in 53.36s (119.24s CPU time): 22 tests passed, 0 failed, 0 skipped (22 total tests)

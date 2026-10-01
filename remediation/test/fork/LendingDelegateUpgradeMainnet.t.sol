@@ -269,13 +269,22 @@ contract LendingDelegateUpgradeMainnetForkTest is Test {
     }
 
     /// The reviewed two-stage procedure, run exactly as the governor will (broadcast simulated).
-    function testDeployAndInstallScriptsUpgradeBothMarketsAndAreRepeatable() public {
+    function testDeployAndInstallScriptsRejectMismatchUpgradeBothMarketsAndAreRepeatable() public {
         address delegate = new DeployLendingDelegate().run();
         assertLe(delegate.code.length, 24576);
-        // In the real procedure this hash comes from verify_lending_delegate_deployment.py.
+        // Environment variables are process-wide and forge runs tests in parallel, so everything
+        // that sets them lives in this one sequential test.
         vm.setEnv("NEW_LENDING_DELEGATE", vm.toString(delegate));
-        vm.setEnv("EXPECTED_LENDING_DELEGATE_CODEHASH", vm.toString(delegate.codehash));
         InstallLendingDelegate installer = new InstallLendingDelegate();
+
+        // A mismatched expected hash is refused and nothing is installed.
+        vm.setEnv("EXPECTED_LENDING_DELEGATE_CODEHASH", vm.toString(bytes32(uint256(1))));
+        vm.expectRevert("CANDIDATE_CODE_MISMATCH");
+        installer.run();
+        assertTrue(PErc20Delegator(payable(PSTOCK)).implementation() != delegate);
+
+        // In the real procedure this hash comes from verify_lending_delegate_deployment.py.
+        vm.setEnv("EXPECTED_LENDING_DELEGATE_CODEHASH", vm.toString(delegate.codehash));
         installer.run();
         assertEq(PErc20Delegator(payable(PSTOCK)).implementation(), delegate);
         assertEq(PErc20Delegator(payable(PUSDG)).implementation(), delegate);
@@ -283,15 +292,5 @@ contract LendingDelegateUpgradeMainnetForkTest is Test {
         DeployLendingDelegate redeploy = new DeployLendingDelegate();
         vm.expectRevert("MARKETS_NOT_ON_THE_REVIEWED_ORIGINAL");
         redeploy.run();
-    }
-
-    function testInstallRejectsAMismatchedExpectedCodehash() public {
-        address delegate = new DeployLendingDelegate().run();
-        vm.setEnv("NEW_LENDING_DELEGATE", vm.toString(delegate));
-        vm.setEnv("EXPECTED_LENDING_DELEGATE_CODEHASH", vm.toString(bytes32(uint256(1))));
-        InstallLendingDelegate installer = new InstallLendingDelegate();
-        vm.expectRevert("CANDIDATE_CODE_MISMATCH");
-        installer.run();
-        assertTrue(PErc20Delegator(payable(PSTOCK)).implementation() != delegate);
     }
 }

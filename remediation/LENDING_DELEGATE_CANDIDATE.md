@@ -30,7 +30,7 @@ Intermediate measurements under the captured settings: the ceiling-division fix 
 
 The release build therefore omits trailing metadata (about 53 bytes). That is a real reduction in deployed bytes, and it has a consequence: explorer verification must use the same settings (`bytecodeHash = none`, `appendCBOR = false`; profile `lending_candidate` in `foundry.toml`). **Four bytes of headroom means any further change to this contract needs size work first.**
 
-A caller minimum could be offered later by a small stateless periphery contract (pull underlying, call `mint`, check the share delta, forward the shares). That would be a separate artifact needing its own review, and it is not part of this candidate.
+A caller minimum is instead offered by a separate small router, [`LendingMintRouter`](src/LendingMintRouter.sol), described [below](#optional-min-shares-router). It is a separate artifact that needs its own deployment, and it is not part of this candidate.
 
 ## Immutables: the verifier's assumption was wrong
 
@@ -51,7 +51,8 @@ All results are local or on a **local fork**; no transaction was signed or broad
 | `LendingRounding.t.sol` (frozen controller + delegate; unit model, 18- and 6-decimal) | 17 passed |
 | `LendingRoundingVault.t.sol` (mock vault: strict mint valuation, loss settlement) | 9 passed |
 | Same suites at 5,000 fuzz runs ([log](evidence/lending-rounding-tests.txt)) | 26 passed, 0 failed |
-| Local mainnet-fork upgrade rehearsal at the latest block ([log](evidence/lending-delegate-upgrade-fork.txt)): 12 upgrade/preservation/script tests, no oracle mocks; plus 9 tests driving the **live margin stack** with the candidate installed | 21 passed |
+| Router tests (`LendingMintRouter.t.sol`, 5,000 fuzz runs; [log](evidence/lending-mint-router-tests.txt)) | 10 passed, 0 failed |
+| Local mainnet-fork upgrade rehearsal at the latest block ([log](evidence/lending-delegate-upgrade-fork.txt)): 12 upgrade/preservation/script tests, no oracle mocks; plus 9 tests driving the **live margin stack** with the candidate installed and 2 router tests on live markets | 22 passed |
 | Mined local rehearsal: deploy, independent verify, install both markets, repeat as no-op ([log](evidence/lending-delegate-anvil-rehearsal.txt)) | Rate, supply and borrows unchanged on both markets |
 | Gates: storage, selectors, ABI, immutables, module logic, settings, size ([report](evidence/lending-delegate-candidate-gates.json)) | All pass |
 | Existing remediation suites (222 tests), Python tools (36 + 3 + 6 new), frozen snapshot (216 files, 26 artifacts, 16 ABIs) | All pass |
@@ -87,6 +88,29 @@ The candidate's `mint` now reverts on zero shares (including `mint(0)`, which th
 **Live-stack tests** (`LendingDelegateMarginCompat.t.sol`, local fork at the latest block, candidate installed on both markets, real executor, liquidator, margin vault, risk engine, quoter, swap module and flash vault): long and short round trips, partial then full close in both directions, repay with underlying then debt-free exit, `repayWithPToken` remainder on USDG debt, and **severe-shock liquidation in both directions** (a pool move plus a feed answer that tracks it, fork only). All pass, with market-wide borrows returning to their starting values. The suite skips loudly when the stock feed is stale because the margin oracle fails closed, so check the log shows these as run, not skipped. Local conveniences: actor top-up with `deal`, and the shock driver. These tests do not exercise LP-boosted liquidation, because allocation is currently paused with no open LP liquidity.
 
 Residual: a position so small that closing returns less than a raw USDG unit would now revert on close instead of closing with a dust loss. It can still be exited through `repayWithUnderlying` and `exitDebtFreeToPTokens`, or liquidated.
+
+## Optional min-shares router
+
+**Status: written and tested, NOT deployed.** [`LendingMintRouter`](src/LendingMintRouter.sol) gives callers the `mintWithMinShares(market, amount, minShares)` bound that did not fit in the delegate. It is stateless and ownerless (no admin, no upgrade path, no stored balances) and accepts only the two fixed markets given at construction, so a caller cannot make it approve or call an arbitrary contract. It pulls exactly `amount`, supplies it, checks the share delta against `minShares` (which must be at least 1), forwards every share to the caller, revokes the approval and reverts if anything is left behind. Fee-on-transfer underlying is rejected.
+
+It works against **both the original and the corrected delegate**: against the original, requiring a minimum of at least one share blocks the zero-share mint on its own, so it protects users even before the delegate is installed. It does not remove the need for the delegate fix, because direct callers of `mint` bypass it.
+
+Validation: 10 local tests on both delegates at 5,000 fuzz runs (normal mint, nonzero rounding loss rejected, zero-share mint blocked, 6-decimal minimums, input checks, fee-on-transfer, stray balances, and a property that the outcome equals the floor estimate versus the minimum); two live-fork tests on the installed original delegate and with the candidate installed; a mined local deploy-and-verify rehearsal ([log](evidence/lending-mint-router-anvil-rehearsal.txt)), which also minted through it and left the router with no residue. Removing the minimum check fails 4 tests and removing the transfer check fails 1.
+
+Deploy and verify (the router has no privileges, so any account can deploy it):
+
+```sh
+FOUNDRY_PROFILE=lending_candidate forge script \
+  remediation/script/DeployLendingMintRouter.s.sol:DeployLendingMintRouter \
+  --rpc-url https://rpc.mainnet.chain.robinhood.com \
+  --sender 0x94696d767e65a75581145646960FA0eC886cE5d2
+# then the same command with: --account robinhood-deployer --broadcast --slow
+python3 remediation/tools/verify_lending_mint_router.py --router <address> --tx <deployment tx hash>
+```
+
+The verifier compares the deployed runtime with the compiled artifact with both market immutables filled in. Users approve the router for the underlying, then call `mintWithMinShares`; the frontend should not use it until the deployment is verified and announced.
+
+Residual: the router adds a contract to trust and to audit, and a user's approval to it is spent only by the router's own logic. It does not bound the exchange rate between quote and execution beyond the stated minimum.
 
 ## Residual risks
 
@@ -156,7 +180,7 @@ It sends up to two transactions, fingerprints each market before and after (ever
 >
 > After installation: addresses and ABI are unchanged (same pNVDA and pUSDG proxies; no new functions). There is one new revert reason, `ZeroSharesMinted()`: a supply that would credit zero pTokens now reverts instead of taking the underlying, and `mint(0)` now reverts too. There is no `mintWithMinShares`; it did not fit the contract size limit.
 >
-> 1. **Supply:** `mint` still has no minimum-received bound. Estimate pTokens as `floor(amount * 1e18 / exchangeRate)`, reading the rate with a static `eth_call` to `exchangeRateCurrent` (it is not a view function) or from `exchangeRateStored`, and warn or block when the result is far below the deposit's fair value, especially for tiny NVDA amounts (USDG has 6 decimals, NVDA 18, both pTokens 8). Simulating the `mint` and reading the `balanceOf` delta also works.
+> 1. **Supply:** the delegate's `mint` still has no minimum-received bound. A separate router with a bound is prepared but not deployed; do not use it until I confirm. Until then, estimate pTokens as `floor(amount * 1e18 / exchangeRate)`, reading the rate with a static `eth_call` to `exchangeRateCurrent` (it is not a view function) or from `exchangeRateStored`, and warn or block when the result is far below the deposit's fair value, especially for tiny NVDA amounts (USDG has 6 decimals, NVDA 18, both pTokens 8). Simulating the `mint` and reading the `balanceOf` delta also works.
 > 2. **Max withdraw:** use `redeem(allShares)`, not `redeemUnderlying(quotedValue)`. `redeemUnderlying` now burns the rounded-up share count and can revert if a loss recognized during settlement raises the shares needed.
 > 3. Show `ZeroSharesMinted` as "amount too small", and do not send zero amounts.
 

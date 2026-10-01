@@ -1,0 +1,18 @@
+No files changed, compilation skipped
+warning: invalid natspec tag '@member', custom tags must use format '@custom:name'
+
+
+Ran 10 tests for remediation/test/LendingMintRouter.t.sol:LendingMintRouterTest
+[PASS] testConstructorRejectsBadMarkets() (gas: 122260)
+[PASS] testFeeOnTransferUnderlyingIsRejected() (gas: 128403)
+[PASS] testFuzzMintMatchesFloorEstimateAndMinimumIsExact(uint256,uint256,uint256,uint256) (runs: 5000, μ: 430057, ~: 439551)
+[PASS] testMinimumRejectsNonzeroRoundingLossOnBothDelegates() (gas: 693108)
+[PASS] testMintForwardsAllSharesToCallerOnBothDelegates() (gas: 636300)
+[PASS] testRejectsZeroAmountZeroMinimumAndUnsupportedMarket() (gas: 101028)
+[PASS] testRevertsWithoutAllowance() (gas: 66314)
+[PASS] testSixDecimalDollarMintAndExactMinimum() (gas: 864661)
+[PASS] testTokensSentToRouterByMistakeDoNotBreakOrLeakIntoMints() (gas: 310572)
+[PASS] testZeroShareMintIsBlockedOnBothDelegates() (gas: 689813)
+Suite result: ok. 10 passed; 0 failed; 0 skipped; finished in 369.32ms (373.20ms CPU time)
+
+Ran 1 test suite in 379.71ms (369.32ms CPU time): 10 tests passed, 0 failed, 0 skipped (10 total tests)

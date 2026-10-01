@@ -1,0 +1,22 @@
+{
+  "scope": "Read-only verification of a deployed router; not an installation record",
+  "router": "0x0C6F6962d80390F6104f80811a150e8233bd8FF1",
+  "runtimeBytes": 2085,
+  "runtimeSha256": "d145dd34426fea1b721a94c176fd3a449c8a46466f3bd34bc39092531a714c31",
+  "codehash": "0x94667edb626b12fdefad115eafa323c4f407d80b675d253b9ce1865b6a78a189",
+  "checks": {
+    "hasCode": true,
+    "marketAIsPNVDA": true,
+    "marketBIsPUSDG": true,
+    "runtimeMatchesCompiledWithImmutables": true,
+    "txIsCreationOfThisRouter": true,
+    "txCreationInputStartsWithCompiledCreationCode": true,
+    "txSucceeded": true
+  },
+  "transaction": {
+    "hash": "0x19ea7cea94ecc91edc67a68f15cabf85f94a59cc0abcafd88307ebc721ce05e4",
+    "from": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+    "block": "0x49d8d43"
+  },
+  "allChecksPassed": true
+}
