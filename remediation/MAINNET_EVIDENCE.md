@@ -1,5 +1,9 @@
 # Mainnet evidence and submission claims
 
+## October 1: historical canary residue recovered
+
+At block **77,279,283**, two user-signed transactions and post-state were independently verified: [checkpoint](https://robinhoodchain.blockscout.com/tx/0xc52c9e16e9b4c65a639b21c98e48c88f37a17500f5293fe94fdc7576239986b5), [withdrawal](https://robinhoodchain.blockscout.com/tx/0xd97a22af2faf0bc57cafb84f7c2f9296d4645efddcfa5ed09efba357abb09dfb). Exactly `24,697,449,583` raw NVDA returned to the historical canary's configured owner. Both canary principals/idles and NFT/liquidity are zero. The production ledger/configuration and reserves are unchanged; LP allocation/settlement remain paused. [Receipts, exact events and state](evidence/canary-recovery-verified.json). This completes the historical residue recovery, not production settlement or LP reactivation. Older canary-residue observations below are superseded by this result.
+
 ## October 1: short margin round trip completed
 
 Position **2**, account `0x4fe6a2daff417572675a5173a25d167dff02981d`, opened with 10 pUSDG at **2× requested gross leverage**; its entry metric was **1.99×**. All six user-signed transactions were independently checked for exact sender, nonce, calldata, successful canonical receipts and action events. At final block **77,263,055**, the position is CLOSED with both debts, position pToken balances, free/locked margin and approval zero.

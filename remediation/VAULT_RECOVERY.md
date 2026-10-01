@@ -2,22 +2,26 @@
 
 The original canary record called `24,697,449,583` raw NVDA of residue permanently unattributable. Review of the deployed source shows that statement was too strong: when both principal claims are zero, a successful checkpoint's gain branch credits the remaining accounted idle tokens to their respective side account. A subsequent authorized withdrawal can return them. Recovery still depends on the oracle and emergency/pause settings.
 
-## October 1 recovery preparation — no mainnet recovery sent
+## October 1 canary recovery completed; production settlement pending
+
+Both user-signed canary calls are independently verified at block **77,279,283**: checkpoint `0xc52c9e16e9b4c65a639b21c98e48c88f37a17500f5293fe94fdc7576239986b5`, withdrawal `0xd97a22af2faf0bc57cafb84f7c2f9296d4645efddcfa5ed09efba357abb09dfb`. Exactly `24,697,449,583` raw NVDA returned to the configured owner. Both canary principals and idle balances are zero, with no NFT/liquidity. Production ledger/configuration, reserves and pause flags are unchanged. [Verified receipts and state](evidence/canary-recovery-verified.json). **Do not rerun the completed canary broadcast.**
+
+The following preparation and commands are retained as historical evidence. Production settlement and LP reactivation remain pending.
 
 Five [current-mainnet fork tests](evidence/settlement-rehearsal-tests.txt) pass against the installed V2: exact canary recovery and production isolation, rejection of the wrong side caller, the exact canary signing script and repeat refusal, and production settlement in each withdrawal order through actual timelock scheduling/execution on the fork. The timelock tests advance local time by the configured delay; there are no injected balances or oracle overrides. Both production orders returned `11,474,700,317,638,473` raw NVDA to pNVDA and `2,005,167` raw USDG to pUSDG at that pinned state. This observed equality is not a guarantee for all future prices or reserve states. [Block, source and log hashes](evidence/settlement-rehearsal.json).
 
 The production rehearsal leaves both principal and idle ledgers zero, burns the empty NFT, clears vault-to-adapter allowances and ends with allocation and settlement paused. It verifies successful underlying cash movement through the pToken operator calls, which otherwise can catch vault failures. Production settlement remains a separate pending governance action with a one-hour timelock; no production signing command is authorized by the canary command below.
 
-The next isolated step returns **24,697,449,583 raw NVDA (0.000000024697449583 NVDA)** from the old canary to its already-configured side owner, `0x94696d767e65a75581145646960FA0eC886cE5d2`. It costs ETH gas. The script performs exactly two calls: checkpoint, then withdrawal. It deploys nothing, uses no reserve, and changes no production ledger, pause, cap or role. Both Foundry simulation phases pass. [Prepared state and simulation](evidence/canary-recovery-simulation.json).
+The completed isolated step returned **24,697,449,583 raw NVDA (0.000000024697449583 NVDA)** from the old canary to its already-configured side owner, `0x94696d767e65a75581145646960FA0eC886cE5d2`. It cost ETH gas. The script performed exactly two calls: checkpoint, then withdrawal. It deployed nothing, used no reserve, and changed no production ledger, pause, cap or role. Both Foundry simulation phases passed. [Prepared state and simulation](evidence/canary-recovery-simulation.json).
 
-Reproduce without signing:
+The preparation commands below require the original pre-recovery state; they are not expected to pass against the now-recovered canary:
 
 ```bash
 python3 remediation/tools/settlement_rehearsal.py
 python3 remediation/tools/simulate_canary_recovery.py
 ```
 
-User-local signing only, from this repository:
+Historical user-local signing command — completed, do not rerun:
 
 ```bash
 FOUNDRY_PROFILE=vault_upgrade forge script remediation/script/RecoverCanaryResidue.s.sol:RecoverCanaryResidue \
