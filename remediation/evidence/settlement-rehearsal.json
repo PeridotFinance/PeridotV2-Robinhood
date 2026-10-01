@@ -1,0 +1,12 @@
+{
+  "chainId": 4663,
+  "stateBlock": 77275165,
+  "blockHash": "0xba4886aef8ecdc34ce36cc22ab8c2c2f6d7b10b0ee13e9b14e67def768e317d2",
+  "nativeBlock": 26096636,
+  "timestamp": 1790847697,
+  "exitCode": 0,
+  "canonicalAfterTests": true,
+  "testSha256": "751a27373c242fdfd6d668ca74050a3dff1eebf97c65466c7e2517f0d13cf288",
+  "logSha256": "52bae98da2754ed628dd996ab0f515a18ecf29b65425f8849da1f0e97f53808b",
+  "scope": "Installed-contract local fork only. Actual timelock scheduling/execution with a local time advance; no injected balances, oracle overrides, keys or mainnet transactions. Tests both withdrawal orders separately; success alone does not assert equal economics between orders."
+}

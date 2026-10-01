@@ -2,6 +2,42 @@
 
 The original canary record called `24,697,449,583` raw NVDA of residue permanently unattributable. Review of the deployed source shows that statement was too strong: when both principal claims are zero, a successful checkpoint's gain branch credits the remaining accounted idle tokens to their respective side account. A subsequent authorized withdrawal can return them. Recovery still depends on the oracle and emergency/pause settings.
 
+## October 1 recovery preparation — no mainnet recovery sent
+
+Five [current-mainnet fork tests](evidence/settlement-rehearsal-tests.txt) pass against the installed V2: exact canary recovery and production isolation, rejection of the wrong side caller, the exact canary signing script and repeat refusal, and production settlement in each withdrawal order through actual timelock scheduling/execution on the fork. The timelock tests advance local time by the configured delay; there are no injected balances or oracle overrides. Both production orders returned `11,474,700,317,638,473` raw NVDA to pNVDA and `2,005,167` raw USDG to pUSDG at that pinned state. This observed equality is not a guarantee for all future prices or reserve states. [Block, source and log hashes](evidence/settlement-rehearsal.json).
+
+The production rehearsal leaves both principal and idle ledgers zero, burns the empty NFT, clears vault-to-adapter allowances and ends with allocation and settlement paused. It verifies successful underlying cash movement through the pToken operator calls, which otherwise can catch vault failures. Production settlement remains a separate pending governance action with a one-hour timelock; no production signing command is authorized by the canary command below.
+
+The next isolated step returns **24,697,449,583 raw NVDA (0.000000024697449583 NVDA)** from the old canary to its already-configured side owner, `0x94696d767e65a75581145646960FA0eC886cE5d2`. It costs ETH gas. The script performs exactly two calls: checkpoint, then withdrawal. It deploys nothing, uses no reserve, and changes no production ledger, pause, cap or role. Both Foundry simulation phases pass. [Prepared state and simulation](evidence/canary-recovery-simulation.json).
+
+Reproduce without signing:
+
+```bash
+python3 remediation/tools/settlement_rehearsal.py
+python3 remediation/tools/simulate_canary_recovery.py
+```
+
+User-local signing only, from this repository:
+
+```bash
+FOUNDRY_PROFILE=vault_upgrade forge script remediation/script/RecoverCanaryResidue.s.sol:RecoverCanaryResidue \
+  --rpc-url https://rpc.mainnet.chain.robinhood.com \
+  --sender 0x94696d767e65a75581145646960FA0eC886cE5d2 \
+  --account robinhood-deployer --broadcast --slow
+```
+
+Each call has an explicit 1,000,000 gas limit. The checkpoint uses a five-minute deadline; a stale oracle or changed starting state stops the simulation. These are **separate transactions**: local script assertions are not an atomic mainnet rollback mechanism. If signing or execution fails, preserve the journal and inspect receipts before retrying. A completed checkpoint alone changes the starting principal; the script then refuses a blind repeat. Do not use `--resume` or replace the preparation snapshot blindly.
+
+After signing, verify without sending anything:
+
+```bash
+python3 remediation/tools/record_canary_recovery.py
+```
+
+The verifier checks exact calldata, sender, sequential nonces, canonical success receipts, checkpoint/withdrawal/token-transfer events, zero canary principals/idles, the installed vault runtime, and unchanged production/configuration/reserve state. Balance changes are compared with the saved preparation; unrelated intervening transfers require separate review. Only its `CANARY RECOVERY VERIFIED` result establishes completion. Do not rerun the completed broadcast.
+
+Claude Opus 5.5 was consulted through the user-requested CLI for generic operational review advice, which was checked against the actual contracts. That is advisory input, not an audit. The separately authorized Almanax scan of `ea79067..c9d5e3e` has **not started**: Almanax returned `project not found`; the repository must be linked to its organization first.
+
 ## Confirmed withdrawal defect and correction
 
 The three recovery tests below did not cover a price change after closing LP liquidity while a native-token deficit remains. A fourth test confirmed a defect in the archived implementation: its zero-liquidity fast path lets an adequately stocked side withdraw before a shared economic loss is recognized. With 10 NVDA/1,000 USDG claims and 9 NVDA/1,100 USDG idle, a stock-price move from $100 to $200 leaves $2,900 assets against $3,000 claims. The old path pays the USDG side 1,000 instead of its loss-adjusted 966.666666 USDG.

@@ -1,0 +1,23 @@
+No files changed, compilation skipped
+Script ran successfully.
+
+## Setting up 1 EVM.
+
+==========================
+
+Chain 4663
+
+Estimated gas price: 0.040004001 gwei
+
+Estimated total gas used for script: 2000000
+
+Estimated amount required: 0.000080008002 ETH
+
+==========================
+
+SIMULATION COMPLETE. To broadcast these transactions, add --broadcast and wallet configuration(s) to the previous command. See forge script --help for more.
+
+Transactions saved to: /Users/joshua/Peridot/RobinhoodVaults/PeridotV2-Robinhood/broadcast/RecoverCanaryResidue.s.sol/4663/dry-run/run-latest.json
+
+Sensitive values saved to: /Users/joshua/Peridot/RobinhoodVaults/PeridotV2-Robinhood/remediation/cache-vault-upgrade/RecoverCanaryResidue.s.sol/4663/dry-run/run-latest.json
+

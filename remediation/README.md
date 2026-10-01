@@ -55,6 +55,8 @@ The adapter deliberately preserves the source oracle's policy, including cached/
 - [Deployment addresses](MAINNET_DEPLOYMENTS.md)
 - [Judge questions](JUDGE_QA.md)
 
+October 1 recovery preparation: five fresh mainnet-fork tests cover canary recovery and both production settlement orders, with real timelock delay enforcement locally. The exact two-call canary signing script also passes both Foundry simulation phases. Mainnet recovery and production settlement are still pending; use the [recovery commands and partial-execution notes](VAULT_RECOVERY.md#october-1-recovery-preparation--no-mainnet-recovery-sent). The Almanax hardening scan is authorized but has not started because the repository is not yet linked in Almanax (`project not found`).
+
 No frontend application is changed here. Frontend implementation remains with the separate developer.
 
 ## Small operator lending test
