@@ -47,6 +47,7 @@ The adapter deliberately preserves the source oracle's policy, including cached/
 ## Supporting records
 
 - [Vault correction and timelock procedure](VAULT_UPGRADE.md)
+- [Lending delegate rounding correction: tested candidate, not installed](LENDING_DELEGATE_CANDIDATE.md)
 - [Vault recovery procedure](VAULT_RECOVERY.md)
 - [Governance and key retirement](GOVERNANCE.md)
 - [Keeper monitoring follow-up](KEEPER_ALERTS.md)

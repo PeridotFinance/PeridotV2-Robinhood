@@ -1,0 +1,68 @@
+--- contracts/.../boosted/RobinhoodBoostedDelegate.sol
++++ remediation/src/RobinhoodBoostedDelegateV2.sol
+@@ -1,21 +1,25 @@
+ // SPDX-License-Identifier: BSD-3-Clause
+ pragma solidity ^0.8.20;
+ 
+-import "../PErc20Delegate.sol";
+-import "../interfaces/IRobinhoodBoostedVault.sol";
++import "peridot/PErc20Delegate.sol";
++import "peridot/interfaces/IRobinhoodBoostedVault.sol";
+ import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+ import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+ 
+ /**
+- * @title RobinhoodBoostedDelegate
++ * @title RobinhoodBoostedDelegateV2
+  * @notice Boosted pToken implementation that directly owns one side of a Robinhood paired vault.
+  * @dev Calls the vault from the delegator address, so the pToken itself remains the configured
+  *      side account. Side-neutral: every vault call routes through `underlying`, so one
+  *      implementation serves both the stock-side and the USDG-side market. The generic
+  *      IBoostedYieldAdapter must not sit between this contract and the vault because it cannot
+  *      propagate realized strategy losses.
++ *
++ *      V2 is a copy of the captured RobinhoodBoostedDelegate with two rounding corrections and
++ *      no storage or ABI additions: a mint that credits zero pTokens reverts, and
++ *      exact-underlying redemption burns a rounded-up share count.
+  */
+-contract RobinhoodBoostedDelegate is PErc20Delegate {
++contract RobinhoodBoostedDelegateV2 is PErc20Delegate {
+     using SafeERC20 for IERC20;
+ 
+     error ActionAlreadyQueued();
+@@ -35,6 +39,7 @@
+     error PTokenNotSideAccount();
+     error StrategyLiquidityShortfall();
+     error WithdrawalBalanceMismatch();
++    error ZeroSharesMinted();
+ 
+     uint256 internal constant MANTISSA_ONE = 1e18;
+     uint256 internal constant MAX_SETTLEMENT_STEPS = 3;
+@@ -130,9 +135,13 @@
+      *      cannot freeze local cash while new suppliers cannot dilute existing holders.
+      */
+     function mint(uint256 mintAmount) external override returns (uint256) {
++        uint256 sharesBefore = accountTokens[msg.sender];
+         mintVaultAssetsValidated = true;
+         mintInternal(mintAmount);
+         mintVaultAssetsValidated = false;
++        // mintInternal holds the shared nonReentrant lock that every other balance-changing path
++        // also takes, so this delta is exactly the pTokens minted by this call.
++        if (accountTokens[msg.sender] == sharesBefore) revert ZeroSharesMinted();
+         return NO_ERROR;
+     }
+ 
+@@ -342,8 +351,11 @@
+         _prepareFixedLiquidity(redeemAmount);
+         if (super.getCashPrior() < redeemAmount) revert RedeemTransferOutNotPossible();
+ 
+-        Exp memory settledRate = Exp({mantissa: exchangeRateStoredInternal()});
+-        uint256 redeemTokens = div_(redeemAmount, settledRate);
++        // Round burned shares UP at the settled rate, so an exact output is never paid for with
++        // less than its value in pTokens. Ceiling division, written out because the library
++        // helpers do not fit under EIP-170.
++        uint256 settledRate = exchangeRateStoredInternal();
++        uint256 redeemTokens = (redeemAmount * expScale + settledRate - 1) / settledRate;
+         uint256 allowed = peridottroller.redeemAllowed(address(this), redeemer, redeemTokens);
+         if (allowed != 0) revert RedeemPeridottrollerRejection(allowed);
+ 

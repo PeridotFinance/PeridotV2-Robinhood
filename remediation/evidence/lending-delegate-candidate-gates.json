@@ -1,0 +1,92 @@
+{
+  "scope": "Offline candidate release gates; no deployment or mainnet acceptance implied",
+  "storageLayoutUnchanged": true,
+  "existingAbiPreserved": true,
+  "newSelectors": [],
+  "abiAdditions": [
+    {
+      "type": "error",
+      "name": "ZeroSharesMinted",
+      "inputs": []
+    }
+  ],
+  "immutables": {
+    "declared": {
+      "SELF": "BorrowAccountingModule.sol",
+      "BORROW_ACCOUNTING_MODULE": "PToken.sol"
+    },
+    "delegateShape": [
+      [
+        32,
+        32,
+        32,
+        32
+      ]
+    ],
+    "sameAsOriginal": true,
+    "note": "PToken creates a BorrowAccountingModule in its constructor and stores it as an immutable; the original delegate has the identical immutable."
+  },
+  "moduleLogicIdenticalAcrossBuilds": true,
+  "runtimeBytes": {
+    "original_anchor": 24511,
+    "candidate_anchor": 24625,
+    "original_release": 24458,
+    "candidate_release": 24572
+  },
+  "eip170Limit": 24576,
+  "withinEip170Limit": true,
+  "headroomBytes": 4,
+  "runtimeSha256": "8d962f0ed431e624bc83a767634230a2e3a61c8a87264f666901b13e339ef6bb",
+  "creationCodeKeccak": "0xe6784d3748d868cb39ab2188df50cc480c589872733df83d4a07d98fbe5696e6",
+  "creationBytes": 27448,
+  "candidateSourceSha256": "0c8ebc234704589e4e177c35fa4dc8d65fa28d80862631a1741880391deaf26f",
+  "frozenOriginalSha256": "8baa2bba8f8f8d6593e564833111d603be352a94c3876ac586794cc28f726c48",
+  "sourceDiffSha256": "825361d76bfd84953d622e51b63b807e0e002d564654017a724e4841c908d090",
+  "compilerMetadata": {
+    "anchor": {
+      "bytecodeHash": "ipfs"
+    },
+    "release": {
+      "bytecodeHash": "none",
+      "appendCBOR": false
+    }
+  },
+  "compiler": {
+    "version": "0.8.26+commit.8a97fa7a"
+  },
+  "compilerSettings": {
+    "remappings": [
+      "@chainlink/contracts/=contracts/peridot-contracts-2-5/contracts/node_modules/@chainlink/contracts/",
+      "@openzeppelin/contracts-upgradeable/=contracts/robinhood-vaults/lib/openzeppelin-contracts-upgradeable/contracts/",
+      "@openzeppelin/contracts/=contracts/robinhood-vaults/lib/openzeppelin-contracts/contracts/",
+      "@uniswap/permit2/=contracts/robinhood-vaults/lib/permit2/",
+      "@uniswap/universal-router/=contracts/robinhood-vaults/lib/universal-router/",
+      "@uniswap/v4-core/=contracts/robinhood-vaults/lib/v4-core/",
+      "@uniswap/v4-periphery/=contracts/robinhood-vaults/lib/v4-periphery/",
+      "baseline/=contracts/robinhood-vaults/",
+      "forge-std/=contracts/robinhood-vaults/lib/forge-std/src/",
+      "openzeppelin-contracts-upgradeable/=contracts/robinhood-vaults/lib/openzeppelin-contracts-upgradeable/contracts/",
+      "openzeppelin-contracts/=contracts/robinhood-vaults/lib/openzeppelin-contracts/contracts/",
+      "peridot-tests/=contracts/peridot-contracts-2-5/contracts/test/",
+      "peridot/=contracts/peridot-contracts-2-5/contracts/contracts/",
+      "permit2/=contracts/robinhood-vaults/lib/permit2/",
+      "universal-router/=contracts/robinhood-vaults/lib/universal-router/",
+      "v4-core/=contracts/robinhood-vaults/lib/v4-core/",
+      "v4-periphery/=contracts/robinhood-vaults/lib/v4-periphery/"
+    ],
+    "optimizer": {
+      "enabled": true,
+      "runs": 1
+    },
+    "metadata": {
+      "bytecodeHash": "none",
+      "appendCBOR": false
+    },
+    "compilationTarget": {
+      "remediation/src/RobinhoodBoostedDelegateV2.sol": "RobinhoodBoostedDelegateV2"
+    },
+    "evmVersion": "cancun",
+    "libraries": {},
+    "viaIR": true
+  }
+}

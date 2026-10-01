@@ -11,6 +11,19 @@ test-remediation:
 	python3 remediation/tools/verify_vault_artifact.py
 	python3 -m unittest discover -s remediation/tools -p 'test_*.py'
 
+# Lending-delegate rounding candidate. Needs the dedicated profile: the candidate does not fit
+# EIP-170 under the default or lending_upgrade settings. See remediation/LENDING_DELEGATE_CANDIDATE.md.
+test-lending-candidate:
+	forge fmt --check remediation/script/UpgradeLendingDelegate.s.sol remediation/test/LendingRoundingVault.t.sol remediation/test/fork/LendingDelegateUpgradeMainnet.t.sol
+	FOUNDRY_PROFILE=lending_candidate forge test --match-path 'remediation/test/LendingRounding*.t.sol'
+	FOUNDRY_PROFILE=lending_upgrade forge build
+	FOUNDRY_PROFILE=lending_candidate forge build --sizes --skip 'remediation/test/**' --skip 'remediation/script/**'
+	python3 remediation/tools/verify_lending_delegate_candidate.py
+	python3 -m unittest discover -s remediation/tools -p 'test_verify_lending*.py'
+
+fork-lending-candidate:
+	python3 remediation/tools/lending_delegate_upgrade_rehearsal.py
+
 fork-remediation:
 	python3 remediation/tools/fork.py
 

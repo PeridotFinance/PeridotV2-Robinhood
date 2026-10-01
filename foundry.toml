@@ -39,6 +39,28 @@ out = "remediation/out-vault-upgrade"
 cache_path = "remediation/cache-vault-upgrade"
 libraries = ["contracts/robinhood-vaults/src/libraries/SettlementLib.sol:SettlementLib:0x813AbFeC0DE50f8674798CbaB72Ed7b5D8CcB9cB"]
 
+# Match the captured lending deployment's size-focused optimizer setting.
+# Candidate tooling independently enforces the EIP-170 runtime limit.
+[profile.lending_upgrade]
+out = "remediation/out-lending-upgrade"
+cache_path = "remediation/cache-lending-upgrade"
+optimizer_runs = 1
+
+# Candidate profile: identical to lending_upgrade except trailing metadata is omitted, so the
+# runtime carries no CBOR/metadata hash (about 53 bytes). Verification must use these settings.
+[profile.lending_candidate]
+out = "remediation/out-lending-candidate"
+cache_path = "remediation/cache-lending-candidate"
+optimizer_runs = 1
+bytecode_hash = "none"
+cbor_metadata = false
+
 [fmt]
 line_length = 100
 bracket_spacing = true
+# Kept in the captured delegate's formatting so its diff against the frozen original stays minimal.
+ignore = [
+    "remediation/src/RobinhoodBoostedDelegateV2.sol",
+    # Its exact bytes are hashed in almanax-lending-rehearsal.json; do not reformat.
+    "remediation/test/fork/AlmanaxLendingMainnet.t.sol",
+]
