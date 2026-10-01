@@ -1,0 +1,340 @@
+{
+  "scope": "Compiler layout comparison of captured source; live getter/raw-slot comparisons are in AlmanaxLendingMainnet.t.sol. No assertion about unrelated older proxies or future upgrades.",
+  "proxyPrefixMatchesDelegate": true,
+  "layouts": {
+    "PErc20Delegator": [
+      {
+        "label": "_notEntered",
+        "slot": "0",
+        "offset": 0,
+        "type": "t_bool"
+      },
+      {
+        "label": "name",
+        "slot": "1",
+        "offset": 0,
+        "type": "t_string_storage"
+      },
+      {
+        "label": "symbol",
+        "slot": "2",
+        "offset": 0,
+        "type": "t_string_storage"
+      },
+      {
+        "label": "decimals",
+        "slot": "3",
+        "offset": 0,
+        "type": "t_uint8"
+      },
+      {
+        "label": "admin",
+        "slot": "3",
+        "offset": 1,
+        "type": "t_address_payable"
+      },
+      {
+        "label": "pendingAdmin",
+        "slot": "4",
+        "offset": 0,
+        "type": "t_address_payable"
+      },
+      {
+        "label": "peridottroller",
+        "slot": "5",
+        "offset": 0,
+        "type": "t_contract(PeridottrollerInterface)7025"
+      },
+      {
+        "label": "interestRateModel",
+        "slot": "6",
+        "offset": 0,
+        "type": "t_contract(InterestRateModel)1597"
+      },
+      {
+        "label": "initialExchangeRateMantissa",
+        "slot": "7",
+        "offset": 0,
+        "type": "t_uint256"
+      },
+      {
+        "label": "reserveFactorMantissa",
+        "slot": "8",
+        "offset": 0,
+        "type": "t_uint256"
+      },
+      {
+        "label": "accrualBlockNumber",
+        "slot": "9",
+        "offset": 0,
+        "type": "t_uint256"
+      },
+      {
+        "label": "borrowIndex",
+        "slot": "10",
+        "offset": 0,
+        "type": "t_uint256"
+      },
+      {
+        "label": "totalBorrows",
+        "slot": "11",
+        "offset": 0,
+        "type": "t_uint256"
+      },
+      {
+        "label": "totalReserves",
+        "slot": "12",
+        "offset": 0,
+        "type": "t_uint256"
+      },
+      {
+        "label": "totalSupply",
+        "slot": "13",
+        "offset": 0,
+        "type": "t_uint256"
+      },
+      {
+        "label": "accountTokens",
+        "slot": "14",
+        "offset": 0,
+        "type": "t_mapping(t_address,t_uint256)"
+      },
+      {
+        "label": "transferAllowances",
+        "slot": "15",
+        "offset": 0,
+        "type": "t_mapping(t_address,t_mapping(t_address,t_uint256))"
+      },
+      {
+        "label": "accountBorrows",
+        "slot": "16",
+        "offset": 0,
+        "type": "t_mapping(t_address,t_struct(BorrowSnapshot)6283_storage)"
+      },
+      {
+        "label": "flashLoanFeeBps",
+        "slot": "17",
+        "offset": 0,
+        "type": "t_uint256"
+      },
+      {
+        "label": "maxFlashLoanRatio",
+        "slot": "18",
+        "offset": 0,
+        "type": "t_uint256"
+      },
+      {
+        "label": "flashLoansPaused",
+        "slot": "19",
+        "offset": 0,
+        "type": "t_bool"
+      },
+      {
+        "label": "underlying",
+        "slot": "19",
+        "offset": 1,
+        "type": "t_address"
+      },
+      {
+        "label": "implementation",
+        "slot": "20",
+        "offset": 0,
+        "type": "t_address"
+      }
+    ],
+    "RobinhoodBoostedDelegate": [
+      {
+        "label": "_notEntered",
+        "slot": "0",
+        "offset": 0,
+        "type": "t_bool"
+      },
+      {
+        "label": "name",
+        "slot": "1",
+        "offset": 0,
+        "type": "t_string_storage"
+      },
+      {
+        "label": "symbol",
+        "slot": "2",
+        "offset": 0,
+        "type": "t_string_storage"
+      },
+      {
+        "label": "decimals",
+        "slot": "3",
+        "offset": 0,
+        "type": "t_uint8"
+      },
+      {
+        "label": "admin",
+        "slot": "3",
+        "offset": 1,
+        "type": "t_address_payable"
+      },
+      {
+        "label": "pendingAdmin",
+        "slot": "4",
+        "offset": 0,
+        "type": "t_address_payable"
+      },
+      {
+        "label": "peridottroller",
+        "slot": "5",
+        "offset": 0,
+        "type": "t_contract(PeridottrollerInterface)7025"
+      },
+      {
+        "label": "interestRateModel",
+        "slot": "6",
+        "offset": 0,
+        "type": "t_contract(InterestRateModel)1597"
+      },
+      {
+        "label": "initialExchangeRateMantissa",
+        "slot": "7",
+        "offset": 0,
+        "type": "t_uint256"
+      },
+      {
+        "label": "reserveFactorMantissa",
+        "slot": "8",
+        "offset": 0,
+        "type": "t_uint256"
+      },
+      {
+        "label": "accrualBlockNumber",
+        "slot": "9",
+        "offset": 0,
+        "type": "t_uint256"
+      },
+      {
+        "label": "borrowIndex",
+        "slot": "10",
+        "offset": 0,
+        "type": "t_uint256"
+      },
+      {
+        "label": "totalBorrows",
+        "slot": "11",
+        "offset": 0,
+        "type": "t_uint256"
+      },
+      {
+        "label": "totalReserves",
+        "slot": "12",
+        "offset": 0,
+        "type": "t_uint256"
+      },
+      {
+        "label": "totalSupply",
+        "slot": "13",
+        "offset": 0,
+        "type": "t_uint256"
+      },
+      {
+        "label": "accountTokens",
+        "slot": "14",
+        "offset": 0,
+        "type": "t_mapping(t_address,t_uint256)"
+      },
+      {
+        "label": "transferAllowances",
+        "slot": "15",
+        "offset": 0,
+        "type": "t_mapping(t_address,t_mapping(t_address,t_uint256))"
+      },
+      {
+        "label": "accountBorrows",
+        "slot": "16",
+        "offset": 0,
+        "type": "t_mapping(t_address,t_struct(BorrowSnapshot)6283_storage)"
+      },
+      {
+        "label": "flashLoanFeeBps",
+        "slot": "17",
+        "offset": 0,
+        "type": "t_uint256"
+      },
+      {
+        "label": "maxFlashLoanRatio",
+        "slot": "18",
+        "offset": 0,
+        "type": "t_uint256"
+      },
+      {
+        "label": "flashLoansPaused",
+        "slot": "19",
+        "offset": 0,
+        "type": "t_bool"
+      },
+      {
+        "label": "underlying",
+        "slot": "19",
+        "offset": 1,
+        "type": "t_address"
+      },
+      {
+        "label": "implementation",
+        "slot": "20",
+        "offset": 0,
+        "type": "t_address"
+      },
+      {
+        "label": "robinhoodVault",
+        "slot": "21",
+        "offset": 0,
+        "type": "t_contract(IRobinhoodBoostedVault)9392"
+      },
+      {
+        "label": "robinhoodPairId",
+        "slot": "22",
+        "offset": 0,
+        "type": "t_bytes32"
+      },
+      {
+        "label": "vaultBufferMantissa",
+        "slot": "23",
+        "offset": 0,
+        "type": "t_uint256"
+      },
+      {
+        "label": "vaultPaused",
+        "slot": "24",
+        "offset": 0,
+        "type": "t_bool"
+      },
+      {
+        "label": "vaultOperator",
+        "slot": "24",
+        "offset": 1,
+        "type": "t_address"
+      },
+      {
+        "label": "cumulativeVaultLoss",
+        "slot": "25",
+        "offset": 0,
+        "type": "t_uint256"
+      },
+      {
+        "label": "actionDelay",
+        "slot": "26",
+        "offset": 0,
+        "type": "t_uint256"
+      },
+      {
+        "label": "queuedActions",
+        "slot": "27",
+        "offset": 0,
+        "type": "t_mapping(t_bytes32,t_uint256)"
+      },
+      {
+        "label": "mintVaultAssetsValidated",
+        "slot": "28",
+        "offset": 0,
+        "type": "t_bool"
+      }
+    ]
+  }
+}
