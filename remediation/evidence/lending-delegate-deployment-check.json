@@ -1,0 +1,30 @@
+{
+  "scope": "Read-only verification of a deployed candidate; not an installation record",
+  "delegate": "0x0C6F6962d80390F6104f80811a150e8233bd8FF1",
+  "module": "0xbE99A699E81AB667C0Be517E6AAe4d92EA6C4557",
+  "runtimeBytes": 24572,
+  "expectedRuntimeCodehash": "0x0528316d15799703f9c86146ecaf14c98835e704cfd9eb0e82acf4a9ce8d11d8",
+  "checks": {
+    "delegateHasCode": true,
+    "withinEip170": true,
+    "delegateRuntimeMatchesCompiledWithModuleImmutable": true,
+    "moduleHasCode": true,
+    "moduleRuntimeMatchesCompiledWithSelfImmutable": true,
+    "onChainCodehashEqualsExpected": true,
+    "txFromGovernor": true,
+    "txIsContractCreation": true,
+    "txCreationInputMatchesCompiled": true,
+    "txCreatedThisDelegate": true,
+    "txSucceeded": true
+  },
+  "transaction": {
+    "hash": "0xc23e437298c6c0430f4e0a0749167875b934859f5cfd48ccd8478067cb812edd",
+    "from": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+    "to": null,
+    "creationInputMatchesCompiled": true,
+    "contractAddress": "0x0c6f6962d80390f6104f80811a150e8233bd8ff1",
+    "receiptStatus": "0x1",
+    "blockNumber": "0x4a8d260"
+  },
+  "allChecksPassed": true
+}

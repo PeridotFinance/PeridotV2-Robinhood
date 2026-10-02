@@ -1,6 +1,24 @@
-# Lending delegate rounding correction: tested candidate
+# Lending delegate rounding correction: INSTALLED on both markets
 
-**Status: TESTED CANDIDATE. NOT DEPLOYED. NOT INSTALLED.** As of Robinhood Chain block 77,342,338 both installed markets still run the original delegate `0x31d7C960C1EB542e4243e80D2270220e63002d99`. Nothing in this document, the evidence or the local fork rehearsals changes that. A tested candidate is not an installed correction: it takes effect only after the governor signs the two procedure stages below and the result is independently verified.
+**Status: INSTALLED AND INDEPENDENTLY VERIFIED on pNVDA and pUSDG, October 2, 2026.** The governor signed three transactions locally; this repository's tooling signed and broadcast nothing. Both markets now run the corrected delegate `0x0C6F6962d80390F6104f80811a150e8233bd8FF1`. The min-shares router described below is **not** deployed, the wider Almanax scan is only partially triaged, and the residual risks listed below remain.
+
+## Installation record
+
+| Step | Transaction | Block (UTC) |
+| --- | --- | --- |
+| Deploy delegate (also creates its accounting module `0xbE99A699E81AB667C0Be517E6AAe4d92EA6C4557`) | `0xc23e437298c6c0430f4e0a0749167875b934859f5cfd48ccd8478067cb812edd` | 78,172,768 (10:50:15) |
+| Install on pNVDA `0xa155…7b26` | `0xce623cdbcc51d2c7d0b4b631e3f0e01c54760f3d0c27f77a357bb189c588fa95` | 78,176,131 (10:55:56) |
+| Install on pUSDG `0x55aE…a563` | `0x8f0ad03fb7363dc03e1fb7cca4ac5b7f4902ec92209a53505debd9cf237477fc` | 78,176,155 (10:55:59) |
+
+Independently verified from public chain data ([deployment check](evidence/lending-delegate-deployment-check.json), [install verification](evidence/lending-delegate-install-verified.json), [pre-install snapshot](evidence/lending-delegate-pre-install-state.json), [broadcast journals](evidence/lending-delegate-mainnet-broadcast/)):
+
+- The deployed runtime (24,572 bytes), its module, and the creation input equal the compiled reviewed build; the deployed codehash is `0x0528316d…11d8`.
+- Each install was exactly `_setImplementation(delegate, false, "")`, from the governor, to the market, with status success.
+- Both markets' `implementation()` and implementation slot equal the delegate.
+- **Across each install block, every storage slot (0 to 28 except the implementation slot), the exchange rate, total supply, total borrows, reserves, borrow shares and the governor's share and borrow balances were identical.** Live debt at the time (pNVDA about 1.461e13 raw, pUSDG 5,961 raw) was untouched.
+- A read-only `mint(0)` simulation on both markets now reverts with `ZeroSharesMinted()` (selector `0xd6a0a041`).
+
+Not independently re-tested on mainnet: the rounded-up `redeemUnderlying` burn and the zero-share dust revert were validated on local forks of live state only, and I did not send any mainnet mint or redeem. The fork rehearsal suites assert the pre-install codehash in `setUp`, so they can be rerun only against a block before 78,176,131 (an archive-capable RPC); against the current chain they stop at that assertion by design. The sections below describe the procedure and evidence **as they were before installation**.
 
 This addresses two **confirmed** findings from the partially triaged Almanax scan (see [ALMANAX_TRIAGE.md](ALMANAX_TRIAGE.md)). The scan reported 81 automated findings; most are not reviewed, and this change does not claim the review is complete.
 
@@ -123,7 +141,7 @@ Residual: the router adds a contract to trust and to audit, and a user's approva
 7. **`mint(0)` now reverts.** Anything that sends a zero-amount supply as a no-op will fail; no repository caller was found that does so on a reachable path.
 8. **Not an audit.** The wider scan, the vault, the controller and margin code are not covered here.
 
-## Deployment procedure (governor signs locally; none of it has been run on mainnet)
+## Deployment procedure (executed October 2, 2026; kept for reproduction, do not rerun)
 
 Both markets are admin-controlled by the governor EOA (no timelock on `_setImplementation`), so each market is one transaction. No pause is required: each swap is atomic, and during the gap between the two transactions one market runs the original code and the other the candidate, which is harmless. Install pNVDA first: it is the market with the 18-decimal dust exposure. Do not rerun anything that already completed; each stage is safe to re-simulate.
 
@@ -170,15 +188,15 @@ FOUNDRY_PROFILE=lending_candidate forge script \
 
 It sends up to two transactions, fingerprints each market before and after (every storage slot except the implementation slot, rate, supply, borrows, reserves) and skips a market already on the candidate, so an interrupted run can be repeated.
 
-**4. Verify the installation read-only.** Independently confirm, from the public chain: both markets' `implementation()` equals the verified delegate; its codehash equals the expected hash; `exchangeRateStored`, `totalSupply`, `totalBorrows` and the governor's balances match the pre-install values; the receipts match the simulated calldata. Do not claim the correction is installed until this is recorded. Record it as new evidence (do not edit this document's "not deployed" status until then).
+**4. Verify the installation read-only.** Independently confirm, from the public chain: both markets' `implementation()` equals the verified delegate; its codehash equals the expected hash; `exchangeRateStored`, `totalSupply`, `totalBorrows` and the governor's balances match the pre-install values; the receipts match the simulated calldata. This was done and recorded in the installation record above.
 
 **Rollback.** The original delegate stays deployed. `_setImplementation(0x31d7…2d99, false, "")` per market restores it, because storage is identical. That reinstates both findings and should be used only if the candidate misbehaves.
 
 ## Message for the frontend developer
 
-> **Lending contracts: rounding fix is prepared but NOT deployed yet.** Nothing changes on mainnet until the governor installs it, and I'll tell you when that is verified. Plan the integration for after that.
+> **Lending contracts: the rounding fix is now INSTALLED on both mainnet markets (verified, blocks 78,176,131 and 78,176,155).** The min-shares router is prepared but not deployed.
 >
-> After installation: addresses and ABI are unchanged (same pNVDA and pUSDG proxies; no new functions). There is one new revert reason, `ZeroSharesMinted()`: a supply that would credit zero pTokens now reverts instead of taking the underlying, and `mint(0)` now reverts too. There is no `mintWithMinShares`; it did not fit the contract size limit.
+> What changed: addresses and ABI are unchanged (same pNVDA and pUSDG proxies; no new functions). There is one new revert reason, `ZeroSharesMinted()`: a supply that would credit zero pTokens now reverts instead of taking the underlying, and `mint(0)` now reverts too. There is no `mintWithMinShares`; it did not fit the contract size limit.
 >
 > 1. **Supply:** the delegate's `mint` still has no minimum-received bound. A separate router with a bound is prepared but not deployed; do not use it until I confirm. Until then, estimate pTokens as `floor(amount * 1e18 / exchangeRate)`, reading the rate with a static `eth_call` to `exchangeRateCurrent` (it is not a view function) or from `exchangeRateStored`, and warn or block when the result is far below the deposit's fair value, especially for tiny NVDA amounts (USDG has 6 decimals, NVDA 18, both pTokens 8). Simulating the `mint` and reading the `balanceOf` delta also works.
 > 2. **Max withdraw:** use `redeem(allShares)`, not `redeemUnderlying(quotedValue)`. `redeemUnderlying` now burns the rounded-up share count and can revert if a loss recognized during settlement raises the shares needed.

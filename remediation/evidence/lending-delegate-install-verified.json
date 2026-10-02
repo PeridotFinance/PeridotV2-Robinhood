@@ -1,0 +1,109 @@
+{
+  "scope": "Independent read-only verification of the mainnet install. Public chain data only.",
+  "verifiedAtBlock": 78177723,
+  "delegate": "0x0C6F6962d80390F6104f80811a150e8233bd8FF1",
+  "expectedRuntimeCodehash": "0x0528316d15799703f9c86146ecaf14c98835e704cfd9eb0e82acf4a9ce8d11d8",
+  "markets": {
+    "pNVDA": {
+      "market": "0xa155ccCB986774AE818b3F10F07d01D1b7A47b26",
+      "installTx": "0xce623cdbcc51d2c7d0b4b631e3f0e01c54760f3d0c27f77a357bb189c588fa95",
+      "block": 78176131,
+      "checks": {
+        "receiptSucceeded": true,
+        "from_governor": true,
+        "to_market": true,
+        "calldata_is_setImplementation_delegate_noresign_noData": true,
+        "implementationNowDelegate": true,
+        "implementationSlot20": true,
+        "delegateCodehashAsExpected": true,
+        "economicStateAndAllSlotsUnchangedAcrossInstallBlock": true
+      },
+      "stateDiffsAcrossInstallBlock": {},
+      "beforeInstallBlock": {
+        "exchangeRateStored": "200000899062619270000000000",
+        "totalSupply": "100000000",
+        "totalBorrows": "14610000000000",
+        "totalReserves": "7260510",
+        "totalBorrowShares": "14588904962399173798874589748200",
+        "governorShares": "100000000",
+        "governorBorrow": "0"
+      },
+      "afterInstallBlock": {
+        "exchangeRateStored": "200000899062619270000000000",
+        "totalSupply": "100000000",
+        "totalBorrows": "14610000000000",
+        "totalReserves": "7260510",
+        "totalBorrowShares": "14588904962399173798874589748200",
+        "governorShares": "100000000",
+        "governorBorrow": "0"
+      }
+    },
+    "pUSDG": {
+      "market": "0x55aEd0569c8f0D166D71facE57B57C2f2624a563",
+      "installTx": "0x8f0ad03fb7363dc03e1fb7cca4ac5b7f4902ec92209a53505debd9cf237477fc",
+      "block": 78176155,
+      "checks": {
+        "receiptSucceeded": true,
+        "from_governor": true,
+        "to_market": true,
+        "calldata_is_setImplementation_delegate_noresign_noData": true,
+        "implementationNowDelegate": true,
+        "implementationSlot20": true,
+        "delegateCodehashAsExpected": true,
+        "economicStateAndAllSlotsUnchangedAcrossInstallBlock": true
+      },
+      "stateDiffsAcrossInstallBlock": {},
+      "beforeInstallBlock": {
+        "exchangeRateStored": "200001883743572",
+        "totalSupply": "20219949554",
+        "totalBorrows": "5961",
+        "totalReserves": "0",
+        "totalBorrowShares": "5952393136589784699398",
+        "governorShares": "14970355655",
+        "governorBorrow": "0"
+      },
+      "afterInstallBlock": {
+        "exchangeRateStored": "200001883743572",
+        "totalSupply": "20219949554",
+        "totalBorrows": "5961",
+        "totalReserves": "0",
+        "totalBorrowShares": "5952393136589784699398",
+        "governorShares": "14970355655",
+        "governorBorrow": "0"
+      }
+    }
+  },
+  "allChecksPassed": true,
+  "liveReadOnlySimulation": {
+    "pNVDA": {
+      "mint0_reverts": true,
+      "revertShowsZeroSharesMinted": true,
+      "detail": "Error: server returned an error response: error code 3: execution reverted, data: \"0xd6a0a041\""
+    },
+    "pUSDG": {
+      "mint0_reverts": true,
+      "revertShowsZeroSharesMinted": true,
+      "detail": "Error: server returned an error response: error code 3: execution reverted, data: \"0xd6a0a041\""
+    }
+  },
+  "latestState": {
+    "pNVDA": {
+      "exchangeRateStored": "200000899062619270000000000",
+      "totalSupply": "100000000",
+      "totalBorrows": "14610000000000",
+      "totalReserves": "7260510",
+      "totalBorrowShares": "14588904962399173798874589748200",
+      "governorShares": "100000000",
+      "governorBorrow": "0"
+    },
+    "pUSDG": {
+      "exchangeRateStored": "200001883743572",
+      "totalSupply": "20219949554",
+      "totalBorrows": "5961",
+      "totalReserves": "0",
+      "totalBorrowShares": "5952393136589784699398",
+      "governorShares": "14970355655",
+      "governorBorrow": "0"
+    }
+  }
+}

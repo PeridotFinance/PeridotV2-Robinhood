@@ -21,6 +21,9 @@ test-lending-candidate:
 	python3 remediation/tools/verify_lending_delegate_candidate.py
 	python3 -m unittest discover -s remediation/tools -p 'test_verify_lending*.py'
 
+# Pre-install rehearsal only. The correction was installed on October 2, 2026 (blocks 78,176,131 and
+# 78,176,155), and these tests assert the original delegate codehash, so against current chain state
+# they stop at that assertion by design. Rerun only against an earlier block on an archive RPC.
 fork-lending-candidate:
 	python3 remediation/tools/lending_delegate_upgrade_rehearsal.py
 
