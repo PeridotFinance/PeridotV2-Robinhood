@@ -111,10 +111,17 @@ contract LendingDelegateMarginCompatForkTest is Test {
     uint256 internal baseStockShares;
     bool internal staleFeed;
 
-    function setUp() public {
+    bytes32 constant ORIGINAL_CODEHASH =
+        0xa6913bd52087e56926b3f17fd131b7f331af194aaa77321e452582e75fb8cc34;
+    /// True once the corrected delegate is installed on chain (it is, since October 2, 2026).
+    bool internal alreadyInstalled;
+
+    function setUp() public virtual {
         vm.createSelectFork(vm.envString("ROBINHOOD_RPC_URL"), vm.envUint("REMEDIATION_FORK_BLOCK"));
         vm.roll(vm.envUint("REMEDIATION_NATIVE_BLOCK"));
         assertEq(block.chainid, 4663);
+        alreadyInstalled =
+            PErc20Delegator(payable(P_STOCK)).implementation().codehash != ORIGINAL_CODEHASH;
         try IGuardPrices(GUARD).pricesUSD18(PAIR) returns (uint256 s, uint256 u) {
             if (s == 0 || u == 0) staleFeed = true;
         } catch {
@@ -133,6 +140,9 @@ contract LendingDelegateMarginCompatForkTest is Test {
     }
 
     function _install() internal returns (RobinhoodBoostedDelegateV2 candidate) {
+        if (alreadyInstalled) {
+            return RobinhoodBoostedDelegateV2(PErc20Delegator(payable(P_STOCK)).implementation());
+        }
         candidate = new RobinhoodBoostedDelegateV2();
         vm.startPrank(GOVERNOR);
         PErc20Delegator(payable(P_STOCK))._setImplementation(address(candidate), false, "");
@@ -244,13 +254,15 @@ contract LendingDelegateMarginCompatForkTest is Test {
         }
         uint256 snap = vm.snapshotState();
 
-        _giveShares(P_STOCK, STOCK, shares);
-        vm.startPrank(GOVERNOR);
-        pStock.approve(address(executor), shares);
-        vm.expectRevert(bytes("RiskEngine: zero movement"));
-        executor.repayWithPToken(id, shares);
-        vm.stopPrank();
-        assertTrue(vm.revertToState(snap));
+        if (!alreadyInstalled) {
+            _giveShares(P_STOCK, STOCK, shares);
+            vm.startPrank(GOVERNOR);
+            pStock.approve(address(executor), shares);
+            vm.expectRevert(bytes("RiskEngine: zero movement"));
+            executor.repayWithPToken(id, shares);
+            vm.stopPrank();
+            assertTrue(vm.revertToState(snap));
+        }
 
         _install();
         _giveShares(P_STOCK, STOCK, shares);
@@ -264,8 +276,10 @@ contract LendingDelegateMarginCompatForkTest is Test {
 
     /// The legacy no-op mint(0) also changed from success to a revert.
     function testZeroAmountMintNowRevertsAfterInstall() public {
-        vm.prank(GOVERNOR);
-        assertEq(pUsd.mint(0), 0, "original accepts mint(0)");
+        if (!alreadyInstalled) {
+            vm.prank(GOVERNOR);
+            assertEq(pUsd.mint(0), 0, "original accepts mint(0)");
+        }
         _install();
         vm.prank(GOVERNOR);
         vm.expectRevert(RobinhoodBoostedDelegateV2.ZeroSharesMinted.selector);

@@ -1,0 +1,15 @@
+{
+  "chainId": 4663,
+  "stateBlock": 78398053,
+  "blockHash": "0x45ad6bbff07a4ca4bacddf547b10515db2fafdf1a56c985c8d21353b914011fa",
+  "nativeBlock": 26106030,
+  "timestamp": 1790960903,
+  "exitCode": 0,
+  "canonicalAfterTests": true,
+  "sourceSha256": {
+    "ReopenAllocation.s.sol": "688123dd28b10d4e8e6a5fa990e2c9a8b80634cfbc4e28266a0d72d732f08db7",
+    "ReopenAllocation.t.sol": "02bfec4d087263d08af0afd574e7d08dbfe0c6d43a63f5c867cc44fd4ea72b00"
+  },
+  "logSha256": "e170be9e8e16790d288449fb4ac0f2ebc3f98064200256605397325c3b35066d",
+  "scope": "Reopen sequence on a local fork of live state: no keys, signing or broadcasts. Not a mainnet change."
+}

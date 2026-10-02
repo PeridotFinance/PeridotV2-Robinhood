@@ -1,0 +1,65 @@
+[
+  {
+    "event": "FeesProcessed",
+    "block": 63850473,
+    "timestamp": 1789495105,
+    "txHash": "0x9f59060b8a333332fb8bece94ddd8617aee57b1bade2fd2dfbb110255d2d0b61",
+    "stockFees": 0,
+    "usdgFees": 0,
+    "stockReserved": 0,
+    "usdgReserved": 0
+  },
+  {
+    "event": "PairCheckpoint",
+    "block": 63850473,
+    "timestamp": 1789495105,
+    "txHash": "0x9f59060b8a333332fb8bece94ddd8617aee57b1bade2fd2dfbb110255d2d0b61",
+    "stockAssets": 10000000000000000,
+    "usdgAssets": 2000000,
+    "benchmarkUSDG": 4119247481600000000,
+    "pnlUSDG": 0,
+    "stockAccounted": 10000000000000000,
+    "usdgAccounted": 2000000
+  },
+  {
+    "event": "FeesProcessed",
+    "block": 63850657,
+    "timestamp": 1789495124,
+    "txHash": "0xad947fc71fec517bbd3a693eb3c30de75e3d5522d5b8b87dc59643f2c87a8e4c",
+    "stockFees": 0,
+    "usdgFees": 0,
+    "stockReserved": 0,
+    "usdgReserved": 0
+  },
+  {
+    "event": "LiquidityRebalanced",
+    "block": 63850657,
+    "timestamp": 1789495124,
+    "txHash": "0xad947fc71fec517bbd3a693eb3c30de75e3d5522d5b8b87dc59643f2c87a8e4c",
+    "stockUsed": 9437312146676136,
+    "usdgUsed": 1999155,
+    "liquidityAdded": 137355898984
+  },
+  {
+    "event": "FeesProcessed",
+    "block": 64490471,
+    "timestamp": 1789559890,
+    "txHash": "0xdcf35fa5fd0967164db5f5542734a98c95fc2506a37811fc78afc04b132e3117",
+    "stockFees": 162895459781,
+    "usdgFees": 55,
+    "stockReserved": 32579091956,
+    "usdgReserved": 11
+  },
+  {
+    "event": "PairCheckpoint",
+    "block": 64490471,
+    "timestamp": 1789559890,
+    "txHash": "0xdcf35fa5fd0967164db5f5542734a98c95fc2506a37811fc78afc04b132e3117",
+    "stockAssets": 9973515963675923,
+    "usdgAssets": 2005697,
+    "benchmarkUSDG": 4130421843248479070,
+    "pnlUSDG": -16788842094030,
+    "stockAccounted": 10000089669040464,
+    "usdgAccounted": 2000035
+  }
+]
