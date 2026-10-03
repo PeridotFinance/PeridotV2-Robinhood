@@ -46,6 +46,7 @@ contract ReopenAllocationForkTest is LendingDelegateMarginCompatForkTest {
         baseStockBorrows = pStock.totalBorrows();
         baseUsdShares = pUsd.totalBorrowShares();
         baseStockShares = pStock.totalBorrowShares();
+        baseLocked = marginVault.lockedBalance(GOVERNOR, P_USD);
     }
 
     function testReopenedPairIsOpenAndAccountingIsConsistent() public {

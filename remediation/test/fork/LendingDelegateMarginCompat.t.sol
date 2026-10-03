@@ -109,6 +109,8 @@ contract LendingDelegateMarginCompatForkTest is Test {
     uint256 internal baseStockBorrows;
     uint256 internal baseUsdShares;
     uint256 internal baseStockShares;
+    /// Margin the governor already has locked in live positions; the helpers compare against it.
+    uint256 internal baseLocked;
     bool internal staleFeed;
 
     bytes32 constant ORIGINAL_CODEHASH =
@@ -137,6 +139,7 @@ contract LendingDelegateMarginCompatForkTest is Test {
         baseStockBorrows = pStock.totalBorrows();
         baseUsdShares = pUsd.totalBorrowShares();
         baseStockShares = pStock.totalBorrowShares();
+        baseLocked = marginVault.lockedBalance(GOVERNOR, P_USD);
     }
 
     function _install() internal returns (RobinhoodBoostedDelegateV2 candidate) {
@@ -411,6 +414,6 @@ contract LendingDelegateMarginCompatForkTest is Test {
         assertEq(pStock.totalBorrows(), baseStockBorrows);
         assertEq(pUsd.totalBorrowShares(), baseUsdShares);
         assertEq(pStock.totalBorrowShares(), baseStockShares);
-        assertEq(marginVault.lockedBalance(GOVERNOR, P_USD), 0);
+        assertEq(marginVault.lockedBalance(GOVERNOR, P_USD), baseLocked);
     }
 }
