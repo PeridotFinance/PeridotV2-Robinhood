@@ -1,69 +1,42 @@
-# September 26 hardening work
+# Remediation
 
-This directory contains the installed lending-oracle correction, the installed vault correction, and dated evidence. It is separate from the frozen deployed source under `contracts/` and the `robinhood-mainnet-5x-2026-09-19.1` tag. A passing local test is not evidence of a mainnet installation.
+Corrections, tests and verification written on top of the frozen deployment sources. Nothing under `contracts/` is edited here.
 
-| Workstream | Current status |
+## What is in this folder
+
+| Path | Contents |
 | --- | --- |
-| Ordinary lending price scale | Corrected on mainnet at adapter `0xe4e03c2fdaef915ace705d106b2660b1e342a2e4`; runtime/immutables, both liquidation quotes and unchanged margin source verified at block 73,329,306. Supply, borrowing and ordinary seizure were reactivated and independently verified September 29 at block 75,678,599. |
-| Vault composition / surplus | Terminal surplus is recoverable by checkpoint. A further regression confirmed a zero-LP withdrawal bypass when native claims remain underbacked. Vault V2 fixes that path; storage/ABI checks, unit/fuzz/invariant tests, a mainnet fork and live queue simulation pass. V2 `0x17f0cf262fbbf27e44756dba6d852815695e9c4a` is installed and independently verified at block 73,403,815: exact execution receipt/calldata, active runtime, completed timelock, unchanged pair ledgers and stored exchange rates. The September 26 simulation stopped at `StaleOracle`; a fresh September 29 simulation passes. Five governor-signed reactivation calls were independently verified September 29. Supply/borrowing/seizure are enabled; allocation/settlement remain paused, with zero LP liquidity. An operator lending round trip is verified; long and short margin round trips are also verified; frontend acceptance remains outstanding. See [vault correction](VAULT_UPGRADE.md). |
-| Governance and old key | Inventory and migration procedure complete. User confirmed the designated Safe is undeployed and explicitly deferred deployment, funding and transfers until a later instruction. Existing key/role exposure remains unresolved. |
-| Keeper alerts | Keeper freshly observed running. Telegram destination and external monitoring deployment explicitly deferred by the user. Alerts are not installed. |
-| Evidence and claims | Dated evidence, security model, settlement procedure and submission claim boundaries below. |
+| [`src`](src) | `RobinhoodBoostedVaultV2` (native-backing correction), `RobinhoodLendingPriceAdapter` (USDG unit fix), `RobinhoodBoostedDelegateV2` (zero-share and rounding fix), `LendingMintRouter` (optional min-shares bound) |
+| [`script`](script) | Reviewed, user-signed procedures: vault upgrade, lending reactivation, delegate deploy and install, plus prepared-but-unexecuted LP reopen, margin cap raise and router deploy |
+| [`test`](test) | Unit, fuzz and invariant tests, and fork tests against the live deployment |
+| [`tools`](tools) | Read-only verifiers, rehearsal runners and the vault yield recorder |
+| [`evidence`](evidence/README.md) | Dated records of every verification, with detached SHA-256 digests |
+| [`dune`](dune/README.md) | Dune queries for the vault's events |
 
-## Reproduce
+## Executed on mainnet, then verified independently
 
-From the repository root:
+| Change | Date |
+| --- | --- |
+| Lending price adapter installed; borrowing and ordinary seizure paused during the fix | Sep 2026 |
+| Vault V2 installed through the timelock | Sep 26, 2026 |
+| Lending reactivation (five calls) | Sep 29, 2026 |
+| Operator lending and margin round trips | Sep 30 to Oct 1, 2026 |
+| Lending delegate rounding fix: deploy at block 78,172,768, installs at 78,176,131 and 78,176,155 | Oct 2, 2026 |
+
+## Written and tested, not executed
+
+LP allocation reopen (timelock queue, execute, keeper checkpoint and rebalance), a flash-vault-funded margin cap raise, the min-shares mint router, and the Safe governance migration. Their scripts refuse to run unless the preconditions hold.
+
+## Commands
 
 ```sh
-make verify
-make test-remediation
-make fork-remediation
-python3 remediation/tools/fork.py --vault
-python3 remediation/tools/state.py
-python3 remediation/tools/vault_state.py
-python3 remediation/tools/governance.py
+make test-remediation        # vault, adapter and recovery suites plus Python tooling
+make test-lending-candidate  # delegate, router and rounding suites, size gate and verifier
+python3 remediation/tools/vault_yield.py report   # read-only yield report
 ```
 
-The fork command pins a fresh block because the public RPC prunes older state. It writes the block/hash and test output to `evidence/`. All state tools are read-only. `make test` still exercises the original snapshot separately. Several derived fixtures repeat 40 compatibility tests. The V2 coverage is 50 unique tests (40 compatibility, four post-exit regressions including fuzz, three recovery tests, three invariants); never sum repeated fixture executions as distinct tests.
+Fork rehearsals need an archive-capable `ROBINHOOD_RPC_URL`. The delegate rehearsals assert the pre-install code hash on purpose.
 
-## Lending containment and installation
+## Review limits
 
-USDG has 6 decimals; pUSDG has 8. The controller needs a USDG price of `1e30` at a $1 peg, while `assetPrices(USDG)` remains `1e18`. This follows the controller's arithmetic and the [Compound oracle convention](https://docs.compound.finance/v2/prices/). Changing token metadata would not repair the defect.
-
-`RobinhoodLendingPriceAdapter` serves only the two configured markets. It checks underlying decimals during construction, uses checked scaling, exposes the original USD18 asset-price API, and has no administrator or mutable configuration. The controller changes its oracle pointer; the margin source retains its existing immutable backing source. No proxy storage layout changes.
-
-1. Simulate containment: `python3 remediation/tools/contain.py`.
-2. The governor runs `python3 remediation/tools/contain.py --broadcast` in their own terminal. Foundry unlocks the existing keystore locally. The runner records intents before signing, refuses ambiguous retries, validates receipt identity/canonical block and checks final pause flags. New borrows in both markets and ordinary collateral seizure are paused; repayment remains enabled. The borrow pauses also prevent new isolated margin borrowing.
-3. Finish unit/fork checks and static analysis. Confirm zero outstanding debt and paused state afresh. If debt appears, review account-level effects before proceeding.
-4. Simulate `remediation/script/InstallLendingPriceAdapter.s.sol:InstallLendingPriceAdapter` using `forge script` and the mainnet RPC. Only after successful simulation and review does the user add `--broadcast --account robinhood-deployer`. The script deploys one adapter and switches the controller pointer; all three pauses stay enabled. Two transactions are involved. If submission is interrupted, reconcile the saved Foundry broadcast receipts before retrying; do not blindly redeploy.
-5. Record the deployed address, transaction receipts, code hash, constructor inputs and controller pointer; independently rerun both liquidation quote directions and account valuation. Check the margin USD18 source remains unchanged. Resume only after these checks and the governance decision. Neither the deployment script nor containment runner automatically unpauses.
-
-Installation is complete: do not rerun the deployment script. Use `python3 remediation/tools/verify_install.py` to verify the installed adapter while containment remains active. Canonical creation and switch receipts are recorded in `evidence/installation-transactions.json`.
-
-`remediation/script/ReactivateLending.s.sol` was locally signed and executed September 29. It checks the installed oracle runtime/identity AND the corrected vault implementation runtime, requires fresh guarded stock/USDG prices matching the corrected APIs, then restores ordinary seizure before borrowing and supply. It leaves pair allocation/swaps paused. It intentionally fails while the stock feed is stale. All five reactivation transactions passed independent receipt/event/state verification at block 75,678,599; see [the execution record](evidence/reactivation-execution-2026-09-29.json). Do not rerun the completed broadcast. Reactivation is separate from the user-deferred Safe migration. For any future authorized reopening, simulate first and independently verify all resulting flags. `python3 remediation/tools/record_reactivation.py` is the read-only verifier for the recorded five-call broadcast; later state changes or stale guard prices can prevent a fresh verification.
-
-The adapter deliberately preserves the source oracle's policy, including cached/manual fallback and the static USDG peg. This patch does not claim to add a fresh-price guarantee or depeg handling to ordinary lending. See [security model](SECURITY_MODEL.md).
-
-## Supporting records
-
-- [Vault correction and timelock procedure](VAULT_UPGRADE.md)
-- [Lending delegate rounding correction: installed and verified October 2](LENDING_DELEGATE_CANDIDATE.md)
-- [Vault recovery procedure](VAULT_RECOVERY.md)
-- [Governance and key retirement](GOVERNANCE.md)
-- [Keeper monitoring follow-up](KEEPER_ALERTS.md)
-- [Security model](SECURITY_MODEL.md)
-- [Evidence and submission claims](MAINNET_EVIDENCE.md)
-- [Deployment addresses](MAINNET_DEPLOYMENTS.md)
-- [Judge questions](JUDGE_QA.md)
-
-October 1 recovery: five mainnet-fork tests cover canary recovery and both production settlement orders, with real timelock delay enforcement locally. The canary's two mainnet calls are now independently verified at block 77,279,283: exact residue returned, zero remaining canary claims/idles, production and reserves unchanged. Production settlement remains pending. See [recovery evidence and historical commands](VAULT_RECOVERY.md#october-1-canary-recovery-completed-production-settlement-pending). The Almanax hardening scan is authorized but has not started because the repository is not yet linked in Almanax (`project not found`); [desired review scope](ALMANAX_SCOPE.md).
-
-No frontend application is changed here. Frontend implementation remains with the separate developer.
-
-## Small operator lending test
-
-The [lending acceptance commands](LENDING_ACCEPTANCE.md) simulate a 0.001 NVDA supply / 0.05 USDG borrow round trip, then separate locally signed opening and closing stages with receipt/state checks. The user-signed opening is now independently verified at block 76,556,183: 0.001 NVDA supplied and 0.05 USDG borrowed. The six closing transactions are also verified at block 76,565,683: zero debt, 0.001 NVDA returned, approvals cleared and original token/share balances and memberships restored. The verifier journal-path defect was fixed and the existing transactions reconciled without rebroadcast.
-
-## Small isolated-margin tests
-
-Both directions pass current-mainnet-state open/close/withdraw simulation. [Margin acceptance](MARGIN_ACCEPTANCE.md) uses about 0.20 USDG of existing pUSDG collateral at 2× requested leverage, with separate user-local signing and receipt/state checks. The long live round trip is now verified at block 76,612,481; the short live round trip completed October 1 at block 77,263,055, with both debts, position shares, free/locked margin and approval zero. Frontend acceptance remains outstanding. No caps, LP pauses or governance settings are changed.
+No independent external audit. An Almanax scan reported 81 automated findings; only part of it has been triaged (the three high-severity claims and two medium ones), and that is not a claim that the rest are resolved.

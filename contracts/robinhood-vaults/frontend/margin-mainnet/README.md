@@ -1,6 +1,6 @@
 # Robinhood mainnet margin integration
 
-Full developer guide: [FRONTEND_IMPLEMENTATION_GUIDE.md](FRONTEND_IMPLEMENTATION_GUIDE.md), including contract roles, addresses, exact functions and end-to-end implementation.
+Full developer guide: FRONTEND_IMPLEMENTATION_GUIDE.md, including contract roles, addresses, exact functions and end-to-end implementation.
 
 `manifest.json` exports the tested contract ABIs, chain, existing token/market
 addresses, pair direction mapping and configured 5× limits. Mainnet activation
@@ -9,12 +9,12 @@ is verified: **MAINNET_5X_RISK_VERIFIED**, with live margin addresses and
 is false, and check current on-chain availability below. Never use localhost rehearsal
 addresses or predicted CREATE addresses as deployed mainnet contracts.
 
-The user-operated [deployment runner](../../deployments/robinhood-mainnet.margin-user-runner.md)
+The user-operated deployment runner
 populates this manifest and refreshes these ABIs after verifying actual mainnet
 activation. It does not install a keeper service; check that separately before
 team positions.
 
-The [completed 5× update](../../deployments/robinhood-mainnet.margin-5x.md) changes
+The completed 5× update changes
 risk settings only. Continue reading the live manifest and on-chain configuration;
 both directions are applied and verified. The
 quoter does not enforce dollar caps: size for the $1 debt/$2 gross caps and

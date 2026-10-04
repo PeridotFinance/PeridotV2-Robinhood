@@ -1,30 +1,38 @@
-# Frontend workspace
+# Frontend integration
 
-The frontend is being developed separately. Add that application's source and lockfile here when it is ready. This initial repository does not include a runnable UI or substitute mock app.
+The application is developed separately and lives at [peridot.finance](https://peridot.finance). This folder holds what an integrator needs; there is no UI source here.
 
-Use the pinned Robinhood mainnet [manifest](../contracts/robinhood-vaults/frontend/margin-mainnet/manifest.json), [16 ABIs](../contracts/robinhood-vaults/frontend/margin-mainnet), and [implementation guide](../contracts/robinhood-vaults/frontend/margin-mainnet/FRONTEND_IMPLEMENTATION_GUIDE.md). They describe the deployed executor's exact tuple layouts and 5× settings. Do not generate interfaces from newer Avalanche margin sources.
+**Pinned interfaces:** the address manifest and 16 ABIs are in [`contracts/robinhood-vaults/frontend/margin-mainnet`](../contracts/robinhood-vaults/frontend/margin-mainnet) (`manifest.json` has a detached SHA-256). Use them instead of generating interfaces from other sources: they carry the deployed executor's exact tuple layouts. Chain ID is **4663**. Contract addresses are in the [root README](../README.md#what-is-live-on-robinhood-chain-mainnet).
 
-The September 26 corrections preserve the vault proxy address and public ABI. Read [current deployment status](../remediation/MAINNET_EVIDENCE.md) alongside the historical manifest. USDG has 6 decimals, NVDA 18, and pTokens 8. The controller's USDG price is `1e30` at $1 while the USD18 API remains `1e18`; use `controller.oracle()` instead of an old hardcoded oracle. Display actual market pause flags, price availability and LP allocation separately. Never treat a successful outer receipt as proof of a vault operation when a `VaultDepositFailed` or `VaultWithdrawalFailed` event was emitted.
+## Units
 
-## October 1 developer update
+USDG has 6 decimals, NVDA 18, both pTokens 8. The lending controller prices USDG at `1e30` at $1 (the Compound-style `1e(36 - decimals)` scale) while the plain USD API stays `1e18`. Read `controller.oracle()` rather than hardcoding an oracle.
 
-The operator's full lending supply → borrow → repay → redeem cycle is verified on mainnet, with final debt zero and original token balances restored. The vault proxy address and exported ABIs remain unchanged. Use the current hardening branch and its [lending proof](../remediation/LENDING_ACCEPTANCE.md); the default branch is still the frozen original snapshot.
+Underlying value of a pToken balance: `balance * exchangeRate / 1e18` in raw underlying units. Read the live rate with a static `eth_call` to `exchangeRateCurrent` (it is not a view function) or use `exchangeRateStored`.
 
-Both small margin round trips now pass mainnet-state simulation using existing pUSDG collateral and 2× requested leverage. The long is now verified live: position 1 opened at 2× requested leverage (1.98× recorded at entry), fully closed and withdrew at final block 76,612,481. Both debts, free/locked margin and the approval are zero. The test supplied 10 pUSDG and returned 9.85191185 pUSDG (approximately 0.197039 USDG at the recorded exchange rate; gas separate). The short is also verified live: position 2 opened at 2× requested gross leverage (1.99× recorded at entry), fully closed and withdrew, with final zero debt/custody at block 77,263,055. It returned 9.85120721 pUSDG (approximately 0.197025 USDG equivalent; gas separate) from 10 pUSDG supplied. Short gross leverage includes stable collateral; it is not 2× directional stock exposure. [Short evidence](../remediation/evidence/margin-acceptance-short-completed.json). [Long evidence](../remediation/evidence/margin-acceptance-long-completed.json). [Margin acceptance commands and quote details](../remediation/MARGIN_ACCEPTANCE.md) explain the three stages and the short close's dynamic second-leg protocol floor. Margin closes return pUSDG to free margin; withdrawing shares to the wallet and redeeming them into USDG are distinct actions. Keep the existing $2 gross/$1 debt caps and show current quote, fee and availability checks.
+## APY: what to show
 
-LP allocation/settlement remain paused with no claim of currently deployed LP liquidity. The UI should present actual lending interest, trading fees, reserve coverage and residual-loss exposure separately. The next frontend deliverable is a runnable supply/borrow/repay/redeem journey with live status and explorer links, then reproduce the verified long and short margin flows. All three operator lifecycles are now evidenced; frontend acceptance remains outstanding.
+- **Borrow-interest supply APY.** `APR = supplyRatePerBlock / 1e18 * 2_628_000`, `APY = (1 + APR/365)^365 - 1`. Use **2,628,000 blocks per year**. Block numbers here are L1-derived (about 12 s); `eth_blockNumber` returns L2 blocks at about 10 per second, which makes the number roughly 120 times too large.
+- **Vault yield.** There is no APY function on the vault. LP yield reaches suppliers only through growth of the pToken `exchangeRateStored`, and only when a checkpoint credits a gain (both native sides at or above principal). Compute realized yield from exchange-rate history: `growth ^ (365 d / elapsed) - 1`, label the window, and show "n/a" under an hour of history.
+- **Position performance.** Show fees collected (`FeesProcessed`), recognized loss (`PairCheckpoint.pnlUSDG`, `ledger.cumulativeLossUSDG`) and the LP status separately, labelled as not yet credited to suppliers.
+- [`remediation/tools/vault_yield.py`](../remediation/tools/vault_yield.py) is a read-only recorder that snapshots rates and ledger state, decodes the vault events and writes frontend-ready JSON and CSV. [`remediation/dune`](../remediation/dune/README.md) has matching Dune queries (Dune indexes Robinhood Chain natively).
+- The LP position is closed right now, so vault LP yield is 0%. Do not annualize a single short window.
 
-## Submission acceptance criteria
+## Transactions
 
-The separate frontend developer owns implementation. The deliverable is a runnable app with a live preview (or clear local start instructions), wallet connection on chain 4663, portfolio/market reads, honest paused/unavailable states, and transaction/explorer links. Lending reactivation was verified September 29 at block 75,678,599; LP allocation and settlement remain paused. A [real operator supply → borrow → repay/redeem flow](../remediation/LENDING_ACCEPTANCE.md) completed September 30. Reproduce it through the UI next; both long and short lifecycles are now verified on mainnet. Label operator acceptance tests separately from independent user activity. Show actual LP allocation and reserve bounds rather than a fixed yield or coverage promise. Fiat/IBAN and cross-chain screens require linked implementation/transaction evidence before being presented as working features.
+- **Set the gas limit explicitly** (estimate times 1.3 to 1.5). `eth_estimateGas` can land a few thousand gas below what a nested call needs on this chain, and the transaction then fails out-of-gas with an empty revert (for example a margin vault `deposit`, which needs about 380,000 gas).
+- **Do not use a "max" button with outstanding debt.** Moving pTokens that back a borrow reverts with `TransferPeridottrollerRejection(code)`: selector `0x0c93cb5b`, code `4` means insufficient liquidity. Cap the amount with `getAccountLiquidity`, or simulate first.
+- **Supply:** `mint(amount)` reverts `ZeroSharesMinted()` (selector `0xd6a0a041`) for zero amounts and amounts too small to mint one pToken (below about 2e-10 NVDA). The `mint` has no minimum-received bound, so estimate `floor(amount * 1e18 / exchangeRate)` and warn when it is far below the deposit's value.
+- **Withdraw all:** use `redeem(allShares)`. `redeemUnderlying(amount)` burns a rounded-up share count and can revert if a loss recognized during settlement raises the shares needed.
 
-When adding the app:
+## Margin
 
-1. Keep the frozen contracts and `snapshot/` records unchanged.
-2. Include its package-manager lockfile and `.env.example` containing public placeholders only.
-3. Document exact install and local development commands here and wire the root `make frontend` target to the actual command.
-4. Use chain ID 4663 and the deployed proxy/call addresses. Recheck live risk, oracle availability, cash and flash capacity before transaction requests.
-5. Test the complete supply, margin deposit, open, manage, close, share withdrawal and redemption flow. Preserve stale-price repayment and in-kind exit options.
-6. Use the user's connected wallet for signatures. No keeper, governor, cloud or database credentials belong in the app.
+Margin is always pUSDG; the position or debt side is NVDA. Live limits are 5x, 20% initial margin, **$2 gross and $1 debt per position**. At 5x the debt is four times the margin, so the debt cap means at most **$0.25 of margin per position**. `quoter.quoteOpen` does not enforce the dollar caps: clamp the input in the UI and simulate the open before sending. Opening, closing and liquidating borrow from the flash vault, which only lends what it holds, so a position above the flash balance cannot be closed or liquidated.
 
-Mainnet `tradingReady=true` in the historical manifest means activation was verified; it does not establish current price availability, keeper health or action success. All public RPC reads can be configured locally without a signing key.
+## Honest states
+
+- NVDA's feed updates on moves during trading sessions and is **stale on weekends and holidays**. The guard and margin oracle then fail closed (the margin oracle returns 0 for NVDA): new positions, swap-based closes, liquidations and LP-backed withdrawals are unavailable. Show that state, and keep repay-with-underlying and debt-free exit to pTokens visible.
+- Show live pause flags, liquidity, and flash-vault capacity before sending a transaction. LP allocation is paused and no LP liquidity is open.
+- No keeper, governor, cloud or database credential belongs in the app. Use the connected wallet for every signature.
+
+An optional stateless router (`remediation/src/LendingMintRouter.sol`) gives `mintWithMinShares(market, amount, minShares)`. It is **written and tested but not deployed**; do not call it until a verified address is published.

@@ -12,7 +12,7 @@ test-remediation:
 	python3 -m unittest discover -s remediation/tools -p 'test_*.py'
 
 # Lending-delegate rounding candidate. Needs the dedicated profile: the candidate does not fit
-# EIP-170 under the default or lending_upgrade settings. See remediation/LENDING_DELEGATE_CANDIDATE.md.
+# EIP-170 under the default or lending_upgrade settings. See remediation/README.md.
 test-lending-candidate:
 	forge fmt --check remediation/src remediation/script remediation/test/LendingRoundingVault.t.sol remediation/test/LendingMintRouter.t.sol remediation/test/fork/LendingDelegateUpgradeMainnet.t.sol remediation/test/fork/LendingDelegateMarginCompat.t.sol remediation/test/fork/LendingDelegateMintRouter.t.sol
 	FOUNDRY_PROFILE=lending_candidate forge test --match-path 'remediation/test/Lending*.t.sol'
@@ -59,5 +59,5 @@ fork-margin:
 	cd $(CONTRACTS) && FOUNDRY_PROFILE=margin_mainnet forge test
 
 frontend:
-	@echo 'The frontend is being developed separately. See frontend/README.md for integration requirements.'
+	@echo 'The frontend is being developed separately. See frontend/README.md for integration notes.'
 	@exit 1
