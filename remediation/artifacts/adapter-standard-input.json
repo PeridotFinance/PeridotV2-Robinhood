@@ -1,0 +1,48 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "remediation/src/RobinhoodLendingPriceAdapter.sol": {
+      "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.26;\n\ninterface IUsd18PriceSource {\n    function assetPrices(address asset) external view returns (uint256);\n}\n\ninterface IMarketUnderlying {\n    function underlying() external view returns (address);\n}\n\ninterface ITokenDecimals {\n    function decimals() external view returns (uint8);\n}\n\n/// @notice Adapts the existing USD18 price API to Compound's 36-underlyingDecimals scale.\n/// @dev No storage upgrade, pricing-policy change, or change to the margin price source.\n///      The source's existing manual/cached-price trust and freshness limitations remain.\ncontract RobinhoodLendingPriceAdapter is IUsd18PriceSource {\n    bool public constant isPriceOracle = true;\n    IUsd18PriceSource public immutable source;\n    address public immutable stockMarket;\n    address public immutable dollarMarket;\n    address public immutable stock;\n    address public immutable dollar;\n\n    error InvalidConfiguration();\n    error UnsupportedMarket();\n    error UnsupportedAsset();\n\n    constructor(address source_, address stockMarket_, address dollarMarket_) {\n        if (source_.code.length == 0 || stockMarket_ == dollarMarket_) {\n            revert InvalidConfiguration();\n        }\n        address stock_ = IMarketUnderlying(stockMarket_).underlying();\n        address dollar_ = IMarketUnderlying(dollarMarket_).underlying();\n        if (\n            stock_ == dollar_ || ITokenDecimals(stock_).decimals() != 18\n                || ITokenDecimals(dollar_).decimals() != 6\n        ) revert InvalidConfiguration();\n        source = IUsd18PriceSource(source_);\n        stockMarket = stockMarket_;\n        dollarMarket = dollarMarket_;\n        stock = stock_;\n        dollar = dollar_;\n    }\n\n    function getUnderlyingPrice(address market) external view returns (uint256) {\n        if (market == stockMarket) return source.assetPrices(stock);\n        // Checked multiplication rejects malformed / overflowing source prices.\n        if (market == dollarMarket) return source.assetPrices(dollar) * 1e12;\n        revert UnsupportedMarket();\n    }\n\n    /// @notice Compatibility API: USD18 per whole asset, never Compound-scaled.\n    function assetPrices(address asset) external view override returns (uint256) {\n        if (asset != stock && asset != dollar) revert UnsupportedAsset();\n        return source.assetPrices(asset);\n    }\n}\n"
+    }
+  },
+  "settings": {
+    "remappings": [
+      "@chainlink/contracts/=contracts/peridot-contracts-2-5/contracts/node_modules/@chainlink/contracts/",
+      "@openzeppelin/contracts-upgradeable/=contracts/robinhood-vaults/lib/openzeppelin-contracts-upgradeable/contracts/",
+      "@openzeppelin/contracts/=contracts/robinhood-vaults/lib/openzeppelin-contracts/contracts/",
+      "@uniswap/permit2/=contracts/robinhood-vaults/lib/permit2/",
+      "@uniswap/universal-router/=contracts/robinhood-vaults/lib/universal-router/",
+      "@uniswap/v4-core/=contracts/robinhood-vaults/lib/v4-core/",
+      "@uniswap/v4-periphery/=contracts/robinhood-vaults/lib/v4-periphery/",
+      "baseline/=contracts/robinhood-vaults/",
+      "forge-std/=contracts/robinhood-vaults/lib/forge-std/src/",
+      "openzeppelin-contracts-upgradeable/=contracts/robinhood-vaults/lib/openzeppelin-contracts-upgradeable/contracts/",
+      "openzeppelin-contracts/=contracts/robinhood-vaults/lib/openzeppelin-contracts/contracts/",
+      "peridot-tests/=contracts/peridot-contracts-2-5/contracts/test/",
+      "peridot/=contracts/peridot-contracts-2-5/contracts/contracts/",
+      "permit2/=contracts/robinhood-vaults/lib/permit2/",
+      "universal-router/=contracts/robinhood-vaults/lib/universal-router/",
+      "v4-core/=contracts/robinhood-vaults/lib/v4-core/",
+      "v4-periphery/=contracts/robinhood-vaults/lib/v4-periphery/"
+    ],
+    "optimizer": {
+      "enabled": true,
+      "runs": 200
+    },
+    "metadata": {
+      "bytecodeHash": "ipfs"
+    },
+    "evmVersion": "cancun",
+    "libraries": {},
+    "viaIR": true,
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode",
+          "evm.deployedBytecode"
+        ]
+      }
+    }
+  }
+}

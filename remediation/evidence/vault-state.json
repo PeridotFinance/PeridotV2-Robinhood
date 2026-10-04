@@ -1,0 +1,57 @@
+{
+  "chainId": 4663,
+  "block": 73323967,
+  "blockHash": "0x555374fdebb215afddc17b9f0d2d17d019b30e50f3711fee1b382eadcb690514",
+  "pairs": {
+    "production": {
+      "pairId": "0xe2050352f4346597cc69d2776d99ae60c9440dfc28f9406ce66be0bbe3fb6b06",
+      "ledger": {
+        "stockPrincipal": "11474644834520232",
+        "usdgPrincipal": "2000035",
+        "stockIdle": "11458012994567666",
+        "usdgIdle": "2007104",
+        "cumulativeLossUSD18": "16788842094030",
+        "lastCheckpoint": "1789559890"
+      },
+      "stockAccount": "0xa155cccb986774ae818b3f10f07d01d1b7a47b26",
+      "usdgAccount": "0x55aed0569c8f0d166d71face57b57c2f2624a563",
+      "allocationPaused": false,
+      "swapsPaused": true,
+      "emergencyMode": false,
+      "positionStateRaw": [
+        "2752736",
+        "0",
+        "0",
+        "0"
+      ],
+      "availableReserveStockRaw": "183490408179855",
+      "availableReserveUSDGRaw": "11",
+      "guardPriceAvailable": false
+    },
+    "historicalCanary": {
+      "pairId": "0x536e330d7e6d12c73d1ae0547dfec4ea4d47ad94f4244a096ea5fad4f87f28ee",
+      "ledger": {
+        "stockPrincipal": "0",
+        "usdgPrincipal": "0",
+        "stockIdle": "24697449583",
+        "usdgIdle": "0",
+        "cumulativeLossUSD18": "7114347144922874",
+        "lastCheckpoint": "1788524564"
+      },
+      "stockAccount": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+      "usdgAccount": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+      "allocationPaused": true,
+      "swapsPaused": true,
+      "emergencyMode": false,
+      "positionStateRaw": [
+        "0",
+        "0",
+        "0",
+        "0"
+      ],
+      "availableReserveStockRaw": "0",
+      "availableReserveUSDGRaw": "0",
+      "guardPriceAvailable": false
+    }
+  }
+}

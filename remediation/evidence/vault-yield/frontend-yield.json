@@ -1,0 +1,57 @@
+{
+  "generatedAt": 1790956676,
+  "latestSnapshotBlock": 78354750,
+  "latestSnapshotTimestamp": 1790956549,
+  "vault": {
+    "lpOpen": false,
+    "lpLiquidity": 0,
+    "ledger": {
+      "stockPrincipal": 11474644834520232,
+      "usdgPrincipal": 2000035,
+      "stockIdle": 11458012994567666,
+      "usdgIdle": 2007104,
+      "cumulativeLossUsd18": 16788842094030,
+      "lastCheckpoint": 1789559890
+    },
+    "cumulativeLossUsd": 1.678884209403e-05,
+    "feesLifetime": {
+      "stockFeesWei": 162895459781,
+      "usdgFeesRaw": 55,
+      "stockReservedWei": 32579091956,
+      "usdgReservedRaw": 11,
+      "valuedAtCurrentOraclePriceUsd": 9.329217408576604e-05,
+      "eventCount": 3
+    },
+    "checkpointCount": 2,
+    "lastCheckpointPnlUsd": -1.678884209403e-05,
+    "note": "The vault has no APY function. Realized supplier yield is the growth of the pToken exchange rate below."
+  },
+  "markets": {
+    "pNVDA": {
+      "exchangeRate": 200000899062619270000000000,
+      "totalBorrows": 14610000000000,
+      "cash": 19968848073569871,
+      "borrowInterestSupplyApy": {
+        "aprPercent": 0.0013220014716,
+        "apyPercent": 0.0013220101821698194
+      },
+      "borrowApr": 2.0091388084776,
+      "trailingExchangeRateApy": null,
+      "sinceLpOpenedApy": null,
+      "blocksPerYearUsed": 2628000
+    },
+    "pUSDG": {
+      "exchangeRate": 200001883743572,
+      "totalBorrows": 5961,
+      "cash": 4038067,
+      "borrowInterestSupplyApy": {
+        "aprPercent": 0.00267768891,
+        "apyPercent": 0.0026777246582287972
+      },
+      "borrowApr": 2.0184253174152,
+      "trailingExchangeRateApy": null,
+      "sinceLpOpenedApy": null,
+      "blocksPerYearUsed": 2628000
+    }
+  }
+}

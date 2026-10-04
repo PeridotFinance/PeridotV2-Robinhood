@@ -1,0 +1,11 @@
+{
+  "testsPassed": 2,
+  "testsFailed": 0,
+  "scope": "Fresh local markets using captured real controller, delegator and original boosted implementation. Mock 18/6 decimal underlying, fixed $1 model prices, 75% stock collateral factor, zero interest. Conditional two-share market, not a claim of mainnet exploitability or observed attack.",
+  "testSha256": "0aa1e405a534923afe07459021e0a9d7891f2ba14dc115aed940662a31c5477c",
+  "outputSha256": "9d67979f2bf0bb43811df95ecc54b3977666ff1beaac4d6280486015b8f054d0",
+  "confirmed": [
+    "Donation can make a 0.1 model-stock victim mint receive zero shares",
+    "Exact-underlying redemption burns one of two shares while withdrawing all but one raw collateral unit; controller then reports 0.35 USD18 shortfall"
+  ]
+}

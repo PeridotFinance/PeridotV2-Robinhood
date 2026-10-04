@@ -1,0 +1,90 @@
+{
+  "chainId": 4663,
+  "side": "long",
+  "stage": "open",
+  "stateBlock": 76601924,
+  "blockHash": "0x68971485acddc3940a0a792a31700ab55958b57188bd7679e92d9fb9919545c7",
+  "nativeBlock": 26091016,
+  "broadcast": true,
+  "before": {
+    "block": 76601924,
+    "hash": "0x68971485acddc3940a0a792a31700ab55958b57188bd7679e92d9fb9919545c7",
+    "walletShares": 15000043749,
+    "free": 0,
+    "locked": 0,
+    "allowance": 0,
+    "exchangeRate": 200001750000000
+  },
+  "positionId": null,
+  "account": null,
+  "verifiedRuntimeNames": [
+    "guardedSource",
+    "router",
+    "oracle",
+    "flashVault",
+    "quoter",
+    "swapModule",
+    "accountFactory",
+    "config",
+    "configImplementation",
+    "configAdmin",
+    "executor",
+    "executorImplementation",
+    "executorAdmin",
+    "liquidator",
+    "liquidatorImplementation",
+    "liquidatorAdmin",
+    "riskEngine",
+    "riskEngineImplementation",
+    "riskEngineAdmin",
+    "marginVault",
+    "marginVaultImplementation",
+    "marginVaultAdmin",
+    "insuranceFund",
+    "insuranceFundImplementation",
+    "insuranceFundAdmin",
+    "feeDistributor",
+    "feeDistributorImplementation",
+    "feeDistributorAdmin",
+    "replacementDelegate",
+    "borrowAccountingModule",
+    "accountTemplate"
+  ],
+  "collateralShares": 1000000000,
+  "requestedLeverageX100": 200,
+  "scriptSha256": "013b6d694c080ed0683f21b1f482621a896ece4ebe2cd92eceda5867a7c7fedb",
+  "keeperHealth": {
+    "status": "monitoring",
+    "checkedAtUnix": 1790780053,
+    "executionEnabled": true,
+    "sender": "0x16aEC17597E5224998e2043C9c83C4a35dD95A86",
+    "gasBalanceWei": "2000000000000000",
+    "gasReady": true,
+    "journalId": "43864aac-a4af-4575-9a65-92cad29cebc2",
+    "positions": []
+  },
+  "plan": [
+    {
+      "to": "0x55aed0569c8f0d166d71face57b57c2f2624a563",
+      "input": "0x095ea7b300000000000000000000000004d4a5555b7a37017a67b4d21a1da5838de28b9e000000000000000000000000000000000000000000000000000000003b9aca00",
+      "value": 0
+    },
+    {
+      "to": "0x04d4a5555b7a37017a67b4d21a1da5838de28b9e",
+      "input": "0x47e7ef2400000000000000000000000055aed0569c8f0d166d71face57b57c2f2624a563000000000000000000000000000000000000000000000000000000003b9aca00",
+      "value": 0
+    },
+    {
+      "to": "0x55aed0569c8f0d166d71face57b57c2f2624a563",
+      "input": "0x095ea7b300000000000000000000000004d4a5555b7a37017a67b4d21a1da5838de28b9e0000000000000000000000000000000000000000000000000000000000000000",
+      "value": 0
+    },
+    {
+      "to": "0x6a45ae86bd992d250580d08d340a06a04d478977",
+      "input": "0x9eaab871000000000000000000000000000000000000000000000000000000000000002000000000000000000000000055aed0569c8f0d166d71face57b57c2f2624a563000000000000000000000000a155cccb986774ae818b3f10f07d01d1b7a47b2600000000000000000000000055aed0569c8f0d166d71face57b57c2f2624a563000000000000000000000000000000000000000000000000000000003b9aca0000000000000000000000000000000000000000000000000000000000000000c80000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000609f99cf01dd5000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001200000000000000000000000000000000000000000000000000000000000000000",
+      "value": 0
+    }
+  ],
+  "nonceBefore": 250,
+  "exitCode": 0
+}

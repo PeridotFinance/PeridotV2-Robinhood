@@ -1,0 +1,17 @@
+{
+  "block": 76587032,
+  "hash": "0x24e8492bba5df231a538703a7e6dddf3727e5df8d7689a5c48aea2ab225e1f0f",
+  "timestamp": 1790778503,
+  "opensPaused": false,
+  "flashPaused": false,
+  "openFeeBps": 0,
+  "closeFeeBps": 0,
+  "nextPositionId": 1,
+  "walletPUSDG": 15000043749,
+  "freeMargin": 0,
+  "lockedMargin": 0,
+  "priceable": {
+    "pUSDG": true,
+    "pNVDA": true
+  }
+}

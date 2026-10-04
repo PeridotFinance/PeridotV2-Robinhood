@@ -1,0 +1,31 @@
+{
+  "scope": "Read-only: compiled original (lending_upgrade) versus installed delegate and module code",
+  "installed": {
+    "pNVDA": {
+      "market": "0xa155ccCB986774AE818b3F10F07d01D1b7A47b26",
+      "implementation": "0x31d7C960C1EB542e4243e80D2270220e63002d99",
+      "implementationCodehash": "0xa6913bd52087e56926b3f17fd131b7f331af194aaa77321e452582e75fb8cc34",
+      "moduleAddress": "0xF7D90127352748D5437bE445c01B46892bAF5522",
+      "runtimeBytes": 24511,
+      "moduleRuntimeBytes": 2752,
+      "sameLength": true,
+      "bodyIdenticalExcludingMetadata": true,
+      "moduleBodyIdenticalExcludingMetadata": true,
+      "byteForByteIdentical": false,
+      "codehashMatchesRecordedInstalled": true
+    },
+    "pUSDG": {
+      "market": "0x55aEd0569c8f0D166D71facE57B57C2f2624a563",
+      "implementation": "0x31d7C960C1EB542e4243e80D2270220e63002d99",
+      "implementationCodehash": "0xa6913bd52087e56926b3f17fd131b7f331af194aaa77321e452582e75fb8cc34",
+      "moduleAddress": "0xF7D90127352748D5437bE445c01B46892bAF5522",
+      "runtimeBytes": 24511,
+      "moduleRuntimeBytes": 2752,
+      "sameLength": true,
+      "bodyIdenticalExcludingMetadata": true,
+      "moduleBodyIdenticalExcludingMetadata": true,
+      "byteForByteIdentical": false,
+      "codehashMatchesRecordedInstalled": true
+    }
+  }
+}

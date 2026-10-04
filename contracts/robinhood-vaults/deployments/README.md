@@ -1,5 +1,7 @@
 # Robinhood mainnet deployment evidence
 
+**Current-state reading order:** this directory records the original deployment and 5× update. The later installed oracle and vault corrections, retained pauses, receipts and limitations are in the September 26 evidence record. Read that first for the submission; historical “undeployed” or “zero Borrow events” statements are scoped to their stated dates/blocks.
+
 This folder preserves historical public deployment records for the snapshot. The final selected state is the deployed margin stack plus the **September 19, 2026 5× risk update**. Earlier paused/2×/preparation records describe completed earlier stages and do not imply that deployment must be rerun.
 
 Start with:
@@ -16,4 +18,4 @@ Start with:
 
 Detached SHA-256 files are included where present in the original records. Some historical reports reference larger localhost rehearsals or testnet evidence not included in this mainnet-focused snapshot. Their absence must not be interpreted as newly reproduced evidence.
 
-The frontend [manifest and ABIs](../frontend/margin-mainnet/manifest.json) use deployed proxy/call addresses. Rehearsal addresses and historical predicted addresses are never frontend destinations. The [snapshot provenance](../../../docs/SNAPSHOT.md) explains exact source selection and bytecode reproduction.
+The frontend [manifest and ABIs](../frontend/margin-mainnet/manifest.json) use deployed proxy/call addresses. Rehearsal addresses and historical predicted addresses are never frontend destinations. The snapshot provenance explains exact source selection and bytecode reproduction.

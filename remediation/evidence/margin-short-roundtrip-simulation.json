@@ -1,0 +1,9 @@
+{
+  "chainId": 4663,
+  "stateBlock": 76590332,
+  "blockHash": "0xba096f104b6a0f9fd87ccc794317e0e577815dbfd31e61ea22937a0405c5d526",
+  "nativeBlock": 26090920,
+  "side": "short",
+  "exitCode": 0,
+  "scope": "Initial full script simulation at native EVM clock only. No signing/broadcast, no governance edits, no oracle or wallet overrides. Incompatible secondary RPC-height replay skipped."
+}

@@ -1,0 +1,14 @@
+Compiling 1 files with Solc 0.8.26
+Solc 0.8.26 finished in 6.33s
+Compiler run successful!
+
+Ran 6 tests for remediation/test/fork/LendingMainnet.t.sol:LendingMainnetForkTest
+[PASS] testLiveControllerBorrowValuationAndDollarApiCompatibility() (gas: 242587)
+[PASS] testLiveOldQuoteReproducesThenFixesDollarDebt() (gas: 192094)
+[PASS] testLiveStockDebtLiquidationUsesSixDecimalCollateral() (gas: 148858)
+[PASS] testReactivationRejectsOriginalVaultBeforeAnyUnpause() (gas: 836870)
+[PASS] testReactivationRejectsUnavailableGuardBeforeAnyUnpause() (gas: 5383427)
+[PASS] testReactivationWithSimulatedFreshMatchingPricesRestoresFlags() (gas: 5454221)
+Suite result: ok. 6 passed; 0 failed; 0 skipped; finished in 4.59s (11.50s CPU time)
+
+Ran 1 test suite in 4.61s (4.59s CPU time): 6 tests passed, 0 failed, 0 skipped (6 total tests)

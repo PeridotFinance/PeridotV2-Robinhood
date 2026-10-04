@@ -1,0 +1,23 @@
+{
+  "chainId": 4663,
+  "stateBlock": 76557388,
+  "blockHash": "0xccf7f81e23b1bb354d46c812771737d17847a6b0654bc1d0a4ffaff596819ce7",
+  "nativeEvmBlockNumber": 26090646,
+  "stage": "close",
+  "broadcast": false,
+  "secondaryReplaySkipped": true,
+  "stockSupplyRaw": "1000000000000000",
+  "dollarBorrowRaw": "50000",
+  "repaymentApprovalCapRaw": "51000"
+}
+No files changed, compilation skipped
+Script ran successfully.
+
+SKIPPING ON CHAIN SIMULATION.
+
+SIMULATION COMPLETE. To broadcast these transactions, add --broadcast and wallet configuration(s) to the previous command. See forge script --help for more.
+
+Transactions saved to: /Users/joshua/Peridot/RobinhoodVaults/PeridotV2-Robinhood/broadcast/LendingAcceptance.s.sol/4663/dry-run/repayAndRedeem-latest.json
+
+Sensitive values saved to: /Users/joshua/Peridot/RobinhoodVaults/PeridotV2-Robinhood/remediation/cache-vault-upgrade/LendingAcceptance.s.sol/4663/dry-run/repayAndRedeem-latest.json
+

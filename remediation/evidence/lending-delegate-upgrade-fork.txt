@@ -1,0 +1,51 @@
+No files changed, compilation skipped
+warning: invalid natspec tag '@member', custom tags must use format '@custom:name'
+    ╭▸ contracts/peridot-contracts-2-5/contracts/contracts/PTokenInterfaces.sol:112:5
+    │
+112 │ ┏     /**
+113 │ ┃      * @notice Container for borrow balance information
+114 │ ┃      * @member principal Total balance (with accrued interest), after applying the most recent balance-changing action
+115 │ ┃      * @member interestIndex Global borrowIndex as of the most recent balance-changing action
+116 │ ┃      */
+    ╰╴┗━━━━━━━┛
+
+
+Ran 2 tests for remediation/test/fork/LendingDelegateMintRouter.t.sol:LendingDelegateMintRouterForkTest
+[PASS] testRouterOnTheInstalledOriginalDelegate() (gas: 1269876)
+[PASS] testRouterWithTheCorrectedDelegateInstalled() (gas: 6826605)
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 13.23s (7.23s CPU time)
+
+Ran 11 tests for remediation/test/fork/LendingDelegateUpgradeMainnet.t.sol:LendingDelegateUpgradeMainnetForkTest
+[PASS] testBorrowAfterUpgradeUsesTheNewModuleAndCanBeRepaid() (gas: 14524932)
+[PASS] testBothMarketsReferenceTheCandidateModuleAfterUpgrade() (gas: 14026812)
+[PASS] testDeployAndInstallScriptsRejectMismatchUpgradeBothMarketsAndAreRepeatable() (gas: 36354907)
+Logs:
+  delegate 0x0C6F6962d80390F6104f80811a150e8233bd8FF1
+  module 0xbE99A699E81AB667C0Be517E6AAe4d92EA6C4557
+  runtime bytes 24572
+  0x0528316d15799703f9c86146ecaf14c98835e704cfd9eb0e82acf4a9ce8d11d8
+  Next: python3 remediation/tools/verify_lending_delegate_deployment.py --delegate <address>
+
+[PASS] testDroppedMinSharesSelectorIsNotExposedOnInstalledProxies() (gas: 14032071)
+[PASS] testExactUnderlyingRedeemBurnsRoundedUpShares() (gas: 14265142)
+[PASS] testLegacyMintStillWorksThroughBothInstalledProxiesAndRoundTrips() (gas: 14626732)
+[PASS] testShareDenominatedRedeemStillPaysTheRoundedDownValue() (gas: 14261004)
+[PASS] testSmallestUsdgUnitStillMintsSharesAfterUpgrade() (gas: 14252483)
+[PASS] testUpgradePreservesInstalledStorageAndViews() (gas: 14022133)
+[PASS] testUpgradePreservesOutstandingBorrowAndAllowsRepayment() (gas: 14576094)
+[PASS] testZeroShareNvdaMintIsRejectedAtomicallyAfterUpgrade() (gas: 14367977)
+Suite result: ok. 11 passed; 0 failed; 0 skipped; finished in 52.68s (43.15s CPU time)
+
+Ran 9 tests for remediation/test/fork/LendingDelegateMarginCompat.t.sol:LendingDelegateMarginCompatForkTest
+[PASS] testLongRoundTripWithCandidateInstalled() (gas: 10105234)
+[PASS] testLongSevereShockLiquidationWithCandidateInstalled() (gas: 12664301)
+[PASS] testPartialThenFullCloseBothDirections() (gas: 17906732)
+[PASS] testRepayWithPTokenRemainderMintsOnUsdgDebt() (gas: 9560680)
+[PASS] testRepayWithUnderlyingThenDebtFreeExit() (gas: 9202855)
+[PASS] testShortRepayWithPTokenNvdaDustRemainderRevertsBeforeAndAfter() (gas: 10926052)
+[PASS] testShortRoundTripWithCandidateInstalled() (gas: 10540070)
+[PASS] testShortSevereShockLiquidationWithCandidateInstalled() (gas: 12204059)
+[PASS] testZeroAmountMintNowRevertsAfterInstall() (gas: 5910774)
+Suite result: ok. 9 passed; 0 failed; 0 skipped; finished in 53.33s (166.33s CPU time)
+
+Ran 3 test suites in 53.36s (119.24s CPU time): 22 tests passed, 0 failed, 0 skipped (22 total tests)

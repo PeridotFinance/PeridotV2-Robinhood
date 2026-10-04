@@ -1,0 +1,16 @@
+anvil chain 4663 [local fork; no key; mainnet untouched]
+  router 0x0C6F6962d80390F6104f80811a150e8233bd8FF1
+  0x94667edb626b12fdefad115eafa323c4f407d80b675d253b9ce1865b6a78a189
+  Next: python3 remediation/tools/verify_lending_mint_router.py --router <address>
+ONCHAIN EXECUTION COMPLETE & SUCCESSFUL.
+verifier exit 0
+    "hasCode": true,
+    "marketAIsPNVDA": true,
+    "marketBIsPUSDG": true,
+    "runtimeMatchesCompiledWithImmutables": true,
+    "txIsCreationOfThisRouter": true,
+    "txCreationInputStartsWithCompiledCreationCode": true,
+    "txSucceeded": true
+  "allChecksPassed": true
+--- functional: mint 1e15 NVDA via router on the fork (impersonated holder, local only)
+pNVDA balance delta: 4999977  router residual shares: 0

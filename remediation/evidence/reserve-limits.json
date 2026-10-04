@@ -1,0 +1,24 @@
+{
+  "chainId": 4663,
+  "block": 74113271,
+  "blockHash": "0x09ea6926e67886b82bb0a6d8be2b66822bf6e2151f037efdd595908c98911ddc",
+  "timestamp": 1790529688,
+  "reserve": "0x806b182B050f7EcF908758dD6bBF91DB8B2212aF",
+  "pairId": "0xe2050352f4346597cc69d2776d99ae60c9440dfc28f9406ce66be0bbe3fb6b06",
+  "config": {
+    "stock": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
+    "usdg": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+    "maxUsePerCallUSD18": "10000000000000000000",
+    "dailyCapUSD18": "25000000000000000000",
+    "maxCoverageBps": 5000,
+    "paused": false,
+    "exists": true
+  },
+  "availableStockRaw": "183490408179855",
+  "availableUSDGRaw": "11",
+  "dailyUsage": {
+    "day": 20712,
+    "usedUSD18": "3524061514747287"
+  },
+  "scope": "Read-only current configuration and in-kind balances. Per-call cap is enforced on each cover() invocation; it is not an aggregate per-transaction guarantee."
+}

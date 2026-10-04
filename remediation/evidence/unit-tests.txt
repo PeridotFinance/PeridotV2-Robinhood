@@ -1,0 +1,128 @@
+Compiling 97 files with Solc 0.8.26
+Solc 0.8.26 finished in 23.51s
+Compiler run successful with warnings:
+Warning (8760): This declaration has the same name as another declaration.
+  --> contracts/peridot-contracts-2-5/contracts/contracts/BorrowAccountingModule.sol:67:13:
+   |
+67 |             uint256 balance = market.borrowBalanceStored(borrower);
+   |             ^^^^^^^^^^^^^^^
+Note: The other declaration is here:
+  --> contracts/peridot-contracts-2-5/contracts/contracts/BorrowAccountingModule.sol:35:5:
+   |
+35 |     function balance(uint256 shares, uint256 index) external pure returns (uint256) {
+   |     ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning (8760): This declaration has the same name as another declaration.
+  --> contracts/peridot-contracts-2-5/contracts/contracts/BorrowAccountingModule.sol:81:42:
+   |
+81 |     function setShares(address borrower, uint256 balance, uint256 previousClaim, uint256 repaidCash)
+   |                                          ^^^^^^^^^^^^^^^
+Note: The other declaration is here:
+  --> contracts/peridot-contracts-2-5/contracts/contracts/BorrowAccountingModule.sol:35:5:
+   |
+35 |     function balance(uint256 shares, uint256 index) external pure returns (uint256) {
+   |     ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning (3628): This contract has a payable fallback function, but no receive ether function. Consider adding a receive ether function.
+  --> contracts/peridot-contracts-2-5/contracts/contracts/Unitroller.sol:12:1:
+   |
+12 | contract Unitroller is UnitrollerAdminStorage, PeridottrollerErrorReporter {
+   | ^ (Relevant source part starts here and spans across multiple lines).
+Note: The payable fallback function is defined here.
+   --> contracts/peridot-contracts-2-5/contracts/contracts/Unitroller.sol:136:5:
+    |
+136 |     fallback() external payable {
+    |     ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning (2018): Function state mutability can be restricted to pure
+   --> contracts/peridot-contracts-2-5/contracts/contracts/Peridottroller.sol:361:5:
+    |
+361 |     function redeemVerify(address pToken, address redeemer, uint256 redeemAmount, uint256 redeemTokens)
+    |     ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning (2018): Function state mutability can be restricted to view
+   --> contracts/peridot-contracts-2-5/contracts/contracts/Peridottroller.sol:526:5:
+    |
+526 |     function liquidateBorrowAllowed(
+    |     ^ (Relevant source part starts here and spans across multiple lines).
+
+warning: invalid natspec tag '@member', custom tags must use format '@custom:name'
+    ╭▸ contracts/peridot-contracts-2-5/contracts/contracts/PTokenInterfaces.sol:112:5
+    │
+112 │ ┏     /**
+113 │ ┃      * @notice Container for borrow balance information
+114 │ ┃      * @member principal Total balance (with accrued interest), after applying the most recent balance-changing action
+115 │ ┃      * @member interestIndex Global borrowIndex as of the most recent balance-changing action
+116 │ ┃      */
+    ╰╴┗━━━━━━━┛
+
+
+Ran 8 tests for remediation/test/LendingPriceAdapter.t.sol:LendingPriceAdapterTest
+[PASS] testDollarCollateralSupportsStockBorrowAtCorrectLimit() (gas: 189651)
+[PASS] testFuzzCollateralAndDebtShareDollarUnits(uint64,uint64) (runs: 256, μ: 106737, ~: 107394)
+Logs:
+  Bound result 559713
+  Bound result 793054
+
+[PASS] testFuzzLiquidationDollarDebt(uint96) (runs: 256, μ: 40180, ~: 40016)
+Logs:
+  Bound result 15890
+
+[PASS] testLiquidationBothDirections() (gas: 49407)
+[PASS] testPriceApiScalesRemainDistinct() (gas: 31925)
+[PASS] testRejectsWrongDecimalsAndUnknownMarkets() (gas: 297979)
+[PASS] testReproducesUnsafeBorrowBeforeFix() (gas: 197478)
+[PASS] testZeroPriceFailsClosed() (gas: 64924)
+Suite result: ok. 8 passed; 0 failed; 0 skipped; finished in 58.31ms (90.68ms CPU time)
+
+Ran 43 tests for remediation/test/VaultRecovery.t.sol:VaultRecoveryTest
+[PASS] testAggregateUsdgCapFailsClosedAcrossDeposits() (gas: 172862)
+[PASS] testBoundedSettlementThenCheckpointRecoversAllSurplus() (gas: 757901)
+[PASS] testCheckpointSharesLossAtEqualPercentage() (gas: 466978)
+[PASS] testCheckpointUsesCheckedSignedPnlConversion() (gas: 475236)
+[PASS] testCompositionDoesNotWriteOffSolventClaimsWhenSwapsPaused() (gas: 631303)
+[PASS] testConfiguredPairValueCapStillFailsClosed() (gas: 177796)
+[PASS] testCurrentTimestampDeadlineIsAcceptedForLPWithdrawal() (gas: 573463)
+[PASS] testDepositsRemainSeparatelyAttributed() (gas: 266460)
+[PASS] testDeprecatedMinimumDeadlineSlotMustRemainZero() (gas: 36671)
+[PASS] testEmergencyDecreaseRecognizesLossBeforeIdleWithdrawal() (gas: 609037)
+[PASS] testExitsStillFailClosedBeyondTheRemovalBound() (gas: 465157)
+[PASS] testExitsToleratePoolDeviationThatBlocksAllocation() (gas: 529869)
+[PASS] testFeeOnTransferFromVaultToReserveRevertsWithoutLedgerDrift() (gas: 604420)
+[PASS] testFeeOnTransferToWithdrawalReceiverRevertsWithoutLedgerDrift() (gas: 245487)
+[PASS] testFeesAreSplitInKindBeforeClaimsIncrease() (gas: 689158)
+[PASS] testFuzzRebalanceNeverConsumesUnmatchedStock(uint96,uint64) (runs: 256, μ: 445153, ~: 445152)
+Logs:
+  Bound result 10000000000000003
+  Bound result 61977420833
+
+[PASS] testGuardianCanPauseButCannotUnpause() (gas: 48815)
+[PASS] testIdleWithdrawalDoesNotNeedOracle() (gas: 322513)
+[PASS] testIdleWithdrawalRecognizesSharedLossWhileLiquidityRemains() (gas: 515189)
+[PASS] testIdleWithdrawalWithOpenLiquidityFailsClosedOnOracleError() (gas: 473625)
+[PASS] testManipulatedGuardianExitFailsClosedWithoutEnteringEmergencyMode() (gas: 443799)
+[PASS] testManipulatedLPBackedWithdrawalFailsClosed() (gas: 439134)
+[PASS] testPartialEmergencyDecreaseBlocksIdleWithdrawalUntilFullyExited() (gas: 540406)
+[PASS] testRebalanceAutoPausesAllocationWhenExistingPairExceedsCap() (gas: 384476)
+[PASS] testRebalanceDeploysOnlyMatchedOracleValue() (gas: 458462)
+[PASS] testRegistrationRequiresRemovalToleranceToCoverHalfTheRemovalDeviation() (gas: 370822)
+[PASS] testRemovalToleranceCheckRoundsTheHalfUp() (gas: 371636)
+[PASS] testReserveReportCannotOvercreditObservedVaultBalance() (gas: 631624)
+[PASS] testSettlementSlippageCannotExceedFivePercent() (gas: 36359)
+[PASS] testSideAccountLookupSupportsBoostedPTokenValidation() (gas: 37067)
+[PASS] testSingleSidedPositionCanSettleUsingCounterPrincipal() (gas: 662543)
+[PASS] testSkewedPoolCannotManufactureLossAtCheckpoint() (gas: 513533)
+[PASS] testSkewedPoolCannotMaskRealLossAtCheckpoint() (gas: 524411)
+[PASS] testStaleCheckpointIsRefreshedInsideLPWithdrawal() (gas: 597194)
+[PASS] testUncheckpointedSurplusIsRecoverableButStillOracleGated() (gas: 695401)
+[PASS] testWithdrawableAssetsIsZeroInEmergencyModeWithOpenLiquidity() (gas: 454558)
+[PASS] testWithdrawableAssetsNeverExceedsRemainingPrincipal() (gas: 511477)
+[PASS] testWithdrawableAssetsRejectsUnsupportedToken() (gas: 258679)
+[PASS] testWithdrawableAssetsReportsIdleWhenNoLiquidityIsOpen() (gas: 284517)
+[PASS] testWithdrawableAssetsTracksOracleHealthWhileLiquidityIsOpen() (gas: 468508)
+[PASS] testWithdrawalReportsLossAppliedToRemainingClaim() (gas: 608794)
+[PASS] testWithdrawalUnwindsOnlyNeededSlice() (gas: 577578)
+[PASS] testZeroAggregateCapDisablesLimitAfterPrincipalExists() (gas: 182780)
+Suite result: ok. 43 passed; 0 failed; 0 skipped; finished in 58.35ms (56.89ms CPU time)
+
+Ran 2 test suites in 73.53ms (116.66ms CPU time): 51 tests passed, 0 failed, 0 skipped (51 total tests)

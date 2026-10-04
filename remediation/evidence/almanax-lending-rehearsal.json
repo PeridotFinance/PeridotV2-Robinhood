@@ -1,0 +1,12 @@
+{
+  "chainId": 4663,
+  "stateBlock": 77297967,
+  "blockHash": "0x0ab3fa8b022f7799cca266ed3ca0d479cc09fdb39ac0f2359b0522f4badb2cec",
+  "nativeBlock": 26096828,
+  "timestamp": 1790850001,
+  "exitCode": 0,
+  "canonicalAfterTests": true,
+  "testSha256": "489a91414b4bb974f79ae295be1317f83236e0770f40e66cb5ad7d4cc80eea40",
+  "logSha256": "bcd18cbd729f73ff6ad4c3d7ca1bbf53581917345a740dbcf156b879c494166f",
+  "scope": "Local fork of installed markets. Zero-price tests mock the oracle locally; mint tests use actual governor balances and installed code without funding or oracle overrides. Passing dust-mint test confirms a defect; it does not mean that defect is fixed. No signing or mainnet transactions."
+}

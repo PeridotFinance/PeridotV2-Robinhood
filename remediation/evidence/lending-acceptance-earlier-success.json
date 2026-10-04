@@ -1,0 +1,8 @@
+{
+  "chainId": 4663,
+  "stateBlock": 76020704,
+  "nativeEvmBlockNumber": 26086158,
+  "scope": "Full ten-transaction lending round-trip simulation only, before the subsequent stale-oracle result. No signing/broadcast, no live usage claim.",
+  "exitCode": 0,
+  "log": "lending-acceptance-earlier-success.txt"
+}

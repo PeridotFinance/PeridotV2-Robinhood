@@ -21,3 +21,12 @@ frontend/node_modules/
 frontend/.next/
 frontend/dist/
 .local/
+
+# Documentation stays local: only READMEs and the third-party license notice are published.
+*.md
+!README.md
+!**/README.md
+!THIRD_PARTY_NOTICES.md
+
+# Stray local terminal capture
+/ran

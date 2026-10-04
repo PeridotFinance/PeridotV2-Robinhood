@@ -1,0 +1,20 @@
+{
+  "remediation/src/RobinhoodLendingPriceAdapter.sol": "0587aecb04ebdfe99106fe30084702e59bf45ad55bc9eb7f23991d25ea2a04bd",
+  "remediation/script/InstallLendingPriceAdapter.s.sol": "8007302d6ae0547fc42bcecc860677e3d885a0efccc213d09738aa211aa8d843",
+  "remediation/script/ReactivateLending.s.sol": "d3fa7bbb7c10892cb72bf3ff319c2d84741a4c49467678b1d532ed9ecb2b978a",
+  "remediation/test/LendingPriceAdapter.t.sol": "7bb15c321f2bd4b63f12941f2c0e81c989691acb20ae37d474f373ba7aa9a073",
+  "remediation/test/VaultRecovery.t.sol": "78304813c9927f3aa075ee95a14c25915dc5474ad922ec454f26b33588327b0c",
+  "remediation/test/fork/LendingMainnet.t.sol": "f95466b51ada4d877ca872d7a7c37e1ea935786e3169e5c7e1c807c69df76eed",
+  "remediation/tools/contain.py": "3b6688f6812eb4aff43b85bb142eb45adc29480cc332f0e2a98b52aaaab2fdc0",
+  "remediation/tools/fork.py": "84bd8295144ada44c74f529e43b4ba7a1ed0c8c95d9134fa619bc60d57e7937d",
+  "remediation/tools/governance.py": "01065ed2f46d98245d77f76b185e0a0640490a4dd643bacc293c10135dc964f8",
+  "remediation/tools/record_install.py": "4d56afe48a13252e1747cb70862d0c09e0b720b6ed456f8b6efc36f8c565576c",
+  "remediation/tools/state.py": "87980d99d710e28123d0eb6642e898fc997dc58bbc110fe4e38bcadd05247ae3",
+  "remediation/tools/test_contain.py": "186c00f9fbbbf07b8bb4677b37843277868e590f529942fe712bd9fcd59a0b79",
+  "remediation/tools/test_verify_install.py": "4c7c714328c187dcbcd4861598013f97e501e8ea914c04b3a745b32d6c0f0af7",
+  "remediation/tools/vault_state.py": "f285562b8fd35f87bb0e1b34cf87fbb9bc84c79e98dd38520de4d275f8a847d4",
+  "remediation/tools/verify_artifact.py": "66a35198a9841242a17df7ebea119a4c17738ab8a7fdb6c316f0a91a1ee7bb7f",
+  "remediation/tools/verify_install.py": "38407bb9c2efdea04aca7edb9d869d8b78d30c3b5df4eca5b681c1f5989d843a",
+  "remediation/artifacts/RobinhoodLendingPriceAdapter.json": "159d6c2560a1dd84e2ede8b8c9a019c55a842d855fddf39942689643bae9f51f",
+  "remediation/artifacts/adapter-standard-input.json": "080de13421c3aee7847ac22cba2a5e08d4e668d6f7af4d9bc10ceab4f8033c95"
+}
