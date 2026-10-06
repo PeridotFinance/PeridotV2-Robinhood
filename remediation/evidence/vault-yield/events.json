@@ -61,5 +61,46 @@
     "pnlUSDG": -16788842094030,
     "stockAccounted": 10000089669040464,
     "usdgAccounted": 2000035
+  },
+  {
+    "event": "FeesProcessed",
+    "block": 81684587,
+    "timestamp": 1791295260,
+    "txHash": "0x42b181285e63cdefa323d601bb1105227beced442d1a823eaad83bbff0587139",
+    "stockFees": 0,
+    "usdgFees": 0,
+    "stockReserved": 0,
+    "usdgReserved": 0
+  },
+  {
+    "event": "PairCheckpoint",
+    "block": 81684587,
+    "timestamp": 1791295260,
+    "txHash": "0x42b181285e63cdefa323d601bb1105227beced442d1a823eaad83bbff0587139",
+    "stockAssets": 11458012994567666,
+    "usdgAssets": 2007104,
+    "benchmarkUSDG": 4790822189386126600,
+    "pnlUSDG": 0,
+    "stockAccounted": 11474644834520232,
+    "usdgAccounted": 2000035
+  },
+  {
+    "event": "FeesProcessed",
+    "block": 81684611,
+    "timestamp": 1791295262,
+    "txHash": "0xc50a62cc707895ec844633e07d065e8180c4dca4bd5388e0b1fbd56c67f8997a",
+    "stockFees": 0,
+    "usdgFees": 0,
+    "stockReserved": 0,
+    "usdgReserved": 0
+  },
+  {
+    "event": "LiquidityRebalanced",
+    "block": 81684611,
+    "timestamp": 1791295262,
+    "txHash": "0xc50a62cc707895ec844633e07d065e8180c4dca4bd5388e0b1fbd56c67f8997a",
+    "stockUsed": 8252440613692671,
+    "usdgUsed": 1999522,
+    "liquidityAdded": 128455941567
   }
 ]
