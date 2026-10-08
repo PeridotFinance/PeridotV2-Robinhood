@@ -1,7 +1,7 @@
 CONTRACTS := contracts/robinhood-vaults
 .PHONY: verify build test test-python reproduce fork-vault fork-margin frontend
 
-.PHONY: test-remediation fork-remediation
+.PHONY: test-remediation fork-remediation test-concentrated fork-concentrated
 test-remediation:
 	forge fmt --check remediation/src remediation/script remediation/test
 	forge test --no-match-path '*/fork/*' --match-contract 'LendingPriceAdapterTest|VaultRecoveryTest|VaultV2|RobinhoodBoostedVaultV2CompatibilityTest|VaultPostExitExposureTest'
@@ -10,6 +10,21 @@ test-remediation:
 	FOUNDRY_PROFILE=vault_upgrade forge build
 	python3 remediation/tools/verify_vault_artifact.py
 	python3 -m unittest discover -s remediation/tools -p 'test_*.py'
+	$(MAKE) test-concentrated
+
+# Concentrated-liquidity vault V3 (adapter V3, RangeLib, rollout script, keeper). Needs the vault_v3
+# profile: it links the existing SettlementLib. Fork suites are separate (fork-concentrated).
+test-concentrated:
+	forge fmt --check remediation/src remediation/script remediation/test
+	FOUNDRY_PROFILE=vault_v3 forge test --match-path remediation/test/RangeLibDeploy.t.sol
+	forge test --match-path 'remediation/test/VaultV3*.t.sol'
+	FOUNDRY_PROFILE=vault_v3 forge build --sizes --skip 'remediation/test/**' --skip 'remediation/script/**' --skip 'remediation/src/RobinhoodBoostedDelegateV2.sol'
+	python3 -m unittest discover -s remediation/tools -p 'test_range_keeper.py'
+
+# Mainnet-fork suites for the same package; need an archive-capable ROBINHOOD_RPC_URL and a pinned
+# block (REMEDIATION_FORK_BLOCK, and REMEDIATION_NATIVE_BLOCK = that header's l1BlockNumber).
+fork-concentrated:
+	FOUNDRY_PROFILE=vault_v3 forge test --match-path 'remediation/test/fork/ConcentratedLiquidity*.t.sol' --threads 1
 
 # Lending-delegate rounding candidate. Needs the dedicated profile: the candidate does not fit
 # EIP-170 under the default or lending_upgrade settings. See remediation/README.md.
