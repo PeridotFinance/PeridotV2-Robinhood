@@ -420,8 +420,12 @@ contract RobinhoodBoostedVaultV3 is
         }
         RangeLib.Ctx memory c = _ctx(pairId, stockPrice, usdgPrice, referenceSqrtPriceX96, deadline);
         uint256 cap = type(uint256).max;
-        if (_ranged(pairId)) cap = RangeLib.remainingCapPerSide(config, rangePolicy[pairId], c);
-        uint128 liquidityAdded = RangeLib.deploy(config, pairLedger, c, cap);
+        uint16 lossBps = 10_000; // full range: unchanged behaviour, no extra bound
+        if (_ranged(pairId)) {
+            cap = RangeLib.remainingCapPerSide(config, rangePolicy[pairId], c);
+            lossBps = rangePolicy[pairId].maxLossBps;
+        }
+        uint128 liquidityAdded = RangeLib.deploy(config, pairLedger, c, cap, lossBps, false);
         emit LiquidityRebalanced(pairId, 0, 0, liquidityAdded);
     }
 
@@ -466,7 +470,8 @@ contract RobinhoodBoostedVaultV3 is
     function clearRange(bytes32 pairId) external onlyRole(KEEPER_ROLE) nonReentrant {
         _config(pairId);
         IUniswapV4PairedAdapterV3(address(liquidityAdapter)).clearRange(pairId);
-        delete rangeState[pairId];
+        // Keep the recenter history: clearing must not reset the cooldown or the rolling budget.
+        rangeState[pairId].initialized = false;
     }
 
     /// @notice Re-centres the ranged position on the oracle price. The keeper only chooses
@@ -486,6 +491,12 @@ contract RobinhoodBoostedVaultV3 is
         // Settle everything that already happened at the oracle reference price first.
         (, uint256 stockPrice, uint256 usdgPrice, uint160 ref) =
             _checkpointPair(pairId, config, pairLedger, deadline);
+        if (_pairCapExceeded(config, pairLedger, stockPrice, usdgPrice)) {
+            // Same circuit breaker as rebalance: never put more capital to work above the cap.
+            config.allocationPaused = true;
+            emit PairPauseUpdated(pairId, true, config.swapsPaused, config.emergencyMode);
+            return;
+        }
         RangeLib.Result memory r = RangeLib.recenter(
             config,
             pairLedger,

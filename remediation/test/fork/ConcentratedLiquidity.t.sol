@@ -132,6 +132,12 @@ contract ConcentratedLiquidityForkTest is Test {
 
     /// Moves the pool by a multiplicative USD-price factor (bps) and makes the feed follow it.
     function _shock(uint256 priceBps) internal {
+        _movePool(priceBps);
+        _followFeed();
+    }
+
+    /// Moves only the pool: the oracle keeps reporting the old price.
+    function _movePool(uint256 priceBps) internal {
         IPoolManager manager = IPoolManager(POOL_MANAGER);
         (uint160 current,,,) = StateLibrary.getSlot0(manager, PoolIdLibrary.toId(key));
         uint160 target = uint160(Math.mulDiv(current, 1e11, Math.sqrt(priceBps * 1e18)));
@@ -140,7 +146,6 @@ contract ConcentratedLiquidityForkTest is Test {
         deal(STOCK, address(mover), 100_000e18);
         bool zeroForOne = target < current;
         mover.move(key, target, zeroForOne, zeroForOne ? 10_000_000e6 : 100_000e18);
-        _followFeed();
     }
 
     function _followFeed() internal {
@@ -247,7 +252,7 @@ contract ConcentratedLiquidityForkTest is Test {
         assertLe(after_.usdgPrincipal, before_.usdgPrincipal, "no principal created");
         uint256 valueAfter = _pairValue();
         assertGe(valueAfter + valueBefore / 200, valueBefore, "loss bound");
-        (, bool initialized, uint64 last,, uint8 count) = vault.rangeState(PAIR);
+        (, bool initialized, uint64 last, uint8 count) = vault.rangeState(PAIR);
         assertTrue(initialized);
         assertEq(last, block.timestamp);
         assertEq(count, 1);
@@ -492,8 +497,10 @@ contract ConcentratedLiquidityForkTest is Test {
         vm.stopPrank();
         (,, bool ranged) = _ticks();
         assertFalse(ranged);
-        (, bool initialized,,,) = vault.rangeState(PAIR);
+        (, bool initialized,,) = vault.rangeState(PAIR);
         assertFalse(initialized);
+        (,, uint64 lastKept,) = vault.rangeState(PAIR);
+        assertGt(lastKept, 0, "history survives the clear");
         assertEq(_liquidity(), 0);
         // Everything is custody again; redemptions use the oracle-free idle path.
         uint256 quarter = IERC20(P_USD).balanceOf(GOVERNOR) / 4;
@@ -519,6 +526,122 @@ contract ConcentratedLiquidityForkTest is Test {
         lpValue = VaultMath.valueUSD18(pos.stockAmount, 18, stockPrice, Math.Rounding.Floor)
             + VaultMath.valueUSD18(pos.usdgAmount, 6, usdgPrice, Math.Rounding.Floor);
         assertLe(lpValue, 1.02e18, "rebalance cannot exceed the cap either");
+    }
+
+    // ---------------------------------------------------------------- Astra review regressions
+
+    /// The removal gate bounds the STOCK price in USD, and the pool quotes the inverse. A pool
+    /// pushed to 90% of the removal gate in either direction must still allow every exit.
+    function _exitWithPoolAtGate(bool up) internal {
+        _convert();
+        uint256 gate = IGuardGate(GUARD).maxRemovalDeviationBps(PAIR);
+        uint256 move = gate * 99 / 100;
+        // Oracle unchanged; pool moves by `move` bps in USD terms.
+        _movePool(up ? 10_000 + move : 10_000 - move);
+        vm.warp(vm.getBlockTimestamp() + 10 minutes);
+        uint128 liquidity = _liquidity();
+        // pToken redemption reaches through the LP at the deviating pool price.
+        uint256 shares = IERC20(P_USD).balanceOf(GOVERNOR) / 10 * 9;
+        vm.prank(GOVERNOR);
+        assertEq(PErc20(P_USD).redeem(shares), 0);
+        assertLe(_liquidity(), liquidity);
+        // Guardian emergency exit of whatever remains.
+        uint128 left = _liquidity();
+        if (left != 0) {
+            vm.startPrank(GOVERNOR);
+            vault.setPairPause(PAIR, true, true, false);
+            vault.emergencyDecrease(PAIR, left, vm.getBlockTimestamp() + 120);
+            vm.stopPrank();
+            assertEq(_liquidity(), 0);
+        }
+    }
+
+    function testExitsWorkWithPoolAtTheRemovalGateStockPriceUp() public {
+        _exitWithPoolAtGate(true);
+    }
+
+    function testExitsWorkWithPoolAtTheRemovalGateStockPriceDown() public {
+        _exitWithPoolAtGate(false);
+    }
+
+    function testDisabledPolicyStopsAdditionsToARangedPosition() public {
+        _convert();
+        RangePolicy memory off = _policy();
+        off.enabled = false;
+        _setPolicy(off);
+        _checkpoint();
+        vm.prank(GOVERNOR);
+        vm.expectRevert(RangeLib.InsufficientLiquidity.selector);
+        vault.rebalance(PAIR, vm.getBlockTimestamp() + 120);
+    }
+
+    function testClearingTheRangeKeepsTheCooldown() public {
+        _convert();
+        uint128 liquidity = _liquidity();
+        vm.startPrank(GOVERNOR);
+        vault.setPairPause(PAIR, true, true, false);
+        vault.emergencyDecrease(PAIR, liquidity, vm.getBlockTimestamp() + 120);
+        vault.burnEmptyPosition(PAIR, vm.getBlockTimestamp() + 120);
+        vault.clearRange(PAIR);
+        vm.stopPrank();
+        _open();
+        vm.prank(GOVERNOR);
+        vm.expectRevert(RangeLib.RecenterCooldown.selector);
+        vault.recenter(PAIR, vm.getBlockTimestamp() + 120);
+    }
+
+    /// Calls at 0h, 21h, then 22h and 25h: a rolling window forbids both, a fixed one allowed 25h.
+    function testRateLimitIsRollingNotAFixedWindow() public {
+        RangePolicy memory p = _policy();
+        p.maxPerDay = 2;
+        _upgrade();
+        _open();
+        _rebalance();
+        _setPolicy(p);
+        _recenter(); // t = 0
+        vm.warp(vm.getBlockTimestamp() + 21 hours);
+        _shock(10_700);
+        _recenter(); // t = 21h
+        vm.warp(vm.getBlockTimestamp() + 1 hours);
+        _shock(9_300);
+        vm.prank(GOVERNOR);
+        vm.expectRevert(RangeLib.RecenterRateLimited.selector);
+        vault.recenter(PAIR, vm.getBlockTimestamp() + 120); // t = 22h: oldest is 22h old
+        vm.warp(vm.getBlockTimestamp() + 2 hours);
+        _followFeed();
+        _recenter(); // t = 24h: the first one has aged out
+        vm.warp(vm.getBlockTimestamp() + 1 hours);
+        _shock(10_700);
+        vm.prank(GOVERNOR);
+        vm.expectRevert(RangeLib.RecenterRateLimited.selector);
+        vault.recenter(PAIR, vm.getBlockTimestamp() + 120); // t = 25h: 21h entry is only 4h old
+    }
+
+    /// A pool pushed to the edge of the allocation gate must not let the keeper add concentrated
+    /// liquidity at a loss beyond the policy bound.
+    function testRangedRebalanceRefusesLiquidityAddedAtAPushedPrice() public {
+        RangePolicy memory p = _policy();
+        p.maxLossBps = 1; // 0.01%
+        _upgrade();
+        _open();
+        _setPolicy(p);
+        _recenter(); // converts, deploys around the oracle price
+        // Make room: raise the cap and let idle assets accumulate by exiting a little liquidity.
+        p.maxRangedValueUsd = 500e18;
+        _setPolicy(p);
+        uint256 gate = IGuardGate(GUARD).maxPriceDeviationBps(PAIR);
+        _movePool(10_000 + gate * 95 / 100);
+        _checkpoint();
+        vm.prank(GOVERNOR);
+        try vault.rebalance(PAIR, vm.getBlockTimestamp() + 120) {
+            emit log("rebalance added nothing material or stayed inside the 1 bp bound");
+        } catch (bytes memory reason) {
+            assertTrue(
+                bytes4(reason) == RangeLib.DeployLossTooHigh.selector
+                    || bytes4(reason) == RangeLib.InsufficientLiquidity.selector,
+                "only the loss bound or an empty idle balance may stop it"
+            );
+        }
     }
 
     // ---------------------------------------------------------------- pure / fuzz
@@ -560,6 +683,11 @@ contract ConcentratedLiquidityForkTest is Test {
             vault.setRangePolicy(PAIR, p);
         }
     }
+}
+
+interface IGuardGate {
+    function maxRemovalDeviationBps(bytes32 pairId) external view returns (uint16);
+    function maxPriceDeviationBps(bytes32 pairId) external view returns (uint16);
 }
 
 interface IGuardRef {

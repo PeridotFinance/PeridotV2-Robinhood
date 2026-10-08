@@ -15,7 +15,7 @@ struct RangePolicy {
 struct RangeState {
     int24 centerTick; // raw oracle tick at the last recenter
     bool initialized;
-    uint64 lastRecenter;
-    uint64 windowStart;
-    uint8 windowCount;
+    uint64 lastRecenter; // survives clearRange, so a clear cannot reset the cooldown
+    uint8 head; // next slot of `recent` to write
+    uint64[24] recent; // timestamps of the last 24 recenters (ring buffer, rolling window)
 }

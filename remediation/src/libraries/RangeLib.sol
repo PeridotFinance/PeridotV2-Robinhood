@@ -33,6 +33,7 @@ library RangeLib {
     error RecenterRateLimited();
     error RecenterLossTooHigh();
     error InsufficientLiquidity();
+    error DeployLossTooHigh();
     error BalanceDeltaMismatch();
 
     struct Ctx {
@@ -74,7 +75,9 @@ library RangeLib {
         PairConfig storage config,
         PairLedger storage pairLedger,
         Ctx memory c,
-        uint256 capPerSide
+        uint256 capPerSide,
+        uint16 maxLossBps,
+        bool allowEmpty
     ) public returns (uint128 liquidityAdded) {
         uint256 stockValue = VaultMath.valueUSD18(
             pairLedger.stockIdle, config.stockDecimals, c.stockPrice, Math.Rounding.Floor
@@ -83,7 +86,10 @@ library RangeLib {
             pairLedger.usdgIdle, config.usdgDecimals, c.usdgPrice, Math.Rounding.Floor
         );
         uint256 matched = Math.min(Math.min(stockValue, usdgValue), capPerSide);
-        if (matched == 0) revert InsufficientLiquidity();
+        if (matched == 0) {
+            if (allowEmpty) return 0;
+            revert InsufficientLiquidity();
+        }
         uint256 stockToPair = VaultMath.amountFromValueUSD18(
             matched, config.stockDecimals, c.stockPrice, Math.Rounding.Floor
         );
@@ -95,6 +101,8 @@ library RangeLib {
         IERC20 usdg = IERC20(config.usdg);
         uint256 stockBefore = stock.balanceOf(address(this));
         uint256 usdgBefore = usdg.balanceOf(address(this));
+        uint256 lpValueBefore;
+        if (maxLossBps < BPS) lpValueBefore = _lpValue(config, c);
         stock.forceApprove(address(c.adapter), stockToPair);
         usdg.forceApprove(address(c.adapter), usdgToPair);
         (uint256 stockUsed, uint256 usdgUsed, uint128 added) =
@@ -111,6 +119,20 @@ library RangeLib {
         pairLedger.stockIdle -= stockUsed;
         pairLedger.usdgIdle -= usdgUsed;
         liquidityAdded = added;
+        if (maxLossBps < BPS) {
+            // The pool price may sit anywhere inside the allocation gate, and concentration
+            // amplifies what a pushed price costs the new liquidity. Bound it at the oracle price.
+            uint256 usedValue = _value(config, stockUsed, usdgUsed, c);
+            uint256 gained = _lpValue(config, c) - lpValueBefore;
+            if (gained + Math.mulDiv(usedValue, maxLossBps, BPS) < usedValue) {
+                revert DeployLossTooHigh();
+            }
+        }
+    }
+
+    function _lpValue(PairConfig storage config, Ctx memory c) private view returns (uint256) {
+        IUniswapV4PairedAdapter.PositionState memory p = c.adapter.positionStateAt(c.pairId, c.ref);
+        return _value(config, p.stockAmount, p.usdgAmount, c);
     }
 
     /// @notice Room left under the ranged-position value cap, per side.
@@ -119,7 +141,9 @@ library RangeLib {
         RangePolicy storage policy,
         Ctx memory c
     ) external view returns (uint256) {
-        if (!policy.enabled) return type(uint256).max;
+        // A ranged position stays capped even once the policy is switched off: disabling stops
+        // additions instead of lifting the cap. Exiting and clearing the range is the way out.
+        if (!policy.enabled) return 0;
         IUniswapV4PairedAdapter.PositionState memory position =
             c.adapter.positionStateAt(c.pairId, c.ref);
         uint256 lpValue = VaultMath.valueUSD18(
@@ -155,7 +179,11 @@ library RangeLib {
         PoolKey memory key = c.adapter.poolKey(c.pairId);
         (r.newLower, r.newUpper) = newRange(r.centerTick, policy.halfWidthTicks, key.tickSpacing);
         adapter.setRange(c.pairId, r.newLower, r.newUpper);
-        r.liquidity = deploy(config, pairLedger, c, uint256(policy.maxRangedValueUsd) / 2);
+        // With a one-sided inventory (price left the range) there may be nothing to pair: finish
+        // the exit with the assets idle instead of reverting and trapping the position.
+        r.liquidity = deploy(
+            config, pairLedger, c, uint256(policy.maxRangedValueUsd) / 2, policy.maxLossBps, true
+        );
 
         (uint256 stockAfter, uint256 usdgAfter) = _assets(pairLedger, c);
         uint256 valueAfter = _value(config, stockAfter, usdgAfter, c);
@@ -188,23 +216,25 @@ library RangeLib {
         bool ranged,
         Result memory r
     ) private view {
-        if (!ranged || !state.initialized) return; // first conversion to a ranged position
-        if (block.timestamp < uint256(state.lastRecenter) + policy.minInterval) {
+        // The cooldown also guards the first conversion after a clear: history is kept.
+        if (state.lastRecenter != 0 && block.timestamp < uint256(state.lastRecenter) + policy.minInterval)
+        {
             revert RecenterCooldown();
         }
+        if (!ranged || !state.initialized) return; // first conversion to a ranged position
         int256 moved = int256(r.centerTick) - int256(state.centerTick);
         if (moved < 0) moved = -moved;
         bool outOfRange = r.centerTick <= r.oldLower || r.centerTick >= r.oldUpper;
         if (moved < int256(uint256(policy.triggerTicks)) && !outOfRange) revert RecenterNotNeeded();
     }
 
+    /// @dev Genuinely rolling: the `maxPerDay`-th most recent recenter must be a day old.
     function _consumeBudget(RangeState storage state, uint8 maxPerDay) private {
-        if (block.timestamp >= uint256(state.windowStart) + 1 days) {
-            state.windowStart = uint64(block.timestamp);
-            state.windowCount = 0;
-        }
-        if (state.windowCount >= maxPerDay) revert RecenterRateLimited();
-        state.windowCount += 1;
+        uint256 head = state.head;
+        uint64 anchor = state.recent[(head + 24 - maxPerDay) % 24];
+        if (anchor != 0 && block.timestamp < uint256(anchor) + 1 days) revert RecenterRateLimited();
+        state.recent[head] = uint64(block.timestamp);
+        state.head = uint8((head + 1) % 24);
     }
 
     function _removeAndBurn(PairConfig storage config, PairLedger storage pairLedger, Ctx memory c)

@@ -589,13 +589,27 @@ contract UniswapV4PairedAdapterV3 is
         }
         // Ranged: token amounts are monotonic in price (token0 falls, token1 rises), so the
         // lowest legitimate payout of each token over the allowed pool-price band sits at an
-        // endpoint. The band half-width is the largest removal deviation registration admits
-        // (tolerance >= deviation/2 + buffer  =>  deviation <= 2 * (tolerance - buffer)).
+        // endpoint. The gate bounds the STOCK price in USD to ref*(1 +/- d), with d the largest
+        // removal deviation registration admits (tolerance >= d/2 + buffer => d <= 2*(tol-buffer)).
+        // The pool's own price is stock/usdg when the stock is currency0 and its INVERSE otherwise,
+        // so the band in pool terms is [ref*(1-d), ref*(1+d)] or [ref/(1+d), ref/(1-d)].
         // A token whose minimum is legitimately zero at a boundary gets a zero floor.
         uint256 tolerance = pair.removalToleranceBps;
-        uint256 band = tolerance > REMOVAL_BUFFER_BPS ? 2 * (tolerance - REMOVAL_BUFFER_BPS) : 0;
-        uint160 sqrtHigh = _scaleSqrt(referenceSqrtPriceX96, BPS + band);
-        uint160 sqrtLow = band >= BPS ? TickMath.MIN_SQRT_PRICE : _scaleSqrt(referenceSqrtPriceX96, BPS - band);
+        uint256 d = tolerance > REMOVAL_BUFFER_BPS ? 2 * (tolerance - REMOVAL_BUFFER_BPS) : 0;
+        bool stockIs0 = Currency.unwrap(pair.key.currency0) == pair.stockToken;
+        uint160 sqrtHigh;
+        uint160 sqrtLow;
+        if (stockIs0) {
+            sqrtHigh = _scaleSqrt(referenceSqrtPriceX96, BPS + d, BPS);
+            sqrtLow = d >= BPS
+                ? TickMath.MIN_SQRT_PRICE
+                : _scaleSqrt(referenceSqrtPriceX96, BPS - d, BPS);
+        } else {
+            sqrtHigh = d >= BPS
+                ? TickMath.MAX_SQRT_PRICE - 1
+                : _scaleSqrt(referenceSqrtPriceX96, BPS, BPS - d);
+            sqrtLow = _scaleSqrt(referenceSqrtPriceX96, BPS, BPS + d);
+        }
         (uint256 high0,) = VaultMath.amountsForLiquidity(sqrtHigh, sqrtLower, sqrtUpper, liquidity);
         (, uint256 low1) = VaultMath.amountsForLiquidity(sqrtLow, sqrtLower, sqrtUpper, liquidity);
         uint256 keep = BPS - REMOVAL_BUFFER_BPS;
@@ -604,9 +618,13 @@ contract UniswapV4PairedAdapterV3 is
         );
     }
 
-    /// @dev `sqrtPrice * sqrt(factorBps / BPS)`, clamped to the valid sqrt-price interval.
-    function _scaleSqrt(uint160 sqrtPriceX96, uint256 factorBps) private pure returns (uint160) {
-        uint256 root = Math.sqrt(Math.mulDiv(factorBps, 1e36, BPS)); // sqrt(factor) at 1e18
+    /// @dev `sqrtPrice * sqrt(numerator / denominator)`, clamped to the valid sqrt-price interval.
+    function _scaleSqrt(uint160 sqrtPriceX96, uint256 numerator, uint256 denominator)
+        private
+        pure
+        returns (uint160)
+    {
+        uint256 root = Math.sqrt(Math.mulDiv(numerator, 1e36, denominator)); // sqrt(ratio) at 1e18
         uint256 scaled = Math.mulDiv(sqrtPriceX96, root, 1e18);
         if (scaled < TickMath.MIN_SQRT_PRICE) return TickMath.MIN_SQRT_PRICE;
         if (scaled >= TickMath.MAX_SQRT_PRICE) return TickMath.MAX_SQRT_PRICE - 1;
