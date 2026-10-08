@@ -622,9 +622,7 @@ contract UniswapV4PairedAdapterV3 is
         (uint256 high0,) = VaultMath.amountsForLiquidity(sqrtHigh, sqrtLower, sqrtUpper, liquidity);
         (, uint256 low1) = VaultMath.amountsForLiquidity(sqrtLow, sqrtLower, sqrtUpper, liquidity);
         uint256 keep = BPS - REMOVAL_BUFFER_BPS;
-        return (
-            Math.mulDiv(high0, keep, BPS).toUint128(), Math.mulDiv(low1, keep, BPS).toUint128()
-        );
+        return (Math.mulDiv(high0, keep, BPS).toUint128(), Math.mulDiv(low1, keep, BPS).toUint128());
     }
 
     /// @dev `sqrtPrice * sqrt(numerator / denominator)`, clamped to the valid sqrt-price interval.

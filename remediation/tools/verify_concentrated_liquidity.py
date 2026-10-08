@@ -44,10 +44,13 @@ def strip_metadata(code):
 
 
 def fill(artifact, libraries):
-    code = bytearray(bytes.fromhex(artifact['deployedBytecode']['object'].removeprefix('0x')))
+    """Compiled runtime with every library placeholder replaced by the given address."""
+    text = artifact['deployedBytecode']['object'].removeprefix('0x')
     for lib, start, length in link_refs(artifact):
-        code[start:start + length] = bytes.fromhex(libraries[lib].removeprefix('0x'))
-    return bytes(code)
+        address = libraries[lib].removeprefix('0x').lower()
+        assert len(address) == 2 * length
+        text = text[:2 * start] + address + text[2 * (start + length):]
+    return bytes.fromhex(text)
 
 
 def main():
@@ -73,9 +76,18 @@ def main():
     range_lib = cast('to-check-sum-address', '0x' + next(iter(found))) if found else None
     on_lib = chain(range_lib) if range_lib else b''
     expected_lib = bytes.fromhex(lib_art['deployedBytecode']['object'].removeprefix('0x'))
-    # A library's runtime starts with PUSH20 <its own address>; compare everything after it.
-    checks['rangeLibRuntimeMatches'] = len(on_lib) == len(expected_lib) and on_lib[21:] == expected_lib[21:] \
-        and on_lib[:1] == expected_lib[:1] and on_lib[1:21].hex() == range_lib[2:].lower()
+    # A library embeds its own address as an immutable (`library_deploy_address`): mask it and
+    # check it separately.
+    refs = lib_art['deployedBytecode'].get('immutableReferences', {}).get('library_deploy_address', [])
+    masked_chain, masked_expected = bytearray(on_lib), bytearray(expected_lib)
+    self_address_ok = bool(refs) and bool(range_lib)
+    for ref in refs:
+        start, length = ref['start'], ref['length']
+        word = bytes(on_lib[start:start + length])
+        self_address_ok = self_address_ok and word == bytes(length - 20) + bytes.fromhex(range_lib[2:])
+        masked_chain[start:start + length] = bytes(length)
+        masked_expected[start:start + length] = bytes(length)
+    checks['rangeLibRuntimeMatches'] = self_address_ok and bytes(masked_chain) == bytes(masked_expected)
     libs = {'SettlementLib': SETTLEMENT_LIB, 'RangeLib': range_lib or '0x' + '00' * 20}
     expected_vault = fill(vault_art, libs)
     expected_adapter = fill(adapter_art, {})

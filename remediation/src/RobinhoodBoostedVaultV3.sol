@@ -534,7 +534,7 @@ contract RobinhoodBoostedVaultV3 is
             emit PairPauseUpdated(pairId, true, config.swapsPaused, config.emergencyMode);
             return;
         }
-        RangeLib.Result memory r = RangeLib.recenter(
+        RangeLib.recenter(
             config,
             pairLedger,
             rangePolicy[pairId],
@@ -543,9 +543,7 @@ contract RobinhoodBoostedVaultV3 is
         );
         // Book the recenter's own bounded execution loss at the same oracle reference.
         _checkpointPair(pairId, config, pairLedger, deadline);
-        emit Recentered(
-            pairId, r.oldLower, r.oldUpper, r.newLower, r.newUpper, r.liquidity, r.centerTick
-        );
+        // `Recentered` is emitted by RangeLib (same topic, from the vault address) to save bytecode.
     }
 
     function collectFees(bytes32 pairId, uint256 deadline)
@@ -796,9 +794,16 @@ contract RobinhoodBoostedVaultV3 is
 
         uint256 shortfall = requested - idle;
         uint256 targetInPosition = stockSide ? position.stockAmount : position.usdgAmount;
-        // Nothing of the requested token is in the position (a one-sided range, or dust): there
-        // is nothing to unwind for it, and removing everything would only churn the position.
-        if (targetInPosition == 0) return;
+        if (targetInPosition == 0) {
+            // None of the requested token is in the position (a one-sided range, or a position
+            // that migrated into the other token). With settlement swaps paused nothing can turn
+            // the counter token into it, so removing liquidity would only churn the position.
+            if (config.swapsPaused) return;
+            // With swaps enabled the counter token is exactly what the bounded swap converts:
+            // free the whole position (V2 behaviour) so the settlement has inventory.
+            targetInPosition = 1;
+            shortfall = 1;
+        }
         uint256 targetAmount =
             Math.mulDiv(shortfall, BPS + config.withdrawOverUnwindBps, BPS, Math.Rounding.Ceil);
         uint256 liquidityRaw = Math.mulDiv(

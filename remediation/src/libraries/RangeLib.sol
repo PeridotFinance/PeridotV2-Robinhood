@@ -27,6 +27,16 @@ library RangeLib {
     uint32 internal constant MAX_RECENTER_INTERVAL = 7 days;
     uint16 internal constant MAX_RECENTER_LOSS_BPS = 100;
 
+    event Recentered(
+        bytes32 indexed pairId,
+        int24 oldLower,
+        int24 oldUpper,
+        int24 newLower,
+        int24 newUpper,
+        uint128 liquidity,
+        int24 centerTick
+    );
+
     error InvalidRangePolicy();
     error RecenterNotNeeded();
     error RecenterCooldown();
@@ -197,7 +207,8 @@ library RangeLib {
             c.adapter.positionStateAt(c.pairId, c.ref);
         uint256 lpValue = VaultMath.valueUSD18(
             position.stockAmount, config.stockDecimals, c.stockPrice, Math.Rounding.Floor
-        ) + VaultMath.valueUSD18(
+        )
+        + VaultMath.valueUSD18(
             position.usdgAmount, config.usdgDecimals, c.usdgPrice, Math.Rounding.Floor
         );
         uint256 total = policy.maxRangedValueUsd;
@@ -244,6 +255,9 @@ library RangeLib {
         state.centerTick = r.centerTick;
         state.initialized = true;
         state.lastRecenter = uint64(block.timestamp);
+        emit Recentered(
+            c.pairId, r.oldLower, r.oldUpper, r.newLower, r.newUpper, r.liquidity, r.centerTick
+        );
     }
 
     /// @notice Aligned range of exactly `2 * half + spacing` ticks that contains `centerTick`.
@@ -266,22 +280,28 @@ library RangeLib {
         Result memory r
     ) private view {
         // The cooldown also guards the first conversion after a clear: history is kept.
-        if (state.lastRecenter != 0 && block.timestamp < uint256(state.lastRecenter) + policy.minInterval)
-        {
+        if (
+            state.lastRecenter != 0
+                && block.timestamp < uint256(state.lastRecenter) + policy.minInterval
+        ) {
             revert RecenterCooldown();
         }
         if (!ranged || !state.initialized) return; // first conversion to a ranged position
         int256 moved = int256(r.centerTick) - int256(state.centerTick);
         if (moved < 0) moved = -moved;
         bool outOfRange = r.centerTick <= r.oldLower || r.centerTick >= r.oldUpper;
-        if (moved < int256(uint256(policy.triggerTicks)) && !outOfRange) revert RecenterNotNeeded();
+        if (moved < int256(uint256(policy.triggerTicks)) && !outOfRange) {
+            revert RecenterNotNeeded();
+        }
     }
 
     /// @dev Genuinely rolling: the `maxPerDay`-th most recent recenter must be a day old.
     function _consumeBudget(RangeState storage state, uint8 maxPerDay) private {
         uint256 head = state.head;
         uint64 anchor = state.recent[(head + 24 - maxPerDay) % 24];
-        if (anchor != 0 && block.timestamp < uint256(anchor) + 1 days) revert RecenterRateLimited();
+        if (anchor != 0 && block.timestamp < uint256(anchor) + 1 days) {
+            revert RecenterRateLimited();
+        }
         state.recent[head] = uint64(block.timestamp);
         state.head = uint8((head + 1) % 24);
     }
@@ -329,12 +349,14 @@ library RangeLib {
         usdgAssets = pairLedger.usdgIdle + position.usdgAmount;
     }
 
-    function _value(PairConfig storage config, uint256 stockAmount, uint256 usdgAmount, Ctx memory c)
-        private
-        view
-        returns (uint256)
-    {
-        return VaultMath.valueUSD18(stockAmount, config.stockDecimals, c.stockPrice, Math.Rounding.Floor)
-            + VaultMath.valueUSD18(usdgAmount, config.usdgDecimals, c.usdgPrice, Math.Rounding.Floor);
+    function _value(
+        PairConfig storage config,
+        uint256 stockAmount,
+        uint256 usdgAmount,
+        Ctx memory c
+    ) private view returns (uint256) {
+        return VaultMath.valueUSD18(
+            stockAmount, config.stockDecimals, c.stockPrice, Math.Rounding.Floor
+        ) + VaultMath.valueUSD18(usdgAmount, config.usdgDecimals, c.usdgPrice, Math.Rounding.Floor);
     }
 }

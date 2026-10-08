@@ -122,10 +122,40 @@ contract ConcentratedLiquidityRolloutForkTest is Test {
         uint256 paid =
             IERC20(0x5fc5360D0400a0Fd4f2af552ADD042D716F1d168).balanceOf(GOVERNOR) - before_;
         assertGe(paid, expected * 999 / 1000);
-        assertEq(address(uint160(uint256(vm.load(VAULT, bytes32(uint256(
-            0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc)))))), vaultImpl);
-        assertEq(address(uint160(uint256(vm.load(ADAPTER, bytes32(uint256(
-            0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc)))))), adapterImpl);
+        assertEq(
+            address(
+                uint160(
+                    uint256(
+                        vm.load(
+                            VAULT,
+                            bytes32(
+                                uint256(
+                                    0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc
+                                )
+                            )
+                        )
+                    )
+                )
+            ),
+            vaultImpl
+        );
+        assertEq(
+            address(
+                uint160(
+                    uint256(
+                        vm.load(
+                            ADAPTER,
+                            bytes32(
+                                uint256(
+                                    0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc
+                                )
+                            )
+                        )
+                    )
+                )
+            ),
+            adapterImpl
+        );
     }
 
     function _assertRateNotWorse(uint256 after_, uint256 before_) internal pure {

@@ -20,6 +20,7 @@ import time
 from pathlib import Path
 
 RPC = 'https://rpc.mainnet.chain.robinhood.com'
+UNLOCKED = False  # local rehearsal only (anvil with impersonation)
 VAULT = '0x280825b2d856706Ff7E0d6351CcB2e935E1a9A2f'
 ADAPTER = '0xadA73211711e4790bc83B5d6B39f47fE04D276f3'
 GOVERNOR = '0x94696d767e65a75581145646960FA0eC886cE5d2'
@@ -44,6 +45,7 @@ REASONS = {
     'PriceDeviation(uint256,uint256)': True,
     'InsufficientLiquidity()': True,
     'InvalidConfiguration()': False,
+    'InvalidDeadline()': False,
 }
 
 
@@ -88,8 +90,13 @@ def _status():
     return {'upgraded': True, 'ticks': lower_upper_ranged, 'rangeState': state, 'pairConfigHex': cfg.strip()[:20] + '...'}
 
 
+def chain_deadline():
+    """Deadlines are measured against the chain's clock, not this machine's."""
+    return int(cast('block', 'latest', '--field', 'timestamp').stdout.strip()) + DEADLINE_SECONDS
+
+
 def simulate():
-    deadline = int(time.time()) + DEADLINE_SECONDS
+    deadline = chain_deadline()
     result = cast('call', VAULT, 'recenter(bytes32,uint256)', PAIR, str(deadline),
                   '--from', GOVERNOR, '--gas-limit', str(GAS_LIMIT), check=False)
     if result.returncode == 0:
@@ -111,9 +118,10 @@ def journal(entry):
 
 
 def send():
-    deadline = int(time.time()) + DEADLINE_SECONDS
+    deadline = chain_deadline()
+    signer = ['--unlocked'] if UNLOCKED else ['--account', ACCOUNT]
     result = cast('send', VAULT, 'recenter(bytes32,uint256)', PAIR, str(deadline),
-                  '--account', ACCOUNT, '--from', GOVERNOR, '--gas-limit', str(GAS_LIMIT),
+                  *signer, '--from', GOVERNOR, '--gas-limit', str(GAS_LIMIT),
                   '--json', check=False)
     return result
 
@@ -150,7 +158,19 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('--execute', action='store_true', help='send recenter when due (prompts for the keystore password)')
     parser.add_argument('--watch', type=int, default=0, metavar='SECONDS', help='repeat every N seconds')
+    parser.add_argument('--max-gas-price-wei', type=int, default=None, help='override the gas price cap (default 0.1 gwei)')
+    parser.add_argument('--rpc', default=None, help='override the RPC (local rehearsal)')
+    parser.add_argument('--unlocked', action='store_true', help='send from an impersonated account; localhost only')
     args = parser.parse_args()
+    global RPC, UNLOCKED, MAX_GAS_PRICE_WEI
+    if args.max_gas_price_wei:
+        MAX_GAS_PRICE_WEI = args.max_gas_price_wei
+    if args.rpc:
+        RPC = args.rpc
+    if args.unlocked:
+        if not RPC.startswith(('http://127.0.0.1', 'http://localhost')):
+            raise SystemExit('--unlocked is for a local rehearsal node only')
+        UNLOCKED = True
     if int(cast('chain-id').stdout) != 4663:
         raise SystemExit('wrong chain')
     current = status()

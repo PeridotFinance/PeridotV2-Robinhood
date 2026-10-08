@@ -121,7 +121,8 @@ contract RangeLibDeployTest is Test {
 
     function testDeploysMatchedValueAndBooksUsage() public {
         _fund(1e18, 200e6); // $100 of NVDA, $200 of USDG: the NVDA side limits
-        (uint128 liq, uint256 s, uint256 u) = harness.run(address(adapter), type(uint256).max, 10_000, false);
+        (uint128 liq, uint256 s, uint256 u) =
+            harness.run(address(adapter), type(uint256).max, 10_000, false);
         assertEq(liq, 1);
         assertEq(s, 1e18);
         assertEq(u, 100e6);
@@ -141,7 +142,8 @@ contract RangeLibDeployTest is Test {
     /// 1 wei of NVDA is worth 100 USD18 units but rounds to zero USDG: dust must not trap an exit.
     function testDustFinishesIdleOnlyWhenAllowed() public {
         _fund(1, 200e6);
-        (uint128 liq, uint256 s, uint256 u) = harness.run(address(adapter), type(uint256).max, 10_000, true);
+        (uint128 liq, uint256 s, uint256 u) =
+            harness.run(address(adapter), type(uint256).max, 10_000, true);
         assertEq(liq + s + u, 0);
         (uint256 si, uint256 ui) = harness.idle();
         assertEq(si, 1);
@@ -201,7 +203,9 @@ contract RangeLibDeployTest is Test {
         uint256 usdgIdle = bound(u, 0, 100_000e6);
         _fund(stockIdle, usdgIdle);
         uint256 capValue = bound(cap, 1, 1_000_000e18);
-        try harness.run(address(adapter), capValue, 10_000, true) returns (uint128, uint256 su, uint256 uu) {
+        try harness.run(address(adapter), capValue, 10_000, true) returns (
+            uint128, uint256 su, uint256 uu
+        ) {
             (uint256 si, uint256 ui) = harness.idle();
             assertEq(si, stockIdle - su);
             assertEq(ui, usdgIdle - uu);

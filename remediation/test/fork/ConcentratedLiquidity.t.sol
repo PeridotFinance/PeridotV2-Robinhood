@@ -84,9 +84,8 @@ contract ConcentratedLiquidityForkTest is Test {
         address adapterImpl = address(new UniswapV4PairedAdapterV3());
         address vaultImpl = address(new RobinhoodBoostedVaultV3());
         vm.startPrank(TIMELOCK);
-        ProxyAdmin(ADAPTER_ADMIN).upgradeAndCall(
-            ITransparentUpgradeableProxy(ADAPTER), adapterImpl, ""
-        );
+        ProxyAdmin(ADAPTER_ADMIN)
+            .upgradeAndCall(ITransparentUpgradeableProxy(ADAPTER), adapterImpl, "");
         ProxyAdmin(VAULT_ADMIN).upgradeAndCall(ITransparentUpgradeableProxy(VAULT), vaultImpl, "");
         vm.stopPrank();
         assertEq(address(uint160(uint256(vm.load(VAULT, IMPLEMENTATION_SLOT)))), vaultImpl);
@@ -164,8 +163,9 @@ contract ConcentratedLiquidityForkTest is Test {
         PairLedger memory l = vault.ledger(PAIR);
         (,, uint160 ref) = _reference();
         IUniswapV4PairedAdapter.PositionState memory p = adapter.positionStateAt(PAIR, ref);
-        return VaultMath.valueUSD18(l.stockIdle + p.stockAmount, 18, stockPrice, Math.Rounding.Floor)
-            + VaultMath.valueUSD18(l.usdgIdle + p.usdgAmount, 6, usdgPrice, Math.Rounding.Floor);
+        return VaultMath.valueUSD18(
+            l.stockIdle + p.stockAmount, 18, stockPrice, Math.Rounding.Floor
+        ) + VaultMath.valueUSD18(l.usdgIdle + p.usdgAmount, 6, usdgPrice, Math.Rounding.Floor);
     }
 
     function _reference() internal view returns (uint256, uint256, uint160) {
@@ -200,7 +200,11 @@ contract ConcentratedLiquidityForkTest is Test {
         assertEq(ProxyAdmin(ADAPTER_ADMIN).owner(), TIMELOCK);
     }
 
-    function adapter_positionState() internal view returns (IUniswapV4PairedAdapter.PositionState memory) {
+    function adapter_positionState()
+        internal
+        view
+        returns (IUniswapV4PairedAdapter.PositionState memory)
+    {
         return adapter.positionState(PAIR);
     }
 
@@ -732,17 +736,15 @@ contract ConcentratedLiquidityForkTest is Test {
             p.maxLossBps = bounds[i];
             _setPolicy(p);
             vm.prank(GOVERNOR);
-            (bool ok, bytes memory why) = address(vault).call(
-                abi.encodeCall(vault.recenter, (PAIR, vm.getBlockTimestamp() + 120))
-            );
+            (bool ok, bytes memory why) = address(vault)
+                .call(abi.encodeCall(vault.recenter, (PAIR, vm.getBlockTimestamp() + 120)));
             bool second;
             if (ok) {
                 vm.warp(vm.getBlockTimestamp() + 1 hours);
                 _shock(10_400);
                 vm.prank(GOVERNOR);
-                (second,) = address(vault).call(
-                    abi.encodeCall(vault.recenter, (PAIR, vm.getBlockTimestamp() + 120))
-                );
+                (second,) = address(vault)
+                    .call(abi.encodeCall(vault.recenter, (PAIR, vm.getBlockTimestamp() + 120)));
             }
             emit log_named_uint("maxLossBps", bounds[i]);
             emit log_named_string("conversion", ok ? "ok" : "reverted");
@@ -755,10 +757,11 @@ contract ConcentratedLiquidityForkTest is Test {
 
     // ---------------------------------------------------------------- pure / fuzz
 
-    function testFuzzNewRangeContainsCenterAndIsAligned(int24 center, uint16 half, int24 spacingSeed)
-        public
-        pure
-    {
+    function testFuzzNewRangeContainsCenterAndIsAligned(
+        int24 center,
+        uint16 half,
+        int24 spacingSeed
+    ) public pure {
         int24 spacing = int24(int256(bound(int256(spacingSeed), 1, 200)));
         half = uint16(bound(half, 600, 4800));
         half = uint16(uint256(half) / uint24(spacing) * uint24(spacing));
