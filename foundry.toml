@@ -39,6 +39,14 @@ out = "remediation/out-vault-upgrade"
 cache_path = "remediation/cache-vault-upgrade"
 libraries = ["contracts/robinhood-vaults/src/libraries/SettlementLib.sol:SettlementLib:0x813AbFeC0DE50f8674798CbaB72Ed7b5D8CcB9cB"]
 
+# Candidate build for the concentrated-liquidity vault and adapter: same linked SettlementLib as
+# vault_upgrade, size-focused optimizer so the vault stays under EIP-170.
+[profile.vault_v3]
+out = "remediation/out-vault-v3"
+cache_path = "remediation/cache-vault-v3"
+optimizer_runs = 1
+libraries = ["contracts/robinhood-vaults/src/libraries/SettlementLib.sol:SettlementLib:0x813AbFeC0DE50f8674798CbaB72Ed7b5D8CcB9cB"]
+
 # Match the captured lending deployment's size-focused optimizer setting.
 # Candidate tooling independently enforces the EIP-170 runtime limit.
 [profile.lending_upgrade]
