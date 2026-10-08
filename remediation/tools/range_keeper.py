@@ -46,6 +46,7 @@ REASONS = {
     'InsufficientLiquidity()': True,
     'InvalidConfiguration()': False,
     'InvalidDeadline()': False,
+    'CheckpointStale()': False,
 }
 
 
@@ -95,9 +96,10 @@ def chain_deadline():
     return int(cast('block', 'latest', '--field', 'timestamp').stdout.strip()) + DEADLINE_SECONDS
 
 
-def simulate():
+def simulate(fn='recenter'):
+    """Simulates `fn(bytes32,uint256)` exactly as the keeper would send it."""
     deadline = chain_deadline()
-    result = cast('call', VAULT, 'recenter(bytes32,uint256)', PAIR, str(deadline),
+    result = cast('call', VAULT, fn + '(bytes32,uint256)', PAIR, str(deadline),
                   '--from', GOVERNOR, '--gas-limit', str(GAS_LIMIT), check=False)
     if result.returncode == 0:
         return 'due', False, ''
@@ -117,13 +119,72 @@ def journal(entry):
     JOURNAL.write_text(json.dumps(entries, indent=2) + '\n')
 
 
-def send():
+def send(fn='recenter'):
     deadline = chain_deadline()
     signer = ['--unlocked'] if UNLOCKED else ['--account', ACCOUNT]
-    result = cast('send', VAULT, 'recenter(bytes32,uint256)', PAIR, str(deadline),
-                  *signer, '--from', GOVERNOR, '--gas-limit', str(GAS_LIMIT),
-                  '--json', check=False)
-    return result
+    return cast('send', VAULT, fn + '(bytes32,uint256)', PAIR, str(deadline),
+                *signer, '--from', GOVERNOR, '--gas-limit', str(GAS_LIMIT),
+                '--json', check=False)
+
+
+def last_sent(fn):
+    if not JOURNAL.exists():
+        return 0
+    entries = [e for e in json.loads(JOURNAL.read_text()) if e.get('function') == fn and e.get('action') == 'sent']
+    return max((e['time'] for e in entries), default=0)
+
+
+REBALANCE_MIN_INTERVAL = 3600
+
+
+def maybe_rebalance(execute):
+    """Idle assets (new deposits, an idle-exit recenter) are deployed by `rebalance`, which needs a
+    checkpoint no older than the vault's maxCheckpointAge. Only acts when the real call succeeds."""
+    outcome, waiting, detail = simulate('rebalance')
+    info = {'time': int(time.time()), 'rebalance': outcome}
+    if outcome == 'CheckpointStale':
+        outcome, waiting, detail = simulate('checkpoint')
+        if outcome != 'due':
+            info.update(action='wait' if waiting else 'ATTENTION', detail=detail, step='checkpoint')
+            print(json.dumps(info))
+            return 0 if waiting else 2
+        if not execute:
+            info['action'] = 'checkpoint then rebalance would run; rerun with --execute'
+            print(json.dumps(info))
+            return 0
+        if time.time() - last_sent('rebalance') < REBALANCE_MIN_INTERVAL:
+            info['action'] = 'wait (rebalance sent less than an hour ago)'
+            print(json.dumps(info))
+            return 0
+        sent = send('checkpoint')
+        journal({'time': int(time.time()), 'function': 'checkpoint', 'action': 'sent' if sent.returncode == 0 else 'SEND FAILED',
+                 'output': (sent.stdout or sent.stderr).strip()[:600]})
+        if sent.returncode:
+            info['action'] = 'SEND FAILED (checkpoint)'
+            print(json.dumps(info))
+            return 3
+        outcome, waiting, detail = simulate('rebalance')
+    if outcome != 'due':
+        info.update(action='wait' if waiting else 'ATTENTION', detail=detail)
+        print(json.dumps(info))
+        return 0 if waiting else 2
+    ok, price = gas_price_ok()
+    if not ok:
+        info['action'] = 'wait (gas price above cap)'
+    elif not execute:
+        info['action'] = 'rebalance is due; rerun with --execute to send'
+    elif time.time() - last_sent('rebalance') < REBALANCE_MIN_INTERVAL:
+        info['action'] = 'wait (rebalance sent less than an hour ago)'
+    else:
+        sent = send('rebalance')
+        info['action'] = 'sent' if sent.returncode == 0 else 'SEND FAILED'
+        info['function'] = 'rebalance'
+        info['output'] = (sent.stdout or sent.stderr).strip()[:600]
+        journal(dict(info))
+        print(json.dumps(info))
+        return 0 if sent.returncode == 0 else 3
+    print(json.dumps(info))
+    return 0
 
 
 def step(execute):
@@ -135,7 +196,9 @@ def step(execute):
         info['action'] = 'wait' if waiting else 'ATTENTION'
         info['detail'] = detail
         print(json.dumps(info))
-        return 0 if waiting else 2
+        if not waiting:
+            return 2
+        return maybe_rebalance(execute)
     ok, price = gas_price_ok()
     info['gasPriceWei'] = price
     if not ok:
@@ -148,6 +211,7 @@ def step(execute):
         return 0
     result = send()
     info['action'] = 'sent' if result.returncode == 0 else 'SEND FAILED'
+    info['function'] = 'recenter'
     info['output'] = (result.stdout or result.stderr).strip()[:600]
     journal(info)
     print(json.dumps(info))

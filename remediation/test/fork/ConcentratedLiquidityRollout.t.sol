@@ -87,7 +87,7 @@ contract ConcentratedLiquidityRolloutForkTest is Test {
         (,, bool rangedBefore) = adapter.positionTicks(PAIR);
         assertFalse(rangedBefore);
         assertEq(adapter.positionState(PAIR).liquidity, fullRangeLiquidity);
-        vm.expectRevert("TIMELOCK_NOT_READY"); // an executed operation cannot run twice
+        vm.expectRevert("VAULT_IMPLEMENTATION_CHANGED"); // an executed operation cannot run twice
         upgrade.run();
 
         // First keeper action converts the live full-range position.

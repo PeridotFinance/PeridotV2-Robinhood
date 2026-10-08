@@ -9,11 +9,15 @@ import { IStockOracleGuard } from "baseline/src/interfaces/IStockOracleGuard.sol
 import { PairConfig, PairLedger } from "baseline/src/libraries/VaultTypes.sol";
 import { RangeLib } from "../src/libraries/RangeLib.sol";
 
+error InsufficientLiquidity();
+error OtherFailure();
+
 /// @dev Adapter double with knobs for the behaviours RangeLib.deploy has to survive.
 contract AdapterDouble {
     MockERC20 public stock;
     MockERC20 public usdg;
     bool public refuse; // revert like the real adapter does for unusable amounts
+    bool public refuseOther; // an unrelated failure
     uint256 public reportUsedStock; // 0 = honest
     uint256 public lpStock; // what positionStateAt reports
     uint256 public lpUsdg;
@@ -28,6 +32,10 @@ contract AdapterDouble {
         refuse = v;
     }
 
+    function setRefuseOther(bool v) external {
+        refuseOther = v;
+    }
+
     function setLie(uint256 v) external {
         reportUsedStock = v;
     }
@@ -40,7 +48,8 @@ contract AdapterDouble {
         external
         returns (uint256, uint256, uint128)
     {
-        if (refuse || s == 0 || u == 0) revert("ADAPTER_REFUSES");
+        if (refuseOther) revert OtherFailure();
+        if (refuse || s == 0 || u == 0) revert InsufficientLiquidity();
         stock.transferFrom(msg.sender, address(this), s);
         usdg.transferFrom(msg.sender, address(this), u);
         lpStock += s * (10_000 - valueHaircutBps) / 10_000;
@@ -148,7 +157,7 @@ contract RangeLibDeployTest is Test {
         (uint256 si, uint256 ui) = harness.idle();
         assertEq(si, 1);
         assertEq(ui, 200e6);
-        vm.expectRevert(bytes("ADAPTER_REFUSES"));
+        vm.expectRevert(InsufficientLiquidity.selector);
         harness.run(address(adapter), type(uint256).max, 10_000, false);
     }
 
@@ -170,8 +179,20 @@ contract RangeLibDeployTest is Test {
         assertEq(ui, 200e6);
         assertEq(stock.balanceOf(address(harness)), 1e18);
         _noAllowance();
-        vm.expectRevert(bytes("ADAPTER_REFUSES"));
+        vm.expectRevert(InsufficientLiquidity.selector);
         harness.run(address(adapter), type(uint256).max, 10_000, false);
+    }
+
+    /// Only the dust refusal is a quiet idle exit; any other adapter failure rolls the exit back.
+    function testUnexpectedAdapterFailureBubblesEvenWhenSoft() public {
+        _fund(1e18, 200e6);
+        adapter.setRefuseOther(true);
+        vm.expectRevert(OtherFailure.selector);
+        harness.run(address(adapter), type(uint256).max, 10_000, true);
+        (uint256 si, uint256 ui) = harness.idle();
+        assertEq(si, 1e18);
+        assertEq(ui, 200e6);
+        _noAllowance();
     }
 
     function testLossBoundRejectsOverpricedLiquidity() public {

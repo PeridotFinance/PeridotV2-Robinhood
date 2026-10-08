@@ -167,10 +167,9 @@ library RangeLib {
         }
     }
 
-    /// @dev With `soft` set (recenter), an adapter refusal such as "liquidity rounds to zero" leaves
-    /// the assets idle instead of rolling back the exit. Everything is still verified by balance
-    /// deltas by the caller; the keeper sends with an explicit gas limit so a starved inner call
-    /// cannot masquerade as a refusal.
+    /// @dev With `soft` set (recenter), the adapter's `InsufficientLiquidity` refusal (the amounts
+    /// round to zero liquidity) leaves the assets idle instead of rolling back the exit. Every other
+    /// failure is bubbled up unchanged.
     function _add(Ctx memory c, uint256 stockAmount, uint256 usdgAmount, bool soft)
         private
         returns (bool ok, uint256 stockUsed, uint256 usdgUsed, uint128 added)
@@ -184,8 +183,16 @@ library RangeLib {
             uint256 s, uint256 u, uint128 l
         ) {
             return (true, s, u, l);
-        } catch {
-            return (false, 0, 0, 0);
+        } catch (bytes memory reason) {
+            // Only the adapter's "this liquidity rounds to nothing" refusal is a quiet idle exit.
+            // Anything else (InvalidPosition, balance checks, dependency errors, an empty reason
+            // from a starved call) is a real failure and must roll the whole recenter back.
+            if (reason.length == 4 && bytes4(reason) == InsufficientLiquidity.selector) {
+                return (false, 0, 0, 0);
+            }
+            assembly ("memory-safe") {
+                revert(add(reason, 32), mload(reason))
+            }
         }
     }
 

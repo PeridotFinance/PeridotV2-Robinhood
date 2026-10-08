@@ -105,7 +105,10 @@ contract DeployAndQueueConcentratedLiquidity is ConcentratedLiquidityBase {
         // them, so a repeat cannot deploy again or queue a second, different operation.
         address adapterImpl = vm.envOr("NEW_ADAPTER_IMPLEMENTATION", address(0));
         address vaultImpl = vm.envOr("NEW_VAULT_IMPLEMENTATION", address(0));
-        if (adapterImpl == address(0) || vaultImpl == address(0)) {
+        // Both or neither: a half-supplied pair would deploy a fresh implementation next to an old
+        // one and queue a second, different operation.
+        require((adapterImpl == address(0)) == (vaultImpl == address(0)), "SUPPLY_BOTH_OR_NEITHER");
+        if (adapterImpl == address(0)) {
             vm.startBroadcast(GOVERNOR);
             adapterImpl = address(new UniswapV4PairedAdapterV3());
             vaultImpl = address(new RobinhoodBoostedVaultV3());
@@ -141,6 +144,10 @@ contract ExecuteConcentratedLiquidityUpgrade is ConcentratedLiquidityBase {
             _upgradeBatch(adapterImpl, vaultImpl);
         bytes32 op =
             timelock.hashOperationBatch(targets, values, payloads, bytes32(0), SALT_UPGRADE);
+        // A superseded operation must never run after its replacement: the proxies must still be
+        // on the implementations this procedure was written against.
+        require(_impl(VAULT) == OLD_VAULT_IMPL, "VAULT_IMPLEMENTATION_CHANGED");
+        require(_impl(ADAPTER) == OLD_ADAPTER_IMPL, "ADAPTER_IMPLEMENTATION_CHANGED");
         require(timelock.isOperationReady(op), "TIMELOCK_NOT_READY");
         RobinhoodBoostedVaultV3 vault = RobinhoodBoostedVaultV3(VAULT);
         bytes32 ledgerBefore = keccak256(abi.encode(vault.ledger(PAIR)));
@@ -157,5 +164,25 @@ contract ExecuteConcentratedLiquidityUpgrade is ConcentratedLiquidityBase {
         (bool enabled,,,,,,) = vault.rangePolicy(PAIR);
         require(enabled, "POLICY_NOT_SET");
         console2.log("Concentrated-liquidity V3 live. Pause flags unchanged. Run the keeper next.");
+    }
+}
+
+/// @notice Cancels a queued upgrade batch (identified by its implementations), e.g. a superseded one.
+contract CancelConcentratedLiquidityUpgrade is ConcentratedLiquidityBase {
+    function run() external {
+        _preflight();
+        (address adapterImpl, address vaultImpl) = _candidates();
+        TimelockController timelock = TimelockController(payable(TIMELOCK));
+        (address[] memory targets, uint256[] memory values, bytes[] memory payloads) =
+            _upgradeBatch(adapterImpl, vaultImpl);
+        bytes32 op =
+            timelock.hashOperationBatch(targets, values, payloads, bytes32(0), SALT_UPGRADE);
+        require(timelock.isOperationPending(op), "NOT_PENDING");
+        require(timelock.hasRole(timelock.CANCELLER_ROLE(), GOVERNOR), "CANCELLER_CHANGED");
+        vm.startBroadcast(GOVERNOR);
+        timelock.cancel(op);
+        vm.stopBroadcast();
+        require(timelock.getTimestamp(op) == 0, "NOT_CANCELLED");
+        console2.log("Upgrade batch cancelled.");
     }
 }
