@@ -70,7 +70,16 @@ library RangeLib {
         ) revert InvalidRangePolicy();
     }
 
+    struct Snapshot {
+        uint256 stockBalance;
+        uint256 usdgBalance;
+        uint256 lpValue;
+    }
+
     /// @notice Adds liquidity from idle balances, at most `capPerSide` of oracle value per side.
+    /// @param maxLossBps oracle-valued loss the deployment may cost, `>= BPS` disables the bound
+    /// @param allowEmpty finish quietly (return zeros) when there is nothing deployable, instead
+    /// of reverting, so that an exit can complete with the assets idle
     function deploy(
         PairConfig storage config,
         PairLedger storage pairLedger,
@@ -78,16 +87,20 @@ library RangeLib {
         uint256 capPerSide,
         uint16 maxLossBps,
         bool allowEmpty
-    ) public returns (uint128 liquidityAdded) {
-        uint256 stockValue = VaultMath.valueUSD18(
-            pairLedger.stockIdle, config.stockDecimals, c.stockPrice, Math.Rounding.Floor
+    ) public returns (uint128 liquidityAdded, uint256 stockUsed, uint256 usdgUsed) {
+        uint256 matched = Math.min(
+            Math.min(
+                VaultMath.valueUSD18(
+                    pairLedger.stockIdle, config.stockDecimals, c.stockPrice, Math.Rounding.Floor
+                ),
+                VaultMath.valueUSD18(
+                    pairLedger.usdgIdle, config.usdgDecimals, c.usdgPrice, Math.Rounding.Floor
+                )
+            ),
+            capPerSide
         );
-        uint256 usdgValue = VaultMath.valueUSD18(
-            pairLedger.usdgIdle, config.usdgDecimals, c.usdgPrice, Math.Rounding.Floor
-        );
-        uint256 matched = Math.min(Math.min(stockValue, usdgValue), capPerSide);
         if (matched == 0) {
-            if (allowEmpty) return 0;
+            if (allowEmpty) return (0, 0, 0);
             revert InsufficientLiquidity();
         }
         uint256 stockToPair = VaultMath.amountFromValueUSD18(
@@ -96,37 +109,73 @@ library RangeLib {
         uint256 usdgToPair = VaultMath.amountFromValueUSD18(
             matched, config.usdgDecimals, c.usdgPrice, Math.Rounding.Floor
         );
+        // Dust: a wei of an 18-decimal token can be worth cents, but round to nothing on the
+        // 6-decimal side. An exit must still be able to finish with that dust left idle.
+        if (allowEmpty && (stockToPair == 0 || usdgToPair == 0)) return (0, 0, 0);
+        return _execute(config, pairLedger, c, stockToPair, usdgToPair, maxLossBps, allowEmpty);
+    }
 
-        IERC20 stock = IERC20(config.stockToken);
-        IERC20 usdg = IERC20(config.usdg);
-        uint256 stockBefore = stock.balanceOf(address(this));
-        uint256 usdgBefore = usdg.balanceOf(address(this));
-        uint256 lpValueBefore;
-        if (maxLossBps < BPS) lpValueBefore = _lpValue(config, c);
-        stock.forceApprove(address(c.adapter), stockToPair);
-        usdg.forceApprove(address(c.adapter), usdgToPair);
-        (uint256 stockUsed, uint256 usdgUsed, uint128 added) =
-            c.adapter.addLiquidity(c.pairId, stockToPair, usdgToPair, c.deadline);
-        stock.forceApprove(address(c.adapter), 0);
-        usdg.forceApprove(address(c.adapter), 0);
+    function _execute(
+        PairConfig storage config,
+        PairLedger storage pairLedger,
+        Ctx memory c,
+        uint256 stockToPair,
+        uint256 usdgToPair,
+        uint16 maxLossBps,
+        bool soft
+    ) private returns (uint128 liquidityAdded, uint256 stockUsed, uint256 usdgUsed) {
+        Snapshot memory before_ = Snapshot(
+            IERC20(config.stockToken).balanceOf(address(this)),
+            IERC20(config.usdg).balanceOf(address(this)),
+            maxLossBps < BPS ? _lpValue(config, c) : 0
+        );
+        IERC20(config.stockToken).forceApprove(address(c.adapter), stockToPair);
+        IERC20(config.usdg).forceApprove(address(c.adapter), usdgToPair);
+        bool ok;
+        (ok, stockUsed, usdgUsed, liquidityAdded) = _add(c, stockToPair, usdgToPair, soft);
+        IERC20(config.stockToken).forceApprove(address(c.adapter), 0);
+        IERC20(config.usdg).forceApprove(address(c.adapter), 0);
+        if (!ok) return (0, 0, 0); // only reachable when `soft`: leave everything idle
         if (
-            stock.balanceOf(address(this)) + stockUsed != stockBefore
-                || usdg.balanceOf(address(this)) + usdgUsed != usdgBefore
+            IERC20(config.stockToken).balanceOf(address(this)) + stockUsed != before_.stockBalance
+                || IERC20(config.usdg).balanceOf(address(this)) + usdgUsed != before_.usdgBalance
         ) revert BalanceDeltaMismatch();
         if (stockUsed > pairLedger.stockIdle || usdgUsed > pairLedger.usdgIdle) {
             revert InsufficientLiquidity();
         }
         pairLedger.stockIdle -= stockUsed;
         pairLedger.usdgIdle -= usdgUsed;
-        liquidityAdded = added;
         if (maxLossBps < BPS) {
             // The pool price may sit anywhere inside the allocation gate, and concentration
             // amplifies what a pushed price costs the new liquidity. Bound it at the oracle price.
             uint256 usedValue = _value(config, stockUsed, usdgUsed, c);
-            uint256 gained = _lpValue(config, c) - lpValueBefore;
+            uint256 lpAfter = _lpValue(config, c);
+            uint256 gained = lpAfter > before_.lpValue ? lpAfter - before_.lpValue : 0;
             if (gained + Math.mulDiv(usedValue, maxLossBps, BPS) < usedValue) {
                 revert DeployLossTooHigh();
             }
+        }
+    }
+
+    /// @dev With `soft` set (recenter), an adapter refusal such as "liquidity rounds to zero" leaves
+    /// the assets idle instead of rolling back the exit. Everything is still verified by balance
+    /// deltas by the caller; the keeper sends with an explicit gas limit so a starved inner call
+    /// cannot masquerade as a refusal.
+    function _add(Ctx memory c, uint256 stockAmount, uint256 usdgAmount, bool soft)
+        private
+        returns (bool ok, uint256 stockUsed, uint256 usdgUsed, uint128 added)
+    {
+        if (!soft) {
+            (stockUsed, usdgUsed, added) =
+                c.adapter.addLiquidity(c.pairId, stockAmount, usdgAmount, c.deadline);
+            return (true, stockUsed, usdgUsed, added);
+        }
+        try c.adapter.addLiquidity(c.pairId, stockAmount, usdgAmount, c.deadline) returns (
+            uint256 s, uint256 u, uint128 l
+        ) {
+            return (true, s, u, l);
+        } catch {
+            return (false, 0, 0, 0);
         }
     }
 
@@ -181,7 +230,7 @@ library RangeLib {
         adapter.setRange(c.pairId, r.newLower, r.newUpper);
         // With a one-sided inventory (price left the range) there may be nothing to pair: finish
         // the exit with the assets idle instead of reverting and trapping the position.
-        r.liquidity = deploy(
+        (r.liquidity,,) = deploy(
             config, pairLedger, c, uint256(policy.maxRangedValueUsd) / 2, policy.maxLossBps, true
         );
 

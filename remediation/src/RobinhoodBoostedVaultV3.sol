@@ -419,14 +419,27 @@ contract RobinhoodBoostedVaultV3 is
             return;
         }
         RangeLib.Ctx memory c = _ctx(pairId, stockPrice, usdgPrice, referenceSqrtPriceX96, deadline);
+        _deploy(pairId, config, pairLedger, c);
+    }
+
+    function _deploy(
+        bytes32 pairId,
+        PairConfig storage config,
+        PairLedger storage pairLedger,
+        RangeLib.Ctx memory c
+    ) private {
         uint256 cap = type(uint256).max;
         uint16 lossBps = 10_000; // full range: unchanged behaviour, no extra bound
         if (_ranged(pairId)) {
             cap = RangeLib.remainingCapPerSide(config, rangePolicy[pairId], c);
             lossBps = rangePolicy[pairId].maxLossBps;
         }
-        uint128 liquidityAdded = RangeLib.deploy(config, pairLedger, c, cap, lossBps, false);
-        emit LiquidityRebalanced(pairId, 0, 0, liquidityAdded);
+        (uint128 liquidityAdded, uint256 stockUsed, uint256 usdgUsed) =
+            RangeLib.deploy(config, pairLedger, c, cap, lossBps, false);
+        emit LiquidityRebalanced(pairId, stockUsed, usdgUsed, liquidityAdded);
+        // Book what the (bounded) deployment cost at the oracle price now, so a supplier redeeming
+        // from local market cash cannot exit at a rate that still includes it.
+        if (lossBps < 10_000) _checkpointPair(pairId, config, pairLedger, c.deadline);
     }
 
     function _ctx(
@@ -503,6 +516,15 @@ contract RobinhoodBoostedVaultV3 is
         _checkDeadline(config, deadline);
         PairLedger storage pairLedger = _ledger[pairId];
 
+        _recenter(pairId, config, pairLedger, deadline);
+    }
+
+    function _recenter(
+        bytes32 pairId,
+        PairConfig storage config,
+        PairLedger storage pairLedger,
+        uint256 deadline
+    ) private {
         // Settle everything that already happened at the oracle reference price first.
         (, uint256 stockPrice, uint256 usdgPrice, uint160 ref) =
             _checkpointPair(pairId, config, pairLedger, deadline);
@@ -519,7 +541,11 @@ contract RobinhoodBoostedVaultV3 is
             rangeState[pairId],
             _ctx(pairId, stockPrice, usdgPrice, ref, deadline)
         );
-        emit Recentered(pairId, r.oldLower, r.oldUpper, r.newLower, r.newUpper, r.liquidity, r.centerTick);
+        // Book the recenter's own bounded execution loss at the same oracle reference.
+        _checkpointPair(pairId, config, pairLedger, deadline);
+        emit Recentered(
+            pairId, r.oldLower, r.oldUpper, r.newLower, r.newUpper, r.liquidity, r.centerTick
+        );
     }
 
     function collectFees(bytes32 pairId, uint256 deadline)

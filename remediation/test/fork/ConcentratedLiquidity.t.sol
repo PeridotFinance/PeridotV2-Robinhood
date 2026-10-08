@@ -535,9 +535,12 @@ contract ConcentratedLiquidityForkTest is Test {
     function _exitWithPoolAtGate(bool up) internal {
         _convert();
         uint256 gate = IGuardGate(GUARD).maxRemovalDeviationBps(PAIR);
-        uint256 move = gate * 99 / 100;
-        // Oracle unchanged; pool moves by `move` bps in USD terms.
-        _movePool(up ? 10_000 + move : 10_000 - move);
+        uint256 move = gate * 98 / 100;
+        // Oracle unchanged. Put the pool `move` bps from the ORACLE price (not from where it
+        // happens to sit now, which already differs from the oracle by a little).
+        (uint256 oracleP, uint256 poolP,) = _reference();
+        uint256 target = oracleP * (up ? 10_000 + move : 10_000 - move) / 10_000;
+        _movePool(target * 10_000 / poolP);
         vm.warp(vm.getBlockTimestamp() + 10 minutes);
         uint128 liquidity = _liquidity();
         // pToken redemption reaches through the LP at the deviating pool price.

@@ -48,6 +48,7 @@ contract UniswapV4PairedAdapterV3 is
     uint256 internal constant MAX_REMOVAL_TOLERANCE_BPS = 2_000;
     /// Operational buffer already included in the registration rule: tolerance >= deviation/2 + 100 bps.
     uint256 internal constant REMOVAL_BUFFER_BPS = 100;
+    uint256 internal constant BAND_QUANTISATION_BPS = 20;
 
     struct PairState {
         address stockToken;
@@ -600,6 +601,10 @@ contract UniswapV4PairedAdapterV3 is
         // A token whose minimum is legitimately zero at a boundary gets a zero floor.
         uint256 tolerance = pair.removalToleranceBps;
         uint256 d = tolerance > REMOVAL_BUFFER_BPS ? 2 * (tolerance - REMOVAL_BUFFER_BPS) : 0;
+        // The guard measures the pool at a TICK (0.01% steps) and floors the deviation, so the pool
+        // can sit a tick or two beyond the exact gate. Widen the band so a positive minimum never
+        // faces a legitimately lower payout right at the gate.
+        d += BAND_QUANTISATION_BPS;
         bool stockIs0 = Currency.unwrap(pair.key.currency0) == pair.stockToken;
         uint160 sqrtHigh;
         uint160 sqrtLow;
