@@ -22,10 +22,11 @@ Corrections, tests and verification written on top of the frozen deployment sour
 | Lending reactivation (five calls) | Sep 29, 2026 |
 | Operator lending and margin round trips | Sep 30 to Oct 1, 2026 |
 | Lending delegate rounding fix: deploy at block 78,172,768, installs at 78,176,131 and 78,176,155 | Oct 2, 2026 |
+| LP allocation reopened: queue (80,853,835), execute (81,683,197), checkpoint (81,684,587), rebalance (81,684,611); about $4 of liquidity | Oct 6, 2026 |
 
 ## Written and tested, not executed
 
-LP allocation reopen (timelock queue, execute, keeper checkpoint and rebalance), a flash-vault-funded margin cap raise, the min-shares mint router, and the Safe governance migration. Their scripts refuse to run unless the preconditions hold.
+A flash-vault-funded margin cap raise, the min-shares mint router, and the Safe governance migration. Their scripts refuse to run unless the preconditions hold.
 
 ## Commands
 

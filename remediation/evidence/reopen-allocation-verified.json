@@ -1,0 +1,64 @@
+{
+  "scope": "Independent read-only verification that LP allocation was reopened on mainnet by four user-signed transactions",
+  "verifiedAtBlock": 81685537,
+  "steps": {
+    "queue": {
+      "tx": "0x870bb73dc700c0312227d8da24152c4bdd16986b1c96834783d04c1e1a7f43b7",
+      "block": 80853835,
+      "status": "0x1",
+      "gasUsed": 57570
+    },
+    "execute": {
+      "tx": "0x51fdd424e3349f39e799d67a9547a0e87254721a80a6b3f83bd4626843f5b88c",
+      "block": 81683197,
+      "status": "0x1",
+      "gasUsed": 56999
+    },
+    "checkpoint": {
+      "tx": "0x42b181285e63cdefa323d601bb1105227beced442d1a823eaad83bbff0587139",
+      "block": 81684587,
+      "status": "0x1",
+      "gasUsed": 190958
+    },
+    "rebalance": {
+      "tx": "0xc50a62cc707895ec844633e07d065e8180c4dca4bd5388e0b1fbd56c67f8997a",
+      "block": 81684611,
+      "status": "0x1",
+      "gasUsed": 591174
+    }
+  },
+  "rebalance": {
+    "stockUsedWei": 8252440613692671,
+    "usdgUsedRaw": 1999522,
+    "liquidityAdded": 128455941567
+  },
+  "pairConfig": {
+    "allocationPaused": false,
+    "swapsPaused": true,
+    "emergencyMode": false
+  },
+  "lp": {
+    "tokenId": 2752736,
+    "liquidity": 128455941567,
+    "stockAmountWei": 8252440613692670,
+    "usdgAmountRaw": 1999521
+  },
+  "ledger": "(11474644834520232 [1.147e16], 2000035 [2e6], 3205572380874995 [3.205e15], 7582, 16788842094030 [1.678e13], 1791295260 [1.791e9])",
+  "withdrawableAssets": {
+    "USDG": 7582,
+    "NVDA": 3205572380874995
+  },
+  "exchangeRates": {
+    "pNVDA": 200000906871237693235711010,
+    "pUSDG": 200002620865259
+  },
+  "checks": {
+    "allFourTxSucceeded": true,
+    "allocationOpen": true,
+    "settlementSwapsStillPaused": true,
+    "emergencyOff": true,
+    "lpLiquidityPositive": true,
+    "withdrawableReportedForBothSides": true
+  },
+  "allChecksPassed": true
+}

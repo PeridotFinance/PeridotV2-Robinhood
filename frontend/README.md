@@ -16,7 +16,7 @@ Underlying value of a pToken balance: `balance * exchangeRate / 1e18` in raw und
 - **Vault yield.** There is no APY function on the vault. LP yield reaches suppliers only through growth of the pToken `exchangeRateStored`, and only when a checkpoint credits a gain (both native sides at or above principal). Compute realized yield from exchange-rate history: `growth ^ (365 d / elapsed) - 1`, label the window, and show "n/a" under an hour of history.
 - **Position performance.** Show fees collected (`FeesProcessed`), recognized loss (`PairCheckpoint.pnlUSDG`, `ledger.cumulativeLossUSDG`) and the LP status separately, labelled as not yet credited to suppliers.
 - [`remediation/tools/vault_yield.py`](../remediation/tools/vault_yield.py) is a read-only recorder that snapshots rates and ledger state, decodes the vault events and writes frontend-ready JSON and CSV. [`remediation/dune`](../remediation/dune/README.md) has matching Dune queries (Dune indexes Robinhood Chain natively).
-- The LP position is closed right now, so vault LP yield is 0%. Do not annualize a single short window.
+- The LP position was reopened on Oct 6, 2026 and is about $4, so there is almost no fee history yet. Show "collecting data" instead of an APY until there is at least a day of snapshots, and do not annualize a short window.
 
 ## Transactions
 
@@ -32,7 +32,7 @@ Margin is always pUSDG; the position or debt side is NVDA. Live limits are 5x, 2
 ## Honest states
 
 - NVDA's feed updates on moves during trading sessions and is **stale on weekends and holidays**. The guard and margin oracle then fail closed (the margin oracle returns 0 for NVDA): new positions, swap-based closes, liquidations and LP-backed withdrawals are unavailable. Show that state, and keep repay-with-underlying and debt-free exit to pTokens visible.
-- Show live pause flags, liquidity, and flash-vault capacity before sending a transaction. LP allocation is paused and no LP liquidity is open.
+- Show live pause flags, liquidity, and flash-vault capacity before sending a transaction. LP allocation is open (a position of about $4) and settlement swaps are paused.
 - No keeper, governor, cloud or database credential belongs in the app. Use the connected wallet for every signature.
 
 An optional stateless router (`remediation/src/LendingMintRouter.sol`) gives `mintWithMinShares(market, amount, minShares)`. It is **written and tested but not deployed**; do not call it until a verified address is published.
