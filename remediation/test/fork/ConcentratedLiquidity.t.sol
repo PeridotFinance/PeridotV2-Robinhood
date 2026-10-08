@@ -622,25 +622,131 @@ contract ConcentratedLiquidityForkTest is Test {
     function testRangedRebalanceRefusesLiquidityAddedAtAPushedPrice() public {
         RangePolicy memory p = _policy();
         p.maxLossBps = 1; // 0.01%
+        p.maxRangedValueUsd = 1e18; // deploy only $0.50 per side first, leaving real idle balances
         _upgrade();
         _open();
         _setPolicy(p);
-        _recenter(); // converts, deploys around the oracle price
-        // Make room: raise the cap and let idle assets accumulate by exiting a little liquidity.
+        _recenter();
         p.maxRangedValueUsd = 500e18;
         _setPolicy(p);
+        PairLedger memory l = vault.ledger(PAIR);
+        emit log_named_uint("stock idle", l.stockIdle);
+        emit log_named_uint("usdg idle", l.usdgIdle);
+        assertGt(l.usdgIdle, 1e6, "fixture: more than $1 of idle USDG to deploy");
         uint256 gate = IGuardGate(GUARD).maxPriceDeviationBps(PAIR);
         _movePool(10_000 + gate * 95 / 100);
         _checkpoint();
         vm.prank(GOVERNOR);
-        try vault.rebalance(PAIR, vm.getBlockTimestamp() + 120) {
-            emit log("rebalance added nothing material or stayed inside the 1 bp bound");
-        } catch (bytes memory reason) {
-            assertTrue(
-                bytes4(reason) == RangeLib.DeployLossTooHigh.selector
-                    || bytes4(reason) == RangeLib.InsufficientLiquidity.selector,
-                "only the loss bound or an empty idle balance may stop it"
+        vm.expectRevert(RangeLib.DeployLossTooHigh.selector);
+        vault.rebalance(PAIR, vm.getBlockTimestamp() + 120);
+        // At the oracle price the very same rebalance is fine under a normal bound.
+        p.maxLossBps = 50;
+        _setPolicy(p);
+        _movePool(uint256(10_000) * 10_000 / (10_000 + gate * 95 / 100)); // back to the oracle price
+        _checkpoint();
+        vm.prank(GOVERNOR);
+        vault.rebalance(PAIR, vm.getBlockTimestamp() + 120);
+    }
+
+    /// The band formula relies on the registered tolerance covering the guard's removal gate.
+    function testLiveToleranceCoversTheGuardRemovalGate() public {
+        _upgrade();
+        uint16 tolerance = adapter.removalTolerance(PAIR);
+        uint16 gate = IGuardGate(GUARD).maxRemovalDeviationBps(PAIR);
+        emit log_named_uint("registered removal tolerance bps", tolerance);
+        emit log_named_uint("guard removal gate bps", gate);
+        assertGe(2 * (uint256(tolerance) - 100), gate);
+        _setPolicy(_policy()); // the vault performs the same check
+        // A gate wider than the tolerance can absorb must be refused, not silently accepted.
+        vm.mockCall(
+            GUARD,
+            abi.encodeCall(IGuardGate.maxRemovalDeviationBps, (PAIR)),
+            abi.encode(uint16(2 * (uint256(tolerance) - 100) + 1))
+        );
+        vm.prank(TIMELOCK);
+        vm.expectRevert(RobinhoodBoostedVaultV3.InvalidConfiguration.selector);
+        vault.setRangePolicy(PAIR, _policy());
+    }
+
+    /// Price left the range and the NVDA the pair held idle is gone: recenter must still finish,
+    /// leaving everything idle on a freshly set range instead of reverting and trapping the LP.
+    function testRecenterCompletesWithAOneSidedInventory() public {
+        _convert();
+        // Drain the idle NVDA the pair holds so that, after the exit, there is nothing to pair.
+        uint256 shares = IERC20(P_STOCK).balanceOf(GOVERNOR);
+        vm.prank(GOVERNOR);
+        PErc20(P_STOCK).redeem(shares / 10 * 9);
+        _shock(12_500); // +25%: far above the +12.7% edge
+        vm.warp(vm.getBlockTimestamp() + 1 hours);
+        _followFeed();
+        PairLedger memory before_ = vault.ledger(PAIR);
+        emit log_named_uint("stock idle before", before_.stockIdle);
+        _recenter();
+        PairLedger memory after_ = vault.ledger(PAIR);
+        (,, bool ranged) = _ticks();
+        assertTrue(ranged);
+        emit log_named_uint("stock idle after", after_.stockIdle);
+        emit log_named_uint("usdg idle after", after_.usdgIdle);
+        emit log_named_uint("liquidity after", _liquidity());
+        // Nothing was created: principals never grew.
+        assertLe(after_.stockPrincipal, before_.stockPrincipal);
+        assertLe(after_.usdgPrincipal, before_.usdgPrincipal);
+    }
+
+    /// With the price above the range the LP is all USDG. NVDA must be reported as withdrawable
+    /// only up to what is actually idle, and a larger redeem must be refused by the market's
+    /// cash check rather than failing mid-transfer.
+    function testNvdaIsIlliquidNotOverPromisedWhenTheLpHoldsOnlyUsdg() public {
+        _convert();
+        _shock(12_500);
+        vm.warp(vm.getBlockTimestamp() + 10 minutes);
+        _followFeed();
+        IUniswapV4PairedAdapter.PositionState memory p = adapter.positionState(PAIR);
+        assertEq(p.stockAmount, 0, "fixture: LP holds no NVDA above the range");
+        PairLedger memory l = vault.ledger(PAIR);
+        uint256 withdrawable = vault.withdrawableAssets(PAIR, STOCK);
+        assertLe(withdrawable, l.stockIdle, "never promises more than idle NVDA");
+        uint256 cash = PErc20(P_STOCK).getCash();
+        emit log_named_uint("pNVDA cash", cash);
+        uint256 rate = PErc20(P_STOCK).exchangeRateCurrent();
+        uint256 all = IERC20(P_STOCK).balanceOf(GOVERNOR);
+        uint256 worth = all * rate / 1e18;
+        assertGt(worth, cash, "fixture: redeeming everything exceeds the cash the market can pay");
+        vm.prank(GOVERNOR);
+        vm.expectRevert(); // atomic refusal; no partial transfer, no state change
+        PErc20(P_STOCK).redeem(all);
+    }
+
+    /// Smallest per-recenter loss bound that a healthy pool passes, to size the live policy.
+    function testMeasureRecenterLossFloor() public {
+        uint16[6] memory bounds = [uint16(0), 1, 2, 5, 10, 50];
+        _upgrade();
+        _open();
+        _rebalance();
+        for (uint256 i; i < bounds.length; ++i) {
+            uint256 snap = vm.snapshotState();
+            RangePolicy memory p = _policy();
+            p.maxLossBps = bounds[i];
+            _setPolicy(p);
+            vm.prank(GOVERNOR);
+            (bool ok, bytes memory why) = address(vault).call(
+                abi.encodeCall(vault.recenter, (PAIR, vm.getBlockTimestamp() + 120))
             );
+            bool second;
+            if (ok) {
+                vm.warp(vm.getBlockTimestamp() + 1 hours);
+                _shock(10_400);
+                vm.prank(GOVERNOR);
+                (second,) = address(vault).call(
+                    abi.encodeCall(vault.recenter, (PAIR, vm.getBlockTimestamp() + 120))
+                );
+            }
+            emit log_named_uint("maxLossBps", bounds[i]);
+            emit log_named_string("conversion", ok ? "ok" : "reverted");
+            emit log_named_string("recenter after +4%", second ? "ok" : "reverted");
+            if (!ok) emit log_named_bytes32("reason", bytes32(bytes4(why)));
+            vm.revertToState(snap);
+            vm.clearMockedCalls(); // mocks are not part of the snapshot
         }
     }
 

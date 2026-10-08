@@ -461,8 +461,22 @@ contract RobinhoodBoostedVaultV3 is
     {
         _config(pairId);
         RangeLib.validatePolicy(policy, liquidityAdapter.poolKey(pairId).tickSpacing);
+        if (policy.enabled) _requireBandCoversGate(pairId);
         rangePolicy[pairId] = policy;
         emit RangePolicyUpdated(pairId, policy);
+    }
+
+    /// @dev A ranged position's removal floors are derived from the adapter's registered tolerance.
+    /// They are only safe while that tolerance still covers the guard's CURRENT removal gate;
+    /// otherwise a price inside the gate would make every exit revert on slippage.
+    function _requireBandCoversGate(bytes32 pairId) internal view {
+        uint256 tolerance =
+            IUniswapV4PairedAdapterV3(address(liquidityAdapter)).removalTolerance(pairId);
+        if (
+            tolerance <= REMOVAL_OPERATIONAL_BUFFER_BPS
+                || 2 * (tolerance - REMOVAL_OPERATIONAL_BUFFER_BPS)
+                    < oracleGuard.maxRemovalDeviationBps(pairId)
+        ) revert InvalidConfiguration();
     }
 
     /// @notice Returns the pair to the legacy full range. Only while no position exists, so it
@@ -483,6 +497,7 @@ contract RobinhoodBoostedVaultV3 is
     {
         PairConfig storage config = _config(pairId);
         if (!rangePolicy[pairId].enabled) revert RangePolicyDisabled();
+        _requireBandCoversGate(pairId);
         if (config.allocationPaused) revert AllocationPaused();
         if (config.emergencyMode) revert EmergencyMode();
         _checkDeadline(config, deadline);

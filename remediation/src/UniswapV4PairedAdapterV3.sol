@@ -448,6 +448,10 @@ contract UniswapV4PairedAdapterV3 is
         emit RangeCleared(pairId);
     }
 
+    function removalTolerance(bytes32 pairId) external view returns (uint16) {
+        return _pair(pairId).removalToleranceBps;
+    }
+
     function positionTicks(bytes32 pairId)
         external
         view

@@ -7,6 +7,8 @@ import { IUniswapV4PairedAdapter } from "baseline/src/interfaces/IUniswapV4Paire
 /// legacy full range, so existing pairs keep their behaviour until the vault sets one.
 interface IUniswapV4PairedAdapterV3 is IUniswapV4PairedAdapter {
     /// @dev Only while the pair has no position NFT. Ticks must be aligned to the pool's spacing.
+    function removalTolerance(bytes32 pairId) external view returns (uint16);
+
     function setRange(bytes32 pairId, int24 tickLower, int24 tickUpper) external;
 
     /// @dev Return to the full range. Only while the pair has no position NFT.
