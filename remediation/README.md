@@ -55,4 +55,4 @@ Fork rehearsals need an archive-capable `ROBINHOOD_RPC_URL`. The delegate rehear
 
 ## Review limits
 
-No independent external audit. An Almanax scan reported 81 automated findings; only part of it has been triaged (the three high-severity claims and two medium ones), and that is not a claim that the rest are resolved.
+A second Almanax scan of the V3 code ([triage record](evidence/almanax-c5d9086-triage.json)) reported 102 findings; six were verified and dismissed, the rest are grouped by theme and not individually verified. No independent external audit. An Almanax scan reported 81 automated findings; only part of it has been triaged (the three high-severity claims and two medium ones), and that is not a claim that the rest are resolved.

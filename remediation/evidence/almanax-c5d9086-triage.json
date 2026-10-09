@@ -1,0 +1,80 @@
+{
+  "scope": "Triage of the Almanax scan of PeridotFinance/PeridotV2-Robinhood @ c5d9086 (V3 concentrated liquidity merged). Scanner output is not an audit; this is a partial, theme-level triage. Only the six dismissals below were individually verified.",
+  "scan": "https://app.almanax.ai/scan/f1c4ca43-4856-4c4e-be4d-db1b1e79e261/overview",
+  "commit": "c5d9086d8a36093bfc888c323fe1b9d6e9c56c43",
+  "scannedAt": "2026-10-09T15:11Z",
+  "counts": {
+    "total": 102,
+    "critical": 1,
+    "high": 2,
+    "medium": 29,
+    "low": 52,
+    "info": 18
+  },
+  "layerZero": "No finding concerns LayerZero or any cross-chain component; none exists in this deployment.",
+  "dismissedInAlmanax": [
+    {
+      "finding": "Proxy can be hijacked via unprotected initialize (IsolatedMarginLiquidatorUpgradeable)",
+      "severity": "critical",
+      "reason": "False positive",
+      "evidence": "Constructor calls _disableInitializers: the implementation 0x868d...e3a2 reads initialized = 2^64-1, the live proxy 0x1434...083c reads 1. Read on-chain 2026-10-09."
+    },
+    {
+      "finding": "Initializer callable by anyone if left uninitialized (IsolatedMarginExecutorUpgradeable)",
+      "severity": "medium",
+      "reason": "False positive",
+      "evidence": "Same: implementation 0xd44a...fbd8 locked (2^64-1), live proxy 0x6A45...8977 initialized (1)."
+    },
+    {
+      "finding": "Oracle price not revalidated after recenter (RangeLib)",
+      "severity": "info",
+      "reason": "False positive",
+      "evidence": "RangeLib.recenter ends with guard.validatePoolPrice and the vault re-checkpoints at the oracle reference; covered by fork tests."
+    },
+    {
+      "finding": "Strict balance delta checks enable griefing DoS (RangeLib)",
+      "severity": "low",
+      "reason": "False positive",
+      "evidence": "Deltas are measured inside one call; a donation before the call does not change them; fixed plain ERC-20s; fee-on-transfer reverting is intended."
+    },
+    {
+      "finding": "Recenter range may exceed tick bounds (RangeLib)",
+      "severity": "low",
+      "reason": "Accepted risk",
+      "evidence": "Fails closed: adapter setRange rejects ticks outside the usable bounds (InvalidRange, tested)."
+    },
+    {
+      "finding": "Ranged removals always permit extra 1% slack (UniswapV4PairedAdapterV3)",
+      "severity": "low",
+      "reason": "Accepted risk",
+      "evidence": "Design parameter (REMOVAL_BUFFER_BPS) matching the registration invariant; removal value is also bounded by oracle-anchored floors and the removal gate."
+    }
+  ],
+  "remainingByTheme": [
+    {
+      "theme": "Governance and centralization (owner/executor/liquidator/proxy-admin powers, emergency setters, no upgrade delay on some proxies)",
+      "disposition": "Known trust assumption, not a code defect. Proposer, keeper, guardian and market admins are one bootstrap key behind a 1h timelock; Safe migration is outstanding and disclosed in the README (Known limitations)."
+    },
+    {
+      "theme": "Oracle freshness: cached/manual fallback in the lending oracle; zero price or oracle revert freezing margin or closes",
+      "disposition": "Disclosed. The ordinary-lending price source keeps its original cached/manual fallback (README); margin and the vault guard fail closed by design."
+    },
+    {
+      "theme": "Fee-on-transfer, rebasing, non-standard or decimals-dependent token behavior",
+      "disposition": "Tokens are the two fixed tokens configured at registration. Strict balance-delta checks are intentional (they revert instead of corrupting the ledger). Residual risk: a corporate-action multiplier on the tokenized stock would need a governance response."
+    },
+    {
+      "theme": "Compound-derived arithmetic and admin setters (division helpers, rounding, close factor, liquidation incentive, oracle address, market entries, borrow index cap)",
+      "disposition": "Inherited, admin-only or unreachable at current parameters; not individually verified."
+    },
+    {
+      "theme": "Remediation code: stale NAV between checkpoints, vault pair cap and aggregate cap not applied to fee credits, guardian can halt a pair, silent vault-deposit failures in the delegate",
+      "disposition": "Acknowledged design limits. Checkpoints run at least hourly (maxCheckpointAge 3600); the pair cap ($1000) and aggregate cap are far above current size; the guardian can only pause (never unpause); delegate failures emit events and are documented as operator traps."
+    },
+    {
+      "theme": "Peridot governance token (Comp-style delegateBySig malleability, zero-address constructor, max-allowance sentinel)",
+      "disposition": "Standard Comp-token pattern, low impact; the token is deployed on this chain (0xbD6f...A548). Not individually verified."
+    }
+  ],
+  "notDone": "The remaining 96 findings were not dismissed or resolved in Almanax. No claim is made that they are all non-issues."
+}
