@@ -6,7 +6,7 @@ Corrections, tests and verification written on top of the frozen deployment sour
 
 | Path | Contents |
 | --- | --- |
-| [`src`](src) | `RobinhoodBoostedVaultV2` (native-backing correction), `RobinhoodLendingPriceAdapter` (USDG unit fix), `RobinhoodBoostedDelegateV2` (zero-share and rounding fix), `LendingMintRouter` (optional min-shares bound), and the concentrated-liquidity package (`RobinhoodBoostedVaultV3`, `UniswapV4PairedAdapterV3`, `libraries/RangeLib`), written and tested, not executed |
+| [`src`](src) | `RobinhoodBoostedVaultV2` (native-backing correction), `RobinhoodLendingPriceAdapter` (USDG unit fix), `RobinhoodBoostedDelegateV2` (zero-share and rounding fix), `LendingMintRouter` (optional min-shares bound), and the concentrated-liquidity package (`RobinhoodBoostedVaultV3`, `UniswapV4PairedAdapterV3`, `libraries/RangeLib`), installed Oct 9, 2026 |
 | [`script`](script) | Reviewed, user-signed procedures: vault upgrade, lending reactivation, delegate deploy and install, plus prepared-but-unexecuted LP reopen, margin cap raise and router deploy |
 | [`test`](test) | Unit, fuzz and invariant tests, and fork tests against the live deployment |
 | [`tools`](tools) | Read-only verifiers, rehearsal runners and the vault yield recorder |
@@ -28,9 +28,9 @@ Corrections, tests and verification written on top of the frozen deployment sour
 
 A flash-vault-funded margin cap raise, the min-shares mint router, and the Safe governance migration. Their scripts refuse to run unless the preconditions hold.
 
-## Concentrated liquidity (V3): written and tested, not executed
+## Concentrated liquidity (V3): installed Oct 9, 2026
 
-The live LP position is a single full-range Uniswap v4 position, which earns little on a small pool. The V3 package lets the vault hold ONE position over a band around the oracle price (default about +12.7% / -11.3%) and lets a restricted keeper recenter it. It is NOT deployed or queued; the live vault is still V2.
+The live LP position is a single full-range Uniswap v4 position, which earns little on a small pool. The V3 package lets the vault hold ONE position over a band around the oracle price (default about +12.7% / -11.3%) and lets a restricted keeper recenter it. It was installed through the timelock on Oct 9, 2026 (batch executed in block 84,107,567) and the keeper converted the position in block 84,108,135; the roll-out record is in the root README.
 
 - **What the contracts enforce, not the keeper:** the new range is always the rounded oracle centre plus or minus a governance-set width; a recenter is only allowed after a cooldown and a price move (or once the price leaves the range); at most N recenters in any rolling 24 hours (a ring buffer, not a fixed window); the pair is checkpointed at the oracle price before and after; the oracle-valued loss of a recenter or of a ranged deployment is bounded in bps; the ranged value is capped; and the removal floors follow the token order and the guard's removal gate. The keeper can only call `recenter(pairId, deadline)` and `rebalance`; it chooses no price, range or amount.
 - **Governance:** `setRangePolicy` is `CONFIG_ROLE` (the timelock). Upgrading the adapter and vault proxies and setting the policy is one atomic `scheduleBatch` (`script/UpgradeConcentratedLiquidity.s.sol`), so the delay is the timelock's existing one hour. Nothing else changes: pauses, caps, roles, lending and margin are untouched.
