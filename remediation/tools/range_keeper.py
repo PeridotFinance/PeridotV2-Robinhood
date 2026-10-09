@@ -44,7 +44,7 @@ REASONS = {
     'DeployLossTooHigh()': False,
     'PriceDeviation(uint256,uint256)': True,
     'InsufficientLiquidity()': True,
-    'InvalidConfiguration()': False,
+    'InvalidConfiguration()': False,  # see DUST_REBALANCE below
     'InvalidDeadline()': False,
     'CheckpointStale()': False,
 }
@@ -135,12 +135,18 @@ def last_sent(fn):
 
 
 REBALANCE_MIN_INTERVAL = 3600
+# `rebalance` with an idle balance too small to round to a non-zero amount of the other token (for
+# example a few hundred wei of NVDA against dollars of USDG) reaches the adapter with a zero amount
+# and fails with InvalidConfiguration. That is "nothing deployable", not a fault.
+DUST_REBALANCE = 'InvalidConfiguration'
 
 
 def maybe_rebalance(execute):
     """Idle assets (new deposits, an idle-exit recenter) are deployed by `rebalance`, which needs a
     checkpoint no older than the vault's maxCheckpointAge. Only acts when the real call succeeds."""
     outcome, waiting, detail = simulate('rebalance')
+    if outcome == DUST_REBALANCE:
+        waiting = True
     info = {'time': int(time.time()), 'rebalance': outcome}
     if outcome == 'CheckpointStale':
         outcome, waiting, detail = simulate('checkpoint')
@@ -164,6 +170,7 @@ def maybe_rebalance(execute):
             print(json.dumps(info))
             return 3
         outcome, waiting, detail = simulate('rebalance')
+        waiting = waiting or outcome == DUST_REBALANCE
     if outcome != 'due':
         info.update(action='wait' if waiting else 'ATTENTION', detail=detail)
         print(json.dumps(info))
