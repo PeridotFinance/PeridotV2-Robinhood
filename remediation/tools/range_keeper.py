@@ -27,7 +27,9 @@ GOVERNOR = '0x94696d767e65a75581145646960FA0eC886cE5d2'
 ACCOUNT = 'robinhood-deployer'
 PAIR = '0xe2050352f4346597cc69d2776d99ae60c9440dfc28f9406ce66be0bbe3fb6b06'
 GAS_LIMIT = 3_000_000
-DEADLINE_SECONDS = 120
+# The vault rejects deadlines more than maxDeadlineDelay (300s) ahead, so this is the longest the
+# operator has to answer the keystore password prompt before the transaction reverts on-chain.
+DEADLINE_SECONDS = 290
 MAX_GAS_PRICE_WEI = 100_000_000  # 0.1 gwei, as for the margin keeper
 JOURNAL = Path(__file__).resolve().parents[1] / 'evidence' / 'range-keeper-journal.json'
 
@@ -122,9 +124,30 @@ def journal(entry):
 def send(fn='recenter'):
     deadline = chain_deadline()
     signer = ['--unlocked'] if UNLOCKED else ['--account', ACCOUNT]
-    return cast('send', VAULT, fn + '(bytes32,uint256)', PAIR, str(deadline),
-                *signer, '--from', GOVERNOR, '--gas-limit', str(GAS_LIMIT),
-                '--json', check=False)
+    started = time.time()
+    result = cast('send', VAULT, fn + '(bytes32,uint256)', PAIR, str(deadline),
+                  *signer, '--from', GOVERNOR, '--gas-limit', str(GAS_LIMIT),
+                  '--json', check=False)
+    result.elapsed = time.time() - started
+    return result
+
+
+def outcome_of(result):
+    """'sent' only when the transaction was mined with status 1. `cast send` exits 0 for a mined
+    revert, so the exit code alone is not enough."""
+    if result.returncode != 0:
+        return 'SEND FAILED'
+    try:
+        status = json.loads(result.stdout).get('status')
+    except ValueError:
+        return 'UNCONFIRMED'
+    if str(status).lower() in ('0x1', '1'):
+        return 'sent'
+    hint = ''
+    if getattr(result, 'elapsed', 0) > DEADLINE_SECONDS - 20:
+        hint = ' (the password prompt was open for ' + str(int(result.elapsed)) + 's; the transaction deadline is ' \
+               + str(DEADLINE_SECONDS) + 's, so it most likely expired - answer the prompt promptly)'
+    return 'REVERTED ON-CHAIN' + hint
 
 
 def last_sent(fn):
@@ -166,10 +189,11 @@ def maybe_rebalance(execute):
             print(json.dumps(info))
             return 0
         sent = send('checkpoint')
-        journal({'time': int(time.time()), 'function': 'checkpoint', 'action': 'sent' if sent.returncode == 0 else 'SEND FAILED',
+        result_text = outcome_of(sent)
+        journal({'time': int(time.time()), 'function': 'checkpoint', 'action': result_text,
                  'output': (sent.stdout or sent.stderr).strip()[:600]})
-        if sent.returncode:
-            info['action'] = 'SEND FAILED (checkpoint)'
+        if result_text != 'sent':
+            info['action'] = result_text + ' (checkpoint)'
             print(json.dumps(info))
             return 3
         outcome, waiting, detail = simulate('rebalance')
@@ -187,12 +211,12 @@ def maybe_rebalance(execute):
         info['action'] = 'wait (rebalance sent less than an hour ago)'
     else:
         sent = send('rebalance')
-        info['action'] = 'sent' if sent.returncode == 0 else 'SEND FAILED'
+        info['action'] = outcome_of(sent)
         info['function'] = 'rebalance'
         info['output'] = (sent.stdout or sent.stderr).strip()[:600]
         journal(dict(info))
         print(json.dumps(info))
-        return 0 if sent.returncode == 0 else 3
+        return 0 if info['action'] == 'sent' else 3
     print(json.dumps(info))
     return 0
 
@@ -220,12 +244,12 @@ def step(execute):
         print(json.dumps(info))
         return 0
     result = send()
-    info['action'] = 'sent' if result.returncode == 0 else 'SEND FAILED'
+    info['action'] = outcome_of(result)
     info['function'] = 'recenter'
     info['output'] = (result.stdout or result.stderr).strip()[:600]
     journal(info)
     print(json.dumps(info))
-    return 0 if result.returncode == 0 else 3
+    return 0 if info['action'] == 'sent' else 3
 
 
 def main():
