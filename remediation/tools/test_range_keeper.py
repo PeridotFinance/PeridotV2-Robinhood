@@ -38,7 +38,7 @@ class RangeKeeperTests(unittest.TestCase):
             send.assert_not_called()
 
     def test_execute_sends_once_and_journals(self):
-        fake = mock.Mock(returncode=0, stdout='{"transactionHash":"0x1"}', stderr='')
+        fake = mock.Mock(returncode=0, stdout='{"status":"0x1"}', stderr='', elapsed=1)
         with mock.patch.object(k, 'simulate', return_value=('due', False, '')), \
                 mock.patch.object(k, 'gas_price_ok', return_value=(True, 1)), \
                 mock.patch.object(k, 'send', return_value=fake) as send, \
@@ -54,7 +54,7 @@ class RangeKeeperTests(unittest.TestCase):
 
 class RebalanceTests(unittest.TestCase):
     def test_idle_assets_are_deployed_when_the_real_call_succeeds(self):
-        fake = mock.Mock(returncode=0, stdout='{}', stderr='')
+        fake = mock.Mock(returncode=0, stdout='{"status":"0x1"}', stderr='', elapsed=1)
         with mock.patch.object(k, 'simulate', return_value=('due', False, '')), \
                 mock.patch.object(k, 'gas_price_ok', return_value=(True, 1)), \
                 mock.patch.object(k, 'last_sent', return_value=0), \
@@ -83,7 +83,7 @@ class RebalanceTests(unittest.TestCase):
 
     def test_stale_checkpoint_is_refreshed_first_then_rebalanced(self):
         sims = iter([('CheckpointStale', False, ''), ('due', False, ''), ('due', False, '')])
-        fake = mock.Mock(returncode=0, stdout='{}', stderr='')
+        fake = mock.Mock(returncode=0, stdout='{"status":"0x1"}', stderr='', elapsed=1)
         with mock.patch.object(k, 'simulate', side_effect=lambda fn='recenter': next(sims)), \
                 mock.patch.object(k, 'gas_price_ok', return_value=(True, 1)), \
                 mock.patch.object(k, 'last_sent', return_value=0), \
@@ -112,6 +112,30 @@ class RebalanceTests(unittest.TestCase):
                 mock.patch.object(k, 'maybe_rebalance', return_value=0) as rebalance:
             self.assertEqual(k.step(True), 0)
             rebalance.assert_called_once_with(True)
+
+
+class OutcomeTests(unittest.TestCase):
+    def _r(self, code, out, elapsed=1):
+        r = mock.Mock(returncode=code, stdout=out, stderr='')
+        r.elapsed = elapsed
+        return r
+
+    def test_mined_success(self):
+        self.assertEqual(k.outcome_of(self._r(0, '{"status":"0x1"}')), 'sent')
+
+    def test_mined_revert_is_not_sent_even_though_cast_exits_zero(self):
+        self.assertTrue(k.outcome_of(self._r(0, '{"status":"0x0"}')).startswith('REVERTED ON-CHAIN'))
+
+    def test_slow_password_entry_is_called_out(self):
+        text = k.outcome_of(self._r(0, '{"status":"0x0"}', elapsed=400))
+        self.assertIn('password prompt', text)
+
+    def test_submission_failure_and_garbage(self):
+        self.assertEqual(k.outcome_of(self._r(1, '')), 'SEND FAILED')
+        self.assertEqual(k.outcome_of(self._r(0, 'not json')), 'UNCONFIRMED')
+
+    def test_deadline_stays_within_the_vault_limit(self):
+        self.assertLessEqual(k.DEADLINE_SECONDS, 300)
 
 
 if __name__ == '__main__':
