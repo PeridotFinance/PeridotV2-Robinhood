@@ -2,7 +2,7 @@
 
 Lending, a paired LP vault and isolated long/short margin for **tokenized NVDA and USDG**, live on **Robinhood Chain mainnet (chain ID 4663)**.
 
-Suppliers deposit NVDA or USDG and receive pTokens. A controlled share of matched liquidity can be deployed into one full-range Uniswap v4 NVDA/USDG position. Fees are credited to suppliers' claims, a capped in-kind reserve covers bounded withdrawal shortfalls, and checkpoint losses are shared pro-rata. On top of the same markets, an isolated margin product lets a user open long or short NVDA positions at up to 5x, funded by flash loans and kept safe by a keeper-driven liquidator.
+Suppliers deposit NVDA or USDG and receive pTokens. A controlled share of matched liquidity can be deployed into one Uniswap v4 NVDA/USDG position, concentrated in a band around the oracle price (since Oct 9, 2026; it was full range before). Fees are credited to suppliers' claims, a capped in-kind reserve covers bounded withdrawal shortfalls, and checkpoint losses are shared pro-rata. On top of the same markets, an isolated margin product lets a user open long or short NVDA positions at up to 5x, funded by flash loans and kept safe by a keeper-driven liquidator.
 
 > **Status in one paragraph.** This is a small, real mainnet deployment (single-digit-dollar liquidity and deliberately tiny per-position limits), not an audited production protocol. It has had no independent external audit. Governance still sits with one bootstrap key behind a timelock; a Safe migration is planned but not done. Everything below says what is live, what was only tested, and what is still open.
 
@@ -11,8 +11,9 @@ Suppliers deposit NVDA or USDG and receive pTokens. A controlled share of matche
 | Component | Address |
 | --- | --- |
 | Paired LP vault (proxy) | `0x280825b2d856706Ff7E0d6351CcB2e935E1a9A2f` |
-| Vault implementation (V2, native-backing correction) | `0x17f0cf262fbbf27e44756dba6d852815695e9c4a` |
-| Uniswap v4 adapter | `0xadA73211711e4790bc83B5d6B39f47fE04D276f3` |
+| Vault implementation (V3: V2 native-backing correction plus ranged liquidity) | `0x53A23Ef7A5639f237625Ff7c89Ff9e9Ecf1DD18a` |
+| Uniswap v4 adapter (proxy) / implementation (V3) | `0xadA73211711e4790bc83B5d6B39f47fE04D276f3` / `0xb24BA4dd6D1436e2D2eb2Cd054B07931C8BDD456` |
+| `RangeLib` (linked by the vault) | `0x7C585baB533229ace7D53ad093561001d320b7D9` |
 | Oracle guard | `0xaE4D4DdB8dD646951d54fE9B13BE23DcB61C6741` |
 | Strategy loss reserve | `0x806b182B050f7EcF908758dD6bBF91DB8B2212aF` |
 | Timelock (upgrades and configuration) | `0x6797FB8Ce049B42C5BC2b42Bf76c6d15C7B12498` |
@@ -29,12 +30,12 @@ Suppliers deposit NVDA or USDG and receive pTokens. A controlled share of matche
 
 NVDA (`0xd0601CE157Db5bdC3162BbaC2a2C8aF5320D9EEC`), USDG (`0x5fc5360D0400a0Fd4f2af552ADD042D716F1d168`) and the Uniswap v4 PoolManager (`0x8366a39CC670B4001A1121B8F6A443A643e40951`) are third-party contracts. USDG has 6 decimals, NVDA 18, and both pTokens 8. The full address manifest and all ABIs for integrators are in [`contracts/robinhood-vaults/frontend/margin-mainnet`](contracts/robinhood-vaults/frontend/margin-mainnet).
 
-**Current settings:** margin up to **5x** both directions, 20% initial and 10% maintenance margin, **$2 gross and $1 debt per position**, no aggregate cap. Supply, borrowing and ordinary collateral seizure are enabled. LP allocation was **reopened on Oct 6, 2026** (four user-signed transactions, verified in [`remediation/evidence/reopen-allocation-verified.json`](remediation/evidence/reopen-allocation-verified.json)); the position is about **$4** of full-range liquidity. Settlement swaps remain paused.
+**Current settings:** margin up to **5x** both directions, 20% initial and 10% maintenance margin, **$2 gross and $1 debt per position**, no aggregate cap. Supply, borrowing and ordinary collateral seizure are enabled. LP allocation was **reopened on Oct 6, 2026** (four user-signed transactions, verified in [`remediation/evidence/reopen-allocation-verified.json`](remediation/evidence/reopen-allocation-verified.json)); the position was converted to a concentrated one on **Oct 9, 2026** (see below) and holds about **$10**. Settlement swaps remain paused.
 
 ## How it works
 
 1. **Lending markets.** pNVDA and pUSDG are boosted pToken markets. Part of each market's cash can sit in the paired vault; the exchange rate counts that claim, so supplier yield shows up as exchange-rate growth plus ordinary borrow interest.
-2. **Paired vault.** One position per pair, deposits only from the two configured pToken side accounts, no transferable shares (it is not ERC-4626). Collected fees are credited to both sides' principal at once (20% goes to the reserve). A checkpoint then compares the position's oracle-priced value to its benchmark, and a shortfall scales both sides' principal down pro-rata, so fees offset impermanent loss before suppliers lose principal. The reserve is not used at checkpoint: it only covers bounded native-token deficits when a withdrawal is settled. Price-driven gains are credited only when both native sides are at or above principal. Value at risk during a withdrawal is bounded by oracle-anchored amount floors and price-deviation gates.
+2. **Paired vault.** One position per pair, held over a band of about +12.7% / -11.3% around the oracle price and re-centred by a restricted keeper (the contract, not the keeper, fixes the range and enforces a cooldown, a rolling daily limit, a loss bound and a value cap), deposits only from the two configured pToken side accounts, no transferable shares (it is not ERC-4626). Collected fees are credited to both sides' principal at once (20% goes to the reserve). A checkpoint then compares the position's oracle-priced value to its benchmark, and a shortfall scales both sides' principal down pro-rata, so fees offset impermanent loss before suppliers lose principal. The reserve is not used at checkpoint: it only covers bounded native-token deficits when a withdrawal is settled. Price-driven gains are credited only when both native sides are at or above principal. Value at risk during a withdrawal is bounded by oracle-anchored amount floors and price-deviation gates.
 3. **Isolated margin.** Each position is its own account contract. Opening, closing and liquidating all go through a flash loan; a permissionless keeper liquidates positions that cross the maintenance threshold. Margin is always pUSDG; the position or debt side is NVDA.
 4. **Oracle policy.** The NVDA price comes from a Chainlink-style feed that only updates on 0.5% moves during trading sessions, so it is stale outside US market hours. The vault guard and the margin price source **fail closed** on a stale or paused feed. The tested fallback is to repay debt with underlying and exit debt-free into pTokens.
 
@@ -51,7 +52,9 @@ Found through fork tests against the live deployment and an Almanax scan (partia
 
 Every upgrade was rehearsed on a local mainnet fork before signing, installed by user-signed transactions, then verified independently from public chain data (exact calldata, byte-for-byte runtime match, storage and balances unchanged across the install block). The records are in [`remediation/evidence`](remediation/evidence).
 
-Ideas that are written and tested but **not executed**: reopening LP allocation, a flash-vault-funded raise of the margin caps, and a stateless mint router that gives callers a minimum-shares bound. They are scripts under [`remediation/script`](remediation/script) and are not deployed.
+**Concentrated liquidity (Oct 9, 2026).** The vault and adapter proxies were upgraded through the timelock in one batch (queued at blocks 83,608,423 to 83,608,493, executed in `0xa86c862a254a82f1a2dd56f10abbe3d4194fa1a60a0ef5945f0e92991565bdbe`, block 84,107,567); the deployed runtimes match the reviewed build byte for byte, and the first user-signed keeper `recenter` (`0x5cd54aa0ccada9d06f0d855e13df3cce7ee1e1082265b2db8941ae0bc107193f`, block 84,108,135) converted the full-range position. Details, limits and the review history are in [`remediation/README.md`](remediation/README.md). It does not make a few-dollar pool profitable, and concentration increases impermanent loss: the first checkpoint after conversion already recognised a loss of about $0.0015.
+
+Ideas that are written and tested but **not executed**: a flash-vault-funded raise of the margin caps and a stateless mint router that gives callers a minimum-shares bound. They are scripts under [`remediation/script`](remediation/script) and are not deployed.
 
 ## Verify it yourself
 
@@ -75,7 +78,7 @@ make reproduce         # exact recompilation against archived deployment bytecod
 | --- | --- |
 | [`contracts/robinhood-vaults`](contracts/robinhood-vaults) | Frozen paired vault, v4 adapter, guard, reserve, margin deployment scripts, keeper service and tests |
 | [`contracts/peridot-contracts-2-5`](contracts/peridot-contracts-2-5) | Frozen lending and isolated-margin source snapshot (only the deployed dependency closure) |
-| [`remediation`](remediation) | Corrections written on top of the frozen sources: vault V2, price adapter, market delegate V2, mint router, scripts, tests, tools and evidence |
+| [`remediation`](remediation) | Corrections written on top of the frozen sources: vault V2 and V3 (concentrated liquidity), price adapter, market delegate V2, mint router, scripts, tests, tools and evidence |
 | [`snapshot`](snapshot) | Source digests and archived deployment compiler artifacts |
 | [`frontend`](frontend) | Integration notes for the separately developed application |
 | `Makefile`, `.github/workflows` | Verification entry points and CI |
@@ -89,6 +92,7 @@ The two directories under `contracts/` preserve the original Solidity import pat
 - **Reserve is not insurance.** In-kind cover is capped per call, per UTC day and as a share of the deficit, and its balances are tiny. Uncovered loss reduces both NVDA and USDG claims.
 - **Stale-price gaps.** Weekend and holiday gaps can block new margin positions, swap-based closes, liquidations and LP-backed withdrawals. USDG is fixed at $1 in the pricing policy and a depeg is not detected. The ordinary-lending price source keeps its original cached/manual fallback.
 - **Mint slippage.** The market's `mint` has no caller-selected minimum. Integrators should estimate shares from the exchange rate first (see [`frontend/README.md`](frontend/README.md)).
+- **Concentration.** Outside the band one token is fully converted. With settlement swaps paused, that side is illiquid (not lost) until the price returns or a recenter re-pairs it, and over a weekend the stale feed blocks recentering and LP-backed withdrawals.
 - **Scale.** Liquidity is a few dollars, the per-position caps are deliberately small, and the insurance fund holds about $1, so a very violent gap can exceed it.
 
 Source files keep their original SPDX and license notices; see [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md). No private keys, keystores or cloud credentials are in this repository.
