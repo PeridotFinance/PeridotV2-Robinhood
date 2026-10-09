@@ -69,6 +69,12 @@ class RebalanceTests(unittest.TestCase):
             self.assertEqual(k.maybe_rebalance(True), 0)
             send.assert_not_called()
 
+    def test_dust_idle_balance_is_not_a_fault(self):
+        with mock.patch.object(k, 'simulate', return_value=('InvalidConfiguration', False, '')), \
+                mock.patch.object(k, 'send') as send:
+            self.assertEqual(k.maybe_rebalance(True), 0)
+            send.assert_not_called()
+
     def test_stale_checkpoint_is_refreshed_first_then_rebalanced(self):
         sims = iter([('CheckpointStale', False, ''), ('due', False, ''), ('due', False, '')])
         fake = mock.Mock(returncode=0, stdout='{}', stderr='')
