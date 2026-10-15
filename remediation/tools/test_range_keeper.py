@@ -11,6 +11,12 @@ class RangeKeeperTests(unittest.TestCase):
             self.assertEqual(name, sig.split('(')[0])
             self.assertTrue(waiting)
 
+    def test_missing_keeper_role_waits(self):
+        code = k.selector('AccessControlUnauthorizedAccount(address,bytes32)')
+        name, waiting = k.classify('data: "' + code + '0000"')
+        self.assertEqual(name, 'AccessControlUnauthorizedAccount')
+        self.assertTrue(waiting)
+
     def test_loss_bound_failures_need_attention(self):
         code = k.selector('RecenterLossTooHigh()')
         name, waiting = k.classify('data: "' + code + '"')
