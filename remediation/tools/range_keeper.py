@@ -43,6 +43,7 @@ REASONS = {
     'AllocationPaused()': True,
     'EmergencyMode()': True,
     'RangePolicyDisabled()': True,
+    'AccessControlUnauthorizedAccount(address,bytes32)': True,  # the keeper role is not granted (yet)
     'StaleOracle(address,uint256)': True,
     'RecenterLossTooHigh()': False,
     'DeployLossTooHigh()': False,
