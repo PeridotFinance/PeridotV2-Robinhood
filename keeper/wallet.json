@@ -1,0 +1,8 @@
+{
+  "address": "0x978e2ADF18da8B846552932c0aB2B1193da1fAc4",
+  "chainId": 4663,
+  "purpose": "Range keeper: KEEPER_ROLE on the vault only, plus gas. No admin roles.",
+  "keystorePath": ".range-keeper-signer/keystore",
+  "passwordPath": ".range-keeper-signer/password",
+  "fundingTargetWei": "2000000000000000"
+}

@@ -21,6 +21,8 @@ from pathlib import Path
 
 RPC = 'https://rpc.mainnet.chain.robinhood.com'
 UNLOCKED = False  # local rehearsal only (anvil with impersonation)
+SENDER = None  # defaults to GOVERNOR
+KEYSTORE = None  # (keystore path, password file) for an unattended dedicated keeper wallet
 VAULT = '0x280825b2d856706Ff7E0d6351CcB2e935E1a9A2f'
 ADAPTER = '0xadA73211711e4790bc83B5d6B39f47fE04D276f3'
 GOVERNOR = '0x94696d767e65a75581145646960FA0eC886cE5d2'
@@ -93,16 +95,39 @@ def _status():
     return {'upgraded': True, 'ticks': lower_upper_ranged, 'rangeState': state, 'pairConfigHex': cfg.strip()[:20] + '...'}
 
 
+def sender():
+    return SENDER or GOVERNOR
+
+
+def configure(rpc=None, sender=None, keystore=None, max_gas_price_wei=None, deadline_seconds=None, journal=None):
+    """Used by the unattended worker: a dedicated sender and keystore, no interactive prompt."""
+    global RPC, SENDER, KEYSTORE, MAX_GAS_PRICE_WEI, DEADLINE_SECONDS, JOURNAL
+    if journal:
+        JOURNAL = Path(journal)
+    if rpc:
+        RPC = rpc
+    if sender:
+        SENDER = sender
+    if keystore:
+        KEYSTORE = keystore
+    if max_gas_price_wei:
+        MAX_GAS_PRICE_WEI = max_gas_price_wei
+    if deadline_seconds:
+        DEADLINE_SECONDS = deadline_seconds
+
+
 def chain_deadline():
-    """Deadlines are measured against the chain's clock, not this machine's."""
-    return int(cast('block', 'latest', '--field', 'timestamp').stdout.strip()) + DEADLINE_SECONDS
+    """Deadline from the later of the chain's head time and this machine's clock. A node whose head is
+    old (a quiet local fork) would otherwise hand out a deadline that is already past."""
+    head = int(cast('block', 'latest', '--field', 'timestamp').stdout.strip())
+    return max(head, int(time.time())) + DEADLINE_SECONDS
 
 
 def simulate(fn='recenter'):
     """Simulates `fn(bytes32,uint256)` exactly as the keeper would send it."""
     deadline = chain_deadline()
     result = cast('call', VAULT, fn + '(bytes32,uint256)', PAIR, str(deadline),
-                  '--from', GOVERNOR, '--gas-limit', str(GAS_LIMIT), check=False)
+                  '--from', sender(), '--gas-limit', str(GAS_LIMIT), check=False)
     if result.returncode == 0:
         return 'due', False, ''
     name, waiting = classify(result.stderr + result.stdout)
@@ -123,10 +148,13 @@ def journal(entry):
 
 def send(fn='recenter'):
     deadline = chain_deadline()
-    signer = ['--unlocked'] if UNLOCKED else ['--account', ACCOUNT]
+    if KEYSTORE:
+        signer = ['--keystore', KEYSTORE[0], '--password-file', KEYSTORE[1]]
+    else:
+        signer = ['--unlocked'] if UNLOCKED else ['--account', ACCOUNT]
     started = time.time()
     result = cast('send', VAULT, fn + '(bytes32,uint256)', PAIR, str(deadline),
-                  *signer, '--from', GOVERNOR, '--gas-limit', str(GAS_LIMIT),
+                  *signer, '--from', sender(), '--gas-limit', str(GAS_LIMIT),
                   '--json', check=False)
     result.elapsed = time.time() - started
     return result
