@@ -10,6 +10,7 @@
 **/.env.*
 !**/.env.example
 **/.keeper-signer/
+**/.range-keeper-signer/
 **/*keystore*
 **/*password*
 **/*.lock

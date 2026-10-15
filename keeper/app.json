@@ -1,0 +1,23 @@
+{
+  "name": "peridot-range-keeper",
+  "region": "fra",
+  "workers": [
+    {
+      "name": "range-keeper",
+      "git": {
+        "repo_clone_url": "https://github.com/PeridotFinance/PeridotV2-Robinhood.git",
+        "branch": "main"
+      },
+      "source_dir": "/",
+      "dockerfile_path": "keeper/Dockerfile",
+      "instance_count": 1,
+      "instance_size_slug": "apps-s-1vcpu-0.5gb",
+      "envs": [
+        {"key": "EXECUTE", "value": "false", "scope": "RUN_TIME", "type": "GENERAL"},
+        {"key": "INTERVAL_SECONDS", "value": "300", "scope": "RUN_TIME", "type": "GENERAL"},
+        {"key": "KEEPER_ADDRESS", "value": "__KEEPER_ADDRESS__", "scope": "RUN_TIME", "type": "GENERAL"}
+      ]
+    }
+  ],
+  "alerts": [{"rule": "DEPLOYMENT_FAILED"}]
+}

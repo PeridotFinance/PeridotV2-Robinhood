@@ -20,6 +20,7 @@ test-concentrated:
 	forge test --match-path 'remediation/test/VaultV3*.t.sol'
 	FOUNDRY_PROFILE=vault_v3 forge build --sizes --skip 'remediation/test/**' --skip 'remediation/script/**' --skip 'remediation/src/RobinhoodBoostedDelegateV2.sol'
 	python3 -m unittest discover -s remediation/tools -p 'test_range_keeper.py'
+	python3 -m unittest discover -s keeper -p 'test_*.py'
 
 # Mainnet-fork suites for the same package; need an archive-capable ROBINHOOD_RPC_URL and a pinned
 # block (REMEDIATION_FORK_BLOCK, and REMEDIATION_NATIVE_BLOCK = that header's l1BlockNumber).
