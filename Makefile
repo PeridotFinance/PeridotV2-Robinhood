@@ -77,3 +77,15 @@ fork-margin:
 frontend:
 	@echo 'The frontend is being developed separately. See frontend/README.md for integration notes.'
 	@exit 1
+
+.PHONY: test-ramses fork-ramses size-ramses
+test-ramses:
+	FOUNDRY_PROFILE=ramses forge test --threads 1 --no-match-path '*/fork/*'
+	$(MAKE) size-ramses
+
+fork-ramses:
+	@test -n "$(ROBINHOOD_RPC_URL)" -a -n "$(REMEDIATION_FORK_BLOCK)" -a -n "$(REMEDIATION_NATIVE_BLOCK)"
+	FOUNDRY_PROFILE=ramses forge test --threads 1 --match-path '*/fork/*' -vv
+
+size-ramses:
+	FOUNDRY_PROFILE=ramses forge build --threads 1 --sizes
