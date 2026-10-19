@@ -1,6 +1,6 @@
 # Ramses vaults (NVDA/USDG): design handoff
 
-**Status: not started. Nothing here is deployed.** This folder is where a Ramses-backed copy of the paired vault, an
+**Status: Phases 0–1 implemented locally; Phase 0 operator acceptance pending. Nothing here is deployed.** This folder is where a Ramses-backed copy of the paired vault, an
 isolated lending market on top of it, and a cloud keeper get built and tested. It is written for the developer (human or
 agent) who builds it. Facts were read from the Ramses docs (<https://tech.ramses.xyz>), from Ramses' public API
 (`https://gateway.kingdom.dev/robinhood/api`) and **verified on-chain on 2026-10-18**. Anything that is only a docs or API
@@ -33,7 +33,7 @@ claim says so.
 | Fee / tick spacing | fee `100` (0.01%), `tickSpacing` 10 |
 | State at reading | tick 222,684, liquidity 7.42e17, observation cardinality 1000 |
 | TVL (API) | about **$305k** |
-| Measured volume | **about $784k in the last 22.8 hours** (230 swaps per 3 hours; summed from `Swap` events). At 0.01% fee that is about $80 per day of fees pool-wide, or about 10% a year on the whole TVL. Concentrated ranges earn more per dollar |
+| Measured volume | **$776,446 over 82,013 seconds (22.78 hours)**, 2,365 `Swap` events ending at block **91,740,853**. About $77.60 gross fees; the current 50% protocol share leaves about **$38.80 net LP fees** in this window (about 4.9% annualized on $305k, before rewards). Range-specific estimates and their limitations are in `research/NOTES.md` |
 | **Gauge** | `0x93c6A733FB3165D94774B3A5Fc4319D29bd7b6ce` (`GaugeV3`) |
 | Gauge reward tokens (on-chain `getRewardTokens()`) | **USDG, NVDA and RAM** (`0x5173D45A1191eE33cBB7D8c7e65f21B04eD54802`). Rewards can arrive in the vault's own assets, not only in RAM |
 | Position manager (NFT) | `0x2eBd7B85a4E08D5B508b04BA147976C94afE6590` ("Ramses V3 Non Fungible Position", from `gauge.nfpManager()`) |
@@ -42,12 +42,12 @@ claim says so.
 | Fee collector | `0x2Bef16A0081565E72100D73CBe19B1Bd2d802380` |
 | AccessHub / Voter | `0x83341F891f898cb5E0cacC8a70501BBa83d9CecF` / `0x30032D41868906f0376eC4D87B3D3Ac4064e7A97` |
 | WETH9 | `0x0Bd7D308f8E1639FAb988df18A8011f41EAcAD73` |
-| SwapRouter, Quoter, TickLens | **not yet found**: discover on-chain or via the API; verify by fork call before use |
+| CL router / quoter | **Universal Router** `0xbFbb2BCBc9dfFA029C27A249ae9BE031E1d83b1C`; **MixedRouteQuoter** `0x23B6EC50Fe0197FbE436717a0676BC07c54ba562`. Local-fork quote and swap verified. TickLens not required by the adapter |
 
 **API claims (not verified, treat as marketing until reproduced):** this pool shows `feeApr` about 587%, `rewardApr` about 377%,
 `lpApr` about 965% and about $785 of LP rewards in the current period. These annualise a short window and are probably computed on
 *in-range* liquidity near the price, not on the $305k. The measured volume above implies far less on the whole TVL. Phase 0
-must rebuild the yield from on-chain events for specific range widths.
+rebuilt conditional estimates from on-chain events for specific range widths; see `research/NOTES.md`. The API default is a ±10-tick (approximately ±0.1%) range. Its static reward APR is reproducible; its headline combined APR is not the measured return of a fixed range in the sampled window.
 
 Other USDG pairs (candidates for later; all CL with gauges, TVL from the API): SPY/USDG (about $501k at fee 100, $257k at fee
 500), META/USDG ($128k), GLD/USDG ($107k), and more. A new stock needs its own oracle feed, decimals and risk review.
@@ -58,20 +58,29 @@ Rate limit: 30 requests per 30 seconds per IP. Swagger: `https://gateway.kingdom
 ## 3. How RamsesV3 differs from Uniswap v3 (docs; function names to be re-verified on a fork)
 
 - **Pool and positions are Uniswap-v3 style:** `mint/increaseLiquidity/decreaseLiquidity/collect/burn` through an NFT position
-  manager, `slot0`, ticks, `LiquidityAmounts`, `TickMath`, `SqrtPriceMath` (a fork). This is **simpler than our current v4
-  integration**: no `PositionManager` action batches, no Permit2, no Universal Router. The old v4 adapter cannot be reused as is,
+  manager, `slot0`, ticks, `LiquidityAmounts`, `TickMath`, `SqrtPriceMath` (a fork). **The NFT ABI uses `int24 tickSpacing`,
+  not `uint24 fee`, and its `positions` getter returns ten fields, without nonce/operator.** Liquidity operations need no
+  action batches or Permit2. The separately verified swap route uses a Universal Router. The old v4 adapter cannot be reused as is,
   but the vault-facing shape (and `RangeLib`) can.
 - **Period accounting (weekly, new periods start Thursday 00:00 UTC):** a position earns fees and gauge rewards only while the
-  current tick is inside `[tickLower, tickUpper]`. Reward = `periodSecondsInside / pool.totalPeriodSecondsInside * weeklyEmissions`.
+  current tick is inside `[tickLower, tickUpper]`. The gauge pays `weeklyEmissions * positionPeriodSecondsInsideX96 / (604800 * 2**96)`.
+  Those seconds are already weighted by the position’s share of active liquidity; the denominator is a full week, not
+  a separate `pool.totalPeriodSecondsInside` getter.
   Liquidity **added mid-period creates debt** (`periodSecondsInsideDebt += liquidity * secondsElapsed`), so a new NFT only earns
-  from its mint time on. A recenter that mints a fresh NFT forfeits nothing already earned **only if rewards are claimed first**.
-- **Gauge:** `GaugeV3.getReward(tokenId, tokens[])` (also an array form) is callable by the position's owner, operator or approved
-  address; `earned(token, tokenId)` and `periodEarned(period, token, tokenId)` are views; `getRewardForOwner` is for the Voter.
-  The docs do not say whether a position must be staked or attached: **verify on a fork** (mint, accrue a period, call `earned`).
-  Whitelisted reward tokens are managed by AccessHub.
+  from its mint time on. A fresh NFT starts its own reward accounting. Decreasing liquidity alone does not erase the old NFT’s range metadata;
+  burning it does. The adapter **attempts harvest before every decrease and burn**; failure blocks exits by default.
+  A vault-only emergency flag can permit removal/burn after an atomically reverted harvest (section 9).
+- **Gauge (fork-verified correction):** direct `GaugeV3.getReward(tokenId, tokens[])` also requires protocol-authorized
+  claimer status. NFT ownership alone is insufficient. At the verified block only the NFT manager and Voter are authorized.
+  The contract owner calls **`positionManager.getReward(tokenId, tokens[])`**, which routes through
+  `gauge.getRewardForOwner` and pays the NFT owner. No staking or attachment was needed to earn and receive RAM.
+  USDG and NVDA are registered reward tokens but both had zero emissions in the observed period. The gauge has a
+  reward validator and can silently forfeit rewards; the adapter checks expected amounts against both balance deltas.
 - **Fees:** governance-adjustable and not tied to tick spacing; a fee collector and a protocol share exist (`slot0.feeProtocol`
-  is non-zero). Verify the split by calling `collect` on a fork.
-- **Possible restrictions on contracts as position owners:** the docs are silent; the vault is a contract owner, so test it.
+  is **500000 / 1000000**, i.e. **50%**). A fork swap verified the split. `collect` returns actual net LP
+  fees plus any already-decreased principal; it does not include separately claimed gauge rewards. The fee collector’s
+  `voter` is zero at the snapshot, so protocol fees go to its treasury, not automatically back to this gauge.
+- **Contract owners:** verified on a local fork, including the adapter owning its NFT and claiming through the manager.
 
 ## 4. What exists in this repository (reuse, do not re-derive)
 
@@ -92,11 +101,12 @@ Everything below is on `main`. Read `remediation/README.md` ("Concentrated liqui
 ## 5. New design problems the developer must solve (with evidence)
 
 1. **Reward harvesting and accounting.** Rewards are paid in USDG, NVDA and RAM through `getReward`. Decide, with fork evidence:
-   who triggers it (the vault owns the NFT, so the vault must be a permitted caller or approve the keeper); how USDG/NVDA rewards
+   who triggers it (the **adapter** owns the NFT and only the vault may invoke it; the future keeper should call the vault,
+   not receive NFT approval); how USDG/NVDA rewards
    enter the ledger (like fees: credited to principal and idle, with the reserve cut?); and what to do with **RAM** (swap through a
    Ramses pool with an oracle-anchored minimum, hold in a separate bucket, or forward). RAM is thin and volatile: do not mark it
-   into NAV without a bound. **Always harvest before `decreaseLiquidity`/burn**, or the rewards of a position that is recentered
-   away are lost.
+   into NAV without a bound. **Always harvest before `decreaseLiquidity`/burn**. The Phase 1 adapter keeps claimed amounts in separate per-pair
+   reward buckets until the vault explicitly receives and accounts for them. This does not decide the reserve cut or RAM policy.
 2. **Recenter versus rewards.** Each recenter mints a new NFT and restarts its reward debt; out-of-range time earns nothing. Model
    expected fees + rewards against the loss from recentering and choose band width, trigger and cooldown from data, not from the
    Uniswap defaults.
@@ -110,9 +120,13 @@ Everything below is on `main`. Read `remediation/README.md` ("Concentrated liqui
    and what is not (vault, reserve, pTokens, controller, guard, adapter). Keep margin out of scope. Design the per-pair
    parameters (feed, decimals, tolerance, fee tier, gauge) so adding SPY, META or GLD is configuration plus review, not new code.
 7. **Governance and token risks.** Ramses' controls (AccessHub, Voter, gauge reward whitelist, fee changes) are theirs. The docs
-   say the DLMM side runs a 1-of-1 Safe with a zero-delay timelock; check what controls the CL pool and gauge. The NVDA token has
-   `paused()`/`isBlocked()` and emits `TransferWithScaledUI`: if a corporate-action multiplier can change raw balances, both
-   Ramses accounting and our balance-delta checks are exposed.
+   say the DLMM side runs a 1-of-1 Safe with a zero-delay timelock; CL calls here instead found a **1-of-2 treasury Safe and a zero-delay timelock** (see research evidence), with the CL factory
+   controlled by AccessHub and the gauge using an upgradeable implementation. The NVDA token’s `paused()` is callable;
+   `isBlocked(address)` and `isBlocked()` reverted and must not be relied on as known ABI. It exposes `uiMultiplier()` and
+   emits `TransferWithScaledUI`. [Robinhood’s documentation](https://docs.robinhood.com/chain/building-with-stock-tokens/)
+   specifies **UI scaling, not raw-balance rebasing**, and says the Chainlink token price already includes the multiplier.
+   Current raw transfers are fork-checked; the automated suite does not establish the UI balance formula,
+   future upgrades or corporate-action transitions.
 
 ## 6. Workflow and standards (lessons from the Uniswap build; follow them)
 
@@ -156,3 +170,51 @@ Everything below is on `main`. Read `remediation/README.md` ("Concentrated liqui
 4. Share the timelock; new dedicated keeper wallet.
 
 Open: how to treat RAM rewards (problem 1) and the first-deposit size.
+
+## 9. Phase 0–1 reproduction and integration boundary
+
+The implementation is `src/RamsesV3PairedAdapter.sol`. It is non-upgradeable, with immutable vault, NFT manager and
+reference-oracle addresses. Pool/gauge/range/risk configuration is per pair. The vault-facing liquidity/state/range methods
+retain the paired adapter shape; registration uses Ramses pool/gauge addresses instead of a v4 `PoolKey`. There is no
+settlement swap method in this Phase 1 liquidity adapter. The router is verified separately in the fork suite; settlement
+swap integration, the production feed guard and vault accounting remain Phase 2 work. `IRamsesReferenceOracle` is a
+required fail-closed dependency; the test oracle is **not** a production implementation or approval to allocate at spot.
+
+`harvest` returns token and amount arrays. Automatic pre-removal/burn claims accumulate in `pendingRewards`; they are
+excluded from liquidity/fee return values. `claimPendingRewards` can drain amounts already credited even if the gauge later
+fails. A failed new harvest blocks liquidity removal/burn by default. The vault may explicitly set
+`setAllowRewardForfeiture(pairId, true)` to permit exits after a failed harvest. The entire harvest runs in a
+self-only subcall: a revert or wrong amount rolls back all reward transfers, claim state and pending-bucket writes before
+the exit continues. `ExitHarvestFailed` records the affected NFT. Healthy claims still accrue normally, and explicit
+`harvest` stays fail-closed. Oracle, price-band, principal, balance-delta and custody checks remain mandatory.
+
+This flag is persistent and per pair; the future vault must restrict its setter to emergency governance and reset it
+after an incident. It can forfeit **historical as well as current-period rewards**, especially on burn. Prefer removing
+liquidity and retaining the empty NFT while rewards may be recoverable. No proof excludes all principal loss under
+upstream upgrades, token failures or market movement, so the default remains fail-closed. Stale-oracle exits remain
+blocked independently of this flag and need a separate Phase 2 decision.
+
+```sh
+make test-ramses
+export ROBINHOOD_RPC_URL=https://rpc.mainnet.chain.robinhood.com
+python3 ramses-vaults/tools/pin.py > /tmp/ramses-pin.env
+source /tmp/ramses-pin.env
+make fork-ramses
+python3 ramses-vaults/tools/research.py --block "$REMEDIATION_FORK_BLOCK"
+python3 ramses-vaults/tools/mutations.py
+```
+
+The public endpoint prunes state quickly. Save the printed pin and run promptly; a missing historical state is a failed
+reproduction, not a skipped or passing test. Research snapshots and detailed notes stay local under `research/`. No deployment,
+key access, signing, broadcast, push or PR is part of these commands. For exact tested pins, counts, tolerances, limitations and
+operator decisions, read `research/NOTES.md`.
+
+Latest local verification (2026-10-19): `make test-ramses` passed **76 tests** (including six fuzz cases at
+256 runs each and four invariants at 64 runs / 2048 calls each); `make fork-ramses` passed **12 tests** at
+block **92,544,029**, native block **26,226,016**. Both commands use `--threads 1`; no tests were skipped.
+Adapter runtime is **20,428 bytes**. The fork includes ordinary in/out-of-range round trips, two price shocks,
+fee split, real owner/claimer routing, week-boundary rewards, router/quoter and a simulated reward-failure exit.
+These are scenario checks, not proof against all principal loss or approval of production parameters.
+Seven targeted mutations of changed/new exit safeguards were killed; the earlier 10/10 report is retained locally.
+Use repeated `tools/mutations.py --only 'mutation name'` options to rerun selected safeguards; source is restored
+after each run and compiler errors do not count as kills. Detailed commands and limitations are in the local notes.
