@@ -60,6 +60,7 @@ class Double(w.Chain):
         if sig=='positionStateAt(bytes32,uint160)': return [1,1000,9*10**17,90*10**6]
         if sig=='referenceSqrtPriceX96(bytes32,bool)': return [2**96]
         if sig=='positionTicks(bytes32)': return [222000,226800,1]
+        if sig=='rangePolicy(bytes32)': return [1,2400,600,3600,4,10,2**128-1]
         if sig=='rangeState(bytes32)': return [224400,1,self.now-4000,1]
         if sig=='pairConfig(bytes32)': return [0,0,0,0,1000*10**18]
         getters={'liquidityAdapter()':'adapter','oracleGuard()':'guard','lossReserve()':'reserve',
@@ -154,6 +155,23 @@ class WorkerTests(unittest.TestCase):
         self.worker.cycle(); self.c.now+=59; self.c.price*=2
         self.assertEqual(self.worker.cycle(),'rate_limited')
 
+    def test_cooldown_expiry_retried_without_another_price_move_after_restart(self):
+        self.worker.cycle()
+        self.c.overrides[(self.m['vault'],'rangeState(bytes32)')]=[224400,1,self.c.now,1]
+        self.c.now+=300; self.c.price=self.c.price*101//100
+        self.c.failures['recenter']=revert('RecenterCooldown()')
+        self.assertEqual(self.worker.cycle(),'complete')
+        retry=self.j.data['recenterRetryAt']
+        self.assertEqual(retry,self.c.now+3300)
+        self.c.now=retry; self.c.failures.clear(); self.c.due=True
+        # Price and hourly cadence alone would not run this pass.
+        self.assertEqual(self.c.price,self.j.data['checkpointPrice'])
+        self.assertLess(self.c.now-self.j.data['lastCycle'],3600)
+        restarted=w.Journal(self.j.path,'test',self.c,0)
+        self.assertEqual(w.Worker(self.c,self.m,restarted,True).cycle(),'complete')
+        self.assertEqual(self.c.submitted[-1][0],'recenter')
+        self.assertEqual(restarted.data['recenterRetryAt'],0)
+
     def test_periodic_checkpoint(self):
         self.worker.cycle(); self.c.now+=3600
         self.assertEqual(self.worker.cycle(),'complete')
@@ -176,6 +194,20 @@ class WorkerTests(unittest.TestCase):
         for a,tx in self.c.submitted:
             self.assertEqual(int(tx['gasPrice'],16),self.c.gas_price)
             self.assertEqual(int(tx['gas'],16),w.GAS[a])
+
+    def test_production_cast_arguments_enforce_nonce_gas_and_async(self):
+        # No wallet file is accessed: subprocess is fully mocked.
+        chain=w.Chain(w.RPC,self.c.keeper,signer=('unused-keystore','unused-password'))
+        tx=self.worker.transaction('harvest',self.m['vault'])
+        tx.update(nonce='0x7',gasPrice=hex(100000000))
+        with mock.patch.object(w.subprocess,'run',return_value=mock.Mock(returncode=0,stdout='0x'+'12'*32)) as run:
+            self.assertEqual(chain.submit(tx),'0x'+'12'*32)
+        args=run.call_args.args[0]
+        for flag,value in [('--nonce','7'),('--gas-limit','4000000'),('--gas-price','100000000'),('--from',self.c.keeper),('--rpc-url',w.RPC)]:
+            self.assertIn(flag,args)
+            self.assertEqual(args[args.index(flag)+1],value)
+        self.assertIn('--legacy',args); self.assertIn('--async',args)
+        self.assertNotIn('--private-key',args)
 
     def test_cycle_gas_cap(self):
         self.worker.gas_used=w.MAX_CYCLE_GAS

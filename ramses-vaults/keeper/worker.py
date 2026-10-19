@@ -363,12 +363,14 @@ class Worker:
         moved = baseline == 0 or abs(state['price']-baseline)*10000 >= baseline*50
         now = max(state['chainTime'], int(time.time()))
         emit('status', **state, priceMoved50Bps=moved)
-        due = moved or state['checkpointAge'] >= self.cadence or now-self.j.data['lastCycle'] >= self.cadence
+        retry_at = self.j.data.get('recenterRetryAt', 0)
+        due = moved or state['checkpointAge'] >= self.cadence or now-self.j.data['lastCycle'] >= self.cadence or (0 < retry_at <= now)
         if not due: return 'noop'
         if now-self.j.data['lastAttempt'] < self.minimum: return 'rate_limited'
         if not self.execute:
             emit('monitor', action='harvest then checkpoint then rebalance then recenter'); return 'monitor'
         self.j.data['lastAttempt'] = now; self.j.save()
+        recenter_retry = 0
         # Harvest checkpoints internally too; still require explicit successful checkpoint before rebalancing.
         for action, target in [('harvest',self.m['vault']), ('checkpoint',self.m['vault']),
                                ('rebalanceVault',self.m['stockMarket']), ('rebalanceVault',self.m['dollarMarket']),
@@ -380,6 +382,9 @@ class Worker:
                     self.c.simulate(self.transaction('recenter', self.m['vault']))
                 except Revert as error:
                     name = reason(error)
+                    if name == 'RecenterCooldown':
+                        policy = self.c.read(self.m['vault'], 'rangePolicy(bytes32)', self.m['pair'])
+                        recenter_retry = state['rangeState'][2] + policy[3]
                     if name not in {'RecenterNotNeeded', 'RecenterCooldown', 'RecenterRateLimited'}:
                         if benign(name, 'recenter'):
                             emit('wait', action='recenter', reason=name)
@@ -395,7 +400,7 @@ class Worker:
                 if action == 'rebalance' and outcome == 'wait': continue
                 if action == 'recenter' and outcome == 'wait': break
                 return outcome
-        self.j.data['lastCycle'] = now; self.j.save()
+        self.j.data.update(lastCycle=now, recenterRetryAt=recenter_retry); self.j.save()
         return 'complete'
 
 

@@ -161,7 +161,7 @@ class Verifier:
         # Complete launch table and auxiliary policy, in struct ABI order.
         config=r.read(m['vault'],'pairConfig(bytes32)',pair)
         assert [addr(x) for x in config[:4]] == [m[x].lower() for x in ['stock','usdg','stockMarket','dollarMarket']]
-        assert [int(x,16) for x in config[4:]] == [1000*10**18,1000*10**18,86400,0,300,2000,100,200,18,6,0,0,0,1]
+        assert [int(x,16) for x in config[4:]] == [1000*10**18,1000*10**18,3600,0,300,2000,100,200,18,6,0,0,0,1]
         feed=r.read(m['guard'],'feedConfig(bytes32)',pair)
         assert [addr(x) for x in feed[:5]] == [m['stock'].lower(),m['usdg'].lower(),FEED,POOL,GAUGE]
         assert [int(x,16) for x in feed[5:]] == [43200,300,600,18,6,8,1]

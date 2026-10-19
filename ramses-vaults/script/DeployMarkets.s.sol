@@ -193,7 +193,7 @@ contract DeployRamsesMarkets is Script {
             address(uMarket),
             1000e18,
             1000e18,
-            1 days,
+            1 hours,
             0,
             300,
             2000,

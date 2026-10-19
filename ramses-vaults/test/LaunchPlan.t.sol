@@ -48,6 +48,18 @@ contract LaunchPlanTest is Test {
             bytes memory d = data[i];
             bytes4 sig;
             assembly { sig := mload(add(d, 32)) }
+            if (
+                sig
+                    == bytes4(
+                        keccak256(
+                            "registerPair(bytes32,(address,address,address,address,uint128,uint128,uint64,uint32,uint32,uint16,uint16,uint16,uint8,uint8,bool,bool,bool,bool),(address,address,address,address,uint16,uint16))"
+                        )
+                    )
+            ) {
+                uint256 checkpointAge;
+                assembly { checkpointAge := mload(add(d, 260)) }
+                assertEq(checkpointAge, 3600, "live checkpoint age");
+            }
             if (sig == bytes4(keccak256("_setCollateralFactor(address,uint256)"))) {
                 assertEq(targets[i], address(12));
                 assertEq(
