@@ -78,13 +78,17 @@ contract DeployRamsesMarkets is Script {
         string memory journal = vm.envString("RAMSES_JOURNAL");
         // Never guess how to resume a partially mined run. Foundry's receipt journal owns resume.
         require(!vm.exists(journal), "JOURNAL_EXISTS_USE_VERIFIER_OR_FORGE_RESUME");
-        sCap = vm.envUint("RAMSES_STOCK_SUPPLY_CAP");
-        uCap = vm.envUint("RAMSES_USDG_SUPPLY_CAP");
-        sSeed = vm.envUint("RAMSES_STOCK_SEED");
-        uSeed = vm.envUint("RAMSES_USDG_SEED");
+        sCap = vm.envOr("RAMSES_STOCK_SUPPLY_CAP", uint256(4.35e18));
+        uCap = vm.envOr("RAMSES_USDG_SUPPLY_CAP", uint256(1000e6));
+        (, int256 answer,, uint256 updatedAt,) = FEED.latestRoundData();
         require(
-            sSeed > 0.02e18 && uSeed > 0.02e6 && sCap >= sSeed && uCap >= uSeed,
-            "SEED_AND_CAPS_REQUIRED"
+            answer > 0 && updatedAt <= block.timestamp && block.timestamp - updatedAt <= 12 hours,
+            "FRESH_SEED_PRICE_REQUIRED"
+        );
+        sSeed = vm.envOr("RAMSES_STOCK_SEED", uint256(20e26) / uint256(answer));
+        uSeed = vm.envOr("RAMSES_USDG_SEED", uint256(20e6));
+        require(
+            sSeed > 2e11 && uSeed > 20 && sCap >= sSeed && uCap >= uSeed, "SEED_AND_CAPS_REQUIRED"
         );
         stock = POOL.token1();
         usdg = POOL.token0();
@@ -115,9 +119,9 @@ contract DeployRamsesMarkets is Script {
         unitroller = new RamsesUnitroller(timelock, address(controllerImplementation));
         controller = Peridottroller(address(unitroller));
         delegate = new RamsesBoostedDelegate();
-        rate = new RamsesInterestRateModel();
-        sMarket = _market(stock, 2e26, "Ramses Peridot NVDA", "rpNVDA");
-        uMarket = _market(usdg, 2e14, "Ramses Peridot USDG", "rpUSDG");
+        rate = new RamsesInterestRateModel(7_610_350_076, 47_564_687_975, 380_517_503_805, 0.8e18);
+        sMarket = _market(stock, 2e21, "Ramses Peridot NVDA", "rpNVDA");
+        uMarket = _market(usdg, 2e11, "Ramses Peridot USDG", "rpUSDG");
         source = new RamsesLendingPriceSource(guard, PAIR);
         oracle =
             new RobinhoodLendingPriceAdapter(address(source), address(sMarket), address(uMarket));
@@ -171,16 +175,14 @@ contract DeployRamsesMarkets is Script {
                 )
             )
         );
-        // Proposed reserve policy: no funded coverage promised. Operator must separately fund it.
+        // Live NVDA reserve limits; operator separately funds 0.0002 NVDA.
         _action(
             address(reserve),
             abi.encodeCall(
                 reserve.configurePair,
                 (
                     PAIR,
-                    RamsesLossReserve.ReserveConfig(
-                        stock, usdg, 1000e18, 1000e18, 10000, false, true
-                    )
+                    RamsesLossReserve.ReserveConfig(stock, usdg, 10e18, 25e18, 5000, false, true)
                 )
             )
         );
@@ -230,6 +232,14 @@ contract DeployRamsesMarkets is Script {
         );
         _action(address(controller), abi.encodeCall(controller._setCloseFactor, (0.5e18)));
         _action(address(controller), abi.encodeCall(controller._setLiquidationIncentive, (1.08e18)));
+        PToken[] memory ms = new PToken[](2);
+        ms[0] = PToken(address(sMarket));
+        ms[1] = PToken(address(uMarket));
+        uint256[] memory caps = new uint256[](2);
+        caps[0] = vm.envOr("RAMSES_STOCK_BORROW_CAP", uint256(4.35e18));
+        caps[1] = vm.envOr("RAMSES_USDG_BORROW_CAP", uint256(1000e6));
+        require(caps[0] != 0 && caps[1] != 0, "ZERO_BORROW_CAP_IS_UNLIMITED");
+        _action(address(controller), abi.encodeCall(controller._setMarketBorrowCaps, (ms, caps)));
         for (uint256 i; i < 2; i++) {
             RamsesBoostedDelegate m = i == 0 ? sMarket : uMarket;
             _action(
@@ -239,8 +249,8 @@ contract DeployRamsesMarkets is Script {
                 address(controller),
                 abi.encodeCall(controller._setBorrowPaused, (PToken(address(m)), true))
             );
-            // Zero collateral factors are the launch state. Borrowing requires a later risk decision.
-            _action(address(m), abi.encodeCall(m._setReserveFactor, (0.2e18)));
+            // List and configure before seeding; activation is the last batch step.
+            _action(address(m), abi.encodeCall(m._setReserveFactor, (0.1e18)));
             _action(address(m), abi.encodeCall(m._setFlashLoansPaused, (true)));
             _action(
                 address(vault), abi.encodeCall(vault.grantRole, (vault.KEEPER_ROLE(), address(m)))
@@ -262,14 +272,27 @@ contract DeployRamsesMarkets is Script {
                 abi.encodeWithSignature("approve(address,uint256)", address(m), 0)
             );
         }
-        PToken[] memory ms = new PToken[](2);
-        ms[0] = PToken(address(sMarket));
-        ms[1] = PToken(address(uMarket));
-        uint256[] memory caps = new uint256[](2);
-        caps[0] = vm.envUint("RAMSES_STOCK_BORROW_CAP");
-        caps[1] = vm.envUint("RAMSES_USDG_BORROW_CAP");
-        require(caps[0] != 0 && caps[1] != 0, "ZERO_BORROW_CAP_IS_UNLIMITED");
-        _action(address(controller), abi.encodeCall(controller._setMarketBorrowCaps, (ms, caps)));
+        _action(
+            stock,
+            abi.encodeWithSignature(
+                "approve(address,uint256)", address(reserve), uint256(0.0002e18)
+            )
+        );
+        _action(address(reserve), abi.encodeCall(reserve.deposit, (PAIR, stock, 0.0002e18)));
+        _action(
+            stock, abi.encodeWithSignature("approve(address,uint256)", address(reserve), uint256(0))
+        );
+        // Last operations: both markets seeded and bounded before public activation.
+        for (uint256 i; i < 2; i++) {
+            _action(
+                address(controller),
+                abi.encodeCall(controller._setCollateralFactor, (ms[i], 0.8e18))
+            );
+            _action(address(controller), abi.encodeCall(controller._setMintPaused, (ms[i], false)));
+            _action(
+                address(controller), abi.encodeCall(controller._setBorrowPaused, (ms[i], false))
+            );
+        }
     }
 
     function _journal(string memory path) internal {
@@ -295,8 +318,12 @@ contract DeployRamsesMarkets is Script {
         vm.serializeAddress(key, "usdg", usdg);
         vm.serializeUint(key, "stockSupplyCap", sCap);
         vm.serializeUint(key, "dollarSupplyCap", uCap);
-        vm.serializeUint(key, "stockBorrowCap", vm.envUint("RAMSES_STOCK_BORROW_CAP"));
-        vm.serializeUint(key, "dollarBorrowCap", vm.envUint("RAMSES_USDG_BORROW_CAP"));
+        vm.serializeUint(
+            key, "stockBorrowCap", vm.envOr("RAMSES_STOCK_BORROW_CAP", uint256(4.35e18))
+        );
+        vm.serializeUint(
+            key, "dollarBorrowCap", vm.envOr("RAMSES_USDG_BORROW_CAP", uint256(1000e6))
+        );
         vm.serializeUint(key, "stockSeed", sSeed);
         vm.serializeUint(key, "dollarSeed", uSeed);
         vm.serializeAddress(key, "targets", targets);

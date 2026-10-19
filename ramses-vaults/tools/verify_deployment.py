@@ -103,7 +103,7 @@ class Verifier:
             ('guard','RamsesOracleGuard',[]), ('vault','RamsesBoostedVault',[m['sender']]),
             ('reserve','RamsesLossReserve',[m['sender']]), ('adapter','RamsesVaultAdapter',[m['vault'],MANAGER,m['guard']]),
             ('controllerImplementation','RamsesPeridottroller',[]), ('controller','RamsesUnitroller',[]),
-            ('delegate','RamsesBoostedDelegate',[module]), ('rate','RamsesInterestRateModel',[]),
+            ('delegate','RamsesBoostedDelegate',[module]), ('rate','RamsesInterestRateModel',[hex(x) for x in (7610350076,47564687975,380517503805,8*10**17)]),
             ('stockMarket','PErc20Delegator',[]), ('dollarMarket','PErc20Delegator',[]),
             ('source','RamsesLendingPriceSource',[m['guard'],m['pair']]),
             ('oracle','RobinhoodLendingPriceAdapter',[m['source'],m['stockMarket'],m['dollarMarket'],m['stock'],m['usdg']])]:
@@ -132,6 +132,8 @@ class Verifier:
         self.roles(configured)
         if not configured: return self.checked
         pair = m['pair']; c = m['controller']
+        for name, value in [('BASE',7610350076),('SLOPE',47564687975),('JUMP',380517503805),('KINK',8*10**17)]:
+            self.eq(m['rate'],name+'()',value)
         self.eq_address(c,'oracle()',m['oracle']); self.eq(c,'closeFactorMantissa()',5*10**17)
         self.eq(c,'liquidationIncentiveMantissa()',108*10**16)
         self.eq_address(c,'isolatedMarginRiskHook()',ZERO); self.eq_address(c,'isolatedMarginRegistrar()',ZERO)
@@ -142,14 +144,16 @@ class Verifier:
         for key, prefix in [('stockMarket','stock'),('dollarMarket','dollar')]:
             market=m[key]
             listed=r.read(c,'markets(address)',market)
-            assert int(listed[0],16)==1 and int(listed[1],16)==0, 'Launch collateral factor must be zero'
-            self.eq(c,'borrowGuardianPaused(address)',1,market)
+            assert int(listed[0],16)==1 and int(listed[1],16)==8*10**17, 'Launch collateral factor must be 80%' 
+            self.eq(c,'borrowGuardianPaused(address)',0,market)
             self.eq(c,'mintGuardianPaused(address)',0,market)
             self.eq(c,'borrowCaps(address)',m[prefix+'BorrowCap'],market)
+            assert m[prefix+'BorrowCap'] == (435*10**16 if prefix=='stock' else 1000*10**6), 'Approved borrow cap'
+            assert m[prefix+'SupplyCap'] == (435*10**16 if prefix=='stock' else 1000*10**6), 'Approved supply cap'
             self.eq(c,'peridotSupplySpeeds(address)',0,market); self.eq(c,'peridotBorrowSpeeds(address)',0,market)
             self.eq(market,'supplyCap()',m[prefix+'SupplyCap'])
             self.eq(market,'vaultBufferMantissa()',5*10**17); self.eq(market,'vaultPaused()',0)
-            self.eq(market,'reserveFactorMantissa()',2*10**17); self.eq(market,'flashLoansPaused()',1)
+            self.eq(market,'reserveFactorMantissa()',10**17); self.eq(market,'flashLoansPaused()',1)
             self.eq_address(market,'robinhoodVault()',m['vault']); self.eq_address(market,'vaultOperator()',m['keeper'])
             self.eq(market,'robinhoodPairId()',int(pair,16))
             self.eq(market,'balanceOf(address)',10**8,'0x000000000000000000000000000000000000dead')
@@ -168,7 +172,7 @@ class Verifier:
         self.eq(m['adapter'],'removalTolerance(bytes32)',400,pair)
         reserve = r.read(m['reserve'],'reserveConfig(bytes32)',pair)
         assert [addr(x) for x in reserve[:2]] == [m['stock'].lower(),m['usdg'].lower()]
-        assert [int(x,16) for x in reserve[2:]] == [1000*10**18,1000*10**18,10000,0,1]
+        assert [int(x,16) for x in reserve[2:]] == [10*10**18,25*10**18,5000,0,1]
         self.eq_address(m['adapter'],'vault()',m['vault']); self.eq_address(m['adapter'],'oracle()',m['guard'])
         self.eq_address(m['adapter'],'positionManager()',MANAGER)
         self.eq_address(m['source'],'guard()',m['guard']); self.eq(m['source'],'pair()',int(pair,16))

@@ -48,7 +48,7 @@ def main():
             time.sleep(0.1)
         raise RuntimeError('Missing receipt')
     rpc('anvil_impersonateAccount',[SENDER]); rpc('anvil_setBalance',[SENDER,hex(1000*10**18)])
-    env={**os.environ,'FOUNDRY_PROFILE':'ramses','RAMSES_LOCAL_REHEARSAL':'true','RAMSES_PUBLIC_SENDER':SENDER,'RAMSES_KEEPER':KEEPER,'RAMSES_STOCK_SUPPLY_CAP':str(2*10**18),'RAMSES_USDG_SUPPLY_CAP':str(400*10**6),'RAMSES_STOCK_BORROW_CAP':str(10**18),'RAMSES_USDG_BORROW_CAP':str(100*10**6),'RAMSES_STOCK_SEED':str(4*10**16),'RAMSES_USDG_SEED':str(40000),'RAMSES_JOURNAL':str(journal.relative_to(ROOT))}
+    env={**os.environ,'FOUNDRY_PROFILE':'ramses','RAMSES_LOCAL_REHEARSAL':'true','RAMSES_PUBLIC_SENDER':SENDER,'RAMSES_KEEPER':KEEPER,'RAMSES_STOCK_SUPPLY_CAP':str(435*10**16),'RAMSES_USDG_SUPPLY_CAP':str(1000*10**6),'RAMSES_STOCK_BORROW_CAP':str(435*10**16),'RAMSES_USDG_BORROW_CAP':str(1000*10**6),'RAMSES_JOURNAL':str(journal.relative_to(ROOT))}
     common=['--rpc-url',args.rpc_url,'--sender',SENDER,'--unlocked','--broadcast','--slow','--threads','1','--gas-estimate-multiplier','150']
     if not existing:
         before=int(read.rpc('eth_blockNumber',[]),16)
@@ -65,7 +65,7 @@ def main():
     # Token transfer, never token implementation/storage editing.
     from verify_deployment import POOL
     rpc('anvil_impersonateAccount',[POOL]); rpc('anvil_setBalance',[POOL,hex(10**18)])
-    for token,amount in [(m['stock'],m['stockSeed']),(m['usdg'],m['dollarSeed'])]:
+    for token,amount in [(m['stock'],m['stockSeed']+2*10**14),(m['usdg'],m['dollarSeed'])]:
         send(POOL,token,cast('calldata','transfer(address,uint256)',timelock,amount))
     send(SENDER,timelock,m['scheduleCalldata']); rpc('evm_increaseTime',[3601]); rpc('evm_mine',[])
     send(SENDER,timelock,m['executeCalldata'])

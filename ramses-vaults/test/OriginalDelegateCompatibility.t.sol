@@ -132,7 +132,7 @@ abstract contract OriginalLendingFixture is Test {
         Peridottroller implementation = new Peridottroller();
         unitroller = new RamsesUnitroller(address(this), address(implementation));
         controller = Peridottroller(address(unitroller));
-        rate = new RamsesInterestRateModel();
+        rate = new RamsesInterestRateModel(7_610_350_076, 47_564_687_975, 380_517_503_805, 0.8e18);
         sMarket = market(address(stock), 2e26, "rpNVDA");
         uMarket = market(address(usdg), 2e14, "rpUSDG");
         stockAccount = address(sMarket);

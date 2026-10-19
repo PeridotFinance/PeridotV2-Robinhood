@@ -6,10 +6,18 @@ import { InterestRateModel } from "peridot/InterestRateModel.sol";
 /// Parameters are per native (L1-derived) block, not sequencer blocks; annualization is an estimate.
 contract RamsesInterestRateModel is InterestRateModel {
     uint256 public constant BLOCKS_PER_YEAR = 2_628_000; // assumed 12 seconds
-    uint256 public constant BASE = 0.02e18 / BLOCKS_PER_YEAR;
-    uint256 public constant SLOPE = 0.1e18 / BLOCKS_PER_YEAR;
-    uint256 public constant JUMP = 1e18 / BLOCKS_PER_YEAR;
-    uint256 public constant KINK = 0.8e18;
+    uint256 public immutable BASE;
+    uint256 public immutable SLOPE;
+    uint256 public immutable JUMP;
+    uint256 public immutable KINK;
+
+    constructor(uint256 base, uint256 slope, uint256 jump, uint256 kink) {
+        require(kink > 0 && kink <= 1e18, "INVALID_KINK");
+        BASE = base;
+        SLOPE = slope;
+        JUMP = jump;
+        KINK = kink;
+    }
 
     function utilization(uint256 cash, uint256 borrows, uint256 reserves)
         public
@@ -25,7 +33,7 @@ contract RamsesInterestRateModel is InterestRateModel {
 
     function getBorrowRate(uint256 cash, uint256 borrows, uint256 reserves)
         public
-        pure
+        view
         override
         returns (uint256)
     {
@@ -36,7 +44,7 @@ contract RamsesInterestRateModel is InterestRateModel {
 
     function getSupplyRate(uint256 cash, uint256 borrows, uint256 reserves, uint256 factor)
         external
-        pure
+        view
         override
         returns (uint256)
     {

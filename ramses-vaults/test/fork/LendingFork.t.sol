@@ -93,7 +93,7 @@ contract LendingForkTest is Test {
         controller = Peridottroller(
             address(new RamsesUnitroller(address(this), address(new Peridottroller())))
         );
-        rate = new RamsesInterestRateModel();
+        rate = new RamsesInterestRateModel(7_610_350_076, 47_564_687_975, 380_517_503_805, 0.8e18);
         sMarket = _market(address(stock), 2e26, "rpNVDA");
         uMarket = _market(address(usdg), 2e14, "rpUSDG");
         priceAdapter = new RobinhoodLendingPriceAdapter(
@@ -139,7 +139,7 @@ contract LendingForkTest is Test {
             m.setVaultConfig(address(vault), PAIR, 0.5e18, keeper);
             m.setSupplyCap(i == 0 ? 10e18 : 1000e6);
             m.setVaultPaused(false);
-            require(m._setReserveFactor(0.2e18) == 0);
+            require(m._setReserveFactor(0.1e18) == 0);
             m._setFlashLoansPaused(true);
         }
         PToken[] memory ms = new PToken[](2);
@@ -192,8 +192,8 @@ contract LendingForkTest is Test {
     }
 
     function _enableBorrow() internal {
-        require(controller._setCollateralFactor(PToken(address(sMarket)), 0.3e18) == 0);
-        require(controller._setCollateralFactor(PToken(address(uMarket)), 0.3e18) == 0);
+        require(controller._setCollateralFactor(PToken(address(sMarket)), 0.8e18) == 0);
+        require(controller._setCollateralFactor(PToken(address(uMarket)), 0.8e18) == 0);
         address[] memory ms = new address[](1);
         ms[0] = address(sMarket);
         vm.prank(alice);
@@ -283,7 +283,7 @@ contract LendingForkTest is Test {
         _enableBorrow();
         vm.prank(alice);
         uMarket.borrow(50e6);
-        _shift(9000);
+        _shift(16000);
         (,, uint256 shortfall) = controller.getAccountLiquidity(alice);
         assertGt(shortfall, 0);
         deal(address(usdg), address(this), 25e6);

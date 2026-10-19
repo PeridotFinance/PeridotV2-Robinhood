@@ -130,7 +130,7 @@ abstract contract LendingFixture is Test {
         Peridottroller implementation = new Peridottroller();
         unitroller = new RamsesUnitroller(address(this), address(implementation));
         controller = Peridottroller(address(unitroller));
-        rate = new RamsesInterestRateModel();
+        rate = new RamsesInterestRateModel(7_610_350_076, 47_564_687_975, 380_517_503_805, 0.8e18);
         sMarket = market(address(stock), 2e26, "rpNVDA");
         uMarket = market(address(usdg), 2e14, "rpUSDG");
         stockAccount = address(sMarket);
@@ -162,7 +162,7 @@ abstract contract LendingFixture is Test {
             m.setVaultConfig(address(vault), PAIR, 0.5e18, keeper);
             m.setSupplyCap(i == 0 ? 10e18 : 1000e6);
             m.setVaultPaused(false);
-            require(m._setReserveFactor(0.2e18) == 0);
+            require(m._setReserveFactor(0.1e18) == 0);
             m._setFlashLoansPaused(true);
         }
         PToken[] memory markets = new PToken[](2);
@@ -191,6 +191,7 @@ abstract contract LendingFixture is Test {
 
     function market(address token, uint256 initialRate, string memory symbol)
         internal
+        virtual
         returns (RamsesBoostedDelegate)
     {
         return RamsesBoostedDelegate(
@@ -219,8 +220,8 @@ abstract contract LendingFixture is Test {
     }
 
     function enableBorrow() internal {
-        require(controller._setCollateralFactor(PToken(stockAccount), 0.3e18) == 0);
-        require(controller._setCollateralFactor(PToken(usdgAccount), 0.3e18) == 0);
+        require(controller._setCollateralFactor(PToken(stockAccount), 0.8e18) == 0);
+        require(controller._setCollateralFactor(PToken(usdgAccount), 0.8e18) == 0);
         address[] memory ms = new address[](1);
         ms[0] = stockAccount;
         vm.prank(alice);

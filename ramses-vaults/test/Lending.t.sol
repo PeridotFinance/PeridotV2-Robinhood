@@ -105,7 +105,7 @@ contract LendingTest is LendingFixture {
         uMarket.mint(1e6);
     }
 
-    function testZeroCollateralLaunchDisablesBorrow() public {
+    function testNoEnteredCollateralDisablesBorrow() public {
         supply();
         vm.prank(alice);
         vm.expectRevert();
@@ -244,7 +244,7 @@ contract LendingTest is LendingFixture {
         enableBorrow();
         vm.prank(alice);
         uMarket.borrow(50e6);
-        feed.set(50e8);
+        feed.set(20e8);
         (,, uint256 shortfall) = controller.getAccountLiquidity(alice);
         assertGt(shortfall, 0);
         uint256 beforeShares = sMarket.balanceOf(address(this));

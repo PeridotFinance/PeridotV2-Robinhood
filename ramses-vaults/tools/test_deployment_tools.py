@@ -21,10 +21,10 @@ class DeploymentToolsTest(unittest.TestCase):
         artifact=json.loads((OUT/'RamsesInterestRateModel.sol/RamsesInterestRateModel.json').read_text())
         code=artifact['deployedBytecode']['object']
         address='0x'+'12'*20
-        reader=FakeReader(code); Verifier(reader,{}).runtime(address,'RamsesInterestRateModel')
+        reader=FakeReader(code); Verifier(reader,{}).runtime(address,'RamsesInterestRateModel',['0x0'])
         # Same-size byte change in the executable body.
         reader.runtime=code[:40]+('ff' if code[40:42]!='ff' else '00')+code[42:]
-        with self.assertRaises(AssertionError): Verifier(reader,{}).runtime(address,'RamsesInterestRateModel')
+        with self.assertRaises(AssertionError): Verifier(reader,{}).runtime(address,'RamsesInterestRateModel',['0x0'])
     def test_truncated_runtime_rejected(self):
         with self.assertRaises(AssertionError): Verifier(FakeReader('0x00'),{}).runtime('0x'+'12'*20,'RamsesInterestRateModel')
 

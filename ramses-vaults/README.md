@@ -1,6 +1,6 @@
 # Ramses vaults (NVDA/USDG): design handoff
 
-**Status: Phases 0–2 verified locally; Phase 3 lending implementation and local-only deployment rehearsal are in section 10. Nothing here is deployed to production.** This folder is where a Ramses-backed copy of the paired vault, an
+**Status: Phases 0–3 complete locally; Phase 4 launch configuration and keeper are documented in section 11. Nothing here is deployed to production.** This folder is where a Ramses-backed copy of the paired vault, an
 isolated lending market on top of it, and a cloud keeper get built and tested. It is written for the developer (human or
 agent) who builds it. Facts were read from the Ramses docs (<https://tech.ramses.xyz>), from Ramses' public API
 (`https://gateway.kingdom.dev/robinhood/api`) and **verified on-chain on 2026-10-18**. Anything that is only a docs or API
@@ -186,7 +186,7 @@ These Phase 2 instructions supersede the earlier open design questions and recom
 | Recenter cooldown / rolling limit | 1 hour / 4 per rolling 24 hours |
 | Reward forfeiture | OFF by default |
 
-These are configuration, not hard-coded strategy defaults. Configure both loss policies before allocation: an unset deploy bound is zero (strict), not disabled. Other fixture values are a 20% reserve cut, 1% settlement slippage, $1,000 settlement-swap cap, 200-bp over-unwind, one-day checkpoint age and 300-second deadline limit. These are not additional operator decisions: choose their launch values, reserve funding/coverage, aggregate USDG cap, first deposit and RAM forwarding destination before deployment.
+These are configuration, not hard-coded strategy defaults. Configure both loss policies before allocation: an unset deploy bound is zero (strict), not disabled. Other fixture values are a 20% reserve cut, 1% settlement slippage, $1,000 settlement-swap cap, 200-bp over-unwind, one-day checkpoint age and 300-second deadline limit. Phase 4 adopts these live NVDA values: 20% fee/reward cut, 1% settlement slippage, $1,000 swap and aggregate USDG caps, 200-bp over-unwind, one-day maximum checkpoint age, and 300-second deadline limit. The keeper checkpoints at least hourly and on 50-bps oracle moves; see section 11. RAM stays in zero-NAV custody until a separate timelock forwarding instruction.
 
 ## 9. Phase 2 reproduction, results and boundaries
 
@@ -251,11 +251,11 @@ The inherited accounting suites are ported assertion-for-assertion using account
 
 Tests are scenario evidence, not proof against all principal loss. Fixed-price invariants cover randomized deposit, withdraw, rebalance, checkpoint and harvest sequences; they do not model arbitrary governance upgrades, adversarial liquidity changes, future stock corporate actions or long-horizon markets. Per-action 10-bp loss bounds do not bound total strategy loss, repeated deployment costs, oracle error or subsequent price movement. The approximately $305k pool TVL is the earlier research snapshot, not a minimum guaranteed depth.
 
-Unresolved deployment decisions, in priority order: select the initial deposit and reserve funding/coverage/cut; choose the aggregate USDG cap and external-reward destination; establish monitoring and incident handling for upstream fee/gauge/token changes. Section 10 records the separate Phase 3 lending markets and their 50% local cash target; Phase 4 must implement the dedicated keeper. No production deployment approval is inferred from these local results.
+Phase 4 resolves the deposit, reserve, caps and interest settings below using the operator’s live NVDA decisions. Monitoring and incident procedures are in section 11. RAM forwarding remains a separate future timelock action; launch requires no destination. No production transaction authorization is inferred from local test results.
 
 ## 10. Phase 3: separate Ramses lending markets
 
-**Local implementation and rehearsal only. No production deployment, push, PR, wallet access or margin integration.** The production launch configuration is supply-only: both collateral factors are zero and both markets' borrowing is paused. Positive collateral factors need a later timelock decision. The shared timelock, underlying tokens and Ramses infrastructure are deliberate; controller storage, market proxies, delegate/module, vault, reserve, guard, price source/adapter and libraries are separate instances.
+**Local implementation and rehearsal only. No production deployment, push, PR, wallet access or margin integration.** The operator-approved launch configuration enables supply and borrowing on both markets at **80% collateral factor**, after timelocked configuration and seed. This supersedes the historical Phase 3 CF-0/paused proposal. The shared timelock, underlying tokens and Ramses infrastructure are deliberate; controller storage, market proxies, delegate/module, vault, reserve, guard, price source/adapter and libraries are separate instances.
 
 ### Delegate decision and accounting
 
@@ -275,29 +275,29 @@ An unencumbered supplier who has **not entered the market as collateral** may re
 
 **This availability choice has a limit:** a stale feed cannot prove current LP losses. Cash-only stale exits use the last booked claim and can precede a loss discovered after reopening. The no-early-exit loss tests cover **fresh oracle price moves**, not unknown weekend moves. Eliminating this residual priority risk would require suspending those cash exits or a separately reviewed haircut/reserve/settlement policy. Neither is silently introduced here. A token pause can also prevent cash transfers independently of the oracle.
 
-### Proposed lending launch settings
+### Approved lending launch settings (Phase 4)
 
 | Setting | Script behavior / rationale |
 | --- | --- |
-| Market proxies | Fresh `PErc20Delegator` instances; `rpNVDA` and `rpUSDG`, 8 decimals; initial exchange rates `2e26` and `2e14` |
+| Market proxies | Fresh `PErc20Delegator` instances; `rpNVDA` and `rpUSDG`, 8 decimals; initial exchange rates `2e21` and `2e11` |
 | Controller | Captured chain-4663 `Peridottroller` logic, fresh `RamsesUnitroller`; implementation and proxy admin set to the supplied timelock at construction |
 | Timelock | Contract with `getMinDelay() >= 1 hour`; sole CONFIG/DEFAULT_ADMIN on vault, guard and reserve; vault guardian also timelock |
 | Keeper | Separate address; only KEEPER_ROLE on the vault and market rebalance operator; market proxies additionally hold KEEPER_ROLE solely to checkpoint their fixed pair |
 | Buffer | 50% minimum, timelock may raise it |
-| Interest | Immutable kink model, replaced through timelock-only market setter: 2% base, 10% utilization slope to 80% kink, 100% slope above; approximately 10% APR at kink and 30% at full utilization |
+| Interest | Constructor-configured kink model, replaced through timelock-only market setter: per native block base `7610350076`, slope `47564687975`, jump `380517503805`, kink `0.8e18`. Approximately 2% base, 12% APR at kink and 32% at full utilization; the slope is 12.5% APR per unit utilization |
 | Interest clock | Captured controller/market use EVM `block.number`; chain 4663 exposes L1-derived block numbers there. Model assumes 2,628,000 native blocks/year (12 seconds); realized annual rates depend on that cadence |
-| Lending reserves | 20% of borrower interest; separate from the vault's 20% fee/reward reserve cut |
-| Collateral factors | **0 / 0 at launch**, borrowing paused. Tests separately exercise 30% / 30%, including underwater liquidation. Those scenarios are not a tail-risk safety proof or a recommended automatic activation |
+| Lending reserves | 10% of borrower interest; separate from the vault's 20% fee/reward reserve cut |
+| Collateral factors | **80% / 80%, borrowing enabled** after seed. Tests exercise liquidation at this factor; they do not prove weekend or tail-risk solvency |
 | Close factor / incentive | 50% / 1.08; scenario-tested, still subject to stale-feed liquidation unavailability and actual execution depth |
-| Supply caps | Required raw-token environment inputs; **zero closes supply**. Checks include interest accrued through the mint block. Include seed plus the intended first supplier deposit. Dollar caps across later pairs need aggregate review |
-| Borrow caps | Required positive raw-token inputs; controller zero means unlimited and is rejected by the script. Borrow pause and zero collateral factors remain in force |
-| First deposit | Timelock-only first mint, strictly more than one whole pToken; `1e8` raw shares permanently assigned to `0xdead` (0.02 underlying at the initial rate). Fund the timelock before executing the batch |
+| Supply caps | 4.35 NVDA / 1,000 USDG, including seed and accrued supplier interest. **Zero closes supply.** At the 50% buffer this targets approximately $1,000 combined vault exposure near $230/NVDA; the independent $1,000 pair cap still applies when price moves |
+| Borrow caps | 4.35 NVDA / 1,000 USDG; controller zero means unlimited and is rejected. Both markets open for supply/borrowing; ordinary seizure enabled |
+| First deposit | Timelock-only first mint: $20 NVDA at the deployment feed price plus 20 USDG, leaving approximately $20 matched pair value in the vault at the 50% buffer (approximately $40 total market deposits). `1e8` raw shares remain locked at `0xdead`: 0.0000002 NVDA and 0.000020 USDG at the initial exchange rates. Fund the timelock with both seeds plus 0.0002 NVDA for reserve before execution |
 | Donations | Direct vault/adapter transfers do not become booked claims. Direct market cash donations are real backing and can raise rates; locked shares and zero-share rejection bound the first-depositor rounding attack. Supply-cap saturation can still require timelock intervention |
 | Margin / flash / rewards | No margin wiring; flash loans paused; controller PERIDOT reward speeds zero |
 
-The low base/kink rates limit accrual pressure in a small new market, while the steeper post-kink slope prices scarcity of releasable cash. This is a conservative launch proposal paired with borrowing disabled, not a measured equilibrium rate; the timelock can replace the model.
+The interest curve uses the exact per-block parameters supplied by the operator for live NVDA. No equivalence to every edge case of Peridot JumpRateModel is claimed: the Ramses model retains its existing utilization clamp at 100%. Governance can replace the model through the markets’ timelock-only setter.
 
-The vault launch table in section 8 remains unchanged. Script fixture choices for reserve funding policy, aggregate USDG cap, settlement/checkpoint/deadline settings and fee cut remain explicit proposals, not additional operator approvals. Reserve coverage is not promised without actual funding.
+The reserve uses the recorded live limits: **$10/event, $25/UTC day, 50% coverage**, with **0.0002 NVDA** funded in the launch batch. The live deployment README records that NVDA funding and a subsequent 0.0000165 NVDA payout; it records no production USDG funding amount. Accordingly this plan does not invent a USDG balance: it funds zero USDG initially and uses the documented limits. Coverage remains limited by in-kind available balances. All risk values are set by timelock payloads, not strategy constants; interest parameters are constructor inputs and the installed model is timelock-replaceable.
 
 ### Reproduction and deployment tooling
 
@@ -316,7 +316,7 @@ python3 ramses-vaults/tools/mutations_phase3.py --batch 1
 
 `script/DeployMarkets.s.sol:DeployRamsesMarkets` deploys guard, adapter, reserve, vault, controller implementation/proxy, delegate/module, rate model, both market proxies, price source and adapter. It initializes ownership but does not execute governance configuration. It prints every target/calldata pair and complete timelock `scheduleBatch`/`executeBatch` payloads for guard/reserve policy, pair registration, limits, role grants, market listing/configuration, pauses and first deposits. A fresh journal path is mandatory; existing journals refuse redeployment. An interrupted broadcast must be reconciled against receipts and Foundry's `--resume`, not repeated with a new journal to hide a partial deployment.
 
-Required **public configuration** inputs are `RAMSES_PUBLIC_SENDER`, `RAMSES_TIMELOCK`, `RAMSES_KEEPER`, `RAMSES_JOURNAL` (under `ramses-vaults/deployments/`), `RAMSES_STOCK_SUPPLY_CAP`, `RAMSES_USDG_SUPPLY_CAP`, `RAMSES_STOCK_BORROW_CAP`, `RAMSES_USDG_BORROW_CAP`, `RAMSES_STOCK_SEED`, and `RAMSES_USDG_SEED`. All amounts are raw token units. A simulation uses:
+Required **public configuration** inputs are `RAMSES_PUBLIC_SENDER`, `RAMSES_TIMELOCK`, `RAMSES_KEEPER`, and `RAMSES_JOURNAL` (under `ramses-vaults/deployments/`). Raw caps default to the approved values; seed defaults to $20 of NVDA at the current fresh feed and 20 USDG. Optional `RAMSES_STOCK_SUPPLY_CAP`, `RAMSES_USDG_SUPPLY_CAP`, `RAMSES_STOCK_BORROW_CAP`, `RAMSES_USDG_BORROW_CAP`, `RAMSES_STOCK_SEED`, and `RAMSES_USDG_SEED` are explicit plan overrides; the production launch verifier rejects caps that differ from the approved values. Review any seed price drift between scheduling and execution. A simulation uses:
 
 ```sh
 FOUNDRY_PROFILE=ramses forge script \
@@ -384,4 +384,4 @@ The tests establish the listed scenarios with the faithful pool double and the r
 
 Self-review fixes include fresh-loss preview/checkpoint ordering, strict oracle error handling and USDG scaling, reserve cash retention, cap accrual ordering, ceiling-rounded buffers, first-deposit protection, silent sync failure, partial-emergency cash exits, packed proxy-slot verification and keeper/config separation. No known code finding is intentionally deferred. Remaining boundaries are the stale cash-exit priority risk, cash consumption between rebalances, token/upstream pauses and governance changes, inherited insolvency/bad-debt behavior, and the operator decisions below. The review is an adversarial self-review, not an independent audit. The supplied timelock and its governance membership must be independently approved; the scripts validate its contract interface/delay and keeper separation, not the integrity of arbitrary timelock implementations. A timelock-only guardian also implies emergency-action latency. USDG is valued at $1, so depeg risk is outside the tested oracle model.
 
-Prioritized operator decisions: **(1)** first supplier amounts and raw supply caps including the locked seed; **(2)** reserve funding, fee cut and aggregate USDG limit; **(3)** accept or replace the proposed native-block interest curve; **(4)** decide whether/when to enable borrowing, with collateral factors and positive borrow caps after assessing stale-feed liquidation gaps; **(5)** explicitly accept the stale cash-exit priority boundary, establish pause/upgrade monitoring and commission independent pre-deployment review. Margin and a cloud keeper rollout remain later phases.
+Phase 4 resolves the earlier launch decisions. Enabling 80% collateral and borrowing explicitly accepts that a stale stock feed blocks new borrowing, collateral redemption and liquidation, while debt and market prices may move; bad debt can accumulate before reopening. Unencumbered local-cash redeemers can exit at the last booked claim before unknown losses are recognized, leaving remaining holders exposed. The 50% buffer is a deployment target and borrowers may consume it. A 50-bps checkpoint trigger reduces the fresh-price recognition window; it cannot observe unknown weekend prices or make liquidation available with a stale feed. These boundaries are accepted by the specified launch configuration and are not fixed by the keeper. Independent pre-deployment review remains separate from this self-review.
