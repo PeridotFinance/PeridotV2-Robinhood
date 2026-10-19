@@ -80,3 +80,8 @@ test = "ramses-vaults/test"
 script = "ramses-vaults/script"
 out = "ramses-vaults/out-v3"
 cache_path = "ramses-vaults/cache-v3"
+
+[profile.ramses.invariant]
+runs = 64
+depth = 32
+fail_on_revert = true
