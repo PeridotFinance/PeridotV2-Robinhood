@@ -142,7 +142,8 @@ contract AdapterForkTest is Test {
         uint128 l = _add();
         vm.warp(vm.getBlockTimestamp() + 3600);
         vm.mockCallRevert(
-            address(pm), abi.encodeWithSelector(IRamsesNfp.getReward.selector),
+            address(pm),
+            abi.encodeWithSelector(IRamsesNfp.getReward.selector),
             abi.encodeWithSignature("RewardUnavailable()")
         );
         vm.expectRevert(abi.encodeWithSignature("RewardUnavailable()"));
@@ -235,10 +236,18 @@ contract AdapterForkTest is Test {
         _add();
         (uint128 p0,) = pool.protocolFees();
         uint256 g0 = pool.feeGrowthGlobal0X128();
+        uint256 fee = pool.fee();
+        (,,,,, uint32 protocolShare,) = pool.slot0();
+        assertLt(fee, 1_000_000);
+        assertLe(protocolShare, 1_000_000);
         trader.trade(true, 1000e6);
         (uint128 after0,) = pool.protocolFees();
-        // USDG input 1000, gross fee 0.1 USDG, protocol takes 50% (rounding at step boundaries).
-        assertApproxEqAbs(after0 - p0, 50_000, 3);
+        // Governance-adjustable fee: Phase 2 observed 100, Phase 3 observed 175.
+        // Assert against the pinned live fee/share, allowing step-boundary integer rounding.
+        uint256 expectedProtocol = (1000e6 * fee / 1_000_000) * protocolShare / 1_000_000;
+        assertApproxEqAbs(after0 - p0, expectedProtocol, 3);
+        emit log_named_uint("pool fee ppm", fee);
+        emit log_named_uint("protocol share ppm", protocolShare);
         assertGt(pool.feeGrowthGlobal0X128(), g0);
         (, uint256 fees) = adapter.collectFees(PAIR, block.timestamp);
         assertGt(fees, 0);

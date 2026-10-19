@@ -1,12 +1,16 @@
 """Verifier regression tests: malformed ABI and unreviewed runtime changes fail closed."""
-import copy, json, unittest
-from verify_deployment import OUT, Reader, Verifier, words
+import json, os, subprocess, sys, unittest
+from verify_deployment import ROOT, OUT, Reader, Verifier, words
 
 class FakeReader:
     def __init__(self, code): self.runtime=code
     def code(self, target): return self.runtime
 
 class DeploymentToolsTest(unittest.TestCase):
+    def test_optimized_python_refuses_to_verify(self):
+        result = subprocess.run([sys.executable, '-O', '-c', 'import verify_deployment'], cwd=ROOT/'ramses-vaults/tools', env={**os.environ,'PYTHONPYCACHEPREFIX':'/tmp/ramses-pycache'}, capture_output=True, text=True, timeout=30)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn('Optimized Python mode', result.stderr)
     def test_read_only_rpc_rejects_mutating_methods(self):
         r=Reader('http://127.0.0.1:1')
         for method in ['eth_sendTransaction','eth_sendRawTransaction','personal_unlockAccount','anvil_setStorageAt']:

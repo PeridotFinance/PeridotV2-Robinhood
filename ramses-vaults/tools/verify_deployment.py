@@ -4,6 +4,9 @@ Never sends transactions, reads wallets, or uses private credentials.
 """
 import argparse, functools, json, pathlib, subprocess, urllib.request
 
+if not __debug__:
+    raise RuntimeError('Optimized Python mode disables verification assertions; refusing to run')
+
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 OUT = ROOT / 'ramses-vaults/out-v3'
 ZERO = '0x' + '00' * 20
@@ -88,8 +91,12 @@ class Verifier:
         keys = ['guard','vault','reserve','adapter','controllerImplementation','controller','delegate','rate','stockMarket','dollarMarket','source','oracle']
         assert len({m[k].lower() for k in keys}) == len(keys), 'Shared contract address'
         assert not {m[k].lower() for k in keys} & FORBIDDEN, 'Uniswap contamination'
+        assert m['stock'].lower()=='0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec'
+        assert m['usdg'].lower()=='0x5fc5360d0400a0fd4f2af552add042d716f1d168'
         assert m['timelock'].lower() not in {m['sender'].lower(), m['keeper'].lower()}
         assert r.code(m['timelock']) != '0x' and r.uint(m['timelock'],'getMinDelay()') >= 3600
+        for role in ['0x'+'00'*32,cast('keccak','PROPOSER_ROLE'),cast('keccak','EXECUTOR_ROLE'),cast('keccak','CANCELLER_ROLE')]:
+            self.eq(m['timelock'],'hasRole(bytes32,address)',0,role,m['keeper'])
         module = r.address(m['delegate'],'borrowAccountingModule()')
         self.runtime(module, 'BorrowAccountingModule', [module])
         for key, contract, imm in [
@@ -115,7 +122,8 @@ class Verifier:
             self.eq_address(market,'admin()',m['timelock']); self.eq_address(market,'pendingAdmin()',ZERO)
             self.eq_address(market,'implementation()',m['delegate']); self.eq_address(market,'peridottroller()',m['controller'])
             self.eq_address(market,'underlying()',m[token]); self.eq_address(market,'interestRateModel()',m['rate'])
-            self.eq(market,'decimals()',8)
+            self.eq(market,'decimals()',8); self.eq(market,'borrowAccountingEnabled()',1)
+            self.eq_address(market,'borrowAccountingModule()',module)
             for label, want in [('admin',m['timelock']), ('implementation',m['delegate'])]:
                 entry = next(x for x in layout if x['label']==label)
                 packed = int(r.rpc('eth_getStorageAt',[market,hex(int(entry['slot'])),r.block]),16)

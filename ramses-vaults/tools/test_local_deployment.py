@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Fault-inject the deployment verifier on a disposable localhost anvil; restore each snapshot."""
-import argparse, json, urllib.parse, urllib.request
+import argparse, json, time, urllib.parse, urllib.request
 from verify_deployment import ROOT, OUT, Reader, Verifier, cast
 
 def main():
@@ -26,7 +26,14 @@ def main():
     def grant():
         rpc('anvil_impersonateAccount',[m['timelock']]); rpc('anvil_setBalance',[m['timelock'],hex(10**18)])
         tx=rpc('eth_sendTransaction',[{'from':m['timelock'],'to':m['guard'],'data':cast('calldata','grantRole(bytes32,address)',cast('keccak','CONFIG_ROLE'),m['sender']),'gas':'0x100000'}])
-        receipt=rpc('eth_getTransactionReceipt',[tx]); assert int(receipt['status'],16)==1
+        deadline=time.monotonic()+30
+        while time.monotonic()<deadline:
+            receipt=rpc('eth_getTransactionReceipt',[tx])
+            if receipt:
+                assert int(receipt['status'],16)==1
+                return
+            time.sleep(0.1)
+        raise RuntimeError('Missing role-grant receipt')
     def borrow_cap():
         layout=json.loads((OUT/'Peridottroller.sol/Peridottroller.json').read_text())['storageLayout']['storage']
         slot=int(next(x for x in layout if x['label']=='borrowCaps')['slot'])
