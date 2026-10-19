@@ -3,3 +3,4 @@
 /research/*.json
 /research/NOTES.md
 /research/*.log
+/deployments/*.json
