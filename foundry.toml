@@ -75,6 +75,8 @@ ignore = [
 
 # Isolated RamsesV3 research and adapter; no deployment scripts.
 [profile.ramses]
+# Phase 2 vault uses the same size-focused optimizer policy as vault_v3.
+optimizer_runs = 1
 src = "ramses-vaults/src"
 test = "ramses-vaults/test"
 script = "ramses-vaults/script"

@@ -89,3 +89,16 @@ fork-ramses:
 
 size-ramses:
 	FOUNDRY_PROFILE=ramses forge build --threads 1 --sizes
+
+# Phase 2 local checks: every child command is stopped after ten minutes.
+.PHONY: test-ramses-phase2 fork-ramses-phase2 size-ramses-phase2
+test-ramses-phase2:
+	python3 ramses-vaults/tools/check_phase2.py forge test --threads 1 --no-match-path '*/fork/*'
+	$(MAKE) size-ramses-phase2
+
+size-ramses-phase2:
+	python3 ramses-vaults/tools/check_phase2.py forge build --threads 1 --sizes --skip test --skip script
+
+fork-ramses-phase2:
+	@test -n "$(ROBINHOOD_RPC_URL)" -a -n "$(REMEDIATION_FORK_BLOCK)" -a -n "$(REMEDIATION_NATIVE_BLOCK)"
+	python3 ramses-vaults/tools/check_phase2.py forge test --threads 1 --match-path '*/fork/*' -vv
