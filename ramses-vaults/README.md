@@ -1,6 +1,6 @@
 # Ramses vaults (NVDA/USDG): design handoff
 
-**Status: Phases 0–1 implemented locally; Phase 0 operator acceptance pending. Nothing here is deployed.** This folder is where a Ramses-backed copy of the paired vault, an
+**Status: Phase 2 implemented locally; verification results are in section 9. Nothing here is deployed.** This folder is where a Ramses-backed copy of the paired vault, an
 isolated lending market on top of it, and a cloud keeper get built and tested. It is written for the developer (human or
 agent) who builds it. Facts were read from the Ramses docs (<https://tech.ramses.xyz>), from Ramses' public API
 (`https://gateway.kingdom.dev/robinhood/api`) and **verified on-chain on 2026-10-18**. Anything that is only a docs or API
@@ -164,57 +164,89 @@ Everything below is on `main`. Read `remediation/README.md` ("Concentrated liqui
 
 ## 8. Decisions already made by the operator
 
-1. Use the existing CL pool; start with a small test deposit and scale later.
-2. NVDA/USDG first; more stock/USDG pairs later.
-3. Isolated controller lists the two boosted markets first.
-4. Share the timelock; new dedicated keeper wallet.
+These Phase 2 instructions supersede the earlier open design questions and recommendations above.
 
-Open: how to treat RAM rewards (problem 1) and the first-deposit size.
+- Use the existing CL pool, with a new isolated vault, adapter and reserve. Lending/controller and keeper rollout are later phases.
+- Accept Ramses governance risk: the observed **1-of-2 treasury Safe, zero-delay timelock and upgradeable gauge** remain upstream trust assumptions.
+- Share the timelock; a dedicated keeper has KEEPER_ROLE only. CONFIG_ROLE belongs to the timelock. Guardian pause is one-way; only CONFIG can enable or disable reward forfeiture.
+- Credit USDG/stock rewards to principal and idle like fees, including the configured reserve cut. RAM and any other non-native reward stay in separate per-pair/token buckets, **zero NAV**, with explicit CONFIG-only forwarding. No automatic RAM swap.
+- **Stale-oracle LP exits fail closed**, including guardian exits. No weekend bypass. The intended markets' **50% local cash buffer** is an availability measure for Phase 3; it is not implemented by this vault or a guarantee of withdrawals after that cash is exhausted.
 
-## 9. Phase 0–1 reproduction and integration boundary
+| Timelock-set launch setting | Value exercised by Phase 2 tests |
+| --- | --- |
+| NVDA/USD feed | `0x379EC4f7C378F34a1B47E4F3cbeBCbAC3E8E9F15`, 8 decimals |
+| Token decimals | USDG 6, NVDA 18; USDG fixed at $1 |
+| Feed staleness | 12 hours |
+| Allocation / removal gates | 300 / 600 bps in stock USD price |
+| Adapter allocation deviation / removal tolerance | 300 / 400 bps; tolerance covers half the exit gate plus the 100-bp operational buffer |
+| Pair value cap | $1,000, configurable |
+| Ranged-position cap | `type(uint128).max` USD-wad: effectively unlimited, non-zero for validation |
+| Deploy / recenter loss bound | 10 / 10 bps; recenter deployment obeys the tighter of the two |
+| Range half-width / trigger | 2,400 / 600 ticks |
+| Recenter cooldown / rolling limit | 1 hour / 4 per rolling 24 hours |
+| Reward forfeiture | OFF by default |
 
-The implementation is `src/RamsesV3PairedAdapter.sol`. It is non-upgradeable, with immutable vault, NFT manager and
-reference-oracle addresses. Pool/gauge/range/risk configuration is per pair. The vault-facing liquidity/state/range methods
-retain the paired adapter shape; registration uses Ramses pool/gauge addresses instead of a v4 `PoolKey`. There is no
-settlement swap method in this Phase 1 liquidity adapter. The router is verified separately in the fork suite; settlement
-swap integration, the production feed guard and vault accounting remain Phase 2 work. `IRamsesReferenceOracle` is a
-required fail-closed dependency; the test oracle is **not** a production implementation or approval to allocate at spot.
+These are configuration, not hard-coded strategy defaults. Configure both loss policies before allocation: an unset deploy bound is zero (strict), not disabled. Other fixture values are a 20% reserve cut, 1% settlement slippage, $1,000 settlement-swap cap, 200-bp over-unwind, one-day checkpoint age and 300-second deadline limit. These are not additional operator decisions: choose their launch values, reserve funding/coverage, aggregate USDG cap, first deposit and RAM forwarding destination before deployment.
 
-`harvest` returns token and amount arrays. Automatic pre-removal/burn claims accumulate in `pendingRewards`; they are
-excluded from liquidity/fee return values. `claimPendingRewards` can drain amounts already credited even if the gauge later
-fails. A failed new harvest blocks liquidity removal/burn by default. The vault may explicitly set
-`setAllowRewardForfeiture(pairId, true)` to permit exits after a failed harvest. The entire harvest runs in a
-self-only subcall: a revert or wrong amount rolls back all reward transfers, claim state and pending-bucket writes before
-the exit continues. `ExitHarvestFailed` records the affected NFT. Healthy claims still accrue normally, and explicit
-`harvest` stays fail-closed. Oracle, price-band, principal, balance-delta and custody checks remain mandatory.
+## 9. Phase 2 reproduction, results and boundaries
 
-This flag is persistent and per pair; the future vault must restrict its setter to emergency governance and reset it
-after an incident. It can forfeit **historical as well as current-period rewards**, especially on burn. Prefer removing
-liquidity and retaining the empty NFT while rewards may be recoverable. No proof excludes all principal loss under
-upstream upgrades, token failures or market movement, so the default remains fail-closed. Stale-oracle exits remain
-blocked independently of this flag and need a separate Phase 2 decision.
+`src/RamsesBoostedVault.sol` is a **new, non-upgradeable deployment**, ported from the V3 vault. It keeps side principals and idle balances, oracle-valued pro-rata losses, gain recognition only when both native claims are covered, reserve fees, authorized-side withdrawals, bounded settlement, pause/deadline/cap rules, emergency decrease, and range policy. Initialization is one-time and restricted to the deploying account/factory; deploy vault and reserve, deploy the adapter with the vault address, then initialize both. There is no proxy upgrade entry point and no dependency on the live vault's storage layout.
+
+`RamsesOracleGuard` implements the adapter's reference interface and checks the configured feed, completed round, positive answer, timestamps, stock `paused()` and `oraclePaused()`, and pool sqrt price. USDG remains fixed at $1. Pair identity (tokens/pool/gauge) cannot be changed after guard configuration. Feed and risk settings remain governed. The real USDG/NVDA pool uses USDG as token0; unit/fuzz tests also exercise the opposite order.
+
+`RamsesVaultAdapter` inherits the unchanged Phase 1 `RamsesV3PairedAdapter`. Its new settlement route swaps directly through the registered Ramses pool, under the adapter's shared reentrancy lock. A transient callback context restricts the caller, input token and payment budget. Exact input/output deltas, oracle-derived minimum output in the settlement library, freshness/deviation checks before and after the swap, and revoked approvals bound the route. Keepers receive no NFT or token approval.
+
+Linked libraries separate range orchestration, settlement, reward crediting, checkpoint arithmetic and configuration validation. The `ramses` Foundry profile uses `optimizer_runs=1` (as the original V3 vault profile does). Allocation caps compare both oracle-valued assets and claims, including unrecognized composition surplus. `RamsesLossReserve` is a separate deployment of the existing reserve behavior. No implementation under `contracts/`, `remediation/`, `keeper/` or `snapshot/` is edited.
+
+### Rewards and exits
+
+- Keeper `harvest` checkpoints first, then receives measured native rewards and applies the reserve cut. Keeper `recenter` harvests **before the cap check and before removing the old NFT**. The adapter also harvests before each decrease and burn.
+- Automatic exit harvests remain in segregated adapter buckets until claimed; checkpoints and principal withdrawals never depend on draining them. `claimPendingRewards` can credit already-received rewards without querying a healthy gauge or fresh feed. RAM never enters side principal, idle, LP valuation or NAV.
+- `forwardExternalReward` can spend only the named pair/token bucket and only through CONFIG_ROLE. It cannot forward either pair asset. Exact sender/recipient deltas are checked.
+- `setAllowRewardForfeiture` is CONFIG-only, persistent and default OFF. The guardian cannot enable it. This avoids giving a hot guardian the power to destroy historical reward rights; the timelock explicitly accepts that tradeoff. In opted-in exits the adapter atomically rolls back a failed harvest and retains all principal/oracle checks. Empty-NFT burn may destroy historical reward metadata; retain the NFT if recovery is preferable.
+- Emergency decrease collects fees with their reserve cut before principal removal. Its successful transaction sets all pause flags and books shared loss. Already-backed idle claims retain the inherited oracle-free withdrawal path after LP closure; native composition deficits remain guarded.
+
+### Commands
+
+All commands are read-only RPC or local EVM execution. No signing, broadcast, keystore/password access, push or PR is involved. Each verification subprocess has a hard ten-minute limit, including its children. Tests run with `--threads 1`.
 
 ```sh
-make test-ramses
+make test-ramses-phase2
 export ROBINHOOD_RPC_URL=https://rpc.mainnet.chain.robinhood.com
-python3 ramses-vaults/tools/pin.py > /tmp/ramses-pin.env
-source /tmp/ramses-pin.env
-make fork-ramses
-python3 ramses-vaults/tools/research.py --block "$REMEDIATION_FORK_BLOCK"
-python3 ramses-vaults/tools/mutations.py
+python3 ramses-vaults/tools/pin.py > /tmp/ramses-phase2-pin.env
+source /tmp/ramses-phase2-pin.env
+make fork-ramses-phase2
+python3 ramses-vaults/tools/mutations_phase2.py --list
+python3 ramses-vaults/tools/mutations_phase2.py --batch 1
+# Repeat --batch 2 through --batch 13, one command at a time; or select names below.
+# Select one to three exact names per command; repeat until all listed checks are run.
+python3 ramses-vaults/tools/mutations_phase2.py \
+  --only 'feed freshness' --only 'token pause' --only 'completed feed round'
 ```
 
-The public endpoint prunes state quickly. Save the printed pin and run promptly; a missing historical state is a failed
-reproduction, not a skipped or passing test. Research snapshots and detailed notes stay local under `research/`. No deployment,
-key access, signing, broadcast, push or PR is part of these commands. For exact tested pins, counts, tolerances, limitations and
-operator decisions, read `research/NOTES.md`.
+The public RPC prunes state. A missing historical state or stale initial real feed is a failed rehearsal, never a skipped/pass result. Fork recenter scenarios move prices with real pool swaps and mock **subsequent** feed updates to exercise the 600-tick oracle trigger; initial minting uses the pinned real feed. The reward-failure scenario injects a manager revert, not a claim that the live gauge is failing.
 
-Latest local verification (2026-10-19): `make test-ramses` passed **76 tests** (including six fuzz cases at
-256 runs each and four invariants at 64 runs / 2048 calls each); `make fork-ramses` passed **12 tests** at
-block **92,544,029**, native block **26,226,016**. Both commands use `--threads 1`; no tests were skipped.
-Adapter runtime is **20,428 bytes**. The fork includes ordinary in/out-of-range round trips, two price shocks,
-fee split, real owner/claimer routing, week-boundary rewards, router/quoter and a simulated reward-failure exit.
-These are scenario checks, not proof against all principal loss or approval of production parameters.
-Seven targeted mutations of changed/new exit safeguards were killed; the earlier 10/10 report is retained locally.
-Use repeated `tools/mutations.py --only 'mutation name'` options to rerun selected safeguards; source is restored
-after each run and compiler errors do not count as kills. Detailed commands and limitations are in the local notes.
+### Verification results
+
+Final local run (2026-10-19), `make test-ramses-phase2`: **276 passed, 0 failed, 0 skipped**, across 16 suites. This includes 13 fuzz entries at 256 runs each and 12 invariants at 64 runs / depth 32; each invariant reports 2,048 calls and zero uncaught handler reverts. Some invariant actions deliberately catch business-rule reverts. Counts include inherited assertions repeated in the derived recovery suites and both token-order suites.
+
+| Production contract | Runtime bytes | EIP-170 margin |
+| --- | ---: | ---: |
+| RamsesBoostedVault | 24,469 | 107 |
+| RamsesVaultAdapter | 21,846 | 2,730 |
+| RamsesOracleGuard | 9,801 | 14,775 |
+| RamsesLossReserve | 7,370 | 17,206 |
+
+Final `make fork-ramses-phase2`: **19 passed, 0 failed, 0 skipped** (12 inherited adapter/research tests plus 7 new vault tests), at block **92,597,455**, native **26,226,470**, hash `0x5bfc7dc96ee61752fe02d627c0d4f20f7c42826ff82a986fa8dfb88a93b5b660`, timestamp **1792411114**. The new vault received **70,019,247,849,683,618 raw RAM** through the real manager/owner route; the direct gauge route rejected the unauthorized contract owner. Settlement redemptions assert actual vault `SettlementSwap` events for both assets. Subsequent feed updates and the reward-manager failure are simulated as described above.
+
+All linked libraries also pass the size gate. The vault has little bytecode headroom; the pinned compiler/profile and size check are mandatory for later edits.
+
+**38/38 Phase 2 mutations killed**, with source SHA256 restored byte-for-byte after every check. Fifteen unique inherited adapter safeguards are retained from the earlier 10-case and 7-case reports (two overlap). Two initial mutation survivors exposed redundant test checks, not an accepted production bypass: invalid timestamps and idle callback authorization. More specific regressions killed both; their original logs remain in `research/`.
+
+Detailed logs and the adversarial self-review are retained in `research/NOTES.md`, `research/mutations.json` and `research/*phase2*.log`. Those research artifacts remain ignored/local, matching the package's existing policy. Formatting, Python syntax and `git diff --check` pass. No verification command hit the ten-minute cutoff.
+
+The inherited accounting suites are ported assertion-for-assertion using accounting fault-injection doubles. Separate integration suites use the real guard, adapter, vault and reserve with the pool/NFT/gauge double, including a multi-pair NFT manager. Additional real-adapter accounting scenarios check pro-rata loss, fees with the reserve cut, and an out-of-range position completing as one-sided idle inventory before settlement. That double models rounded CL amount math, fee growth and weekly reward accounting; its swaps use a fixed slot0 price. Mainnet-fork tests exercise the actual tick-crossing engine and owner/claimer route.
+
+Tests are scenario evidence, not proof against all principal loss. Fixed-price invariants cover randomized deposit, withdraw, rebalance, checkpoint and harvest sequences; they do not model arbitrary governance upgrades, adversarial liquidity changes, future stock corporate actions or long-horizon markets. Per-action 10-bp loss bounds do not bound total strategy loss, repeated deployment costs, oracle error or subsequent price movement. The approximately $305k pool TVL is the earlier research snapshot, not a minimum guaranteed depth.
+
+Unresolved deployment decisions, in priority order: select the initial deposit and reserve funding/coverage/cut; choose the aggregate USDG cap and external-reward destination; establish monitoring and incident handling for upstream fee/gauge/token changes. Phase 3 must wire the separate lending markets and their 50% local cash buffer; Phase 4 must implement the dedicated keeper. No production deployment approval is inferred from these local results.
