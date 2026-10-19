@@ -35,3 +35,12 @@ python3 keeper/provision.py --disable               # back to monitor-only at an
 ```sh
 python3 -m unittest discover -s keeper -p 'test_*.py'
 ```
+
+## Price-move checkpoint
+
+Besides the hourly checkpoint (needed by `rebalance`), the keeper checkpoints as soon as the oracle stock price has moved
+50 bps or more from its price at the last checkpoint (`range_keeper.maybe_price_checkpoint`). Cash held in the pTokens is
+redeemable at the last checkpointed claim, so this shrinks the window in which an unrecorded LP loss can be escaped by a
+cash exit from about an hour to minutes. It simulates the real
+call first, honours the gas cap and `EXECUTE`, is limited to one attempt per 5 minutes, and treats a stale feed as
+"wait". The baseline lives in process memory: after a restart the first observation becomes the baseline.

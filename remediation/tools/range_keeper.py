@@ -27,6 +27,7 @@ VAULT = '0x280825b2d856706Ff7E0d6351CcB2e935E1a9A2f'
 ADAPTER = '0xadA73211711e4790bc83B5d6B39f47fE04D276f3'
 GOVERNOR = '0x94696d767e65a75581145646960FA0eC886cE5d2'
 ACCOUNT = 'robinhood-deployer'
+GUARD = '0xaE4D4DdB8dD646951d54fE9B13BE23DcB61C6741'
 PAIR = '0xe2050352f4346597cc69d2776d99ae60c9440dfc28f9406ce66be0bbe3fb6b06'
 GAS_LIMIT = 3_000_000
 # The vault rejects deadlines more than maxDeadlineDelay (300s) ahead, so this is the longest the
@@ -196,6 +197,72 @@ DUST_REBALANCES = ('InvalidConfiguration', 'DeployLossTooHigh')
 # bound is working; idle fees accumulate until there is an amount worth deploying.
 
 
+# Cash held in the pTokens is redeemable at the last CHECKPOINTED claim, so an unrecorded LP loss can be
+# escaped by a cash exit until the next checkpoint. The
+# hourly checkpoint above is the backstop; this shrinks the window to minutes by checkpointing as soon as
+# the oracle price has moved this far from the price at the last checkpoint.
+PRICE_CHECKPOINT_BPS = 50
+PRICE_CHECKPOINT_MIN_INTERVAL = 300
+BASELINE_PRICE = None  # oracle stock price (USD 1e18) at the last checkpoint this process saw or sent
+LAST_PRICE_CHECKPOINT = 0
+
+
+def stock_price():
+    """Oracle stock price in USD 1e18, or None when the guard cannot price (stale feed, paused token)."""
+    result = cast('call', GUARD, 'pricesUSD18(bytes32)(uint256,uint256)', PAIR, check=False)
+    if result.returncode:
+        return None
+    try:
+        price = int(result.stdout.split()[0])
+    except (IndexError, ValueError):
+        return None
+    return price or None
+
+
+def maybe_price_checkpoint(execute):
+    """Checkpoints when the oracle price moved >= PRICE_CHECKPOINT_BPS since the last checkpoint. Only acts
+    when the real call succeeds; a closed market (stale feed) or any waiting revert is not a fault."""
+    global BASELINE_PRICE, LAST_PRICE_CHECKPOINT
+    price = stock_price()
+    if price is None:
+        return 0
+    if BASELINE_PRICE is None:
+        BASELINE_PRICE = price
+        return 0
+    if abs(price - BASELINE_PRICE) * 10000 < BASELINE_PRICE * PRICE_CHECKPOINT_BPS:
+        return 0
+    info = {'time': int(time.time()), 'priceCheckpoint': 'oracle moved >= ' + str(PRICE_CHECKPOINT_BPS) + ' bps',
+            'baselinePrice': str(BASELINE_PRICE), 'price': str(price)}
+    if time.time() - LAST_PRICE_CHECKPOINT < PRICE_CHECKPOINT_MIN_INTERVAL:
+        info['action'] = 'wait (price checkpoint attempted less than 5 minutes ago)'
+        print(json.dumps(info))
+        return 0
+    outcome, waiting, detail = simulate('checkpoint')
+    if outcome != 'due':
+        info.update(simulation=outcome, action='wait' if waiting else 'ATTENTION', detail=detail)
+        print(json.dumps(info))
+        return 0 if waiting else 2
+    ok, gas_price = gas_price_ok()
+    if not ok:
+        info['action'] = 'wait (gas price above cap)'
+    elif not execute:
+        info['action'] = 'price checkpoint is due; rerun with --execute to send'
+    else:
+        LAST_PRICE_CHECKPOINT = time.time()
+        sent = send('checkpoint')
+        info['action'] = outcome_of(sent)
+        info['function'] = 'checkpoint'
+        info['output'] = (sent.stdout or sent.stderr).strip()[:600]
+        journal(dict(info))
+        print(json.dumps(info))
+        if info['action'] == 'sent':
+            BASELINE_PRICE = price
+            return 0
+        return 3
+    print(json.dumps(info))
+    return 0
+
+
 def maybe_rebalance(execute):
     """Idle assets (new deposits, an idle-exit recenter) are deployed by `rebalance`, which needs a
     checkpoint no older than the vault's maxCheckpointAge. Only acts when the real call succeeds."""
@@ -225,6 +292,8 @@ def maybe_rebalance(execute):
             info['action'] = result_text + ' (checkpoint)'
             print(json.dumps(info))
             return 3
+        global BASELINE_PRICE
+        BASELINE_PRICE = stock_price() or BASELINE_PRICE
         outcome, waiting, detail = simulate('rebalance')
         waiting = waiting or outcome in DUST_REBALANCES
     if outcome != 'due':
@@ -251,6 +320,12 @@ def maybe_rebalance(execute):
 
 
 def step(execute):
+    price_code = maybe_price_checkpoint(execute)
+    code = _step(execute)
+    return code or price_code
+
+
+def _step(execute):
     outcome, waiting, detail = simulate()
     if outcome.startswith('unknown(0x)') or outcome == 'unknown':
         waiting = False
