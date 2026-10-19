@@ -69,6 +69,7 @@ interface IRamsesNfp {
         uint128 amount1Max;
     }
     function positions(uint256) external view returns (Position memory);
+    function balanceOf(address) external view returns (uint256);
     function ownerOf(uint256) external view returns (address);
     function mint(MintParams calldata) external payable returns (uint256, uint128, uint256, uint256);
     function increaseLiquidity(IncreaseLiquidityParams calldata)

@@ -13,6 +13,7 @@ contract TokenDouble is ERC20 {
     uint8 private immutable _decimals;
     bool public taxed;
     address public taxSender;
+    address public taxRecipient;
 
     constructor(string memory name_, uint8 decimals_) ERC20(name_, name_) {
         _decimals = decimals_;
@@ -31,8 +32,15 @@ contract TokenDouble is ERC20 {
         taxSender = sender;
     }
 
+    function setTaxRecipient(address recipient) external {
+        taxRecipient = recipient;
+    }
+
     function _update(address from, address to, uint256 n) internal override {
-        if (taxed && from == taxSender && n > 0) {
+        if (
+            taxed && from == taxSender && (taxRecipient == address(0) || to == taxRecipient)
+                && n > 0
+        ) {
             super._update(from, address(0), 1);
             --n;
         }
@@ -297,6 +305,12 @@ contract NfpDouble is IRamsesNfp {
         _;
     }
 
+    function balanceOf(address owner) external view returns (uint256 count) {
+        for (uint256 id = 1; id < nextId; id++) {
+            if (ownerOf[id] == owner) ++count;
+        }
+    }
+
     function positions(uint256 id) external view returns (Position memory) {
         require(ownerOf[id] != address(0));
         return pool.position(id);
@@ -325,9 +339,8 @@ contract NfpDouble is IRamsesNfp {
     {
         require(p.deadline >= block.timestamp);
         Position memory pos = pool.position(p.tokenId);
-        (l, a, b) = pool.add(
-            p.tokenId, pos.tickLower, pos.tickUpper, p.amount0Desired, p.amount1Desired
-        );
+        (l, a, b) =
+            pool.add(p.tokenId, pos.tickLower, pos.tickUpper, p.amount0Desired, p.amount1Desired);
         _pay(a, b, p.amount0Min, p.amount1Min);
         if (lieAdd) ++a;
     }
@@ -381,6 +394,7 @@ contract GaugeDouble {
     mapping(uint256 => mapping(address => uint256)) public emissions;
     mapping(uint256 => mapping(uint256 => mapping(address => uint256))) public claimed;
     bool public slash;
+    address public callback;
     error Unauthorized();
 
     constructor(PoolDouble p, NfpDouble n, address[] memory ts) {
@@ -411,6 +425,10 @@ contract GaugeDouble {
         slash = b;
     }
 
+    function setCallback(address target) external {
+        callback = target;
+    }
+
     function rewardRate(address t) external view returns (uint256) {
         return emissions[block.timestamp / 1 weeks][t] / 1 weeks;
     }
@@ -432,13 +450,18 @@ contract GaugeDouble {
 
     function getRewardForOwner(uint256 id, address[] calldata ts) external {
         if (msg.sender != address(nfpManager)) revert Unauthorized();
+        if (callback != address(0)) {
+            (bool ok, bytes memory reason) = callback.call(abi.encodeWithSignature("reenter()"));
+            if (!ok) assembly ("memory-safe") { revert(add(reason, 32), mload(reason)) }
+        }
         pool._advancePeriod();
         for (uint256 i; i < ts.length; i++) {
             for (uint256 p = firstPeriod; p <= block.timestamp / 1 weeks; p++) {
                 uint256 n = periodEarned(p, ts[i], id);
                 claimed[p][id][ts[i]] += n;
-                if (n != 0) IERC20(ts[i])
-                    .transfer(slash ? address(0xdead) : nfpManager.ownerOf(id), n);
+                if (n != 0) {
+                    IERC20(ts[i]).transfer(slash ? address(0xdead) : nfpManager.ownerOf(id), n);
+                }
             }
         }
     }

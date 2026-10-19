@@ -14,7 +14,7 @@ import {
     GaugeDouble
 } from "./mocks/RamsesV3Double.sol";
 
-abstract contract AdapterTestBase is Test {
+abstract contract AdapterFixture is Test {
     bytes32 constant PAIR = keccak256("NVDA/USDG");
     RamsesV3PairedAdapter internal adapter;
     TokenDouble internal stock;
@@ -29,7 +29,7 @@ abstract contract AdapterTestBase is Test {
     uint160 internal ref;
     function stockFirst() internal pure virtual returns (bool);
 
-    function setUp() public {
+    function setUp() public virtual {
         vm.warp(2930 * 1 weeks + 1 days);
         TokenDouble s = new TokenDouble("NVDA", 18);
         TokenDouble u = new TokenDouble("USDG", 6);
@@ -91,6 +91,118 @@ abstract contract AdapterTestBase is Test {
     function _refresh() internal {
         oracle.set(ref);
     }
+}
+
+abstract contract AdapterTestBase is AdapterFixture {
+    function reenter() external {
+        // Model an upstream callback through the authorized vault itself.
+        adapter.collectFees(PAIR, block.timestamp);
+    }
+
+    function test_reentrantHarvestCannotEnterVaultActions() public {
+        uint128 l = _add();
+        gauge.setCallback(address(this));
+        vm.expectRevert(RamsesV3PairedAdapter.ReentrantCall.selector);
+        adapter.decreaseLiquidity(PAIR, l, ref, block.timestamp);
+        assertEq(adapter.positionState(PAIR).liquidity, l);
+        adapter.setAllowRewardForfeiture(PAIR, true);
+        vm.expectEmit(true, true, false, false, address(adapter));
+        emit RamsesV3PairedAdapter.ExitHarvestFailed(PAIR, 1);
+        adapter.decreaseLiquidity(PAIR, l, ref, block.timestamp);
+        adapter.burnEmptyPosition(PAIR, block.timestamp);
+    }
+
+    function test_forfeitureFlagAndSelfCallAccess() public {
+        assertFalse(adapter.allowRewardForfeiture(PAIR));
+        vm.prank(address(9));
+        vm.expectRevert(RamsesV3PairedAdapter.NotVault.selector);
+        adapter.setAllowRewardForfeiture(PAIR, true);
+        vm.expectRevert(RamsesV3PairedAdapter.NotSelf.selector);
+        adapter.harvestForExit(PAIR);
+        vm.expectRevert(RamsesV3PairedAdapter.UnknownPair.selector);
+        adapter.setAllowRewardForfeiture(bytes32(uint256(1)), true);
+        adapter.setAllowRewardForfeiture(PAIR, true);
+        adapter.setAllowRewardForfeiture(PAIR, false);
+        assertFalse(adapter.allowRewardForfeiture(PAIR));
+    }
+
+    function test_forfeitureRevertingHarvestExitsAndBurns() public {
+        uint256 s = stock.balanceOf(address(this));
+        uint256 u = usdg.balanceOf(address(this));
+        uint128 l = _add();
+        bytes memory callData = abi.encodeWithSelector(IRamsesGauge.getRewardTokens.selector);
+        vm.mockCallRevert(address(gauge), callData, abi.encodeWithSignature("GaugeUnavailable()"));
+        vm.expectRevert(abi.encodeWithSignature("GaugeUnavailable()"));
+        adapter.decreaseLiquidity(PAIR, l, ref, block.timestamp);
+        assertEq(adapter.positionState(PAIR).liquidity, l);
+        adapter.setAllowRewardForfeiture(PAIR, true);
+        vm.expectEmit(true, true, false, false, address(adapter));
+        emit RamsesV3PairedAdapter.ExitHarvestFailed(PAIR, 1);
+        adapter.decreaseLiquidity(PAIR, l, ref, block.timestamp);
+        adapter.setAllowRewardForfeiture(PAIR, false);
+        vm.expectRevert(abi.encodeWithSignature("GaugeUnavailable()"));
+        adapter.burnEmptyPosition(PAIR, block.timestamp);
+        adapter.setAllowRewardForfeiture(PAIR, true);
+        vm.expectEmit(true, true, false, false, address(adapter));
+        emit RamsesV3PairedAdapter.ExitHarvestFailed(PAIR, 1);
+        adapter.burnEmptyPosition(PAIR, block.timestamp);
+        assertEq(adapter.positionState(PAIR).tokenId, 0);
+        assertApproxEqAbs(stock.balanceOf(address(this)), s, 2);
+        assertApproxEqAbs(usdg.balanceOf(address(this)), u, 2);
+    }
+
+    function test_forfeitureMismatchRollsBackAllRewards() public {
+        uint128 l = _add();
+        vm.warp(vm.getBlockTimestamp() + 3600);
+        adapter.decreaseLiquidity(PAIR, l / 2, ref, block.timestamp);
+        uint256 pending = adapter.pendingRewards(PAIR, address(ram));
+        assertGt(pending, 0);
+        uint256 claimed = gauge.claimed(block.timestamp / 1 weeks, 1, address(ram));
+        uint256 gaugeBalance = ram.balanceOf(address(gauge));
+        vm.warp(vm.getBlockTimestamp() + 3600);
+        // The last reward token fails after native rewards have already been transferred/credited.
+        ram.setTax(true, address(gauge));
+        adapter.setAllowRewardForfeiture(PAIR, true);
+        uint256 s = stock.balanceOf(address(this));
+        uint256 u = usdg.balanceOf(address(this));
+        (uint256 outS, uint256 outU,) = adapter.decreaseLiquidity(PAIR, l - l / 2, ref, block.timestamp);
+        assertEq(stock.balanceOf(address(this)), s + outS);
+        assertEq(usdg.balanceOf(address(this)), u + outU);
+        assertEq(gauge.claimed(block.timestamp / 1 weeks, 1, address(ram)), claimed);
+        assertEq(ram.balanceOf(address(gauge)), gaugeBalance);
+        assertEq(adapter.pendingRewards(PAIR, address(ram)), pending);
+        assertEq(stock.balanceOf(address(adapter)), adapter.pendingRewards(PAIR, address(stock)));
+        assertEq(usdg.balanceOf(address(adapter)), adapter.pendingRewards(PAIR, address(usdg)));
+        adapter.burnEmptyPosition(PAIR, block.timestamp);
+        adapter.claimPendingRewards(PAIR);
+        assertEq(ram.balanceOf(address(this)), pending);
+    }
+
+    function test_forfeitureStillClaimsHealthyRewards() public {
+        adapter.setAllowRewardForfeiture(PAIR, true);
+        test_rewardsSeparateAndHarvestBeforeDecreaseAndBurn();
+    }
+
+    function test_forfeitureDoesNotBypassExitChecks() public {
+        uint128 l = _add();
+        adapter.setAllowRewardForfeiture(PAIR, true);
+        oracle.setFail(true);
+        vm.expectRevert(OracleDouble.StaleOracle.selector);
+        adapter.decreaseLiquidity(PAIR, l, ref, block.timestamp);
+        oracle.setFail(false);
+        pool.setTick(center + 2000);
+        vm.expectRevert(RamsesV3PairedAdapter.SlippageExceeded.selector);
+        adapter.decreaseLiquidity(PAIR, l, ref, block.timestamp);
+        pool.setTick(center);
+        stock.setTax(true, address(pool));
+        vm.expectRevert(RamsesV3PairedAdapter.BalanceDeltaMismatch.selector);
+        adapter.decreaseLiquidity(PAIR, l, ref, block.timestamp);
+        stock.setTax(false, address(pool));
+        pm.setFaults(true, false, false);
+        vm.expectRevert(RamsesV3PairedAdapter.BalanceDeltaMismatch.selector);
+        adapter.decreaseLiquidity(PAIR, l, ref, block.timestamp);
+        assertEq(adapter.positionState(PAIR).liquidity, l);
+    }
 
     function test_roundTripAndApprovals() public {
         uint256 s = stock.balanceOf(address(this));
@@ -120,9 +232,9 @@ abstract contract AdapterTestBase is Test {
         assertEq(stock.balanceOf(address(this)) - stockBefore, principal);
         assertEq(ram.balanceOf(address(this)), 0);
         assertEq(adapter.pendingRewards(PAIR, address(ram)), expected);
-        assertLt(pm.lastHarvest(), pm.lastDecrease());
+        assertEq(pm.lastHarvest() + 1, pm.lastDecrease());
         adapter.burnEmptyPosition(PAIR, block.timestamp);
-        assertLt(pm.lastHarvest(), pm.lastBurn());
+        assertEq(pm.lastHarvest() + 1, pm.lastBurn());
         (address[] memory ts, uint256[] memory amounts) = adapter.harvest(PAIR, block.timestamp);
         assertEq(ts[2], address(ram));
         assertEq(amounts[2], expected);
@@ -234,6 +346,36 @@ abstract contract AdapterTestBase is Test {
         stock.setTax(true, address(pool));
         vm.expectRevert(RamsesV3PairedAdapter.BalanceDeltaMismatch.selector);
         adapter.decreaseLiquidity(PAIR, l, ref, block.timestamp);
+    }
+
+    function test_taxedManagerPaymentRejected() public {
+        stock.setTax(true, address(adapter));
+        stock.setTaxRecipient(address(pool));
+        vm.expectRevert(RamsesV3PairedAdapter.BalanceDeltaMismatch.selector);
+        adapter.addLiquidity(PAIR, 1e18, 1000e6, block.timestamp);
+    }
+
+    function test_silentBurnRejected() public {
+        uint128 l = _add();
+        adapter.decreaseLiquidity(PAIR, l, ref, block.timestamp);
+        pm.setFaults(false, false, true);
+        vm.expectRevert(RamsesV3PairedAdapter.InvalidPosition.selector);
+        adapter.burnEmptyPosition(PAIR, block.timestamp);
+        assertEq(adapter.positionState(PAIR).tokenId, 1);
+    }
+
+    function test_pendingRewardsRemainAccessibleWhenGaugeFails() public {
+        uint128 l = _add();
+        vm.warp(vm.getBlockTimestamp() + 3600);
+        adapter.decreaseLiquidity(PAIR, l / 2, ref, block.timestamp);
+        uint256 pending = adapter.pendingRewards(PAIR, address(ram));
+        assertGt(pending, 0);
+        vm.warp(vm.getBlockTimestamp() + 3600);
+        gauge.setSlash(true);
+        adapter.claimPendingRewards(PAIR);
+        assertEq(ram.balanceOf(address(this)), pending);
+        vm.expectRevert(RamsesV3PairedAdapter.RewardClaimMismatch.selector);
+        adapter.harvest(PAIR, block.timestamp);
     }
 
     function test_wrongManagerReturnRejected() public {

@@ -136,6 +136,28 @@ contract AdapterForkTest is Test {
         _roundTrip(0);
     }
 
+    function testFork_optInExitWithRevertingRewardManager() public {
+        uint256 s = stock.balanceOf(address(this));
+        uint256 u = usdg.balanceOf(address(this));
+        uint128 l = _add();
+        vm.warp(vm.getBlockTimestamp() + 3600);
+        vm.mockCallRevert(
+            address(pm), abi.encodeWithSelector(IRamsesNfp.getReward.selector),
+            abi.encodeWithSignature("RewardUnavailable()")
+        );
+        vm.expectRevert(abi.encodeWithSignature("RewardUnavailable()"));
+        adapter.decreaseLiquidity(PAIR, l, ref, block.timestamp);
+        adapter.setAllowRewardForfeiture(PAIR, true);
+        adapter.decreaseLiquidity(PAIR, l, ref, block.timestamp);
+        adapter.burnEmptyPosition(PAIR, block.timestamp);
+        assertEq(adapter.positionState(PAIR).tokenId, 0);
+        assertApproxEqAbs(stock.balanceOf(address(this)), s, 2);
+        assertApproxEqAbs(usdg.balanceOf(address(this)), u, 2);
+        assertEq(adapter.pendingRewards(PAIR, RAM), 0);
+        assertEq(stock.allowance(address(adapter), address(pm)), 0);
+        assertEq(usdg.allowance(address(adapter), address(pm)), 0);
+    }
+
     function testFork_aboveRangeRoundTrip() public {
         _roundTrip(300);
     }
@@ -145,19 +167,26 @@ contract AdapterForkTest is Test {
     }
 
     function _shock(bool up) private {
-        uint256 initial = _value(stock.balanceOf(address(this)), usdg.balanceOf(address(this)));
-        uint128 l = _add();
+        (uint256 usedS, uint256 usedU, uint128 l) =
+            adapter.addLiquidity(PAIR, 1e18, 200e6, block.timestamp);
+        uint256 initial = _value(usedS, usedU);
         vm.warp(vm.getBlockTimestamp() + 1800);
         trader.move(!up, TickMath.getSqrtPriceAtTick(center + (up ? int24(150) : int24(-150))));
         vm.warp(vm.getBlockTimestamp() + 1800);
+        adapter.collectFees(PAIR, block.timestamp);
+        RamsesV3PairedAdapter.PositionState memory expected = adapter.positionState(PAIR);
         (uint256 s, uint256 u,) = adapter.decreaseLiquidity(PAIR, l, ref, block.timestamp);
-        assertTrue(s == 0 || u == 0 || (s < 1e15 || u < 1e5)); // fees can remain on the exhausted side
+        assertTrue(s == 0 || u == 0);
+        assertApproxEqAbs(s, expected.stockAmount, 2);
+        assertApproxEqAbs(u, expected.usdgAmount, 2);
         adapter.burnEmptyPosition(PAIR, block.timestamp);
         adapter.harvest(PAIR, block.timestamp);
-        uint256 ending = _value(stock.balanceOf(address(this)), usdg.balanceOf(address(this)));
-        emit log_named_uint("portfolio loss USDG raw", initial > ending ? initial - ending : 0);
-        // 150-tick shock, ±100-tick position: oracle-marked total portfolio loses <=1%.
-        assertGe(ending, initial * 9900 / 10000);
+        uint256 ending = _value(s, u);
+        emit log_named_uint("deployed value USDG raw", initial);
+        emit log_named_uint("exit principal value USDG raw", ending);
+        // Compare deployed principal, excluding idle funds, fees and rewards. The donor's swap
+        // can add value at the fixed oracle mark. Require absolute change <=1% for this shock.
+        assertApproxEqAbs(ending, initial, initial / 100);
     }
 
     function testFork_shockAboveAndExit() public {
@@ -171,6 +200,35 @@ contract AdapterForkTest is Test {
     function _value(uint256 s, uint256 u) private view returns (uint256) {
         uint256 ratio = Math.mulDiv(ref, ref, 1 << 64);
         return u + Math.mulDiv(s, 1 << 128, ratio);
+    }
+
+    function testFork_automaticHarvestSurvivesFullExitAndBurn() public {
+        uint128 l = _add();
+        vm.warp(vm.getBlockTimestamp() + 3600);
+        pool._advancePeriod();
+        uint256 id = adapter.positionState(PAIR).tokenId;
+        uint256 expected = gauge.earned(RAM, id);
+        assertGt(expected, 0);
+        adapter.decreaseLiquidity(PAIR, l, ref, block.timestamp);
+        assertEq(adapter.pendingRewards(PAIR, RAM), expected);
+        adapter.burnEmptyPosition(PAIR, block.timestamp);
+        adapter.claimPendingRewards(PAIR);
+        assertEq(IERC20(RAM).balanceOf(address(this)), expected);
+    }
+
+    function testFork_weekBoundaryAccrualAndExit() public {
+        uint128 l = _add();
+        uint256 id = adapter.positionState(PAIR).tokenId;
+        uint256 oldPeriod = vm.getBlockTimestamp() / 1 weeks;
+        vm.warp((oldPeriod + 1) * 1 weeks + 60);
+        oracle.set(ref);
+        pool._advancePeriod();
+        uint256 earned = gauge.periodEarned(oldPeriod, RAM, id);
+        assertGt(earned, 0);
+        adapter.harvest(PAIR, block.timestamp);
+        assertGe(IERC20(RAM).balanceOf(address(this)), earned);
+        adapter.decreaseLiquidity(PAIR, l, ref, block.timestamp);
+        adapter.burnEmptyPosition(PAIR, block.timestamp);
     }
 
     function testFork_feeSplitCollectReturnsNetLpFees() public {
@@ -211,10 +269,21 @@ contract AdapterForkTest is Test {
         emit log_named_uint("1 USDG quote in NVDA raw", quote);
     }
 
-    function testFork_actualWeekendFeedIsStale() public view {
+    function testFork_liveFeedAgeAndSimulatedStaleGuard() public {
         (, int256 answer,, uint256 updatedAt,) =
             IFeed(0x379EC4f7C378F34a1B47E4F3cbeBCbAC3E8E9F15).latestRoundData();
         assertGt(answer, 0);
-        assertGt(block.timestamp - updatedAt, 12 hours);
+        assertGt(updatedAt, 0);
+        assertLe(updatedAt, block.timestamp);
+        emit log_named_uint("live feed age seconds", block.timestamp - updatedAt);
+        // Recent pins can be weekdays. Exercise the adapter's stale dependency deterministically;
+        // this test oracle is not a production Chainlink guard.
+        uint128 l = _add();
+        vm.warp(vm.getBlockTimestamp() + 13 hours);
+        vm.expectRevert(OracleDouble.StaleOracle.selector);
+        adapter.addLiquidity(PAIR, 1e18, 200e6, block.timestamp);
+        vm.expectRevert(OracleDouble.StaleOracle.selector);
+        adapter.decreaseLiquidity(PAIR, l, ref, block.timestamp);
+        adapter.harvest(PAIR, block.timestamp);
     }
 }

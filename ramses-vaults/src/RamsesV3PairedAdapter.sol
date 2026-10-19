@@ -75,6 +75,8 @@ contract RamsesV3PairedAdapter {
     struct AddState {
         uint256 start0;
         uint256 start1;
+        uint256 poolStart0;
+        uint256 poolStart1;
         uint256 desired0;
         uint256 desired1;
         uint256 min0;
@@ -88,9 +90,11 @@ contract RamsesV3PairedAdapter {
     IRamsesReferenceOracle public immutable oracle;
     mapping(bytes32 => PairState) private _pairs;
     mapping(bytes32 => mapping(address => uint256)) public pendingRewards;
+    mapping(bytes32 => bool) public allowRewardForfeiture;
     mapping(address => bool) private _registeredPools;
 
     error NotVault();
+    error NotSelf();
     error InvalidConfiguration();
     error UnknownPair();
     error InvalidReferencePrice();
@@ -116,6 +120,8 @@ contract RamsesV3PairedAdapter {
     event RewardAccrued(bytes32 indexed pairId, address indexed token, uint256 amount);
     event RewardPaid(bytes32 indexed pairId, address indexed token, uint256 amount);
     event PositionBurned(bytes32 indexed pairId, uint256 tokenId);
+    event RewardForfeitureSet(bytes32 indexed pairId, bool allowed);
+    event ExitHarvestFailed(bytes32 indexed pairId, uint256 indexed tokenId);
 
     modifier onlyVault() {
         if (msg.sender != vault) revert NotVault();
@@ -214,6 +220,14 @@ contract RamsesV3PairedAdapter {
         return _pair(id).rewards;
     }
 
+    /// @notice Emergency opt-in: failed exit harvests may leave historical rewards unclaimable.
+    /// @dev The vault must restrict this setter to emergency governance. Default is false.
+    function setAllowRewardForfeiture(bytes32 id, bool allowed) external onlyVault nonReentrant {
+        _pair(id);
+        allowRewardForfeiture[id] = allowed;
+        emit RewardForfeitureSet(id, allowed);
+    }
+
     function setRange(bytes32 id, int24 lower, int24 upper) external onlyVault nonReentrant {
         PairState storage p = _pair(id);
         if (p.tokenId != 0) revert RangeLocked();
@@ -262,6 +276,8 @@ contract RamsesV3PairedAdapter {
         (address t0, address t1) = _tokens(p);
         a.start0 = IERC20(t0).balanceOf(address(this));
         a.start1 = IERC20(t1).balanceOf(address(this));
+        a.poolStart0 = IERC20(t0).balanceOf(address(p.pool));
+        a.poolStart1 = IERC20(t1).balanceOf(address(p.pool));
         _pull(t0, a.desired0);
         _pull(t1, a.desired1);
         IERC20(t0).forceApprove(address(positionManager), a.desired0);
@@ -300,6 +316,10 @@ contract RamsesV3PairedAdapter {
         _validatePosition(p);
         _checkSpent(t0, a.start0, a.desired0, a.used0);
         _checkSpent(t1, a.start1, a.desired1, a.used1);
+        if (
+            IERC20(t0).balanceOf(address(p.pool)) != a.poolStart0 + a.used0
+                || IERC20(t1).balanceOf(address(p.pool)) != a.poolStart1 + a.used1
+        ) revert BalanceDeltaMismatch();
         if (a.used0 < a.min0 || a.used1 < a.min1) revert SlippageExceeded();
         _push(t0, a.desired0 - a.used0);
         _push(t1, a.desired1 - a.used1);
@@ -322,7 +342,7 @@ contract RamsesV3PairedAdapter {
         _checkBand(p, ref, d);
         _validatePosition(p);
         (uint256 min0, uint256 min1) = _minimums(p, liquidity, ref, d);
-        _harvest(id, p); // Must precede every non-zero decrease and NFT burn.
+        _harvestBeforeExit(id, p); // Must precede every non-zero decrease and NFT burn.
         (uint256 principal0, uint256 principal1) = positionManager.decreaseLiquidity(
             IRamsesNfp.DecreaseLiquidityParams(p.tokenId, liquidity, min0, min1, deadline)
         );
@@ -362,10 +382,12 @@ contract RamsesV3PairedAdapter {
         PairState storage p = _pair(id);
         if (p.tokenId == 0 || p.liquidity != 0) revert InvalidPosition();
         _validatePosition(p);
-        _harvest(id, p);
+        _harvestBeforeExit(id, p);
         (uint256 a0, uint256 a1) = _collect(p);
         uint256 tokenId = p.tokenId;
+        uint256 countBefore = positionManager.balanceOf(address(this));
         positionManager.burn(tokenId);
+        if (positionManager.balanceOf(address(this)) + 1 != countBefore) revert InvalidPosition();
         p.tokenId = 0;
         (stock, usdg) = _fromOrder(p, a0, a1);
         emit PositionBurned(id, tokenId);
@@ -385,6 +407,23 @@ contract RamsesV3PairedAdapter {
             _validatePosition(p);
             _harvest(id, p);
         }
+        return _payRewards(id, p);
+    }
+
+    /// @notice Withdraw rewards already credited to this pair even if its gauge later fails.
+    function claimPendingRewards(bytes32 id)
+        external
+        onlyVault
+        nonReentrant
+        returns (address[] memory tokens, uint256[] memory amounts)
+    {
+        return _payRewards(id, _pair(id));
+    }
+
+    function _payRewards(bytes32 id, PairState storage p)
+        private
+        returns (address[] memory tokens, uint256[] memory amounts)
+    {
         tokens = p.rewards;
         amounts = new uint256[](tokens.length);
         for (uint256 i; i < tokens.length; ++i) {
@@ -410,6 +449,23 @@ contract RamsesV3PairedAdapter {
                 }
                 p.rewards.push(live[i]);
             }
+        }
+    }
+
+    /// @dev Only the guarded exit can enter this frame. A mismatch reverts ALL claim side effects
+    /// before the outer exit catches it. Do not catch just positionManager.getReward instead.
+    function harvestForExit(bytes32 id) external {
+        if (msg.sender != address(this)) revert NotSelf();
+        _harvest(id, _pair(id));
+    }
+
+    function _harvestBeforeExit(bytes32 id, PairState storage p) private {
+        if (!allowRewardForfeiture[id]) {
+            _harvest(id, p);
+            return;
+        }
+        try this.harvestForExit(id) {} catch {
+            emit ExitHarvestFailed(id, p.tokenId);
         }
     }
 

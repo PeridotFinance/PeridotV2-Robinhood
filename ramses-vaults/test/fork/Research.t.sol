@@ -21,9 +21,11 @@ contract ResearchTest is Test {
         deal(t1, address(this), 1e18);
         IERC20(t0).approve(address(pm), 100e6);
         IERC20(t1).approve(address(pm), 1e18);
+        (, int24 tick,,,,,) = pool.slot0();
+        int24 center = tick / 10 * 10;
         (uint256 id, uint128 liq,,) = pm.mint(
             IRamsesNfp.MintParams(
-                t0, t1, 10, 222580, 222780, 100e6, 1e18, 0, 0, address(this), block.timestamp
+                t0, t1, 10, center - 100, center + 100, 100e6, 1e18, 0, 0, address(this), block.timestamp
             )
         );
         assertEq(pm.ownerOf(id), address(this));
@@ -42,8 +44,15 @@ contract ResearchTest is Test {
             address(gauge).call(abi.encodeCall(gauge.getReward, (id, tokens)));
         emit log_named_uint("direct success", direct ? 1 : 0);
         emit log_bytes(reason);
+        assertFalse(direct);
+        assertFalse(gauge.isAuthorizedClaimer(address(this)));
+        assertTrue(gauge.isAuthorizedClaimer(address(pm)));
+        assertTrue(gauge.isAuthorizedClaimer(gauge.voter()));
+        uint256 expected = gauge.earned(tokens[2], id);
+        assertGt(expected, 0);
         uint256 beforeRam = IERC20(tokens[2]).balanceOf(address(this));
         pm.getReward(id, tokens);
+        assertEq(IERC20(tokens[2]).balanceOf(address(this)) - beforeRam, expected);
         emit log_named_uint(
             "manager RAM paid", IERC20(tokens[2]).balanceOf(address(this)) - beforeRam
         );
