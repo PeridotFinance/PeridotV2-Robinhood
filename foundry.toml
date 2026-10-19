@@ -83,6 +83,7 @@ test = "ramses-vaults/test"
 script = "ramses-vaults/script"
 out = "ramses-vaults/out-v3"
 cache_path = "ramses-vaults/cache-v3"
+broadcast = "ramses-vaults/broadcast"
 
 [profile.ramses.invariant]
 runs = 64

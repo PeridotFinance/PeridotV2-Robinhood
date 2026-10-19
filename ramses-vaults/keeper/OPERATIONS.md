@@ -5,7 +5,7 @@ Monitor JSON logs independently of the keeper process. An absent heartbeat canno
 | Signal | Action |
 | --- | --- |
 | `gasBalanceWei`, `gasReady`, `awaiting_gas` | Alert below 0.0003 ETH and estimate runway from measured gas usage × gas price. Fund only the dedicated keeper; no vault assets belong in this wallet. |
-| `checkpointAge` | During a fresh feed, investigate age above one hour plus two polling intervals. Gas caps, validator failures and RPC incidents can delay checkpoints. The contract’s one-day bound is a backstop, not the operating target. |
+| `checkpointAge` | During a fresh feed, investigate age above one hour plus two polling intervals. Gas caps, validator failures and RPC incidents can delay checkpoints. The contract’s one-hour bound is a backstop, not the operating target. |
 | `priceMoved50Bps` | Confirm a price-triggered successful checkpoint receipt within the next rate-limited pass when the feed and gas cap permit. It is measured from the persisted confirmed price, not the previous poll. |
 | `unrecognisedLossUSD18` | Oracle-valued estimated loss before booking. Investigate any sustained growth relative to the $1,000 pair cap and funded reserve. This is an estimate excluding uncollected rewards, not a loss guarantee; `null` on stale-feed waits means unknown, not zero. |
 | `rewardAccrualRaw`, token ID and `externalRewards` | Track raw accrued/received USDG, NVDA and RAM, the reward-token set and validator behavior. RAM has zero NAV. Accrual without successful harvesting, token-list changes or `RewardClaimMismatch` is an alert. |

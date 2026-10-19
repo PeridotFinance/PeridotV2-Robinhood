@@ -34,6 +34,17 @@ def main():
                 return
             time.sleep(0.1)
         raise RuntimeError('Missing role-grant receipt')
+    def governance(target, signature, *values):
+        rpc('anvil_impersonateAccount',[m['timelock']]); rpc('anvil_setBalance',[m['timelock'],hex(10**18)])
+        tx=rpc('eth_sendTransaction',[{'from':m['timelock'],'to':target,'data':cast('calldata',signature,*values),'gas':'0x300000'}])
+        deadline=time.monotonic()+30
+        while time.monotonic()<deadline:
+            receipt=rpc('eth_getTransactionReceipt',[tx])
+            if receipt:
+                assert int(receipt['status'],16)==1
+                return
+            time.sleep(0.1)
+        raise RuntimeError('Missing governance receipt')
     def borrow_cap():
         layout=json.loads((OUT/'Peridottroller.sol/Peridottroller.json').read_text())['storageLayout']['storage']
         slot=int(next(x for x in layout if x['label']=='borrowCaps')['slot'])
@@ -45,6 +56,10 @@ def main():
         ('proxy implementation',lambda: storage(m['stockMarket'],'PErc20Delegator','implementation',int(m['rate'],16))),
         ('supply cap',lambda: storage(m['stockMarket'],'RamsesBoostedDelegate','supplyCap',0)),
         ('borrow cap',borrow_cap),
+        ('collateral factor',lambda: governance(m['controller'],'_setCollateralFactor(address,uint256)',m['stockMarket'],0)),
+        ('borrow activation',lambda: governance(m['controller'],'_setBorrowPaused(address,bool)',m['dollarMarket'],'true')),
+        ('ordinary seizure',lambda: governance(m['controller'],'_setSeizePaused(bool)','true')),
+        ('reserve factor',lambda: storage(m['stockMarket'],'RamsesBoostedDelegate','reserveFactorMantissa',2*10**17)),
         ('cash buffer',lambda: storage(m['stockMarket'],'RamsesBoostedDelegate','vaultBufferMantissa',10**17)),
         ('market pause',lambda: storage(m['stockMarket'],'RamsesBoostedDelegate','vaultPaused',1)),
         ('unexpected config role',grant),

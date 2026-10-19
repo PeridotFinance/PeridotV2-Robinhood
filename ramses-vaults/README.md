@@ -186,7 +186,7 @@ These Phase 2 instructions supersede the earlier open design questions and recom
 | Recenter cooldown / rolling limit | 1 hour / 4 per rolling 24 hours |
 | Reward forfeiture | OFF by default |
 
-These are configuration, not hard-coded strategy defaults. Configure both loss policies before allocation: an unset deploy bound is zero (strict), not disabled. Other fixture values are a 20% reserve cut, 1% settlement slippage, $1,000 settlement-swap cap, 200-bp over-unwind, one-day checkpoint age and 300-second deadline limit. Phase 4 adopts these live NVDA values: 20% fee/reward cut, 1% settlement slippage, $1,000 swap and aggregate USDG caps, 200-bp over-unwind, one-day maximum checkpoint age, and 300-second deadline limit. The keeper checkpoints at least hourly and on 50-bps oracle moves; see section 11. RAM stays in zero-NAV custody until a separate timelock forwarding instruction.
+These are configuration, not hard-coded strategy defaults. Configure both loss policies before allocation: an unset deploy bound is zero (strict), not disabled. Other fixture values are a 20% reserve cut, 1% settlement slippage, $1,000 settlement-swap cap, 200-bp over-unwind, one-day checkpoint age and 300-second deadline limit. Phase 4 adopts these live NVDA values: 20% fee/reward cut, 1% settlement slippage, $1,000 swap and aggregate USDG caps, 200-bp over-unwind, one-hour maximum checkpoint age, and 300-second deadline limit. The keeper checkpoints at least hourly and on 50-bps oracle moves; see section 11. RAM stays in zero-NAV custody until a separate timelock forwarding instruction.
 
 ## 9. Phase 2 reproduction, results and boundaries
 
@@ -354,7 +354,7 @@ python3 ramses-vaults/tools/check_phase2.py python3 \
 
 ### Results, review and open decisions
 
-Final restored-source results (2026-10-19):
+Historical Phase 3 results at `8d061ee` (2026-10-19); Phase 4 results are in section 11:
 
 | Check | Result |
 | --- | --- |
@@ -382,6 +382,89 @@ The unchanged vault remains **24,469 bytes** (107 bytes of headroom). All deploy
 
 The tests establish the listed scenarios with the faithful pool double and the real pinned Ramses pool/NFT/gauge: both lending directions, interest, guarded liquidation, losses shared before fresh-price exits, booked fee gains, pause/full and partial emergency exits, donations and the locked initial seed. Native-token reward gains and the two-sided coverage condition are exercised by the double; the real fork demonstrates swap-fee gains and RAM excluded from NAV (the live gauge's native reward rates were zero). Subsequent price-feed changes are simulated; initial feed readings and real pool execution are not. These are scenario results, not exhaustive economic or governance safety proofs.
 
-Self-review fixes include fresh-loss preview/checkpoint ordering, strict oracle error handling and USDG scaling, reserve cash retention, cap accrual ordering, ceiling-rounded buffers, first-deposit protection, silent sync failure, partial-emergency cash exits, packed proxy-slot verification and keeper/config separation. No known code finding is intentionally deferred. Remaining boundaries are the stale cash-exit priority risk, cash consumption between rebalances, token/upstream pauses and governance changes, inherited insolvency/bad-debt behavior, and the operator decisions below. The review is an adversarial self-review, not an independent audit. The supplied timelock and its governance membership must be independently approved; the scripts validate its contract interface/delay and keeper separation, not the integrity of arbitrary timelock implementations. A timelock-only guardian also implies emergency-action latency. USDG is valued at $1, so depeg risk is outside the tested oracle model.
+Self-review fixes include fresh-loss preview/checkpoint ordering, strict oracle error handling and USDG scaling, reserve cash retention, cap accrual ordering, ceiling-rounded buffers, first-deposit protection, silent sync failure, partial-emergency cash exits, packed proxy-slot verification and keeper/config separation. No known code finding is intentionally deferred. Remaining boundaries are the stale cash-exit priority risk, cash consumption between rebalances, token/upstream pauses and governance changes, inherited insolvency/bad-debt behavior, and the accepted launch policy below. The review is an adversarial self-review, not an independent audit. The supplied timelock and its governance membership must be independently approved; the scripts validate its contract interface/delay and keeper separation, not the integrity of arbitrary timelock implementations. A timelock-only guardian also implies emergency-action latency. USDG is valued at $1, so depeg risk is outside the tested oracle model.
 
 Phase 4 resolves the earlier launch decisions. Enabling 80% collateral and borrowing explicitly accepts that a stale stock feed blocks new borrowing, collateral redemption and liquidation, while debt and market prices may move; bad debt can accumulate before reopening. Unencumbered local-cash redeemers can exit at the last booked claim before unknown losses are recognized, leaving remaining holders exposed. The 50% buffer is a deployment target and borrowers may consume it. A 50-bps checkpoint trigger reduces the fresh-price recognition window; it cannot observe unknown weekend prices or make liquidation available with a stale feed. These boundaries are accepted by the specified launch configuration and are not fixed by the keeper. Independent pre-deployment review remains separate from this self-review.
+
+## 11. Phase 4: approved launch and Ramses keeper
+
+**Local implementation and validation only. No real-network signing/broadcast, credential access, cloud API, push or PR.** The operator’s live NVDA configuration now replaces the earlier CF-0/paused launch proposal in the deployment plan and verifier. See section 10 and [`deployments/launch.env.example`](deployments/launch.env.example). All risk policy remains timelock-set; the interest model takes constructor parameters and is replaced through the timelock-only market setter. No existing Uniswap source or deployment is changed.
+
+The initial markets receive $20 of NVDA at the fresh deployment feed and 20 USDG: approximately $20 stays local and approximately $20 enters the paired vault. Both raw supply caps and borrow caps are 4.35 NVDA / 1,000 USDG. Supply caps include seed and accrued supplier interest; the vault independently enforces its $1,000 pair cap. The immutable initial exchange rates are smaller than Phase 3’s so the existing `1e8` locked shares cost only 0.0000002 NVDA / 0.000020 USDG. Tests cover donation/rounding protection at these amounts; this is not a claim about every adversarial donation or an absolute mathematical minimum seed.
+
+The timelock batch configures the guard, reserve, pair, controller, market policies and caps; seeds both markets; funds **0.0002 NVDA** reserve; explicitly enables ordinary seizure; then activates **80% CF and borrowing** on both markets. No unseeded market is publicly usable: the first mint is admin-only and the batch is atomic. The reference deployment README records that NVDA funding, but no production USDG funding amount. This plan uses zero initial USDG reserve funding and the documented **$10/event, $25/day, 50% deficit-coverage** limits. It does not promise unfunded cover.
+
+### Keeper behavior and safety
+
+[`keeper/README.md`](keeper/README.md) contains operator commands and the hosting/journal boundary; [`keeper/OPERATIONS.md`](keeper/OPERATIONS.md) contains alerts and incident handling. The copied wallet/provisioning tools were adapted, not executed. The container entry point defaults to monitor-only, requires chain 4663, checks all keeper privileges before loading signer material, pins runtime hashes/dependency addresses and proxy/beacon state, and repeats preflight before every send. The final local manifest covered **49 runtime hashes**, including linked upstream libraries, gauge validator and beacons, as well as the new stack.
+
+Each maintenance pass harvests, confirms a checkpoint, drives both market delegates, and considers vault rebalance followed by recenter. **A due recenter retains idle assets for its new range:** the keeper previews it after checkpoint/market maintenance and skips increasing the old NFT. The real gauge rehearsal demonstrated why: an immediate mint/increase followed by recenter can produce positive `earned` but no reward payout, causing the adapter’s strict `RewardClaimMismatch`. The worker does not weaken that check, enable forfeiture or classify it as benign. This conditional skip also avoids creating and immediately burning an intermediate full-range NFT on startup. Normal rebalance runs only after the successful checkpoint; every submitted recenter follows harvest.
+
+The new trigger compares the current oracle price with the last confirmed checkpoint price, in either direction, using `abs(new-old) * 10000 >= old * 50`. It supplements hourly maintenance, with 60-second attempt rate limiting and the inherited 300-second default polling interval (minimum 60). A cooldown wait persists its expiry for a timely retry after restart, without needing another price move. Receipt-block prices and pending intent survive in the journal; failed submissions never advance the confirmed baseline. Gas price, per-action gas and the aggregate cycle budget are bounded. Named dust errors use the freshly read **matched** native-side idle budget, not total idle value: unmatched stock alone cannot fund a two-sided deployment. Material matched-balance failures still alert.
+
+Unknown simulation failures, mined reverts, caught delegate-failure events, code/role changes and ambiguous submissions stop signing. Known waits remain observable. Pending hashes recover without resubmission. Losing the journal with a used signer refuses execution. The OS lock is per signer, independent of state-file path; it is **not a distributed lease**. One cloud instance and a stop/drain handover are required. The App Platform template does not provide durable storage: replacement containers need a preserved/restored journal, or a persistent single-worker host. Automatic cloud restart continuity is not claimed.
+
+### Reproduction
+
+Run from the repository root. Each child verification command and each disposable anvil lifetime is capped at ten minutes; Solidity uses `--threads 1`. Compile before starting the bounded anvil service. No account or key is needed for these commands.
+
+```sh
+make test-ramses-phase4
+python3 -m unittest discover -s ramses-vaults/keeper -p 'test_*.py'
+export ROBINHOOD_RPC_URL=https://rpc.mainnet.chain.robinhood.com
+python3 ramses-vaults/tools/pin.py > /tmp/ramses-phase4-pin.env
+source /tmp/ramses-phase4-pin.env
+make fork-ramses-phase4
+
+python3 ramses-vaults/tools/check_phase2.py python3 ramses-vaults/tools/mutations_phase4.py
+# Each plan mutation is a separate bounded command, not one long shell batch:
+python3 ramses-vaults/tools/mutations_phase4.py --plan --only 'launch CF'
+python3 ramses-vaults/tools/mutations_phase4.py --plan --only 'launch supply caps'
+python3 ramses-vaults/tools/mutations_phase4.py --plan --only 'launch borrow caps'
+python3 ramses-vaults/tools/mutations_phase4.py --plan --only 'launch borrowing enabled'
+# Rebuild restored sources before rehearsal.
+python3 ramses-vaults/tools/check_phase2.py forge build --threads 1
+
+# Repin immediately before anvil; public historical state can be pruned.
+python3 ramses-vaults/tools/pin.py > /tmp/ramses-phase4-keeper-pin.env
+source /tmp/ramses-phase4-keeper-pin.env
+python3 ramses-vaults/tools/local_anvil.py  # loopback :8557, --accounts 0, no generated keys
+# In another terminal, with the same pin environment and a NEW journal/state path:
+source /tmp/ramses-phase4-keeper-pin.env
+python3 ramses-vaults/tools/check_phase2.py python3 ramses-vaults/keeper/rehearse.py \
+  --rpc-url http://127.0.0.1:8557 \
+  --deployment ramses-vaults/deployments/local-phase4.json \
+  --state /tmp/ramses-keeper-phase4 --deploy
+```
+
+For the independent verifier fault suite, use `tools/rehearse_markets.py` to deploy/configure on a fresh local anvil, then run `tools/test_local_deployment.py --rpc-url http://127.0.0.1:8557 --journal <that local journal>` through `tools/check_phase2.py`. Run it while the local feed is fresh. The keeper rehearsal deliberately ends with a 13-hour stale-feed scenario; an explicit simulated local feed refresh is needed to run freshness-enforcing verification afterward. The final run did this refresh before its verifier fault checks. Stop anvil when finished.
+
+### Final results and adversarial self-review
+
+Phase 4 validation on **2026-10-19**:
+
+| Check | Result |
+| --- | --- |
+| Solidity local suite / size gate (`make test-ramses-phase4`) | **311 passed**, 0 failed/skipped, 20 suites; 306 inherited + 4 launch tests + 1 actual-timelock-plan test. Existing fuzz/invariant campaigns remain green |
+| Python | **51 keeper/tooling tests**, **5 deployment-tool tests**, **12 unchanged original-keeper tests** passed. The last three keeper regressions were run with the separate unittest command above after the broad Make run; the final one-hour payload assertion was rerun with `forge test --threads 1 --match-path ramses-vaults/test/LaunchPlan.t.sol` through the bounded wrapper |
+| Solidity fork (`make fork-ramses-phase4`) | **29 passed**, 0 failed/skipped, including 80%-CF lending/repayment/stale-feed/liquidation scenarios |
+| Real worker on anvil | **18 checks passed, 26 keeper transactions mined successfully**: real gauge rewards, checkpoint, delegate/vault maintenance, both recenter directions, no-op, 50-bps trigger, pending recovery, code/role/timelock refusal and stale-feed wait |
+| Phase 4 source mutations | **36/36 killed**: 32 worker safeguards and 4 actual deployment-plan CF/cap/activation mutations; source bytes restored after every case. The plan mutations preceded the final one-hour checkpoint-bound correction; its positive payload assertion and complete local deployment were rerun afterward. Compiler errors, timeouts and zero-test runs do not count |
+| Independent deployment verifier | **13/13 corruptions rejected**, snapshots restored and positive verification repeated: code, proxy admin/implementation, supply/borrow caps, CF, borrow activation, ordinary seizure, reserve factor, cash buffer, market pause, CONFIG escalation, stale prices |
+| Role-grant tool | Foundry payload-only simulation passed against the local deployed stack; no signer loaded and no grant broadcast |
+
+Solidity fork pin: **92,695,425**, native **26,227,304**, hash `0xcf81f81499092d4be468c84dc98554309ff6d0226b57140d2157d2c68de07c7b`, timestamp **1792421140**. Worker anvil fork pin: **92,710,941**, native **26,227,435**, hash `0x872e22acd06d2b218ef9cdd966e5ecb72244f00d9d929f62b46edf4af4d91081`, timestamp **1792422723**. The manifest was captured at local block 92,710,970 after deployment/setup. The final worker deployment includes the live one-hour checkpoint bound. Initial deployment uses the pinned real feed. Subsequent feed updates are simulated; recenter price moves execute actual swaps through the real pool. The swap driver alone receives local ERC20 balance overrides, analogous to Foundry `deal`; pool liquidity and balances are preserved. Local transactions use anvil unlocked impersonation, not a production keystore or a real-network signature. The local worker uses a 2-gwei test ceiling because anvil’s suggested gas price exceeds the production 0.1-gwei default.
+
+The vault/delegate runtimes remain **24,469 / 24,322 bytes**; the parameterized interest model is **1,153 bytes**. All libraries/dependencies pass EIP-170. The small vault bytecode margin is unchanged. Detailed local logs are `research/tests-phase4-final.log`, `fork-phase4-final.log`, `keeper-phase4-92710941.log`, `verifier-phase4-92710941.log`, `grant-phase4-simulation.log` and `mutations-phase4.json`. Generated logs/journals remain ignored; this README is the tracked reproduction record. No command exceeded ten minutes. All disposable anvil services were stopped explicitly.
+
+Self-review produced regressions for initial and due-recenter ordering under the real reward validator, matched-side dust classification, receipt-block checkpoint baselines, caught delegate failures despite successful receipts, URL-prefix bypasses, missing journals, ambiguous submission and signer locks. The first gas-cap refusal, reward-mismatch receipts and the earlier faulty swap-funding fixture were retained as failed experiments; none is counted as a pass. The corrected production keeper preserves every on-chain reward/loss/oracle check. This is an adversarial self-review, not an independent audit or Phase 5 sign-off.
+
+The tests prove these bounded scenarios, not long-horizon solvency or all upstream validator/governance behavior. At **80% CF**, the accepted stale-feed boundary in section 10 still permits unavailable liquidation and unknown cash-exit loss priority; borrowers can consume the 50% cash target. A 50-bps trigger cannot bypass a stale/missing feed, gas cap, reward validator failure or RPC outage. USDG remains fixed at $1; future stock actions, upstream upgrades, arbitrary bad debt and actual cloud/keystore operation remain outside the demonstrated results. Cloud/API and wallet-creation flows were tested only with mocked boundaries; no cloud provision, real signer test, image deployment or production activation was performed.
+
+### Operator steps still required
+
+1. Create the dedicated wallet locally with `keeper/create_wallet.py`; retain the public record and protect its generated encrypted files. Choose the explicit public governance sender. No credentials need to be shared with the developer.
+2. Review the local commits and publish/build the reviewed release through the operator’s normal process. The developer made local commits only; the cloud branch must contain the reviewed keeper before provisioning.
+3. Simulate deployment with `--account <encrypted-keystore-alias>` and the explicit sender, then operator-sign the reviewed deployment. Fund the timelock with both seed amounts plus 0.0002 NVDA. Schedule/review/wait/execute the configuration-and-seed batch during fresh feed hours. Its final actions enable supply, ordinary seizure and borrowing at 80% CF. Check actual receipts and the independent verifier.
+4. Verify the wallet’s vault role and both market-operator assignments. For a later grant/rotation, use `keeper/grant_keeper.sh` to print payloads, simulate queue/execute and then explicitly operator-broadcast through the timelock. Revoke any replaced keeper separately after handover.
+5. Build/review the runtime manifest, fund keeper gas, establish single-instance journal persistence/restoration and alerts, provision monitor-only, inspect heartbeats, then explicitly enable signing with `keeper/provision.py --enable`. Preserve and reconcile the journal before every restart/migration. Perform the real keystore/cloud end-to-end check as the operator; it was intentionally not performed here.
