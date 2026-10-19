@@ -2,10 +2,10 @@
 pragma solidity ^0.8.20;
 
 import "peridot/PErc20Delegate.sol";
-import {RamsesMarketAccounting} from "./RamsesMarketAccounting.sol";
+import { RamsesMarketAccounting } from "./RamsesMarketAccounting.sol";
 import "peridot/interfaces/IRobinhoodBoostedVault.sol";
-import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
 /// @notice Separate Ramses markets; derived from the corrected V2 delegate.
 /// @dev New deployments only. Governance setters rely on the external timelock.
@@ -50,7 +50,10 @@ contract RamsesBoostedDelegate is PErc20Delegate {
     bool internal mintVaultAssetsValidated;
 
     event RobinhoodVaultConfigured(
-        address indexed vault, bytes32 indexed pairId, uint256 bufferMantissa, address indexed operator
+        address indexed vault,
+        bytes32 indexed pairId,
+        uint256 bufferMantissa,
+        address indexed operator
     );
     event VaultBufferUpdated(uint256 previousMantissa, uint256 newMantissa);
     event VaultPausedUpdated(bool paused);
@@ -113,7 +116,13 @@ contract RamsesBoostedDelegate is PErc20Delegate {
      */
     function mint(uint256 mintAmount) external override returns (uint256) {
         _checkpoint(false);
-        require(mintAmount != 0 && super.getCashPrior() + _vaultAccountedAssets() + totalBorrows - totalReserves + mintAmount <= supplyCap, "SUPPLY_CAP");
+        accrueInterest(); // Cap includes interest accrued through this block.
+        require(
+            mintAmount != 0
+                && super.getCashPrior() + _vaultAccountedAssets() + totalBorrows - totalReserves
+                        + mintAmount <= supplyCap,
+            "SUPPLY_CAP"
+        );
         bool first = totalSupply == 0;
         if (first) require(msg.sender == admin, "TIMELOCK_SEED_REQUIRED");
         uint256 sharesBefore = accountTokens[msg.sender];
@@ -166,7 +175,8 @@ contract RamsesBoostedDelegate is PErc20Delegate {
     function doTransferOut(address payable to, uint256 amount) internal override {
         _checkpoint(false);
         // borrowFresh has already recorded the new debt; check health again after checkpoint.
-        (uint256 err,,uint256 shortfall) = IRamsesLiquidity(address(peridottroller)).getAccountLiquidity(to);
+        (uint256 err,, uint256 shortfall) =
+            IRamsesLiquidity(address(peridottroller)).getAccountLiquidity(to);
         require(err == 0 && shortfall == 0, "POST_CHECKPOINT_SHORTFALL");
         _prepareFixedLiquidity(amount);
         if (super.getCashPrior() < amount) revert StrategyLiquidityShortfall();
@@ -190,7 +200,12 @@ contract RamsesBoostedDelegate is PErc20Delegate {
      * @notice Redeems an exact underlying amount using the post-vault-operation exchange rate.
      * @dev A newly recognized loss increases the number of pTokens burned for the exact output.
      */
-    function redeemUnderlying(uint256 redeemAmount) external override nonReentrant returns (uint256) {
+    function redeemUnderlying(uint256 redeemAmount)
+        external
+        override
+        nonReentrant
+        returns (uint256)
+    {
         _checkpoint(true);
         accrueInterest();
         _redeemUnderlyingLossAware(payable(msg.sender), redeemAmount);
@@ -220,7 +235,9 @@ contract RamsesBoostedDelegate is PErc20Delegate {
         if (requested != 0 && !success) revert StrategyLiquidityShortfall();
     }
 
-    function setVaultConfig(address vault_, bytes32 pairId_, uint256 buffer_, address operator_) external {
+    function setVaultConfig(address vault_, bytes32 pairId_, uint256 buffer_, address operator_)
+        external
+    {
         if (msg.sender != admin) revert OnlyAdmin();
         _configureVault(vault_, pairId_, buffer_, operator_);
     }
@@ -255,11 +272,14 @@ contract RamsesBoostedDelegate is PErc20Delegate {
     /// @dev Protocol reserve donations must not leverage suppliers into extra LP exposure.
     function _bufferTarget(uint256 totalAssets) internal view returns (uint256) {
         uint256 deployable = totalAssets > totalReserves ? totalAssets - totalReserves : 0;
-        return totalAssets - deployable + (deployable * vaultBufferMantissa + MANTISSA_ONE - 1) / MANTISSA_ONE;
+        return totalAssets - deployable + (deployable * vaultBufferMantissa + MANTISSA_ONE - 1)
+            / MANTISSA_ONE;
     }
 
     function _checkpoint(bool allowStale) internal {
-        if (_vaultConfigured()) RamsesMarketAccounting.checkpoint(address(robinhoodVault), robinhoodPairId, allowStale);
+        if (_vaultConfigured()) {
+            RamsesMarketAccounting.checkpoint(address(robinhoodVault), robinhoodPairId, allowStale);
+        }
     }
 
     function _redeemTokensLossAware(address payable redeemer, uint256 redeemTokens) internal {
@@ -267,15 +287,16 @@ contract RamsesBoostedDelegate is PErc20Delegate {
 
         uint256 redeemAmount;
         for (uint256 i = 0; i < MAX_SETTLEMENT_STEPS; i++) {
-            Exp memory exchangeRate = Exp({mantissa: exchangeRateStoredInternal()});
+            Exp memory exchangeRate = Exp({ mantissa: exchangeRateStoredInternal() });
             redeemAmount = mul_ScalarTruncate(exchangeRate, redeemTokens);
             uint256 localCash = super.getCashPrior();
             if (localCash >= redeemAmount) break;
-            (uint256 returned, uint256 loss, bool success) = _withdrawFromVault(redeemAmount - localCash);
+            (uint256 returned, uint256 loss, bool success) =
+                _withdrawFromVault(redeemAmount - localCash);
             if (!success || (returned == 0 && loss == 0)) break;
         }
 
-        Exp memory settledRate = Exp({mantissa: exchangeRateStoredInternal()});
+        Exp memory settledRate = Exp({ mantissa: exchangeRateStoredInternal() });
         redeemAmount = mul_ScalarTruncate(settledRate, redeemTokens);
         if (super.getCashPrior() < redeemAmount) revert RedeemTransferOutNotPossible();
 
@@ -347,10 +368,15 @@ contract RamsesBoostedDelegate is PErc20Delegate {
         address vaultAddress = address(robinhoodVault);
         uint256 balanceBefore = token.balanceOf(address(this));
         token.forceApprove(vaultAddress, amount);
-        try robinhoodVault.depositForPair(robinhoodPairId, underlying, amount) returns (uint256 deposited) {
+        try robinhoodVault.depositForPair(robinhoodPairId, underlying, amount) returns (
+            uint256 deposited
+        ) {
             token.forceApprove(vaultAddress, 0);
             uint256 balanceAfter = token.balanceOf(address(this));
-            if (balanceAfter > balanceBefore || balanceBefore - balanceAfter != amount || deposited != amount) {
+            if (
+                balanceAfter > balanceBefore || balanceBefore - balanceAfter != amount
+                    || deposited != amount
+            ) {
                 revert DepositBalanceMismatch();
             }
             emit VaultDeposit(amount, deposited);
@@ -391,11 +417,16 @@ contract RamsesBoostedDelegate is PErc20Delegate {
         }
     }
 
-    function _configureVault(address vault_, bytes32 pairId_, uint256 buffer_, address operator_) internal {
+    function _configureVault(address vault_, bytes32 pairId_, uint256 buffer_, address operator_)
+        internal
+    {
         if (buffer_ < 0.5e18 || buffer_ > MANTISSA_ONE) revert InvalidBuffer();
         if (operator_ == address(0)) revert InvalidOperator();
-        if (_vaultConfigured() && (vault_ != address(robinhoodVault) || pairId_ != robinhoodPairId)) {
-            if (robinhoodVault.accountedAssets(robinhoodPairId, underlying) != 0) revert OldVaultNotEmpty();
+        if (_vaultConfigured() && (vault_ != address(robinhoodVault) || pairId_ != robinhoodPairId))
+        {
+            if (robinhoodVault.accountedAssets(robinhoodPairId, underlying) != 0) {
+                revert OldVaultNotEmpty();
+            }
         }
         _validateVault(vault_, pairId_);
         robinhoodVault = IRobinhoodBoostedVault(vault_);
@@ -411,7 +442,9 @@ contract RamsesBoostedDelegate is PErc20Delegate {
         if (vault_ == address(0) || vault_.code.length == 0) revert InvalidVault();
         if (pairId_ == bytes32(0)) revert InvalidPair();
         IRobinhoodBoostedVault candidate = IRobinhoodBoostedVault(vault_);
-        if (candidate.sideAccount(pairId_, underlying) != address(this)) revert PTokenNotSideAccount();
+        if (candidate.sideAccount(pairId_, underlying) != address(this)) {
+            revert PTokenNotSideAccount();
+        }
         candidate.accountedAssets(pairId_, underlying);
         candidate.liquidAssets(pairId_, underlying);
     }
@@ -460,7 +493,6 @@ contract RamsesBoostedDelegate is PErc20Delegate {
     function _vaultConfigured() internal view returns (bool) {
         return address(robinhoodVault) != address(0) && robinhoodPairId != bytes32(0);
     }
-
 }
 
 interface IRamsesLiquidity {

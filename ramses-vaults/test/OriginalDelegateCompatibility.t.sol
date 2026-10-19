@@ -25,14 +25,19 @@ import {
 } from "./mocks/RamsesV3Double.sol";
 import { PausableTokenDouble, FeedDouble, SwapPoolDouble } from "./mocks/Phase2Double.sol";
 
-import {RobinhoodBoostedDelegateV2 as RamsesBoostedDelegate} from "../../remediation/src/RobinhoodBoostedDelegateV2.sol";
-import {RamsesUnitroller, Peridottroller} from "../src/lending/RamsesUnitroller.sol";
-import {RamsesInterestRateModel} from "../src/lending/RamsesInterestRateModel.sol";
-import {RamsesLendingPriceSource, RobinhoodLendingPriceAdapter} from "../src/lending/RamsesLendingPriceSource.sol";
-import {PErc20Delegator} from "peridot/PErc20Delegator.sol";
-import {PeridottrollerInterface} from "peridot/PeridottrollerInterface.sol";
-import {PToken} from "peridot/PToken.sol";
-import {PriceOracle} from "peridot/PriceOracle.sol";
+import {
+    RobinhoodBoostedDelegateV2 as RamsesBoostedDelegate
+} from "../../remediation/src/RobinhoodBoostedDelegateV2.sol";
+import { RamsesUnitroller, Peridottroller } from "../src/lending/RamsesUnitroller.sol";
+import { RamsesInterestRateModel } from "../src/lending/RamsesInterestRateModel.sol";
+import {
+    RamsesLendingPriceSource,
+    RobinhoodLendingPriceAdapter
+} from "../src/lending/RamsesLendingPriceSource.sol";
+import { PErc20Delegator } from "peridot/PErc20Delegator.sol";
+import { PeridottrollerInterface } from "peridot/PeridottrollerInterface.sol";
+import { PToken } from "peridot/PToken.sol";
+import { PriceOracle } from "peridot/PriceOracle.sol";
 
 abstract contract OriginalLendingFixture is Test {
     bytes32 internal constant PAIR = keccak256("NVDA/USDG");
@@ -132,7 +137,9 @@ abstract contract OriginalLendingFixture is Test {
         uMarket = market(address(usdg), 2e14, "rpUSDG");
         stockAccount = address(sMarket);
         usdgAccount = address(uMarket);
-        priceAdapter = new RobinhoodLendingPriceAdapter(address(new RamsesLendingPriceSource(guard, PAIR)), stockAccount, usdgAccount);
+        priceAdapter = new RobinhoodLendingPriceAdapter(
+            address(new RamsesLendingPriceSource(guard, PAIR)), stockAccount, usdgAccount
+        );
         require(controller._setPriceOracle(PriceOracle(address(priceAdapter))) == 0);
         require(controller._setCloseFactor(0.5e18) == 0);
         require(controller._setLiquidationIncentive(1.08e18) == 0);
@@ -154,7 +161,10 @@ abstract contract OriginalLendingFixture is Test {
             RamsesBoostedDelegate m = i == 0 ? sMarket : uMarket;
             require(controller._supportMarket(PToken(address(m))) == 0);
             vault.grantRole(vault.KEEPER_ROLE(), address(m));
-            PErc20Delegator(payable(address(m)))._setImplementation(address(delegate), false, abi.encode(address(vault), PAIR, 0.5e18, keeper));
+            PErc20Delegator(payable(address(m)))
+                ._setImplementation(
+                    address(delegate), false, abi.encode(address(vault), PAIR, 0.5e18, keeper)
+                );
             m.queueSetVaultPaused(false);
             vm.warp(vm.getBlockTimestamp() + 1 hours);
             m._setVaultPaused(false);
@@ -163,8 +173,10 @@ abstract contract OriginalLendingFixture is Test {
         }
         PToken[] memory markets = new PToken[](2);
         uint256[] memory caps = new uint256[](2);
-        markets[0] = PToken(stockAccount); markets[1] = PToken(usdgAccount);
-        caps[0] = 1e18; caps[1] = 100e6;
+        markets[0] = PToken(stockAccount);
+        markets[1] = PToken(usdgAccount);
+        caps[0] = 1e18;
+        caps[1] = 100e6;
         controller._setMarketBorrowCaps(markets, caps);
         stock.mint(address(this), 100e18);
         usdg.mint(address(this), 10000e6);
@@ -175,25 +187,50 @@ abstract contract OriginalLendingFixture is Test {
         // Governance-controlled seed locks 1 whole pToken on each side forever.
         sMarket.mint(0.04e18);
         uMarket.mint(0.04e6);
-        stock.mint(alice, 10e18); usdg.mint(bob, 1000e6);
-        vm.prank(alice); stock.approve(stockAccount, type(uint256).max);
-        vm.prank(bob); usdg.approve(usdgAccount, type(uint256).max);
+        stock.mint(alice, 10e18);
+        usdg.mint(bob, 1000e6);
+        vm.prank(alice);
+        stock.approve(stockAccount, type(uint256).max);
+        vm.prank(bob);
+        usdg.approve(usdgAccount, type(uint256).max);
     }
 
-    function market(address token, uint256 initialRate, string memory symbol) internal returns (RamsesBoostedDelegate) {
-        return RamsesBoostedDelegate(address(new PErc20Delegator(token, PeridottrollerInterface(address(controller)), rate, initialRate, symbol, symbol, 8, payable(address(this)), address(delegate), "")));
+    function market(address token, uint256 initialRate, string memory symbol)
+        internal
+        returns (RamsesBoostedDelegate)
+    {
+        return RamsesBoostedDelegate(
+            address(
+                new PErc20Delegator(
+                    token,
+                    PeridottrollerInterface(address(controller)),
+                    rate,
+                    initialRate,
+                    symbol,
+                    symbol,
+                    8,
+                    payable(address(this)),
+                    address(delegate),
+                    ""
+                )
+            )
+        );
     }
 
     function supply() internal {
-        vm.prank(alice); sMarket.mint(2e18);
-        vm.prank(bob); uMarket.mint(200e6);
+        vm.prank(alice);
+        sMarket.mint(2e18);
+        vm.prank(bob);
+        uMarket.mint(200e6);
     }
 
     function enableBorrow() internal {
         require(controller._setCollateralFactor(PToken(stockAccount), 0.3e18) == 0);
         require(controller._setCollateralFactor(PToken(usdgAccount), 0.3e18) == 0);
-        address[] memory ms = new address[](1); ms[0] = stockAccount;
-        vm.prank(alice); controller.enterMarkets(ms);
+        address[] memory ms = new address[](1);
+        ms[0] = stockAccount;
+        vm.prank(alice);
+        controller.enterMarkets(ms);
     }
 
     function config() internal view returns (PairConfig memory c) {
@@ -261,33 +298,38 @@ abstract contract OriginalLendingFixture is Test {
     }
 }
 
-
 contract OriginalDelegateCompatibilityTest is OriginalLendingFixture {
     function testUnchangedDelegateInterfaceBufferAndSilentAllocationFailure() public {
-        supply(); recenter();
+        supply();
+        recenter();
         assertGe(stock.balanceOf(stockAccount), vault.accountedAssets(PAIR, address(stock)));
         vault.setPairPause(PAIR, true, false, false);
         uint256 claim = vault.accountedAssets(PAIR, address(stock));
-        vm.prank(alice); sMarket.mint(1e18);
+        vm.prank(alice);
+        sMarket.mint(1e18);
         assertEq(vault.accountedAssets(PAIR, address(stock)), claim);
         assertEq(stock.allowance(stockAccount, address(vault)), 0);
         vm.warp(vm.getBlockTimestamp() + 13 hours);
         assertEq(sMarket.vaultWithdrawableAssets(), 0);
         assertEq(sMarket.getCash(), stock.balanceOf(stockAccount));
-        vm.prank(alice); sMarket.redeemUnderlying{gas: 8000000}(1e16);
+        vm.prank(alice);
+        sMarket.redeemUnderlying{ gas: 8000000 }(1e16);
     }
 
     function testUnchangedDelegateLetsCashExitPrecedeUncheckpointedLoss() public {
-        supply(); recenter();
+        supply();
+        recenter();
         uint256 rateBefore = sMarket.exchangeRateStored();
         uint256 lossBefore = vault.ledger(PAIR).cumulativeLossUSDG;
         shift(500);
         assertEq(sMarket.exchangeRateStored(), rateBefore); // stale ledger valuation
         uint256 shares = sMarket.balanceOf(alice);
-        vm.prank(alice); sMarket.redeemUnderlying(1e16);
+        vm.prank(alice);
+        sMarket.redeemUnderlying(1e16);
         assertEq(vault.ledger(PAIR).cumulativeLossUSDG, lossBefore); // first supplier exited at old rate
         assertLt(sMarket.balanceOf(alice), shares);
-        vm.prank(keeper); vault.checkpoint(PAIR, block.timestamp);
+        vm.prank(keeper);
+        vault.checkpoint(PAIR, block.timestamp);
         assertGt(vault.ledger(PAIR).cumulativeLossUSDG, lossBefore);
         assertLt(sMarket.exchangeRateStored(), rateBefore); // remaining holders absorb it
     }
