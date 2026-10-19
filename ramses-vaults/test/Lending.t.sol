@@ -2,6 +2,7 @@
 pragma solidity 0.8.26;
 import {LendingFixture} from "./LendingFixture.sol";
 import {RamsesBoostedDelegate} from "../src/lending/RamsesBoostedDelegate.sol";
+import {RamsesV3PairedAdapter} from "../src/RamsesV3PairedAdapter.sol";
 import {RamsesOracleGuard} from "../src/RamsesOracleGuard.sol";
 import {PToken} from "peridot/PToken.sol";
 import {PairLedger} from "baseline/src/libraries/VaultTypes.sol";
@@ -61,7 +62,7 @@ contract LendingTest is LendingFixture {
         vm.prank(alice); uMarket.repayBorrow(type(uint256).max);
         assertEq(uMarket.totalBorrows(), 0);
         sMarket.setSupplyCap(0);
-        vm.prank(alice); vm.expectRevert("SUPPLY_CAP"); sMarket.mint(1);
+        vm.prank(alice); vm.expectRevert("SUPPLY_CAP"); sMarket.mint(1e16);
         vm.prank(alice); vm.expectRevert("market borrow cap reached"); uMarket.borrow(100e6);
     }
 
@@ -221,6 +222,55 @@ contract LendingTest is LendingFixture {
         fresh();
         vm.prank(keeper); (uint256 received,) = uMarket.syncVault{gas: 8000000}(1e6);
         assertEq(received, 1e6);
+    }
+
+    function testCompositionSurplusCannotInflateMarketRates() public {
+        supply(); recenter();
+        uint256 sr = sMarket.exchangeRateStored(); uint256 ur = uMarket.exchangeRateStored();
+        uint160 ref = guard.referenceSqrtPriceX96(PAIR, false);
+        RamsesV3PairedAdapter.PositionState memory p = adapter.positionStateAt(PAIR, ref);
+        // Accounting fault injection: large stock surplus, dollar side still uncovered.
+        p.stockAmount += 100e18; p.usdgAmount = 0;
+        vm.mockCall(address(adapter), abi.encodeWithSelector(adapter.positionStateAt.selector, PAIR, ref), abi.encode(p));
+        assertLe(sMarket.exchangeRateStored(), sr + 1);
+        assertLe(uMarket.exchangeRateStored(), ur + 1);
+        vm.prank(keeper); vault.checkpoint(PAIR, block.timestamp);
+        assertLe(sMarket.exchangeRateStored(), sr + 1);
+        assertLe(uMarket.exchangeRateStored(), ur + 1);
+    }
+
+    function testDollarCollateralStockBorrowAndRepay() public {
+        supply(); recenter(); enableBorrow();
+        address[] memory ms = new address[](1); ms[0] = usdgAccount;
+        vm.prank(bob); controller.enterMarkets(ms);
+        vm.prank(bob); sMarket.borrow(0.1e18);
+        assertEq(stock.balanceOf(bob), 0.1e18);
+        vm.prank(bob); stock.approve(stockAccount, type(uint256).max);
+        vm.prank(bob); sMarket.repayBorrow(type(uint256).max);
+        assertEq(sMarket.totalBorrows(), 0);
+        vm.prank(bob); uMarket.redeemUnderlying(10e6);
+    }
+
+    function testFuzzBufferAndIdleSupplierRoundTrip(uint256 raw) public {
+        uint256 amount = bound(raw, 1, 400e6);
+        uint256 before = usdg.balanceOf(bob);
+        vm.prank(bob); uMarket.mint(amount);
+        assertGe(usdg.balanceOf(usdgAccount), uMarket.vaultAccountedAssets());
+        assertLe(usdg.balanceOf(usdgAccount) - uMarket.vaultAccountedAssets(), 1);
+        uint256 shares = uMarket.balanceOf(bob);
+        vm.prank(bob); uMarket.redeem(shares);
+        assertEq(usdg.balanceOf(bob), before);
+    }
+
+    function testProtocolReserveDonationCannotIncreaseLPExposure() public {
+        supply(); recenter();
+        uint256 claim = vault.accountedAssets(PAIR, address(usdg));
+        uMarket._addReserves(1000e6);
+        vm.prank(keeper); uMarket.rebalanceVault();
+        assertLe(vault.accountedAssets(PAIR, address(usdg)), claim);
+        uint256 cash = usdg.balanceOf(usdgAccount);
+        assertGe(cash, uMarket.totalReserves());
+        assertGe(cash - uMarket.totalReserves(), uMarket.vaultAccountedAssets());
     }
 
     function testOddRawUnitRoundsBufferUp() public {

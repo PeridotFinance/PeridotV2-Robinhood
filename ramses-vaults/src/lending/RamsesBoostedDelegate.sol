@@ -249,7 +249,13 @@ contract RamsesBoostedDelegate is PErc20Delegate {
 
     function _requireBuffer() internal view {
         uint256 cash = super.getCashPrior();
-        require(cash >= ((cash + _vaultAccountedAssets()) * vaultBufferMantissa + 1e18 - 1) / 1e18, "BUFFER_SHORTFALL");
+        require(cash >= _bufferTarget(cash + _vaultAccountedAssets()), "BUFFER_SHORTFALL");
+    }
+
+    /// @dev Protocol reserve donations must not leverage suppliers into extra LP exposure.
+    function _bufferTarget(uint256 totalAssets) internal view returns (uint256) {
+        uint256 deployable = totalAssets > totalReserves ? totalAssets - totalReserves : 0;
+        return totalAssets - deployable + (deployable * vaultBufferMantissa + MANTISSA_ONE - 1) / MANTISSA_ONE;
     }
 
     function _checkpoint(bool allowStale) internal {
@@ -327,7 +333,7 @@ contract RamsesBoostedDelegate is PErc20Delegate {
         uint256 totalAssets = localCash + accounted;
         if (totalAssets == 0) return;
 
-        uint256 targetBuffer = (totalAssets * vaultBufferMantissa + MANTISSA_ONE - 1) / MANTISSA_ONE;
+        uint256 targetBuffer = _bufferTarget(totalAssets);
         if (localCash > targetBuffer) {
             _depositToVault(localCash - targetBuffer);
         } else if (allowWithdrawal && targetBuffer > localCash) {

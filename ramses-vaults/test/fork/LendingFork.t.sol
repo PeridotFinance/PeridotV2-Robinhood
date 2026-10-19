@@ -255,6 +255,29 @@ contract LendingForkTest is Test {
         assertEq(sMarket.exchangeRateStored(), sr); assertEq(uMarket.exchangeRateStored(), ur);
     }
 
+    function testForkDollarCollateralStockBorrowAndRepay() public {
+        _enableBorrow();
+        address[] memory ms = new address[](1); ms[0] = address(uMarket);
+        vm.prank(bob); controller.enterMarkets(ms);
+        vm.prank(bob); sMarket.borrow(0.1e18);
+        assertEq(stock.balanceOf(bob), 0.1e18);
+        vm.prank(bob); stock.approve(address(sMarket), type(uint256).max);
+        vm.prank(bob); sMarket.repayBorrow(type(uint256).max);
+        assertEq(sMarket.totalBorrows(), 0);
+        vm.prank(bob); uMarket.redeemUnderlying(10e6);
+    }
+
+    function testForkRealSwapFeesLiftBothMarketRates() public {
+        uint256 sr = sMarket.exchangeRateStored(); uint256 ur = uMarket.exchangeRateStored();
+        (uint160 initialSqrt, int24 tick,,,,,) = pool.slot0();
+        // Real tick crossings in both directions; restore the initial oracle-aligned price.
+        trader.move(true, TickMath.getSqrtPriceAtTick(tick - 100));
+        trader.move(false, initialSqrt);
+        vm.prank(keeper); (uint256 s, uint256 u) = vault.collectFees(PAIR, block.timestamp);
+        assertGt(s, 0); assertGt(u, 0);
+        assertGt(sMarket.exchangeRateStored(), sr); assertGt(uMarket.exchangeRateStored(), ur);
+    }
+
     function testForkOracleFreshnessRepayAndIsolation() public {
         _enableBorrow(); vm.prank(alice); uMarket.borrow(10e6);
         vm.prank(alice); usdg.approve(address(uMarket), type(uint256).max);
