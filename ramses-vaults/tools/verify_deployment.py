@@ -33,7 +33,7 @@ class Reader:
         self.url, self.block = url, block
     def rpc(self, method, params):
         assert method in {'eth_chainId', 'eth_getCode', 'eth_getStorageAt', 'eth_call', 'eth_getLogs', 'eth_blockNumber', 'web3_clientVersion'}
-        req = urllib.request.Request(self.url, json.dumps({'jsonrpc':'2.0','id':1,'method':method,'params':params}).encode(), {'Content-Type':'application/json'})
+        req = urllib.request.Request(self.url, json.dumps({'jsonrpc':'2.0','id':1,'method':method,'params':params}).encode(), {'Content-Type':'application/json','User-Agent':'ramses-keeper/1.0'})
         with urllib.request.urlopen(req, timeout=30) as r: result = json.load(r)
         if 'error' in result: raise RuntimeError(result['error'])
         return result['result']
@@ -144,7 +144,7 @@ class Verifier:
         for key, prefix in [('stockMarket','stock'),('dollarMarket','dollar')]:
             market=m[key]
             listed=r.read(c,'markets(address)',market)
-            assert int(listed[0],16)==1 and int(listed[1],16)==8*10**17, 'Launch collateral factor must be 80%' 
+            assert int(listed[0],16)==1 and int(listed[1],16)==8*10**17, 'Launch collateral factor must be 80%'
             self.eq(c,'borrowGuardianPaused(address)',0,market)
             self.eq(c,'mintGuardianPaused(address)',0,market)
             self.eq(c,'borrowCaps(address)',m[prefix+'BorrowCap'],market)

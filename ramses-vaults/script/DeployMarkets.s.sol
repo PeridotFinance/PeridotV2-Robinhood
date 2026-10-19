@@ -282,6 +282,7 @@ contract DeployRamsesMarkets is Script {
         _action(
             stock, abi.encodeWithSignature("approve(address,uint256)", address(reserve), uint256(0))
         );
+        _action(address(controller), abi.encodeCall(controller._setSeizePaused, (false)));
         // Last operations: both markets seeded and bounded before public activation.
         for (uint256 i; i < 2; i++) {
             _action(
