@@ -21,6 +21,7 @@ library RamsesRewardLib {
     );
     event ExternalRewardHeld(bytes32 indexed pairId, address indexed token, uint256 amount);
     event RewardsProcessed(bytes32 indexed pairId, bool freshHarvest);
+    event RewardsDeferred(bytes32 indexed pairId);
 
     function credit(
         PairConfig storage c,
@@ -74,6 +75,12 @@ library RamsesRewardLib {
         mapping(address => uint256) storage externalRewards,
         Ctx memory p
     ) external {
+        // Explicit governance forfeiture also releases recenter from reward-token bookkeeping.
+        // Principal exit still attempts its isolated claim; credited rewards remain recoverable.
+        if (p.fresh && p.adapter.allowRewardForfeiture(p.id)) {
+            emit RewardsDeferred(p.id);
+            return;
+        }
         address[] memory old = p.adapter.rewardTokens(p.id);
         address[] memory live =
             p.fresh ? p.guard.feedConfig(p.id).gauge.getRewardTokens() : new address[](0);

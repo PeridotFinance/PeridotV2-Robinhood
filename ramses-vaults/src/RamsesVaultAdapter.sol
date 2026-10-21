@@ -12,6 +12,13 @@ contract RamsesVaultAdapter is RamsesV3PairedAdapter {
         RamsesV3PairedAdapter(vault_, manager_, IRamsesReferenceOracle(address(guard_)))
     { }
 
+    function registerPair(bytes32 id, RegisterPairParams calldata p) public override {
+        if (address(RamsesOracleGuard(address(oracle)).poolOf(id)) != address(p.pool)) {
+            revert InvalidConfiguration();
+        }
+        super.registerPair(id, p);
+    }
+
     function poolOf(bytes32 id) public view returns (IRamsesPool) {
         this.removalTolerance(id); // require an adapter registration, not only a guard configuration
         return RamsesOracleGuard(address(oracle)).poolOf(id);
