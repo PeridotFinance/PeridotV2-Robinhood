@@ -85,6 +85,12 @@ class Verifier:
         assert self.r.address(target, signature, *args) == expected.lower(), signature
     def eq(self, target, signature, expected, *args):
         assert self.r.uint(target, signature, *args) == expected, signature
+    def maximum_rate(self):
+        # PToken.borrowRateMaxMantissa = 0.0005e16. The launch model caps utilization
+        # at 100%; no withdrawable cash (including a stale weekend) is its maximum.
+        maximum = self.r.uint(self.m['rate'], 'getBorrowRate(uint256,uint256,uint256)', 0, 10**18, 0)
+        assert maximum <= 5 * 10**12, 'Interest model exceeds market maximum borrow rate'
+
     def run(self, configured=True):
         r, m = self.r, self.m
         assert int(r.rpc('eth_chainId', []),16) == m['chainId'] == 4663
@@ -134,6 +140,7 @@ class Verifier:
         pair = m['pair']; c = m['controller']
         for name, value in [('BASE',7610350076),('SLOPE',47564687975),('JUMP',380517503805),('KINK',8*10**17)]:
             self.eq(m['rate'],name+'()',value)
+        self.maximum_rate()
         self.eq_address(c,'oracle()',m['oracle']); self.eq(c,'closeFactorMantissa()',5*10**17)
         self.eq(c,'liquidationIncentiveMantissa()',108*10**16)
         self.eq_address(c,'isolatedMarginRiskHook()',ZERO); self.eq_address(c,'isolatedMarginRegistrar()',ZERO)

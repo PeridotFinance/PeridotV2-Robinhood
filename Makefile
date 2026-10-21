@@ -129,3 +129,16 @@ test-ramses-phase4:
 fork-ramses-phase4:
 	@test -n "$(ROBINHOOD_RPC_URL)" -a -n "$(REMEDIATION_FORK_BLOCK)" -a -n "$(REMEDIATION_NATIVE_BLOCK)"
 	python3 ramses-vaults/tools/check_phase2.py forge test --threads 1 --match-path '*/fork/*' -vv
+
+# Phase 5a adapter/lending regression, full local suites and bounded fork verification.
+.PHONY: test-ramses-phase5a fork-ramses-phase5a
+test-ramses-phase5a:
+	python3 ramses-vaults/tools/check_phase2.py forge test --threads 1 --no-match-path '*/fork/*'
+	$(MAKE) size-ramses-phase3
+	python3 ramses-vaults/tools/check_phase2.py python3 -m unittest discover -s ramses-vaults/tools -p 'test_deployment_tools.py'
+	python3 ramses-vaults/tools/check_phase2.py python3 -m unittest discover -s ramses-vaults/keeper -p 'test_*.py'
+	python3 ramses-vaults/tools/check_phase2.py python3 -m unittest discover -s keeper -p 'test_*.py'
+
+fork-ramses-phase5a:
+	@test -n "$(ROBINHOOD_RPC_URL)" -a -n "$(REMEDIATION_FORK_BLOCK)" -a -n "$(REMEDIATION_NATIVE_BLOCK)"
+	python3 ramses-vaults/tools/check_phase2.py forge test --threads 1 --match-path '*/fork/*' -vv

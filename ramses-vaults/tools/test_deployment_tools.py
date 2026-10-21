@@ -28,4 +28,34 @@ class DeploymentToolsTest(unittest.TestCase):
     def test_truncated_runtime_rejected(self):
         with self.assertRaises(AssertionError): Verifier(FakeReader('0x00'),{}).runtime('0x'+'12'*20,'RamsesInterestRateModel')
 
+
+class Phase5aRateTest(unittest.TestCase):
+    def test_phase5a_maximum_rate_guard(self):
+        class RateReader:
+            def uint(self, target, signature, *args):
+                self.observed = (signature, args)
+                return self.rate
+        reader = RateReader()
+        verifier = Verifier(reader, {'rate': 'rate-model'})
+        reader.rate = 121765601217
+        verifier.maximum_rate()
+        self.assertEqual(reader.observed, ('getBorrowRate(uint256,uint256,uint256)', (0, 10**18, 0)))
+        reader.rate = 5 * 10**12 + 1
+        with self.assertRaisesRegex(AssertionError, 'maximum borrow rate'):
+            verifier.maximum_rate()
+
+class Phase5aWallTimeoutTest(unittest.TestCase):
+    def test_wall_clock_jump_stops_process_group(self):
+        import runpy
+        from unittest.mock import Mock, patch
+        child = Mock(pid=43210)
+        child.poll.return_value = None
+        with patch('subprocess.Popen', return_value=child), patch('time.time', side_effect=[100, 701]), patch('os.killpg') as kill:
+            with self.assertRaises(SystemExit) as stopped:
+                runpy.run_path(str(ROOT/'ramses-vaults/tools/check_phase2.py'), run_name='__main__')
+            self.assertEqual(stopped.exception.code, 124)
+            kill.assert_called_once()
+            self.assertEqual(kill.call_args.args[0], 43210)
+            child.wait.assert_called_once()
+
 if __name__=='__main__': unittest.main()
