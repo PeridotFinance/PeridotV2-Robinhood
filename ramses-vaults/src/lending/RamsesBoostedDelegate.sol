@@ -174,11 +174,11 @@ contract RamsesBoostedDelegate is PErc20Delegate {
 
     function doTransferOut(address payable to, uint256 amount) internal override {
         _checkpoint(false);
-        // borrowFresh has already recorded the new debt; check health again after checkpoint.
+        _prepareFixedLiquidity(amount);
+        // borrowFresh recorded the debt; withdrawal can book an additional execution loss.
         (uint256 err,, uint256 shortfall) =
             IRamsesLiquidity(address(peridottroller)).getAccountLiquidity(to);
         require(err == 0 && shortfall == 0, "POST_CHECKPOINT_SHORTFALL");
-        _prepareFixedLiquidity(amount);
         if (super.getCashPrior() < amount) revert StrategyLiquidityShortfall();
         super.doTransferOut(to, amount);
         _rebalanceVault(false);
