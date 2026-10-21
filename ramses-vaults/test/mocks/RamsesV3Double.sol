@@ -408,6 +408,9 @@ contract GaugeDouble {
         return nfpManager.voter();
     }
 
+    mapping(address => address) public payoutToken;
+    function setPayoutToken(address listed, address paid) external { payoutToken[listed] = paid; }
+
     function getRewardTokens() external view returns (address[] memory) {
         return tokens;
     }
@@ -460,7 +463,7 @@ contract GaugeDouble {
                 uint256 n = periodEarned(p, ts[i], id);
                 claimed[p][id][ts[i]] += n;
                 if (n != 0) {
-                    IERC20(ts[i]).transfer(slash ? address(0xdead) : nfpManager.ownerOf(id), n);
+                    IERC20(payoutToken[ts[i]] == address(0) ? ts[i] : payoutToken[ts[i]]).transfer(slash ? address(0xdead) : nfpManager.ownerOf(id), n);
                 }
             }
         }

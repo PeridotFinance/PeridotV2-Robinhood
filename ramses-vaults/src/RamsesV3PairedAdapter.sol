@@ -16,6 +16,10 @@ import {
     IRamsesDeployer
 } from "./interfaces/IRamsesV3.sol";
 
+interface IRewardAuthority {
+    function hasRole(bytes32 role, address account) external view returns (bool);
+}
+
 /// @notice Phase 2 must supply a feed-backed, freshness-checked guard. Never substitute pool spot.
 interface IRamsesReferenceOracle {
     function referenceSqrtPriceX96(bytes32 pairId, bool allocating) external view returns (uint160);
@@ -92,6 +96,8 @@ contract RamsesV3PairedAdapter {
     mapping(bytes32 => mapping(address => uint256)) public pendingRewards;
     mapping(bytes32 => bool) public allowRewardForfeiture;
     mapping(address => bool) private _registeredPools;
+    mapping(address => bool) private _principalTokens;
+    mapping(address => uint256) public totalPendingRewards;
 
     error NotVault();
     error NotSelf();
@@ -122,6 +128,9 @@ contract RamsesV3PairedAdapter {
     event PositionBurned(bytes32 indexed pairId, uint256 tokenId);
     event RewardForfeitureSet(bytes32 indexed pairId, bool allowed);
     event ExitHarvestFailed(bytes32 indexed pairId, uint256 indexed tokenId);
+    event RewardRecovered(
+        bytes32 indexed pairId, address indexed token, address indexed receiver, uint256 amount
+    );
 
     modifier onlyVault() {
         if (msg.sender != vault) revert NotVault();
@@ -141,7 +150,8 @@ contract RamsesV3PairedAdapter {
     }
 
     function registerPair(bytes32 id, RegisterPairParams calldata p)
-        external
+        public
+        virtual
         onlyVault
         nonReentrant
     {
@@ -180,6 +190,8 @@ contract RamsesV3PairedAdapter {
         pair.tolerance = p.removalToleranceBps;
         pair.allocationDeviation = p.allocationDeviationBps;
         _registeredPools[address(p.pool)] = true;
+        _principalTokens[p.stockToken] = true;
+        _principalTokens[p.usdg] = true;
         _syncRewards(pair);
         emit PairRegistered(id, address(p.pool), address(p.gauge));
     }
@@ -321,6 +333,7 @@ contract RamsesV3PairedAdapter {
                 || IERC20(t1).balanceOf(address(p.pool)) != a.poolStart1 + a.used1
         ) revert BalanceDeltaMismatch();
         if (a.used0 < a.min0 || a.used1 < a.min1) revert SlippageExceeded();
+        _checkAllocationValue(p, ref, added, a.used0, a.used1);
         _push(t0, a.desired0 - a.used0);
         _push(t1, a.desired1 - a.used1);
         (stockUsed, usdgUsed) = _fromOrder(p, a.used0, a.used1);
@@ -429,9 +442,47 @@ contract RamsesV3PairedAdapter {
         for (uint256 i; i < tokens.length; ++i) {
             amounts[i] = pendingRewards[id][tokens[i]];
             pendingRewards[id][tokens[i]] = 0;
+            totalPendingRewards[tokens[i]] -= amounts[i];
             _push(tokens[i], amounts[i]);
             emit RewardPaid(id, tokens[i], amounts[i]);
         }
+    }
+
+    /// @notice Governance recovery of external rewards, including unlisted escrow variants.
+    /// All registered principal tokens and the NFT manager are permanently excluded. Other
+    /// pairs' credited rewards cannot be spent. A token blocking every transfer stays quarantined.
+    function recoverReward(bytes32 id, address token, address receiver, uint256 amount)
+        external
+        nonReentrant
+    {
+        if (!IRewardAuthority(vault).hasRole(keccak256("CONFIG_ROLE"), msg.sender)) {
+            revert NotVault();
+        }
+        _pair(id);
+        if (
+            _principalTokens[token] || token == address(positionManager) || receiver == address(0)
+                || receiver == address(this) || receiver == vault
+        ) {
+            revert InvalidConfiguration();
+        }
+        uint256 credited = pendingRewards[id][token];
+        uint256 debit = Math.min(amount, credited);
+        IERC20 t = IERC20(token);
+        uint256 before_ = t.balanceOf(address(this));
+        if (amount > before_ - (totalPendingRewards[token] - debit)) {
+            revert InsufficientLiquidity();
+        }
+        pendingRewards[id][token] = credited - debit;
+        totalPendingRewards[token] -= debit;
+        uint256 recipientBefore = t.balanceOf(receiver);
+        t.safeTransfer(receiver, amount);
+        if (
+            t.balanceOf(address(this)) + amount != before_
+                || t.balanceOf(receiver) != recipientBefore + amount
+        ) {
+            revert BalanceDeltaMismatch();
+        }
+        emit RewardRecovered(id, token, receiver, amount);
     }
 
     /// @dev Retain removed tokens: their historical periods can still be owed. No arbitrary token sweep.
@@ -464,7 +515,8 @@ contract RamsesV3PairedAdapter {
             _harvest(id, p);
             return;
         }
-        try this.harvestForExit(id) {} catch {
+        try this.harvestForExit(id) { }
+        catch {
             emit ExitHarvestFailed(id, p.tokenId);
         }
     }
@@ -496,6 +548,7 @@ contract RamsesV3PairedAdapter {
                 revert RewardClaimMismatch();
             }
             pendingRewards[id][tokens[i]] += received;
+            totalPendingRewards[tokens[i]] += received;
             emit RewardAccrued(id, tokens[i], received);
         }
     }
@@ -531,6 +584,29 @@ contract RamsesV3PairedAdapter {
         ) {
             revert InvalidPosition();
         }
+    }
+
+    /// @dev Bound the cost of returning to the oracle price, excluding fees/rewards. This
+    /// automatically tightens the admissible displacement for narrow or asymmetric ranges.
+    function _checkAllocationValue(
+        PairState storage p,
+        uint160 ref,
+        uint128 added,
+        uint256 used0,
+        uint256 used1
+    ) private view {
+        (uint256 a0, uint256 a1) = _amounts(p, ref, added);
+        uint256 cost = _quote1(ref, used0) + used1;
+        // Mint rounds up and principal valuation rounds down: allow two raw units per token.
+        uint256 value = _quote1(ref, a0 + 2) + a1 + 2;
+        if (value < Math.mulDiv(cost, BPS - 10, BPS, Math.Rounding.Ceil)) {
+            revert SlippageExceeded();
+        }
+    }
+
+    function _quote1(uint160 ref, uint256 amount0) private pure returns (uint256) {
+        if (ref <= type(uint128).max) return Math.mulDiv(amount0, uint256(ref) * ref, 1 << 192);
+        return Math.mulDiv(amount0, Math.mulDiv(ref, ref, 1 << 64), 1 << 128);
     }
 
     function _minimums(PairState storage p, uint128 l, uint160 ref, uint256 d)
