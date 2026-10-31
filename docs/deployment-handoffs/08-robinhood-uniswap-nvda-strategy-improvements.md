@@ -42,7 +42,9 @@ Build `remediation/tools/strategy_evidence.py` (read-only, pinned block ranges, 
 5. **Keeper costs**: gas per action, actions per day, failed or waiting actions by reason.
 6. **Proposed allocation sizes**: recompute (3) and (4) with our liquidity scaled to $1k, $10k, $50k to show dilution.
 
-Output: a profitable-capacity sentence per venue and per candidate policy (shared risk model section 2). The operator decides from this.
+Also evaluate the shared liquidity policy in 00 section 6a as **read-only evidence**, separately for pNVDA and pUSDG: actual local cash, strategy NAV, outstanding loans, current allocation/borrow constraints, synchronous redemption capacity in the requested token and the shortfall that remains if strategy exits or conversion fail. Distinguish observed contract behavior from a proposed reserve or recall change. Show the 50 strategy / 40 loans / 10 cash example as a scenario, not the live configuration or a proven capacity. While settlement swaps are paused, do not count idle NVDA as USDG redemption capacity. The reserve must not be described as guaranteed withdrawal coverage. Any missing reserve enforcement, withdrawal route or funded recovery is implementation work for a separately reviewed phase; Phase 1 changes no contract, cap, pause or keeper setting.
+
+Output: a profitable-capacity sentence per venue and per candidate policy (shared risk model section 2), plus per-token immediate redemption and borrowing capacity under normal and stressed conditions. The operator decides from this.
 
 ## 4. Phase 2: test range policies against the evidence
 

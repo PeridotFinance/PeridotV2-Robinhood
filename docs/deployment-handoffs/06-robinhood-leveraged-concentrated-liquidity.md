@@ -11,6 +11,8 @@ Phase 0 checks whether anyone already offers leveraged CL on Robinhood Chain (Ra
 
 Rollout, per the shared model: **1x share vault first → share collateral → leveraged long LP (capped) → stock-debt mode as a separately validated mode.** Activate per pair, only for pairs that pass 01's gates.
 
+**Funding and withdrawals:** apply 00 section 6a and 01 section 3d to the Ramses lending markets funding this product. Local cash above the borrowing reserve is available for actual loans, while lender redemptions use cash then attempt a bounded strategy unwind. Check the reserve after the entire open, including the user's margin redemption and fees, with strategy withdrawals unavailable. The 1x share vault and its LP collateral remain separate from funding-market cash; do not apply a 50/40/10 lending allocation to them or count collateral twice. Normal closes and liquidations may consume the reserve; if liquidity is unavailable, separately authorized debt-funded recovery transfers collateral claims without promising immediate underlying redemption. Exercise these cases with the real executor and liquidator. This does not connect the product to the separate Uniswap markets or bypass its activation gates.
+
 ## 0a. What the existing margin stack already gives you (read the code before designing)
 
 From `contracts/peridot-contracts-2-5/contracts/contracts/margin/` and the captured `Peridottroller.sol` (the same logic the Ramses group controller uses):

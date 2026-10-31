@@ -101,6 +101,12 @@ Keep the unchanged `RobinhoodLendingPriceAdapter` on top for decimal scaling. Te
 
 Because SPY and GLD share a controller, a user can post SPY to borrow GLD or USDG, and so on. That is what the operator wants. It also means a GLD pool or GLD feed problem can affect accounts holding SPY. Set collateral factors per asset with that in mind and keep GLD's borrow cap tied to its thin USDG depth (1b).
 
+### 3d. Shared cash and strategy liquidity
+
+Implement 00 section 6a in every stock and pair-specific USDG market. Available local cash above the borrowing reserve can fund ordinary and margin loans. A supplier redemption uses local cash first, then unwinds the bound pair for the shortfall, subject to actual token output, oracle/session policy and loss limits. Account for realized losses before finalizing payout/share burn. A USDG market cannot count stock inventory as immediately withdrawable USDG when settlement conversion is unavailable, or silently take liquidity from the other USDG market. The allocation buffer is separate from a minimum borrowing reserve; document and test both parameters rather than assuming `vaultBufferMantissa` already enforces both. Calibrate them from per-token stressed capacity; 50/40/10 is illustrative.
+
+New borrowing and the complete margin open, including margin redemption, must leave the reserve intact without requiring a strategy withdrawal. Supplier withdrawals and authorized closes/liquidations can consume it down to zero, while all health, authorization and valuation checks still apply. Preserve the isolated-margin risk hook on margin accounts; after debt has been recorded, validate that recorded debt without adding the borrow twice or substituting ordinary CF rules. Add 00 section 6a's liquidity and atomic-failure cases to the fork gates, including unavailable stock conversion, zero cash and externally funded recovery. The current delegate's exit code is a starting point, not proof of this full policy.
+
 ## 4. What already exists and what changes
 
 Everything below is on `feat/ramses-vaults` and passed 306 Solidity tests, 29 fork tests and 60 mutations (Phase 2 + 3). Reuse; do not re-derive.
