@@ -129,7 +129,8 @@ class Config:
     wide_half: int = 490            # ticks; 0 disables the backup
     core_weight: float = 0.70
     full_range: bool = False        # single full-range position (never recentres)
-    core_trigger_frac: float = 0.70
+    core_trigger_frac: float = 0.70  # LEGACY: fractional trigger; 0.70 * 600 = 420 ticks exceeds the contract's half/2 = 300 limit
+    trigger_ticks: int | None = None  # contract-style trigger (RangePolicy.triggerTicks); when set it replaces core_trigger_frac for the core
     wide_trigger_frac: float = 0.60
     wide_drift_mult: float = 2.0    # drift trigger = mult * core trigger ticks
     wide_drift_dwell: float = 6 * 3600.0
@@ -148,6 +149,8 @@ class Config:
     dilute: bool = True             # our liquidity dilutes the third-party share (fixed observed volume)
     min_tick: int = -887272
     max_tick: int = 887272
+    max_ranged_usd: float | None = None  # RangePolicy.maxRangedValueUsd: cap on the ranged position's oracle value (None = uncapped, legacy)
+    reserve_bps: int = 0            # vault reserveFeeBps: share of collected LP fees that goes to the loss reserve, not to holders
 
 
 @dataclass
@@ -162,6 +165,14 @@ class Layer:
 
 def align(tick: float, spacing: int) -> int:
     return int(math.floor(tick / spacing)) * spacing
+
+
+def full_range_ticks(spacing: int, min_tick: int = -887272, max_tick: int = 887272) -> tuple[int, int]:
+    """TickMath.minUsableTick / maxUsableTick: Solidity integer division truncates toward zero, so the lower bound
+    rounds UP (toward zero) and the upper bound rounds DOWN. (The legacy engine used floor + one spacing at both ends.)"""
+    lo = -((-min_tick) // spacing) * spacing
+    hi = (max_tick // spacing) * spacing
+    return lo, hi
 
 
 def new_range(center_tick: float, half: int, spacing: int) -> tuple[int, int]:
@@ -197,7 +208,8 @@ class Sim:
         self.layers: dict[str, Layer] = {"core": Layer(), "wide": Layer()}
         self.idle0 = self.idle1 = 0.0       # raw idle
         self.fee0 = self.fee1 = 0.0         # uncollected (accrued) LP fees, raw
-        self.fees_usd_cum = 0.0
+        self.fees_usd_cum = 0.0      # LP fees credited to the position (after the pool's protocol share AND the reserve cut)
+        self.reserve_usd_cum = 0.0   # the reserve's cut of those fees (not holder equity)
         self.ram = 0.0
         self.gas = 0.0
         self.recenters = {"core": 0, "wide": 0}
@@ -258,13 +270,15 @@ class Sim:
         c, ly = self.cfg, self.layers[name]
         half = c.core_half if name == "core" else c.wide_half
         if c.full_range:
-            lo, hi = align(c.min_tick, c.spacing) + c.spacing, align(c.max_tick, c.spacing) - c.spacing
+            lo, hi = full_range_ticks(c.spacing, c.min_tick, c.max_tick)
         else:
             lo, hi = new_range(self.m.tick_for_usd(price_o), half, c.spacing)
         stock_idle = self.idle0 if self.m.stock_is_token0 else self.idle1
         usdg_idle = self.idle1 if self.m.stock_is_token0 else self.idle0
         v_stock = stock_idle / 1e18 * price_o
         v_usdg = usdg_idle / 1e6
+        if c.max_ranged_usd is not None and not c.full_range:
+            cap_usd_per_side = min(cap_usd_per_side, c.max_ranged_usd / 2.0)
         matched = min(v_stock, v_usdg, cap_usd_per_side)
         if matched <= 0:
             return True
@@ -443,7 +457,7 @@ class Sim:
         core, wide = self.layers["core"], self.layers["wide"]
         matched_ok = self._idle_matched_usd(price_o) >= max(5.0, 0.0005 * c.capital_usd)
         if c.core_half:
-            trig = max(c.core_trigger_frac * c.core_half, c.spacing)
+            trig = float(c.trigger_ticks) if c.trigger_ticks is not None else max(c.core_trigger_frac * c.core_half, c.spacing)
             if core.L > 0:
                 if abs(tick_o - core.center) >= trig or not (core.lo < tick_o < core.hi):
                     due.append("core")
@@ -546,13 +560,16 @@ class Sim:
             share = Lo / (L_tp + Lo) if c.dilute else Lo / L_tp
             total += vol * share
         if total:
-            fee_raw = total * rate
+            fee_raw = total * rate                        # LP fee before the reserve cut
+            kept = fee_raw * (1.0 - c.reserve_bps / 1e4)  # holders' part
             if in_tok == 0:
-                self.fee0 += fee_raw
-                self.fees_usd_cum += self.m.value(fee_raw, 0.0, self.m.usd_per_stock(sb))
+                self.fee0 += kept
+                self.fees_usd_cum += self.m.value(kept, 0.0, self.m.usd_per_stock(sb))
+                self.reserve_usd_cum += self.m.value(fee_raw - kept, 0.0, self.m.usd_per_stock(sb))
             else:
-                self.fee1 += fee_raw
-                self.fees_usd_cum += self.m.value(0.0, fee_raw, self.m.usd_per_stock(sb))
+                self.fee1 += kept
+                self.fees_usd_cum += self.m.value(0.0, kept, self.m.usd_per_stock(sb))
+                self.reserve_usd_cum += self.m.value(0.0, fee_raw - kept, self.m.usd_per_stock(sb))
 
     # ---- run --------------------------------------------------------------------------------------------
     def run(self):
@@ -671,7 +688,8 @@ class Sim:
             "excess_apr_pct": (eq - hold) / self.equity0 * 100 * 365.0 / days,
             "deployed_frac_avg": self.dep_sum / self.dep_n if self.dep_n else 0.0, "recenters_core": self.recenters["core"], "recenters_wide": self.recenters["wide"],
             "swapped_usd": self.swapped_usd, "swaps": self.swaps, "recenters_per_day": (self.recenters["core"] + self.recenters["wide"]) / days,
-            "fees_usd": fees_usd, "gas_usd": self.gas, "ram_tokens": self.ram, "blocked": dict(self.blocked), "blocked_days": {k: v / 86400.0 for k, v in self.blocked_time.items()},
+            "fees_usd": fees_usd, "reserve_usd": self.reserve_usd_cum, "fees_before_reserve_usd": fees_usd + self.reserve_usd_cum,
+            "start_ts": self.start_ts, "end_ts": self.end_ts, "gas_usd": self.gas, "ram_tokens": self.ram, "blocked": dict(self.blocked), "blocked_days": {k: v / 86400.0 for k, v in self.blocked_time.items()},
             "in_range_core": self.in_range_s["core"] / self.tracked_s if self.tracked_s else 0.0,
             "in_range_wide": self.in_range_s["wide"] / self.tracked_s if self.tracked_s else 0.0,
         }

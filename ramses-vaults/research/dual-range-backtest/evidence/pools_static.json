@@ -1,0 +1,138 @@
+{
+ "head": 104071957,
+ "SPY": {
+  "token0": "0x117cc2133c37b721f49de2a7a74833232b3b4c0c",
+  "token1": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+  "factory": "0xe0c4ceb92d08ca985bb70fe0a22feb121a9854a8",
+  "tickSpacing": 1,
+  "fee_ppm": 100,
+  "liquidity": 372049300931919618,
+  "slot0": {
+   "sqrtPriceX96": 2183765756229560857080441,
+   "tick": -209992,
+   "obsIdx": 538,
+   "obsCard": 1801,
+   "obsCardNext": 1801,
+   "feeProtocol": 500000,
+   "unlocked": 1
+  },
+  "protocolFees": [
+   9880143953019366,
+   6243067
+  ],
+  "gauge_pool": "0x38453c115607463ac284820ce959831042f3df4e",
+  "gauge_nfpManager": "0x2ebd7b85a4e08d5b508b04ba147976c94afe6590",
+  "gauge_voter": "0x30032d41868906f0376ec4d87b3d3ac4064e7a97",
+  "gauge_rewardValidator": "0x29f5302c1ba4ad049c9d4d41915e7079fc8a1d3a",
+  "reward_tokens": [
+   "0x117cc2133c37b721f49de2a7a74833232b3b4c0c",
+   "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "0x5173d45a1191ee33cbb7d8c7e65f21b04ed54802"
+  ],
+  "rewardRate": {
+   "0x117cc2133c37b721f49de2a7a74833232b3b4c0c": 0,
+   "0x5fc5360d0400a0fd4f2af552add042d716f1d168": 0,
+   "0x5173d45a1191ee33cbb7d8c7e65f21b04ed54802": 43237598999396796
+  },
+  "pool_gauge_via_voter": "0x739e31798efe8cff3ef4c613d8ae751e179c7337",
+  "pool_feeCollector()": "ERR",
+  "pool_owner()": "ERR",
+  "pool_accessHub()": "ERR",
+  "pool_gauge()": "ERR",
+  "pool_feeProtocol()": "ERR",
+  "feeGrowthGlobal": [
+   7387836783158125102880307128555746253548,
+   5670382225422487148845558551496
+  ]
+ },
+ "GLD": {
+  "token0": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+  "token1": "0xc9a981fee1f9dec688bb123ccdecc63d0debfc4e",
+  "factory": "0xe0c4ceb92d08ca985bb70fe0a22feb121a9854a8",
+  "tickSpacing": 1,
+  "fee_ppm": 150,
+  "liquidity": 81582149802230393,
+  "slot0": {
+   "sqrtPriceX96": 4194169709403771548095722042427869,
+   "tick": 217548,
+   "obsIdx": 0,
+   "obsCard": 1,
+   "obsCardNext": 1,
+   "feeProtocol": 500000,
+   "unlocked": 1
+  },
+  "protocolFees": [
+   1034139,
+   3210367395595357
+  ],
+  "gauge_pool": "0x9896af2f6fed9939acc87637b973b6484e6619d8",
+  "gauge_nfpManager": "0x2ebd7b85a4e08d5b508b04ba147976c94afe6590",
+  "gauge_voter": "0x30032d41868906f0376ec4d87b3d3ac4064e7a97",
+  "gauge_rewardValidator": "0x29f5302c1ba4ad049c9d4d41915e7079fc8a1d3a",
+  "reward_tokens": [
+   "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "0xc9a981fee1f9dec688bb123ccdecc63d0debfc4e",
+   "0x5173d45a1191ee33cbb7d8c7e65f21b04ed54802"
+  ],
+  "rewardRate": {
+   "0x5fc5360d0400a0fd4f2af552add042d716f1d168": 0,
+   "0xc9a981fee1f9dec688bb123ccdecc63d0debfc4e": 0,
+   "0x5173d45a1191ee33cbb7d8c7e65f21b04ed54802": 5410486661706349
+  },
+  "pool_gauge_via_voter": "0x7724fa91cd3bbf4bf1eee4e8383dbb74e08a975c",
+  "pool_feeCollector()": "ERR",
+  "pool_owner()": "ERR",
+  "pool_accessHub()": "ERR",
+  "pool_gauge()": "ERR",
+  "pool_feeProtocol()": "ERR",
+  "feeGrowthGlobal": [
+   4462478117385052856797686936647,
+   11649187897170822369777534139246306495710
+  ]
+ },
+ "NVDA": {
+  "token0": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+  "token1": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
+  "factory": "0xe0c4ceb92d08ca985bb70fe0a22feb121a9854a8",
+  "tickSpacing": 10,
+  "fee_ppm": 100,
+  "liquidity": 50348504949926366,
+  "slot0": {
+   "sqrtPriceX96": 5504773700622964812432995611198691,
+   "tick": 222987,
+   "obsIdx": 844,
+   "obsCard": 1000,
+   "obsCardNext": 1000,
+   "feeProtocol": 500000,
+   "unlocked": 1
+  },
+  "protocolFees": [
+   330191,
+   2077329096912444
+  ],
+  "gauge_pool": "0xdac1904d823f7d6bcaaf431ceee40c934fed321b",
+  "gauge_nfpManager": "0x2ebd7b85a4e08d5b508b04ba147976c94afe6590",
+  "gauge_voter": "0x30032d41868906f0376ec4d87b3d3ac4064e7a97",
+  "gauge_rewardValidator": "0x29f5302c1ba4ad049c9d4d41915e7079fc8a1d3a",
+  "reward_tokens": [
+   "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
+   "0x5173d45a1191ee33cbb7d8c7e65f21b04ed54802"
+  ],
+  "rewardRate": {
+   "0x5fc5360d0400a0fd4f2af552add042d716f1d168": 0,
+   "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec": 0,
+   "0x5173d45a1191ee33cbb7d8c7e65f21b04ed54802": 12851761362433862
+  },
+  "pool_gauge_via_voter": "0x93c6a733fb3165d94774b3a5fc4319d29bd7b6ce",
+  "pool_feeCollector()": "ERR",
+  "pool_owner()": "ERR",
+  "pool_accessHub()": "ERR",
+  "pool_gauge()": "ERR",
+  "pool_feeProtocol()": "ERR",
+  "feeGrowthGlobal": [
+   11473282322308978269121360496035,
+   51098652127016840706286989680589251877369
+  ]
+ }
+}

@@ -16,7 +16,13 @@ def build(name: str, ti: TimeIndex):
     proto_init = words(proto_ev[0]["data"])[0] / 1e6 if proto_ev else 0.5
     proto = StepFunction(proto_init, proto_changes)
     cols = {k: [] for k in ("block", "idx", "ts", "s_after", "tick_after", "L_after", "in_tok", "in_amt", "fee_ppm", "proto", "a0", "a1")}
-    for l in raw["swap"]:
+    # real headers on the grid around every swap; swaps after the newest grid anchor that exists on chain are dropped
+    limit = (ti.rpc.head() // ti.step) * ti.step
+    swaps = [l for l in raw["swap"] if l["blockNumber"] <= limit]
+    if swaps:
+        ti.ensure(swaps[0]["blockNumber"], min(swaps[-1]["blockNumber"], limit - 1))
+    dropped_tail = len(raw["swap"]) - len(swaps)
+    for l in swaps:
         w = words(l["data"])
         a0, a1 = s256(w[0]), s256(w[1])
         b, i = l["blockNumber"], l["logIndex"]
@@ -35,7 +41,7 @@ def build(name: str, ti: TimeIndex):
     meta = {"name": name, "n_swaps": len(cols["block"]), "pool_init_block": raw["init"][0]["blockNumber"] if raw["init"] else None,
             "proto_init": proto_init, "proto_changes": [(b, v) for b, _, v in proto_changes], "head": raw["head"],
             "fee_changes": [(l["blockNumber"], words(l["data"])[1]) for l in raw["feeadj"]],
-            "first_fee": fees.initial}
+            "first_fee": fees.initial, "grid_limit_block": limit, "swaps_dropped_after_grid": dropped_tail}
     return cols, meta
 
 if __name__ == "__main__":

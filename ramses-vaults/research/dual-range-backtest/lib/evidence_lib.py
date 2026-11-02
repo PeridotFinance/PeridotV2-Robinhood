@@ -44,7 +44,7 @@ class SplitWindow(Exception):
 
 READ_METHODS = frozenset({
     "eth_chainId", "eth_blockNumber", "eth_getBlockByNumber", "eth_getCode", "eth_call", "eth_getLogs",
-    "eth_getTransactionReceipt", "eth_getTransactionByHash", "eth_getStorageAt",
+    "eth_getTransactionReceipt", "eth_getTransactionByHash", "eth_getStorageAt", "eth_getBalance", "eth_getTransactionCount",
 })
 
 

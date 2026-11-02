@@ -1,0 +1,36 @@
+KILLED   protocol share ignored
+KILLED   cooldown ignored
+KILLED   stale feed not blocking
+KILLED   closed session not blocking
+KILLED   allocation gate ignored
+KILLED   rolling budget ignored
+KILLED   dilution ignored
+KILLED   gas not charged
+KILLED   loss bound ignored
+KILLED   rollback keeps swap counters
+KILLED   unmatched not left idle (deploys max side)
+KILLED   mirror: token order ignored
+KILLED   out-of-range earns RAM
+KILLED   no-liquidity swap allowed
+KILLED   fees ignore path overlap
+KILLED   explicit trigger ignored (legacy fraction used)
+KILLED   ranged-value cap ignored
+KILLED   reserve cut ignored
+KILLED   full range lower bound off by one (legacy)
+KILLED   full range upper bound off by one (legacy)
+KILLED   F: min half-width not enforced
+KILLED   F: max half-width not enforced
+KILLED   F: spacing multiple not enforced
+KILLED   F: trigger upper bound not enforced
+KILLED   F: trigger upper bound uses non-integer half
+KILLED   F: trigger spacing floor not enforced
+KILLED   F: cooldown floor not enforced
+KILLED   F: cooldown ceiling not enforced
+KILLED   F: rolling limit zero allowed
+KILLED   F: rolling limit ceiling not enforced
+KILLED   F: loss bound not enforced
+KILLED   F: cap > 0 not enforced
+KILLED   F: dual layers accepted
+KILLED   F: swap at recenter accepted
+KILLED   F: pool spacing mismatch accepted
+all mutations killed
