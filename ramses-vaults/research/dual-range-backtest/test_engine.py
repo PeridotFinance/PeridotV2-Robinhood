@@ -128,14 +128,27 @@ class SimTests(unittest.TestCase):
         self.assertEqual(z.fees_usd_cum, 0.0)
 
     def test_stale_oracle_blocks_recenter(self):
-        prices = [100.0] * 5 + [104.0] * 20  # +4% jump, far beyond core and trigger
+        # the oracle moved to 104 right away, but the pool only follows later (the allocation gate blocks until then);
+        # by then the update is 95 s old. With max_stale = 45 s it is stale and must not be used; with 300 s it is.
+        prices = [100.0] * 10 + [104.0] * 20
         t0 = 1_000_000.0
-        fresh = make_dataset(prices, oracle_times=[t0 - 10, t0 + 40], oracle_prices=[100.0, 104.0])
-        stale = make_dataset(prices, oracle_times=[t0 - 10], oracle_prices=[100.0])
-        a = E.Sim(fresh, self.cfg(max_stale=45.0), always_open).run()
-        b = E.Sim(stale, self.cfg(max_stale=45.0), always_open).run()  # feed never updates: stale from t0+35
-        self.assertGreater(a.recenters["core"], 0)
-        self.assertEqual(b.recenters["core"] + b.recenters["wide"], 0)
+        ds = make_dataset(prices, oracle_times=[t0 - 10, t0 + 5], oracle_prices=[100.0, 104.0])
+        stale = E.Sim(ds, self.cfg(max_stale=45.0), always_open).run()
+        fresh = E.Sim(ds, self.cfg(max_stale=300.0), always_open).run()
+        self.assertEqual(stale.recenters["core"] + stale.recenters["wide"], 0)
+        self.assertGreater(stale.blocked["stale"], 0)
+        self.assertGreater(fresh.recenters["core"], 0)
+
+    def test_fee_only_for_the_part_of_the_path_inside_the_range(self):
+        prices = [100.0, 100.0, 103.0]  # the last swap crosses the upper edge of the +-1% core
+        ds = make_dataset(prices, in_tok=[1, 1, 1])
+        sim = E.Sim(ds, self.cfg(core_weight=1.0, wide_half=0), always_open).run()
+        ly = sim.layers["core"]
+        s_hi = E.tick_sqrt(ly.hi)
+        s0 = ds.s_after[1]
+        L_tp = 2e18
+        expected = L_tp * (s_hi - s0) * (ly.L / (L_tp + ly.L)) * 100e-6 * 0.5
+        self.assertTrue(math.isclose(sim.fee1, expected, rel_tol=1e-9), (sim.fee1, expected))
 
     def test_closed_session_blocks_recenter(self):
         prices = [100.0] * 5 + [104.0] * 20
@@ -209,6 +222,25 @@ class SimTests(unittest.TestCase):
         self.assertGreater(rebal.swaps, 0)
         # the swap costs a fee and a little impact only: equity within a few bps of the no-swap run
         self.assertAlmostEqual(rebal.equity(rebal.s_end, price), plain.equity(plain.s_end, price), delta=0.003 * 10_000)
+
+    def test_loss_bound_blocks_costly_recenter(self):
+        prices = [100.0] * 5 + [103.0] * 40
+        t0 = 1_000_000.0
+        ds = make_dataset(prices, oracle_times=[t0 - 10, t0 + 45], oracle_prices=[100.0, 103.0])
+        tight = E.Sim(ds, self.cfg(wide_half=0, core_weight=1.0, rebalance=True, loss_bps=0.0001), always_open).run()
+        loose = E.Sim(ds, self.cfg(wide_half=0, core_weight=1.0, rebalance=True, loss_bps=10.0), always_open).run()
+        self.assertEqual(tight.recenters["core"], 0)
+        self.assertGreater(tight.blocked["loss"], 0)
+        self.assertEqual(tight.swaps, 0, "a rejected recenter must not leave swap bookkeeping behind")
+        self.assertEqual(loose.recenters["core"], 1)
+
+    def test_no_third_party_liquidity_blocks_rebalancing_swap(self):
+        prices = [100.0] * 5 + [103.0] * 40
+        t0 = 1_000_000.0
+        ds = make_dataset(prices, L_tp=0.0, oracle_times=[t0 - 10, t0 + 45], oracle_prices=[100.0, 103.0])
+        sim = E.Sim(ds, self.cfg(wide_half=0, core_weight=1.0, rebalance=True), always_open).run()
+        self.assertEqual(sim.recenters["core"], 0)
+        self.assertGreater(sim.blocked["noliq"], 0)
 
     def test_il_nonnegative_without_fees(self):
         # round trip of the price with fees switched off: LP can not beat holding (no free lunch)

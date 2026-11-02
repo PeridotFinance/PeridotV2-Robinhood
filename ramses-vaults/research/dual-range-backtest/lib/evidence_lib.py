@@ -368,7 +368,8 @@ except Exception:  # pragma: no cover
     _ET = None
 
 # NYSE full-day closures that fall inside plausible evidence windows (extend as needed)
-US_HOLIDAYS = {"2026-11-26", "2026-12-25", "2027-01-01", "2027-01-18", "2027-02-15"}
+# local copy: Labor Day 2026-09-07 added (the original list started at Thanksgiving) so the Aug-Nov backtest window is classified
+US_HOLIDAYS = {"2026-09-07", "2026-11-26", "2026-12-25", "2027-01-01", "2027-01-18", "2027-02-15"}
 
 
 def session_of(ts: int) -> str:
