@@ -209,6 +209,7 @@ class Sim:
         self.bench_pnl = 0.0
         self.recenter_log: list = []
         self.dep_sum = 0.0
+        self.reb5050 = 0.0
         self._L_tp = 1e18
         self._retry_after = 0.0
         self._fee_ppm = 100.0
@@ -582,6 +583,7 @@ class Sim:
         self.idle0, self.idle1 = self.m.split_raw(self.m.stock_usd_to_raw(half, p_pool0), self.m.usdg_usd_to_raw(half))
         self.hold0, self.hold1 = self.idle0, self.idle1
         self.equity0 = self.m.value(self.idle0, self.idle1, p_pool0)
+        self.reb5050 = self.equity0
         w = self._targets(price_o)
         s_ref = self.m.sqrt_for_usd(price_o)
         for n in ("core", "wide"):
@@ -627,6 +629,7 @@ class Sim:
                 q_stock = (a0 if self.m.stock_is_token0 else a1) / 1e18
                 if prev_q is not None:
                     self.bench_pnl += prev_q * (price - prev_price)
+                    self.reb5050 *= 1.0 + 0.5 * (price / prev_price - 1.0)
                 prev_q, prev_price = q_stock, price
                 hold = self.m.value(self.hold0, self.hold1, price)
                 dep0 = dep1 = 0.0
@@ -676,6 +679,7 @@ class Sim:
         ram_val = self.ram * c.ram_usd
         pos_pnl_ex_fees = (eq - self.equity0) - fees_usd + self.gas - ram_val
         res["bench_pnl"] = self.bench_pnl
+        res["rebalanced_5050_pnl"] = self.reb5050 - self.equity0   # extra comparison only: continuously rebalanced 50/50 portfolio
         res["lvr_usd"] = self.bench_pnl - pos_pnl_ex_fees       # shortfall vs delta-matched rebalancing portfolio, before fees/rewards/gas
         res["fees_minus_lvr_minus_gas"] = fees_usd - res["lvr_usd"] - self.gas
         if self.series:

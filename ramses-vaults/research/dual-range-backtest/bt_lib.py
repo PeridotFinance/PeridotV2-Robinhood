@@ -4,8 +4,30 @@ import bisect, json, pickle
 from common import *
 import engine as E
 
+def clean_glitches(cols: dict, max_jump_ticks: int = 1000):
+    """Drop swaps whose resulting tick is more than ``max_jump_ticks`` (~10%) away from the last accepted tick.
+
+    The GLD pool was driven to MAX_TICK (price 3e-27, zero active liquidity) for 28.5 minutes on 2026-09-28 by a
+    dust swap while no third-party liquidity was in range. Our own layers would have filled that gap, so replaying the
+    jump would manufacture a total loss that could not have happened to us. The event is reported separately."""
+    keep, dropped = [], []
+    last = cols["tick_after"][0]
+    for i, t in enumerate(cols["tick_after"]):
+        if abs(t - last) > max_jump_ticks:
+            dropped.append(i)
+            continue
+        keep.append(i)
+        last = t
+    if not dropped:
+        return cols, dropped
+    out = {k: [v[i] for i in keep] for k, v in cols.items()}
+    return out, dropped
+
+
 def load_dataset(name: str, since: float | None = None, ram: bool = True):
     cols, meta = pickle.load(open(RESULTS / f"dataset_{name}.pkl", "rb"))
+    cols, dropped = clean_glitches(cols)
+    meta["glitch_swaps_dropped"] = dropped
     feed = json.load(open(RESULTS / "answer_updated.json"))["series"][name]
     ot = [x["updatedAt"] for x in feed]
     op = [x["answer"] / 1e8 for x in feed]
