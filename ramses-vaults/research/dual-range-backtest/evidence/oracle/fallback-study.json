@@ -658,6 +658,75 @@
      }
     },
     {
+     "rule": "open sessions only",
+     "maxDurationHours": 96.0,
+     "deviationLimit": 0.01,
+     "recoveredShareOfStaleTradingSessionTime": 0.9703248912765413,
+     "recoveredShareOfStaleClosureTime": 0.0,
+     "recoveredHoursPerWeek": 36.35134314985886,
+     "errorSamples": 762,
+     "errorVsNextAnswer": {
+      "n": 762,
+      "p50": 0.002215901381431018,
+      "p90": 0.0060784440025105635,
+      "p99": 0.008695279950864165,
+      "max": 0.010402449131760472,
+      "understateP1": -0.007050068613520533,
+      "overstateP99": 0.008695279950864165
+     },
+     "falseLiquidationExposure": {
+      "u=0.95": 0.0,
+      "u=0.98": 0.0,
+      "u=0.99": 0.0
+     }
+    },
+    {
+     "rule": "open sessions only",
+     "maxDurationHours": 96.0,
+     "deviationLimit": 0.02,
+     "recoveredShareOfStaleTradingSessionTime": 1.0,
+     "recoveredShareOfStaleClosureTime": 0.0,
+     "recoveredHoursPerWeek": 37.46306363638236,
+     "errorSamples": 786,
+     "errorVsNextAnswer": {
+      "n": 786,
+      "p50": 0.002299837117144765,
+      "p90": 0.006733695856933064,
+      "p99": 0.014169109463303742,
+      "max": 0.014932843420851216,
+      "understateP1": -0.014169109463303742,
+      "overstateP99": 0.008695279950864165
+     },
+     "falseLiquidationExposure": {
+      "u=0.95": 0.0,
+      "u=0.98": 0.0,
+      "u=0.99": 0.030534351145038167
+     }
+    },
+    {
+     "rule": "open sessions only",
+     "maxDurationHours": 96.0,
+     "deviationLimit": 0.03,
+     "recoveredShareOfStaleTradingSessionTime": 1.0,
+     "recoveredShareOfStaleClosureTime": 0.0,
+     "recoveredHoursPerWeek": 37.46306363638236,
+     "errorSamples": 786,
+     "errorVsNextAnswer": {
+      "n": 786,
+      "p50": 0.002299837117144765,
+      "p90": 0.006733695856933064,
+      "p99": 0.014169109463303742,
+      "max": 0.014932843420851216,
+      "understateP1": -0.014169109463303742,
+      "overstateP99": 0.008695279950864165
+     },
+     "falseLiquidationExposure": {
+      "u=0.95": 0.0,
+      "u=0.98": 0.0,
+      "u=0.99": 0.030534351145038167
+     }
+    },
+    {
      "rule": "all sessions incl. weekend/holiday",
      "maxDurationHours": 24.0,
      "deviationLimit": 0.01,
@@ -862,6 +931,75 @@
       "u=0.95": 0.0,
       "u=0.98": 0.0,
       "u=0.99": 0.02708803611738149
+     }
+    },
+    {
+     "rule": "all sessions incl. weekend/holiday",
+     "maxDurationHours": 96.0,
+     "deviationLimit": 0.01,
+     "recoveredShareOfStaleTradingSessionTime": 0.9703248912765413,
+     "recoveredShareOfStaleClosureTime": 1.0,
+     "recoveredHoursPerWeek": 84.67764102308936,
+     "errorSamples": 1766,
+     "errorVsNextAnswer": {
+      "n": 1766,
+      "p50": 0.0026442797062224965,
+      "p90": 0.0077224951471384085,
+      "p99": 0.011436747857286989,
+      "max": 0.013423309198166145,
+      "understateP1": -0.0103270553780902,
+      "overstateP99": 0.011196021087669594
+     },
+     "falseLiquidationExposure": {
+      "u=0.95": 0.0,
+      "u=0.98": 0.0,
+      "u=0.99": 0.013590033975084938
+     }
+    },
+    {
+     "rule": "all sessions incl. weekend/holiday",
+     "maxDurationHours": 96.0,
+     "deviationLimit": 0.02,
+     "recoveredShareOfStaleTradingSessionTime": 1.0,
+     "recoveredShareOfStaleClosureTime": 1.0,
+     "recoveredHoursPerWeek": 85.78936150961286,
+     "errorSamples": 1790,
+     "errorVsNextAnswer": {
+      "n": 1790,
+      "p50": 0.002675425093674688,
+      "p90": 0.008262713607879002,
+      "p99": 0.013238698558323936,
+      "max": 0.014932843420851216,
+      "understateP1": -0.012852707081804415,
+      "overstateP99": 0.011196021087669594
+     },
+     "falseLiquidationExposure": {
+      "u=0.95": 0.0,
+      "u=0.98": 0.0,
+      "u=0.99": 0.026815642458100558
+     }
+    },
+    {
+     "rule": "all sessions incl. weekend/holiday",
+     "maxDurationHours": 96.0,
+     "deviationLimit": 0.03,
+     "recoveredShareOfStaleTradingSessionTime": 1.0,
+     "recoveredShareOfStaleClosureTime": 1.0,
+     "recoveredHoursPerWeek": 85.78936150961286,
+     "errorSamples": 1790,
+     "errorVsNextAnswer": {
+      "n": 1790,
+      "p50": 0.002675425093674688,
+      "p90": 0.008262713607879002,
+      "p99": 0.013238698558323936,
+      "max": 0.014932843420851216,
+      "understateP1": -0.012852707081804415,
+      "overstateP99": 0.011196021087669594
+     },
+     "falseLiquidationExposure": {
+      "u=0.95": 0.0,
+      "u=0.98": 0.0,
+      "u=0.99": 0.026815642458100558
      }
     }
    ]
@@ -1455,6 +1593,75 @@
      }
     },
     {
+     "rule": "open sessions only",
+     "maxDurationHours": 96.0,
+     "deviationLimit": 0.01,
+     "recoveredShareOfStaleTradingSessionTime": 0.9997435239805078,
+     "recoveredShareOfStaleClosureTime": 0.0,
+     "recoveredHoursPerWeek": 5.11010332875973,
+     "errorSamples": 136,
+     "errorVsNextAnswer": {
+      "n": 136,
+      "p50": 0.0029924474555456104,
+      "p90": 0.00946548467229702,
+      "p99": 0.012081547414291016,
+      "max": 0.012535416840438574,
+      "understateP1": -0.010399908914545786,
+      "overstateP99": 0.012081547414291016
+     },
+     "falseLiquidationExposure": {
+      "u=0.95": 0.0,
+      "u=0.98": 0.0,
+      "u=0.99": 0.029411764705882353
+     }
+    },
+    {
+     "rule": "open sessions only",
+     "maxDurationHours": 96.0,
+     "deviationLimit": 0.02,
+     "recoveredShareOfStaleTradingSessionTime": 1.0,
+     "recoveredShareOfStaleClosureTime": 0.0,
+     "recoveredHoursPerWeek": 5.111414283949253,
+     "errorSamples": 137,
+     "errorVsNextAnswer": {
+      "n": 137,
+      "p50": 0.0029924474555456104,
+      "p90": 0.00946548467229702,
+      "p99": 0.012081547414291016,
+      "max": 0.012535416840438574,
+      "understateP1": -0.010399908914545786,
+      "overstateP99": 0.012081547414291016
+     },
+     "falseLiquidationExposure": {
+      "u=0.95": 0.0,
+      "u=0.98": 0.0,
+      "u=0.99": 0.029197080291970802
+     }
+    },
+    {
+     "rule": "open sessions only",
+     "maxDurationHours": 96.0,
+     "deviationLimit": 0.03,
+     "recoveredShareOfStaleTradingSessionTime": 1.0,
+     "recoveredShareOfStaleClosureTime": 0.0,
+     "recoveredHoursPerWeek": 5.111414283949253,
+     "errorSamples": 137,
+     "errorVsNextAnswer": {
+      "n": 137,
+      "p50": 0.0029924474555456104,
+      "p90": 0.00946548467229702,
+      "p99": 0.012081547414291016,
+      "max": 0.012535416840438574,
+      "understateP1": -0.010399908914545786,
+      "overstateP99": 0.012081547414291016
+     },
+     "falseLiquidationExposure": {
+      "u=0.95": 0.0,
+      "u=0.98": 0.0,
+      "u=0.99": 0.029197080291970802
+     }
+    },
+    {
      "rule": "all sessions incl. weekend/holiday",
      "maxDurationHours": 24.0,
      "deviationLimit": 0.01,
@@ -1659,6 +1866,75 @@
       "u=0.95": 0.0,
       "u=0.98": 0.009716599190283401,
       "u=0.99": 0.06396761133603239
+     }
+    },
+    {
+     "rule": "all sessions incl. weekend/holiday",
+     "maxDurationHours": 96.0,
+     "deviationLimit": 0.01,
+     "recoveredShareOfStaleTradingSessionTime": 0.9997435239805078,
+     "recoveredShareOfStaleClosureTime": 0.8660727631460943,
+     "recoveredHoursPerWeek": 43.0897861244237,
+     "errorSamples": 1098,
+     "errorVsNextAnswer": {
+      "n": 1098,
+      "p50": 0.00375128060856722,
+      "p90": 0.01246967378371533,
+      "p99": 0.01673658136798739,
+      "max": 0.01739700528846888,
+      "understateP1": -0.01236612927202263,
+      "overstateP99": 0.01673658136798739
+     },
+     "falseLiquidationExposure": {
+      "u=0.95": 0.0,
+      "u=0.98": 0.0,
+      "u=0.99": 0.037340619307832425
+     }
+    },
+    {
+     "rule": "all sessions incl. weekend/holiday",
+     "maxDurationHours": 96.0,
+     "deviationLimit": 0.02,
+     "recoveredShareOfStaleTradingSessionTime": 1.0,
+     "recoveredShareOfStaleClosureTime": 0.9994618994947834,
+     "recoveredHoursPerWeek": 48.940579135263796,
+     "errorSamples": 1247,
+     "errorVsNextAnswer": {
+      "n": 1247,
+      "p50": 0.004298849035545227,
+      "p90": 0.013043655081318217,
+      "p99": 0.01977055598280475,
+      "max": 0.02342958225520353,
+      "understateP1": -0.01977055598280475,
+      "overstateP99": 0.016636298136367245
+     },
+     "falseLiquidationExposure": {
+      "u=0.95": 0.0,
+      "u=0.98": 0.009623095429029671,
+      "u=0.99": 0.06335204490777867
+     }
+    },
+    {
+     "rule": "all sessions incl. weekend/holiday",
+     "maxDurationHours": 96.0,
+     "deviationLimit": 0.03,
+     "recoveredShareOfStaleTradingSessionTime": 1.0,
+     "recoveredShareOfStaleClosureTime": 1.0,
+     "recoveredHoursPerWeek": 48.9641763286752,
+     "errorSamples": 1248,
+     "errorVsNextAnswer": {
+      "n": 1248,
+      "p50": 0.0043067529221013645,
+      "p90": 0.013043655081318217,
+      "p99": 0.01977055598280475,
+      "max": 0.02342958225520353,
+      "understateP1": -0.01977055598280475,
+      "overstateP99": 0.016636298136367245
+     },
+     "falseLiquidationExposure": {
+      "u=0.95": 0.0,
+      "u=0.98": 0.009615384615384616,
+      "u=0.99": 0.06330128205128205
      }
     }
    ]

@@ -116,7 +116,7 @@ def study(pair, feed):
 
     # 3. policies over every stale minute: share recovered, and error of the fallback against the next answer at that moment
     policies = {}
-    d_grid = [24 * 3600, 48 * 3600, 72 * 3600]
+    d_grid = [24 * 3600, 48 * 3600, 72 * 3600, 96 * 3600]
     l_grid = [0.01, 0.02, 0.03]
     rules = {"open sessions only": ("regular", "overnight"), "all sessions incl. weekend/holiday": ("regular", "overnight", "weekend", "holiday")}
     stale = {"regular": 0, "overnight": 0, "weekend": 0, "holiday": 0}
