@@ -95,6 +95,7 @@ def replay_v4(init: dict, swaps: list[Trade], raw_swaps: list, mods: list[dict],
                                   t.notional, raw_swaps[i][3] / (1 << 96),
                                   tuple((p.lower, p.upper, p.liq) for p in book.live())))
         tick, liq, last_sqrt = t.tick, liq_after_raw, raw_swaps[i][3] / (1 << 96)
+    book.pool_liquidity, book.pool_tick = liq, tick  # replayed final pool state, compared with chain state by the caller
     return out, book
 
 

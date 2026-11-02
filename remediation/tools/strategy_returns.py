@@ -1,9 +1,10 @@
 """Supplier returns (item 1) and the inventory / portfolio ledger (item 4) for the Uniswap vault pair."""
 from __future__ import annotations
 
+import math
 from collections import defaultdict
 
-from evidence_lib import EvidenceError, iso, session_of, words
+from evidence_lib import EvidenceError, amounts_for_liquidity, iso, session_of, words
 from strategy_analysis import Ctx, actual_fees
 from strategy_data import KEEPERS, NVDA, P_NVDA, P_USDG, T, Trade, USDG
 from strategy_ledger import principal_at
@@ -25,6 +26,35 @@ def exchange_rate(local_cash: int, vault_claim: int, borrows: int, reserves: int
     if supply == 0:
         raise EvidenceError("zero supply")
     return (local_cash + vault_claim + borrows - reserves) * 10 ** 18 // supply
+
+
+def mark_to_end(ctx: Ctx) -> dict:
+    """What the NEXT checkpoint would book at the end block: collect pending fees (less the vault reserve cut), value the
+    position at the oracle-derived reference price, and scale both principals pro-rata if the pair is short (gains are
+    recognised only when both native sides are covered). Mirrors RobinhoodBoostedVaultV3._checkpointPair."""
+    snap = ctx.snap
+    led, pos, P = snap["vault"]["ledger"], snap["position"], ctx.oracle.price(ctx.t1)
+    s = math.sqrt(1e12 / P)  # raw sqrt price implied by the oracle (USDG token0, NVDA token1)
+    a0, a1 = amounts_for_liquidity(pos["liquidity"], s, pos["tickLower"], pos["tickUpper"]) if pos["liquidity"] else (0.0, 0.0)
+    rb = snap["vault"]["reserveFeeBps"]
+    fu, fs = pos.get("pendingFeesUsdgRaw", 0), pos.get("pendingFeesStockRaw", 0)
+    net_u, net_s = fu - fu * rb // 10_000, fs - fs * rb // 10_000
+    prin_s, prin_u = led["stockPrincipal"] + net_s, led["usdgPrincipal"] + net_u
+    assets_s, assets_u = led["stockIdle"] + net_s + a1, led["usdgIdle"] + net_u + a0
+    val = lambda x, y: x / 1e18 * P + y / 1e6
+    bench, gross = val(prin_s, prin_u), val(assets_s, assets_u)
+    outcome = "unchanged"
+    if bench and gross < bench:
+        scale = gross / bench
+        prin_s, prin_u, outcome = int(prin_s * scale), int(prin_u * scale), "loss_recognised"
+    elif assets_s >= prin_s and assets_u >= prin_u:
+        prin_s, prin_u, outcome = int(assets_s), int(assets_u), "gain_recognised"
+    age = ctx.snap["timestamp"] - led["lastCheckpoint"]
+    return {"oracleUsd": P, "benchmarkUsd": bench, "grossUsd": gross, "shortfallUsd": max(bench - gross, 0.0),
+            "shortfallPctOfBenchmark": 100 * max(bench - gross, 0.0) / bench if bench else 0.0, "outcome": outcome,
+            "stockPrincipalMarked": prin_s, "usdgPrincipalMarked": prin_u,
+            "lastCheckpointAgeSeconds": age, "maxCheckpointAgeSeconds": snap["vault"]["maxCheckpointAge"],
+            "checkpointOverdue": age > snap["vault"]["maxCheckpointAge"]}
 
 
 def market_activity(ctx: Ctx, market: str) -> dict:
@@ -107,13 +137,25 @@ def analyse_supplier_returns(ctx: Ctx) -> dict:
         pending_usd = ctx.snap["position"].get("pendingFeesUsdgRaw", 0)
         pending = pending_stock if cfg["side"] == "stock" else pending_usd
         simple = rate_start and (current / rate_start - 1.0)
+        mk = mark_to_end(ctx)
+        claim_marked = mk["stockPrincipalMarked"] if cfg["side"] == "stock" else mk["usdgPrincipalMarked"]
+        rate_marked = exchange_rate(local_end, claim_marked, b_end, r_end, supply)
+        simple_marked = rate_start and (rate_marked / rate_start - 1.0)
+        res["markedAtEndBlock"] = {
+            "exchangeRateIfCheckpointedNow": rate_marked, "growthPct": 100 * simple_marked,
+            "aprSimplePctIndicative": 100 * apr(simple_marked, window_s),
+            "pendingShortfallUsd": mk["shortfallUsd"], "pendingShortfallPctOfBenchmark": mk["shortfallPctOfBenchmark"],
+            "lastCheckpointAgeDays": mk["lastCheckpointAgeSeconds"] / 86400, "checkpointOverdue": mk["checkpointOverdue"],
+            "note": "the booked exchange rate only moves at a checkpoint; this is where it would stand if the keeper checkpointed at the end block. "
+                    "Annualised figures extrapolate a 24-day window with a one-way price move and are indicative only."}
         res.update({
             "status": "OK", "windowSeconds": window_s,
-            "exchangeRateStart": rate_start, "exchangeRateEnd": current,
+            "exchangeRateStart": rate_start, "exchangeRateEnd": current, "bookedOnly": True,
             "supplierAssetsStart": net_start / dec, "supplierAssetsEnd": net_end / dec,
             "growthPct": 100 * simple, "aprSimplePct": 100 * apr(simple, window_s), "apyPct": 100 * apy(simple, window_s),
             "timeWeightedReturnPct": 100 * twr([rate_start, current]),
             "moneyWeightedNote": "no supplier mints/redeems in the window, so the money-weighted return equals the time-weighted return",
+            "supplierFlowsInWindow": 0,
             "decompositionUnderlying": {
                 "lpFeesCreditedNetOfVaultReserveCut": fees_net / dec,
                 "lpLossesBooked": losses / dec,
@@ -141,6 +183,17 @@ def equity_of(s: dict) -> tuple[float, float]:
     return stock, usd
 
 
+def delta_matched_pnl(samples: list[dict]) -> float:
+    """P&L of a fee-free portfolio that holds, at every sample, the pair's NVDA quantity and rebalances at the oracle price
+    (00 section 3). Each interval is earned on the quantity held at its start."""
+    return sum(equity_of(a)[0] * (b["pOracle"] - a["pOracle"]) for a, b in zip(samples, samples[1:]))
+
+
+def lvr_shortfall(benchmark_pnl: float, inventory_pnl_ex_fees: float) -> float:
+    """Positive = the pair earned LESS than the delta-matched benchmark before fees (the LVR and rebalancing shortfall)."""
+    return benchmark_pnl - inventory_pnl_ex_fees
+
+
 def analyse_inventory(ctx: Ctx, samples: list[dict]) -> dict:
     if len(samples) < 2:
         raise EvidenceError("not enough samples for the portfolio ledger")
@@ -153,21 +206,18 @@ def analyse_inventory(ctx: Ctx, samples: list[dict]) -> dict:
     flows = 0.0
     n_flows = 0
     for pt in ctx.timeline:
-        if pt.kind in ("deposited", "withdrawal") and ctx.frm <= pt.block <= ctx.to:
+        if pt.kind in ("deposited", "withdrawal") and first["block"] <= pt.block <= last["block"]:
             price = ctx.oracle.price(ctx.ti.ts(pt.block))
             amt = pt.detail["amount"]
             val = amt / 1e18 * price if pt.detail["side"] == "stock" else amt / 1e6
             flows += val if pt.kind == "deposited" else -val
             n_flows += 1
-    fees = actual_fees(ctx)
+    fees = actual_fees(ctx, first["block"], last["block"])  # only the interval the equity series covers
     net_fees = fees["grossCollectedUsd"] - fees["reserveCutUsd"]
     inventory_pnl = (e1 - e0) - flows - net_fees
     hold_pnl = q0_s * (p1 - p0)
-    bench = 0.0
-    for a, b in zip(samples, samples[1:]):
-        qs, _ = equity_of(a)
-        bench += qs * (b["pOracle"] - a["pOracle"])
-    lvr = bench - inventory_pnl
+    bench = delta_matched_pnl(samples)
+    lvr = lvr_shortfall(bench, inventory_pnl)
     window_s = last["ts"] - first["ts"]
     ret = (e1 - e0 - flows) / e0 if e0 else None
     stale = sum(1 for s in samples if ctx.oracle.age(s["ts"]) > 12 * 3600)
@@ -179,12 +229,17 @@ def analyse_inventory(ctx: Ctx, samples: list[dict]) -> dict:
             "oracleStart": p0, "oracleEnd": p1, "netContributionsUsd": flows, "contributionEvents": n_flows,
             "feesCollectedGrossUsd": fees["grossCollectedUsd"], "reserveCutUsd": fees["reserveCutUsd"],
             "feesCollectedNetOfReserveUsd": net_fees, "uncollectedPoolFeesAtEndUsd": fees["pendingUncollectedAtEndUsd"],
+            "uncollectedPoolFeesAtEndNetOfReserveUsd": fees["pendingUncollectedNetOfReserveUsd"],
+            "uncollectedPoolFeesAtStart": "NOT_AVAILABLE: no historical state on the public RPC; the start figure is excluded, not zero",
+            "interval": {"firstBlock": first["block"], "lastBlock": last["block"]},
             "inventoryPnlExFeesUsd": inventory_pnl,
             "dollarPnlUsd": (e1 - e0) - flows,
-            "dollarPnlIncludingUncollectedFeesUsd": (e1 - e0) - flows + fees["pendingUncollectedAtEndUsd"],
+            "dollarPnlIncludingUncollectedNetFeesUsd": (e1 - e0) - flows + fees["pendingUncollectedNetOfReserveUsd"],
             "returnOnStartingEquityPct": None if ret is None else 100 * ret,
             "returnAprPct": None if ret is None else 100 * apr(ret, window_s),
-            "returnStatedAs": "simple (non-compounded) return on starting equity; no flows, so TWR = IRR",
+            "returnStatedAs": ("simple (non-compounded) return on starting equity; no flows, so TWR = IRR" if n_flows == 0 else
+                               "simple return on starting equity net of flows; with flows TWR and IRR differ and are NOT computed here"),
+            "annualisationNote": "extrapolates a ~24-day window with a one-way price move; indicative only",
         },
         "versusHolding": {"holdStartInventoryPnlUsd": hold_pnl, "vaultMinusHoldUsd": (e1 - e0 - flows) - hold_pnl,
                           "explanation": "hold = keep the starting NVDA and USDG; the difference is fees minus reserve cut plus inventory effects"},

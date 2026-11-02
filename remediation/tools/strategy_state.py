@@ -19,7 +19,9 @@ class StateReader:
         self.rpc, self.block = rpc, block
         hdr = rpc.block(block)
         self.block_hash, self.timestamp = hdr["hash"], int(hdr["timestamp"], 16)
-        self.l1_block = int(hdr.get("l1BlockNumber", "0x0"), 16)
+        if "l1BlockNumber" not in hdr:
+            raise EvidenceError(f"header {block} has no l1BlockNumber")
+        self.l1_block = int(hdr["l1BlockNumber"], 16)
         self.reads: list[dict] = []
 
     def call(self, to: str, signature: str, *args: int) -> list[int]:
@@ -33,6 +35,20 @@ class StateReader:
 
     def addr(self, to: str, signature: str, *args: int) -> str:
         return "0x" + format(self.call(to, signature, *args)[0], "040x")
+
+    def call_as(self, sender: str, to: str, signature: str, *args: int) -> dict:
+        """Read-only simulation with msg.sender = ``sender``. A contract revert is a RESULT (what a real call would do);
+        any transport or node failure still raises."""
+        data = call_data(signature, *args)
+        try:
+            raw = self.rpc.eth_call(to, data, self.block, sender=sender)
+        except EvidenceError as e:
+            if "revert" in str(e).lower():
+                self.reads.append({"to": to, "signature": signature, "data": data, "from": sender, "result": "REVERT", "error": str(e)[:160]})
+                return {"reverted": True, "reason": str(e)[:160]}
+            raise
+        self.reads.append({"to": to, "signature": signature, "data": data, "from": sender, "result": raw})
+        return {"reverted": False, "words": words(raw)}
 
 
 def read_market(r: StateReader, market: str) -> dict:
@@ -60,6 +76,9 @@ def read_market(r: StateReader, market: str) -> dict:
         "jumpMultiplierPerBlock": r.call(irm, "jumpMultiplierPerBlock()")[0],
         "kink": r.call(irm, "kink()")[0],
     }
+    controller = r.addr(market, "peridottroller()")
+    out["controller"] = controller
+    out["borrowCap"] = r.call(controller, "borrowCaps(address)", int(market, 16))[0]
     for name, sig in (("vaultAccountedAssets", "vaultAccountedAssets()"), ("vaultLiquidAssets", "vaultLiquidAssets()"),
                       ("vaultWithdrawableAssets", "vaultWithdrawableAssets()"), ("vaultBufferMantissa", "vaultBufferMantissa()")):
         out[name] = g(sig)
@@ -80,6 +99,15 @@ def read_vault(r: StateReader) -> dict:
         "rangePolicy": dict(zip(("enabled", "halfWidthTicks", "triggerTicks", "minInterval", "maxPerDay", "maxLossBps", "maxRangedValueUsd"), policy)),
         "vaultToken": {"NVDA": r.call(NVDA, "balanceOf(address)", int(VAULT, 16))[0], "USDG": r.call(USDG, "balanceOf(address)", int(VAULT, 16))[0]},
     }
+
+
+def read_exit_probe(r: StateReader, market: str, token: str, claim: int) -> dict:
+    """What a full-claim redemption through the vault would return right now, simulated as the market (no transaction)."""
+    res = r.call_as(market, VAULT, "withdrawForSide(bytes32,address,uint256,address,uint256)",
+                    PAIR_INT, int(token, 16), claim, int(market, 16), r.timestamp)
+    if res["reverted"]:
+        return {"requested": claim, "reverted": True, "reason": res["reason"]}
+    return {"requested": claim, "reverted": False, "returned": res["words"][0], "realizedLoss": res["words"][1]}
 
 
 def read_v4_pool(r: StateReader) -> dict:
@@ -130,5 +158,8 @@ def snapshot(rpc: Rpc, block: int) -> dict:
         "pNVDA": read_market(r, P_NVDA), "pUSDG": read_market(r, P_USDG),
         "vault": read_vault(r), "v4Pool": read_v4_pool(r), "position": read_position(r), "keepers": read_keepers(rpc, block), "ramsesPool": read_ramses_pool(r), "feed": read_feed(r),
     }
+    led = snap["vault"]["ledger"]
+    snap["exitProbe"] = {"pNVDA": read_exit_probe(r, P_NVDA, NVDA, led["stockPrincipal"]),
+                         "pUSDG": read_exit_probe(r, P_USDG, USDG, led["usdgPrincipal"])}
     snap["reads"] = r.reads
     return snap

@@ -36,6 +36,14 @@ class GeometryTests(unittest.TestCase):
             self.assertGreater(pb, 200.0)
             self.assertAlmostEqual(math.log(pb / 200.0), math.log(200.0 / pa), delta=0.01)  # roughly symmetric (+-12%)
 
+    def test_stock_input_overlap_uses_the_inverse_sqrt_coordinate(self):
+        pos = Pos(100.0, 110.0, 1.0, 0)
+        # price falls 105 -> 95 through a [100, 110] range; in 1/sqrt(P) coordinates 0.481245 of the input is inside
+        # (hand calculation: (0.1 - 1/sqrt(105)) / (1/sqrt(95) - 1/sqrt(105)))
+        self.assertAlmostEqual(overlap_fraction(105.0, 95.0, pos, False), 0.481245, places=5)
+        # the same path priced in the USD-input coordinate (sqrt P) would give 0.493747 for the mirrored move; they must differ
+        self.assertAlmostEqual(overlap_fraction(95.0, 105.0, pos, True), 0.493747, places=5)
+
     def test_overlap_fraction(self):
         pos = Pos(100.0, 110.0, 1.0, 0)
         self.assertEqual(overlap_fraction(101.0, 102.0, pos, True), 1.0)
@@ -83,6 +91,23 @@ class SimulationTests(unittest.TestCase):
         days = res.seconds / 86400
         self.assertLessEqual(res.recenters, math.ceil(4 * days) + 1)  # the rolling daily cap holds
         self.assertAlmostEqual(res.gas_usd, 0.1 * res.recenters)
+
+    def test_reserve_cut_removes_that_share_of_fees_from_the_net_result(self):
+        trades = self.flat_market()
+        others = [1000.0] * len(trades)
+        none = simulate(trades, others, Oracle([(0, 100.0)]), 1000.0, Policy(), True, 1.0, 0.0)
+        cut = simulate(trades, others, Oracle([(0, 100.0)]), 1000.0, Policy(), True, 1.0, 0.2)
+        self.assertAlmostEqual(none.net_vs_hold_usd - cut.net_vs_hold_usd, 0.2 * none.fees_gross_usd, places=9)
+        self.assertAlmostEqual(cut.fees_net_usd, 0.8 * cut.fees_gross_usd, places=9)
+        self.assertAlmostEqual(none.fees_net_usd, none.fees_gross_usd, places=9)
+
+    def test_start_split_changes_the_hold_benchmark(self):
+        trades = [tr(i * 60, 100.0 * (1 - 0.001 * i), usd_in=1.0, fee_ppm=0) for i in range(100)]
+        oracle = Oracle([(i * 60, 100.0 * (1 - 0.001 * i)) for i in range(100)])
+        a = simulate(trades, [1000.0] * 100, oracle, 1000.0, Policy(trigger=10_000), True, start_stock_fraction=0.5)
+        b = simulate(trades, [1000.0] * 100, oracle, 1000.0, Policy(trigger=10_000), True, start_stock_fraction=0.2)
+        self.assertLess(a.hold_pnl, b.hold_pnl)   # more stock held in a falling market loses more
+        self.assertAlmostEqual(a.hold_pnl / b.hold_pnl, 0.5 / 0.2, places=6)
 
     def test_stale_oracle_blocks_recentering(self):
         trades = []

@@ -35,16 +35,34 @@ class SectionTests(unittest.TestCase):
                 sa._PARTIAL["path"] = None
 
 
+class VerdictTests(unittest.TestCase):
+    def test_valid_only_when_both_the_vault_and_the_ramses_checks_pass(self):
+        ok = {"validation": {"ok": True}, "ramsesFeesAndVolume": {"validation": {"ok": True}}}
+        self.assertTrue(sa.overall_valid(ok))
+        self.assertFalse(sa.overall_valid({"validation": {"ok": True}, "ramsesFeesAndVolume": {"validation": {"ok": False}}}))
+        self.assertFalse(sa.overall_valid({"validation": {"ok": False}, "ramsesFeesAndVolume": {"validation": {"ok": True}}}))
+
+    def test_a_failed_or_missing_ramses_section_is_not_valid(self):
+        self.assertFalse(sa.overall_valid({"validation": {"ok": True}, "ramsesFeesAndVolume": {"status": "FAILED"}}))
+        self.assertFalse(sa.overall_valid({"validation": {"ok": True}}))
+
+
 class CostTests(unittest.TestCase):
-    def test_costs_come_from_measured_per_action_averages(self):
+    def test_costs_come_from_measured_averages_and_checkpoints_never_fall_below_the_hourly_requirement(self):
         keeper = {"byAction": {"recenter": {"count": 2, "usdCost": 0.2}, "rebalance": {"count": 10, "usdCost": 0.5},
                                "checkpoint": {"count": 20, "usdCost": 1.0}},
                   "lastKeeperActionWithEvents": "x", "activeDays": 10.0}
         costs, per_day, notes = sa.derive_costs(keeper)
         self.assertAlmostEqual(costs.recenter_usd, 0.1)
         self.assertAlmostEqual(costs.rebalance_usd, 0.05)
-        self.assertAlmostEqual(per_day, 0.1)  # 20 checkpoints x $0.05 over 10 active days
-        self.assertTrue(notes)
+        # observed: 20 x $0.05 over 10 days = $0.10/day ; required: 24 hourly checkpoints x $0.05 = $1.20/day -> the larger
+        self.assertAlmostEqual(per_day, 1.2)
+        self.assertTrue(any("hourly cadence" in n for n in notes))
+
+    def test_when_the_keeper_was_busier_than_hourly_the_observed_cost_is_used(self):
+        keeper = {"byAction": {"checkpoint": {"count": 500, "usdCost": 5.0}}, "lastKeeperActionWithEvents": "x", "activeDays": 10.0}
+        _, per_day, _ = sa.derive_costs(keeper)
+        self.assertAlmostEqual(per_day, 0.5)   # 500 x $0.01 over 10 days = $0.50 > 24 x $0.01 = $0.24
 
     def test_missing_keeper_data_is_stated_not_silently_zero(self):
         costs, per_day, notes = sa.derive_costs({"status": "FAILED"})

@@ -29,9 +29,26 @@ def load_ramses(ctx: Ctx) -> dict:
         tok = topic_addr(l["topics"][2])
         notify[tok]["events"] += 1
         notify[tok]["amountRaw"] += words(l["data"])[0]
-    return {"trades": trades, "feeAt": fee_at, "fee_events_total": len(fee_events), "fee_events_window": [l for l in fee_events if l["blockNumber"] >= ctx.frm],
+    if raw["proto"]:
+        raise EvidenceError(f"SetFeeProtocol changed {len(raw['proto'])} time(s) inside the window; the constant-share assumption does not hold and "
+                            "a step function over the protocol share is required")
+    last_liq_event = max([l["blockNumber"] for l in raw["mints"] + raw["burns"]] or [0])
+    return {"lastLiquidityEventBlock": last_liq_event, "trades": trades, "feeAt": fee_at, "fee_events_total": len(fee_events), "fee_events_window": [l for l in fee_events if l["blockNumber"] >= ctx.frm],
             "protocolShare": proto, "mints": len(raw["mints"]), "burns": len(raw["burns"]), "notify": dict(notify),
             "protocolEvents": len(raw["proto"])}
+
+
+def ramses_validation(ctx: Ctx, rm: dict) -> dict:
+    """The Ramses replay against the pool's own state at the end block."""
+    s0 = ctx.snap["ramsesPool"]
+    last = rm["trades"][-1]
+    checks = [
+        {"name": "Ramses pool tick after the last swap", "reconstructed": last.tick, "onChain": s0["tick"], "ok": last.tick == s0["tick"]},
+        {"name": "Ramses pool sqrtPriceX96 after the last swap", "reconstructed": last.sqrt_x96, "onChain": s0["sqrtPriceX96"], "ok": last.sqrt_x96 == s0["sqrtPriceX96"]},
+    ]
+    if rm["lastLiquidityEventBlock"] <= last.block:  # no mint/burn after the last swap, so the swap's liquidity field is current
+        checks.append({"name": "Ramses pool active liquidity", "reconstructed": last.liq_raw, "onChain": s0["liquidity"], "ok": last.liq_raw == s0["liquidity"]})
+    return {"ok": all(c["ok"] for c in checks), "checks": checks}
 
 
 def analyse_ramses(ctx: Ctx, rm: dict) -> dict:
@@ -40,9 +57,10 @@ def analyse_ramses(ctx: Ctx, rm: dict) -> dict:
     fees = [t.fee_ppm for t in rm["trades"]]
     return {
         "venue": "Ramses CL NVDA/USDG (dynamic fee, 50% protocol share)", "pool": RAMSES_NVDA_POOL, "summary": summary,
+        "validation": ramses_validation(ctx, rm),
         "feePpm": {"min": min(fees), "median": statistics.median(fees), "max": max(fees), "adjustmentsInWindow": len(rm["fee_events_window"])},
         "protocolShareAssumed": proto,
-        "protocolShareNote": f"read from slot0 at the end block; {rm['protocolEvents']} SetFeeProtocol events seen in the window, so it is treated as constant",
+        "protocolShareNote": "read from slot0 at the end block; no SetFeeProtocol event exists inside the window (the run fails otherwise), so it is constant over it",
         "lpFeeNote": "LP fee = swap fee x (1 - protocol share). Whether that LP share is paid through collect() or through the gauge for staked positions "
                      "is a fork-test question for handoff 01; this is the economic upper bound, not a proven distributable income.",
         "mintsInWindow": rm["mints"], "burnsInWindow": rm["burns"],
@@ -96,54 +114,77 @@ def week_chunks(trades: list[Trade], others: list[float], seconds: float = 7 * 8
 
 
 def policy_runs(label: str, trades: list[Trade], others: list[float], oracle, stock_is_token0: bool, spacing: int,
-                lp_fraction: float, costs: Costs, daily_fixed_usd: float, policies: dict, price_move_pct: float | None = None) -> dict:
+                lp_fraction: float, costs: Costs, daily_fixed_usd: float, policies: dict, price_move_pct: float | None = None,
+                live_stock_fraction: float | None = None, ops_note: str = "measured keeper cost") -> dict:
+    """Runs every policy at every size from a balanced 50/50 start (what a matched strategy would receive) and, when given,
+    from the live NVDA/USDG split of the supplied capital. Assumptions are written into each sentence."""
     out = {}
     seconds = trades[-1].ts - trades[0].ts
     days = seconds / 86400
-    for pname, pol in policies.items():
+    year = 365.25 * 86400
+
+    def run_rows(pol, fraction):
         rows = []
         for size in SWEEP_USD:
-            r = simulate(trades, others, oracle, size, pol, stock_is_token0, lp_fraction, 0.2, costs)
+            r = simulate(trades, others, oracle, size, pol, stock_is_token0, lp_fraction, 0.2, costs, start_stock_fraction=fraction)
             net = r.net_vs_hold_usd - daily_fixed_usd * days
             d = r.asdict()
             d["fixedOpsUsd"] = daily_fixed_usd * days
+            d["opsOnlyAprPct"] = -100 * daily_fixed_usd * days / size * year / seconds
             d["net_after_ops_usd"] = net
-            d["net_after_ops_apr_pct"] = 100 * net / size * (365.25 * 86400) / seconds
+            d["net_after_ops_apr_pct"] = 100 * net / size * year / seconds
             rows.append(d)
-        # weekly dispersion at the best positive size (or $1,000 when nothing is positive)
-        positive = [r for r in rows if r["net_after_ops_usd"] > 0]
-        ref = max(positive, key=lambda r: r["size_usd"]) if positive else next(r for r in rows if r["size_usd"] == 1_000)
+        return rows
+
+    def weekly_for(pol, fraction, rows):
+        supported = [r for r in rows if r["net_after_ops_apr_pct"] >= MIN_SUPPORTED_APR_PCT]
+        ref = max(supported, key=lambda r: r["size_usd"]) if supported else next(r for r in rows if r["size_usd"] == 1_000)
         weekly = []
         for ts_, ls_ in week_chunks(trades, others):
-            w = simulate(ts_, ls_, oracle, ref["size_usd"], pol, stock_is_token0, lp_fraction, 0.2, costs)
+            w = simulate(ts_, ls_, oracle, ref["size_usd"], pol, stock_is_token0, lp_fraction, 0.2, costs, start_stock_fraction=fraction)
             wsec = ts_[-1].ts - ts_[0].ts
-            weekly.append(100 * (w.net_vs_hold_usd - daily_fixed_usd * wsec / 86400) / ref["size_usd"] * (365.25 * 86400) / wsec)
-        out[pname] = {"policy": pol.__dict__, "rows": rows, "weeklyNetAprPctAtReferenceSize": {"sizeUsd": ref["size_usd"], "weeks": weekly,
-                      "low": min(weekly) if weekly else None, "high": max(weekly) if weekly else None}}
-        out[pname]["capacitySentence"] = capacity_sentence(label, pname, rows, out[pname]["weeklyNetAprPctAtReferenceSize"], seconds, price_move_pct)
+            weekly.append(100 * (w.net_vs_hold_usd - daily_fixed_usd * wsec / 86400) / ref["size_usd"] * year / wsec)
+        return {"sizeUsd": ref["size_usd"], "weeks": weekly, "low": min(weekly) if weekly else None, "high": max(weekly) if weekly else None,
+                "label": "each value is one 7-day window, annualised"}
+
+    for pname, pol in policies.items():
+        rows = run_rows(pol, 0.5)
+        weekly = weekly_for(pol, 0.5, rows)
+        entry = {"policy": pol.__dict__, "startSplit": "50/50 by value", "rows": rows, "weeklyNetAprPctAtReferenceSize": weekly,
+                 "capacitySentence": capacity_sentence(label, pname + " (50/50 start)", rows, weekly, seconds, price_move_pct, ops_note)}
+        if live_stock_fraction is not None:
+            lrows = run_rows(pol, live_stock_fraction)
+            lweekly = weekly_for(pol, live_stock_fraction, lrows)
+            entry["liveSplit"] = {"stockValueFraction": live_stock_fraction, "rows": lrows, "weeklyNetAprPctAtReferenceSize": lweekly,
+                                  "capacitySentence": capacity_sentence(label, pname + f" ({live_stock_fraction:.0%} NVDA start, the live supply split)", lrows, lweekly,
+                                                                       seconds, price_move_pct, ops_note)}
+        out[pname] = entry
     return out
 
 
-def capacity_sentence(venue: str, policy: str, rows: list[dict], weekly: dict, seconds: float, price_move_pct: float | None = None) -> str:
-    """The one sentence the operator acts on (00 section 2). Net return versus holding the deposit, after measured keeper cost."""
+MIN_SUPPORTED_APR_PCT = 1.0  # a size counts as supported only if net return versus holding is at least this, a year
+
+
+def capacity_sentence(venue: str, policy: str, rows: list[dict], weekly: dict, seconds: float, price_move_pct: float | None = None,
+                      ops_note: str = "measured keeper cost") -> str:
+    """The one sentence the operator acts on (00 section 2): net return versus holding the deposit, after operating cost,
+    under a model whose assumptions are stated in the sentence."""
     days = seconds / 86400
-    move = f" The window had a one-way oracle move of {price_move_pct:+.1f}%, which hurts any range position versus holding;" if price_move_pct is not None else ""
-    cond = (f"over the observed {days:.0f}-day window with a simplified single-range replay (not the contract's exact code path), measured keeper cost, "
-            f"a 20% reserve cut, RAM valued at zero, and net of the cost of simply holding the deposit.{move} one window is not a forecast")
-    positive = [r for r in rows if r["net_after_ops_usd"] > 0]
+    move = f" The window had a one-way oracle move of {price_move_pct:+.1f}%, which hurts any range position versus holding." if price_move_pct is not None else ""
+    cond = (f"in this {days:.0f}-day window under this replay: one fixed trade stream (our size does not change volume, which biases large sizes down), "
+            f"a simplified single range rather than the contract's exact code path, {ops_note}, a 20% reserve cut, RAM valued at zero, "
+            f"and net of simply holding the same deposit.{move} It is one window, not a forecast")
+    supported = [r for r in rows if r["net_after_ops_apr_pct"] >= MIN_SUPPORTED_APR_PCT]
     best = max(rows, key=lambda r: r["net_after_ops_apr_pct"])
-    gross = best["fees_gross_apr_pct"]
-    if not positive:
+    wk = (f"Weekly sub-windows at ${weekly['sizeUsd']:,} (each 7 days, annualised) ranged {weekly['low']:.0f}% to {weekly['high']:.0f}% a year."
+          if weekly.get("low") is not None else "")
+    if not supported:
         small = rows[0]
-        lo, hi = weekly.get("low"), weekly.get("high")
-        wk = f" Weekly sub-windows at ${weekly['sizeUsd']:,} ranged {lo:.0f}% to {hi:.0f}% a year." if lo is not None else ""
-        return (f"{venue} / {policy}: supports NO tested size ($10 to $500k). Gross fees were about {gross:.0f}% a year at the best size "
-                f"(only {best['avg_deployed_fraction']:.0%} of capital deployed on average), but net return versus holding was never positive over the whole window: "
-                f"best case {best['net_after_ops_apr_pct']:.1f}% a year at ${best['size_usd']:,}; at ${small['size_usd']} keeper cost alone makes it "
-                f"{small['net_after_ops_apr_pct']:.0f}%.{wk} {cond}.")
-    top = max(positive, key=lambda r: r["size_usd"])
-    lo, hi = weekly.get("low"), weekly.get("high")
-    rng = f"range {lo:.0f}% to {hi:.0f}% across weekly sub-windows at ${weekly['sizeUsd']:,}" if lo is not None else "no weekly range"
+        return (f"{venue} / {policy}: {cond}: net return versus holding was below {MIN_SUPPORTED_APR_PCT:.0f}% a year at every tested size ($10 to $500k). "
+                f"Gross fees were about {best['fees_gross_apr_pct']:.0f}% a year at the best size (average {best['avg_deployed_fraction']:.0%} of capital deployed); "
+                f"best case {best['net_after_ops_apr_pct']:.1f}% a year at ${best['size_usd']:,}. At ${small['size_usd']} operating cost alone is "
+                f"{small['opsOnlyAprPct']:.0f}% a year, and the strategy itself adds {small['net_after_ops_apr_pct'] - small['opsOnlyAprPct']:+.0f} points. {wk}")
+    top = max(supported, key=lambda r: r["size_usd"])
     nxt = [r for r in rows if r["size_usd"] > top["size_usd"]]
-    edge = f" and turns negative by ${nxt[0]['size_usd']:,}" if nxt else " (the largest size tested is still positive)"
-    return f"{venue} / {policy}: supports about ${top['size_usd']:,} of our capital at about {top['net_after_ops_apr_pct']:.1f}% net a year ({rng}){edge}, {cond}."
+    edge = f" and falls below {MIN_SUPPORTED_APR_PCT:.0f}% by ${nxt[0]['size_usd']:,}" if nxt else " (the largest size tested is still supported)"
+    return f"{venue} / {policy}: supports about ${top['size_usd']:,} of our capital at about {top['net_after_ops_apr_pct']:.1f}% net a year{edge}, {cond}. {wk}"

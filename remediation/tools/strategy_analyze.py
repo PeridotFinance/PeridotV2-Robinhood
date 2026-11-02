@@ -59,6 +59,14 @@ def policies(spacing: int) -> dict:
     }
 
 
+def overall_valid(results: dict) -> bool:
+    """The run is only 'valid' if EVERY reconstruction check passed: the vault/v4 checks and the Ramses pool checks."""
+    main = bool(results.get("validation", {}).get("ok"))
+    ramses = results.get("ramsesFeesAndVolume", {})
+    ramses_ok = isinstance(ramses, dict) and bool(ramses.get("validation", {}).get("ok"))
+    return main and ramses_ok
+
+
 def derive_costs(keeper: dict) -> tuple[Costs, float, list[str]]:
     notes = []
     acts = keeper.get("byAction") if isinstance(keeper, dict) else None
@@ -70,10 +78,13 @@ def derive_costs(keeper: dict) -> tuple[Costs, float, list[str]]:
     costs = Costs(recenter_usd=mean("recenter"), rebalance_usd=mean("rebalance"))
     ck = acts.get("checkpoint")
     per_day = 0.0
-    if ck and keeper.get("lastKeeperActionWithEvents"):
+    if ck:
         days_active = max(keeper.get("activeDays") or 1.0, 1.0)
-        per_day = mean("checkpoint") * ck["count"] / days_active
-    notes.append(f"measured cost per recenter ${costs.recenter_usd:.4f}, per rebalance ${costs.rebalance_usd:.4f}; checkpoints ${per_day:.4f}/day while active")
+        observed = mean("checkpoint") * ck["count"] / days_active
+        required = mean("checkpoint") * 24  # the vault demands a checkpoint at least hourly (maxCheckpointAge 1 h)
+        per_day = max(observed, required)
+        notes.append(f"checkpoint cost ${per_day:.4f}/day = the larger of the observed average ${observed:.4f} and the hourly cadence the vault requires ${required:.4f}")
+    notes.append(f"measured cost per recenter ${costs.recenter_usd:.4f}, per rebalance ${costs.rebalance_usd:.4f} (Uniswap vault keeper; used as a proxy for Ramses)")
     return costs, per_day, notes
 
 
@@ -121,6 +132,7 @@ def run(args, partial: Path | None = None) -> dict:
         results["ramsesFeesAndVolume"] = {"status": "FAILED", "reason": str(e)}
     costs, daily_fixed, cost_notes = derive_costs(results.get("keeperCosts", {}))
     results["operatingCostAssumptions"] = cost_notes
+    cost_label = "measured keeper cost" if "byAction" in results.get("keeperCosts", {}) else "NO keeper cost (the keeper section failed)"
     avg_pair = None
     try:
         avg_pair = sum((s["lpIn"][0] + s["lpOut"][0] + s["idle"][0]) * s["pOracle"] + s["lpIn"][1] + s["lpOut"][1] + s["idle"][1] for s in samples) / len(samples)
@@ -130,22 +142,33 @@ def run(args, partial: Path | None = None) -> dict:
         results["uniswapDilutionRealisedRanges"] = {"status": "FAILED", "reason": str(e)}
     capacity = {}
     move_pct = 100 * (ctx.oracle.price(ctx.t1) / ctx.oracle.price(ctx.t0) - 1)
+    live_fraction = None
+    try:
+        from strategy_ledger import principal_at
+        sp0, up0 = principal_at(ctx.timeline, ctx.frm, 0)
+        p0 = ctx.oracle.price(ctx.t0)
+        live_fraction = (sp0 / 1e18 * p0) / (sp0 / 1e18 * p0 + up0 / 1e6)
+        results["liveSupplySplitAtWindowStart"] = {"nvdaValueFraction": live_fraction}
+    except Exception as e:
+        results["liveSupplySplitAtWindowStart"] = {"status": "FAILED", "reason": str(e)}
     results["oraclePriceMovePctOverWindow"] = move_pct
     save_partial(results, _PARTIAL["path"])
     try:
         v4t, v4o = liq_other_v4(ctx)
-        capacity["uniswap_v4"] = policy_runs("Uniswap v4 NVDA/USDG 0.30%", v4t, v4o, ctx.oracle, V4_STOCK_IS_TOKEN0, 60, 1.0, costs, daily_fixed, policies(60), move_pct)
+        capacity["uniswap_v4"] = policy_runs("Uniswap v4 NVDA/USDG 0.30%", v4t, v4o, ctx.oracle, V4_STOCK_IS_TOKEN0, 60, 1.0, costs, daily_fixed, policies(60), move_pct, live_fraction,
+                                                 ops_note=cost_label)
         if ramses:
             rt = ramses["trades"]
             capacity["ramses_nvda"] = policy_runs("Ramses NVDA/USDG", rt, liq_other_ramses(rt), ctx.oracle, RAMSES_NVDA_STOCK_IS_TOKEN0, 10,
-                                                  1.0 - ramses["protocolShare"], costs, daily_fixed, policies(10), move_pct)
+                                                  1.0 - ramses["protocolShare"], costs, daily_fixed, policies(10), move_pct, live_fraction,
+                                                  ops_note=cost_label + " from the Uniswap vault keeper used as a proxy")
     except Exception as e:  # any failure here must not discard the completed sections above
         capacity["status"] = "FAILED"; capacity["reason"] = f"{type(e).__name__}: {e}"; capacity["trace"] = traceback.format_exc()[-1200:]
     results["profitableCapacity"] = capacity
     results["rpcCalls"] = rpc.calls
     results["cacheHits"] = rpc.cache_hits
     results["failedSections"] = [k for k, v in results.items() if isinstance(v, dict) and v.get("status") == "FAILED"]
-    results["reconstructionValid"] = bool(results.get("validation", {}).get("ok"))
+    results["reconstructionValid"] = overall_valid(results)
     return results
 
 

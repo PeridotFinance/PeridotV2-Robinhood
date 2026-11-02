@@ -55,6 +55,9 @@ class Trade:
     liq_after: float  # active liquidity after the swap, human units (raw / 1e12)
     fee_ppm: int
     tx: str
+    total_fee_ppm: int = 0   # v4: the Swap event's combined LP + protocol fee (what the swapper paid)
+    sqrt_x96: int = 0        # raw sqrtPriceX96 after the swap
+    liq_raw: int = 0         # raw active liquidity after the swap (exact; liq_after is the float human-unit view)
 
     @property
     def notional(self) -> float:
@@ -72,17 +75,29 @@ class Trade:
         return self.usd_in > 0
 
     @property
+    def fee_base_usd(self) -> float:
+        """USD value of the INPUT leg; never negative (a degenerate swap with no input pays no fee)."""
+        if self.usd_in > 0:
+            return self.usd_in
+        return max(self.stock_in, 0.0) * self.exec_price
+
+    @property
     def fee_usd(self) -> float:
-        """Total swap fee in USD (fee is charged on the input leg)."""
-        base = self.usd_in if self.usd_in > 0 else self.stock_in * self.exec_price
-        return base * self.fee_ppm / 1e6
+        """Fee in USD at ``fee_ppm`` (the LP fee for v4; the pool fee for Ramses), charged on the input leg."""
+        return self.fee_base_usd * self.fee_ppm / 1e6
+
+    @property
+    def swapper_fee_usd(self) -> float:
+        """What the swapper paid (v4: LP + protocol fee from the Swap event)."""
+        return self.fee_base_usd * (self.total_fee_ppm or self.fee_ppm) / 1e6
 
 
 def _trade(l: dict, ts: float, a0_pool: int, a1_pool: int, sqrt: int, liq: int, tick: int, fee: int,
-           stock_is_token0: bool) -> Trade:
+           stock_is_token0: bool, total_fee: int = 0) -> Trade:
     stock_raw, usd_raw = (a0_pool, a1_pool) if stock_is_token0 else (a1_pool, a0_pool)
     return Trade(block=l["blockNumber"], idx=l["logIndex"], ts=ts, stock_in=stock_raw / 1e18, usd_in=usd_raw / 1e6,
-                 price=usd_per_stock(sqrt, stock_is_token0), tick=tick, liq_after=liq / 1e12, fee_ppm=fee, tx=l["tx"])
+                 price=usd_per_stock(sqrt, stock_is_token0), tick=tick, liq_after=liq / 1e12, fee_ppm=fee, tx=l["tx"],
+                 total_fee_ppm=total_fee or fee, sqrt_x96=sqrt, liq_raw=liq)
 
 
 # ---------------------------------------------------------------------------------------- price feed
@@ -109,14 +124,27 @@ class Oracle:
 
     def price(self, ts: float) -> float:
         i = bisect.bisect_right(self.t, ts) - 1
-        return self.p[max(i, 0)]
+        if i < 0:
+            raise EvidenceError(f"no oracle value at or before {ts}: the series starts at {self.t[0]} (extend the feed lookback)")
+        return self.p[i]
 
     def age(self, ts: float) -> float:
         i = bisect.bisect_right(self.t, ts) - 1
-        return ts - self.t[max(i, 0)]
+        if i < 0:
+            raise EvidenceError(f"no oracle value at or before {ts}")
+        return ts - self.t[i]
 
 
 # ------------------------------------------------------------------------------------ Uniswap v4 pool
+
+
+def decode_v4_swap(l: dict) -> tuple:
+    """(log, amount0, amount1, sqrtPriceX96, liquidity, tick, fee) with amounts on the POOL's side (positive = into the pool).
+
+    The v4 Swap event reports the swapper's balance delta (negative = the swapper paid), so both signs are flipped."""
+    w = words(l["data"])
+    return (l, -sN(w[0], 128), -sN(w[1], 128), w[2], w[3], sN(w[4], 24), w[5])
+
 
 
 def load_v4(rpc: Rpc, ti: TimeIndex, final: int, to: int, pool_id: str = V4_POOL_ID,
@@ -134,9 +162,7 @@ def load_v4(rpc: Rpc, ti: TimeIndex, final: int, to: int, pool_id: str = V4_POOL
     init = {"block": init_raw[0]["blockNumber"], "fee": w[0], "tick_spacing": sN(w[1], 24), "sqrt": w[3], "tick": sN(w[4], 24)}
     swaps, mods = [], []
     for l in swaps_raw:
-        w = words(l["data"])
-        # v4 reports amounts from the swapper's side (negative = swapper pays). Flip to the pool's side.
-        swaps.append((l, -sN(w[0], 128), -sN(w[1], 128), w[2], w[3], sN(w[4], 24), w[5]))
+        swaps.append(decode_v4_swap(l))
     for l in mods_raw:
         w = words(l["data"])
         mods.append({"block": l["blockNumber"], "idx": l["logIndex"], "sender": topic_addr(l["topics"][2]),
@@ -150,7 +176,7 @@ def v4_trades(raw: list, ti: TimeIndex | None, lp_fee_ppm: int, ts_from_block: i
     out = []
     for l, a0, a1, sqrt, liq, tick, fee in raw:
         ts = ti.ts(l["blockNumber"]) if (ti and l["blockNumber"] >= ts_from_block) else 0.0
-        out.append(_trade(l, ts, a0, a1, sqrt, liq, tick, lp_fee_ppm, V4_STOCK_IS_TOKEN0))
+        out.append(_trade(l, ts, a0, a1, sqrt, liq, tick, lp_fee_ppm, V4_STOCK_IS_TOKEN0, total_fee=fee))
     return out
 
 

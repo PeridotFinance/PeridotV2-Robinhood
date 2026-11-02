@@ -118,9 +118,13 @@ class Rpc:
             raise EvidenceError(f"block {number} not found")
         return res
 
-    def eth_call(self, to: str, data: str, block: int | str = "latest") -> str:
+    def eth_call(self, to: str, data: str, block: int | str = "latest", sender: str | None = None) -> str:
+        """Read-only call. ``sender`` only sets msg.sender for the simulation; nothing is signed or sent."""
         tag = block if isinstance(block, str) else hex(block)
-        return self.call("eth_call", [{"to": to, "data": data}, tag])
+        tx = {"to": to, "data": data}
+        if sender:
+            tx["from"] = sender
+        return self.call("eth_call", [tx, tag])
 
     def balance(self, address: str, block: int | str = "latest") -> int:
         tag = block if isinstance(block, str) else hex(block)
@@ -300,7 +304,9 @@ class TimeIndex:
 
     def header(self, n: int) -> tuple[int, int]:
         b = self.rpc.block(n)
-        return int(b["timestamp"], 16), int(b.get("l1BlockNumber", "0x0"), 16)
+        if "l1BlockNumber" not in b:
+            raise EvidenceError(f"header {n} has no l1BlockNumber; the interest clock needs it")
+        return int(b["timestamp"], 16), int(b["l1BlockNumber"], 16)
 
     def ensure(self, lo: int, hi: int, progress=None):
         first = (lo // self.step) * self.step

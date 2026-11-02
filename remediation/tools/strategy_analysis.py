@@ -123,9 +123,13 @@ def validate_reconstruction(ctx: Ctx) -> dict:
     if pos["liquidity"]:
         check("our live range lower", live[0].lower if live else 0, pos["tickLower"])
         check("our live range upper", live[0].upper if live else 0, pos["tickUpper"])
-    last_swap = [r for r in ctx.v4_records if r.kind == "swap"][-1]
-    check("pool tick after the last swap", last_swap.tick_after, snap["v4Pool"]["tick"])
-    return {"ok": all(c["ok"] for c in checks), "checks": checks}
+    check("v4 pool tick (replayed)", ctx.v4_book.pool_tick, snap["v4Pool"]["tick"])
+    check("v4 pool active liquidity (replayed from Swap + ModifyLiquidity)", ctx.v4_book.pool_liquidity, snap["v4Pool"]["liquidity"])
+    return {"ok": all(c["ok"] for c in checks),
+            "scope": "vault principals and balances, market local cash, our position (liquidity and range), and the v4 pool tick and active liquidity. "
+                     "NOT validated against chain state: swap volumes, fees and markouts (fees are cross-checked against collected fees in section 3); "
+                     "the Ramses pool is checked separately in its own section.",
+            "checks": checks}
 
 
 # ------------------------------------------------------------------------------- 3. fees and volume
@@ -157,6 +161,8 @@ def summarize_trades(trades: list[Trade], lp_fraction=lambda t: 1.0) -> dict:
     span = trades[-1].ts - trades[0].ts
     return {
         "swaps": len(trades), "volumeUsd": vol, "swapFeesTotalUsd": fee_total, "lpFeesUsd": lp_fee,
+        "swapperPaidFeesUsd": sum(t.swapper_fee_usd for t in trades),
+        "protocolTakeUsd": sum(t.swapper_fee_usd for t in trades) - fee_total,
         "lpFeeBpsOfVolume": bps(lp_fee, vol), "medianTradeUsd": notionals[len(notionals) // 2],
         "medianDepthToMove1pctUp": statistics.median(depth_up), "medianDepthToMove1pctDown": statistics.median(depth_down),
         "firstSwap": iso(int(trades[0].ts)), "lastSwap": iso(int(trades[-1].ts)), "observedSeconds": span,
@@ -174,12 +180,14 @@ def our_fee_estimate(ctx: Ctx, scale: float = 1.0) -> dict:
     return {"estimatedLpFeesUsd": est}
 
 
-def actual_fees(ctx: Ctx) -> dict:
-    """Gross fees the vault actually collected in the window (FeesProcessed), valued at the oracle."""
+def actual_fees(ctx: Ctx, lo_block: int | None = None, hi_block: int | None = None) -> dict:
+    """Gross fees the vault actually collected in [lo_block, hi_block] (FeesProcessed), valued at the oracle."""
+    lo_block = ctx.frm if lo_block is None else lo_block
+    hi_block = ctx.to if hi_block is None else hi_block
     gross = reserve = 0.0
     n = 0
     for l in ctx.vault_events["fees"]:
-        if l["blockNumber"] < ctx.frm:
+        if l["blockNumber"] < lo_block or l["blockNumber"] > hi_block:
             continue
         w = words(l["data"])
         p = ctx.oracle.price(ctx.ti.ts(l["blockNumber"]))
@@ -188,7 +196,9 @@ def actual_fees(ctx: Ctx) -> dict:
         n += 1
     pos = ctx.snap["position"]
     pending = pos.get("pendingFeesStockRaw", 0) / 1e18 * ctx.oracle.price(ctx.t1) + pos.get("pendingFeesUsdgRaw", 0) / 1e6
-    return {"collections": n, "grossCollectedUsd": gross, "reserveCutUsd": reserve, "pendingUncollectedAtEndUsd": pending}
+    cut = ctx.snap["vault"]["reserveFeeBps"] / 1e4
+    return {"collections": n, "grossCollectedUsd": gross, "reserveCutUsd": reserve, "pendingUncollectedAtEndUsd": pending,
+            "pendingUncollectedNetOfReserveUsd": pending * (1 - cut), "blockRange": [lo_block, hi_block]}
 
 
 def analyse_uniswap_fees(ctx: Ctx) -> dict:
@@ -197,7 +207,7 @@ def analyse_uniswap_fees(ctx: Ctx) -> dict:
     act = actual_fees(ctx)
     total_est = est["estimatedLpFeesUsd"]
     realised = act["grossCollectedUsd"] + act["pendingUncollectedAtEndUsd"]
-    return {"venue": "Uniswap v4 NVDA/USDG 0.30%", "pool": summary, "ourEstimate": est, "ourActual": act,
+    return {"venue": "Uniswap v4 NVDA/USDG 0.30% (swappers pay LP fee + a constant protocol fee)", "pool": summary, "ourEstimate": est, "ourActual": act,
             "estimateVsActualRatio": (total_est / realised) if realised else None,
             "note": "Estimate = sum(LP fee x our active-liquidity share); actual = FeesProcessed gross + uncollected at the end block. "
                     "Opening/closing fee timing (collected before/after the window) explains part of any gap."}

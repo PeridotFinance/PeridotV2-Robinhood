@@ -52,6 +52,10 @@ class PrincipalTimelineTests(unittest.TestCase):
             ("checkpoint", 105, 1_030), ("withdrawal", 65, 1_030)])
         self.assertEqual(tl[3].detail["stockBefore"], 108)  # loss = before - after, available to analyses
 
+    def test_withdrawal_reduces_principal_by_what_was_returned_not_requested(self):
+        ev = events(deposited=[dep(10, 0, NVDA, 100)], withdrawal=[wd(30, 0, NVDA, 50, 40, 10)])
+        self.assertEqual(build_principal_timeline(ev)[-1].stock_principal, 60)  # 100 - 40 returned (the 10 loss came from a checkpoint)
+
     def test_same_block_ordering_uses_log_index(self):
         ev = events(deposited=[dep(5, 3, NVDA, 7)], checkpoint=[ckpt(5, 1, 50, 60)])
         tl = build_principal_timeline(ev)

@@ -111,13 +111,13 @@ class Result:
 
 
 def simulate(trades: list[Trade], liq_other: list[float], oracle: Oracle, size_usd: float, policy: Policy, stock_is_token0: bool,
-             lp_fraction: float = 1.0, reserve_cut: float = 0.2, costs: Costs | None = None) -> Result:
+             lp_fraction: float = 1.0, reserve_cut: float = 0.2, costs: Costs | None = None, start_stock_fraction: float = 0.5) -> Result:
     if len(trades) != len(liq_other) or len(trades) < 2:
         raise EvidenceError("need aligned trades and liquidity, at least two")
     costs = costs or Costs()
     t0 = trades[0].ts
     p_o0 = oracle.price(t0)
-    stock, usd = size_usd / 2 / p_o0, size_usd / 2
+    stock, usd = size_usd * start_stock_fraction / p_o0, size_usd * (1 - start_stock_fraction)
     pool_price0 = trades[0].price
     pos: Pos | None = None
     fees_gross = gas = 0.0
@@ -147,7 +147,7 @@ def simulate(trades: list[Trade], liq_other: list[float], oracle: Oracle, size_u
     deploy(pool_price0)
     start_equity = stock * p_o0 + usd + sum(a * b for a, b in zip(pos_amounts(pos, pool_price0), (p_o0, 1.0)))
     p_hold0 = p_o0
-    h_stock, h_usd = size_usd / 2 / p_o0, size_usd / 2
+    h_stock, h_usd = size_usd * start_stock_fraction / p_o0, size_usd * (1 - start_stock_fraction)
     prev_price = pool_price0
     prev_ts = t0
     for i, tr in enumerate(trades):
