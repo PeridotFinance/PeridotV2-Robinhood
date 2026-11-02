@@ -25,7 +25,10 @@ contract GroupTrader {
         pool = p;
     }
 
-    function swapExactIn(bool zeroForOne, uint256 amountIn, uint160 limit) external returns (int256 a0, int256 a1) {
+    function swapExactIn(bool zeroForOne, uint256 amountIn, uint160 limit)
+        external
+        returns (int256 a0, int256 a1)
+    {
         (a0, a1) = pool.swap(address(this), zeroForOne, int256(amountIn), limit, "");
     }
 
@@ -99,7 +102,11 @@ abstract contract GroupFeeEntitlementBase is Test {
     }
 
     /// @dev USD per stock token scaled 1e6, from the pool's own spot (used only to size test trades).
-    function _priceUsdPerStock() internal view returns (uint256 pricex1e6, bool stockIs0, address stock) {
+    function _priceUsdPerStock()
+        internal
+        view
+        returns (uint256 pricex1e6, bool stockIs0, address stock)
+    {
         (uint160 sq,,,,,,) = pool.slot0();
         stockIs0 = _dec(address(t0)) == 18;
         stock = stockIs0 ? address(t0) : address(t1);
@@ -124,11 +131,27 @@ abstract contract GroupFeeEntitlementBase is Test {
         t0.approve(NFP, type(uint256).max);
         t1.approve(NFP, type(uint256).max);
         (id,,,) = pm.mint(
-            IRamsesNfp.MintParams(address(t0), address(t1), cfg().spacing, lo, hi, a0, a1, 0, 0, address(this), block.timestamp)
+            IRamsesNfp.MintParams(
+                address(t0),
+                address(t1),
+                cfg().spacing,
+                lo,
+                hi,
+                a0,
+                a1,
+                0,
+                0,
+                address(this),
+                block.timestamp
+            )
         );
     }
 
-    function onERC721Received(address, address, uint256, bytes calldata) external pure returns (bytes4) {
+    function onERC721Received(address, address, uint256, bytes calldata)
+        external
+        pure
+        returns (bytes4)
+    {
         return this.onERC721Received.selector;
     }
 
@@ -183,7 +206,7 @@ abstract contract GroupFeeEntitlementBase is Test {
     }
 
     function _msb(uint256 x) internal pure returns (uint8 r) {
-        for (uint256 i = 255; ; i--) {
+        for (uint256 i = 255;; i--) {
             if ((x >> i) & 1 == 1) return uint8(i);
             if (i == 0) break;
         }
@@ -229,7 +252,11 @@ abstract contract GroupFeeEntitlementBase is Test {
             if (a1 > 0) R.gross1 += uint256(a1) * pool.fee() / 1_000_000;
             (, int24 tk,,,,,) = pool.slot0();
             assertTrue(tk >= lowerCore && tk < upperCore, "price left the core range");
-            assertEq(uint256(pool.liquidity()), uint256(R.activeL), "tick crossed: active liquidity changed");
+            assertEq(
+                uint256(pool.liquidity()),
+                uint256(R.activeL),
+                "tick crossed: active liquidity changed"
+            );
         }
         (uint128 p0b, uint128 p1b) = pool.protocolFees();
         R.proto0 = p0b - p0a;
@@ -250,8 +277,12 @@ abstract contract GroupFeeEntitlementBase is Test {
         emit log_named_uint("active liquidity", R.activeL);
 
         // collect both layers
-        (uint256 a0, uint256 a1) = pm.collect(IRamsesNfp.CollectParams(coreId, address(this), type(uint128).max, type(uint128).max));
-        (uint256 b0, uint256 b1) = pm.collect(IRamsesNfp.CollectParams(wideId, address(this), type(uint128).max, type(uint128).max));
+        (uint256 a0, uint256 a1) = pm.collect(
+            IRamsesNfp.CollectParams(coreId, address(this), type(uint128).max, type(uint128).max)
+        );
+        (uint256 b0, uint256 b1) = pm.collect(
+            IRamsesNfp.CollectParams(wideId, address(this), type(uint128).max, type(uint128).max)
+        );
         R.coll0 = a0 + b0;
         R.coll1 = a1 + b1;
         R.coreColl0 = a0;
@@ -274,7 +305,9 @@ abstract contract GroupFeeEntitlementBase is Test {
         assertApproxEqAbs(R.coll0, exp0, exp0 / 100 + 64, "LP collect token0");
         assertApproxEqAbs(R.coll1, exp1, exp1 / 100 + 64, "LP collect token1");
         // 4. nothing else pays pool-token fees: a second collect pays zero
-        (uint256 z0, uint256 z1) = pm.collect(IRamsesNfp.CollectParams(coreId, address(this), type(uint128).max, type(uint128).max));
+        (uint256 z0, uint256 z1) = pm.collect(
+            IRamsesNfp.CollectParams(coreId, address(this), type(uint128).max, type(uint128).max)
+        );
         assertEq(z0 + z1, 0, "second collect should be empty");
     }
 
@@ -312,10 +345,14 @@ abstract contract GroupFeeEntitlementBase is Test {
             uint256 got = IERC20(tokens[i]).balanceOf(address(this)) - before[i];
             emit log_named_uint("  paid by manager getReward", got);
             // the route pays exactly what `earned` reported for the two layers
-            assertApproxEqAbs(got, eCore[i] + eWide[i], 2, "manager pays what the gauge says is earned");
+            assertApproxEqAbs(
+                got, eCore[i] + eWide[i], 2, "manager pays what the gauge says is earned"
+            );
         }
         assertEq(gauge.earned(RAM, farId), 0, "out-of-range layer earns no RAM");
-        (uint256 f0, uint256 f1) = pm.collect(IRamsesNfp.CollectParams(farId, address(this), type(uint128).max, type(uint128).max));
+        (uint256 f0, uint256 f1) = pm.collect(
+            IRamsesNfp.CollectParams(farId, address(this), type(uint128).max, type(uint128).max)
+        );
         assertEq(f0 + f1, 0, "out-of-range layer earns no swap fees");
         // RAM is paid for in-range time; both layers are in range
         assertGt(eCore[2], 0, "core earns RAM");
@@ -365,7 +402,9 @@ abstract contract GroupFeeEntitlementBase is Test {
         assertApproxEqAbs(t0.balanceOf(treasury) - tr0, p0, 2, "treasury token0");
         assertApproxEqAbs(t1.balanceOf(treasury) - tr1, p1, 2, "treasury token1");
         // the entitlement of our LP positions is untouched by the protocol collection
-        (uint256 a0, uint256 a1) = pm.collect(IRamsesNfp.CollectParams(coreId, address(this), type(uint128).max, type(uint128).max));
+        (uint256 a0, uint256 a1) = pm.collect(
+            IRamsesNfp.CollectParams(coreId, address(this), type(uint128).max, type(uint128).max)
+        );
         assertGt(a0 + a1, 0, "LP fees still collectable after the protocol share was swept");
     }
 }
@@ -376,18 +415,42 @@ interface IDec {
 
 contract GroupFeeEntitlementSPY is GroupFeeEntitlementBase {
     function cfg() internal pure override returns (Cfg memory) {
-        return Cfg(0x38453c115607463Ac284820Ce959831042f3Df4E, 0x739E31798EFE8Cff3ef4c613D8ae751e179C7337, 1, 100, 490, 5000, 1000);
+        return Cfg(
+            0x38453c115607463Ac284820Ce959831042f3Df4E,
+            0x739E31798EFE8Cff3ef4c613D8ae751e179C7337,
+            1,
+            100,
+            490,
+            5000,
+            1000
+        );
     }
 }
 
 contract GroupFeeEntitlementGLD is GroupFeeEntitlementBase {
     function cfg() internal pure override returns (Cfg memory) {
-        return Cfg(0x9896AF2F6fED9939aCc87637b973b6484E6619D8, 0x7724Fa91Cd3BbF4bF1EEe4e8383dbb74E08A975C, 1, 100, 490, 5000, 100);
+        return Cfg(
+            0x9896AF2F6fED9939aCc87637b973b6484E6619D8,
+            0x7724Fa91Cd3BbF4bF1EEe4e8383dbb74E08A975C,
+            1,
+            100,
+            490,
+            5000,
+            100
+        );
     }
 }
 
 contract GroupFeeEntitlementNVDA is GroupFeeEntitlementBase {
     function cfg() internal pure override returns (Cfg memory) {
-        return Cfg(0xdac1904D823F7d6bcAaF431ceEe40c934fEd321b, 0x93c6A733FB3165D94774B3A5Fc4319D29bd7b6ce, 10, 100, 490, 5000, 300);
+        return Cfg(
+            0xdac1904D823F7d6bcAaF431ceEe40c934fEd321b,
+            0x93c6A733FB3165D94774B3A5Fc4319D29bd7b6ce,
+            10,
+            100,
+            490,
+            5000,
+            300
+        );
     }
 }
