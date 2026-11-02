@@ -117,6 +117,57 @@ class PolicyRules(unittest.TestCase):
             self.assertFalse(f.contract_feasible)
 
 
+class InputHardening(unittest.TestCase):
+    """Negative, non-finite and out-of-width values must be REJECTED (never crash, never pass a comparison)."""
+    NAN, INF = float("nan"), float("inf")
+
+    def bad(self, **kw):
+        f = F.assess(base(**kw), 1)
+        self.assertFalse(f.contract_feasible, kw)
+        return f
+
+    def test_negative_values_rejected_for_every_unsigned_field(self):
+        for kw in (dict(max_per_day=-1), dict(max_per_day=-24), dict(core_half=-600, trigger_ticks=300), dict(trigger_ticks=-1),
+                   dict(cooldown=-3600.0), dict(loss_bps=-1), dict(loss_bps=-0.5), dict(max_ranged_usd=-1.0)):
+            f = self.bad(**kw)
+            self.assertTrue(f.violations, kw)
+
+    def test_negative_daily_limit_names_the_field(self):
+        f = self.bad(max_per_day=-5)
+        self.assertTrue(any("maxPerDay -5 is negative" in v for v in f.violations), f.violations)
+
+    def test_nan_and_inf_rejected_without_exceptions(self):
+        for field in ("max_per_day", "cooldown", "loss_bps", "max_ranged_usd", "trigger_ticks", "core_half"):
+            for value in (self.NAN, self.INF, -self.INF):
+                f = self.bad(**{field: value})
+                self.assertTrue(any("not a finite number" in v or "must be > 0" in v for v in f.violations), (field, value, f.violations))
+
+    def test_values_above_the_field_width_rejected(self):
+        for kw in (dict(core_half=65536, trigger_ticks=300), dict(trigger_ticks=65536), dict(cooldown=2.0 ** 32),
+                   dict(max_per_day=256), dict(loss_bps=65536)):
+            f = self.bad(**kw)
+            self.assertTrue(any("exceeds the field's maximum" in v for v in f.violations), (kw, f.violations))
+
+    def test_huge_cap_and_non_numbers_rejected(self):
+        self.bad(max_ranged_usd=1e30)
+        self.bad(max_ranged_usd="10000")
+        f = self.bad(core_half=True)      # bool is not a tick count
+        self.assertTrue(any("not a finite number" in v for v in f.violations), f.violations)
+        self.bad(max_per_day=None)
+        self.assertEqual(F.validate_policy(600, 300, 3600, 24, 10, 1e6, 0)[0].split()[0], "tickSpacing")
+        self.assertTrue(F.validate_policy(600, 300, 3600, 24, 10, 1e6, float("nan")))
+        self.assertTrue(F.validate_policy(600, 300, 3600, 24, 10, 1e6, -1))
+
+    def test_boundaries_still_accepted(self):
+        for kw in (dict(max_per_day=1), dict(max_per_day=24), dict(loss_bps=0), dict(loss_bps=100), dict(cooldown=3600.0),
+                   dict(max_ranged_usd=1e-9), dict(max_ranged_usd=F.MAX_RANGED_USD_E18)):
+            self.assertTrue(F.assess(base(**kw), 1).contract_feasible, kw)
+
+    def test_require_feasible_raises_instead_of_crashing_on_nan(self):
+        with self.assertRaises(F.InfeasibleConfig):
+            F.require_feasible(base(max_per_day=self.NAN), 1)
+
+
 class FullRange(unittest.TestCase):
     def test_ticks_match_tickmath_usable_bounds(self):
         # Uniswap/Ramses TickMath: minUsableTick = (MIN_TICK / spacing) * spacing with truncation toward zero
@@ -167,6 +218,20 @@ class EngineFields(unittest.TestCase):
         explicit = E.Sim(ds, self.cfg(core_half=600, trigger_ticks=300, gate_bps=1000.0), always_open).run()
         self.assertEqual(legacy.recenters["core"], 0)
         self.assertGreater(explicit.recenters["core"], 0)
+
+    def test_keeper_polling_delays_and_can_suppress_recenters(self):
+        # oracle jumps 4% at t0+5; the pool follows immediately; swaps continue for 400 s every 10 s
+        prices = [100.0] * 5 + [104.0] * 60
+        t0 = 1_000_000.0
+        ds = make_dataset(prices, oracle_times=[t0 - 10, t0 + 5], oracle_prices=[100.0, 104.0], stock_is_token0=False)
+        instant = E.Sim(ds, self.cfg(core_half=600, trigger_ticks=300, gate_bps=1000.0), always_open).run()
+        slow = E.Sim(ds, self.cfg(core_half=600, trigger_ticks=300, gate_bps=1000.0, poll_s=10_000.0), always_open).run()
+        self.assertGreater(instant.recenters["core"], 0)
+        self.assertEqual(slow.recenters["core"], 0)         # the only evaluation inside the window happens before the move matters
+        mid = E.Sim(ds, self.cfg(core_half=600, trigger_ticks=300, gate_bps=1000.0, poll_s=100.0), always_open).run()
+        first_instant = instant.recenter_log[0][0]
+        first_mid = mid.recenter_log[0][0]
+        self.assertGreaterEqual(first_mid, first_instant)
 
     def test_ranged_value_cap_limits_deployment(self):
         prices = [100.0] * 20

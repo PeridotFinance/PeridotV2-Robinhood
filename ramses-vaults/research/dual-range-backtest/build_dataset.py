@@ -1,3 +1,4 @@
+from __future__ import annotations
 """Turn the raw pool logs into compact per-swap columns with timestamps, the fee and protocol share in force."""
 import bisect, json, pickle, sys
 from common import *
@@ -7,6 +8,11 @@ Q96 = 2 ** 96
 
 def build(name: str, ti: TimeIndex):
     raw = json.load(open(CACHE.parent / f"ramses-group-pool-{name}.json"))
+    return build_from_raw(name, raw, ti)
+
+
+def build_from_raw(name: str, raw: dict, ti: TimeIndex, limit: int | None = None):
+    """Pure function of the raw logs and the (immutable) header grid; used by bundle.py to rebuild datasets from a cold fetch."""
     c = ADDR[name]
     stock0 = c["stock_is_token0"]
     # fee in force (dynamic) and protocol share in force
@@ -17,7 +23,8 @@ def build(name: str, ti: TimeIndex):
     proto = StepFunction(proto_init, proto_changes)
     cols = {k: [] for k in ("block", "idx", "ts", "s_after", "tick_after", "L_after", "in_tok", "in_amt", "fee_ppm", "proto", "a0", "a1")}
     # real headers on the grid around every swap; swaps after the newest grid anchor that exists on chain are dropped
-    limit = (ti.rpc.head() // ti.step) * ti.step
+    if limit is None:
+        limit = (ti.rpc.head() // ti.step) * ti.step
     swaps = [l for l in raw["swap"] if l["blockNumber"] <= limit]
     if swaps:
         ti.ensure(swaps[0]["blockNumber"], min(swaps[-1]["blockNumber"], limit - 1))

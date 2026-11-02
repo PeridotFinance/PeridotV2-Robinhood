@@ -1,0 +1,318 @@
+{
+ "created": "2026-11-02T12:49:19Z",
+ "note": "Raw logs and pickled datasets are not committed (too large). Rebuild with `python3 bundle.py rebuild PAIR`; every hash below is verified. The chain is the source of truth; the public RPC serves all logs but only ~9 minutes of state, so state reads are NOT recoverable and are not part of this bundle.",
+ "pairs": {
+  "GLD": {
+   "dataset": {
+    "columns": [
+     "block",
+     "idx",
+     "ts",
+     "s_after",
+     "tick_after",
+     "L_after",
+     "in_tok",
+     "in_amt",
+     "fee_ppm",
+     "proto",
+     "a0",
+     "a1"
+    ],
+    "gridLimitBlock": null,
+    "sha256": "e92e3b63060a489b1c643606c02b5d3550c3ed3969198bb0c90adcf9c5bd6776",
+    "swaps": 93803,
+    "swapsDroppedAfterGrid": null
+   },
+   "events": {
+    "burn": {
+     "count": 465,
+     "sha256": "96ff9f2587f205edcd048b33a980d97d81fb549e0ff061f41e28579a1960aa84",
+     "signature": "Burn(address,int24,int24,uint128,uint256,uint256)",
+     "topic0": "0x0c396cd989a39f4459b5fa1aed6a9a8dcdbc45908acfd67e028cd568da98982c"
+    },
+    "collect": {
+     "count": 453,
+     "sha256": "c70a41ef8b31366b421742b93bd7731d588f87abc9ec8b1d3dc9e7e7af278e27",
+     "signature": "Collect(address,address,int24,int24,uint128,uint128)",
+     "topic0": "0x70935338e69775456a85ddef226c395fb668b63fa0115f5f20610b388e6ca9c0"
+    },
+    "collectproto": {
+     "count": 629,
+     "sha256": "8565c0f2b9407ff1cafaa1f26e6ff5d6f49bfbda049e05d8d1ab5d9321e562e7",
+     "signature": "CollectProtocol(address,address,uint128,uint128)",
+     "topic0": "0x596b573906218d3411850b26a6b437d6c4522fdb43d2d2386263f86d50b8b151"
+    },
+    "feeadj": {
+     "count": 12,
+     "sha256": "48f2805b2d6eab9e01ab1ac3c03ea3f70f5445eb3df60787a822508688723791",
+     "signature": "FeeAdjustment(uint24,uint24)",
+     "topic0": "0x0cba87189055d3b5ab05c96fbd641bc766576c9e7cf0d195bdfb58a0c6a6df24"
+    },
+    "flash": {
+     "count": 0,
+     "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "signature": "Flash(address,address,uint256,uint256,uint256,uint256)",
+     "topic0": "0xbdbdb71d7860376ba52b25a5028beea23581364a40522f6bcfb86bb1f2dca633"
+    },
+    "init": {
+     "count": 1,
+     "sha256": "8d6be2b3779d6773c4431d10c777bf92dc64ac65c012e337e6e189516002326f",
+     "signature": "Initialize(uint160,int24)",
+     "topic0": "0x98636036cb66a9c19a37435efc1e90142190214e8abeb821bdba3f2990dd4c95"
+    },
+    "mint": {
+     "count": 327,
+     "sha256": "d6eb72dddd4a8dc82d6f5289b7b41b21faecbc1b4a74425bc44d5fe399575c4f",
+     "signature": "Mint(address,address,uint256,int24,int24,uint128,uint256,uint256)",
+     "topic0": "0xd78218c0d304e8893cb3200abe394bbc8d5b7804d9c51f236df9fdcf481d02d3"
+    },
+    "proto_a": {
+     "count": 0,
+     "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "signature": "SetFeeProtocol(uint8,uint8,uint8,uint8)",
+     "topic0": "0x973d8d92bb299f4af6ce49b52a8adb85ae46b9f214c4c4fc06ac77401237b133"
+    },
+    "proto_b": {
+     "count": 1,
+     "sha256": "f246fd85aea3482c88d984b20996a6ef0049bf7c5e736a3caf4bb22470b94f87",
+     "signature": "SetFeeProtocol(uint24,uint24)",
+     "topic0": "0x67a069e4d951485f3e494a1edfa67d7334e991e8514ba748fd1636270acd1c97"
+    },
+    "proto_c": {
+     "count": 0,
+     "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "signature": "SetFeeProtocol(uint24)",
+     "topic0": "0x8f517a34947cf2fca464c6548f5250e5a5693f78cd46052cde6e4cf65e60e527"
+    },
+    "setfee": {
+     "count": 0,
+     "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "signature": "SetFee(uint24,uint24)",
+     "topic0": "0x0eb63f4a36d6bdeee05aa00020a97d80c3e84f1b5b3ebf345fb67262e62b0f33"
+    },
+    "swap": {
+     "count": 93803,
+     "sha256": "bfa24be75d25962d3af483d0100665be7fce74de04797f3554a00cb100168179",
+     "signature": "Swap(address,address,int256,int256,uint160,uint128,int24)",
+     "topic0": "0xc42079f94a6350d7e6235f29174924f928cc2ac818eb64fed8004e115fbcca67"
+    }
+   },
+   "fromBlock": 0,
+   "pool": "0x9896af2f6fed9939acc87637b973b6484e6619d8",
+   "rawFileBytes": 70754074,
+   "toBlock": 104071867
+  },
+  "NVDA": {
+   "dataset": {
+    "columns": [
+     "block",
+     "idx",
+     "ts",
+     "s_after",
+     "tick_after",
+     "L_after",
+     "in_tok",
+     "in_amt",
+     "fee_ppm",
+     "proto",
+     "a0",
+     "a1"
+    ],
+    "gridLimitBlock": 104180000,
+    "sha256": "dfbc6a6eab92b46a35ef2c6432696fd92a8068d64475ecae0db9c7cbc4cd8d81",
+    "swaps": 331486,
+    "swapsDroppedAfterGrid": 8
+   },
+   "events": {
+    "burn": {
+     "count": 1699,
+     "sha256": "0e4a5769564279b236b772b31d4b91d969e5ddf87e8dc54b4f1b3075710dbe9e",
+     "signature": "Burn(address,int24,int24,uint128,uint256,uint256)",
+     "topic0": "0x0c396cd989a39f4459b5fa1aed6a9a8dcdbc45908acfd67e028cd568da98982c"
+    },
+    "collect": {
+     "count": 1672,
+     "sha256": "f253481679f7b413c5668c6a087b2b00d5470f04c3b6141b8d63f5d20fd032b7",
+     "signature": "Collect(address,address,int24,int24,uint128,uint128)",
+     "topic0": "0x70935338e69775456a85ddef226c395fb668b63fa0115f5f20610b388e6ca9c0"
+    },
+    "collectproto": {
+     "count": 952,
+     "sha256": "25e0054c95470bc8a8d43963aacf499021e38332ee4207833dfe1a7a23aa15a4",
+     "signature": "CollectProtocol(address,address,uint128,uint128)",
+     "topic0": "0x596b573906218d3411850b26a6b437d6c4522fdb43d2d2386263f86d50b8b151"
+    },
+    "feeadj": {
+     "count": 1786,
+     "sha256": "b80c5b99512dfc309c0f9de301361b9633d42be6e5cdd36c8d2a49457d3d06f0",
+     "signature": "FeeAdjustment(uint24,uint24)",
+     "topic0": "0x0cba87189055d3b5ab05c96fbd641bc766576c9e7cf0d195bdfb58a0c6a6df24"
+    },
+    "flash": {
+     "count": 0,
+     "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "signature": "Flash(address,address,uint256,uint256,uint256,uint256)",
+     "topic0": "0xbdbdb71d7860376ba52b25a5028beea23581364a40522f6bcfb86bb1f2dca633"
+    },
+    "init": {
+     "count": 1,
+     "sha256": "20e19ac3f827b5a45d1e8b51194167543c706d3bf31c26cc2cace6f9d99f8171",
+     "signature": "Initialize(uint160,int24)",
+     "topic0": "0x98636036cb66a9c19a37435efc1e90142190214e8abeb821bdba3f2990dd4c95"
+    },
+    "mint": {
+     "count": 1446,
+     "sha256": "898c51437a99e91638b26acd9a79637b7cf12d26c6862bfc2a716d8053fd8b52",
+     "signature": "Mint(address,address,uint256,int24,int24,uint128,uint256,uint256)",
+     "topic0": "0xd78218c0d304e8893cb3200abe394bbc8d5b7804d9c51f236df9fdcf481d02d3"
+    },
+    "proto_a": {
+     "count": 0,
+     "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "signature": "SetFeeProtocol(uint8,uint8,uint8,uint8)",
+     "topic0": "0x973d8d92bb299f4af6ce49b52a8adb85ae46b9f214c4c4fc06ac77401237b133"
+    },
+    "proto_b": {
+     "count": 1,
+     "sha256": "30d356103070cca2a5dc5dc1492918339948468edbc04f31db6499b9807a95b4",
+     "signature": "SetFeeProtocol(uint24,uint24)",
+     "topic0": "0x67a069e4d951485f3e494a1edfa67d7334e991e8514ba748fd1636270acd1c97"
+    },
+    "proto_c": {
+     "count": 0,
+     "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "signature": "SetFeeProtocol(uint24)",
+     "topic0": "0x8f517a34947cf2fca464c6548f5250e5a5693f78cd46052cde6e4cf65e60e527"
+    },
+    "setfee": {
+     "count": 0,
+     "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "signature": "SetFee(uint24,uint24)",
+     "topic0": "0x0eb63f4a36d6bdeee05aa00020a97d80c3e84f1b5b3ebf345fb67262e62b0f33"
+    },
+    "swap": {
+     "count": 331494,
+     "sha256": "fcdf929f7bbd4cbe8fea01f1e96f107d8d0628634245797b400441e3abcbcd18",
+     "signature": "Swap(address,address,int256,int256,uint160,uint128,int24)",
+     "topic0": "0xc42079f94a6350d7e6235f29174924f928cc2ac818eb64fed8004e115fbcca67"
+    }
+   },
+   "fromBlock": 0,
+   "pool": "0xdac1904D823F7d6bcAaF431ceEe40c934fEd321b",
+   "rawFileBytes": 250327300,
+   "toBlock": 104187711
+  },
+  "SPY": {
+   "dataset": {
+    "columns": [
+     "block",
+     "idx",
+     "ts",
+     "s_after",
+     "tick_after",
+     "L_after",
+     "in_tok",
+     "in_amt",
+     "fee_ppm",
+     "proto",
+     "a0",
+     "a1"
+    ],
+    "gridLimitBlock": null,
+    "sha256": "bf3afcba120331fcbe01a26ebfc290e28bbe13cce3ec347cc703965304a1fc11",
+    "swaps": 655414,
+    "swapsDroppedAfterGrid": null
+   },
+   "events": {
+    "burn": {
+     "count": 2107,
+     "sha256": "a636d7599cc80326ff6e3a9fe7de33f35bd21306a7102698496067d7f2f1ac30",
+     "signature": "Burn(address,int24,int24,uint128,uint256,uint256)",
+     "topic0": "0x0c396cd989a39f4459b5fa1aed6a9a8dcdbc45908acfd67e028cd568da98982c"
+    },
+    "collect": {
+     "count": 2028,
+     "sha256": "8eaa3c70ea1f93f387eb1c22c48a625f928750d64e153685d2fbf033faba471a",
+     "signature": "Collect(address,address,int24,int24,uint128,uint128)",
+     "topic0": "0x70935338e69775456a85ddef226c395fb668b63fa0115f5f20610b388e6ca9c0"
+    },
+    "collectproto": {
+     "count": 1149,
+     "sha256": "cda4170b969e6ca3ea5140259178f8f502cae3ff3e8996cf710763ff6fb375a2",
+     "signature": "CollectProtocol(address,address,uint128,uint128)",
+     "topic0": "0x596b573906218d3411850b26a6b437d6c4522fdb43d2d2386263f86d50b8b151"
+    },
+    "feeadj": {
+     "count": 503,
+     "sha256": "d89a13892b59becf92331adfc8c6763037acc15644f763c29aa92ba58272d344",
+     "signature": "FeeAdjustment(uint24,uint24)",
+     "topic0": "0x0cba87189055d3b5ab05c96fbd641bc766576c9e7cf0d195bdfb58a0c6a6df24"
+    },
+    "flash": {
+     "count": 1,
+     "sha256": "618b3813f8fa8089d5ad8c7ff9b97fa0d83312741c4ed285ba5d64d922417392",
+     "signature": "Flash(address,address,uint256,uint256,uint256,uint256)",
+     "topic0": "0xbdbdb71d7860376ba52b25a5028beea23581364a40522f6bcfb86bb1f2dca633"
+    },
+    "init": {
+     "count": 1,
+     "sha256": "6e8d91e195eebabdb6679582376f5607e4bf25b98ac23c850b93d147b181e801",
+     "signature": "Initialize(uint160,int24)",
+     "topic0": "0x98636036cb66a9c19a37435efc1e90142190214e8abeb821bdba3f2990dd4c95"
+    },
+    "mint": {
+     "count": 1942,
+     "sha256": "080ec3cc8f7154ad3390035382733126542d7c8277553003ce81db6cd5cdbdc4",
+     "signature": "Mint(address,address,uint256,int24,int24,uint128,uint256,uint256)",
+     "topic0": "0xd78218c0d304e8893cb3200abe394bbc8d5b7804d9c51f236df9fdcf481d02d3"
+    },
+    "proto_a": {
+     "count": 0,
+     "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "signature": "SetFeeProtocol(uint8,uint8,uint8,uint8)",
+     "topic0": "0x973d8d92bb299f4af6ce49b52a8adb85ae46b9f214c4c4fc06ac77401237b133"
+    },
+    "proto_b": {
+     "count": 1,
+     "sha256": "34328b087e6e550e35e8934c7af8a7ce0601c39b7cc02664aa3b4aaaa748b9fd",
+     "signature": "SetFeeProtocol(uint24,uint24)",
+     "topic0": "0x67a069e4d951485f3e494a1edfa67d7334e991e8514ba748fd1636270acd1c97"
+    },
+    "proto_c": {
+     "count": 0,
+     "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "signature": "SetFeeProtocol(uint24)",
+     "topic0": "0x8f517a34947cf2fca464c6548f5250e5a5693f78cd46052cde6e4cf65e60e527"
+    },
+    "setfee": {
+     "count": 0,
+     "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "signature": "SetFee(uint24,uint24)",
+     "topic0": "0x0eb63f4a36d6bdeee05aa00020a97d80c3e84f1b5b3ebf345fb67262e62b0f33"
+    },
+    "swap": {
+     "count": 655414,
+     "sha256": "150df59dc4d74c8e0fdda999238d503d07c42189b5d3a90bd7d27b887ebb40ed",
+     "signature": "Swap(address,address,int256,int256,uint160,uint128,int24)",
+     "topic0": "0xc42079f94a6350d7e6235f29174924f928cc2ac818eb64fed8004e115fbcca67"
+    }
+   },
+   "fromBlock": 0,
+   "pool": "0x38453c115607463ac284820ce959831042f3df4e",
+   "rawFileBytes": 490998623,
+   "toBlock": 104071867
+  }
+ },
+ "schema": "ramses-input-bundle",
+ "smallInputs": {
+  "answer_updated.json": {
+   "committedAt": "evidence/bundle/inputs/answer_updated.json",
+   "sha256": "5f8418d551407bc8483827574302bd37ef8fb115f5f8a8398d29ad28537bd0c0"
+  },
+  "gauge_notify.json": {
+   "committedAt": "evidence/bundle/inputs/gauge_notify.json",
+   "sha256": "cfd87e82d1e69c2034fa16a35b67c0cb83db7ea91333dca59fe7b830594b3ffd"
+  }
+ },
+ "version": 1
+}

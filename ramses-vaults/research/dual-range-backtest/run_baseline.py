@@ -22,24 +22,33 @@ from multiprocessing import Pool
 from bt_lib import *  # noqa: F401,F403  (load_dataset, E, RESULTS, session_of)
 import feasibility as FZ
 
+PROFILES = {
+    # name -> (capital, ranged cap or None = capital, label, output suffix)
+    "research": (10_000.0, None, "RESEARCH SCENARIO: $10,000 pair, ranged cap = capital (not a current cap)", ""),
+    "caps": (1_000.0, 50.0, "CURRENT CAPS: $1,000 pair, $50 ranged value (the existing caps named by the operator; $50 matches the live Uniswap vault's maxRangedValueUsd)", "_caps"),
+}
 CAPITAL = 10_000.0
+POLL_S = 300.0                    # the deployed Uniswap keeper polls every 300 s (INTERVAL_SECONDS); the Ramses keeper's cadence is an assumption
 RECENTER_GAS_USD = 0.0663        # measured per recenter, Uniswap vault keeper (proxy), PR #13 evidence r3
 RECENTER_GAS_CONSERVATIVE = 0.40  # the engine's earlier assumption
+MAINTENANCE_OBSERVED_AVG_USD_PER_DAY = 0.1428  # the same evidence's OBSERVED average (the keeper was out of gas for part of the window); lower bound for the assumption
 MAINTENANCE_USD_PER_DAY = 0.5737  # hourly checkpoint cadence the vault requires, same evidence; NOT modelled inside the engine
 RESERVE_BPS = 2000                # README fixture value (configuration, not an operator decision)
 LAST28_START = _dt.datetime(2026, 10, 5, tzinfo=_dt.timezone.utc).timestamp()
 
 
-def base_kwargs(pair: str, capital: float = CAPITAL) -> dict:
+def base_kwargs(pair: str, capital: float = CAPITAL, ranged=None) -> dict:
     return dict(capital_usd=capital, spacing=FZ.POOL_SPACING[pair], wide_half=0, core_weight=1.0, cooldown=3600.0, max_per_day=24,
                 loss_bps=10, rebalance=False, protocol_share=0.5, reserve_bps=RESERVE_BPS, ram_usd=0.0, gas_usd=RECENTER_GAS_USD,
-                max_ranged_usd=capital, max_stale=12 * 3600.0, block_sessions=("weekend", "holiday"))
+                max_ranged_usd=(capital if ranged is None else ranged), max_stale=12 * 3600.0, block_sessions=("weekend", "holiday"))
 
 
 # name -> (overrides, description). Every entry is validated against the contract before it runs.
 RUNS = {
     "single600_trig300": (dict(core_half=600, trigger_ticks=300), "BASELINE: +/-600 ticks (~6.2%), trigger 300 (the contract maximum for 600), 1 h cooldown, <=24/day"),
+    "single600_trig300_poll300": (dict(core_half=600, trigger_ticks=300, poll_s=POLL_S), "REALISTIC LATENCY: the keeper looks once per 300 s (the baseline rows react on every swap/oracle update, an idealised zero-latency upper bound)"),
     "single600_trig100": (dict(core_half=600, trigger_ticks=100), "sensitivity: trigger 100 (more frequent recentering)"),
+    "live1200_trig300_perday4": (dict(core_half=1200, trigger_ticks=300, max_per_day=4), "the live Uniswap vault's policy shape: +/-1200 ticks, trigger 300, at most 4 recenters per day"),
     "single1200_trig600": (dict(core_half=1200, trigger_ticks=600), "sensitivity: wider +/-1200 ticks (~12.7%), trigger 600"),
     "single600_trig300_noreserve": (dict(core_half=600, trigger_ticks=300, reserve_bps=0), "sensitivity: reserve cut 0 (shows what the 20% reserve costs holders)"),
     "single600_trig300_gas040": (dict(core_half=600, trigger_ticks=300, gas_usd=RECENTER_GAS_CONSERVATIVE), "sensitivity: engine's conservative $0.40 per recenter"),
@@ -51,9 +60,9 @@ RUNS = {
 _S: dict = {}
 
 
-def _init(pair):
+def _init(pair, ranged=None):
     ds, meta, _ = load_dataset(pair)
-    _S.update(ds=ds, pair=pair, meta=meta)
+    _S.update(ds=ds, pair=pair, meta=meta, ranged=ranged)
 
 
 def windows(ds):
@@ -69,10 +78,8 @@ def _run(job):
     lo, hi = win
     i0 = bisect.bisect_left(ds.ts, lo) if lo else 0
     i1 = bisect.bisect_left(ds.ts, hi) if hi else len(ds.ts)
-    kw = base_kwargs(pair, capital)
+    kw = base_kwargs(pair, capital, _S["ranged"])
     kw.update(over)
-    if "max_ranged_usd" not in over:
-        kw["max_ranged_usd"] = capital
     cfg = E.Config(name=name, **kw)
     feas = FZ.require_feasible(cfg, FZ.POOL_SPACING[pair])
     t = time.time()
@@ -86,6 +93,16 @@ def _run(job):
         "window_return_pct": r["ret_pct"], "window_hold_return_pct": r["hold_ret_pct"], "window_excess_pct": r["excess_pct"],
         "window_excess_after_maintenance_pct": r["excess_pct"] - maint / eq0 * 100.0,
         "annualised_excess_pct": r["excess_apr_pct"],
+        # ALL assumed costs: reserve cut and recenter gas are inside the run; maintenance is subtracted here. LVR is NOT subtracted from any
+        # return versus holding (LVR belongs to the separate fees-minus-LVR identity below).
+        "window_return_after_all_costs_pct": r["ret_pct"] - maint / eq0 * 100.0,
+        "window_hold_return_pct_": r["hold_ret_pct"],
+        "window_excess_after_all_costs_pct": r["excess_pct"] - maint / eq0 * 100.0,
+        "annualised_excess_after_all_costs_pct": (r["excess_pct"] - maint / eq0 * 100.0) * 365.0 / days,
+        "maintenance_observed_avg_usd": MAINTENANCE_OBSERVED_AVG_USD_PER_DAY * days,
+        "window_excess_after_all_costs_observed_maintenance_pct": r["excess_pct"] - MAINTENANCE_OBSERVED_AVG_USD_PER_DAY * days / eq0 * 100.0,
+        "annualised_excess_after_all_costs_observed_maintenance_pct": (r["excess_pct"] - MAINTENANCE_OBSERVED_AVG_USD_PER_DAY * days / eq0 * 100.0) * 365.0 / days,
+        "fees_minus_lvr_minus_gas_minus_maintenance_usd": r["fees_minus_lvr_minus_gas"] - maint,
         "annualised_excess_after_maintenance_pct": (r["excess_pct"] - maint / eq0 * 100.0) * 365.0 / days,
         "idle_frac_avg": 1.0 - r["deployed_frac_avg"],
         "fees_net_of_reserve_pct_of_capital": r["fees_usd"] / eq0 * 100.0,
@@ -114,19 +131,24 @@ def sha256_file(path):
 
 def main():
     pair = sys.argv[1]
-    if pair not in FZ.POOL_SPACING:
-        raise SystemExit("PAIR must be one of " + ", ".join(FZ.POOL_SPACING))
+    profile = sys.argv[2] if len(sys.argv) > 2 else "research"
+    if pair not in FZ.POOL_SPACING or profile not in PROFILES:
+        raise SystemExit("usage: run_baseline.py PAIR [research|caps]; PAIR in " + ", ".join(FZ.POOL_SPACING))
+    capital, ranged, label, suffix = PROFILES[profile]
     ds, meta, _ = load_dataset(pair)
     W = windows(ds)
     jobs = []
     for name, (over, _desc) in RUNS.items():
+        if profile == "caps" and name in ("single600_trig300_cap5k", "single600_trig300_noreserve", "single600_trig300_histshare", "single600_trig300_gas040"):
+            continue
         for wn, w in W.items():
-            jobs.append((name, wn, w, over, CAPITAL))
-    for cap in (1_000.0, 50_000.0):                      # dilution: our liquidity against the observed volume
-        jobs.append(("single600_trig300", "full", W["full"], RUNS["single600_trig300"][0], cap))
-        jobs.append(("full_range", "full", W["full"], RUNS["full_range"][0], cap))
+            jobs.append((name, wn, w, over, capital))
+    if profile == "research":
+        for cap in (1_000.0, 50_000.0):                  # dilution: our liquidity against the observed volume
+            jobs.append(("single600_trig300", "full", W["full"], RUNS["single600_trig300"][0], cap))
+            jobs.append(("full_range", "full", W["full"], RUNS["full_range"][0], cap))
     out = []
-    with Pool(4, initializer=_init, initargs=(pair,)) as pool:
+    with Pool(4, initializer=_init, initargs=(pair, ranged)) as pool:
         for res in pool.imap(_run, jobs):
             out.append(res)
             r = res["result"]
@@ -134,7 +156,7 @@ def main():
                 res["run"], res["window"], res["capital"], r["ret_pct"], r["hold_ret_pct"], r["excess_pct"], r["excess_apr_pct"], r["fees_usd"],
                 r["reserve_usd"], r["gas_usd"], r["recenters_core"], r["blocked"]), flush=True)
     doc = {
-        "schema": "ramses-baseline-1", "pair": pair, "spacing": FZ.POOL_SPACING[pair], "poolAddress": ADDR[pair]["pool"], "stockIsToken0": ADDR[pair]["stock_is_token0"],
+        "schema": "ramses-baseline-2", "profile": profile, "profileLabel": label, "capitalUsd": capital, "rangedCapUsd": (capital if ranged is None else ranged), "pair": pair, "spacing": FZ.POOL_SPACING[pair], "poolAddress": ADDR[pair]["pool"], "stockIsToken0": ADDR[pair]["stock_is_token0"],
         "command": "python3 " + " ".join(sys.argv), "python": platform.python_version(), "generated": _dt.datetime.now(_dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "dataset": {"file": f"results/dataset_{pair}.pkl", "sha256": sha256_file(RESULTS / f"dataset_{pair}.pkl"), "swaps": meta["n_swaps"], "poolHeadBlock": meta["head"],
                     "glitchSwapsDropped": len(meta.get("glitch_swaps_dropped", [])), "timeIndexError": meta.get("time_index_error"),
@@ -142,10 +164,11 @@ def main():
         "inputs": {f: sha256_file(RESULTS / f) for f in ("answer_updated.json", "gauge_notify.json")},
         "code": {f: sha256_file(HERE / f) for f in ("engine.py", "feasibility.py", "run_baseline.py", "bt_lib.py")},
         "assumptions": {
-            "capitalUsd": CAPITAL, "recenterGasUsd": RECENTER_GAS_USD, "maintenanceUsdPerDay": MAINTENANCE_USD_PER_DAY,
+            "capitalUsd": capital, "recenterGasUsd": RECENTER_GAS_USD, "maintenanceUsdPerDay": MAINTENANCE_USD_PER_DAY, "maintenanceObservedAvgUsdPerDay": MAINTENANCE_OBSERVED_AVG_USD_PER_DAY,
             "gasSource": "Uniswap vault keeper measured costs used as a PROXY (PR #13 evidence r3: $0.0663 per recenter, $0.5737/day hourly checkpoint cadence); not Ramses vault measurements",
             "reserveBps": RESERVE_BPS, "reserveSource": "ramses-vaults/README.md fixture value (20%); configuration, not decided", "ramValuedAtZero": True,
             "protocolShare": "0.5 (fork-measured, fork-final.log) unless a run says histshare",
+            "keeperLatency": "baseline rows evaluate on every swap and oracle update (zero latency); *_poll300 rows look once per 300 s; transaction inclusion delay (a second or less on this L2) is not modelled; any faster-than-300 s keeper is hypothetical",
             "guard": "max_stale 12 h; weekend and holiday sessions block recentering; 150 bp pool-vs-oracle allocation gate; per-recenter loss bound 10 bp",
             "unmodelled": "dividends/uiMultiplier, _requireBandCoversGate, integer oracle tick, settlement swaps, borrow demand, RAM holder entitlement",
         },
@@ -153,8 +176,8 @@ def main():
         "runs": {k: v[1] for k, v in RUNS.items()},
         "results": out,
     }
-    (RESULTS / f"baseline_{pair}.json").write_text(json.dumps(doc, indent=1))
-    print("wrote", RESULTS / f"baseline_{pair}.json")
+    (RESULTS / f"baseline_{pair}{suffix}.json").write_text(json.dumps(doc, indent=1))
+    print("wrote", RESULTS / f"baseline_{pair}{suffix}.json")
 
 
 if __name__ == "__main__":

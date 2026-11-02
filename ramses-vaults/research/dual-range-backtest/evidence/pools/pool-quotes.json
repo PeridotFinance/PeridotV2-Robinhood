@@ -1,0 +1,584 @@
+{
+ "schema": "ramses-pool-quotes-1",
+ "readOnly": true,
+ "generated": "2026-11-02T12:40:16Z",
+ "command": "python3 pool_quote.py",
+ "method": "local constant-liquidity pool math at one pinned block per pool; not router quotes",
+ "sizesUsd": [
+  50,
+  250,
+  1000,
+  5000,
+  10000,
+  50000
+ ],
+ "pools": {
+  "SPY/USDG CL1": {
+   "pool": "0x38453c115607463ac284820ce959831042f3df4e",
+   "pinL2Block": 104222297,
+   "pinHash": "0x6f115c167c5e45a5859ee564b504c9356a1974d05e936897ac1d443a18c56b38",
+   "pinTimestamp": 1793623215,
+   "pinNative": 26327156,
+   "token0": "0x117cc2133c37b721f49de2a7a74833232b3b4c0c",
+   "token1": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "dec0": 18,
+   "dec1": 6,
+   "tickSpacing": 1,
+   "fee_ppm": 100,
+   "slot0FeeProtocolRaw": 500000,
+   "liquidity": 373145833817211326,
+   "tick": -209991,
+   "usdgPerStock": 759.7410306229399,
+   "initializedTicksInWindow": 73,
+   "windowTicks": 500,
+   "volume24h": {
+    "swaps": 2003,
+    "usdgVolume": 960781.8338299997,
+    "fromBlock": 103532297,
+    "toBlock": 104222297
+   },
+   "costs": [
+    {
+     "sizeUsd": 50,
+     "buyCostBps": 1.0486040194024326,
+     "sellCostBps": 1.0486038958801291,
+     "buyExhaustedWindow": false,
+     "sellExhaustedWindow": false,
+     "roundTripBps": 2.097207915282562,
+     "feeOnlyBps": 1.0
+    },
+    {
+     "sizeUsd": 250,
+     "buyCostBps": 1.243013957814565,
+     "sellCostBps": 1.2430139643404559,
+     "buyExhaustedWindow": false,
+     "sellExhaustedWindow": false,
+     "roundTripBps": 2.4860279221550208,
+     "feeOnlyBps": 1.0
+    },
+    {
+     "sizeUsd": 1000,
+     "buyCostBps": 1.9719849319532745,
+     "sellCostBps": 1.9719849424715274,
+     "buyExhaustedWindow": false,
+     "sellExhaustedWindow": false,
+     "roundTripBps": 3.943969874424802,
+     "feeOnlyBps": 1.0
+    },
+    {
+     "sizeUsd": 5000,
+     "buyCostBps": 4.450878718340601,
+     "sellCostBps": 5.858035669172867,
+     "buyExhaustedWindow": false,
+     "sellExhaustedWindow": false,
+     "roundTripBps": 10.308914387513468,
+     "feeOnlyBps": 1.0
+    },
+    {
+     "sizeUsd": 10000,
+     "buyCostBps": 5.662036754150446,
+     "sellCostBps": 10.77848614356336,
+     "buyExhaustedWindow": false,
+     "sellExhaustedWindow": false,
+     "roundTripBps": 16.440522897713805,
+     "feeOnlyBps": 1.0
+    },
+    {
+     "sizeUsd": 50000,
+     "buyCostBps": 24.14268897548366,
+     "sellCostBps": 77.61956219760945,
+     "buyExhaustedWindow": false,
+     "sellExhaustedWindow": false,
+     "roundTripBps": 101.76225117309312,
+     "feeOnlyBps": 1.0
+    }
+   ],
+   "depth": [
+    {
+     "direction": "price_up_buy_stock",
+     "movePct": 1.0,
+     "inputUsd": 68431.06148689345
+    },
+    {
+     "direction": "price_up_buy_stock",
+     "movePct": 2.0,
+     "inputUsd": 113897.72384431672
+    },
+    {
+     "direction": "price_up_buy_stock",
+     "movePct": 5.0,
+     "inputUsd": 163787.3046976738
+    },
+    {
+     "direction": "price_down_sell_stock",
+     "movePct": 1.0,
+     "inputUsd": 32454.003913562636
+    },
+    {
+     "direction": "price_down_sell_stock",
+     "movePct": 2.0,
+     "inputUsd": 52329.92056551686
+    },
+    {
+     "direction": "price_down_sell_stock",
+     "movePct": 5.0,
+     "inputUsd": null,
+     "note": "target not reached inside the scanned window"
+    }
+   ]
+  },
+  "NVDA/USDG CL10": {
+   "pool": "0xdac1904d823f7d6bcaaf431ceee40c934fed321b",
+   "pinL2Block": 104222574,
+   "pinHash": "0x469f87d92e7edfd22e878619b30b1283841fad4d2bf246157f5130edb2be8d17",
+   "pinTimestamp": 1793623242,
+   "pinNative": 26327159,
+   "token0": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "token1": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
+   "dec0": 6,
+   "dec1": 18,
+   "tickSpacing": 10,
+   "fee_ppm": 100,
+   "slot0FeeProtocolRaw": 500000,
+   "liquidity": 50348504949926366,
+   "tick": 223007,
+   "usdgPerStock": 206.72440517004992,
+   "initializedTicksInWindow": 21,
+   "windowTicks": 800,
+   "volume24h": {
+    "swaps": 1249,
+    "usdgVolume": 102770.13328700009,
+    "fromBlock": 103532574,
+    "toBlock": 104222574
+   },
+   "costs": [
+    {
+     "sizeUsd": 50,
+     "buyCostBps": 1.6905111602549816,
+     "sellCostBps": 1.690511134136985,
+     "buyExhaustedWindow": false,
+     "sellExhaustedWindow": false,
+     "roundTripBps": 3.3810222943919666,
+     "feeOnlyBps": 1.0
+    },
+    {
+     "sizeUsd": 250,
+     "buyCostBps": 4.451602290805878,
+     "sellCostBps": 4.451602289574641,
+     "buyExhaustedWindow": false,
+     "sellExhaustedWindow": false,
+     "roundTripBps": 8.90320458038052,
+     "feeOnlyBps": 1.0
+    },
+    {
+     "sizeUsd": 1000,
+     "buyCostBps": 14.792126261727878,
+     "sellCostBps": 14.792126261504723,
+     "buyExhaustedWindow": false,
+     "sellExhaustedWindow": false,
+     "roundTripBps": 29.5842525232326,
+     "feeOnlyBps": 1.0
+    },
+    {
+     "sizeUsd": 5000,
+     "buyCostBps": 80.57637469200407,
+     "sellCostBps": 69.73411584619838,
+     "buyExhaustedWindow": false,
+     "sellExhaustedWindow": false,
+     "roundTripBps": 150.31049053820243,
+     "feeOnlyBps": 1.0
+    },
+    {
+     "sizeUsd": 10000,
+     "buyCostBps": 192.8772211848029,
+     "sellCostBps": 137.9792885903064,
+     "buyExhaustedWindow": false,
+     "sellExhaustedWindow": false,
+     "roundTripBps": 330.8565097751093,
+     "feeOnlyBps": 1.0
+    },
+    {
+     "sizeUsd": 50000,
+     "buyCostBps": null,
+     "sellCostBps": null,
+     "buyExhaustedWindow": true,
+     "sellExhaustedWindow": true,
+     "roundTripBps": null,
+     "feeOnlyBps": 1.0
+    }
+   ],
+   "depth": [
+    {
+     "direction": "price_up_buy_stock",
+     "movePct": 1.0,
+     "inputUsd": 3245.1311104830384
+    },
+    {
+     "direction": "price_up_buy_stock",
+     "movePct": 2.0,
+     "inputUsd": 5185.05469025451
+    },
+    {
+     "direction": "price_up_buy_stock",
+     "movePct": 5.0,
+     "inputUsd": 11749.490707638828
+    },
+    {
+     "direction": "price_down_sell_stock",
+     "movePct": 1.0,
+     "inputUsd": 3637.2373226761333
+    },
+    {
+     "direction": "price_down_sell_stock",
+     "movePct": 2.0,
+     "inputUsd": 7303.695069715164
+    },
+    {
+     "direction": "price_down_sell_stock",
+     "movePct": 5.0,
+     "inputUsd": 18398.498562871177
+    }
+   ]
+  },
+  "META/USDG CL50": {
+   "pool": "0x960f79d8dfec7f2f0c1b24cdac6bb9df1371c6e2",
+   "pinL2Block": 104222675,
+   "pinHash": "0x7dee23935ab83accdf55814c5a823522466ba9f5de7b401971b1d966f0188d16",
+   "pinTimestamp": 1793623253,
+   "pinNative": 26327159,
+   "token0": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "token1": "0xc0d6457c16cc70d6790dd43521c899c87ce02f35",
+   "dec0": 6,
+   "dec1": 18,
+   "tickSpacing": 50,
+   "fee_ppm": 150,
+   "slot0FeeProtocolRaw": 500000,
+   "liquidity": 11763304438456318,
+   "tick": 212168,
+   "usdgPerStock": 611.0832238774224,
+   "initializedTicksInWindow": 11,
+   "windowTicks": 1200,
+   "volume24h": {
+    "swaps": 465,
+    "usdgVolume": 26685.53522399999,
+    "fromBlock": 103532675,
+    "toBlock": 104222675
+   },
+   "costs": [
+    {
+     "sizeUsd": 50,
+     "buyCostBps": 3.2186424347158127,
+     "sellCostBps": 3.2186424369939903,
+     "buyExhaustedWindow": false,
+     "sellExhaustedWindow": false,
+     "roundTripBps": 6.437284871709803,
+     "feeOnlyBps": 1.5
+    },
+    {
+     "sizeUsd": 250,
+     "buyCostBps": 10.087307897892472,
+     "sellCostBps": 10.08730789882395,
+     "buyExhaustedWindow": false,
+     "sellExhaustedWindow": false,
+     "roundTripBps": 20.174615796716424,
+     "feeOnlyBps": 1.5
+    },
+    {
+     "sizeUsd": 1000,
+     "buyCostBps": 35.76095554150061,
+     "sellCostBps": 35.76095554216785,
+     "buyExhaustedWindow": false,
+     "sellExhaustedWindow": false,
+     "roundTripBps": 71.52191108366846,
+     "feeOnlyBps": 1.5
+    },
+    {
+     "sizeUsd": 5000,
+     "buyCostBps": 170.4614084042677,
+     "sellCostBps": null,
+     "buyExhaustedWindow": false,
+     "sellExhaustedWindow": true,
+     "roundTripBps": null,
+     "feeOnlyBps": 1.5
+    },
+    {
+     "sizeUsd": 10000,
+     "buyCostBps": 333.44167647418874,
+     "sellCostBps": null,
+     "buyExhaustedWindow": false,
+     "sellExhaustedWindow": true,
+     "roundTripBps": null,
+     "feeOnlyBps": 1.5
+    },
+    {
+     "sizeUsd": 50000,
+     "buyCostBps": null,
+     "sellCostBps": null,
+     "buyExhaustedWindow": true,
+     "sellExhaustedWindow": true,
+     "roundTripBps": null,
+     "feeOnlyBps": 1.5
+    }
+   ],
+   "depth": [
+    {
+     "direction": "price_up_buy_stock",
+     "movePct": 1.0,
+     "inputUsd": 1450.5521101242168
+    },
+    {
+     "direction": "price_up_buy_stock",
+     "movePct": 2.0,
+     "inputUsd": 2893.9404195709108
+    },
+    {
+     "direction": "price_up_buy_stock",
+     "movePct": 5.0,
+     "inputUsd": 7193.85731467768
+    },
+    {
+     "direction": "price_down_sell_stock",
+     "movePct": 1.0,
+     "inputUsd": 1465.1662427579186
+    },
+    {
+     "direction": "price_down_sell_stock",
+     "movePct": 2.0,
+     "inputUsd": 2711.7134284187464
+    },
+    {
+     "direction": "price_down_sell_stock",
+     "movePct": 5.0,
+     "inputUsd": 3527.6787108455906
+    }
+   ]
+  },
+  "GLD/USDG CL1": {
+   "pool": "0x9896af2f6fed9939acc87637b973b6484e6619d8",
+   "pinL2Block": 104222748,
+   "pinHash": "0xb555883d0d0247e64c772c24507a8766e870fc70eadf6e1f99d05245bfca0cf3",
+   "pinTimestamp": 1793623260,
+   "pinNative": 26327160,
+   "token0": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "token1": "0xc9a981fee1f9dec688bb123ccdecc63d0debfc4e",
+   "dec0": 6,
+   "dec1": 18,
+   "tickSpacing": 1,
+   "fee_ppm": 150,
+   "slot0FeeProtocolRaw": 500000,
+   "liquidity": 81582149802230393,
+   "tick": 217533,
+   "usdgPerStock": 357.37909269013096,
+   "initializedTicksInWindow": 9,
+   "windowTicks": 500,
+   "volume24h": {
+    "swaps": 702,
+    "usdgVolume": 104935.7800319999,
+    "fromBlock": 103532748,
+    "toBlock": 104222748
+   },
+   "costs": [
+    {
+     "sizeUsd": 50,
+     "buyCostBps": 1.8240902299138106,
+     "sellCostBps": 1.8240902308552798,
+     "buyExhaustedWindow": false,
+     "sellExhaustedWindow": false,
+     "roundTripBps": 3.6481804607690904,
+     "feeOnlyBps": 1.5
+    },
+    {
+     "sizeUsd": 250,
+     "buyCostBps": 3.1200235733364057,
+     "sellCostBps": 3.120240969538557,
+     "buyExhaustedWindow": false,
+     "sellExhaustedWindow": false,
+     "roundTripBps": 6.240264542874963,
+     "feeOnlyBps": 1.5
+    },
+    {
+     "sizeUsd": 1000,
+     "buyCostBps": 7.976126966998676,
+     "sellCostBps": 7.977814753100665,
+     "buyExhaustedWindow": false,
+     "sellExhaustedWindow": false,
+     "roundTripBps": 15.95394172009934,
+     "feeOnlyBps": 1.5
+    },
+    {
+     "sizeUsd": 5000,
+     "buyCostBps": 33.81748081728975,
+     "sellCostBps": 33.832407624895254,
+     "buyExhaustedWindow": false,
+     "sellExhaustedWindow": false,
+     "roundTripBps": 67.649888442185,
+     "feeOnlyBps": 1.5
+    },
+    {
+     "sizeUsd": 10000,
+     "buyCostBps": 65.96325156435378,
+     "sellCostBps": 65.9897397090059,
+     "buyExhaustedWindow": false,
+     "sellExhaustedWindow": false,
+     "roundTripBps": 131.9529912733597,
+     "feeOnlyBps": 1.5
+    },
+    {
+     "sizeUsd": 50000,
+     "buyCostBps": null,
+     "sellCostBps": null,
+     "buyExhaustedWindow": true,
+     "sellExhaustedWindow": true,
+     "roundTripBps": null,
+     "feeOnlyBps": 1.5
+    }
+   ],
+   "depth": [
+    {
+     "direction": "price_up_buy_stock",
+     "movePct": 1.0,
+     "inputUsd": 7684.447731389549
+    },
+    {
+     "direction": "price_up_buy_stock",
+     "movePct": 2.0,
+     "inputUsd": 15205.694170852315
+    },
+    {
+     "direction": "price_up_buy_stock",
+     "movePct": 5.0,
+     "inputUsd": 37721.371971681096
+    },
+    {
+     "direction": "price_down_sell_stock",
+     "movePct": 1.0,
+     "inputUsd": 7758.776586470391
+    },
+    {
+     "direction": "price_down_sell_stock",
+     "movePct": 2.0,
+     "inputUsd": 15565.901026804147
+    },
+    {
+     "direction": "price_down_sell_stock",
+     "movePct": 5.0,
+     "inputUsd": null,
+     "note": "target not reached inside the scanned window"
+    }
+   ]
+  },
+  "r33/USDG CL200": {
+   "pool": "0xc276b9a27ab1e60e32b581db6a23bb1fab0fc30b",
+   "pinL2Block": 104222825,
+   "pinHash": "0x2edcd24c88f572a512966e31da2665b233127b413c6c3c9fa8d9723a7e5da89a",
+   "pinTimestamp": 1793623268,
+   "pinNative": 26327160,
+   "token0": "0x4e5195469a0360f5dfe811730c9ccacff0a0feee",
+   "token1": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "dec0": 18,
+   "dec1": 6,
+   "tickSpacing": 200,
+   "fee_ppm": 20000,
+   "slot0FeeProtocolRaw": 50000,
+   "liquidity": 5491200628116413,
+   "tick": -306968,
+   "usdgPerStock": 0.046693781261625836,
+   "initializedTicksInWindow": 1,
+   "windowTicks": 1800,
+   "volume24h": {
+    "swaps": 3,
+    "usdgVolume": 27.969887,
+    "fromBlock": 103532825,
+    "toBlock": 104222825
+   },
+   "costs": [
+    {
+     "sizeUsd": 50,
+     "buyCostBps": 348.1277692324214,
+     "sellCostBps": 588.6435535984857,
+     "buyExhaustedWindow": false,
+     "sellExhaustedWindow": false,
+     "roundTripBps": 936.7713228309071,
+     "feeOnlyBps": 200.0
+    },
+    {
+     "sizeUsd": 250,
+     "buyCostBps": 375.22626090318533,
+     "sellCostBps": null,
+     "buyExhaustedWindow": false,
+     "sellExhaustedWindow": true,
+     "roundTripBps": null,
+     "feeOnlyBps": 200.0
+    },
+    {
+     "sizeUsd": 1000,
+     "buyCostBps": 430.13426048823857,
+     "sellCostBps": null,
+     "buyExhaustedWindow": false,
+     "sellExhaustedWindow": true,
+     "roundTripBps": null,
+     "feeOnlyBps": 200.0
+    },
+    {
+     "sizeUsd": 5000,
+     "buyCostBps": 701.2263345180459,
+     "sellCostBps": null,
+     "buyExhaustedWindow": false,
+     "sellExhaustedWindow": true,
+     "roundTripBps": null,
+     "feeOnlyBps": 200.0
+    },
+    {
+     "sizeUsd": 10000,
+     "buyCostBps": 1018.5965144369635,
+     "sellCostBps": null,
+     "buyExhaustedWindow": false,
+     "sellExhaustedWindow": true,
+     "roundTripBps": null,
+     "feeOnlyBps": 200.0
+    },
+    {
+     "sizeUsd": 50000,
+     "buyCostBps": null,
+     "sellCostBps": null,
+     "buyExhaustedWindow": true,
+     "sellExhaustedWindow": true,
+     "roundTripBps": null,
+     "feeOnlyBps": 200.0
+    }
+   ],
+   "depth": [
+    {
+     "direction": "price_up_buy_stock",
+     "movePct": 1.0,
+     "inputUsd": 6.038917203285766
+    },
+    {
+     "direction": "price_up_buy_stock",
+     "movePct": 2.0,
+     "inputUsd": 222.18436991584105
+    },
+    {
+     "direction": "price_up_buy_stock",
+     "movePct": 5.0,
+     "inputUsd": 2218.705222986591
+    },
+    {
+     "direction": "price_down_sell_stock",
+     "movePct": 1.0,
+     "inputUsd": 6.09976348206104
+    },
+    {
+     "direction": "price_down_sell_stock",
+     "movePct": 2.0,
+     "inputUsd": 12.292654121512745
+    },
+    {
+     "direction": "price_down_sell_stock",
+     "movePct": 5.0,
+     "inputUsd": 31.454468895696113
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,12 @@
+== verify SPY (local dataset + committed inputs)
+  OK   local dataset
+  OK   committed input answer_updated.json
+  OK   committed input gauge_notify.json
+== verify NVDA (local dataset + committed inputs)
+  OK   local dataset
+  OK   committed input answer_updated.json
+  OK   committed input gauge_notify.json
+== verify GLD (local dataset + committed inputs)
+  OK   local dataset
+  OK   committed input answer_updated.json
+  OK   committed input gauge_notify.json

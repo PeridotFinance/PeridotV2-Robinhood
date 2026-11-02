@@ -50,39 +50,79 @@ class InfeasibleConfig(ValueError):
     pass
 
 
+U16, U32, U8, U128 = 2**16 - 1, 2**32 - 1, 2**8 - 1, 2**128 - 1
+MAX_RANGED_USD_E18 = U128 / 1e18  # maxRangedValueUsd is a uint128 holding USD * 1e18
+
+
+def _is_num(x) -> bool:
+    """A real, finite number (bool excluded). NaN and +/-inf are never valid policy inputs."""
+    import math
+    return isinstance(x, (int, float)) and not isinstance(x, bool) and math.isfinite(x)
+
+
+def _whole(x, lo, hi, what, out):
+    """Validate an unsigned integer field: finite, whole, within [lo, hi]. Returns the int or None (violation appended)."""
+    if not _is_num(x):
+        out.append(f"{what} {x!r} is not a finite number")
+        return None
+    if x != int(x):
+        out.append(f"{what} {x} is not a whole number")
+        return None
+    x = int(x)
+    if x < 0:
+        out.append(f"{what} {x} is negative (unsigned field)")
+        return None
+    if x > hi:
+        out.append(f"{what} {x} exceeds the field's maximum {hi}")
+        return None
+    return x
+
+
 def validate_policy(half: int, trigger: int, cooldown_s: float, max_per_day: int, loss_bps: float,
                     max_ranged_usd: float | None, spacing: int) -> list:
-    """Return every ``validatePolicy`` violation (empty list = the policy would be accepted on chain)."""
+    """Return every ``validatePolicy`` violation (empty list = the policy would be accepted on chain).
+
+    Types follow RangeTypes.RangePolicy (halfWidthTicks/triggerTicks/maxLossBps uint16, minInterval uint32, maxPerDay uint8,
+    maxRangedValueUsd uint128 of USD*1e18): negative, non-integer, non-finite (NaN/inf) and out-of-width values are rejected
+    before any rule is evaluated, so they can neither crash the check nor slip through a comparison."""
     v = []
-    if spacing <= 0:
-        return [f"tickSpacing {spacing} must be positive"]
-    if not (MIN_HALF_WIDTH_TICKS <= half <= MAX_HALF_WIDTH_TICKS):
-        v.append(f"halfWidthTicks {half} outside [{MIN_HALF_WIDTH_TICKS}, {MAX_HALF_WIDTH_TICKS}]")
-    if half % spacing != 0:
-        v.append(f"halfWidthTicks {half} is not a multiple of tickSpacing {spacing}")
+    if not _is_num(spacing) or spacing != int(spacing) or spacing <= 0:
+        return [f"tickSpacing {spacing!r} must be a positive whole number"]
+    spacing = int(spacing)
+    h = _whole(half, 0, U16, "halfWidthTicks", v)
+    t = None if trigger is None else _whole(trigger, 0, U16, "triggerTicks", v)
     if trigger is None:
         v.append("triggerTicks is not an explicit integer (legacy fractional trigger)")
-    else:
-        if trigger != int(trigger):
-            v.append(f"triggerTicks {trigger} is not an integer")
-        if trigger < spacing:
-            v.append(f"triggerTicks {trigger} < tickSpacing {spacing}")
-        if trigger > half // 2:
-            v.append(f"triggerTicks {trigger} > halfWidthTicks/2 = {half // 2}")
-        if trigger > 0xFFFF:
-            v.append("triggerTicks exceeds uint16")
-    if cooldown_s != int(cooldown_s):
-        v.append(f"minInterval {cooldown_s} s is not whole seconds (uint32)")
-    if cooldown_s < MIN_RECENTER_INTERVAL:
-        v.append(f"minInterval {cooldown_s:.0f} s < {MIN_RECENTER_INTERVAL} s (1 hour)")
-    if cooldown_s > MAX_RECENTER_INTERVAL:
-        v.append(f"minInterval {cooldown_s:.0f} s > 7 days")
-    if max_per_day != int(max_per_day) or max_per_day == 0 or max_per_day > MAX_PER_DAY_LIMIT:
-        v.append(f"maxPerDay {max_per_day} outside [1, {MAX_PER_DAY_LIMIT}]")
-    if loss_bps != int(loss_bps) or loss_bps < 0 or loss_bps > MAX_RECENTER_LOSS_BPS:
-        v.append(f"maxLossBps {loss_bps} outside integer [0, {MAX_RECENTER_LOSS_BPS}]")
-    if max_ranged_usd is None or not max_ranged_usd > 0:
-        v.append("maxRangedValueUsd must be set and > 0 (the engine's None means uncapped, which the contract cannot express)")
+    c = _whole(cooldown_s, 0, U32, "minInterval", v)
+    d = _whole(max_per_day, 0, U8, "maxPerDay", v)
+    lo = _whole(loss_bps, 0, U16, "maxLossBps", v)
+    if h is not None:
+        if not (MIN_HALF_WIDTH_TICKS <= h <= MAX_HALF_WIDTH_TICKS):
+            v.append(f"halfWidthTicks {h} outside [{MIN_HALF_WIDTH_TICKS}, {MAX_HALF_WIDTH_TICKS}]")
+        if h % spacing != 0:
+            v.append(f"halfWidthTicks {h} is not a multiple of tickSpacing {spacing}")
+    if t is not None:
+        if t < spacing:
+            v.append(f"triggerTicks {t} < tickSpacing {spacing}")
+        if h is not None and t > h // 2:
+            v.append(f"triggerTicks {t} > halfWidthTicks/2 = {h // 2}")
+    if c is not None:
+        if c < MIN_RECENTER_INTERVAL:
+            v.append(f"minInterval {c} s < {MIN_RECENTER_INTERVAL} s (1 hour)")
+        if c > MAX_RECENTER_INTERVAL:
+            v.append(f"minInterval {c} s > 7 days")
+    if d is not None and (d == 0 or d > MAX_PER_DAY_LIMIT):
+        v.append(f"maxPerDay {d} outside [1, {MAX_PER_DAY_LIMIT}]")
+    if lo is not None and lo > MAX_RECENTER_LOSS_BPS:
+        v.append(f"maxLossBps {lo} > {MAX_RECENTER_LOSS_BPS}")
+    if max_ranged_usd is None:
+        v.append("maxRangedValueUsd must be set (the engine's None means uncapped, which the contract cannot express)")
+    elif not _is_num(max_ranged_usd):
+        v.append(f"maxRangedValueUsd {max_ranged_usd!r} is not a finite number")
+    elif max_ranged_usd <= 0:
+        v.append(f"maxRangedValueUsd {max_ranged_usd} must be > 0")
+    elif max_ranged_usd > MAX_RANGED_USD_E18:
+        v.append(f"maxRangedValueUsd {max_ranged_usd} exceeds uint128 of USD*1e18")
     return v
 
 

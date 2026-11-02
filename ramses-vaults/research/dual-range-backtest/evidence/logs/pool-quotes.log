@@ -1,0 +1,36 @@
+SPY/USDG CL1 block 104222297 spacing 1 fee 100 ticks 73 vol24h 960782
+   $50     buy 1.0 sell 1.0
+   $250    buy 1.2 sell 1.2
+   $1000   buy 2.0 sell 2.0
+   $5000   buy 4.5 sell 5.9
+   $10000  buy 5.7 sell 10.8
+   $50000  buy 24.1 sell 77.6
+NVDA/USDG CL10 block 104222574 spacing 10 fee 100 ticks 21 vol24h 102770
+   $50     buy 1.7 sell 1.7
+   $250    buy 4.5 sell 4.5
+   $1000   buy 14.8 sell 14.8
+   $5000   buy 80.6 sell 69.7
+   $10000  buy 192.9 sell 138.0
+   $50000  buy None sell None
+META/USDG CL50 block 104222675 spacing 50 fee 150 ticks 11 vol24h 26686
+   $50     buy 3.2 sell 3.2
+   $250    buy 10.1 sell 10.1
+   $1000   buy 35.8 sell 35.8
+   $5000   buy 170.5 sell None
+   $10000  buy 333.4 sell None
+   $50000  buy None sell None
+GLD/USDG CL1 block 104222748 spacing 1 fee 150 ticks 9 vol24h 104936
+   $50     buy 1.8 sell 1.8
+   $250    buy 3.1 sell 3.1
+   $1000   buy 8.0 sell 8.0
+   $5000   buy 33.8 sell 33.8
+   $10000  buy 66.0 sell 66.0
+   $50000  buy None sell None
+r33/USDG CL200 block 104222825 spacing 200 fee 20000 ticks 1 vol24h 28
+   $50     buy 348.1 sell 588.6
+   $250    buy 375.2 sell None
+   $1000   buy 430.1 sell None
+   $5000   buy 701.2 sell None
+   $10000  buy 1018.6 sell None
+   $50000  buy None sell None
+wrote /Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/evidence/pools/pool-quotes.json

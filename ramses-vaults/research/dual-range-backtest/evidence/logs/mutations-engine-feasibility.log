@@ -18,6 +18,7 @@ KILLED   ranged-value cap ignored
 KILLED   reserve cut ignored
 KILLED   full range lower bound off by one (legacy)
 KILLED   full range upper bound off by one (legacy)
+KILLED   keeper polling ignored
 KILLED   F: min half-width not enforced
 KILLED   F: max half-width not enforced
 KILLED   F: spacing multiple not enforced
@@ -30,6 +31,11 @@ KILLED   F: rolling limit zero allowed
 KILLED   F: rolling limit ceiling not enforced
 KILLED   F: loss bound not enforced
 KILLED   F: cap > 0 not enforced
+KILLED   F: cap uint128 ceiling not enforced
+KILLED   F: negative values accepted
+KILLED   F: field width not enforced
+KILLED   F: non-finite numbers not rejected
+KILLED   F: bool accepted as a number
 KILLED   F: dual layers accepted
 KILLED   F: swap at recenter accepted
 KILLED   F: pool spacing mismatch accepted

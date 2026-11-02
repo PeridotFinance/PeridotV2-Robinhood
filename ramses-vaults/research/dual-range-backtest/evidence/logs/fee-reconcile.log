@@ -1,0 +1,6 @@
+SPY/USDG CL1 listed 100 events 503 distinct [70, 75, 80, 85, 90, 95, 100, 110] everEqualsListed True | matched 16 mismatches 0
+NVDA/USDG CL10 listed 100 events 1793 distinct [70, 75, 80, 85, 90, 95, 100, 110] everEqualsListed True | matched 18 mismatches 0
+META/USDG CL50 listed 150 events 71 distinct [50, 100, 150, 200, 220, 222, 250, 288] everEqualsListed True | matched 16 mismatches 0
+GLD/USDG CL1 listed 150 events 12 distinct [100, 150, 200, 220, 222, 250, 288, 333] everEqualsListed True | matched 16 mismatches 0
+r33/USDG CL200 listed 20000 events 0 distinct [20000] everEqualsListed True | matched 16 mismatches 0
+wrote /Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/evidence/fees/fee-reconciliation.json

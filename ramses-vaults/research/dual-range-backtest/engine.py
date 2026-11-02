@@ -150,6 +150,7 @@ class Config:
     min_tick: int = -887272
     max_tick: int = 887272
     max_ranged_usd: float | None = None  # RangePolicy.maxRangedValueUsd: cap on the ranged position's oracle value (None = uncapped, legacy)
+    poll_s: float = 0.0             # keeper polling interval: 0 = evaluate on every swap/oracle update (idealised, zero latency); >0 = at most once per interval
     reserve_bps: int = 0            # vault reserveFeeBps: share of collected LP fees that goes to the loss reserve, not to holders
 
 
@@ -224,6 +225,7 @@ class Sim:
         self.reb5050 = 0.0
         self._L_tp = 1e18
         self._retry_after = 0.0
+        self._last_poll = -1e18
         self._fee_ppm = 100.0
         self.swapped_usd = 0.0
         self.swaps = 0
@@ -492,6 +494,10 @@ class Sim:
         c = self.cfg
         if t < self._retry_after:
             return
+        if c.poll_s > 0:
+            if t - self._last_poll < c.poll_s:
+                return          # the keeper is not looking yet: no decision, no execution
+            self._last_poll = t
         p_raw, age = self.oracle_at(t)
         if p_raw is None:
             return
