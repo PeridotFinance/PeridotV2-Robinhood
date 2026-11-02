@@ -201,7 +201,7 @@ class Sim:
         self.ram = 0.0
         self.gas = 0.0
         self.recenters = {"core": 0, "wide": 0}
-        self.blocked = {"stale": 0, "session": 0, "gate": 0, "cooldown": 0, "budget": 0, "loss": 0}
+        self.blocked = {"stale": 0, "session": 0, "gate": 0, "cooldown": 0, "budget": 0, "loss": 0, "noliq": 0}
         self.recent: list = []
         self.in_range_s = {"core": 0.0, "wide": 0.0}
         self.tracked_s = 0.0
@@ -210,13 +210,14 @@ class Sim:
         self.recenter_log: list = []
         self.dep_sum = 0.0
         self._L_tp = 1e18
+        self._retry_after = 0.0
         self._fee_ppm = 100.0
         self.swapped_usd = 0.0
         self.swaps = 0
         self.dep_n = 0
         self._blk = None
         self._blk_t = 0.0
-        self.blocked_time = {"stale": 0.0, "session": 0.0, "gate": 0.0, "cooldown": 0.0, "budget": 0.0, "loss": 0.0}
+        self.blocked_time = {"stale": 0.0, "session": 0.0, "gate": 0.0, "cooldown": 0.0, "budget": 0.0, "loss": 0.0, "noliq": 0.0}
 
     # ---- oracle ---------------------------------------------------------------------------------------
     def oracle_at(self, t: float):
@@ -325,6 +326,8 @@ class Sim:
         L = self._L_tp
         fee = self._fee_ppm
         a0, a1 = self.idle0, self.idle1
+        if L <= 0:
+            return None  # no third-party liquidity at the current price: nothing to swap against
 
         def unit(s):
             # composition per unit of the weighted liquidity mix at sqrt price s (value-weighted by w)
@@ -384,7 +387,7 @@ class Sim:
         c = self.cfg
         s_ref = self.m.sqrt_for_usd(price_o)
         before = self._total_equity_oracle(s_ref, price_o)
-        snap = (self.idle0, self.idle1, self.fee0, self.fee1, {k: (v.lo, v.hi, v.L, v.center) for k, v in self.layers.items()})
+        snap = (self.idle0, self.idle1, self.fee0, self.fee1, {k: (v.lo, v.hi, v.L, v.center) for k, v in self.layers.items()}, self.swapped_usd, self.swaps)
         for n in names:
             self._remove(n, s_pool)
         w = self._targets(price_o)
@@ -392,12 +395,23 @@ class Sim:
         s_dep = s_pool
         if c.rebalance:
             s_dep = self._rebalance_swap([n for n in names if w[n] > 0], w, s_pool, price_o)
+            if s_dep is None:
+                self.idle0, self.idle1, self.fee0, self.fee1 = snap[0], snap[1], snap[2], snap[3]
+                for k, (lo, hi, L, ctr) in snap[4].items():
+                    v = self.layers[k]
+                    v.lo, v.hi, v.L, v.center = lo, hi, L, ctr
+                self.swapped_usd, self.swaps = snap[5], snap[6]
+                self._retry_after = t + 60.0
+                self.blocked["noliq"] += 1
+                return False
         for n in names:
             if w[n] > 0:
                 self._deploy(n, s_dep, price_o, w[n] * half_equity, s_ref)
         after = self._total_equity_oracle(s_ref, price_o)
         if after + before * c.loss_bps / 1e4 < before:
             self.idle0, self.idle1, self.fee0, self.fee1 = snap[0], snap[1], snap[2], snap[3]
+            self.swapped_usd, self.swaps = snap[5], snap[6]
+            self._retry_after = t + 60.0
             for k, (lo, hi, L, ctr) in snap[4].items():
                 v = self.layers[k]
                 v.lo, v.hi, v.L, v.center = lo, hi, L, ctr
@@ -461,6 +475,8 @@ class Sim:
 
     def _try_recenter(self, t: float, s_pool: float):
         c = self.cfg
+        if t < self._retry_after:
+            return
         p_raw, age = self.oracle_at(t)
         if p_raw is None:
             return
