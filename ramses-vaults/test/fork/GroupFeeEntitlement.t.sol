@@ -6,6 +6,10 @@ import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import { TickMath } from "@uniswap/v4-core/src/libraries/TickMath.sol";
 import { IRamsesPool, IRamsesNfp, IRamsesGauge } from "../../src/interfaces/IRamsesV3.sol";
 
+interface IBitmap {
+    function tickBitmap(int16 wordPosition) external view returns (uint256);
+}
+
 interface IFeeCollector {
     function collectProtocolFees(address pool) external;
     function treasury() external view returns (address);
@@ -21,14 +25,8 @@ contract GroupTrader {
         pool = p;
     }
 
-    function swapExactIn(bool zeroForOne, uint256 amountIn) external returns (int256 a0, int256 a1) {
-        (a0, a1) = pool.swap(
-            address(this),
-            zeroForOne,
-            int256(amountIn),
-            zeroForOne ? TickMath.MIN_SQRT_PRICE + 1 : TickMath.MAX_SQRT_PRICE - 1,
-            ""
-        );
+    function swapExactIn(bool zeroForOne, uint256 amountIn, uint160 limit) external returns (int256 a0, int256 a1) {
+        (a0, a1) = pool.swap(address(this), zeroForOne, int256(amountIn), limit, "");
     }
 
     function uniswapV3SwapCallback(int256 a, int256 b, bytes calldata) external {
@@ -143,6 +141,60 @@ abstract contract GroupFeeEntitlementBase is Test {
         amountIn = buyStock ? c.swapUsd * 1e6 : (c.swapUsd * 1e6 * 1e18 / p); // stock raw for the same USD
     }
 
+    /// @dev Nearest initialized ticks strictly below-or-at and strictly above the current tick, so the test can keep
+    /// every swap inside one liquidity region (no tick crossing): measured shares are then exact, not bounded.
+    function _bounds(int24 tick, int24 spacing) internal view returns (int24 lo, int24 hi) {
+        int24 comp = tick / spacing;
+        if (tick < 0 && tick % spacing != 0) comp--;
+        // search down (at or below comp)
+        int24 c = comp;
+        bool found;
+        for (uint256 i = 0; i < 64 && !found; i++) {
+            int16 word = int16(c >> 8);
+            uint8 bit = uint8(uint24(c) & 0xff);
+            uint256 mask = (type(uint256).max >> (255 - bit)); // bits 0..bit
+            uint256 masked = IBitmap(address(pool)).tickBitmap(word) & mask;
+            if (masked != 0) {
+                uint8 msb = _msb(masked);
+                lo = (int24(word) * 256 + int24(uint24(msb))) * spacing;
+                found = true;
+            } else {
+                c = int24(word) * 256 - 1;
+            }
+        }
+        require(found, "no initialized tick below");
+        // search up (strictly above comp)
+        c = comp + 1;
+        found = false;
+        for (uint256 i = 0; i < 64 && !found; i++) {
+            int16 word = int16(c >> 8);
+            uint8 bit = uint8(uint24(c) & 0xff);
+            uint256 mask = ~((uint256(1) << bit) - 1); // bits bit..255
+            uint256 masked = IBitmap(address(pool)).tickBitmap(word) & mask;
+            if (masked != 0) {
+                uint8 lsb = _lsb(masked);
+                hi = (int24(word) * 256 + int24(uint24(lsb))) * spacing;
+                found = true;
+            } else {
+                c = (int24(word) + 1) * 256;
+            }
+        }
+        require(found, "no initialized tick above");
+    }
+
+    function _msb(uint256 x) internal pure returns (uint8 r) {
+        for (uint256 i = 255; ; i--) {
+            if ((x >> i) & 1 == 1) return uint8(i);
+            if (i == 0) break;
+        }
+    }
+
+    function _lsb(uint256 x) internal pure returns (uint8 r) {
+        for (uint256 i = 0; i < 256; i++) {
+            if ((x >> i) & 1 == 1) return uint8(i);
+        }
+    }
+
     function _measure(uint256 nSwaps) internal returns (Result memory R) {
         Cfg memory c = cfg();
         (, int24 tick,,,,,) = pool.slot0();
@@ -162,13 +214,21 @@ abstract contract GroupFeeEntitlementBase is Test {
         uint256 bigUsdg = 1_000_000 * 1e6;
         deal(address(t0), address(trader), stockIs0 ? bigStock : bigUsdg);
         deal(address(t1), address(trader), stockIs0 ? bigUsdg : bigStock);
+        (, int24 tkNow,,,,,) = pool.slot0();
+        (int24 bLo, int24 bHi) = _bounds(tkNow, c.spacing);
+        emit log_named_int("swap region lower initialized tick", bLo);
+        emit log_named_int("swap region upper initialized tick", bHi);
+        emit log_named_int("current tick", tkNow);
+        // limits stay one price unit inside the initialized ticks, so no swap ever crosses a tick
+        uint160 limLo = TickMath.getSqrtPriceAtTick(bLo) + 1;
+        uint160 limHi = TickMath.getSqrtPriceAtTick(bHi) - 1;
         for (uint256 i = 0; i < nSwaps; i++) {
             (bool zfo, uint256 amt) = _swapPlan(i);
-            (int256 a0, int256 a1) = trader.swapExactIn(zfo, amt);
+            (int256 a0, int256 a1) = trader.swapExactIn(zfo, amt, zfo ? limLo : limHi);
             if (a0 > 0) R.gross0 += uint256(a0) * pool.fee() / 1_000_000;
             if (a1 > 0) R.gross1 += uint256(a1) * pool.fee() / 1_000_000;
             (, int24 tk,,,,,) = pool.slot0();
-            assertTrue(tk >= lowerCore && tk < upperCore, "price left the core range: reduce swapUsd");
+            assertTrue(tk >= lowerCore && tk < upperCore, "price left the core range");
             assertEq(uint256(pool.liquidity()), uint256(R.activeL), "tick crossed: active liquidity changed");
         }
         (uint128 p0b, uint128 p1b) = pool.protocolFees();
@@ -178,7 +238,7 @@ abstract contract GroupFeeEntitlementBase is Test {
 
     /// Fee entitlement: protocol share, LP share and what `collect` pays.
     function testFork_feeEntitlement() public {
-        Result memory R = _measure(6);
+        Result memory R = _measure(12);
         (,,,,, uint24 feeProto,) = pool.slot0();
         emit log_named_uint("fee ppm in force", pool.fee());
         emit log_named_uint("slot0.feeProtocol ppm", feeProto);
@@ -225,7 +285,7 @@ abstract contract GroupFeeEntitlementBase is Test {
         int24 spacing = cfg().spacing;
         int24 farLo = (tick0 / spacing) * spacing + 20 * spacing * 30;
         uint256 farId = _mintLayer(farLo, farLo + 100 * spacing, 1000);
-        Result memory R = _measure(6);
+        Result memory R = _measure(12);
         R; // swaps ran; fees accrue to the pool tokens, rewards accrue by time in range
         vm.warp(vm.getBlockTimestamp() + 3600);
         pool._advancePeriod();
@@ -268,7 +328,7 @@ abstract contract GroupFeeEntitlementBase is Test {
 
     /// Where the protocol share goes when someone collects it from the pool.
     function testFork_protocolShareDestination() public {
-        _measure(6);
+        _measure(12);
         IFeeCollector fc = IFeeCollector(FEE_COLLECTOR);
         address treasury = fc.treasury();
         emit log_named_address("feeCollector.treasury", treasury);
