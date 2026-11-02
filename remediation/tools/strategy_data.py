@@ -62,7 +62,10 @@ class Trade:
 
     @property
     def exec_price(self) -> float:
-        return abs(self.usd_in / self.stock_in) if self.stock_in else self.price
+        """Average execution price; falls back to the pool price for a dust swap with a zero leg."""
+        if self.stock_in and self.usd_in:
+            return abs(self.usd_in / self.stock_in)
+        return self.price
 
     @property
     def input_is_usd(self) -> bool:
@@ -141,11 +144,13 @@ def load_v4(rpc: Rpc, ti: TimeIndex, final: int, to: int, pool_id: str = V4_POOL
     return {"init": init, "swaps": swaps, "mods": mods}
 
 
-def v4_trades(raw: list, ti: TimeIndex | None) -> list[Trade]:
+def v4_trades(raw: list, ti: TimeIndex | None, lp_fee_ppm: int, ts_from_block: int = 0) -> list[Trade]:
+    """Trades with ``fee_ppm`` = the LP fee. The Swap event's own ``fee`` is the combined LP + protocol fee.
+    Timestamps are only resolved from ``ts_from_block`` on (earlier swaps keep ts = 0)."""
     out = []
     for l, a0, a1, sqrt, liq, tick, fee in raw:
-        ts = ti.ts(l["blockNumber"]) if ti else 0.0
-        out.append(_trade(l, ts, a0, a1, sqrt, liq, tick, fee, V4_STOCK_IS_TOKEN0))
+        ts = ti.ts(l["blockNumber"]) if (ti and l["blockNumber"] >= ts_from_block) else 0.0
+        out.append(_trade(l, ts, a0, a1, sqrt, liq, tick, lp_fee_ppm, V4_STOCK_IS_TOKEN0))
     return out
 
 
