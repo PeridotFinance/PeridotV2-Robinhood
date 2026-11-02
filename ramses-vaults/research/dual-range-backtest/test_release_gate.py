@@ -59,6 +59,67 @@ class ColdGate(unittest.TestCase):
         self.put("\n".join(l for l in fresh_log().splitlines() if "swap: 5 logs" not in l) + "\n")
         self.assertFalse(M.cold_ok("NVDA"))
 
+    # ---- exact stream names, not line counts
+    def swap_lines(self, text, kind):
+        pat = "(7s)" if kind == "fetch" else "OK   swap"
+        return [l for l in text.splitlines() if "swap: 5 logs" in l and (pat in l)]
+
+    def test_swap_fetch_replaced_by_a_duplicate_mint_fetch_fails(self):
+        text = fresh_log()
+        fetch_swap = self.swap_lines(text, "fetch")[0]
+        mint_fetch = next(l for l in text.splitlines() if "NVDA mint: 5 logs (7s)" in l)
+        self.put(text.replace(fetch_swap, mint_fetch))     # same number of fetch lines, but swap is missing and mint appears twice
+        self.assertEqual(sum(1 for l in (self.tmp / "evidence/logs/bundle-rebuild-NVDA.log").read_text().splitlines() if "(7s)" in l), 12)
+        self.assertFalse(M.cold_ok("NVDA"))
+
+    def test_swap_hash_line_replaced_by_a_duplicate_mint_hash_line_fails(self):
+        text = fresh_log()
+        hash_swap = self.swap_lines(text, "hash")[0]
+        mint_hash = next(l for l in text.splitlines() if l.strip() == "OK   mint: 5 logs")
+        self.put(text.replace(hash_swap, mint_hash))
+        self.assertFalse(M.cold_ok("NVDA"))
+
+    def test_extra_duplicate_lines_fail_even_when_every_required_stream_is_present(self):
+        text = fresh_log()
+        self.put(text + "  NVDA mint: 5 logs (7s)\n")
+        self.assertFalse(M.cold_ok("NVDA"))
+        self.put(text + "  OK   mint: 5 logs\n")
+        self.assertFalse(M.cold_ok("NVDA"))
+
+    def test_unknown_stream_name_fails(self):
+        text = fresh_log()
+        self.put(text.replace("NVDA flash: 5 logs (7s)", "NVDA other: 5 logs (7s)"))
+        self.assertFalse(M.cold_ok("NVDA"))
+        self.put(text.replace("  OK   flash: 5 logs", "  OK   other: 5 logs"))
+        self.assertFalse(M.cold_ok("NVDA"))
+
+    def test_small_inputs_must_each_appear_exactly_once(self):
+        text = fresh_log()
+        self.put(text.replace("  OK   committed input gauge_notify.json\n", ""))
+        self.assertFalse(M.cold_ok("NVDA"))
+        self.put(text + "  OK   committed input gauge_notify.json\n")
+        self.assertFalse(M.cold_ok("NVDA"))
+
+    def test_a_small_input_replaced_by_a_duplicate_of_the_other_fails(self):
+        text = fresh_log()
+        self.put(text.replace("  OK   committed input gauge_notify.json\n", "  OK   committed input answer_updated.json\n"))
+        self.assertFalse(M.cold_ok("NVDA"))
+
+    def test_the_dataset_line_must_appear_exactly_once(self):
+        text = fresh_log()
+        self.put(text + "  OK   dataset columns: 5 swaps\n")
+        self.assertFalse(M.cold_ok("NVDA"))
+        self.put(text.replace("  OK   dataset columns: 5 swaps\n", ""))
+        self.assertFalse(M.cold_ok("NVDA"))
+
+    def test_the_real_logs_pass_when_present(self):
+        real = Path(__file__).parent / "evidence" / "logs"
+        for pair in ("SPY", "GLD", "NVDA"):
+            f = real / f"bundle-rebuild-{pair}.log"
+            if f.exists():
+                self.put(f.read_text(), pair)
+                self.assertTrue(M.cold_ok(pair), pair)
+
     def test_traceback_fails(self):
         self.put(fresh_log() + "Traceback (most recent call last):\n")
         self.assertFalse(M.cold_ok("NVDA"))

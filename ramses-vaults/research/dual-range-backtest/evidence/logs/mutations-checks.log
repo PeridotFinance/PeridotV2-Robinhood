@@ -20,8 +20,12 @@ KILLED   snapshot file name not checked
 KILLED   forge log hash not checked
 KILLED   stored rows not compared with the log
 KILLED   row count not checked
-KILLED   cache-assisted second pass accepted as cold
-KILLED   fetch timings not required
-KILLED   failed dataset hash accepted
 KILLED   off-grid header anchors used for timestamps
+KILLED   fetch lines only counted, not named
+KILLED   hash lines only counted, not named
+KILLED   small inputs only counted, not named
+KILLED   duplicate dataset line accepted
+KILLED   cache-assisted second pass accepted as cold
+KILLED   a traceback in the log accepted
+KILLED   a FAIL line in the log accepted
 all mutations killed

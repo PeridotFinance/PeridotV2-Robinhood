@@ -1,0 +1,123 @@
+{
+ "SPY": {
+  "feed": "SPY",
+  "updates": 193,
+  "windowDays": 132.54175925925927,
+  "bySession": {
+   "regular": {
+    "hours": 611.0,
+    "staleHours": 158.75,
+    "staleShare": 0.25981996726677575
+   },
+   "overnight": {
+    "hours": 1633.0166666666667,
+    "staleHours": 529.7833333333333,
+    "staleShare": 0.32442004062012025
+   },
+   "weekend": {
+    "hours": 913.0,
+    "staleHours": 841.5166666666667,
+    "staleShare": 0.9217050018254838
+   },
+   "holiday": {
+    "hours": 24.0,
+    "staleHours": 20.016666666666666,
+    "staleShare": 0.8340277777777778
+   }
+  },
+  "overallStaleShare": 0.48728655932851656,
+  "tradingSessionsStaleShare": 0.3068307573473162,
+  "closuresStaleShare": 0.91945926716471,
+  "staleHoursPerWeek": 81.86451369973543,
+  "staleHoursPerWeekDuringTradingSessions": 36.36388531636779,
+  "staleHoursPerWeekDuringClosures": 45.50062838336764,
+  "episodes": {
+   "count": 104,
+   "medianHours": 11.658333333333333,
+   "maxHours": 68.81666666666666,
+   "beganInTradingSession": 87,
+   "beganInClosure": 17
+  }
+ },
+ "NVDA": {
+  "feed": "NVDA",
+  "updates": 1408,
+  "windowDays": 132.5546527777778,
+  "bySession": {
+   "regular": {
+    "hours": 611.0,
+    "staleHours": 6.5,
+    "staleShare": 0.010638297872340425
+   },
+   "overnight": {
+    "hours": 1633.3166666666666,
+    "staleHours": 81.01666666666667,
+    "staleShare": 0.049602546964764946
+   },
+   "weekend": {
+    "hours": 913.0,
+    "staleHours": 787.7833333333333,
+    "staleShare": 0.86285140562249
+   },
+   "holiday": {
+    "hours": 24.0,
+    "staleHours": 20.016666666666666,
+    "staleShare": 0.8340277777777778
+   }
+  },
+  "overallStaleShare": 0.28142959676025125,
+  "tradingSessionsStaleShare": 0.03899479425808895,
+  "closuresStaleShare": 0.8621131270010672,
+  "staleHoursPerWeek": 47.28024656496508,
+  "staleHoursPerWeekDuringTradingSessions": 4.621615717206791,
+  "staleHoursPerWeekDuringClosures": 42.65863084775828,
+  "episodes": {
+   "count": 38,
+   "medianHours": 23.575,
+   "maxHours": 66.25,
+   "beganInTradingSession": 20,
+   "beganInClosure": 18
+  }
+ },
+ "GLD": {
+  "feed": "GLD",
+  "updates": 111,
+  "windowDays": 42.879756944444445,
+  "bySession": {
+   "regular": {
+    "hours": 195.0,
+    "staleHours": 32.21666666666667,
+    "staleShare": 0.16521367521367522
+   },
+   "overnight": {
+    "hours": 525.1166666666667,
+    "staleHours": 123.06666666666666,
+    "staleShare": 0.2343606182753039
+   },
+   "weekend": {
+    "hours": 309.0,
+    "staleHours": 156.06666666666666,
+    "staleShare": 0.5050701186623516
+   },
+   "holiday": {
+    "hours": 0.0,
+    "staleHours": 0.0,
+    "staleShare": null
+   }
+  },
+  "overallStaleShare": 0.3025410141383387,
+  "tradingSessionsStaleShare": 0.21563635522021896,
+  "closuresStaleShare": 0.5050701186623516,
+  "staleHoursPerWeek": 50.82701384766997,
+  "staleHoursPerWeekDuringTradingSessions": 25.349568439523637,
+  "staleHoursPerWeekDuringClosures": 25.477445408146327,
+  "episodes": {
+   "count": 36,
+   "medianHours": 12.0,
+   "maxHours": 12.016666666666667,
+   "beganInTradingSession": 23,
+   "beganInClosure": 13
+  }
+ },
+ "note": "GLD's feed is labelled Crypto (24/7) by the directory, so its 'weekend' and 'holiday' rows are calendar labels, not closures of its market. Sessions use evidence_lib.session_of (US holidays through Feb 2027). The guard's 12 h bound is not relaxed by anything here."
+}

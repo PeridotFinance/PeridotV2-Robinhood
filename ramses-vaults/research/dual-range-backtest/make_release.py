@@ -94,16 +94,26 @@ def run(cmd, cwd, env=None, log=None):
 
 
 def cold_ok(pair):
-    """A cold-reconstruction log counts only if it is a FRESH fetch: every one of the 12 event streams shows a fetch time, all hashes (12 streams, 2 small
-    inputs, the dataset columns) are OK, nothing failed, and it is not marked as a cache-assisted second pass."""
+    """A cold-reconstruction log counts only if it is a COMPLETE FRESH run, judged by exact stream names rather than by counting lines:
+      * the fetch lines '<PAIR> <stream>: N logs (Ns)' name each of the 12 required streams exactly once (a duplicate or a substitution fails);
+      * the hash lines 'OK   <stream>: N logs' name each of the 12 required streams exactly once;
+      * each required small input has exactly one 'OK   ... input <name>' line;
+      * exactly one 'OK   dataset columns' line; no FAIL, no Traceback, no 'Second pass' marker."""
+    import collections
     import re
     f = HERE / "evidence" / "logs" / f"bundle-rebuild-{pair}.log"
     if not f.exists():
         return False
     txt = f.read_text()
-    fetched = len(re.findall(rf"{pair} \w+: \d+ logs \(\d+s\)", txt))
-    return ("FAIL" not in txt and "Traceback" not in txt and "Second pass" not in txt and fetched >= len(B.REQUIRED_EVENT_STREAMS)
-            and txt.count("  OK   ") >= len(B.REQUIRED_EVENT_STREAMS) + 3 and "OK   dataset columns" in txt)
+    if "FAIL" in txt or "Traceback" in txt or "Second pass" in txt:
+        return False
+    required = sorted(B.REQUIRED_EVENT_STREAMS)
+    fetched = sorted(re.findall(rf"^\s*{re.escape(pair)} (\w+): \d+ logs \(\d+s\)\s*$", txt, re.M))
+    hashed = sorted(re.findall(r"^\s*OK   (\w+): \d+ logs\s*$", txt, re.M))
+    small = sorted(re.findall(r"^\s*OK   (?:committed|required) input (\S+)\s*$", txt, re.M))
+    datasets = re.findall(r"^\s*OK   dataset columns: \d+ swaps\s*$", txt, re.M)
+    return (fetched == required and hashed == required and small == sorted(B.REQUIRED_SMALL_INPUTS) and len(datasets) == 1
+            and all(c == 1 for c in collections.Counter(fetched).values()))
 
 
 def main():
@@ -113,6 +123,8 @@ def main():
     ap.add_argument("--full", action="store_true", help="reproduce_offline.sh full (every baseline); default is the quick set")
     a = ap.parse_args()
     REL.mkdir(exist_ok=True)
+    for existing in REL.glob(f"ramses-research-inputs-*-{a.version}.tar.gz"):
+        raise SystemExit(f"{existing.name} already exists: a built version is never overwritten; use a new --version")
     ver = {"version": a.version, "started": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "steps": {}}
 
     # 1. local inputs verify
@@ -122,14 +134,14 @@ def main():
     ver["steps"]["localInputsVerifyAgainstManifest"] = rc == 0
     if rc:
         print("LOCAL INPUTS DO NOT VERIFY: refusing to build")
-        json.dump(ver, open(REL / "VERIFICATION.json", "w"), indent=1)
+        json.dump(ver, open(REL / f"VERIFICATION-{a.version}.json", "w"), indent=1)
         return 1
     if a.require_cold:
         cold = {p: cold_ok(p) for p in PAIRS}
         ver["steps"]["coldRebuildLogsAllHashesOk"] = cold
         if not all(cold.values()):
             print("COLD REBUILD NOT COMPLETE/OK for", [p for p, v in cold.items() if not v], ": refusing to build")
-            json.dump(ver, open(REL / "VERIFICATION.json", "w"), indent=1)
+            json.dump(ver, open(REL / f"VERIFICATION-{a.version}.json", "w"), indent=1)
             return 1
 
     commit, dirty = git_state()
@@ -168,7 +180,7 @@ def main():
         else:
             isolated, cmd, label = False, ["sh", "reproduce_offline.sh"] + (["full"] if a.full else []), "proxy-only (NOT network isolation): HTTP(S) proxies point at a dead port"
             ver["steps"]["networkIsolationProbe"] = {"passed": False, "method": "none available", "output": label}
-        code, secs, tail = run(cmd, pkg, env, REL / "offline-reproduction.log")
+        code, secs, tail = run(cmd, pkg, env, REL / f"offline-reproduction-{a.version}.log")
         ver["steps"]["offlineReproductionFromCoreArchive"] = {"passed": code == 0 and "REPRODUCED" in tail, "networkIsolated": bool(isolated), "isolation": label, "seconds": round(secs),
                                                               "mode": "full" if a.full else "quick", "tail": tail[-200:]}
     # 3. raw-log archive verifies against the manifest
@@ -185,20 +197,20 @@ def main():
         ver["steps"]["rawLogArchiveMatchesManifest"] = bool(ok)
 
     sums = {f.name: sha(f) for f in (core, raw)}
-    (REL / "SHA256SUMS").write_text("".join(f"{h}  {n}\n" for n, h in sums.items()))
+    (REL / f"SHA256SUMS-{a.version}").write_text("".join(f"{h}  {n}\n" for n, h in sums.items()))
     ver["archives"] = {n: {"sha256": h, "bytes": (REL / n).stat().st_size} for n, h in sums.items()}
     ver["allPassed"] = all(v if isinstance(v, bool) else (v.get("passed", all(v.values())) if isinstance(v, dict) else bool(v)) for v in ver["steps"].values())
-    (REL / "VERIFICATION.json").write_text(json.dumps(ver, indent=1))
-    (REL / "RELEASE-NOTES.txt").write_text(
+    (REL / f"VERIFICATION-{a.version}.json").write_text(json.dumps(ver, indent=1))
+    (REL / f"RELEASE-NOTES-{a.version}.txt").write_text(
         f"Ramses Phase 0 research inputs {a.version}\n"
         f"Built from git commit {commit} (working tree dirty at build: {dirty}).\n\n"
         "core archive: code, evidence, pinned pool-state inputs (the public RPC cannot serve these historical state reads again), JSON datasets, small inputs.\n"
         "  tar xzf ramses-research-inputs-core-%s.tar.gz && cd ramses-research-inputs-%s && sh reproduce_offline.sh   (no network needed)\n"
         "rawlogs archive: raw pool event logs; verify with python3 bundle.py verify PAIR --raw <extracted .json>.\n"
-        "Verify the downloads first: shasum -a 256 -c SHA256SUMS\n\n" % (a.version, a.version) + json.dumps(ver["steps"], indent=1) + "\n")
+        "Verify the downloads first: shasum -a 256 -c SHA256SUMS-%s\n\n" % (a.version, a.version, a.version) + json.dumps(ver["steps"], indent=1) + "\n")
     print(json.dumps({k: v for k, v in ver.items() if k != "steps"}, indent=1))
     print(json.dumps(ver["steps"], indent=1))
-    print("\nNOT PUBLISHED. After review, an operator-approved upload would be:\n  gh release create ramses-inputs-%s release/*.tar.gz release/SHA256SUMS --repo PeridotFinance/PeridotV2-Robinhood --draft --notes-file release/RELEASE-NOTES.txt" % a.version)
+    print("\nNOT PUBLISHED. After review, an operator-approved upload would be:\n  gh release create ramses-inputs-%s release/ramses-research-inputs-*-%s.tar.gz release/SHA256SUMS-%s --repo PeridotFinance/PeridotV2-Robinhood --draft --notes-file release/RELEASE-NOTES-%s.txt" % ((a.version,) * 4))
     return 0 if ver["allPassed"] else 1
 
 

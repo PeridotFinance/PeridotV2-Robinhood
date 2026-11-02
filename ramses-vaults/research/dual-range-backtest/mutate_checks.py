@@ -30,10 +30,14 @@ CASES = [
     ("verify_replays.py", "test_replay_check", "forge log hash not checked", "        if PQ.file_sha256(logp) != doc.get(\"forgeLogSha256\"):\n            errs.append(\"forge log sha256 differs from the recorded one\")", "        pass"),
     ("verify_replays.py", "test_replay_check", "stored rows not compared with the log", "        if RP.parse_rows(logp.read_text()) != doc.get(\"forkRows\"):\n            errs.append(\"stored fork rows differ from the rows in the forge log\")", "        pass"),
     ("verify_replays.py", "test_replay_check", "row count not checked", "    if len(doc.get(\"forkRows\", [])) != doc.get(\"expectedRowCount\"):\n        errs.append(\"row count differs from the expected count\")", "    pass"),
-    ("make_release.py", "test_release_gate", "cache-assisted second pass accepted as cold", ' and "Second pass" not in txt and', ' and'),
-    ("make_release.py", "test_release_gate", "fetch timings not required", "and fetched >= len(B.REQUIRED_EVENT_STREAMS)", "and True"),
-    ("make_release.py", "test_release_gate", "failed dataset hash accepted", "return (\"FAIL\" not in txt and ", "return (True and "),
     ("build_dataset.py", "test_dataset_grid", "off-grid header anchors used for timestamps", "    ti.grid = {k: v for k, v in ti.grid.items() if k % ti.step == 0}\n    ti._keys = None", "    pass"),
+    ("make_release.py", "test_release_gate", "fetch lines only counted, not named", "return (fetched == required and", "return (len(fetched) == len(required) and"),
+    ("make_release.py", "test_release_gate", "hash lines only counted, not named", "and hashed == required and", "and len(hashed) == len(required) and"),
+    ("make_release.py", "test_release_gate", "small inputs only counted, not named", "and small == sorted(B.REQUIRED_SMALL_INPUTS) and", "and len(small) == len(B.REQUIRED_SMALL_INPUTS) and"),
+    ("make_release.py", "test_release_gate", "duplicate dataset line accepted", "and len(datasets) == 1", "and len(datasets) >= 1"),
+    ("make_release.py", "test_release_gate", "cache-assisted second pass accepted as cold", ' or "Second pass" in txt:', ':'),
+    ("make_release.py", "test_release_gate", "a traceback in the log accepted", ' or "Traceback" in txt or', ' or'),
+    ("make_release.py", "test_release_gate", "a FAIL line in the log accepted", 'if "FAIL" in txt or', 'if False or'),
 ]
 
 
