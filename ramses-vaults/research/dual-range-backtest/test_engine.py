@@ -242,6 +242,14 @@ class SimTests(unittest.TestCase):
         self.assertEqual(sim.recenters["core"], 0)
         self.assertGreater(sim.blocked["noliq"], 0)
 
+    def test_rebalanced_5050_benchmark_tracks_half_the_price_move(self):
+        prices = [100.0 + i * 0.05 for i in range(200)]
+        ds = make_dataset(prices, step=300.0)
+        sim = E.Sim(ds, self.cfg(full_range=True, wide_half=0, core_half=0, protocol_share=1.0, sample_s=300.0), always_open).run()
+        r = sim.result()
+        expected = 10_000 * (0.5 * (prices[-2] / prices[0] - 1))  # last sample is taken before the last swap
+        self.assertAlmostEqual(r["rebalanced_5050_pnl"], expected, delta=abs(expected) * 0.03 + 1.0)
+
     def test_il_nonnegative_without_fees(self):
         # round trip of the price with fees switched off: LP can not beat holding (no free lunch)
         up = [100.0 + i * 0.02 for i in range(100)]
