@@ -85,3 +85,32 @@ python3 -m unittest -v test_strategy_evidence
 
 These test failure handling and interpretation, using explicitly synthetic responses.
 They are not mainnet measurements and do not establish RPC data completeness.
+
+## Event-sourced analysis (works on the public RPC)
+
+The collector above needs an archive node. The public Robinhood RPC (`https://rpc.mainnet.chain.robinhood.com`)
+keeps only about 3,650 blocks (minutes) of historical state, so an `eth_call` at the rollout block fails there and the
+collector cannot run on it. The same endpoint serves **all historical logs**, so `strategy_analyze.py` rebuilds the
+history from events and then **validates the rebuild against state read at the window's end block**:
+
+```sh
+python3 remediation/tools/strategy_analyze.py --from-block 84107567 \
+  --out remediation/evidence/strategy-analysis/UNIQUE_RUN.json
+```
+
+- Read only. The RPC client has a method allowlist and refuses anything that could send a transaction.
+- `--to-block` defaults to head - 150 so state is still readable there. State reads (parameters and the validation
+  targets: vault ledger, balances, position, pool, markets, exchange rates, keeper wallet) run first, before the logs.
+- A failed read fails that section as `FAILED`; the run exits 2 if any section failed or the reconstruction does not match.
+- Timestamps come from block headers on a 10,000-block grid, linearly interpolated (the node reports `blockTimestamp = 0`
+  on logs and rejects batch requests); the measured interpolation error is written to the output.
+- Oracle times are exact (`updatedAt` from `AnswerUpdated`). Complete log windows are cached on disk.
+
+It covers the six Phase 1 analyses plus the per-token liquidity-policy evidence added in PR #12, and ends in a
+profitable-capacity sentence per venue and policy. The sentences come from a simplified single-range replay
+(`strategy_sim.py`), clearly labelled; Phase 2 must replay the contract's exact code paths.
+
+Limits stated up front: keeper waits and simulated reverts never reach the chain, so they cannot be counted without the
+keeper's own journal; reverted transactions cannot be itemised without an explorer or archive trace; rewards (RAM) are
+valued at zero; Ramses fee distribution to staked positions (gauge versus `collect`) is a fork-test question (handoff 01).
+Run `strategy_evidence.py` against an archive endpoint as an independent cross-check whenever one is available.
