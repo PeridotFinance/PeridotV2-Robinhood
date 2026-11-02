@@ -31,3 +31,7 @@ frontend/dist/
 
 # Stray local terminal capture
 /ran
+
+remediation/evidence/.strategy-cache/
+remediation/evidence/strategy-analysis/*.partial.json
+remediation/evidence/strategy-analysis/*.tmp
