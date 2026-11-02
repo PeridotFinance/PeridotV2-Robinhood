@@ -64,6 +64,25 @@ class GeometryTests(unittest.TestCase):
             self.assertAlmostEqual(m.usd_per_stock(s), 763.79, places=6)
 
 
+class SwapTests(unittest.TestCase):
+    def test_swap_roundtrip_costs_two_fees_plus_impact(self):
+        s, L = E.tick_sqrt(1000), 2e18
+        out, s1 = E.swap_in_pool(1e9, 1, s, L, 100.0)       # USDG in (token1)
+        back, s2 = E.swap_in_pool(out, 0, s1, L, 100.0)     # stock back (token0)
+        self.assertLess(back, 1e9)
+        self.assertGreater(back, 1e9 * (1 - 2e-4) * (1 - 1e-3))
+        self.assertGreater(s1, s)
+        self.assertTrue(abs(s2 - s) / s < 1e-3)
+
+    def test_zero_fee_swap_conserves_constant_liquidity_invariant(self):
+        s, L = E.tick_sqrt(-2000), 5e17
+        out, s1 = E.swap_in_pool(3e8, 1, s, L, 0.0)
+        x0, y0 = L / s, L * s
+        x1, y1 = L / s1, L * s1
+        self.assertTrue(math.isclose(x0 * y0, x1 * y1, rel_tol=1e-9))
+        self.assertTrue(math.isclose(x0 - x1, out, rel_tol=1e-5))
+
+
 class SimTests(unittest.TestCase):
     def cfg(self, **kw):
         base = dict(capital_usd=10_000.0, protocol_share=0.5, gas_usd=0.0, ram_usd=0.0, max_stale=12 * 3600.0, cooldown=900.0)
@@ -174,6 +193,22 @@ class SimTests(unittest.TestCase):
         usdg_idle = sim.idle1 if sim.m.stock_is_token0 else sim.idle0
         self.assertGreater(usdg_idle, 100e6, "unmatched USDG stays idle")
         self.assertLess(stock_idle / 1e18 * price, 1.0)
+
+    def test_rebalance_swap_redeploys_stranded_inventory(self):
+        prices = [100.0] * 5 + [103.0] * 40
+        t0 = 1_000_000.0
+        ds = make_dataset(prices, oracle_times=[t0 - 10, t0 + 45], oracle_prices=[100.0, 103.0])
+        plain = E.Sim(ds, self.cfg(wide_half=0, core_weight=1.0), always_open).run()
+        rebal = E.Sim(ds, self.cfg(wide_half=0, core_weight=1.0, rebalance=True), always_open).run()
+        self.assertEqual(rebal.recenters["core"], 1)
+        price = rebal.m.usd_per_stock(rebal.s_end)
+        def idle_frac(sim):
+            return sim.m.value(sim.idle0, sim.idle1, price) / sim.equity(sim.s_end, price)
+        self.assertGreater(idle_frac(plain), 0.5)
+        self.assertLess(idle_frac(rebal), 0.02)
+        self.assertGreater(rebal.swaps, 0)
+        # the swap costs a fee and a little impact only: equity within a few bps of the no-swap run
+        self.assertAlmostEqual(rebal.equity(rebal.s_end, price), plain.equity(plain.s_end, price), delta=0.003 * 10_000)
 
     def test_il_nonnegative_without_fees(self):
         # round trip of the price with fees switched off: LP can not beat holding (no free lunch)

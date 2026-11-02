@@ -50,6 +50,17 @@ def liquidity_for(a0: float, a1: float, s: float, lo: int, hi: int) -> float:
     return min(a0 / (1.0 / s - 1.0 / sb), a1 / (s - sa))
 
 
+def swap_in_pool(a_in: float, tok_in: int, s: float, L: float, fee_ppm: float):
+    """Constant-liquidity swap of ``a_in`` raw units of ``tok_in`` (gross of fee). Returns (a_out, s_new)."""
+    net = a_in * (1.0 - fee_ppm / 1e6)
+    if tok_in == 0:
+        inv = 1.0 / s + net / L
+        s_new = 1.0 / inv
+        return L * (s - s_new), s_new
+    s_new = s + net / L
+    return L * (1.0 / s - 1.0 / s_new), s_new
+
+
 # ------------------------------------------------------------------------------------------------ pool descriptor
 @dataclass
 class Market:
@@ -133,6 +144,7 @@ class Config:
     sample_s: float = 300.0
     spacing: int = 1
     block_sessions: tuple = ("weekend", "holiday")
+    rebalance: bool = False         # swap the imbalance through the pool at recenter so the whole idle value redeploys
     dilute: bool = True             # our liquidity dilutes the third-party share (fixed observed volume)
     min_tick: int = -887272
     max_tick: int = 887272
@@ -158,6 +170,23 @@ def new_range(center_tick: float, half: int, spacing: int) -> tuple[int, int]:
     return c - half, c + half + spacing
 
 
+def worst_window(ts, vs, window):
+    """Worst (most negative) change v[j]-max(v[i]) for i in the trailing window, exact via a monotonic deque."""
+    from collections import deque
+    dq = deque()
+    worst = 0.0
+    for j in range(len(ts)):
+        while dq and vs[dq[-1]] <= vs[j]:
+            dq.pop()
+        dq.append(j)
+        while ts[j] - ts[dq[0]] > window:
+            dq.popleft()
+        d = vs[j] - vs[dq[0]]
+        if d < worst:
+            worst = d
+    return worst
+
+
 # ------------------------------------------------------------------------------------------------ simulator
 class Sim:
     def __init__(self, ds: Dataset, cfg: Config, session_of, start_index: int = 0, end_index: int | None = None):
@@ -179,6 +208,15 @@ class Sim:
         self.series: list = []  # (t, equity, hold, bench)
         self.bench_pnl = 0.0
         self.recenter_log: list = []
+        self.dep_sum = 0.0
+        self._L_tp = 1e18
+        self._fee_ppm = 100.0
+        self.swapped_usd = 0.0
+        self.swaps = 0
+        self.dep_n = 0
+        self._blk = None
+        self._blk_t = 0.0
+        self.blocked_time = {"stale": 0.0, "session": 0.0, "gate": 0.0, "cooldown": 0.0, "budget": 0.0, "loss": 0.0}
 
     # ---- oracle ---------------------------------------------------------------------------------------
     def oracle_at(self, t: float):
@@ -264,6 +302,80 @@ class Sim:
             w = {"core": c.core_weight, "wide": 1.0 - c.core_weight}
         return w
 
+
+    def _layer_unit_ranges(self, names, price_o):
+        c = self.cfg
+        out = []
+        for n in names:
+            half = c.core_half if n == "core" else c.wide_half
+            out.append(new_range(self.m.tick_for_usd(price_o), half, c.spacing))
+        return out
+
+    def _rebalance_swap(self, names, w, s_pool: float, price_o: float) -> float:
+        """Swap the surplus token through the pool so the idle inventory matches what the new ranges need at the new
+        pool price. Cost = pool fee + price impact on the third-party liquidity (our own liquidity is removed).
+        Returns the pool sqrt price after the swap (used for the deployment); updates idle balances."""
+        if not names:
+            return s_pool
+        c = self.cfg
+        ranges = self._layer_unit_ranges(names, price_o)
+        wsum = sum(w[n] for n in names)
+        if wsum <= 0:
+            return s_pool
+        L = self._L_tp
+        fee = self._fee_ppm
+        a0, a1 = self.idle0, self.idle1
+
+        def unit(s):
+            # composition per unit of the weighted liquidity mix at sqrt price s (value-weighted by w)
+            X = Y = 0.0
+            for n, (lo, hi) in zip(names, ranges):
+                x, y = amounts(1.0, s, lo, hi)
+                # value of one unit of liquidity at price s, to weight layers by value share
+                X += x * w[n]
+                Y += y * w[n]
+            return X, Y
+
+        def state(delta, tok):
+            if delta <= 0:
+                return a0, a1, s_pool
+            out, s_new = swap_in_pool(delta, tok, s_pool, L, fee)
+            if tok == 0:
+                return a0 - delta, a1 + out, s_new
+            return a0 + out, a1 - delta, s_new
+
+        def g(delta, tok):
+            # the historical price path is replayed, so the pool price is assumed to revert to ``s_pool`` after our
+            # swap: its impact is paid (we trade at the worse average price) but the deployment composition is
+            # evaluated at the replayed price
+            b0, b1, _s_new = state(delta, tok)
+            X, Y = unit(s_pool)
+            if X <= 0 or Y <= 0:
+                return (0.0, s_pool)
+            return (b0 / X - b1 / Y, s_pool)   # >0: token0 in surplus
+
+        # Layer values are weighted by w, but liquidity per layer is scaled so each layer gets w_k of the value;
+        # the simple mix above is exact when all layers share the same composition ratio, a good approximation here.
+        g0, _ = g(0.0, 0)
+        tok = 0 if g0 > 0 else 1
+        hi_amt = (a0 if tok == 0 else a1)
+        lo_amt = 0.0
+        for _ in range(60):
+            mid = 0.5 * (lo_amt + hi_amt)
+            val, _ = g(mid, tok)
+            if (val > 0) == (tok == 0):
+                lo_amt = mid        # still surplus of the sold token: sell more
+            else:
+                hi_amt = mid
+        delta = 0.5 * (lo_amt + hi_amt)
+        if delta <= 0:
+            return s_pool
+        b0, b1, _s_new = state(delta, tok)
+        self.idle0, self.idle1 = b0, b1
+        self.swapped_usd += self.m.value(delta if tok == 0 else 0.0, delta if tok == 1 else 0.0, self.m.usd_per_stock(s_pool))
+        self.swaps += 1
+        return s_pool
+
     def _total_equity_oracle(self, s_ref: float, price_o: float) -> float:
         a0, a1 = self.holdings(s_ref)
         return self.m.value(a0, a1, price_o)
@@ -277,9 +389,12 @@ class Sim:
             self._remove(n, s_pool)
         w = self._targets(price_o)
         half_equity = before / 2.0
+        s_dep = s_pool
+        if c.rebalance:
+            s_dep = self._rebalance_swap([n for n in names if w[n] > 0], w, s_pool, price_o)
         for n in names:
             if w[n] > 0:
-                self._deploy(n, s_pool, price_o, w[n] * half_equity, s_ref)
+                self._deploy(n, s_dep, price_o, w[n] * half_equity, s_ref)
         after = self._total_equity_oracle(s_ref, price_o)
         if after + before * c.loss_bps / 1e4 < before:
             self.idle0, self.idle1, self.fee0, self.fee1 = snap[0], snap[1], snap[2], snap[3]
@@ -338,35 +453,53 @@ class Sim:
                 due.append("wide")
         return due
 
+    def _note_block(self, t: float, reason):
+        """Accumulate how long a due recenter has been waiting, by reason (time between consecutive evaluations)."""
+        if self._blk is not None:
+            self.blocked_time[self._blk] += t - self._blk_t
+        self._blk, self._blk_t = reason, t
+
     def _try_recenter(self, t: float, s_pool: float):
         c = self.cfg
-        price_o = self.oracle_fresh(t)
-        if price_o is None:
-            # distinguish only for reporting; due-evaluation needs a price anyway
+        p_raw, age = self.oracle_at(t)
+        if p_raw is None:
             return
-        tick_o = self.m.tick_for_usd(price_o)
-        due = self._due(t, tick_o, price_o)
+        tick_o = self.m.tick_for_usd(p_raw)
+        due = self._due(t, tick_o, p_raw)
         if not due:
+            self._note_block(t, None)
             return
+        if age > c.max_stale:
+            self.blocked["stale"] += 1
+            self._note_block(t, "stale")
+            return
+        if self.session_of(int(t)) in c.block_sessions:
+            self.blocked["session"] += 1
+            self._note_block(t, "session")
+            return
+        price_o = p_raw
         # pool within the allocation gate of the oracle (relative price difference)
         p_pool = self.m.usd_per_stock(s_pool)
         if abs(p_pool / price_o - 1.0) * 1e4 > c.gate_bps:
             self.blocked["gate"] += 1
+            self._note_block(t, "gate")
             return
         ready = [n for n in due if t - self.layers[n].last >= c.cooldown]
         if not ready:
             self.blocked["cooldown"] += 1
+            self._note_block(t, "cooldown")
             return
         cutoff = t - 86400.0
         self.recent = [x for x in self.recent if x > cutoff]
         if len(self.recent) + len(ready) > c.max_per_day:
-            # budget exhausted: take as many as fit, core first
             room = c.max_per_day - len(self.recent)
             if room <= 0:
                 self.blocked["budget"] += 1
+                self._note_block(t, "budget")
                 return
             ready = ready[:room]
-        self._recenter(ready, t, s_pool, price_o)
+        ok = self._recenter(ready, t, s_pool, price_o)
+        self._note_block(t, None if ok else "loss")
 
     # ---- fees -------------------------------------------------------------------------------------------
     def _accrue_swap(self, sa: float, sb: float, L_tp: float, in_tok: int, fee_ppm: float, proto: float):
@@ -480,12 +613,22 @@ class Sim:
                     self.bench_pnl += prev_q * (price - prev_price)
                 prev_q, prev_price = q_stock, price
                 hold = self.m.value(self.hold0, self.hold1, price)
+                dep0 = dep1 = 0.0
+                for ly in self.layers.values():
+                    if ly.L > 0:
+                        x0, x1 = amounts(ly.L, s_prev, ly.lo, ly.hi)
+                        dep0 += x0; dep1 += x1
+                tot_v = self.m.value(self.idle0 + self.fee0 + dep0, self.idle1 + self.fee1 + dep1, price)
+                if tot_v > 0:
+                    self.dep_sum += self.m.value(dep0, dep1, price) / tot_v
+                    self.dep_n += 1
                 self.series.append((next_sample, self.equity(s_prev, price), hold, self.bench_pnl))
                 next_sample += c.sample_s
             # apply the swap
             sb = s_after[j]
             self._accrue_swap(s_prev, sb, L_after[j], in_tok[j], fee_ppm[j], ds.proto[j] if ds.proto is not None else 0.5)
             s_prev, L_prev, t_prev = sb, L_after[j], tj
+            self._L_tp, self._fee_ppm = L_prev, fee_ppm[j]
             self._try_recenter(tj, s_prev)
         self.end_ts = t_prev
         self.s_end = s_prev
@@ -507,12 +650,32 @@ class Sim:
             "ret_pct": (eq / self.equity0 - 1) * 100, "hold_ret_pct": (hold / self.equity0 - 1) * 100,
             "excess_pct": (eq - hold) / self.equity0 * 100,
             "excess_apr_pct": (eq - hold) / self.equity0 * 100 * 365.0 / days,
-            "recenters_core": self.recenters["core"], "recenters_wide": self.recenters["wide"],
-            "recenters_per_day": (self.recenters["core"] + self.recenters["wide"]) / days,
-            "fees_usd": fees_usd, "gas_usd": self.gas, "ram_tokens": self.ram, "blocked": dict(self.blocked),
+            "deployed_frac_avg": self.dep_sum / self.dep_n if self.dep_n else 0.0, "recenters_core": self.recenters["core"], "recenters_wide": self.recenters["wide"],
+            "swapped_usd": self.swapped_usd, "swaps": self.swaps, "recenters_per_day": (self.recenters["core"] + self.recenters["wide"]) / days,
+            "fees_usd": fees_usd, "gas_usd": self.gas, "ram_tokens": self.ram, "blocked": dict(self.blocked), "blocked_days": {k: v / 86400.0 for k, v in self.blocked_time.items()},
             "in_range_core": self.in_range_s["core"] / self.tracked_s if self.tracked_s else 0.0,
             "in_range_wide": self.in_range_s["wide"] / self.tracked_s if self.tracked_s else 0.0,
         }
+        # --- ledger decomposition (explanatory; the ledger P&L above is authoritative) -------------------------
+        ram_val = self.ram * c.ram_usd
+        pos_pnl_ex_fees = (eq - self.equity0) - fees_usd + self.gas - ram_val
+        res["bench_pnl"] = self.bench_pnl
+        res["lvr_usd"] = self.bench_pnl - pos_pnl_ex_fees       # shortfall vs delta-matched rebalancing portfolio, before fees/rewards/gas
+        res["fees_minus_lvr_minus_gas"] = fees_usd - res["lvr_usd"] - self.gas
+        if self.series:
+            st_, eq_, ho_, _ = zip(*self.series)
+            diff = [e - h for e, h in zip(eq_, ho_)]
+            res["worst_week_excess_vs_hold_usd"] = worst_window(st_, diff, 7 * 86400.0)
+            res["worst_week_equity_change_usd"] = worst_window(st_, list(eq_), 7 * 86400.0)
+            peak = eq_[0]; mdd = 0.0
+            for e in eq_:
+                peak = max(peak, e); mdd = min(mdd, e / peak - 1)
+            res["max_drawdown_pct"] = mdd * 100
+            # time-weighted return from the 5-minute equity series (no external flows -> equals the simple return)
+            twr = 1.0
+            for a_, b_ in zip(eq_, eq_[1:]):
+                twr *= b_ / a_
+            res["twr_pct_series"] = (twr - 1) * 100
         if price_end_oracle:
             res["equity_end_oracle"] = m.value(a0, a1, price_end_oracle) + self.ram * c.ram_usd - self.gas
         return res
