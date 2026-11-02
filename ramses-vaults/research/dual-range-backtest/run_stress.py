@@ -1,8 +1,8 @@
 """Volatility stress: replay the real swap sequence (timing, volumes, liquidity) with the price path amplified by k around its start.
 
 s' = s0 * (s/s0)^k  and  oracle p' = p0 * (p/p0)^k  =>  every move is k times larger in log terms, so realised volatility is k times
-the sample's (SPY sample about 10 % annualised). Volumes are NOT increased, which makes this a pessimistic stress for fee income
-(real stress days also bring more volume). It is a sensitivity, not a forecast.
+the sample's (SPY sample about 10 % annualised). The model derives each swap's fee-bearing volume from third-party liquidity times the price-path length, so volume scales with the amplified
+path as well (fees rise with k); the number of swaps and their timing are unchanged. It is a sensitivity, not a forecast.
 
   python3 run_stress.py PAIR name1,name2,...
 """
