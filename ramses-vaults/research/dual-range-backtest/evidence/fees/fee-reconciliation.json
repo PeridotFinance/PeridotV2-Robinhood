@@ -1,21 +1,21 @@
 {
  "schema": "ramses-fee-reconciliation-1",
  "readOnly": true,
- "generated": "2026-11-02T12:47:29Z",
+ "generated": "2026-11-02T15:02:57Z",
  "command": "python3 fee_reconcile.py",
- "head": 104226580,
+ "head": 104306457,
  "gate": "NOT waived. This file reconciles numbers; whether a fee difference is acceptable, and any GLD activation, remain operator decisions.",
  "pools": {
   "SPY/USDG CL1": {
    "pool": "0x38453c115607463ac284820ce959831042f3df4e",
    "listedFeePpm": 100,
    "staticFeeNoAdjustmentEvents": false,
-   "feeAdjustmentEvents": 503,
+   "feeAdjustmentEvents": 508,
    "setFeeProtocolEvents": 1,
    "feeInitialBeforeFirstEvent": 100,
    "feeMinPpm": 70,
    "feeMaxPpm": 1000,
-   "feeLastEventPpm": 100,
+   "feeLastEventPpm": 150,
    "feeDistinctValues": [
     70,
     75,
@@ -53,99 +53,99 @@
     "mismatches": 0,
     "rows": [
      {
-      "block": 104223275,
-      "feeCall": 100,
-      "feeFromEvents": 100,
+      "block": 104303152,
+      "feeCall": 150,
+      "feeFromEvents": 150,
       "match": true
      },
      {
-      "block": 104223495,
-      "feeCall": 100,
-      "feeFromEvents": 100,
+      "block": 104303372,
+      "feeCall": 150,
+      "feeFromEvents": 150,
       "match": true
      },
      {
-      "block": 104223715,
-      "feeCall": 100,
-      "feeFromEvents": 100,
+      "block": 104303592,
+      "feeCall": 150,
+      "feeFromEvents": 150,
       "match": true
      },
      {
-      "block": 104223935,
-      "feeCall": 100,
-      "feeFromEvents": 100,
+      "block": 104303812,
+      "feeCall": 150,
+      "feeFromEvents": 150,
       "match": true
      },
      {
-      "block": 104224155,
-      "feeCall": 100,
-      "feeFromEvents": 100,
+      "block": 104304032,
+      "feeCall": 150,
+      "feeFromEvents": 150,
       "match": true
      },
      {
-      "block": 104224375,
-      "feeCall": 100,
-      "feeFromEvents": 100,
+      "block": 104304252,
+      "feeCall": 150,
+      "feeFromEvents": 150,
       "match": true
      },
      {
-      "block": 104224595,
-      "feeCall": 100,
-      "feeFromEvents": 100,
+      "block": 104304472,
+      "feeCall": 150,
+      "feeFromEvents": 150,
       "match": true
      },
      {
-      "block": 104224815,
-      "feeCall": 100,
-      "feeFromEvents": 100,
+      "block": 104304692,
+      "feeCall": 150,
+      "feeFromEvents": 150,
       "match": true
      },
      {
-      "block": 104225035,
-      "feeCall": 100,
-      "feeFromEvents": 100,
+      "block": 104304912,
+      "feeCall": 150,
+      "feeFromEvents": 150,
       "match": true
      },
      {
-      "block": 104225255,
-      "feeCall": 100,
-      "feeFromEvents": 100,
+      "block": 104305132,
+      "feeCall": 150,
+      "feeFromEvents": 150,
       "match": true
      },
      {
-      "block": 104225475,
-      "feeCall": 100,
-      "feeFromEvents": 100,
+      "block": 104305352,
+      "feeCall": 150,
+      "feeFromEvents": 150,
       "match": true
      },
      {
-      "block": 104225695,
-      "feeCall": 100,
-      "feeFromEvents": 100,
+      "block": 104305572,
+      "feeCall": 150,
+      "feeFromEvents": 150,
       "match": true
      },
      {
-      "block": 104225915,
-      "feeCall": 100,
-      "feeFromEvents": 100,
+      "block": 104305792,
+      "feeCall": 150,
+      "feeFromEvents": 150,
       "match": true
      },
      {
-      "block": 104226135,
-      "feeCall": 100,
-      "feeFromEvents": 100,
+      "block": 104306012,
+      "feeCall": 150,
+      "feeFromEvents": 150,
       "match": true
      },
      {
-      "block": 104226355,
-      "feeCall": 100,
-      "feeFromEvents": 100,
+      "block": 104306232,
+      "feeCall": 150,
+      "feeFromEvents": 150,
       "match": true
      },
      {
-      "block": 104226575,
-      "feeCall": 100,
-      "feeFromEvents": 100,
+      "block": 104306452,
+      "feeCall": 150,
+      "feeFromEvents": 150,
       "match": true
      }
     ],
@@ -153,31 +153,33 @@
    },
    "timeWeightedFee": {
     "24h": {
-     "100": 1.0
+     "100": 0.9914,
+     "125": 0.0021,
+     "150": 0.0065
     },
-    "24h_meanPpm": 100.0,
+    "24h_meanPpm": 100.38,
     "7d": {
-     "100": 0.801,
-     "125": 0.0022,
-     "150": 0.1906,
+     "100": 0.8061,
+     "125": 0.0025,
+     "150": 0.1852,
      "175": 0.0034,
      "200": 0.002,
      "250": 0.0003,
      "300": 0.0003,
      "1000": 0.0002
     },
-    "7d_meanPpm": 110.35,
+    "7d_meanPpm": 110.09,
     "30d": {
-     "100": 0.8342,
-     "125": 0.0015,
-     "150": 0.1621,
+     "100": 0.8339,
+     "125": 0.0016,
+     "150": 0.1623,
      "175": 0.0011,
      "200": 0.0007,
      "250": 0.0002,
      "300": 0.0001,
      "1000": 0.0001
     },
-    "30d_meanPpm": 108.47,
+    "30d_meanPpm": 108.49,
     "lastTimeInForce": {
      "70": "2026-09-28T17:14Z",
      "75": "2026-09-28T16:51Z",
@@ -185,13 +187,13 @@
      "85": "2026-09-28T16:47Z",
      "90": "2026-09-28T17:35Z",
      "95": "2026-09-28T17:31Z",
-     "100": "2026-11-02T12:19Z",
+     "100": "2026-11-02T14:30Z",
      "110": "2026-09-28T17:28Z",
      "120": "2026-09-28T17:25Z",
-     "125": "2026-10-30T20:05Z",
+     "125": "2026-11-02T13:46Z",
      "130": "2026-09-28T17:24Z",
      "140": "2026-09-28T17:21Z",
-     "150": "2026-10-30T20:03Z",
+     "150": "2026-11-02T14:35Z",
      "175": "2026-10-30T20:01Z",
      "200": "2026-10-30T19:57Z",
      "250": "2026-10-29T20:10Z",
@@ -199,40 +201,40 @@
      "465": "2026-09-24T10:03Z",
      "1000": "2026-10-29T20:06Z"
     },
-    "endBlock": 104210000,
-    "endIso": "2026-11-02T12:19:25Z"
+    "endBlock": 104290000,
+    "endIso": "2026-11-02T14:35:16Z"
    },
    "windowSplit": {
-    "fromBlock": 104223277,
-    "toBlock": 104226577,
-    "swapsInWindow": 31,
+    "fromBlock": 104303154,
+    "toBlock": 104306454,
+    "swapsInWindow": 37,
     "collectProtocolEventsInWindow": 0,
     "slot0FeeProtocolRaw": 500000,
-    "feeAtEnd": 100,
+    "feeAtEnd": 150,
     "perToken": [
      {
       "token": 0,
-      "grossSwapFeeRaw": 530897702742530.56,
-      "protocolShareRaw": 265448851371265.28,
-      "lpFeeRaw": 265448851371265.28,
-      "protocolFeesDeltaRaw": 265448851371265,
-      "protocolRatioActualOverPredicted": 0.9999999999999989,
-      "feeGrowthDeltaActual": 126072595644848407094328006417098267,
-      "feeGrowthDeltaPredictedAll": 1.2607259564484602e+35,
-      "feeGrowthDeltaPredictedSingleBand": 1.2607259564484602e+35,
-      "feeGrowthActualOverPredictedAll": 1.0000000000000189
+      "grossSwapFeeRaw": 1250105054215267.8,
+      "protocolShareRaw": 625052527107633.9,
+      "lpFeeRaw": 625052527107633.9,
+      "protocolFeesDeltaRaw": 625052527107634,
+      "protocolRatioActualOverPredicted": 1.0000000000000002,
+      "feeGrowthDeltaActual": 575455687910000050538691120601928128,
+      "feeGrowthDeltaPredictedAll": 5.754972909370726e+35,
+      "feeGrowthDeltaPredictedSingleBand": 5.293542848261186e+35,
+      "feeGrowthActualOverPredictedAll": 0.9999277094302134
      },
      {
       "token": 1,
-      "grossSwapFeeRaw": 805817.1334000002,
-      "protocolShareRaw": 402908.5667000001,
-      "lpFeeRaw": 402908.5667000001,
-      "protocolFeesDeltaRaw": 402910,
-      "protocolRatioActualOverPredicted": 1.000003557382787,
-      "feeGrowthDeltaActual": 250369596459415235420860670,
-      "feeGrowthDeltaPredictedAll": 2.4706955499840953e+26,
-      "feeGrowthDeltaPredictedSingleBand": 2.410232280243841e+26,
-      "feeGrowthActualOverPredictedAll": 1.0133567305005546
+      "grossSwapFeeRaw": 973234.57905,
+      "protocolShareRaw": 486617.289525,
+      "lpFeeRaw": 486617.289525,
+      "protocolFeesDeltaRaw": 486616,
+      "protocolRatioActualOverPredicted": 0.9999973500222296,
+      "feeGrowthDeltaActual": 448018835653548240189445756,
+      "feeGrowthDeltaPredictedAll": 4.479995141885766e+26,
+      "feeGrowthDeltaPredictedSingleBand": 3.849291715200802e+26,
+      "feeGrowthActualOverPredictedAll": 1.0000431283167943
      }
     ],
     "note": "predicted feeGrowth uses the liquidity reported by each Swap event (after the swap); band-crossing swaps make it approximate. protocolFees() is only comparable when no CollectProtocol event fell in the window."
@@ -321,12 +323,12 @@
    "pool": "0xdac1904d823f7d6bcaaf431ceee40c934fed321b",
    "listedFeePpm": 100,
    "staticFeeNoAdjustmentEvents": false,
-   "feeAdjustmentEvents": 1793,
+   "feeAdjustmentEvents": 1818,
    "setFeeProtocolEvents": 1,
    "feeInitialBeforeFirstEvent": 500,
    "feeMinPpm": 70,
    "feeMaxPpm": 2460,
-   "feeLastEventPpm": 150,
+   "feeLastEventPpm": 300,
    "feeDistinctValues": [
     70,
     75,
@@ -370,111 +372,111 @@
     "mismatches": 0,
     "rows": [
      {
-      "block": 104223275,
-      "feeCall": 100,
-      "feeFromEvents": 100,
+      "block": 104303152,
+      "feeCall": 1000,
+      "feeFromEvents": 1000,
       "match": true
      },
      {
-      "block": 104223495,
-      "feeCall": 100,
-      "feeFromEvents": 100,
+      "block": 104303372,
+      "feeCall": 1000,
+      "feeFromEvents": 1000,
       "match": true
      },
      {
-      "block": 104223715,
-      "feeCall": 100,
-      "feeFromEvents": 100,
+      "block": 104303592,
+      "feeCall": 1000,
+      "feeFromEvents": 1000,
       "match": true
      },
      {
-      "block": 104223935,
-      "feeCall": 100,
-      "feeFromEvents": 100,
+      "block": 104303812,
+      "feeCall": 1000,
+      "feeFromEvents": 1000,
       "match": true
      },
      {
-      "block": 104224155,
-      "feeCall": 100,
-      "feeFromEvents": 100,
+      "block": 104304032,
+      "feeCall": 1000,
+      "feeFromEvents": 1000,
       "match": true
      },
      {
-      "block": 104224375,
-      "feeCall": 100,
-      "feeFromEvents": 100,
+      "block": 104304252,
+      "feeCall": 1000,
+      "feeFromEvents": 1000,
       "match": true
      },
      {
-      "block": 104224595,
-      "feeCall": 100,
-      "feeFromEvents": 100,
+      "block": 104304472,
+      "feeCall": 1000,
+      "feeFromEvents": 1000,
       "match": true
      },
      {
-      "block": 104224815,
-      "feeCall": 100,
-      "feeFromEvents": 100,
+      "block": 104304692,
+      "feeCall": 1000,
+      "feeFromEvents": 1000,
       "match": true
      },
      {
-      "block": 104225035,
-      "feeCall": 100,
-      "feeFromEvents": 100,
+      "block": 104304833,
+      "feeCall": 1000,
+      "feeFromEvents": 1000,
       "match": true
      },
      {
-      "block": 104225255,
-      "feeCall": 100,
-      "feeFromEvents": 100,
+      "block": 104304834,
+      "feeCall": 300,
+      "feeFromEvents": 300,
       "match": true
      },
      {
-      "block": 104225475,
-      "feeCall": 100,
-      "feeFromEvents": 100,
+      "block": 104304912,
+      "feeCall": 300,
+      "feeFromEvents": 300,
       "match": true
      },
      {
-      "block": 104225594,
-      "feeCall": 100,
-      "feeFromEvents": 100,
+      "block": 104305132,
+      "feeCall": 300,
+      "feeFromEvents": 300,
       "match": true
      },
      {
-      "block": 104225595,
-      "feeCall": 150,
-      "feeFromEvents": 150,
+      "block": 104305352,
+      "feeCall": 300,
+      "feeFromEvents": 300,
       "match": true
      },
      {
-      "block": 104225695,
-      "feeCall": 150,
-      "feeFromEvents": 150,
+      "block": 104305572,
+      "feeCall": 300,
+      "feeFromEvents": 300,
       "match": true
      },
      {
-      "block": 104225915,
-      "feeCall": 150,
-      "feeFromEvents": 150,
+      "block": 104305792,
+      "feeCall": 300,
+      "feeFromEvents": 300,
       "match": true
      },
      {
-      "block": 104226135,
-      "feeCall": 150,
-      "feeFromEvents": 150,
+      "block": 104306012,
+      "feeCall": 300,
+      "feeFromEvents": 300,
       "match": true
      },
      {
-      "block": 104226355,
-      "feeCall": 150,
-      "feeFromEvents": 150,
+      "block": 104306232,
+      "feeCall": 300,
+      "feeFromEvents": 300,
       "match": true
      },
      {
-      "block": 104226575,
-      "feeCall": 150,
-      "feeFromEvents": 150,
+      "block": 104306452,
+      "feeCall": 300,
+      "feeFromEvents": 300,
       "match": true
      }
     ],
@@ -482,36 +484,37 @@
    },
    "timeWeightedFee": {
     "24h": {
-     "100": 0.9251,
-     "125": 0.0395,
-     "150": 0.0167,
-     "175": 0.0083,
-     "200": 0.0068,
-     "250": 0.0036
+     "100": 0.8969,
+     "125": 0.0503,
+     "150": 0.0214,
+     "175": 0.0118,
+     "200": 0.0096,
+     "250": 0.0078,
+     "1000": 0.0023
     },
-    "24h_meanPpm": 103.66,
+    "24h_meanPpm": 107.42,
     "7d": {
-     "100": 0.737,
-     "125": 0.0352,
-     "150": 0.1416,
-     "175": 0.024,
-     "200": 0.021,
-     "250": 0.0239,
-     "300": 0.0097,
-     "1000": 0.0075
+     "100": 0.7417,
+     "125": 0.0358,
+     "150": 0.1418,
+     "175": 0.0242,
+     "200": 0.0207,
+     "250": 0.0217,
+     "300": 0.0083,
+     "1000": 0.0058
     },
-    "7d_meanPpm": 124.16,
+    "7d_meanPpm": 122.02,
     "30d": {
-     "100": 0.7897,
-     "125": 0.0246,
-     "150": 0.1242,
-     "175": 0.0192,
-     "200": 0.0136,
-     "250": 0.0142,
+     "100": 0.7887,
+     "125": 0.025,
+     "150": 0.1244,
+     "175": 0.0193,
+     "200": 0.0137,
+     "250": 0.0144,
      "300": 0.0085,
-     "1000": 0.0059
+     "1000": 0.006
     },
-    "30d_meanPpm": 118.78,
+    "30d_meanPpm": 118.9,
     "lastTimeInForce": {
      "70": "2026-09-28T10:52Z",
      "75": "2026-09-28T11:02Z",
@@ -519,16 +522,16 @@
      "85": "2026-09-28T10:58Z",
      "90": "2026-09-28T10:56Z",
      "95": "2026-09-28T10:05Z",
-     "100": "2026-11-02T12:07Z",
+     "100": "2026-11-02T14:26Z",
      "110": "2026-09-28T17:00Z",
      "120": "2026-09-28T17:09Z",
-     "125": "2026-11-02T12:19Z",
+     "125": "2026-11-02T14:29Z",
      "130": "2026-09-28T17:35Z",
      "140": "2026-09-28T17:32Z",
-     "150": "2026-11-02T12:16Z",
-     "175": "2026-11-02T11:21Z",
-     "200": "2026-11-02T11:19Z",
-     "250": "2026-11-02T01:07Z",
+     "150": "2026-11-02T13:51Z",
+     "175": "2026-11-02T13:49Z",
+     "200": "2026-11-02T14:30Z",
+     "250": "2026-11-02T14:31Z",
      "300": "2026-10-30T20:01Z",
      "320": "2026-09-04T06:12Z",
      "465": "2026-09-24T10:03Z",
@@ -536,43 +539,43 @@
      "500": "2026-09-04T05:23Z",
      "620": "2026-09-05T19:00Z",
      "630": "2026-09-04T21:58Z",
-     "1000": "2026-10-30T19:59Z",
+     "1000": "2026-11-02T14:35Z",
      "2460": "2026-09-05T02:14Z"
     },
-    "endBlock": 104210000,
-    "endIso": "2026-11-02T12:19:25Z"
+    "endBlock": 104290000,
+    "endIso": "2026-11-02T14:35:16Z"
    },
    "windowSplit": {
-    "fromBlock": 104223277,
-    "toBlock": 104226577,
-    "swapsInWindow": 10,
+    "fromBlock": 104303154,
+    "toBlock": 104306454,
+    "swapsInWindow": 20,
     "collectProtocolEventsInWindow": 0,
     "slot0FeeProtocolRaw": 500000,
-    "feeAtEnd": 150,
+    "feeAtEnd": 300,
     "perToken": [
      {
       "token": 0,
-      "grossSwapFeeRaw": 91989.2717,
-      "protocolShareRaw": 45994.63585,
-      "lpFeeRaw": 45994.63585,
-      "protocolFeesDeltaRaw": 45994,
-      "protocolRatioActualOverPredicted": 0.9999861755618182,
-      "feeGrowthDeltaActual": 310892823807394137956492895,
-      "feeGrowthDeltaPredictedAll": 3.108565699869414e+26,
-      "feeGrowthDeltaPredictedSingleBand": 3.108565699869414e+26,
-      "feeGrowthActualOverPredictedAll": 1.000116625556456
+      "grossSwapFeeRaw": 673997.5691,
+      "protocolShareRaw": 336998.78455,
+      "lpFeeRaw": 336998.78455,
+      "protocolFeesDeltaRaw": 337000,
+      "protocolRatioActualOverPredicted": 1.0000036066895661,
+      "feeGrowthDeltaActual": 2273776703661992999540348365,
+      "feeGrowthDeltaPredictedAll": 2.27375500878985e+27,
+      "feeGrowthDeltaPredictedSingleBand": 2.0183727868688123e+27,
+      "feeGrowthActualOverPredictedAll": 1.0000095414290717
      },
      {
       "token": 1,
-      "grossSwapFeeRaw": 92455459835463.16,
-      "protocolShareRaw": 46227729917731.58,
-      "lpFeeRaw": 46227729917731.58,
-      "protocolFeesDeltaRaw": 46227729917732,
-      "protocolRatioActualOverPredicted": 1.000000000000009,
-      "feeGrowthDeltaActual": 312431945485418638783669663761387790,
-      "feeGrowthDeltaPredictedAll": 3.124319454854158e+35,
-      "feeGrowthDeltaPredictedSingleBand": 1.0661093606837583e+35,
-      "feeGrowthActualOverPredictedAll": 1.000000000000009
+      "grossSwapFeeRaw": 1021780784440605.2,
+      "protocolShareRaw": 510890392220302.6,
+      "lpFeeRaw": 510890392220302.6,
+      "protocolFeesDeltaRaw": 510890392220302,
+      "protocolRatioActualOverPredicted": 0.9999999999999988,
+      "feeGrowthDeltaActual": 3447014177824678676358262238346674966,
+      "feeGrowthDeltaPredictedAll": 3.447014177824649e+36,
+      "feeGrowthDeltaPredictedSingleBand": 3.447014177824649e+36,
+      "feeGrowthActualOverPredictedAll": 1.0000000000000087
      }
     ],
     "note": "predicted feeGrowth uses the liquidity reported by each Swap event (after the swap); band-crossing swaps make it approximate. protocolFees() is only comparable when no CollectProtocol event fell in the window."
@@ -710,97 +713,97 @@
     "mismatches": 0,
     "rows": [
      {
-      "block": 104223275,
+      "block": 104303152,
       "feeCall": 150,
       "feeFromEvents": 150,
       "match": true
      },
      {
-      "block": 104223495,
+      "block": 104303372,
       "feeCall": 150,
       "feeFromEvents": 150,
       "match": true
      },
      {
-      "block": 104223715,
+      "block": 104303592,
       "feeCall": 150,
       "feeFromEvents": 150,
       "match": true
      },
      {
-      "block": 104223935,
+      "block": 104303812,
       "feeCall": 150,
       "feeFromEvents": 150,
       "match": true
      },
      {
-      "block": 104224155,
+      "block": 104304032,
       "feeCall": 150,
       "feeFromEvents": 150,
       "match": true
      },
      {
-      "block": 104224375,
+      "block": 104304252,
       "feeCall": 150,
       "feeFromEvents": 150,
       "match": true
      },
      {
-      "block": 104224595,
+      "block": 104304472,
       "feeCall": 150,
       "feeFromEvents": 150,
       "match": true
      },
      {
-      "block": 104224815,
+      "block": 104304692,
       "feeCall": 150,
       "feeFromEvents": 150,
       "match": true
      },
      {
-      "block": 104225035,
+      "block": 104304912,
       "feeCall": 150,
       "feeFromEvents": 150,
       "match": true
      },
      {
-      "block": 104225255,
+      "block": 104305132,
       "feeCall": 150,
       "feeFromEvents": 150,
       "match": true
      },
      {
-      "block": 104225475,
+      "block": 104305352,
       "feeCall": 150,
       "feeFromEvents": 150,
       "match": true
      },
      {
-      "block": 104225695,
+      "block": 104305572,
       "feeCall": 150,
       "feeFromEvents": 150,
       "match": true
      },
      {
-      "block": 104225915,
+      "block": 104305792,
       "feeCall": 150,
       "feeFromEvents": 150,
       "match": true
      },
      {
-      "block": 104226135,
+      "block": 104306012,
       "feeCall": 150,
       "feeFromEvents": 150,
       "match": true
      },
      {
-      "block": 104226355,
+      "block": 104306232,
       "feeCall": 150,
       "feeFromEvents": 150,
       "match": true
      },
      {
-      "block": 104226575,
+      "block": 104306452,
       "feeCall": 150,
       "feeFromEvents": 150,
       "match": true
@@ -814,23 +817,23 @@
     },
     "24h_meanPpm": 150.0,
     "7d": {
-     "150": 0.9504,
-     "222": 0.0496
+     "150": 0.9639,
+     "222": 0.0361
     },
-    "7d_meanPpm": 153.57,
+    "7d_meanPpm": 152.6,
     "30d": {
-     "150": 0.2218,
+     "150": 0.2249,
      "220": 0.0001,
-     "222": 0.778,
+     "222": 0.7748,
      "300": 0.0001,
      "333": 0.0,
      "420": 0.0
     },
-    "30d_meanPpm": 206.05,
+    "30d_meanPpm": 205.83,
     "lastTimeInForce": {
      "50": "2026-09-17T04:38Z",
      "100": "2026-09-16T23:29Z",
-     "150": "2026-11-02T12:19Z",
+     "150": "2026-11-02T14:35Z",
      "200": "2026-09-16T08:47Z",
      "220": "2026-10-20T02:40Z",
      "222": "2026-10-26T20:39Z",
@@ -855,40 +858,40 @@
      "2500": "2026-09-16T05:41Z",
      "3000": "2026-09-08T04:17Z"
     },
-    "endBlock": 104210000,
-    "endIso": "2026-11-02T12:19:25Z"
+    "endBlock": 104290000,
+    "endIso": "2026-11-02T14:35:16Z"
    },
    "windowSplit": {
-    "fromBlock": 104223277,
-    "toBlock": 104226577,
-    "swapsInWindow": 1,
+    "fromBlock": 104303154,
+    "toBlock": 104306454,
+    "swapsInWindow": 28,
     "collectProtocolEventsInWindow": 0,
     "slot0FeeProtocolRaw": 500000,
     "feeAtEnd": 150,
     "perToken": [
      {
       "token": 0,
-      "grossSwapFeeRaw": 6366.267599999999,
-      "protocolShareRaw": 3183.1337999999996,
-      "lpFeeRaw": 3183.1337999999996,
-      "protocolFeesDeltaRaw": 3183,
-      "protocolRatioActualOverPredicted": 0.999957965951667,
-      "feeGrowthDeltaActual": 92104991581638338120076010,
-      "feeGrowthDeltaPredictedAll": 9.207993462695616e+25,
-      "feeGrowthDeltaPredictedSingleBand": 0.0,
-      "feeGrowthActualOverPredictedAll": 1.0002721217688053
+      "grossSwapFeeRaw": 118378.62029999998,
+      "protocolShareRaw": 59189.31014999999,
+      "lpFeeRaw": 59189.31014999999,
+      "protocolFeesDeltaRaw": 59190,
+      "protocolRatioActualOverPredicted": 1.0000116549761817,
+      "feeGrowthDeltaActual": 1712444417031057204823766004,
+      "feeGrowthDeltaPredictedAll": 1.7121936654236556e+27,
+      "feeGrowthDeltaPredictedSingleBand": 1.3372446588373315e+27,
+      "feeGrowthActualOverPredictedAll": 1.0001464504935775
      },
      {
       "token": 1,
-      "grossSwapFeeRaw": 0.0,
-      "protocolShareRaw": 0.0,
-      "lpFeeRaw": 0.0,
-      "protocolFeesDeltaRaw": 0,
-      "protocolRatioActualOverPredicted": null,
-      "feeGrowthDeltaActual": 0,
-      "feeGrowthDeltaPredictedAll": 0.0,
-      "feeGrowthDeltaPredictedSingleBand": 0.0,
-      "feeGrowthActualOverPredictedAll": null
+      "grossSwapFeeRaw": 160456005119879.44,
+      "protocolShareRaw": 80228002559939.72,
+      "lpFeeRaw": 80228002559939.72,
+      "protocolFeesDeltaRaw": 80228002559938,
+      "protocolRatioActualOverPredicted": 0.9999999999999786,
+      "feeGrowthDeltaActual": 2320787614150192616293306719785675370,
+      "feeGrowthDeltaPredictedAll": 2.3207872255381053e+36,
+      "feeGrowthDeltaPredictedSingleBand": 2.1586170650887266e+36,
+      "feeGrowthActualOverPredictedAll": 1.0000001674483914
      }
     ],
     "note": "predicted feeGrowth uses the liquidity reported by each Swap event (after the swap); band-crossing swaps make it approximate. protocolFees() is only comparable when no CollectProtocol event fell in the window."
@@ -932,97 +935,97 @@
     "mismatches": 0,
     "rows": [
      {
-      "block": 104223275,
+      "block": 104303152,
       "feeCall": 150,
       "feeFromEvents": 150,
       "match": true
      },
      {
-      "block": 104223495,
+      "block": 104303372,
       "feeCall": 150,
       "feeFromEvents": 150,
       "match": true
      },
      {
-      "block": 104223715,
+      "block": 104303592,
       "feeCall": 150,
       "feeFromEvents": 150,
       "match": true
      },
      {
-      "block": 104223935,
+      "block": 104303812,
       "feeCall": 150,
       "feeFromEvents": 150,
       "match": true
      },
      {
-      "block": 104224155,
+      "block": 104304032,
       "feeCall": 150,
       "feeFromEvents": 150,
       "match": true
      },
      {
-      "block": 104224375,
+      "block": 104304252,
       "feeCall": 150,
       "feeFromEvents": 150,
       "match": true
      },
      {
-      "block": 104224595,
+      "block": 104304472,
       "feeCall": 150,
       "feeFromEvents": 150,
       "match": true
      },
      {
-      "block": 104224815,
+      "block": 104304692,
       "feeCall": 150,
       "feeFromEvents": 150,
       "match": true
      },
      {
-      "block": 104225035,
+      "block": 104304912,
       "feeCall": 150,
       "feeFromEvents": 150,
       "match": true
      },
      {
-      "block": 104225255,
+      "block": 104305132,
       "feeCall": 150,
       "feeFromEvents": 150,
       "match": true
      },
      {
-      "block": 104225475,
+      "block": 104305352,
       "feeCall": 150,
       "feeFromEvents": 150,
       "match": true
      },
      {
-      "block": 104225695,
+      "block": 104305572,
       "feeCall": 150,
       "feeFromEvents": 150,
       "match": true
      },
      {
-      "block": 104225915,
+      "block": 104305792,
       "feeCall": 150,
       "feeFromEvents": 150,
       "match": true
      },
      {
-      "block": 104226135,
+      "block": 104306012,
       "feeCall": 150,
       "feeFromEvents": 150,
       "match": true
      },
      {
-      "block": 104226355,
+      "block": 104306232,
       "feeCall": 150,
       "feeFromEvents": 150,
       "match": true
      },
      {
-      "block": 104226575,
+      "block": 104306452,
       "feeCall": 150,
       "feeFromEvents": 150,
       "match": true
@@ -1036,20 +1039,20 @@
     },
     "24h_meanPpm": 150.0,
     "7d": {
-     "150": 0.9503,
-     "222": 0.0497
+     "150": 0.9638,
+     "222": 0.0362
     },
-    "7d_meanPpm": 153.58,
+    "7d_meanPpm": 152.6,
     "30d": {
-     "150": 0.2217,
+     "150": 0.2249,
      "220": 0.0001,
-     "222": 0.7782,
+     "222": 0.775,
      "420": 0.0
     },
-    "30d_meanPpm": 206.04,
+    "30d_meanPpm": 205.81,
     "lastTimeInForce": {
      "100": "2026-09-12T23:28Z",
-     "150": "2026-11-02T12:19Z",
+     "150": "2026-11-02T14:35Z",
      "200": "2026-09-13T02:30Z",
      "220": "2026-10-20T02:40Z",
      "222": "2026-10-26T20:39Z",
@@ -1059,40 +1062,40 @@
      "420": "2026-10-20T02:37Z",
      "444": "2026-09-23T20:03Z"
     },
-    "endBlock": 104210000,
-    "endIso": "2026-11-02T12:19:25Z"
+    "endBlock": 104290000,
+    "endIso": "2026-11-02T14:35:16Z"
    },
    "windowSplit": {
-    "fromBlock": 104223277,
-    "toBlock": 104226577,
-    "swapsInWindow": 6,
+    "fromBlock": 104303154,
+    "toBlock": 104306454,
+    "swapsInWindow": 13,
     "collectProtocolEventsInWindow": 0,
     "slot0FeeProtocolRaw": 500000,
     "feeAtEnd": 150,
     "perToken": [
      {
       "token": 0,
-      "grossSwapFeeRaw": 64822.0677,
-      "protocolShareRaw": 32411.03385,
-      "lpFeeRaw": 32411.03385,
-      "protocolFeesDeltaRaw": 32410,
-      "protocolRatioActualOverPredicted": 0.999968101912306,
-      "feeGrowthDeltaActual": 135169425186425919573650318,
-      "feeGrowthDeltaPredictedAll": 1.3515279225468588e+26,
-      "feeGrowthDeltaPredictedSingleBand": 1.171498865913001e+26,
-      "feeGrowthActualOverPredictedAll": 1.0001230676145314
+      "grossSwapFeeRaw": 71191.23134999999,
+      "protocolShareRaw": 35595.615674999994,
+      "lpFeeRaw": 35595.615674999994,
+      "protocolFeesDeltaRaw": 35596,
+      "protocolRatioActualOverPredicted": 1.0000107969757712,
+      "feeGrowthDeltaActual": 153147214253265878874846860,
+      "feeGrowthDeltaPredictedAll": 1.531534179881296e+26,
+      "feeGrowthDeltaPredictedSingleBand": 9.481897257864532e+25,
+      "feeGrowthActualOverPredictedAll": 0.9999594933306406
      },
      {
       "token": 1,
-      "grossSwapFeeRaw": 67098575242627.16,
-      "protocolShareRaw": 33549287621313.58,
-      "lpFeeRaw": 33549287621313.58,
-      "protocolFeesDeltaRaw": 33549287621314,
-      "protocolRatioActualOverPredicted": 1.0000000000000127,
-      "feeGrowthDeltaActual": 139900531578045429709820937434290754,
-      "feeGrowthDeltaPredictedAll": 1.3990053157804369e+35,
-      "feeGrowthDeltaPredictedSingleBand": 1.1167596245485635e+35,
-      "feeGrowthActualOverPredictedAll": 1.0000000000000124
+      "grossSwapFeeRaw": 449478700731842.0,
+      "protocolShareRaw": 224739350365921.0,
+      "lpFeeRaw": 224739350365921.0,
+      "protocolFeesDeltaRaw": 224739350365921,
+      "protocolRatioActualOverPredicted": 1.0,
+      "feeGrowthDeltaActual": 966752696701119254995833437710648231,
+      "feeGrowthDeltaPredictedAll": 9.667467593090815e+35,
+      "feeGrowthDeltaPredictedSingleBand": 8.745029244982837e+35,
+      "feeGrowthActualOverPredictedAll": 1.0000061416208337
      }
     ],
     "note": "predicted feeGrowth uses the liquidity reported by each Swap event (after the swap); band-crossing swaps make it approximate. protocolFees() is only comparable when no CollectProtocol event fell in the window."
@@ -1201,97 +1204,97 @@
     "mismatches": 0,
     "rows": [
      {
-      "block": 104223275,
+      "block": 104303152,
       "feeCall": 20000,
       "feeFromEvents": 20000,
       "match": true
      },
      {
-      "block": 104223495,
+      "block": 104303372,
       "feeCall": 20000,
       "feeFromEvents": 20000,
       "match": true
      },
      {
-      "block": 104223715,
+      "block": 104303592,
       "feeCall": 20000,
       "feeFromEvents": 20000,
       "match": true
      },
      {
-      "block": 104223935,
+      "block": 104303812,
       "feeCall": 20000,
       "feeFromEvents": 20000,
       "match": true
      },
      {
-      "block": 104224155,
+      "block": 104304032,
       "feeCall": 20000,
       "feeFromEvents": 20000,
       "match": true
      },
      {
-      "block": 104224375,
+      "block": 104304252,
       "feeCall": 20000,
       "feeFromEvents": 20000,
       "match": true
      },
      {
-      "block": 104224595,
+      "block": 104304472,
       "feeCall": 20000,
       "feeFromEvents": 20000,
       "match": true
      },
      {
-      "block": 104224815,
+      "block": 104304692,
       "feeCall": 20000,
       "feeFromEvents": 20000,
       "match": true
      },
      {
-      "block": 104225035,
+      "block": 104304912,
       "feeCall": 20000,
       "feeFromEvents": 20000,
       "match": true
      },
      {
-      "block": 104225255,
+      "block": 104305132,
       "feeCall": 20000,
       "feeFromEvents": 20000,
       "match": true
      },
      {
-      "block": 104225475,
+      "block": 104305352,
       "feeCall": 20000,
       "feeFromEvents": 20000,
       "match": true
      },
      {
-      "block": 104225695,
+      "block": 104305572,
       "feeCall": 20000,
       "feeFromEvents": 20000,
       "match": true
      },
      {
-      "block": 104225915,
+      "block": 104305792,
       "feeCall": 20000,
       "feeFromEvents": 20000,
       "match": true
      },
      {
-      "block": 104226135,
+      "block": 104306012,
       "feeCall": 20000,
       "feeFromEvents": 20000,
       "match": true
      },
      {
-      "block": 104226355,
+      "block": 104306232,
       "feeCall": 20000,
       "feeFromEvents": 20000,
       "match": true
      },
      {
-      "block": 104226575,
+      "block": 104306452,
       "feeCall": 20000,
       "feeFromEvents": 20000,
       "match": true
@@ -1313,18 +1316,195 @@
     },
     "30d_meanPpm": 20000.0,
     "lastTimeInForce": {
-     "20000": "2026-11-02T12:19Z"
+     "20000": "2026-11-02T14:35Z"
     },
-    "endBlock": 104210000,
-    "endIso": "2026-11-02T12:19:25Z"
+    "endBlock": 104290000,
+    "endIso": "2026-11-02T14:35:16Z"
    },
    "windowSplit": {
-    "fromBlock": 104223277,
-    "toBlock": 104226577,
+    "fromBlock": 104303154,
+    "toBlock": 104306454,
     "swapsInWindow": 0,
     "collectProtocolEventsInWindow": 0,
     "slot0FeeProtocolRaw": 50000,
     "feeAtEnd": 20000,
+    "perToken": [
+     {
+      "token": 0,
+      "grossSwapFeeRaw": 0.0,
+      "protocolShareRaw": 0.0,
+      "lpFeeRaw": 0.0,
+      "protocolFeesDeltaRaw": 0,
+      "protocolRatioActualOverPredicted": null,
+      "feeGrowthDeltaActual": 0,
+      "feeGrowthDeltaPredictedAll": 0.0,
+      "feeGrowthDeltaPredictedSingleBand": 0.0,
+      "feeGrowthActualOverPredictedAll": null
+     },
+     {
+      "token": 1,
+      "grossSwapFeeRaw": 0.0,
+      "protocolShareRaw": 0.0,
+      "lpFeeRaw": 0.0,
+      "protocolFeesDeltaRaw": 0,
+      "protocolRatioActualOverPredicted": null,
+      "feeGrowthDeltaActual": 0,
+      "feeGrowthDeltaPredictedAll": 0.0,
+      "feeGrowthDeltaPredictedSingleBand": 0.0,
+      "feeGrowthActualOverPredictedAll": null
+     }
+    ],
+    "note": "predicted feeGrowth uses the liquidity reported by each Swap event (after the swap); band-crossing swaps make it approximate. protocolFees() is only comparable when no CollectProtocol event fell in the window."
+   }
+  },
+  "r33/USDG CL500": {
+   "pool": "0x9f301fa81ccdda903a3590e7b9abee12e035709e",
+   "listedFeePpm": 50000,
+   "staticFeeNoAdjustmentEvents": true,
+   "feeAdjustmentEvents": 0,
+   "setFeeProtocolEvents": 0,
+   "feeInitialBeforeFirstEvent": 50000,
+   "feeMinPpm": 50000,
+   "feeMaxPpm": 50000,
+   "feeLastEventPpm": null,
+   "feeDistinctValues": [
+    50000
+   ],
+   "everEqualsListed": true,
+   "protocolShareChanges": [],
+   "protocolShareInitial": null,
+   "gatewayFeeProtocol": 0.05,
+   "gatewayHasDynamicFees": false,
+   "feeInForceAtForkPin_104116096": 50000,
+   "matchedBlocks": {
+    "samples": 16,
+    "mismatches": 0,
+    "rows": [
+     {
+      "block": 104303152,
+      "feeCall": 50000,
+      "feeFromEvents": 50000,
+      "match": true
+     },
+     {
+      "block": 104303372,
+      "feeCall": 50000,
+      "feeFromEvents": 50000,
+      "match": true
+     },
+     {
+      "block": 104303592,
+      "feeCall": 50000,
+      "feeFromEvents": 50000,
+      "match": true
+     },
+     {
+      "block": 104303812,
+      "feeCall": 50000,
+      "feeFromEvents": 50000,
+      "match": true
+     },
+     {
+      "block": 104304032,
+      "feeCall": 50000,
+      "feeFromEvents": 50000,
+      "match": true
+     },
+     {
+      "block": 104304252,
+      "feeCall": 50000,
+      "feeFromEvents": 50000,
+      "match": true
+     },
+     {
+      "block": 104304472,
+      "feeCall": 50000,
+      "feeFromEvents": 50000,
+      "match": true
+     },
+     {
+      "block": 104304692,
+      "feeCall": 50000,
+      "feeFromEvents": 50000,
+      "match": true
+     },
+     {
+      "block": 104304912,
+      "feeCall": 50000,
+      "feeFromEvents": 50000,
+      "match": true
+     },
+     {
+      "block": 104305132,
+      "feeCall": 50000,
+      "feeFromEvents": 50000,
+      "match": true
+     },
+     {
+      "block": 104305352,
+      "feeCall": 50000,
+      "feeFromEvents": 50000,
+      "match": true
+     },
+     {
+      "block": 104305572,
+      "feeCall": 50000,
+      "feeFromEvents": 50000,
+      "match": true
+     },
+     {
+      "block": 104305792,
+      "feeCall": 50000,
+      "feeFromEvents": 50000,
+      "match": true
+     },
+     {
+      "block": 104306012,
+      "feeCall": 50000,
+      "feeFromEvents": 50000,
+      "match": true
+     },
+     {
+      "block": 104306232,
+      "feeCall": 50000,
+      "feeFromEvents": 50000,
+      "match": true
+     },
+     {
+      "block": 104306452,
+      "feeCall": 50000,
+      "feeFromEvents": 50000,
+      "match": true
+     }
+    ],
+    "feeChangesInWindow": 0
+   },
+   "timeWeightedFee": {
+    "24h": {
+     "50000": 1.0
+    },
+    "24h_meanPpm": 50000.0,
+    "7d": {
+     "50000": 1.0
+    },
+    "7d_meanPpm": 50000.0,
+    "30d": {
+     "50000": 1.0
+    },
+    "30d_meanPpm": 50000.0,
+    "lastTimeInForce": {
+     "50000": "2026-11-02T14:35Z"
+    },
+    "endBlock": 104290000,
+    "endIso": "2026-11-02T14:35:16Z"
+   },
+   "windowSplit": {
+    "fromBlock": 104303154,
+    "toBlock": 104306454,
+    "swapsInWindow": 0,
+    "collectProtocolEventsInWindow": 0,
+    "slot0FeeProtocolRaw": 50000,
+    "feeAtEnd": 50000,
     "perToken": [
      {
       "token": 0,

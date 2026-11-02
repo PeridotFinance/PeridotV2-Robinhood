@@ -24,3 +24,4 @@
   OK   proto_c: 0 logs
   OK   setfee: 0 logs
   OK   swap: 655414 logs
+  OK   dataset columns: 655414 swaps

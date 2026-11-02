@@ -17,9 +17,11 @@ deployed pool on a fork by test/fork/PoolQuoteReplay.t.sol + replay_pool.py.
 from __future__ import annotations
 
 import datetime as _dt
+import hashlib
 import json
 import sys
 from concurrent.futures import ThreadPoolExecutor
+from pathlib import Path
 
 from common import *  # noqa: F401,F403  (Rpc, T, words, sN, HERE, USDG)
 import quote_math as QM
@@ -41,6 +43,28 @@ POOLS = {
     "r33/USDG CL500": ("0x9f301fa81ccdda903a3590e7b9abee12e035709e", 500, "full"),   # route comparison; fork-validated like the others
 }
 SLUG = lambda name: name.replace("/", "-").replace(" ", "_")
+POOLS_DIR = HERE / "evidence" / "pools"
+
+
+def snapshot_path(name, inputs, subdir=""):
+    """Snapshots are stored BY BLOCK AND HASH, never overwritten: inputs/<slug>/<l2 block>-<hash prefix>.json."""
+    pin = inputs["pin"]
+    return INPUT_DIR / subdir / SLUG(name) / f"{pin['l2Block']}-{pin['hash'][2:10]}.json"
+
+
+def save_inputs(name, inputs, subdir=""):
+    """Write the snapshot (refusing to replace a different snapshot at the same path) and return (path relative to evidence/pools, sha256 of the file)."""
+    p = snapshot_path(name, inputs, subdir)
+    p.parent.mkdir(parents=True, exist_ok=True)
+    text = json.dumps(inputs, indent=1)
+    if p.exists() and p.read_text() != text:
+        raise RuntimeError(f"refusing to overwrite a different snapshot at {p}")
+    p.write_text(text)
+    return str(p.relative_to(POOLS_DIR)), hashlib.sha256(text.encode()).hexdigest()
+
+
+def file_sha256(path):
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
 def enc_int(x):
@@ -118,7 +142,7 @@ def volume_24h(r, pool, inputs, head):
     return {"swaps": n, "usdgVolume": vol, "fromBlock": head - BLOCKS_PER_DAY, "toBlock": head}
 
 
-def record_from_inputs(name: str, inputs: dict, vol=None) -> dict:
+def record_from_inputs(name: str, inputs: dict, vol=None, inputs_file=None, inputs_sha=None, replay_file=None) -> dict:
     q = QM.quote_all(inputs, USDG_ADDR, SIZES_USD)
     st = QM.make_state(inputs)
     # total executable capacity: the most the pool can pay out for an unbounded input (the pool keeps filling at collapsing prices)
@@ -130,7 +154,7 @@ def record_from_inputs(name: str, inputs: dict, vol=None) -> dict:
     capacity = {"maxUsdgFromSelling": sell["out"] / 1e6, "sellStatus": sell["status"],
                 "maxStockUsdFromBuyingAtMid": buy["out"] / 10 ** d_stock * QM.usdg_per_stock(st, USDG_ADDR), "buyStatus": buy["status"]}
     rec = {"executableCapacity": capacity, "pool": inputs["pool"], "pinL2Block": inputs["pin"]["l2Block"], "pinHash": inputs["pin"]["hash"], "pinTimestamp": inputs["pin"]["timestamp"],
-           "pinNative": inputs["pin"]["native"], "inputsFile": f"inputs/{SLUG(name)}.json", "token0": inputs["token0"], "token1": inputs["token1"],
+           "pinNative": inputs["pin"]["native"], "inputsFile": inputs_file, "inputsSha256": inputs_sha, "forkReplayFile": replay_file, "token0": inputs["token0"], "token1": inputs["token1"],
            "dec0": inputs["dec0"], "dec1": inputs["dec1"], "tickSpacing": inputs["tickSpacing"], "fee_ppm": inputs["fee_ppm"],
            "slot0FeeProtocolRaw": inputs["slot0"]["feeProtocol"], "liquidity": int(inputs["liquidity"]), "tick": inputs["slot0"]["tick"],
            "usdgPerStock": QM.usdg_per_stock(st, USDG_ADDR), "initializedTicksScanned": len(inputs["ticks"]), "scan": inputs["scan"],
@@ -140,21 +164,35 @@ def record_from_inputs(name: str, inputs: dict, vol=None) -> dict:
     return rec
 
 
+def latest_replay(name):
+    docs = sorted((POOLS_DIR / "fork-replay").glob(f"{SLUG(name)}@*.json"), key=lambda f: int(f.stem.split("@")[1]))
+    return docs[-1] if docs else None
+
+
 def from_inputs():
-    """Rebuild pool-quotes.json from the SAVED inputs (the same files the fork replay used), adding the 24 h volume from logs at each pin."""
+    """Rebuild pool-quotes.json from SAVED snapshots. Where a fork replay exists for the pool, the quote is built from exactly the snapshot that
+    replay proved (bound by block, hash and file sha256); the 24 h volume comes from logs at that block."""
     r = rpc()
-    doc = {"schema": "ramses-pool-quotes-2", "readOnly": True, "generated": _dt.datetime.now(_dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-           "method": "offline quote_math.py over saved pinned inputs (evidence/pools/inputs); one block per pool; not router quotes; independent one-way quotes plus a sequential "
-                     "round trip (buy then sell in the evolving pool state, so impact is returned: it measures reversal cost, NOT the cost of exiting a position); statuses distinguish "
+    doc = {"schema": "ramses-pool-quotes-3", "readOnly": True, "generated": _dt.datetime.now(_dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+           "method": "offline quote_math.py over saved pinned snapshots (evidence/pools/inputs/<pool>/<block>-<hash>.json); one block per pool; not router quotes; independent one-way quotes plus a "
+                     "sequential round trip (buy then sell in the evolving pool state, so impact is returned: it measures reversal cost, NOT the cost of exiting a position); statuses distinguish "
                      "filled / price_limit_rejection / capacity_exhausted / scan_window_exhausted",
            "sizesUsd": SIZES_USD, "pools": {}}
+    prev_all = json.loads(OUT.read_text()).get("pools", {}) if OUT.exists() else {}
     for name in POOLS:
-        f = INPUT_DIR / f"{SLUG(name)}.json"
+        rep = latest_replay(name)
+        if rep is None:
+            print("no fork replay for", name, "- skipped (a quote without a proof is not published)")
+            continue
+        rdoc = json.loads(rep.read_text())
+        f = POOLS_DIR / rdoc["inputsFile"]
+        if file_sha256(f) != rdoc["inputsSha256"]:
+            raise SystemExit(f"{f} does not match the sha256 recorded by its fork replay")
         inputs = json.loads(f.read_text())
-        prev = (json.loads(OUT.read_text()).get("pools", {}).get(name, {}) if OUT.exists() else {})
-        vol = prev["volume24h"] if prev.get("pinL2Block") == inputs["pin"]["l2Block"] and "volume24h" in prev else volume_24h(r, inputs["pool"], inputs, inputs["pin"]["l2Block"])
-        doc["pools"][name] = record_from_inputs(name, inputs, vol)
-        print("rebuilt", name, "pin", inputs["pin"]["l2Block"], flush=True)
+        prev = prev_all.get(name, {})
+        vol = prev["volume24h"] if prev.get("pinHash") == inputs["pin"]["hash"] and "volume24h" in prev else volume_24h(r, inputs["pool"], inputs, inputs["pin"]["l2Block"])
+        doc["pools"][name] = record_from_inputs(name, inputs, vol, rdoc["inputsFile"], rdoc["inputsSha256"], str(rep.relative_to(POOLS_DIR)))
+        print("rebuilt", name, "pin", inputs["pin"]["l2Block"], "proof", rep.name, flush=True)
     OUT.write_text(json.dumps(doc, indent=1))
 
 
@@ -176,9 +214,9 @@ def main():
         head = r.head()
         block = head - 5
         inputs = read_inputs(addr, spacing, mode, block)
-        (INPUT_DIR / f"{SLUG(name)}.json").write_text(json.dumps(inputs, indent=1))
+        rel, sha = save_inputs(name, inputs)
         vol = volume_24h(r, addr, inputs, block)
-        rec = record_from_inputs(name, inputs, vol)
+        rec = record_from_inputs(name, inputs, vol, rel, sha, None)
         doc["pools"][name] = rec
         print(name, "block", block, "spacing", spacing, mode, "fee", inputs["fee_ppm"], "ticks", len(inputs["ticks"]), "vol24h", round(vol["usdgVolume"]), flush=True)
         for row in rec["quotes"]:

@@ -10,7 +10,7 @@ Research and measurement only (handoff 01 Phase 0). No production contract, depl
 4. **SPY's "0.015%" fee quote is a real fee state, not an error and not the current fee.** `fee()` on SPY/USDG CL1 is dynamic: 100 ppm at the pins, but 150 ppm for 16.2% of the last 30 days (last in force 2026-10-30 20:03Z).
 5. **The earlier quote walker mishandled zero-liquidity gaps, and the r33 CL200 conclusion built on it was wrong.** The earlier text said sells of more than about $50 of r33 "exhaust the scanned window". On the deployed pool, such a sell is *filled*: the price falls through the empty range for free and the whole input is consumed at collapsing prices. Selling about $1,000 of r33 returns $327 and anything larger returns the same $327. The walker is corrected (`quote_math.py`) and validated against the deployed pools on a fork (section 3).
 6. **The old `roundTripBps` added two independent one-way quotes.** It is renamed `sumOfIndependentOneWayQuotesBps` and a true sequential round trip (buy, then sell what was bought, in the same evolving pool state) is added. A sequential round trip hands the price impact back, so it measures the cost of reversing at once, not the cost of exiting a position.
-7. **Scope of the r33 conclusion.** It is limited to the quoted routes in section 4. The CL200 route is not executable at any useful size; other quoted routes are, which changes the earlier "no local liquidation route" impression. Activation stays blocked on pricing, not on that route.
+7. **Scope of the r33 conclusion.** It is limited to the quoted routes in section 4. The CL200 route is not executable at any useful size; other quoted routes can absorb larger sales (about 2% to 3% shortfall *relative to the CL200 spot*, composite and non-atomic). Activation stays blocked until a complete route is executed atomically at one fork block with real fees, slippage limits and adapter requirements, and a defensible price source exists.
 8. All historical numbers are preserved unchanged in `historical-hypothetical/` and labelled hypothetical.
 
 ## 2. Partner requirements and partner-supplied information
@@ -37,27 +37,27 @@ Handoff 01 section 10 says r33/USDG is dropped and there is no r33 concentrated 
 
 **The walk** (`quote_math.py`) follows the pool: constant liquidity between initialized ticks, the fee taken from the gross input, `liquidityNet` added when crossing up and subtracted when crossing down, and **zero-liquidity intervals crossed for free** (the price jumps to the next initialized tick, as in the pool). Every quote ends in exactly one status: `filled`; `price_limit_rejection` (stopped at the caller's `sqrtPriceLimit` with executable liquidity beyond it); `capacity_exhausted` (the entire tick range was scanned and no executable liquidity is left); `scan_window_exhausted` (only a window was scanned, so what lies beyond is unknown and the figure is a lower bound, not a capacity claim).
 
-**Validation against the deployed pools.** `test/fork/PoolQuoteReplay.t.sol` + `replay_pool.py` pin a pool, save its inputs, then at the *same block* execute real swaps on a fork of the deployed pool with the exact integer amounts the offline walk used: both directions at six sizes, with and without a 10% price limit, and a sequential buy-then-sell. Consumed input, output and final `sqrtPriceX96` match the offline result for **every row of every pool** (6 pools x 30 rows, `pools/fork-replay/`), including the gap-crossing r33 sells and the limit cases. Where the offline scan ended at its window edge (GLD sell of $50k) the deployed pool filled more, as it must: the offline number is then a lower bound and the replay checks exactly that.
+**Validation against the deployed pools.** `test/fork/PoolQuoteReplay.t.sol` + `replay_pool.py` pin a pool, save its snapshot **by block and hash** (`pools/inputs/<pool>/<block>-<hash prefix>.json`, never overwritten), then at the *same block* execute real swaps on a fork of the deployed pool with the exact integer amounts the offline walk used: both directions at six sizes, with and without a 10% price limit, and a sequential buy-then-sell. The comparison (`replay_check.py`) is strict: it **rejects missing, duplicate and unexpected rows, a requested amount that differs from the plan, and any consumed input, output or final `sqrtPriceX96` that differs beyond rounding**, with expectations recomputed from the snapshot. Each proof (`pools/fork-replay/<pool>@<block>.json`) records the snapshot path and its SHA-256, the raw forge log and its SHA-256, and every fork row; `verify_replays.py` re-checks all of that **offline** (snapshot hash, pin block and hash, log hash, rows parsed from the log equal the stored rows, strict row accounting, and that each published quote is bound to a proof of the same snapshot). Result: all 30 rows match the deployed pool for each of SPY, NVDA, META, GLD, r33 CL200 and r33 CL500, including the gap-crossing r33 sells and the price-limit cases. Where the offline scan ended at its window edge (GLD and SPY large sells) the deployed pool filled more, as it must: the offline number is then a lower bound and the check requires exactly that.
 
 **Pinned pool facts** (each pool read at its own block; gateway values are unpinned)
 
 | pool | address | pin (L2 block) | spacing | fee() at pin | listed fee | 30-day mean fee | active liquidity | 24 h volume (logs / gateway) | gateway TVL |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| SPY/USDG CL1 | `0x38453c115607463ac284820ce959831042f3df4e` | 104,270,659 | 1 | 100 ppm | 100 ppm | 108 ppm | 3.731e+17 | $1,047,914 / $1,033,312 | $236,437 |
-| NVDA/USDG CL10 | `0xdac1904d823f7d6bcaaf431ceee40c934fed321b` | 104,267,064 | 10 | 100 ppm | 100 ppm | 119 ppm | 5.035e+16 | $109,093 / $114,554 | $87,272 |
-| META/USDG CL50 | `0x960f79d8dfec7f2f0c1b24cdac6bb9df1371c6e2` | 104,266,713 | 50 | 150 ppm | 150 ppm | 206 ppm | 1.176e+16 | $30,096 / $29,232 | $111,576 |
-| GLD/USDG CL1 | `0x9896af2f6fed9939acc87637b973b6484e6619d8` | 104,269,458 | 1 | 150 ppm | 150 ppm | 206 ppm | 8.161e+16 | $138,048 / $110,696 | $124,680 |
-| r33/USDG CL200 | `0xc276b9a27ab1e60e32b581db6a23bb1fab0fc30b` | 104,290,641 | 200 | 20000 ppm | 20000 ppm | 20000 ppm | 5.491e+15 | $28 / $28 | $43,876 |
-| r33/USDG CL500 | `0x9f301fa81ccdda903a3590e7b9abee12e035709e` | 104,292,547 | 500 | 50000 ppm | 50000 ppm | n/a | 8.830e+16 | $82 / $283 | $13,661 |
+| SPY/USDG CL1 | `0x38453c115607463ac284820ce959831042f3df4e` | 104,334,038 | 1 | 150 ppm | 100 ppm | 108 ppm | 3.826e+17 | $1,283,369 / $1,033,312 | $236,437 |
+| NVDA/USDG CL10 | `0xdac1904d823f7d6bcaaf431ceee40c934fed321b` | 104,331,899 | 10 | 200 ppm | 100 ppm | 119 ppm | 2.718e+16 | $133,350 / $114,554 | $87,272 |
+| META/USDG CL50 | `0x960f79d8dfec7f2f0c1b24cdac6bb9df1371c6e2` | 104,331,530 | 50 | 150 ppm | 150 ppm | 206 ppm | 1.176e+16 | $66,689 / $29,232 | $111,576 |
+| GLD/USDG CL1 | `0x9896af2f6fed9939acc87637b973b6484e6619d8` | 104,332,890 | 1 | 150 ppm | 150 ppm | 206 ppm | 7.911e+16 | $166,611 / $110,696 | $124,680 |
+| r33/USDG CL200 | `0xc276b9a27ab1e60e32b581db6a23bb1fab0fc30b` | 104,331,203 | 200 | 20000 ppm | 20000 ppm | 20000 ppm | 5.491e+15 | $28 / $28 | $43,876 |
+| r33/USDG CL500 | `0x9f301fa81ccdda903a3590e7b9abee12e035709e` | 104,331,368 | 500 | 50000 ppm | 50000 ppm | 50000 ppm | 8.830e+16 | $82 / $283 | $13,661 |
 
 **One-way execution cost in bp of trade size** (fee + price impact versus the pre-trade mid; independent quotes at the pin; buy / sell)
 
 | pool | $50 | $250 | $1,000 | $5,000 | $10,000 | $50,000 |
 | --- | --- | --- | --- | --- | --- | --- |
-| SPY/USDG CL1 | 1.0 / 1.0 | 1.2 / 1.2 | 2.0 / 2.0 | 5.9 / 4.0 | 10.8 / 5.1 | 52.6 / 24.8 |
-| NVDA/USDG CL10 | 1.7 / 1.7 | 4.4 / 4.4 | 14.8 / 14.8 | 95.2 / 69.5 | 210.0 / 137.5 | 796.0 / 5870.7 |
-| META/USDG CL50 | 3.2 / 3.2 | 10.1 / 10.1 | 35.7 / 35.7 | 170.0 / 250.0 | 332.6 / 4602.5 | 1222.1 / 8920.5 |
-| GLD/USDG CL1 | 1.8 / 1.8 | 3.1 / 3.1 | 7.9 / 7.9 | 33.7 / 33.7 | 66.4 / 65.7 | 316.9 / beyond scan |
+| SPY/USDG CL1 | 1.5 / 1.5 | 1.7 / 1.7 | 2.4 / 2.4 | 6.2 / 6.2 | 11.0 / 11.0 | 45.0 / 36.5 |
+| NVDA/USDG CL10 | 3.3 / 3.3 | 8.4 / 8.4 | 27.4 / 23.8 | 127.0 / 80.1 | 235.5 / 147.7 | 790.1 / 5450.3 |
+| META/USDG CL50 | 3.2 / 3.2 | 10.0 / 10.0 | 35.5 / 35.5 | 169.1 / 172.0 | 330.9 / 3321.7 | 1189.6 / 8664.3 |
+| GLD/USDG CL1 | 1.8 / 1.8 | 3.2 / 3.2 | 8.1 / 8.0 | 34.6 / 33.7 | 67.2 / 65.6 | 314.7 / beyond scan |
 | r33/USDG CL200 | 348.1 / 588.6 | 375.2 / 1887.9 | 430.1 / 6732.3 | 701.2 / 9346.3 | 1018.6 / 9673.2 | 2939.1 / 9934.6 |
 | r33/USDG CL500 | 523.8 / 523.8 | 617.7 / 617.7 | 953.9 / 960.0 | 2407.3 / no capacity | 3783.7 / no capacity | 7629.4 / no capacity |
 
@@ -65,8 +65,8 @@ Handoff 01 section 10 says r33/USDG is dropped and there is no r33 concentrated 
 
 | pool | $50 | $250 | $1,000 | $5,000 | $10,000 | $50,000 |
 | --- | --- | --- | --- | --- | --- | --- |
-| SPY/USDG CL1 | 2.0 | 2.0 | 2.0 | 2.0 | 2.0 | 2.0 |
-| NVDA/USDG CL10 | 2.0 | 2.0 | 2.0 | 2.0 | 2.0 | 1.9 |
+| SPY/USDG CL1 | 3.0 | 3.0 | 3.0 | 3.0 | 3.0 | 3.0 |
+| NVDA/USDG CL10 | 4.0 | 4.0 | 4.0 | 4.0 | 4.0 | 3.8 |
 | META/USDG CL50 | 3.0 | 3.0 | 3.0 | 3.0 | 3.0 | 2.8 |
 | GLD/USDG CL1 | 3.0 | 3.0 | 3.0 | 3.0 | 3.0 | 3.0 |
 | r33/USDG CL200 | 393.2 | 393.3 | 393.8 | 389.0 | 382.8 | 344.3 |
@@ -76,10 +76,10 @@ Handoff 01 section 10 says r33/USDG is dropped and there is no r33 concentrated 
 
 | pool | scan | most USDG obtainable by selling the stock | most stock (USD at mid) obtainable by spending USDG | statuses |
 | --- | --- | --- | --- | --- |
-| SPY/USDG CL1 | window | $93,434 | $142,550 | sell scan_window_exhausted, buy scan_window_exhausted |
-| NVDA/USDG CL10 | full | $20,646 | $66,571 | sell capacity_exhausted, buy capacity_exhausted |
-| META/USDG CL50 | full | $5,398 | $106,379 | sell capacity_exhausted, buy capacity_exhausted |
-| GLD/USDG CL1 | window | $23,379 | $102,199 | sell scan_window_exhausted, buy scan_window_exhausted |
+| SPY/USDG CL1 | window | $107,737 | $128,708 | sell scan_window_exhausted, buy scan_window_exhausted |
+| NVDA/USDG CL10 | full | $22,749 | $64,917 | sell capacity_exhausted, buy capacity_exhausted |
+| META/USDG CL50 | full | $6,678 | $106,030 | sell capacity_exhausted, buy capacity_exhausted |
+| GLD/USDG CL1 | window | $27,722 | $98,420 | sell scan_window_exhausted, buy scan_window_exhausted |
 | r33/USDG CL200 | full | $327 | $41,214 | sell capacity_exhausted, buy capacity_exhausted |
 | r33/USDG CL500 | full | $1,003 | $11,921 | sell capacity_exhausted, buy capacity_exhausted |
 
@@ -87,10 +87,10 @@ Handoff 01 section 10 says r33/USDG is dropped and there is no r33 concentrated 
 
 | pool | +1% | +5% | -1% | -5% |
 | --- | --- | --- | --- | --- |
-| SPY/USDG CL1 | $52,834 | $138,183 | $55,444 | $92,652 |
-| NVDA/USDG CL10 | $2,716 | $11,414 | $3,653 | $18,483 |
-| META/USDG CL50 | $1,454 | $7,214 | $1,469 | $4,126 |
-| GLD/USDG CL1 | $7,607 | $37,862 | $7,799 | $23,741 |
+| SPY/USDG CL1 | $55,969 | $125,200 | $61,207 | $106,952 |
+| NVDA/USDG CL10 | $1,960 | $11,073 | $3,288 | $18,289 |
+| META/USDG CL50 | $1,460 | $7,250 | $1,475 | $5,225 |
+| GLD/USDG CL1 | $7,546 | $37,986 | $7,807 | $28,230 |
 | r33/USDG CL200 | $6 | $2,219 | $6 | $31 |
 | r33/USDG CL500 | $99 | $492 | $100 | $518 |
 
@@ -98,13 +98,14 @@ Handoff 01 section 10 says r33/USDG is dropped and there is no r33 concentrated 
 
 | pool | listed | FeeAdjustment events | fee range seen (ppm) | fee() vs events at matched blocks | implied fee from swaps vs event fee | protocol delta / predicted | feeGrowth delta / predicted | share of last 30 days at 150 ppm |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| SPY/USDG CL1 | 100 | 503 | 70-1000 | 16/16 match | median ratio 1.0000, 1.0000, 1.0000 (582,721 swaps) | 1.0000, 1.0000 | 1.0000, 1.0134 | 16.2% |
-| NVDA/USDG CL10 | 100 | 1793 | 70-2460 | 18/18 match | median ratio 1.0000, 1.0000, 1.0000 (314,054 swaps) | 1.0000, 1.0000 | 1.0001, 1.0000 | 12.4% |
-| META/USDG CL50 | 150 | 71 | 50-2500 | 16/16 match | n/a | 1.0000 | 1.0003 | 22.2% |
-| GLD/USDG CL1 | 150 | 12 | 150-444 | 16/16 match | median ratio 1.0000, 1.0000, 1.0000 (90,823 swaps) | 1.0000, 1.0000 | 1.0001, 1.0000 | 22.2% |
+| SPY/USDG CL1 | 100 | 508 | 70-1000 | 16/16 match | median ratio 1.0000, 1.0000, 1.0000 (582,721 swaps) | 1.0000, 1.0000 | 0.9999, 1.0000 | 16.2% |
+| NVDA/USDG CL10 | 100 | 1818 | 70-2460 | 18/18 match | median ratio 1.0000, 1.0000, 1.0000 (314,054 swaps) | 1.0000, 1.0000 | 1.0000, 1.0000 | 12.4% |
+| META/USDG CL50 | 150 | 71 | 50-2500 | 16/16 match | n/a | 1.0000, 1.0000 | 1.0001, 1.0000 | 22.5% |
+| GLD/USDG CL1 | 150 | 12 | 150-444 | 16/16 match | median ratio 1.0000, 1.0000, 1.0000 (90,823 swaps) | 1.0000, 1.0000 | 1.0000, 1.0000 | 22.5% |
 | r33/USDG CL200 | 20000 | 0 | 20000-20000 | 16/16 match | n/a | no swaps | no swaps | 0.0% |
+| r33/USDG CL500 | 50000 | 0 | 50000-50000 | 16/16 match | n/a | no swaps | no swaps | 0.0% |
 
-**Fee-tier states for SPY over the last 30 days (share of time)**: 100 ppm 83.4%, 125 ppm 0.1%, 150 ppm 16.2%, 175 ppm 0.1%, 200 ppm 0.1%, 250 ppm 0.0%, 300 ppm 0.0%, 1000 ppm 0.0%; last at 150 ppm 2026-10-30T20:03Z.
+**Fee-tier states for SPY over the last 30 days (share of time)**: 100 ppm 83.4%, 125 ppm 0.2%, 150 ppm 16.2%, 175 ppm 0.1%, 200 ppm 0.1%, 250 ppm 0.0%, 300 ppm 0.0%, 1000 ppm 0.0%; last at 150 ppm 2026-11-02T14:35Z.
 
 **Gross swap fee -> protocol share -> holder entitlement** (fork tests at pin 104,116,096; raw token units; reserve cut 20% is the README fixture value)
 
@@ -118,7 +119,9 @@ Handoff 01 section 10 says r33/USDG is dropped and there is no r33 concentrated 
 
 The r33/USDG CL200 route is the one the partner named first. It is **not usable**: it is 98% r33 sitting out of range, and the deployed pool pays at most about $327 USDG for r33 however much is sold (the price falls through the empty range and the input is consumed at collapsing prices). That is a statement about that pool only. `r33_routes.py` quotes every other route the gateway lists for the same asset, for fixed amounts of r33 (1,000 to 100,000 tokens, about $47 to $4,669 at the CL200 mid): the other concentrated pools (full-bitmap scans, same validated walk), the DLMM pairs through their own `getSwapOut`, the legacy constant-product pairs, and two- and three-hop routes through RAM and WETH. Each pool is read at its own block (listed below the table), so multi-hop figures are **non-atomic composites** of independent pins, and the shortfall is measured against the CL200 spot, which is itself a thin and possibly stale price.
 
-What the table supports: on these quotes, selling r33 for USDG locally is possible at larger size, and the cheapest route is r33/RAM DLMM bin200 -> WETH/RAM CL100 -> WETH/USDG CL1 (about 2% shortfall for the $4,669 amount). What it does not support: any claim about *all* local liquidation routes, about stressed conditions, or about price. The DLMM hop needs a different adapter from the CL adapter this branch has, the quotes are not router quotes, the composite is not atomic, and **r33 has no Chainlink feed and no local price source is established, so r33 activation stays blocked** until both pricing and executable capacity are proven under the actual liquidation mechanism.
+What the table supports: on these quotes, selling r33 for USDG locally is possible at larger size, and the cheapest quoted route at the largest amount is r33/RAM DLMM bin200 -> WETH/RAM CL100 -> WETH/USDG CL1 (about 2% to 3% shortfall across three separate runs for the $4,669 amount; **that figure is relative to the CL200 spot**, a thin and possibly stale price, not to a defensible one). What it does not support: any claim about *all* local liquidation routes, about stressed conditions, or about price. The quotes are not router quotes, the composite is not atomic, and the DLMM hop needs a different adapter from the CL adapter this branch has.
+
+**The next capacity proof** is the complete route executed **atomically at one common fork block**, with the actual fees, explicit slippage limits (minimum outputs) and the adapter requirements (a DLMM router path; the current adapter is concentrated-liquidity only) in place, plus a defensible r33 price source. **Until both exist, there is no r33 collateral factor and no r33 activation.**
 
 **r33 -> USDG route quotes** (reference mid $0.04669 per r33 from the CL200 spot; nominal value of the four amounts: $47, $233, $934, $4,669). USDG received (shortfall versus nominal in bp):
 
@@ -129,22 +132,22 @@ What the table supports: on these quotes, selling r33 for USDG locally is possib
 | r33/USDG CL5 | no capacity at r33/USDG CL5 | no capacity at r33/USDG CL5 | no capacity at r33/USDG CL5 | no capacity at r33/USDG CL5 |
 | r33/USDG DLMM200 | $45 (289) | $208 (1,081) | $659 (2,948) | $1,930 (5,867) |
 | r33/USDG V2 | $45 (326) | $217 (685) | $764 (1,822) | $2,312 (5,048) |
-| r33/RAM CL100 -> RAM/USDG DLMM100 | $45 (429) | $151 (3,525) | $151 (8,381) | $151 (9,676) |
-| r33/RAM CL100 -> RAM/USDG V2 | $44 (540) | $142 (3,912) | $142 (8,478) | $142 (9,696) |
-| r33/RAM CL100 -> WETH/RAM CL100 -> WETH/USDG CL1 | $45 (371) | $152 (3,486) | $152 (8,372) | $152 (9,674) |
-| r33/RAM CL200 -> RAM/USDG DLMM100 | $44 (600) | $203 (1,320) | $771 (1,747) | $3,355 (2,815) |
-| r33/RAM CL200 -> RAM/USDG V2 | $43 (705) | $186 (2,027) | $567 (3,928) | $1,306 (7,203) |
-| r33/RAM CL200 -> WETH/RAM CL100 -> WETH/USDG CL1 | $44 (543) | $204 (1,268) | $780 (1,649) | $3,568 (2,358) |
-| r33/RAM DLMM200 -> RAM/USDG DLMM100 | $46 (230) | $228 (230) | $905 (311) | $3,844 (1,767) |
-| r33/RAM DLMM200 -> RAM/USDG V2 | $45 (348) | $207 (1,127) | $636 (3,188) | $1,421 (6,958) |
-| r33/RAM DLMM200 -> WETH/RAM CL100 -> WETH/USDG CL1 | $46 (172) | $229 (172) | $917 (176) | $4,579 (193) |
-| r33/RAM DLMM25 -> RAM/USDG DLMM100 | $46 (250) | no capacity at r33/RAM DLMM25 | no capacity at r33/RAM DLMM25 | no capacity at r33/RAM DLMM25 |
-| r33/RAM DLMM25 -> RAM/USDG V2 | $45 (367) | no capacity at r33/RAM DLMM25 | no capacity at r33/RAM DLMM25 | no capacity at r33/RAM DLMM25 |
-| r33/RAM DLMM25 -> WETH/RAM CL100 -> WETH/USDG CL1 | $46 (192) | no capacity at r33/RAM DLMM25 | no capacity at r33/RAM DLMM25 | no capacity at r33/RAM DLMM25 |
+| r33/RAM CL100 -> RAM/USDG DLMM100 | $45 (407) | $158 (3,224) | $158 (8,306) | $158 (9,661) |
+| r33/RAM CL100 -> RAM/USDG V2 | $44 (575) | $147 (3,686) | $147 (8,422) | $147 (9,684) |
+| r33/RAM CL100 -> WETH/RAM CL100 -> WETH/USDG CL1 | $45 (408) | $158 (3,225) | $158 (8,306) | $158 (9,661) |
+| r33/RAM CL200 -> RAM/USDG DLMM100 | $44 (601) | $203 (1,320) | $770 (1,751) | $3,351 (2,823) |
+| r33/RAM CL200 -> RAM/USDG V2 | $43 (761) | $185 (2,073) | $564 (3,960) | $1,301 (7,214) |
+| r33/RAM CL200 -> WETH/RAM CL100 -> WETH/USDG CL1 | $44 (601) | $203 (1,322) | $775 (1,700) | $3,533 (2,434) |
+| r33/RAM DLMM200 -> RAM/USDG DLMM100 | $46 (231) | $228 (231) | $904 (315) | $3,834 (1,789) |
+| r33/RAM DLMM200 -> RAM/USDG V2 | $45 (406) | $206 (1,178) | $633 (3,223) | $1,415 (6,970) |
+| r33/RAM DLMM200 -> WETH/RAM CL100 -> WETH/USDG CL1 | $46 (232) | $228 (233) | $912 (237) | $4,527 (306) |
+| r33/RAM DLMM25 -> RAM/USDG DLMM100 | $46 (251) | no capacity at r33/RAM DLMM25 | no capacity at r33/RAM DLMM25 | no capacity at r33/RAM DLMM25 |
+| r33/RAM DLMM25 -> RAM/USDG V2 | $45 (425) | no capacity at r33/RAM DLMM25 | no capacity at r33/RAM DLMM25 | no capacity at r33/RAM DLMM25 |
+| r33/RAM DLMM25 -> WETH/RAM CL100 -> WETH/USDG CL1 | $46 (252) | no capacity at r33/RAM DLMM25 | no capacity at r33/RAM DLMM25 | no capacity at r33/RAM DLMM25 |
 
-**Best quoted route per amount**: 1,000 r33: r33/RAM DLMM200 -> WETH/RAM CL100 -> WETH/USDG CL1 ($46); 5,000 r33: r33/RAM DLMM200 -> WETH/RAM CL100 -> WETH/USDG CL1 ($229); 20,000 r33: r33/RAM DLMM200 -> WETH/RAM CL100 -> WETH/USDG CL1 ($917); 100,000 r33: r33/RAM DLMM200 -> WETH/RAM CL100 -> WETH/USDG CL1 ($4,579)
+**Best quoted route per amount**: 1,000 r33: r33/RAM DLMM200 -> RAM/USDG DLMM100 ($46); 5,000 r33: r33/RAM DLMM200 -> RAM/USDG DLMM100 ($228); 20,000 r33: r33/RAM DLMM200 -> WETH/RAM CL100 -> WETH/USDG CL1 ($912); 100,000 r33: r33/RAM DLMM200 -> WETH/RAM CL100 -> WETH/USDG CL1 ($4,527)
 
-Pins (each pool at its own block): r33/USDG CL200 104,292,814, r33/USDG CL500 104,292,874, r33/USDG CL5 104,292,914, r33/RAM CL100 104,294,038, r33/RAM CL200 104,294,113, WETH/RAM CL100 104,294,164, WETH/USDG CL1 104,294,351, r33/USDG DLMM200 104,294,528, r33/RAM DLMM200 104,294,543, r33/RAM DLMM25 104,294,558, RAM/USDG DLMM100 104,294,573, r33/USDG V2 104,294,588, RAM/USDG V2 104,294,608
+Pins (each pool at its own block): r33/USDG CL200 104,334,489, r33/USDG CL500 104,334,544, r33/USDG CL5 104,334,589, r33/RAM CL100 104,335,445, r33/RAM CL200 104,335,514, WETH/RAM CL100 104,335,571, WETH/USDG CL1 104,335,742, r33/USDG DLMM200 104,335,898, r33/RAM DLMM200 104,335,912, r33/RAM DLMM25 104,335,927, RAM/USDG DLMM100 104,335,942, r33/USDG V2 104,335,957, RAM/USDG V2 104,335,977
 
 
 ## 5. What the fee reconciliation shows (the fee-entitlement, profitability and liquidation gates are NOT waived; GLD is NOT activated)
@@ -156,7 +159,7 @@ Pins (each pool at its own block): r33/USDG CL200 104,292,814, r33/USDG CL500 10
 3. **Exact two-layer position (fork tests at pin 104,116,096).** Protocol delta is exactly 50% of gross; the vault position's `collect` equals (gross - protocol) x our share of active liquidity to within 0 to 3 raw units; holders get 80% of that after the 20% reserve cut.
 4. **Listed versus charged fees.** The gateway `feeTier` equals the current `fee()` for SPY (100), NVDA (100 at the quote and fork pins, 150 minutes later), GLD (150), META (150) and r33 (20,000).
 
-**GLD's average-versus-instantaneous fee is explained by the verified fee history.** GLD's fee was 150 ppm at the pins and the listing, but its 30-day time-weighted mean is 206 ppm (222 ppm for 78% of the time, 150 for 22%; range 150 to 444 ppm): the charged fee is exactly the event history, so the difference is a fee that moves, not a data error. All baselines therefore use the **time-varying fee actually in force on every swap**, and fee sensitivity is stressed in the other direction as well: constant 150 ppm (the listed value), and every swap's fee scaled x1.5, x2 and x3 with volume held fixed (a stress that gives holders more fee income and ignores any volume lost to higher fees). The gateway's `hasDynamicFees: false` for pools that emit `FeeAdjustment` is a **separate metadata discrepancy**, left open.
+**GLD's average-versus-instantaneous fee is explained by the verified fee history.** GLD's fee was 150 ppm at the pins and the listing, but its 30-day time-weighted mean is 206 ppm (222 ppm for 78% of the time, 150 for 22%; range 150 to 444 ppm): the charged fee is exactly the event history, so the difference is a fee that moves, not a data error. All baselines therefore use the **time-varying fee actually in force on every swap**, and fee sensitivity is stressed in the other direction as well: constant 150 ppm (the listed value), and every swap's fee scaled x1.5, x2 and x3 with volume held fixed (a stress that gives holders more fee income and ignores any volume lost to higher fees). The gateway's `hasDynamicFees: false` for pools that emit `FeeAdjustment` is a **separate metadata discrepancy**: it is documented, it is not a fee-policy decision, and it is not treated as a waiver of anything.
 
 None of this waives the remaining gates: holder entitlement has not been compared with a third-party LP's Collect history, there is no fork test of the exact configuration on META or r33, and the profitability gate (section 7) and liquidation-capacity gate (sections 4 and 9) are not met by anything here.
 
@@ -174,7 +177,7 @@ None of this waives the remaining gates: holder entitlement has not been compare
 | cap | `maxRangedValueUsd > 0` (uint128 of USD x 1e18) |
 | structure | ONE ranged position per pair; recenter has no swap (matched value only); full range is the adapter default (`minUsableTick..maxUsableTick`), not a policy |
 
-Inputs are validated by field width before any rule runs: negative values (for example a negative daily limit), NaN, infinities, non-numbers, booleans and values above the uint16/uint32/uint8/uint128 widths are rejected with a stated violation instead of crashing or slipping through a comparison. `logs/unit-tests.log`, `logs/mutations-engine-feasibility.log`, `logs/mutations-bundle.log`.
+Inputs are validated by field width before any rule runs: negative values (for example a negative daily limit), NaN, infinities, non-numbers, booleans and values above the uint16/uint32/uint8/uint128 widths are rejected with a stated violation instead of crashing or slipping through a comparison. `logs/unit-tests.log`, `logs/mutations-engine-feasibility.log`, `logs/mutations-checks.log` (the verification code itself).
 
 Engine mismatches found and fixed: the default trigger fraction 0.70 gave 420 ticks for a 600-tick range (maximum 300); the historical cooldown was 900 s (minimum 3600 s); the spacing defaulted to 1 for every pool (NVDA's is 10); the full range was one spacing narrower than the contract's at both ends; fees were paid to holders without the reserve cut; `maxRangedValueUsd` was not an input.
 
@@ -198,11 +201,11 @@ Common configuration: one position, half-width 600 ticks (+/-6.2%), trigger 300 
 
 **How to read the tables.** "Return after all costs" subtracts the reserve cut (inside the run), recenter gas and maintenance (assumed). **LVR is never subtracted from a return versus holding**; it appears only in the separate "fees - LVR - gas - maintenance" line, which compares against a delta-matched rebalancing portfolio. The **supplier view** is separate from the **protocol-paid operating costs**: the contract's keeper wallet pays gas, so gas and maintenance are not deductions from supplier principal; the supplier table adds recenter gas back, and the protocol line is the reserve-cut inflow minus gas minus maintenance. Pools: SPY 74.4 days from 2026-08-19, NVDA (the Ramses NVDA/USDG pool, not the live Uniswap vault) 90.0 days from 2026-08-04, GLD 42.3 days from 2026-09-21 (the first fresh oracle in the dataset); windows are single short samples.
 
-### 7A. Current caps: $1,000 pair (operator-supplied, pending configuration readback), $50 ranged value
+### 7A. Current caps: $1,000 pair and $50 ranged value (operator-supplied, pending configuration readback)
 
-**The $1,000 pair cap is operator-supplied and pending configuration readback**; the $50 matches `maxRangedValueUsd` in `UpgradeConcentratedLiquidity.s.sol` (the live Uniswap vault). I did not locate a $1,000 pair-cap constant to cite, so it is not independently confirmed. 95% of capital is idle by construction. **At these caps every configuration's result is the maintenance assumption**: fees to holders over the whole window are $0.20 to $1.71 (up to $5.11 only in the tripled-fee stress) against an assumed $42.69 (SPY), $51.64 (NVDA) or $24.29 (GLD) of operator-paid maintenance, the supplier view is within a fraction of a percent of holding, and the protocol-net line is the maintenance cost less a few cents of reserve inflow. With the observed-average maintenance the all-costs result is still about -1.0% (SPY), -1.3% (NVDA) and -0.9% (GLD) over the window. Larger-capital runs follow and are labelled research scenarios.
+**Two different things must not be confused.** (1) **The LIVE Uniswap NVDA/USDG vault** (`0x2808...`), a different, deployed contract, was read back on chain (read-only, `readback_live_caps.py`, `live-config-readback.json`, kind `LIVE_UNISWAP_NVDA_USDG_VAULT_READBACK`): `maxPairValueUSDG` $1,000, `maxRangedValueUsd` $50, `maxSettlementSwapUSDG` $25, `reserveFeeBps` 2000, swaps paused, and a live range policy of +/-2400 ticks, trigger 600, 1 h cooldown, at most 4 per day, loss bound 10 bp (the `live2400_trig600_perday4` rows replay that policy). (2) **The Ramses vault is not deployed**, so nothing can be read back for it. The settings the Ramses baselines *assume* are listed with their sources and statuses in `proposed-ramses-settings.json` (status "PROPOSED / ASSUMED FOR RESEARCH. NOT DEPLOYED. NOT APPROVED."): the $1,000 pair cap and $50 ranged cap are **operator-supplied, pending configuration readback of the Ramses vault**; they happen to equal the live Uniswap numbers, which is consistency, not confirmation. 95% of capital is idle by construction (the full-range row is the exception). **At these caps every configuration's result is the maintenance assumption**: fees to holders over the whole window are $0.2 to $1.7 (up to $5.1 only in the tripled-fee stress) against an assumed $42.69 (SPY), $51.64 (NVDA) or $24.29 (GLD) of operator-paid maintenance, the supplier view is within a fraction of a percent of holding, and the protocol-net line is the maintenance cost less a few cents of reserve inflow. With the observed-average maintenance the all-costs result is still about -1.0% (SPY), -1.3% (NVDA) and -0.9% (GLD) over the window. Larger-capital runs follow and are labelled research scenarios.
 
-### SPY: CURRENT CAPS: $1,000 pair (OPERATOR-SUPPLIED, pending configuration readback), $50 ranged value (operator-supplied; $50 matches the live Uniswap vault's maxRangedValueUsd)
+### SPY: CURRENT CAPS: $1,000 pair and $50 ranged value (OPERATOR-SUPPLIED, pending configuration readback of the Ramses vault, which is not deployed; the LIVE Uniswap NVDA/USDG vault, a different contract, reads back the same two numbers: maxPairValueUSDG $1,000, maxRangedValueUsd $50; see live-config-readback.json and proposed-ramses-settings.json)
 
 Tick spacing 1, 655,414 swaps, pool head block 104,071,867, starting capital $1,000, ranged cap $50.
 
@@ -213,7 +216,7 @@ Tick spacing 1, 655,414 swaps, pool head block 104,071,867, starting capital $1,
 | single600_trig300 | -0.58% | -0.62% | +0.04% | -4.85% | -4.23% / -20.7%/yr | $0.46 | $0.12 | $0.000 | $42.69 | 95% | 0 | $-0.11 | none |
 | single600_trig300_poll300 | -0.58% | -0.62% | +0.04% | -4.85% | -4.23% / -20.7%/yr | $0.46 | $0.12 | $0.000 | $42.69 | 95% | 0 | $-0.11 | none |
 | single600_trig100 | -0.72% | -0.62% | -0.10% | -4.99% | -4.36% / -21.4%/yr | $0.47 | $0.12 | $1.392 | $42.69 | 95% | 21 | $-0.29 | none |
-| live1200_trig300_perday4 | -0.60% | -0.62% | +0.02% | -4.87% | -4.25% / -20.8%/yr | $0.24 | $0.06 | $0.000 | $42.69 | 95% | 0 | $-0.05 | none |
+| live2400_trig600_perday4 | -0.61% | -0.62% | +0.01% | -4.88% | -4.26% / -20.9%/yr | $0.12 | $0.03 | $0.000 | $42.69 | 95% | 0 | $-0.03 | none |
 | single1200_trig600 | -0.60% | -0.62% | +0.02% | -4.87% | -4.25% / -20.8%/yr | $0.24 | $0.06 | $0.000 | $42.69 | 95% | 0 | $-0.05 | none |
 | fee_fixed150 | -0.56% | -0.62% | +0.06% | -4.83% | -4.21% / -20.6%/yr | $0.67 | $0.17 | $0.000 | $42.69 | 95% | 0 | $-0.11 | none |
 | fee_x15 | -0.55% | -0.62% | +0.07% | -4.82% | -4.20% / -20.6%/yr | $0.69 | $0.17 | $0.000 | $42.69 | 95% | 0 | $-0.10 | none |
@@ -228,7 +231,7 @@ Tick spacing 1, 655,414 swaps, pool head block 104,071,867, starting capital $1,
 | single600_trig300 | -0.80% | -0.81% | +0.00% | -2.43% | -1.62% / -20.9%/yr | $0.08 | $0.02 | $0.000 | $16.26 | 95% | 0 | $-0.14 | none |
 | single600_trig300_poll300 | -0.80% | -0.81% | +0.00% | -2.43% | -1.62% / -20.9%/yr | $0.08 | $0.02 | $0.000 | $16.26 | 95% | 0 | $-0.14 | none |
 | single600_trig100 | -0.87% | -0.81% | -0.06% | -2.50% | -1.69% / -21.8%/yr | $0.08 | $0.02 | $0.663 | $16.26 | 95% | 10 | $-0.33 | none |
-| live1200_trig300_perday4 | -0.81% | -0.81% | +0.00% | -2.43% | -1.62% / -20.9%/yr | $0.04 | $0.01 | $0.000 | $16.26 | 95% | 0 | $-0.07 | none |
+| live2400_trig600_perday4 | -0.81% | -0.81% | +0.00% | -2.43% | -1.63% / -20.9%/yr | $0.02 | $0.01 | $0.000 | $16.26 | 95% | 0 | $-0.04 | none |
 | single1200_trig600 | -0.81% | -0.81% | +0.00% | -2.43% | -1.62% / -20.9%/yr | $0.04 | $0.01 | $0.000 | $16.26 | 95% | 0 | $-0.07 | none |
 | fee_fixed150 | -0.80% | -0.81% | +0.01% | -2.43% | -1.62% / -20.9%/yr | $0.11 | $0.03 | $0.000 | $16.26 | 95% | 0 | $-0.14 | none |
 | fee_x15 | -0.80% | -0.81% | +0.01% | -2.43% | -1.62% / -20.9%/yr | $0.12 | $0.03 | $0.000 | $16.26 | 95% | 0 | $-0.14 | none |
@@ -264,7 +267,7 @@ Tick spacing 1, 655,414 swaps, pool head block 104,071,867, starting capital $1,
 
 Excess versus holding = fees to holders + inventory effect - recenter gas (baseline: $0.46 + $-0.03 - $0.000); end state idle USDG $476, idle stock $469; RAM accrued 4.5 tokens, valued at zero.
 
-### NVDA: CURRENT CAPS: $1,000 pair (OPERATOR-SUPPLIED, pending configuration readback), $50 ranged value (operator-supplied; $50 matches the live Uniswap vault's maxRangedValueUsd)
+### NVDA: CURRENT CAPS: $1,000 pair and $50 ranged value (OPERATOR-SUPPLIED, pending configuration readback of the Ramses vault, which is not deployed; the LIVE Uniswap NVDA/USDG vault, a different contract, reads back the same two numbers: maxPairValueUSDG $1,000, maxRangedValueUsd $50; see live-config-readback.json and proposed-ramses-settings.json)
 
 Tick spacing 10, 331,486 swaps, pool head block 104,187,711, starting capital $1,000, ranged cap $50.
 
@@ -275,7 +278,7 @@ Tick spacing 10, 331,486 swaps, pool head block 104,187,711, starting capital $1
 | single600_trig300 | -0.28% | -0.32% | +0.04% | -5.44% | -5.12% / -20.8%/yr | $1.70 | $0.43 | $1.326 | $51.64 | 95% | 20 | $-3.35 | none |
 | single600_trig300_poll300 | -0.29% | -0.32% | +0.03% | -5.45% | -5.13% / -20.8%/yr | $1.70 | $0.43 | $1.658 | $51.64 | 95% | 25 | $-3.52 | none |
 | single600_trig100 | -1.25% | -0.32% | -0.94% | -6.42% | -6.10% / -24.7%/yr | $1.71 | $0.43 | $11.072 | $51.64 | 95% | 167 | $-3.93 | cooldown 2605 (cooldown 0.5 d) |
-| live1200_trig300_perday4 | -0.36% | -0.32% | -0.04% | -5.52% | -5.21% / -21.1%/yr | $0.88 | $0.22 | $1.326 | $51.64 | 95% | 20 | $-1.77 | none |
+| live2400_trig600_perday4 | -0.31% | -0.32% | +0.01% | -5.47% | -5.16% / -20.9%/yr | $0.46 | $0.12 | $0.398 | $51.64 | 95% | 6 | $-0.95 | none |
 | single1200_trig600 | -0.27% | -0.32% | +0.05% | -5.43% | -5.11% / -20.7%/yr | $0.89 | $0.22 | $0.398 | $51.64 | 95% | 6 | $-1.76 | none |
 | fee_fixed150 | -0.34% | -0.32% | -0.03% | -5.51% | -5.19% / -21.0%/yr | $1.03 | $0.26 | $1.326 | $51.64 | 95% | 20 | $-3.35 | none |
 | fee_x15 | -0.19% | -0.32% | +0.12% | -5.36% | -5.04% / -20.4%/yr | $2.55 | $0.64 | $1.326 | $51.64 | 95% | 20 | $-3.27 | none |
@@ -290,7 +293,7 @@ Tick spacing 10, 331,486 swaps, pool head block 104,187,711, starting capital $1
 | single600_trig300 | -6.18% | -5.86% | -0.32% | -7.82% | -1.95% / -25.1%/yr | $0.37 | $0.09 | $0.530 | $16.34 | 95% | 8 | $-3.86 | none |
 | single600_trig300_poll300 | -6.17% | -5.86% | -0.31% | -7.81% | -1.95% / -24.9%/yr | $0.36 | $0.09 | $0.530 | $16.34 | 95% | 8 | $-3.77 | none |
 | single600_trig100 | -6.53% | -5.86% | -0.67% | -8.16% | -2.30% / -29.5%/yr | $0.37 | $0.09 | $3.978 | $16.34 | 95% | 60 | $-4.38 | cooldown 1363 (cooldown 0.12 d) |
-| live1200_trig300_perday4 | -6.05% | -5.86% | -0.19% | -7.69% | -1.82% / -23.4%/yr | $0.19 | $0.05 | $0.530 | $16.34 | 95% | 8 | $-2.00 | none |
+| live2400_trig600_perday4 | -5.95% | -5.86% | -0.09% | -7.58% | -1.72% / -22.0%/yr | $0.10 | $0.02 | $0.133 | $16.34 | 95% | 2 | $-1.07 | none |
 | single1200_trig600 | -6.01% | -5.86% | -0.15% | -7.65% | -1.79% / -22.9%/yr | $0.19 | $0.05 | $0.133 | $16.34 | 95% | 2 | $-2.02 | none |
 | fee_fixed150 | -6.18% | -5.86% | -0.32% | -7.82% | -1.95% / -25.0%/yr | $0.39 | $0.10 | $0.530 | $16.34 | 95% | 8 | $-3.86 | none |
 | fee_x15 | -6.17% | -5.86% | -0.30% | -7.80% | -1.94% / -24.8%/yr | $0.55 | $0.14 | $0.530 | $16.34 | 95% | 8 | $-3.84 | none |
@@ -326,7 +329,7 @@ Tick spacing 10, 331,486 swaps, pool head block 104,187,711, starting capital $1
 
 Excess versus holding = fees to holders + inventory effect - recenter gas (baseline: $1.70 + $0.02 - $1.326); end state idle USDG $475, idle stock $474; RAM accrued 32.4 tokens, valued at zero.
 
-### GLD: CURRENT CAPS: $1,000 pair (OPERATOR-SUPPLIED, pending configuration readback), $50 ranged value (operator-supplied; $50 matches the live Uniswap vault's maxRangedValueUsd)
+### GLD: CURRENT CAPS: $1,000 pair and $50 ranged value (OPERATOR-SUPPLIED, pending configuration readback of the Ramses vault, which is not deployed; the LIVE Uniswap NVDA/USDG vault, a different contract, reads back the same two numbers: maxPairValueUSDG $1,000, maxRangedValueUsd $50; see live-config-readback.json and proposed-ramses-settings.json)
 
 Tick spacing 1, 93,803 swaps, pool head block 104,071,867, starting capital $1,000, ranged cap $50.
 
@@ -337,7 +340,7 @@ Tick spacing 1, 93,803 swaps, pool head block 104,071,867, starting capital $1,0
 | single600_trig300 | -5.76% | -5.50% | -0.25% | -8.18% | -2.68% / -23.1%/yr | $0.39 | $0.10 | $0.199 | $24.29 | 95% | 3 | $-1.99 | none |
 | single600_trig300_poll300 | -5.75% | -5.50% | -0.25% | -8.18% | -2.68% / -23.1%/yr | $0.38 | $0.10 | $0.199 | $24.29 | 95% | 3 | $-1.98 | none |
 | single600_trig100 | -5.90% | -5.50% | -0.40% | -8.33% | -2.83% / -24.4%/yr | $0.39 | $0.10 | $1.658 | $24.29 | 95% | 25 | $-2.18 | none |
-| live1200_trig300_perday4 | -5.64% | -5.50% | -0.14% | -8.07% | -2.57% / -22.1%/yr | $0.20 | $0.05 | $0.199 | $24.29 | 95% | 3 | $-1.05 | none |
+| live2400_trig600_perday4 | -5.58% | -5.50% | -0.07% | -8.01% | -2.50% / -21.6%/yr | $0.10 | $0.03 | $0.133 | $24.29 | 95% | 2 | $-0.51 | stale 196, session 319 (stale 0.5 d, session 0.74 d) |
 | single1200_trig600 | -5.63% | -5.50% | -0.13% | -8.06% | -2.56% / -22.1%/yr | $0.20 | $0.05 | $0.133 | $24.29 | 95% | 2 | $-0.98 | stale 196, session 319 (stale 0.5 d, session 0.74 d) |
 | fee_fixed150 | -5.77% | -5.50% | -0.26% | -8.20% | -2.69% / -23.2%/yr | $0.27 | $0.07 | $0.199 | $24.29 | 95% | 3 | $-1.99 | none |
 | fee_x15 | -5.74% | -5.50% | -0.23% | -8.17% | -2.66% / -23.0%/yr | $0.58 | $0.15 | $0.199 | $24.29 | 95% | 3 | $-1.99 | none |
@@ -352,7 +355,7 @@ Tick spacing 1, 93,803 swaps, pool head block 104,071,867, starting capital $1,0
 | single600_trig300 | -3.16% | -3.08% | -0.07% | -4.78% | -1.70% / -21.9%/yr | $0.21 | $0.05 | $0.133 | $16.26 | 95% | 2 | $-0.94 | none |
 | single600_trig300_poll300 | -3.16% | -3.08% | -0.07% | -4.78% | -1.70% / -21.9%/yr | $0.21 | $0.05 | $0.133 | $16.26 | 95% | 2 | $-0.94 | none |
 | single600_trig100 | -3.25% | -3.08% | -0.17% | -4.88% | -1.79% / -23.1%/yr | $0.21 | $0.05 | $1.061 | $16.26 | 95% | 16 | $-1.15 | none |
-| live1200_trig300_perday4 | -3.13% | -3.08% | -0.04% | -4.75% | -1.67% / -21.5%/yr | $0.11 | $0.03 | $0.133 | $16.26 | 95% | 2 | $-0.52 | none |
+| live2400_trig600_perday4 | -3.11% | -3.08% | -0.02% | -4.73% | -1.65% / -21.2%/yr | $0.06 | $0.01 | $0.066 | $16.26 | 95% | 1 | $-0.30 | none |
 | single1200_trig600 | -3.12% | -3.08% | -0.04% | -4.75% | -1.66% / -21.4%/yr | $0.11 | $0.03 | $0.066 | $16.26 | 95% | 1 | $-0.51 | none |
 | fee_fixed150 | -3.16% | -3.08% | -0.08% | -4.79% | -1.71% / -22.0%/yr | $0.15 | $0.04 | $0.133 | $16.26 | 95% | 2 | $-0.94 | none |
 | fee_x15 | -3.15% | -3.08% | -0.06% | -4.77% | -1.69% / -21.8%/yr | $0.32 | $0.08 | $0.133 | $16.26 | 95% | 2 | $-0.94 | none |
@@ -404,7 +407,7 @@ Tick spacing 1, 655,414 swaps, pool head block 104,071,867, starting capital $10
 | single600_trig300 | +0.20% | -0.62% | +0.82% | -0.22% | +0.40% / +2.0%/yr | $89.38 | $22.35 | $0.000 | $42.69 | 2% | 0 | $-21.00 | none |
 | single600_trig300_poll300 | +0.20% | -0.62% | +0.82% | -0.22% | +0.40% / +2.0%/yr | $89.38 | $22.35 | $0.000 | $42.69 | 2% | 0 | $-21.00 | none |
 | single600_trig100 | +0.01% | -0.62% | +0.63% | -0.42% | +0.20% / +1.0%/yr | $79.77 | $19.94 | $1.392 | $42.69 | 16% | 21 | $-47.21 | none |
-| live1200_trig300_perday4 | -0.19% | -0.62% | +0.43% | -0.62% | +0.00% / +0.0%/yr | $46.52 | $11.63 | $0.000 | $42.69 | 1% | 0 | $-10.76 | none |
+| live2400_trig600_perday4 | -0.40% | -0.62% | +0.22% | -0.82% | -0.20% / -1.0%/yr | $24.28 | $6.07 | $0.000 | $42.69 | 1% | 0 | $-5.57 | none |
 | single1200_trig600 | -0.19% | -0.62% | +0.43% | -0.62% | +0.00% / +0.0%/yr | $46.52 | $11.63 | $0.000 | $42.69 | 1% | 0 | $-10.76 | none |
 | single600_trig300_noreserve | +0.43% | -0.62% | +1.05% | -0.00% | +0.62% / +3.0%/yr | $111.73 | $0.00 | $0.000 | $42.69 | 3% | 0 | $-20.98 | none |
 | single600_trig300_gas040 | +0.20% | -0.62% | +0.82% | -0.22% | +0.40% / +2.0%/yr | $89.38 | $22.35 | $0.000 | $42.69 | 2% | 0 | $-21.00 | none |
@@ -423,7 +426,7 @@ Tick spacing 1, 655,414 swaps, pool head block 104,071,867, starting capital $10
 | single600_trig300 | -0.76% | -0.81% | +0.05% | -0.92% | -0.11% / -1.5%/yr | $16.13 | $4.03 | $0.000 | $16.26 | 0% | 0 | $-28.12 | none |
 | single600_trig300_poll300 | -0.76% | -0.81% | +0.05% | -0.92% | -0.11% / -1.5%/yr | $16.13 | $4.03 | $0.000 | $16.26 | 0% | 0 | $-28.12 | none |
 | single600_trig100 | -0.74% | -0.81% | +0.07% | -0.90% | -0.09% / -1.2%/yr | $14.27 | $3.57 | $0.663 | $16.26 | 14% | 10 | $-23.18 | none |
-| live1200_trig300_perday4 | -0.78% | -0.81% | +0.03% | -0.94% | -0.14% / -1.8%/yr | $8.25 | $2.06 | $0.000 | $16.26 | 0% | 0 | $-14.29 | none |
+| live2400_trig600_perday4 | -0.79% | -0.81% | +0.01% | -0.96% | -0.15% / -1.9%/yr | $4.26 | $1.07 | $0.000 | $16.26 | 0% | 0 | $-7.36 | none |
 | single1200_trig600 | -0.78% | -0.81% | +0.03% | -0.94% | -0.14% / -1.8%/yr | $8.25 | $2.06 | $0.000 | $16.26 | 0% | 0 | $-14.29 | none |
 | fee_fixed150 | -0.71% | -0.81% | +0.10% | -0.87% | -0.07% / -0.8%/yr | $20.98 | $5.25 | $0.000 | $16.26 | 0% | 0 | $-27.93 | none |
 | fee_x15 | -0.68% | -0.81% | +0.13% | -0.84% | -0.03% / -0.4%/yr | $24.20 | $6.05 | $0.000 | $16.26 | 0% | 0 | $-27.67 | none |
@@ -482,7 +485,7 @@ Tick spacing 10, 331,486 swaps, pool head block 104,187,711, starting capital $1
 | single600_trig300 | +1.86% | -0.32% | +2.17% | +1.34% | +1.66% / +6.7%/yr | $33.89 | $8.47 | $1.326 | $51.64 | 88% | 20 | $-398.58 | none |
 | single600_trig300_poll300 | +1.78% | -0.32% | +2.10% | +1.27% | +1.58% / +6.4%/yr | $23.51 | $5.88 | $1.658 | $51.64 | 92% | 25 | $-452.84 | none |
 | single600_trig100 | +1.60% | -0.32% | +1.92% | +1.08% | +1.40% / +5.7%/yr | $31.20 | $7.80 | $11.072 | $51.64 | 88% | 167 | $-424.63 | cooldown 2605 (cooldown 0.5 d) |
-| live1200_trig300_perday4 | +1.51% | -0.32% | +1.83% | +1.00% | +1.31% / +5.3%/yr | $65.80 | $16.45 | $1.326 | $51.64 | 55% | 20 | $-279.09 | none |
+| live2400_trig600_perday4 | +0.69% | -0.32% | +1.01% | +0.18% | +0.49% / +2.0%/yr | $56.36 | $14.09 | $0.398 | $51.64 | 29% | 6 | $-169.58 | none |
 | single1200_trig600 | +1.65% | -0.32% | +1.97% | +1.13% | +1.45% / +5.9%/yr | $59.35 | $14.84 | $0.398 | $51.64 | 61% | 6 | $-287.82 | none |
 | single600_trig300_noreserve | +1.94% | -0.32% | +2.26% | +1.42% | +1.74% / +7.1%/yr | $42.44 | $0.00 | $1.326 | $51.64 | 88% | 20 | $-397.99 | none |
 | single600_trig300_gas040 | +1.79% | -0.32% | +2.11% | +1.27% | +1.59% / +6.4%/yr | $33.89 | $8.47 | $8.000 | $51.64 | 88% | 20 | $-399.58 | none |
@@ -501,7 +504,7 @@ Tick spacing 10, 331,486 swaps, pool head block 104,187,711, starting capital $1
 | single600_trig300 | -7.90% | -5.86% | -2.03% | -8.06% | -2.20% / -28.1%/yr | $28.16 | $7.04 | $0.530 | $16.34 | 62% | 8 | $-375.81 | none |
 | single600_trig300_poll300 | -8.25% | -5.86% | -2.38% | -8.41% | -2.55% / -32.6%/yr | $27.51 | $6.88 | $0.530 | $16.34 | 62% | 8 | $-378.03 | none |
 | single600_trig100 | -9.06% | -5.86% | -3.19% | -9.22% | -3.36% / -43.0%/yr | $25.17 | $6.29 | $3.978 | $16.34 | 63% | 60 | $-382.38 | cooldown 1363 (cooldown 0.12 d) |
-| live1200_trig300_perday4 | -7.74% | -5.86% | -1.87% | -7.90% | -2.04% / -26.1%/yr | $21.55 | $5.39 | $0.530 | $16.34 | 41% | 8 | $-267.97 | none |
+| live2400_trig600_perday4 | -7.23% | -5.86% | -1.37% | -7.39% | -1.53% / -19.6%/yr | $15.26 | $3.81 | $0.133 | $16.34 | 19% | 2 | $-175.76 | none |
 | single1200_trig600 | -8.38% | -5.86% | -2.51% | -8.54% | -2.68% / -34.3%/yr | $22.81 | $5.70 | $0.133 | $16.34 | 37% | 2 | $-295.89 | none |
 | fee_fixed150 | -7.88% | -5.86% | -2.02% | -8.04% | -2.18% / -27.9%/yr | $30.13 | $7.53 | $0.530 | $16.34 | 62% | 8 | $-376.08 | none |
 | fee_x15 | -7.76% | -5.86% | -1.90% | -7.93% | -2.06% / -26.5%/yr | $42.28 | $10.57 | $0.530 | $16.34 | 62% | 8 | $-376.08 | none |
@@ -560,7 +563,7 @@ Tick spacing 1, 93,803 swaps, pool head block 104,071,867, starting capital $10,
 | single600_trig300 | -8.79% | -5.50% | -3.29% | -9.04% | -3.54% / -30.5%/yr | $34.09 | $8.52 | $0.199 | $24.29 | 61% | 3 | $-212.55 | none |
 | single600_trig300_poll300 | -8.80% | -5.50% | -3.30% | -9.05% | -3.54% / -30.6%/yr | $33.34 | $8.34 | $0.199 | $24.29 | 62% | 3 | $-212.66 | none |
 | single600_trig100 | -8.70% | -5.50% | -3.20% | -8.94% | -3.44% / -29.7%/yr | $30.87 | $7.72 | $1.658 | $24.29 | 64% | 25 | $-211.38 | none |
-| live1200_trig300_perday4 | -7.50% | -5.50% | -2.00% | -7.74% | -2.24% / -19.3%/yr | $26.44 | $6.61 | $0.199 | $24.29 | 35% | 3 | $-146.25 | none |
+| live2400_trig600_perday4 | -6.67% | -5.50% | -1.17% | -6.92% | -1.41% / -12.2%/yr | $17.25 | $4.31 | $0.133 | $24.29 | 16% | 2 | $-91.52 | stale 196, session 319 (stale 0.5 d, session 0.74 d) |
 | single1200_trig600 | -7.66% | -5.50% | -2.16% | -7.91% | -2.40% / -20.7%/yr | $28.07 | $7.02 | $0.133 | $24.29 | 32% | 2 | $-159.05 | stale 196, session 319 (stale 0.5 d, session 0.74 d) |
 | single600_trig300_noreserve | -8.71% | -5.50% | -3.21% | -8.96% | -3.45% / -29.8%/yr | $42.64 | $0.00 | $0.199 | $24.29 | 61% | 3 | $-212.70 | none |
 | single600_trig300_gas040 | -8.80% | -5.50% | -3.30% | -9.05% | -3.55% / -30.6%/yr | $34.09 | $8.52 | $1.200 | $24.29 | 61% | 3 | $-212.88 | none |
@@ -579,7 +582,7 @@ Tick spacing 1, 93,803 swaps, pool head block 104,071,867, starting capital $10,
 | single600_trig300 | -4.22% | -3.08% | -1.13% | -4.38% | -1.30% / -16.7%/yr | $32.39 | $8.10 | $0.133 | $16.26 | 24% | 2 | $-157.55 | none |
 | single600_trig300_poll300 | -4.23% | -3.08% | -1.15% | -4.40% | -1.31% / -16.9%/yr | $32.01 | $8.00 | $0.133 | $16.26 | 25% | 2 | $-160.96 | none |
 | single600_trig100 | -4.30% | -3.08% | -1.22% | -4.46% | -1.38% / -17.8%/yr | $30.51 | $7.63 | $1.061 | $16.26 | 28% | 16 | $-152.15 | none |
-| live1200_trig300_perday4 | -3.69% | -3.08% | -0.61% | -3.85% | -0.77% / -9.9%/yr | $18.79 | $4.70 | $0.133 | $16.26 | 13% | 2 | $-85.19 | none |
+| live2400_trig600_perday4 | -3.41% | -3.08% | -0.33% | -3.57% | -0.49% / -6.3%/yr | $10.73 | $2.68 | $0.066 | $16.26 | 3% | 1 | $-45.87 | none |
 | single1200_trig600 | -3.71% | -3.08% | -0.63% | -3.88% | -0.79% / -10.2%/yr | $20.21 | $5.05 | $0.066 | $16.26 | 5% | 1 | $-87.57 | none |
 | fee_fixed150 | -4.31% | -3.08% | -1.23% | -4.47% | -1.39% / -17.9%/yr | $22.78 | $5.70 | $0.133 | $16.26 | 24% | 2 | $-157.29 | none |
 | fee_x15 | -4.06% | -3.08% | -0.98% | -4.22% | -1.14% / -14.7%/yr | $48.61 | $12.15 | $0.133 | $16.26 | 24% | 2 | $-157.35 | none |
@@ -633,6 +636,7 @@ Excess versus holding = fees to holders + inventory effect - recenter gas (basel
 * **SPY** (zero recenters: no trigger fired, so this is a static +/-6.2% range). Supplier excess over holding +0.82% (+4.0%/yr): fees to holders $89.4, reserve cut $22.3, inventory effect -$6.9. After assumed maintenance (operator-paid, $42.69) +0.40% (+2.0%/yr), +0.72% with the observed-average maintenance. Fees minus LVR minus gas is +$1.20, break-even; minus maintenance -$41.49. Last 28 days: +0.05% before maintenance, -0.11% after.
 * **NVDA** (Ramses pool). Supplier excess +2.19% over holding (+8.9%/yr) is **not fee income**: fees to holders $33.9, inventory effect +$184.6. With no swap at recenter each redeploy takes only matched value, the NVDA side was used up in the rally, and the position ended as $9,564 idle USDG (88% idle on average), i.e. mostly cash while NVDA fell. Fees minus LVR minus gas is -$111.1 and -$162.7 after maintenance. The sign flips by window: last 28 days -2.03% (-26%/yr) with a worst week of -$376. At 300-second polling the baseline's fees fall to $23.5 and the last-28-day excess to -2.38%.
 * **GLD** (the Ramses pool, contract-feasible baseline): supplier excess **-3.29%** against holding over 42 days (-28%/yr); fees to holders $34.1 against LVR $61.6; 61% of capital idle. **Even with every fee tripled the feasible strategy is still -2.64% against holding**, and a constant 150 ppm gives -3.40%. So on this sample GLD's loss against holding is inventory/LVR, not the fee level, and higher fees (volume held fixed, an upper bound) do not close it.
+* **The policy read back from the live Uniswap vault** (+/-2400 ticks, trigger 600, at most 4 per day; the `live2400_trig600_perday4` rows) is wider and recentres less: supplier excess over holding +0.22% (SPY), +1.01% (NVDA), -1.17% (GLD) against +0.82%, +2.19% and -3.29% for the 600-tick baseline. It loses less than the baseline where the baseline loses (GLD) and earns less where the baseline gains, the same inventory mechanism in both directions; it passes the contract's rules (checked by the feasibility gate).
 * **Idle capital** is structural: matched-only redeploys leave the surplus side idle. A half-capital ranged cap raised the NVDA headline (+12.4%/yr) only because it keeps both idle sides balanced longer; that is the same inventory artefact, not a better strategy.
 * **Blocked maintenance.** No due recenter was blocked by a stale feed or a closed session in any run (the guard paths are exercised by unit tests, not by these windows; the SPY feed is older than 12 h about half of the time, so this is not a statement that it is always fresh). The only blocks were cooldown blocks at trigger 100 on NVDA (2,605 evaluations, 0.5 day).
 * **Reserve and RAM.** The 20% reserve cost holders about 0.23% over the SPY window. RAM accrued (883 tokens SPY, 222 NVDA) is valued at zero.
@@ -681,11 +685,11 @@ Principal is kept **per side, in each side's native token** (`stockPrincipal`, `
 
 r33 is not part of the SPY/GLD/USDG collateral set. The partner's stated goal (partner-supplied, unverified here) is **borrowing against r33 while retaining r33 exposure**; the intended design is **direct collateral, with LP participation separately optional**. This brief keeps them apart in three ways. (1) An LP route does not preserve exposure: matched-only recentering converts inventory (section 7; section 10 for what a one-sided position pays out), so r33 posted as collateral must be the plain asset, not an LP position. (2) The group shares one controller with cross-collateral, so **an r33 market with a collateral factor above zero would count toward SPY/GLD/USDG borrowers' liquidity and put the group's suppliers behind r33.** That is a change from handoff 01 tier 0 (collateral factor 0), and nothing here proposes it. (3) Liquidations of direct r33 collateral are funded in kind (section 9): the protocol does not swap r33, but whoever liquidates must be able to sell it, which is what section 4 measures.
 
-**Blockers, not resolved here:** r33 has no Chainlink feed and no local price source is established (the only local r33/USDG concentrated pools are thin and one-sided, so a price built on them would be manipulable); the contract's control facts (owner, mint, pause, blacklist, transfer tax; partner-supplied claim that it is an ERC-20/OFT whose staking vault and redemption live on HyperEVM) are unverified; and HyperEVM redemption is not an atomic fallback, so liquidation economics must stand on Robinhood Chain liquidity alone. **r33 activation stays blocked** while pricing and executable capacity under the actual liquidation mechanism are unproven. Handoff 01 requires `research/R33-RAM.md` (who controls the r33 contract and which price source is acceptable) before any positive collateral factor; that has not been done.
+**Blockers, not resolved here:** r33 has no Chainlink feed and no local price source is established (the only local r33/USDG concentrated pools are thin and one-sided, so a price built on them would be manipulable); the contract's control facts (owner, mint, pause, blacklist, transfer tax; partner-supplied claim that it is an ERC-20/OFT whose staking vault and redemption live on HyperEVM) are unverified; and HyperEVM redemption is not an atomic fallback, so liquidation economics must stand on Robinhood Chain liquidity alone. **No r33 collateral factor and no r33 activation** while pricing and executable capacity under the actual liquidation mechanism are unproven. The next capacity proof is the complete route executed atomically at one fork block with real fees, slippage limits and adapter requirements (section 4); the approximately 2% to 3% figure is relative to the CL200 spot. Handoff 01 requires `research/R33-RAM.md` (who controls the r33 contract and which price source is acceptable) before any positive collateral factor; that has not been done.
 
 ## 12. Pins, hashes, keeper receipts, input bundle, release, reproduction
 
-`pins-and-receipts.json` holds full hashes and headers for the research pins (all `l1BlockNumber` checks pass); `pools/pool-quotes.json`, `pools/r33-routes.json` and `pools/inputs/` hold each pool's own pin and the **full saved state** (sqrtPriceX96, slot0 words, liquidity, bitmap words, ticks). Short form of the earlier pins:
+`pins-and-receipts.json` holds full hashes and headers for the research pins (all `l1BlockNumber` checks pass); `pools/pool-quotes.json`, `pools/r33-routes.json` and `pools/inputs/<pool>/<block>-<hash>.json` hold each pool's own pin and the **full saved state** (sqrtPriceX96, slot0 words, liquidity, bitmap words, ticks), referenced by path and SHA-256 from the quotes and from the fork proofs. Short form of the earlier pins:
 
 | Use | L2 block | Native (l1BlockNumber) | Block hash | Provenance |
 | --- | --- | --- | --- | --- |
@@ -698,9 +702,9 @@ r33 is not part of the SPY/GLD/USDG collateral set. The partner's stated goal (p
 
 **Keeper transactions (RPC receipts, status 1):** checkpoint `0xcad407716d6b7299784206d773d376ca75f6148d98d7c14b98cafc9f7403476d` (block 104,165,913, nonce 138, gas 523,686, effective gas price 20,094,000 wei, 0.00001052 ETH, 19 logs) and rebalance `0x7cb6988a23127109837531ecf2fdf2c3f4e95d499a4eb750ac8dac3116078031` (block 104,165,952, nonce 139, gas 735,438, 0.00001486 ETH, 31 logs), both from `0x978e2ADF18da8B846552932c0aB2B1193da1fAc4` to the production vault. Keeper nonce 140 and balance 0.005269526 ETH at block 104,193,993. **Mined reverted sends: none found** (nonce 138 equalled 138 event-emitting transactions in the PR #13 evidence; the two receipts explain 138 and 139). The `CheckpointStale` / `execution reverted` lines in the keeper log are never-mined simulation rejections: no receipt, no cost.
 
-**Input bundle (hash-verified, versioned).** The raw pool logs (about 810 MB) and datasets are too large for Git. They are immutable chain data, so `bundle/manifest-v1.json` pins, per pool, the block range, event signatures and a SHA-256 over the canonical log set and over the dataset columns; `bundle.py` rebuilds and verifies them from the public RPC. **Verification now fails (non-zero) when a required input is missing**: the dataset, the manifest entry, either committed small input, or the raw file when one is requested; and `rebuild` verifies the small inputs *before* fetching anything (`test_bundle.py`, 11 regressions, 7 mutations killed). Cold reconstruction status (empty cache, fresh header grid, every event hash and the dataset-column hash checked): GLD in progress or incomplete (see log); SPY in progress or incomplete (see log); NVDA FAILED or interrupted (see log) (`logs/bundle-rebuild-*.log`).
+**Input bundle (hash-verified, versioned).** The raw pool logs (about 810 MB) and datasets are too large for Git. They are immutable chain data, so `bundle/manifest-v1.json` pins, per pool, the block range, event signatures and a SHA-256 over the canonical log set and over the dataset columns; `bundle.py` rebuilds and verifies them from the public RPC. **Verification now fails (non-zero) when a required input is missing**: the dataset, the manifest entry, either committed small input, or the raw file when one is requested; and `rebuild` verifies the small inputs *before* fetching anything (`test_bundle.py`: 22 regressions, including removing a required input from disk AND from the manifest, dropping any required event stream, a wrong signature or pool, and a non-canonical path; the required lists are fixed in code, not read from the manifest). Cold reconstruction status (empty cache, fresh header grid, every event hash and the dataset-column hash checked): GLD in progress or incomplete (see log); SPY VERIFIED (all event hashes and the dataset-column hash match); NVDA in progress or incomplete (see log) (`logs/bundle-rebuild-*.log`).
 
-**Release asset (prepared and verified locally; NOT published).** `make_release.py` builds two compressed, versioned archives with checksums: a *core* archive (code, evidence, the saved pinned pool-state inputs that the RPC cannot serve again, JSON datasets, small inputs) and a *rawlogs* archive. Datasets are JSON, not pickle, so unpacking runs no downloaded code, and `unpack_datasets.py` refuses any dataset that does not match the manifest hash. Before anything is published the script extracts the core archive into a fresh directory and runs `sh reproduce_offline.sh` there **with all network access pointed at a dead proxy**, which re-verifies the inputs, replays every pinned quote from the saved state and reruns the current-caps baselines, comparing every number with the committed evidence; it also verifies the raw-log archive against the manifest. Not yet built in this revision.
+**Release asset (prepared and verified locally; NOT published).** `make_release.py --require-cold --full` builds two compressed, versioned archives with checksums: a *core* archive (code, evidence, the saved pinned pool-state snapshots that the RPC cannot serve again, JSON datasets, small inputs) and a *rawlogs* archive. Datasets are JSON, not pickle, so unpacking runs no downloaded code, and `unpack_datasets.py` refuses any dataset that does not match the manifest hash. It refuses to build unless the local inputs verify and all three cold rebuild logs show every hash matching. Before anything is published it extracts the core archive into a fresh directory and runs `sh reproduce_offline.sh full` there **under a macOS sandbox that denies all network (`sandbox-exec "(deny network*)"`)**, after a probe inside the same sandbox proves a socket connect and a DNS lookup both fail (if `sandbox-exec` were unavailable the run falls back to dead proxies and is recorded as "proxy-only, NOT network isolation"). The run re-verifies the inputs, re-checks every fork proof, replays every pinned quote and reruns every baseline, comparing each number with the committed evidence; it also verifies the raw-log archive against the manifest. Not yet built in this revision.
 
 **Offline reproduction command** (from an unpacked core archive; no network needed):
 
@@ -712,20 +716,20 @@ sh reproduce_offline.sh full                                                    
 **Commands in the repository checkout** (read-only; the public RPC keeps only minutes of state, so rerunning the pinned reads gives a new pin, and the saved inputs are the evidence for the old ones):
 
 ```
-python3 -m unittest test_engine test_feasibility test_quote_math test_bundle
-python3 mutate_engine.py
+python3 -m unittest test_engine test_feasibility test_quote_math test_bundle test_replay_check
+python3 mutate_engine.py ; python3 mutate_checks.py
 python3 bundle.py rebuild SPY|GLD|NVDA [--cache DIR --out DIR]      # cold fetch + hash verification
 python3 bundle.py verify SPY|GLD|NVDA [--raw FILE] [--results-dir D]
 python3 run_baseline.py SPY|NVDA|GLD caps|research ; python3 render_baseline.py caps|research SPY NVDA GLD
-python3 quote_offline.py --check ; python3 render_pools.py ; python3 render_routes.py
+python3 quote_offline.py --check ; python3 verify_replays.py ; python3 render_pools.py ; python3 render_routes.py ; python3 readback_live_caps.py ; python3 proposed_ramses_settings.py
 python3 replay_pool.py "<pool name>"      # pin + save inputs + fork replay against the deployed pool (needs forge and the RPC)
 python3 pool_quote.py --from-inputs ; python3 r33_routes.py ; python3 fee_reconcile.py ; python3 collect_evidence.py
-python3 make_release.py --require-cold [--full]
+python3 make_release.py --require-cold --full
 ```
 
 ## 13. Open items
 
 * The partner's original page (HTTP 403 here) and the partner-supplied claims in section 2 (r33 is an ERC-20/OFT; staking vault and redemption on HyperEVM), all unverified.
-* The gateway's `hasDynamicFees: false` against the `FeeAdjustment` history; a third-party LP Collect comparison; fork tests of the exact configuration on META and r33; the profitability and liquidation-capacity gates; operator decisions in handoff 01 section 13. The `$1,000` pair cap is operator-supplied pending configuration readback.
+* The gateway's `hasDynamicFees: false` against the `FeeAdjustment` history; a third-party LP Collect comparison; fork tests of the exact configuration on META and r33; the profitability and liquidation-capacity gates; operator decisions in handoff 01 section 13. The $1,000 pair cap is operator-supplied pending configuration readback of the (undeployed) Ramses vault; the live Uniswap vault reads back $1,000 / $50.
 * Not done: dividend/`uiMultiplier` fork test, a real signed recenter, an in-kind liquidation fork test followed by an LP-unwinding redeem, a Ramses margin/router adapter, RAM holder entitlement, Ramses-vault gas measurements, a longer or more volatile SPY sample (its baseline never recentered).
 * Wording to avoid: the baselines are short samples of a modelled strategy, not a yield estimate and not a safety claim; the route quotes are not router quotes and not atomic.

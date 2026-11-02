@@ -1,0 +1,71 @@
+{
+ "schema": "ramses-proposed-settings-1",
+ "status": "PROPOSED / ASSUMED FOR RESEARCH. NOT DEPLOYED. NOT APPROVED. NOT READ BACK FROM A RAMSES VAULT.",
+ "generated": "2026-11-02T15:43:23Z",
+ "liveUniswapReadback": {
+  "file": "live-config-readback.json",
+  "vault": "0x280825b2d856706Ff7E0d6351CcB2e935E1a9A2f",
+  "block": 104330355,
+  "isRamsesConfiguration": false,
+  "values": {
+   "pairCapUsd": 1000.0,
+   "rangedCapUsd": 50.0,
+   "settlementSwapCapUsd": 25.0,
+   "reserveCutPct": 20.0
+  },
+  "rangePolicy": {
+   "enabled": true,
+   "halfWidthTicks": 2400,
+   "triggerTicks": 600,
+   "minIntervalSeconds": 3600,
+   "maxPerDay": 4,
+   "maxLossBps": 10,
+   "maxRangedValueUsdE18": 50000000000000000000
+  }
+ },
+ "assumedForRamsesBaselines": {
+  "pairCapUsd": {
+   "value": 1000.0,
+   "source": "operator-supplied",
+   "status": "pending configuration readback of the Ramses vault; the live Uniswap vault reads back the same number",
+   "matchesLiveUniswap": true
+  },
+  "rangedCapUsd": {
+   "value": 50.0,
+   "source": "operator-supplied",
+   "status": "pending configuration readback; matches the live Uniswap vault's maxRangedValueUsd",
+   "matchesLiveUniswap": true
+  },
+  "reserveFeeBps": {
+   "value": 2000,
+   "source": "ramses-vaults/README.md fixture value",
+   "status": "configuration choice, not decided",
+   "matchesLiveUniswap": true
+  },
+  "rangePolicyBaseline": {
+   "halfWidthTicks": 600,
+   "triggerTicks": 300,
+   "minIntervalSeconds": 3600,
+   "maxPerDay": 24,
+   "maxLossBps": 10,
+   "source": "chosen by this research as the nearest contract-feasible single range",
+   "status": "proposal for analysis only; the live Uniswap policy is different (see liveUniswapReadback.rangePolicy)"
+  },
+  "recenterGasUsd": {
+   "value": 0.0663,
+   "source": "Uniswap keeper measured cost used as a proxy (PR #13 evidence r3)",
+   "status": "assumption, not a Ramses measurement"
+  },
+  "maintenanceUsdPerDay": {
+   "value": 0.5737,
+   "observedAverage": 0.1428,
+   "source": "same evidence",
+   "status": "assumption, operator/protocol-paid"
+  },
+  "keeperPollSeconds": {
+   "value": 300.0,
+   "source": "the deployed Uniswap keeper's INTERVAL_SECONDS",
+   "status": "assumption for the Ramses keeper"
+  }
+ }
+}

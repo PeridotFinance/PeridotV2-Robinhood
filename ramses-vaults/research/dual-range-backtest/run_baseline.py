@@ -25,7 +25,7 @@ import feasibility as FZ
 PROFILES = {
     # name -> (capital, ranged cap or None = capital, label, output suffix)
     "research": (10_000.0, None, "RESEARCH SCENARIO: $10,000 pair, ranged cap = capital (not a current cap)", ""),
-    "caps": (1_000.0, 50.0, "CURRENT CAPS: $1,000 pair (OPERATOR-SUPPLIED, pending configuration readback), $50 ranged value (operator-supplied; $50 matches the live Uniswap vault's maxRangedValueUsd)", "_caps"),
+    "caps": (1_000.0, 50.0, "CURRENT CAPS: $1,000 pair and $50 ranged value (OPERATOR-SUPPLIED, pending configuration readback of the Ramses vault, which is not deployed; the LIVE Uniswap NVDA/USDG vault, a different contract, reads back the same two numbers: maxPairValueUSDG $1,000, maxRangedValueUsd $50; see live-config-readback.json and proposed-ramses-settings.json)", "_caps"),
 }
 CAPITAL = 10_000.0
 POLL_S = 300.0                    # the deployed Uniswap keeper polls every 300 s (INTERVAL_SECONDS); the Ramses keeper's cadence is an assumption
@@ -48,7 +48,7 @@ RUNS = {
     "single600_trig300": (dict(core_half=600, trigger_ticks=300), "BASELINE: +/-600 ticks (~6.2%), trigger 300 (the contract maximum for 600), 1 h cooldown, <=24/day"),
     "single600_trig300_poll300": (dict(core_half=600, trigger_ticks=300, poll_s=POLL_S), "REALISTIC LATENCY: the keeper looks once per 300 s (the baseline rows react on every swap/oracle update, an idealised zero-latency upper bound)"),
     "single600_trig100": (dict(core_half=600, trigger_ticks=100), "sensitivity: trigger 100 (more frequent recentering)"),
-    "live1200_trig300_perday4": (dict(core_half=1200, trigger_ticks=300, max_per_day=4), "the live Uniswap vault's policy shape: +/-1200 ticks, trigger 300, at most 4 recenters per day"),
+    "live2400_trig600_perday4": (dict(core_half=2400, trigger_ticks=600, max_per_day=4), "the policy READ BACK from the live Uniswap vault (block 104,307,385): +/-2400 ticks, trigger 600, 1 h cooldown, at most 4 recenters per day, loss bound 10 bp"),
     "single1200_trig600": (dict(core_half=1200, trigger_ticks=600), "sensitivity: wider +/-1200 ticks (~12.7%), trigger 600"),
     "single600_trig300_noreserve": (dict(core_half=600, trigger_ticks=300, reserve_bps=0), "sensitivity: reserve cut 0 (shows what the 20% reserve costs holders)"),
     "single600_trig300_gas040": (dict(core_half=600, trigger_ticks=300, gas_usd=RECENTER_GAS_CONSERVATIVE), "sensitivity: engine's conservative $0.40 per recenter"),

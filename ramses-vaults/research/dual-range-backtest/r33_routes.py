@@ -121,16 +121,14 @@ def route_eval(hops, token_in, amount):
 def main():
     r = rpc()
     out = {"schema": "ramses-r33-routes-1", "readOnly": True, "generated": _dt.datetime.now(_dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-           "amountsR33": AMOUNTS_R33, "note": "each pool is read at its own recent block; multi-hop figures are non-atomic composites; quotes only", "pins": {}, "routes": []}
+           "amountsR33": AMOUNTS_R33, "note": "each pool is read at its own recent block; multi-hop figures are NON-ATOMIC composites of independent pins; quotes only; shortfalls are relative to the r33/USDG CL200 SPOT (a thin pool), not to a defensible price", "pins": {}, "routes": []}
     hops = {}
-    route_dir = PQ.INPUT_DIR / "routes"
-    route_dir.mkdir(parents=True, exist_ok=True)
     for name, (addr, spacing, mode) in CL.items():
         blk = r.head() - 5
         inp = PQ.read_inputs(addr, spacing, mode, blk)
-        (route_dir / f"{PQ.SLUG(name)}.json").write_text(json.dumps(inp, indent=1))
+        rel, sha = PQ.save_inputs(name, inp, subdir="routes")
         hops[name] = ClHop(name, inp)
-        out["pins"][name] = dict(inp["pin"], kind="CL", inputsFile=f"inputs/routes/{PQ.SLUG(name)}.json", fee_ppm=inp["fee_ppm"], scan=inp["scan"]["mode"], ticks=len(inp["ticks"]), liquidity=inp["liquidity"])
+        out["pins"][name] = dict(inp["pin"], kind="CL", inputsFile=rel, inputsSha256=sha, fee_ppm=inp["fee_ppm"], scan=inp["scan"]["mode"], ticks=len(inp["ticks"]), liquidity=inp["liquidity"])
         print("read", name, "block", blk, "fee", inp["fee_ppm"], "ticks", len(inp["ticks"]), flush=True)
     for name, addr in DLMM.items():
         p, blk = pin(r)

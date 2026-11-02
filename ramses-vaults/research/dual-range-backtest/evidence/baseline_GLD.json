@@ -10,7 +10,7 @@
  "stockIsToken0": false,
  "command": "python3 run_baseline.py GLD research",
  "python": "3.9.6",
- "generated": "2026-11-02T14:50:55Z",
+ "generated": "2026-11-02T15:49:28Z",
  "dataset": {
   "file": "results/dataset_GLD.pkl",
   "sha256": "3824abd83d6d2b3e0640e7bc6ca0abcb7134c7f80993589ca594e974f4ca2c22",
@@ -33,7 +33,7 @@
  "code": {
   "engine.py": "de4f28dcefc38c916cbb758a6d15be29af6aa9eb6818a711f981eabf2b463904",
   "feasibility.py": "842995efae30c012418d210037ac98b5726cd7f601e4d74649fae2521e01da16",
-  "run_baseline.py": "cb050386327ebc7761ebd156f226ae8118d61ecba6001cad5c16f18aa272ed91",
+  "run_baseline.py": "65391a61f6f5535dcab1b3e69dca2ee62fa32894b91562bfff0f4394c5c75110",
   "bt_lib.py": "35e3db08c6e3ee5264b0c71b9232c262538b42d1f0e5df1d2b641732b682f014"
  },
  "assumptions": {
@@ -76,7 +76,7 @@
   "single600_trig300": "BASELINE: +/-600 ticks (~6.2%), trigger 300 (the contract maximum for 600), 1 h cooldown, <=24/day",
   "single600_trig300_poll300": "REALISTIC LATENCY: the keeper looks once per 300 s (the baseline rows react on every swap/oracle update, an idealised zero-latency upper bound)",
   "single600_trig100": "sensitivity: trigger 100 (more frequent recentering)",
-  "live1200_trig300_perday4": "the live Uniswap vault's policy shape: +/-1200 ticks, trigger 300, at most 4 recenters per day",
+  "live2400_trig600_perday4": "the policy READ BACK from the live Uniswap vault (block 104,307,385): +/-2400 ticks, trigger 600, 1 h cooldown, at most 4 recenters per day, loss bound 10 bp",
   "single1200_trig600": "sensitivity: wider +/-1200 ticks (~12.7%), trigger 600",
   "single600_trig300_noreserve": "sensitivity: reserve cut 0 (shows what the 20% reserve costs holders)",
   "single600_trig300_gas040": "sensitivity: engine's conservative $0.40 per recenter",
@@ -222,7 +222,7 @@
     "final_idle_stock_usd": 8139.527053160914,
     "final_idle_usdg": 1.1920928955078124e-13
    },
-   "seconds": 2.065185070037842
+   "seconds": 1.596238136291504
   },
   {
    "run": "single600_trig300",
@@ -357,7 +357,7 @@
     "final_idle_stock_usd": 5346.271514307041,
     "final_idle_usdg": 52.852189753179076
    },
-   "seconds": 1.1004650592803955
+   "seconds": 0.647068977355957
   },
   {
    "run": "single600_trig300",
@@ -492,7 +492,7 @@
     "final_idle_stock_usd": 130.7747371172198,
     "final_idle_usdg": 3.802939365213394
    },
-   "seconds": 0.9202320575714111
+   "seconds": 0.3501129150390625
   },
   {
    "run": "single600_trig300",
@@ -627,7 +627,7 @@
     "final_idle_stock_usd": 7708.579691331802,
     "final_idle_usdg": 0.0
    },
-   "seconds": 0.927030086517334
+   "seconds": 0.4297139644622803
   },
   {
    "run": "single600_trig300",
@@ -762,7 +762,7 @@
     "final_idle_stock_usd": 7500.940455484913,
     "final_idle_usdg": -1.1920928955078124e-13
    },
-   "seconds": 0.8761599063873291
+   "seconds": 0.8211262226104736
   },
   {
    "run": "single600_trig300_poll300",
@@ -897,7 +897,7 @@
     "final_idle_stock_usd": 8111.62014045712,
     "final_idle_usdg": 5.960464477539062e-14
    },
-   "seconds": 1.1465599536895752
+   "seconds": 1.1770780086517334
   },
   {
    "run": "single600_trig300_poll300",
@@ -1032,7 +1032,7 @@
     "final_idle_stock_usd": 5307.09048642673,
     "final_idle_usdg": 35.72469198586607
    },
-   "seconds": 0.5762028694152832
+   "seconds": 0.47780680656433105
   },
   {
    "run": "single600_trig300_poll300",
@@ -1167,7 +1167,7 @@
     "final_idle_stock_usd": 130.7747371172198,
     "final_idle_usdg": 3.802939365213394
    },
-   "seconds": 0.274395227432251
+   "seconds": 0.5368137359619141
   },
   {
    "run": "single600_trig300_poll300",
@@ -1302,7 +1302,7 @@
     "final_idle_stock_usd": 7704.171044227639,
     "final_idle_usdg": 0.0
    },
-   "seconds": 0.3179168701171875
+   "seconds": 0.49782609939575195
   },
   {
    "run": "single600_trig300_poll300",
@@ -1437,7 +1437,7 @@
     "final_idle_stock_usd": 7485.272608252835,
     "final_idle_usdg": 0.0
    },
-   "seconds": 0.4746880531311035
+   "seconds": 1.2050349712371826
   },
   {
    "run": "single600_trig100",
@@ -1572,7 +1572,7 @@
     "final_idle_stock_usd": 8351.141500495025,
     "final_idle_usdg": 0.0
    },
-   "seconds": 2.1195778846740723
+   "seconds": 2.085803985595703
   },
   {
    "run": "single600_trig100",
@@ -1707,7 +1707,7 @@
     "final_idle_stock_usd": 5902.463341918913,
     "final_idle_usdg": 43.174218121576544
    },
-   "seconds": 0.6468720436096191
+   "seconds": 1.206967830657959
   },
   {
    "run": "single600_trig100",
@@ -1842,7 +1842,7 @@
     "final_idle_stock_usd": 447.111027538763,
     "final_idle_usdg": 0.0
    },
-   "seconds": 0.29343199729919434
+   "seconds": 0.6511969566345215
   },
   {
    "run": "single600_trig100",
@@ -1977,7 +1977,7 @@
     "final_idle_stock_usd": 6806.938245412112,
     "final_idle_usdg": 0.0
    },
-   "seconds": 0.9900448322296143
+   "seconds": 0.7412278652191162
   },
   {
    "run": "single600_trig100",
@@ -2112,10 +2112,10 @@
     "final_idle_stock_usd": 7142.552238485081,
     "final_idle_usdg": 0.0
    },
-   "seconds": 1.4859130382537842
+   "seconds": 0.7861790657043457
   },
   {
-   "run": "live1200_trig300_perday4",
+   "run": "live2400_trig600_perday4",
    "window": "full",
    "capital": 10000.0,
    "feasibility": {
@@ -2130,14 +2130,14 @@
     ]
    },
    "config": {
-    "name": "live1200_trig300_perday4",
+    "name": "live2400_trig600_perday4",
     "capital_usd": 10000.0,
-    "core_half": 1200,
+    "core_half": 2400,
     "wide_half": 0,
     "core_weight": 1.0,
     "full_range": false,
     "core_trigger_frac": 0.7,
-    "trigger_ticks": 300,
+    "trigger_ticks": 600,
     "wide_trigger_frac": 0.6,
     "wide_drift_mult": 2.0,
     "wide_drift_dwell": 21600.0,
@@ -2166,33 +2166,33 @@
     "reserve_bps": 2000
    },
    "result": {
-    "name": "live1200_trig300_perday4",
+    "name": "live2400_trig600_perday4",
     "capital": 10000.0,
     "days": 42.345929606482386,
-    "equity_end": 9250.070627155419,
+    "equity_end": 9332.67841592047,
     "hold_end": 9449.825049431452,
-    "pnl": -749.9293728445809,
-    "pnl_vs_hold": -199.75442227603344,
-    "ret_pct": -7.49929372844581,
+    "pnl": -667.3215840795292,
+    "pnl_vs_hold": -117.1466335109817,
+    "ret_pct": -6.673215840795288,
     "hold_ret_pct": -5.5017495056854715,
-    "excess_pct": -1.9975442227603346,
-    "excess_apr_pct": -17.217797509300865,
-    "deployed_frac_avg": 0.6485709053228381,
-    "recenters_core": 3,
+    "excess_pct": -1.171466335109817,
+    "excess_apr_pct": -10.097433597245383,
+    "deployed_frac_avg": 0.8436820496030594,
+    "recenters_core": 2,
     "recenters_wide": 0,
     "swapped_usd": 0.0,
     "swaps": 0,
-    "recenters_per_day": 0.07084506180118796,
-    "fees_usd": 26.435413667922102,
-    "reserve_usd": 6.608853416980525,
-    "fees_before_reserve_usd": 33.04426708490263,
+    "recenters_per_day": 0.04723004120079198,
+    "fees_usd": 17.247153537010306,
+    "reserve_usd": 4.3117883842525755,
+    "fees_before_reserve_usd": 21.558941921262882,
     "start_ts": 1789948851.73,
     "end_ts": 1793607540.048,
-    "gas_usd": 0.1989,
-    "ram_tokens": 419.24361116830477,
+    "gas_usd": 0.1326,
+    "ram_tokens": 362.7165492355328,
     "blocked": {
-     "stale": 0,
-     "session": 0,
+     "stale": 196,
+     "session": 319,
      "gate": 0,
      "cooldown": 0,
      "budget": 0,
@@ -2200,8 +2200,8 @@
      "noliq": 0
     },
     "blocked_days": {
-     "stale": 0.0,
-     "session": 0.0,
+     "stale": 0.4983818726848673,
+     "session": 0.7355741759251665,
      "gate": 0.0,
      "cooldown": 0.0,
      "budget": 0.0,
@@ -2210,47 +2210,47 @@
     },
     "in_range_core": 1.0,
     "in_range_wide": 0.0,
-    "bench_pnl": -724.2658605862131,
+    "bench_pnl": -647.940418889769,
     "rebalanced_5050_pnl": -556.8864036145624,
-    "lvr_usd": 51.90002592629003,
-    "fees_minus_lvr_minus_gas": -25.663512258367923,
-    "worst_week_excess_vs_hold_usd": -146.25133594407998,
-    "worst_week_equity_change_usd": -377.77249529594883,
-    "max_drawdown_pct": -7.989914055346481,
+    "lvr_usd": 36.495718726770406,
+    "fees_minus_lvr_minus_gas": -19.3811651897601,
+    "worst_week_excess_vs_hold_usd": -91.51771251727041,
+    "worst_week_equity_change_usd": -328.5807712730857,
+    "max_drawdown_pct": -7.103794573413391,
     "maintenance_gas_usd": 24.293859815238946,
-    "window_return_pct": -7.49929372844581,
+    "window_return_pct": -6.673215840795288,
     "window_hold_return_pct": -5.5017495056854715,
-    "window_excess_pct": -1.9975442227603346,
-    "window_excess_after_maintenance_pct": -2.240482820912724,
-    "annualised_excess_pct": -17.217797509300865,
-    "window_return_after_all_costs_pct": -7.7422323265982,
+    "window_excess_pct": -1.171466335109817,
+    "window_excess_after_maintenance_pct": -1.4144049332622064,
+    "annualised_excess_pct": -10.097433597245383,
+    "window_return_after_all_costs_pct": -6.916154438947678,
     "window_hold_return_pct_": -5.5017495056854715,
-    "window_excess_after_all_costs_pct": -2.240482820912724,
-    "annualised_excess_after_all_costs_pct": -19.311802509300865,
-    "supplier_return_pct": -7.49730472844581,
-    "supplier_excess_vs_hold_pct": -1.9955552227603346,
-    "supplier_excess_vs_hold_apr_pct": -17.200653358570285,
-    "protocol_operating_cost_usd": 24.492759815238944,
-    "protocol_reserve_inflow_usd": 6.608853416980525,
-    "protocol_net_usd": -17.88390639825842,
+    "window_excess_after_all_costs_pct": -1.4144049332622064,
+    "annualised_excess_after_all_costs_pct": -12.191438597245382,
+    "supplier_return_pct": -6.671889840795289,
+    "supplier_excess_vs_hold_pct": -1.170140335109817,
+    "supplier_excess_vs_hold_apr_pct": -10.086004163424997,
+    "protocol_operating_cost_usd": 24.426459815238946,
+    "protocol_reserve_inflow_usd": 4.3117883842525755,
+    "protocol_net_usd": -20.11467143098637,
     "maintenance_observed_avg_usd": 6.046998747805685,
-    "window_excess_after_all_costs_observed_maintenance_pct": -2.0580142102383916,
-    "annualised_excess_after_all_costs_observed_maintenance_pct": -17.739017509300865,
-    "fees_minus_lvr_minus_gas_minus_maintenance_usd": -49.95737207360687,
-    "annualised_excess_after_maintenance_pct": -19.311802509300865,
-    "idle_frac_avg": 0.3514290946771619,
-    "fees_net_of_reserve_pct_of_capital": 0.264354136679221,
+    "window_excess_after_all_costs_observed_maintenance_pct": -1.2319363225878737,
+    "annualised_excess_after_all_costs_observed_maintenance_pct": -10.618653597245382,
+    "fees_minus_lvr_minus_gas_minus_maintenance_usd": -43.67502500499904,
+    "annualised_excess_after_maintenance_pct": -12.191438597245382,
+    "idle_frac_avg": 0.15631795039694063,
+    "fees_net_of_reserve_pct_of_capital": 0.17247153537010307,
     "start_iso": "2026-09-21T00:00:51Z",
     "end_iso": "2026-11-02T08:19:00Z",
-    "ram_tokens_valued_at_zero": 419.24361116830477,
-    "inventory_effect_usd": -225.99093594395552,
-    "final_idle_stock_usd": 5490.812051013797,
+    "ram_tokens_valued_at_zero": 362.7165492355328,
+    "inventory_effect_usd": -134.26118704799202,
+    "final_idle_stock_usd": 3839.603349614762,
     "final_idle_usdg": 0.0
    },
-   "seconds": 2.159735918045044
+   "seconds": 1.538973093032837
   },
   {
-   "run": "live1200_trig300_perday4",
+   "run": "live2400_trig600_perday4",
    "window": "t1",
    "capital": 10000.0,
    "feasibility": {
@@ -2265,14 +2265,14 @@
     ]
    },
    "config": {
-    "name": "live1200_trig300_perday4",
+    "name": "live2400_trig600_perday4",
     "capital_usd": 10000.0,
-    "core_half": 1200,
+    "core_half": 2400,
     "wide_half": 0,
     "core_weight": 1.0,
     "full_range": false,
     "core_trigger_frac": 0.7,
-    "trigger_ticks": 300,
+    "trigger_ticks": 600,
     "wide_trigger_frac": 0.6,
     "wide_drift_mult": 2.0,
     "wide_drift_dwell": 21600.0,
@@ -2301,29 +2301,29 @@
     "reserve_bps": 2000
    },
    "result": {
-    "name": "live1200_trig300_perday4",
+    "name": "live2400_trig600_perday4",
     "capital": 10000.0,
     "days": 13.22613707870245,
-    "equity_end": 9698.397156366693,
+    "equity_end": 9719.19198473439,
     "hold_end": 9740.866639629949,
-    "pnl": -301.6028436333072,
-    "pnl_vs_hold": -42.469483263255825,
-    "ret_pct": -3.0160284363330736,
+    "pnl": -280.80801526560936,
+    "pnl_vs_hold": -21.67465489555798,
+    "ret_pct": -2.8080801526560895,
     "hold_ret_pct": -2.5913336037005186,
-    "excess_pct": -0.42469483263255825,
-    "excess_apr_pct": -11.72024854940422,
-    "deployed_frac_avg": 0.8679029699333045,
-    "recenters_core": 1,
+    "excess_pct": -0.21674654895557977,
+    "excess_apr_pct": -5.981526571063479,
+    "deployed_frac_avg": 0.9975620580540483,
+    "recenters_core": 0,
     "recenters_wide": 0,
     "swapped_usd": 0.0,
     "swaps": 0,
-    "recenters_per_day": 0.07560786600422147,
-    "fees_usd": 14.611693519825899,
-    "reserve_usd": 3.652923379956474,
-    "fees_before_reserve_usd": 18.26461689978237,
+    "recenters_per_day": 0.0,
+    "fees_usd": 8.843935638960687,
+    "reserve_usd": 2.2109839097401713,
+    "fees_before_reserve_usd": 11.054919548700859,
     "start_ts": 1789948851.73,
     "end_ts": 1791091589.9736,
-    "gas_usd": 0.0663,
+    "gas_usd": 0.0,
     "ram_tokens": 0.0,
     "blocked": {
      "stale": 0,
@@ -2345,47 +2345,47 @@
     },
     "in_range_core": 1.0,
     "in_range_wide": 0.0,
-    "bench_pnl": -297.1573128097735,
+    "bench_pnl": -278.3616295253249,
     "rebalanced_5050_pnl": -261.8509361930264,
-    "lvr_usd": 18.99092434335961,
-    "fees_minus_lvr_minus_gas": -4.44553082353371,
-    "worst_week_excess_vs_hold_usd": -68.25367054329217,
-    "worst_week_equity_change_usd": -358.8474796964747,
-    "max_drawdown_pct": -3.694507464092145,
+    "lvr_usd": 11.2903213792452,
+    "fees_minus_lvr_minus_gas": -2.446385740284512,
+    "worst_week_excess_vs_hold_usd": -37.20237438292497,
+    "worst_week_equity_change_usd": -328.5807712730857,
+    "max_drawdown_pct": -3.4018311892009767,
     "maintenance_gas_usd": 7.5878348420515955,
-    "window_return_pct": -3.0160284363330736,
+    "window_return_pct": -2.8080801526560895,
     "window_hold_return_pct": -2.5913336037005186,
-    "window_excess_pct": -0.42469483263255825,
-    "window_excess_after_maintenance_pct": -0.5005731810530742,
-    "annualised_excess_pct": -11.72024854940422,
-    "window_return_after_all_costs_pct": -3.0919067847535895,
+    "window_excess_pct": -0.21674654895557977,
+    "window_excess_after_maintenance_pct": -0.2926248973760957,
+    "annualised_excess_pct": -5.981526571063479,
+    "window_return_after_all_costs_pct": -2.8839585010766053,
     "window_hold_return_pct_": -2.5913336037005186,
-    "window_excess_after_all_costs_pct": -0.5005731810530742,
-    "annualised_excess_after_all_costs_pct": -13.81425354940422,
-    "supplier_return_pct": -3.0153654363330737,
-    "supplier_excess_vs_hold_pct": -0.4240318326325582,
-    "supplier_excess_vs_hold_apr_pct": -11.701951823870527,
-    "protocol_operating_cost_usd": 7.6541348420515956,
-    "protocol_reserve_inflow_usd": 3.652923379956474,
-    "protocol_net_usd": -4.001211462095121,
+    "window_excess_after_all_costs_pct": -0.2926248973760957,
+    "annualised_excess_after_all_costs_pct": -8.075531571063479,
+    "supplier_return_pct": -2.8080801526560895,
+    "supplier_excess_vs_hold_pct": -0.21674654895557977,
+    "supplier_excess_vs_hold_apr_pct": -5.981526571063479,
+    "protocol_operating_cost_usd": 7.5878348420515955,
+    "protocol_reserve_inflow_usd": 2.2109839097401713,
+    "protocol_net_usd": -5.376850932311424,
     "maintenance_observed_avg_usd": 1.88869237483871,
-    "window_excess_after_all_costs_observed_maintenance_pct": -0.4435817563809453,
-    "annualised_excess_after_all_costs_observed_maintenance_pct": -12.24146854940422,
-    "fees_minus_lvr_minus_gas_minus_maintenance_usd": -12.033365665585306,
-    "annualised_excess_after_maintenance_pct": -13.81425354940422,
-    "idle_frac_avg": 0.1320970300666955,
-    "fees_net_of_reserve_pct_of_capital": 0.14611693519825897,
+    "window_excess_after_all_costs_observed_maintenance_pct": -0.23563347270396687,
+    "annualised_excess_after_all_costs_observed_maintenance_pct": -6.502746571063479,
+    "fees_minus_lvr_minus_gas_minus_maintenance_usd": -10.034220582336108,
+    "annualised_excess_after_maintenance_pct": -8.075531571063479,
+    "idle_frac_avg": 0.002437941945951705,
+    "fees_net_of_reserve_pct_of_capital": 0.08843935638960687,
     "start_iso": "2026-09-21T00:00:51Z",
     "end_iso": "2026-10-04T05:26:29Z",
     "ram_tokens_valued_at_zero": 0.0,
-    "inventory_effect_usd": -57.014876783081725,
-    "final_idle_stock_usd": 2644.3597862384313,
-    "final_idle_usdg": 44.098365763914586
+    "inventory_effect_usd": -30.518590534518665,
+    "final_idle_stock_usd": 16.67053313413987,
+    "final_idle_usdg": 2.2023370140428544
    },
-   "seconds": 0.8932211399078369
+   "seconds": 0.6697399616241455
   },
   {
-   "run": "live1200_trig300_perday4",
+   "run": "live2400_trig600_perday4",
    "window": "t2",
    "capital": 10000.0,
    "feasibility": {
@@ -2400,14 +2400,14 @@
     ]
    },
    "config": {
-    "name": "live1200_trig300_perday4",
+    "name": "live2400_trig600_perday4",
     "capital_usd": 10000.0,
-    "core_half": 1200,
+    "core_half": 2400,
     "wide_half": 0,
     "core_weight": 1.0,
     "full_range": false,
     "core_trigger_frac": 0.7,
-    "trigger_ticks": 300,
+    "trigger_ticks": 600,
     "wide_trigger_frac": 0.6,
     "wide_drift_mult": 2.0,
     "wide_drift_dwell": 21600.0,
@@ -2436,30 +2436,30 @@
     "reserve_bps": 2000
    },
    "result": {
-    "name": "live1200_trig300_perday4",
+    "name": "live2400_trig600_perday4",
     "capital": 10000.0,
     "days": 13.784623763889627,
-    "equity_end": 10015.94383072059,
+    "equity_end": 10010.560231498925,
     "hold_end": 10004.57025632525,
-    "pnl": 15.943830720589176,
-    "pnl_vs_hold": 11.373574395338437,
-    "ret_pct": 0.1594383072058836,
+    "pnl": 10.560231498924622,
+    "pnl_vs_hold": 5.9899751736738835,
+    "ret_pct": 0.10560231498923933,
     "hold_ret_pct": 0.04570256325251432,
-    "excess_pct": 0.11373574395338437,
-    "excess_apr_pct": 3.011583577038548,
-    "deployed_frac_avg": 0.9922787459263764,
+    "excess_pct": 0.05989975173673884,
+    "excess_apr_pct": 1.5860722612671763,
+    "deployed_frac_avg": 0.9958242561378792,
     "recenters_core": 0,
     "recenters_wide": 0,
     "swapped_usd": 0.0,
     "swaps": 0,
     "recenters_per_day": 0.0,
-    "fees_usd": 11.387198272886684,
-    "reserve_usd": 2.84679956822167,
-    "fees_before_reserve_usd": 14.233997841108353,
+    "fees_usd": 5.996904597342444,
+    "reserve_usd": 1.4992261493356107,
+    "fees_before_reserve_usd": 7.4961307466780545,
     "start_ts": 1791158432.8128,
     "end_ts": 1792349424.306,
     "gas_usd": 0.0,
-    "ram_tokens": 61.48954754057675,
+    "ram_tokens": 32.38077720317675,
     "blocked": {
      "stale": 0,
      "session": 0,
@@ -2480,47 +2480,47 @@
     },
     "in_range_core": 1.0,
     "in_range_wide": 0.0,
-    "bench_pnl": 24.14438235085309,
+    "bench_pnl": 14.778052702361236,
     "rebalanced_5050_pnl": 5.899349781007913,
-    "lvr_usd": 19.587749903150595,
-    "fees_minus_lvr_minus_gas": -8.200551630263911,
-    "worst_week_excess_vs_hold_usd": -5.763331218944586,
-    "worst_week_equity_change_usd": -160.19287886867096,
-    "max_drawdown_pct": -1.5894059468943178,
+    "lvr_usd": 10.214725800779057,
+    "fees_minus_lvr_minus_gas": -4.217821203436613,
+    "worst_week_excess_vs_hold_usd": -2.97485008482181,
+    "worst_week_equity_change_usd": -160.75687425551405,
+    "max_drawdown_pct": -1.595104054953822,
     "maintenance_gas_usd": 7.908238653343479,
-    "window_return_pct": 0.1594383072058836,
+    "window_return_pct": 0.10560231498923933,
     "window_hold_return_pct": 0.04570256325251432,
-    "window_excess_pct": 0.11373574395338437,
-    "window_excess_after_maintenance_pct": 0.034653357419949585,
-    "annualised_excess_pct": 3.011583577038548,
-    "window_return_after_all_costs_pct": 0.0803559206724488,
+    "window_excess_pct": 0.05989975173673884,
+    "window_excess_after_maintenance_pct": -0.01918263479669595,
+    "annualised_excess_pct": 1.5860722612671763,
+    "window_return_after_all_costs_pct": 0.026519928455804545,
     "window_hold_return_pct_": 0.04570256325251432,
-    "window_excess_after_all_costs_pct": 0.034653357419949585,
-    "annualised_excess_after_all_costs_pct": 0.9175785770385481,
-    "supplier_return_pct": 0.1594383072058836,
-    "supplier_excess_vs_hold_pct": 0.11373574395338437,
-    "supplier_excess_vs_hold_apr_pct": 3.011583577038548,
+    "window_excess_after_all_costs_pct": -0.01918263479669595,
+    "annualised_excess_after_all_costs_pct": -0.5079327387328236,
+    "supplier_return_pct": 0.10560231498923933,
+    "supplier_excess_vs_hold_pct": 0.05989975173673884,
+    "supplier_excess_vs_hold_apr_pct": 1.5860722612671763,
     "protocol_operating_cost_usd": 7.908238653343479,
-    "protocol_reserve_inflow_usd": 2.84679956822167,
-    "protocol_net_usd": -5.061439085121808,
+    "protocol_reserve_inflow_usd": 1.4992261493356107,
+    "protocol_net_usd": -6.409012504007868,
     "maintenance_observed_avg_usd": 1.9684442734834389,
-    "window_excess_after_all_costs_observed_maintenance_pct": 0.09405130121854999,
-    "annualised_excess_after_all_costs_observed_maintenance_pct": 2.4903635770385484,
-    "fees_minus_lvr_minus_gas_minus_maintenance_usd": -16.10879028360739,
-    "annualised_excess_after_maintenance_pct": 0.9175785770385481,
-    "idle_frac_avg": 0.007721254073623562,
-    "fees_net_of_reserve_pct_of_capital": 0.11387198272886684,
+    "window_excess_after_all_costs_observed_maintenance_pct": 0.04021530900190445,
+    "annualised_excess_after_all_costs_observed_maintenance_pct": 1.0648522612671765,
+    "fees_minus_lvr_minus_gas_minus_maintenance_usd": -12.126059856780092,
+    "annualised_excess_after_maintenance_pct": -0.5079327387328236,
+    "idle_frac_avg": 0.004175743862120829,
+    "fees_net_of_reserve_pct_of_capital": 0.05996904597342443,
     "start_iso": "2026-10-05T00:00:32Z",
     "end_iso": "2026-10-18T18:50:24Z",
-    "ram_tokens_valued_at_zero": 61.48954754057675,
-    "inventory_effect_usd": -0.013623877548246455,
-    "final_idle_stock_usd": 66.7698810721226,
+    "ram_tokens_valued_at_zero": 32.38077720317675,
+    "inventory_effect_usd": -0.006929423668560197,
+    "final_idle_stock_usd": 34.44969287491918,
     "final_idle_usdg": 3.802939365213394
    },
-   "seconds": 0.5849909782409668
+   "seconds": 0.42536187171936035
   },
   {
-   "run": "live1200_trig300_perday4",
+   "run": "live2400_trig600_perday4",
    "window": "t3",
    "capital": 10000.0,
    "feasibility": {
@@ -2535,14 +2535,14 @@
     ]
    },
    "config": {
-    "name": "live1200_trig300_perday4",
+    "name": "live2400_trig600_perday4",
     "capital_usd": 10000.0,
-    "core_half": 1200,
+    "core_half": 2400,
     "wide_half": 0,
     "core_weight": 1.0,
     "full_range": false,
     "core_trigger_frac": 0.7,
-    "trigger_ticks": 300,
+    "trigger_ticks": 600,
     "wide_trigger_frac": 0.6,
     "wide_drift_mult": 2.0,
     "wide_drift_dwell": 21600.0,
@@ -2571,30 +2571,30 @@
     "reserve_bps": 2000
    },
    "result": {
-    "name": "live1200_trig300_perday4",
+    "name": "live2400_trig600_perday4",
     "capital": 10000.0,
     "days": 14.346431613426518,
-    "equity_end": 9576.073712346846,
+    "equity_end": 9615.196814974037,
     "hold_end": 9661.567239043958,
-    "pnl": -423.92628765315385,
-    "pnl_vs_hold": -85.49352669711152,
-    "ret_pct": -4.239262876531535,
+    "pnl": -384.8031850259631,
+    "pnl_vs_hold": -46.37042406992077,
+    "ret_pct": -3.8480318502596256,
     "hold_ret_pct": -3.3843276095604224,
-    "excess_pct": -0.8549352669711152,
-    "excess_apr_pct": -21.751149055937706,
-    "deployed_frac_avg": 0.7190611980333674,
-    "recenters_core": 2,
+    "excess_pct": -0.46370424069920774,
+    "excess_apr_pct": -11.7975014565163,
+    "deployed_frac_avg": 0.9303928919204879,
+    "recenters_core": 1,
     "recenters_wide": 0,
     "swapped_usd": 0.0,
     "swaps": 0,
-    "recenters_per_day": 0.13940748848851325,
-    "fees_usd": 6.964057364657955,
-    "reserve_usd": 1.741014341164488,
-    "fees_before_reserve_usd": 8.705071705822442,
+    "recenters_per_day": 0.06970374424425663,
+    "fees_usd": 4.579603250900789,
+    "reserve_usd": 1.1449008127251967,
+    "fees_before_reserve_usd": 5.724504063625986,
     "start_ts": 1792368008.3566,
     "end_ts": 1793607540.048,
-    "gas_usd": 0.1326,
-    "ram_tokens": 462.77828981617733,
+    "gas_usd": 0.0663,
+    "ram_tokens": 375.9986074067646,
     "blocked": {
      "stale": 0,
      "session": 0,
@@ -2615,47 +2615,47 @@
     },
     "in_range_core": 1.0,
     "in_range_wide": 0.0,
-    "bench_pnl": -405.3414016704824,
+    "bench_pnl": -371.02226352993785,
     "rebalanced_5050_pnl": -337.29958317440287,
-    "lvr_usd": 25.41634334732936,
-    "fees_minus_lvr_minus_gas": -18.584885982671405,
-    "worst_week_excess_vs_hold_usd": -93.18336507479398,
-    "worst_week_equity_change_usd": -331.28909125052814,
-    "max_drawdown_pct": -4.759885061829183,
+    "lvr_usd": 18.294224746926034,
+    "fees_minus_lvr_minus_gas": -13.780921496025245,
+    "worst_week_excess_vs_hold_usd": -50.97741018167471,
+    "worst_week_equity_change_usd": -289.0831363574089,
+    "max_drawdown_pct": -4.312895231838421,
     "maintenance_gas_usd": 8.230547816622792,
-    "window_return_pct": -4.239262876531535,
+    "window_return_pct": -3.8480318502596256,
     "window_hold_return_pct": -3.3843276095604224,
-    "window_excess_pct": -0.8549352669711152,
-    "window_excess_after_maintenance_pct": -0.9372407451373431,
-    "annualised_excess_pct": -21.751149055937706,
-    "window_return_after_all_costs_pct": -4.321568354697764,
+    "window_excess_pct": -0.46370424069920774,
+    "window_excess_after_maintenance_pct": -0.5460097188654357,
+    "annualised_excess_pct": -11.7975014565163,
+    "window_return_after_all_costs_pct": -3.9303373284258534,
     "window_hold_return_pct_": -3.3843276095604224,
-    "window_excess_after_all_costs_pct": -0.9372407451373431,
-    "annualised_excess_after_all_costs_pct": -23.84515405593771,
-    "supplier_return_pct": -4.237936876531536,
-    "supplier_excess_vs_hold_pct": -0.8536092669711152,
-    "supplier_excess_vs_hold_apr_pct": -21.71741314076093,
-    "protocol_operating_cost_usd": 8.363147816622792,
-    "protocol_reserve_inflow_usd": 1.741014341164488,
-    "protocol_net_usd": -6.622133475458304,
+    "window_excess_after_all_costs_pct": -0.5460097188654357,
+    "annualised_excess_after_all_costs_pct": -13.8915064565163,
+    "supplier_return_pct": -3.8473688502596257,
+    "supplier_excess_vs_hold_pct": -0.4630412406992077,
+    "supplier_excess_vs_hold_apr_pct": -11.780633498927909,
+    "protocol_operating_cost_usd": 8.296847816622792,
+    "protocol_reserve_inflow_usd": 1.1449008127251967,
+    "protocol_net_usd": -7.151947003897595,
     "maintenance_observed_avg_usd": 2.048670434397307,
-    "window_excess_after_all_costs_observed_maintenance_pct": -0.8754219713150883,
-    "annualised_excess_after_all_costs_observed_maintenance_pct": -22.272369055937702,
-    "fees_minus_lvr_minus_gas_minus_maintenance_usd": -26.815433799294198,
-    "annualised_excess_after_maintenance_pct": -23.84515405593771,
-    "idle_frac_avg": 0.28093880196663257,
-    "fees_net_of_reserve_pct_of_capital": 0.06964057364657955,
+    "window_excess_after_all_costs_observed_maintenance_pct": -0.48419094504318083,
+    "annualised_excess_after_all_costs_observed_maintenance_pct": -12.318721456516299,
+    "fees_minus_lvr_minus_gas_minus_maintenance_usd": -22.01146931264804,
+    "annualised_excess_after_maintenance_pct": -13.8915064565163,
+    "idle_frac_avg": 0.06960710807951209,
+    "fees_net_of_reserve_pct_of_capital": 0.045796032509007885,
     "start_iso": "2026-10-19T00:00:08Z",
     "end_iso": "2026-11-02T08:19:00Z",
-    "ram_tokens_valued_at_zero": 462.77828981617733,
-    "inventory_effect_usd": -92.32498406176948,
-    "final_idle_stock_usd": 4694.729350171843,
+    "ram_tokens_valued_at_zero": 375.9986074067646,
+    "inventory_effect_usd": -50.88372732082156,
+    "final_idle_stock_usd": 2428.7376716452522,
     "final_idle_usdg": 0.0
    },
-   "seconds": 0.4723236560821533
+   "seconds": 0.3747279644012451
   },
   {
-   "run": "live1200_trig300_perday4",
+   "run": "live2400_trig600_perday4",
    "window": "last28",
    "capital": 10000.0,
    "feasibility": {
@@ -2670,14 +2670,14 @@
     ]
    },
    "config": {
-    "name": "live1200_trig300_perday4",
+    "name": "live2400_trig600_perday4",
     "capital_usd": 10000.0,
-    "core_half": 1200,
+    "core_half": 2400,
     "wide_half": 0,
     "core_weight": 1.0,
     "full_range": false,
     "core_trigger_frac": 0.7,
-    "trigger_ticks": 300,
+    "trigger_ticks": 600,
     "wide_trigger_frac": 0.6,
     "wide_drift_mult": 2.0,
     "wide_drift_dwell": 21600.0,
@@ -2706,30 +2706,30 @@
     "reserve_bps": 2000
    },
    "result": {
-    "name": "live1200_trig300_perday4",
+    "name": "live2400_trig600_perday4",
     "capital": 10000.0,
     "days": 28.346148555557484,
-    "equity_end": 9630.93720265123,
+    "equity_end": 9659.018006146289,
     "hold_end": 9691.588981255612,
-    "pnl": -369.0627973487699,
-    "pnl_vs_hold": -60.65177860438234,
-    "ret_pct": -3.6906279734877034,
+    "pnl": -340.9819938537112,
+    "pnl_vs_hold": -32.570975109323626,
+    "ret_pct": -3.4098199385371064,
     "hold_ret_pct": -3.084110187443878,
-    "excess_pct": -0.6065177860438234,
-    "excess_apr_pct": -7.809843777263083,
-    "deployed_frac_avg": 0.8721956761872932,
-    "recenters_core": 2,
+    "excess_pct": -0.3257097510932363,
+    "excess_apr_pct": -4.194011010561895,
+    "deployed_frac_avg": 0.9732527416967945,
+    "recenters_core": 1,
     "recenters_wide": 0,
     "swapped_usd": 0.0,
     "swaps": 0,
-    "recenters_per_day": 0.0705563225310863,
-    "fees_usd": 18.78748077150603,
-    "reserve_usd": 4.696870192876506,
-    "fees_before_reserve_usd": 23.484350964382536,
+    "recenters_per_day": 0.03527816126554315,
+    "fees_usd": 10.73363139807339,
+    "reserve_usd": 2.683407849518347,
+    "fees_before_reserve_usd": 13.417039247591738,
     "start_ts": 1791158432.8128,
     "end_ts": 1793607540.048,
-    "gas_usd": 0.1326,
-    "ram_tokens": 542.6018632728609,
+    "gas_usd": 0.0663,
+    "ram_tokens": 415.35007926390705,
     "blocked": {
      "stale": 0,
      "session": 0,
@@ -2750,44 +2750,44 @@
     },
     "in_range_core": 1.0,
     "in_range_wide": 0.0,
-    "bench_pnl": -342.31488149860155,
+    "bench_pnl": -323.2185388841454,
     "rebalanced_5050_pnl": -305.1436049922777,
-    "lvr_usd": 45.40279662167433,
-    "fees_minus_lvr_minus_gas": -26.747915850168297,
-    "worst_week_excess_vs_hold_usd": -85.18846208103787,
-    "worst_week_equity_change_usd": -326.9742659765907,
-    "max_drawdown_pct": -4.822790335455618,
+    "lvr_usd": 28.430786367639143,
+    "fees_minus_lvr_minus_gas": -17.76345496956575,
+    "worst_week_excess_vs_hold_usd": -45.86728048743498,
+    "worst_week_equity_change_usd": -287.6530843829878,
+    "max_drawdown_pct": -4.484077422826138,
     "maintenance_gas_usd": 16.262185426323327,
-    "window_return_pct": -3.6906279734877034,
+    "window_return_pct": -3.4098199385371064,
     "window_hold_return_pct": -3.084110187443878,
-    "window_excess_pct": -0.6065177860438234,
-    "window_excess_after_maintenance_pct": -0.7691396403070567,
-    "annualised_excess_pct": -7.809843777263083,
-    "window_return_after_all_costs_pct": -3.8532498277509366,
+    "window_excess_pct": -0.3257097510932363,
+    "window_excess_after_maintenance_pct": -0.4883316053564696,
+    "annualised_excess_pct": -4.194011010561895,
+    "window_return_after_all_costs_pct": -3.5724417928003396,
     "window_hold_return_pct_": -3.084110187443878,
-    "window_excess_after_all_costs_pct": -0.7691396403070567,
-    "annualised_excess_after_all_costs_pct": -9.903848777263084,
-    "supplier_return_pct": -3.6893019734877033,
-    "supplier_excess_vs_hold_pct": -0.6051917860438234,
-    "supplier_excess_vs_hold_apr_pct": -7.792769499992173,
-    "protocol_operating_cost_usd": 16.394785426323327,
-    "protocol_reserve_inflow_usd": 4.696870192876506,
-    "protocol_net_usd": -11.697915233446821,
+    "window_excess_after_all_costs_pct": -0.4883316053564696,
+    "annualised_excess_after_all_costs_pct": -6.288016010561895,
+    "supplier_return_pct": -3.4091569385371066,
+    "supplier_excess_vs_hold_pct": -0.3250467510932363,
+    "supplier_excess_vs_hold_apr_pct": -4.1854738719264395,
+    "protocol_operating_cost_usd": 16.328485426323326,
+    "protocol_reserve_inflow_usd": 2.683407849518347,
+    "protocol_net_usd": -13.64507757680498,
     "maintenance_observed_avg_usd": 4.047830013733609,
-    "window_excess_after_all_costs_observed_maintenance_pct": -0.6469960861811596,
-    "annualised_excess_after_all_costs_observed_maintenance_pct": -8.331063777263084,
-    "fees_minus_lvr_minus_gas_minus_maintenance_usd": -43.010101276491625,
-    "annualised_excess_after_maintenance_pct": -9.903848777263084,
-    "idle_frac_avg": 0.1278043238127068,
-    "fees_net_of_reserve_pct_of_capital": 0.1878748077150603,
+    "window_excess_after_all_costs_observed_maintenance_pct": -0.3661880512305724,
+    "annualised_excess_after_all_costs_observed_maintenance_pct": -4.7152310105618955,
+    "fees_minus_lvr_minus_gas_minus_maintenance_usd": -34.02564039588908,
+    "annualised_excess_after_maintenance_pct": -6.288016010561895,
+    "idle_frac_avg": 0.026747258303205457,
+    "fees_net_of_reserve_pct_of_capital": 0.1073363139807339,
     "start_iso": "2026-10-05T00:00:32Z",
     "end_iso": "2026-11-02T08:19:00Z",
-    "ram_tokens_valued_at_zero": 542.6018632728609,
-    "inventory_effect_usd": -79.30665937588837,
-    "final_idle_stock_usd": 4449.731518650726,
+    "ram_tokens_valued_at_zero": 415.35007926390705,
+    "inventory_effect_usd": -43.23830650739702,
+    "final_idle_stock_usd": 2257.6789455527146,
     "final_idle_usdg": 0.0
    },
-   "seconds": 0.7779650688171387
+   "seconds": 0.7391650676727295
   },
   {
    "run": "single1200_trig600",
@@ -2922,7 +2922,7 @@
     "final_idle_stock_usd": 6719.998094044377,
     "final_idle_usdg": 0.0
    },
-   "seconds": 1.4248769283294678
+   "seconds": 1.3902199268341064
   },
   {
    "run": "single1200_trig600",
@@ -3057,7 +3057,7 @@
     "final_idle_stock_usd": 32.09928029702641,
     "final_idle_usdg": 2.2023370140428544
    },
-   "seconds": 0.6070539951324463
+   "seconds": 0.5973660945892334
   },
   {
    "run": "single1200_trig600",
@@ -3192,7 +3192,7 @@
     "final_idle_stock_usd": 66.7698810721226,
     "final_idle_usdg": 3.802939365213394
    },
-   "seconds": 0.3956727981567383
+   "seconds": 0.37839221954345703
   },
   {
    "run": "single1200_trig600",
@@ -3327,7 +3327,7 @@
     "final_idle_stock_usd": 4742.94530341301,
     "final_idle_usdg": 0.0
    },
-   "seconds": 0.3780512809753418
+   "seconds": 0.3845648765563965
   },
   {
    "run": "single1200_trig600",
@@ -3462,7 +3462,7 @@
     "final_idle_stock_usd": 4479.685983785506,
     "final_idle_usdg": 0.0
    },
-   "seconds": 0.9674100875854492
+   "seconds": 0.659796953201294
   },
   {
    "run": "single600_trig300_noreserve",
@@ -3597,7 +3597,7 @@
     "final_idle_stock_usd": 8143.831289100193,
     "final_idle_usdg": -5.960464477539062e-14
    },
-   "seconds": 1.6740238666534424
+   "seconds": 1.115746021270752
   },
   {
    "run": "single600_trig300_noreserve",
@@ -3732,7 +3732,7 @@
     "final_idle_stock_usd": 5346.290662481597,
     "final_idle_usdg": 52.90196810104656
    },
-   "seconds": 0.6380760669708252
+   "seconds": 0.5344648361206055
   },
   {
    "run": "single600_trig300_noreserve",
@@ -3867,7 +3867,7 @@
     "final_idle_stock_usd": 130.7747371172198,
     "final_idle_usdg": 3.802939365213394
    },
-   "seconds": 0.44091224670410156
+   "seconds": 0.3231620788574219
   },
   {
    "run": "single600_trig300_noreserve",
@@ -4002,7 +4002,7 @@
     "final_idle_stock_usd": 7709.314028301959,
     "final_idle_usdg": 0.0
    },
-   "seconds": 0.46315479278564453
+   "seconds": 0.33548688888549805
   },
   {
    "run": "single600_trig300_noreserve",
@@ -4137,7 +4137,7 @@
     "final_idle_stock_usd": 7504.269951804574,
     "final_idle_usdg": -1.1920928955078124e-13
    },
-   "seconds": 1.0057008266448975
+   "seconds": 0.6033029556274414
   },
   {
    "run": "single600_trig300_gas040",
@@ -4272,7 +4272,7 @@
     "final_idle_stock_usd": 8139.527053160914,
     "final_idle_usdg": 1.1920928955078124e-13
    },
-   "seconds": 2.1124789714813232
+   "seconds": 1.2351810932159424
   },
   {
    "run": "single600_trig300_gas040",
@@ -4407,7 +4407,7 @@
     "final_idle_stock_usd": 5346.271514307041,
     "final_idle_usdg": 52.852189753179076
    },
-   "seconds": 1.1151401996612549
+   "seconds": 0.5299999713897705
   },
   {
    "run": "single600_trig300_gas040",
@@ -4542,7 +4542,7 @@
     "final_idle_stock_usd": 130.7747371172198,
     "final_idle_usdg": 3.802939365213394
    },
-   "seconds": 0.7968041896820068
+   "seconds": 0.3151688575744629
   },
   {
    "run": "single600_trig300_gas040",
@@ -4677,7 +4677,7 @@
     "final_idle_stock_usd": 7708.579691331802,
     "final_idle_usdg": 0.0
    },
-   "seconds": 0.7643179893493652
+   "seconds": 0.3118870258331299
   },
   {
    "run": "single600_trig300_gas040",
@@ -4812,7 +4812,7 @@
     "final_idle_stock_usd": 7500.940455484913,
     "final_idle_usdg": -1.1920928955078124e-13
    },
-   "seconds": 0.9891078472137451
+   "seconds": 0.6343579292297363
   },
   {
    "run": "single600_trig300_cap5k",
@@ -4947,7 +4947,7 @@
     "final_idle_stock_usd": 7099.627048774535,
     "final_idle_usdg": 0.0
    },
-   "seconds": 1.902937889099121
+   "seconds": 1.177354097366333
   },
   {
    "run": "single600_trig300_cap5k",
@@ -5082,7 +5082,7 @@
     "final_idle_stock_usd": 3660.3265642406473,
     "final_idle_usdg": 1148.447777850266
    },
-   "seconds": 0.8021969795227051
+   "seconds": 0.4791581630706787
   },
   {
    "run": "single600_trig300_cap5k",
@@ -5217,7 +5217,7 @@
     "final_idle_stock_usd": 2565.817611033876,
     "final_idle_usdg": 2500.0
    },
-   "seconds": 0.5103278160095215
+   "seconds": 0.30481410026550293
   },
   {
    "run": "single600_trig300_cap5k",
@@ -5352,7 +5352,7 @@
     "final_idle_stock_usd": 5353.7036583006175,
     "final_idle_usdg": 0.0
    },
-   "seconds": 0.507000207901001
+   "seconds": 0.31493711471557617
   },
   {
    "run": "single600_trig300_cap5k",
@@ -5487,7 +5487,7 @@
     "final_idle_stock_usd": 5117.689875060948,
     "final_idle_usdg": 0.0
    },
-   "seconds": 1.1771788597106934
+   "seconds": 0.619469165802002
   },
   {
    "run": "single600_trig300_histshare",
@@ -5622,7 +5622,7 @@
     "final_idle_stock_usd": 8154.90945050999,
     "final_idle_usdg": 0.0
    },
-   "seconds": 2.689952850341797
+   "seconds": 1.1708319187164307
   },
   {
    "run": "single600_trig300_histshare",
@@ -5757,7 +5757,7 @@
     "final_idle_stock_usd": 5346.3404477354425,
     "final_idle_usdg": 53.03139180550361
    },
-   "seconds": 0.9436910152435303
+   "seconds": 0.4733407497406006
   },
   {
    "run": "single600_trig300_histshare",
@@ -5892,7 +5892,7 @@
     "final_idle_stock_usd": 130.7747371172198,
     "final_idle_usdg": 3.802939365213394
    },
-   "seconds": 0.8721191883087158
+   "seconds": 0.32208991050720215
   },
   {
    "run": "single600_trig300_histshare",
@@ -6027,7 +6027,7 @@
     "final_idle_stock_usd": 7708.579691331802,
     "final_idle_usdg": 0.0
    },
-   "seconds": 1.0133249759674072
+   "seconds": 0.392406702041626
   },
   {
    "run": "single600_trig300_histshare",
@@ -6162,7 +6162,7 @@
     "final_idle_stock_usd": 7508.247148301001,
     "final_idle_usdg": 0.0
    },
-   "seconds": 1.6973819732666016
+   "seconds": 0.6115288734436035
   },
   {
    "run": "fee_fixed150",
@@ -6297,7 +6297,7 @@
     "final_idle_stock_usd": 8133.450972077715,
     "final_idle_usdg": -5.960464477539062e-14
    },
-   "seconds": 1.9034950733184814
+   "seconds": 1.2929039001464844
   },
   {
    "run": "fee_fixed150",
@@ -6432,7 +6432,7 @@
     "final_idle_stock_usd": 5346.246495117007,
     "final_idle_usdg": 52.77899501861858
    },
-   "seconds": 1.0569689273834229
+   "seconds": 0.5016448497772217
   },
   {
    "run": "fee_fixed150",
@@ -6567,7 +6567,7 @@
     "final_idle_stock_usd": 130.7747371172198,
     "final_idle_usdg": 3.802939365213394
    },
-   "seconds": 0.42711901664733887
+   "seconds": 0.3044731616973877
   },
   {
    "run": "fee_fixed150",
@@ -6702,7 +6702,7 @@
     "final_idle_stock_usd": 7707.631385791033,
     "final_idle_usdg": 0.0
    },
-   "seconds": 0.4501340389251709
+   "seconds": 0.3372828960418701
   },
   {
    "run": "fee_fixed150",
@@ -6837,7 +6837,7 @@
     "final_idle_stock_usd": 7496.626542042488,
     "final_idle_usdg": 1.1920928955078124e-13
    },
-   "seconds": 0.7324750423431396
+   "seconds": 0.8644721508026123
   },
   {
    "run": "fee_x15",
@@ -6972,7 +6972,7 @@
     "final_idle_stock_usd": 8148.138012662375,
     "final_idle_usdg": -5.960464477539062e-14
    },
-   "seconds": 1.2752900123596191
+   "seconds": 1.6553828716278076
   },
   {
    "run": "fee_x15",
@@ -7107,7 +7107,7 @@
     "final_idle_stock_usd": 5346.309810656152,
     "final_idle_usdg": 52.95174644891477
    },
-   "seconds": 0.5643138885498047
+   "seconds": 0.7776668071746826
   },
   {
    "run": "fee_x15",
@@ -7242,7 +7242,7 @@
     "final_idle_stock_usd": 130.7747371172198,
     "final_idle_usdg": 3.802939365213394
    },
-   "seconds": 0.34957170486450195
+   "seconds": 0.4740180969238281
   },
   {
    "run": "fee_x15",
@@ -7377,7 +7377,7 @@
     "final_idle_stock_usd": 7710.048371102628,
     "final_idle_usdg": -1.1920928955078124e-13
    },
-   "seconds": 0.3267967700958252
+   "seconds": 0.36913299560546875
   },
   {
    "run": "fee_x15",
@@ -7512,7 +7512,7 @@
     "final_idle_stock_usd": 7507.599477089246,
     "final_idle_usdg": 0.0
    },
-   "seconds": 0.6910452842712402
+   "seconds": 0.7645859718322754
   },
   {
    "run": "fee_x2",
@@ -7647,7 +7647,7 @@
     "final_idle_stock_usd": 8156.758922079772,
     "final_idle_usdg": 0.0
    },
-   "seconds": 1.59627103805542
+   "seconds": 1.4389069080352783
   },
   {
    "run": "fee_x2",
@@ -7782,7 +7782,7 @@
     "final_idle_stock_usd": 5346.348107005264,
     "final_idle_usdg": 53.05130314465046
    },
-   "seconds": 0.7047429084777832
+   "seconds": 0.5512681007385254
   },
   {
    "run": "fee_x2",
@@ -7917,7 +7917,7 @@
     "final_idle_stock_usd": 130.7747371172198,
     "final_idle_usdg": 3.802939365213394
    },
-   "seconds": 0.4599156379699707
+   "seconds": 0.3138880729675293
   },
   {
    "run": "fee_x2",
@@ -8052,7 +8052,7 @@
     "final_idle_stock_usd": 7711.517074196895,
     "final_idle_usdg": 0.0
    },
-   "seconds": 0.5245838165283203
+   "seconds": 0.3676729202270508
   },
   {
    "run": "fee_x2",
@@ -8187,7 +8187,7 @@
     "final_idle_stock_usd": 7514.258614570932,
     "final_idle_usdg": 0.0
    },
-   "seconds": 0.8696110248565674
+   "seconds": 0.8339929580688477
   },
   {
    "run": "fee_x3",
@@ -8322,7 +8322,7 @@
     "final_idle_stock_usd": 8174.0305860526505,
     "final_idle_usdg": 5.960464477539062e-14
    },
-   "seconds": 1.702746868133545
+   "seconds": 1.2690908908843994
   },
   {
    "run": "fee_x3",
@@ -8457,7 +8457,7 @@
     "final_idle_stock_usd": 5346.424699703487,
     "final_idle_usdg": 53.250416536123275
    },
-   "seconds": 0.7436079978942871
+   "seconds": 0.5852620601654053
   },
   {
    "run": "fee_x3",
@@ -8592,7 +8592,7 @@
     "final_idle_stock_usd": 130.7747371172198,
     "final_idle_usdg": 3.802939365213394
    },
-   "seconds": 0.47244811058044434
+   "seconds": 0.3000977039337158
   },
   {
    "run": "fee_x3",
@@ -8727,7 +8727,7 @@
     "final_idle_stock_usd": 7714.454550366958,
     "final_idle_usdg": 0.0
    },
-   "seconds": 0.4626901149749756
+   "seconds": 0.34082889556884766
   },
   {
    "run": "fee_x3",
@@ -8862,7 +8862,7 @@
     "final_idle_stock_usd": 7527.57723730199,
     "final_idle_usdg": 0.0
    },
-   "seconds": 0.7563059329986572
+   "seconds": 0.7209148406982422
   },
   {
    "run": "full_range",
@@ -8998,7 +8998,7 @@
     "final_idle_stock_usd": 1.9600028824639524,
     "final_idle_usdg": 2.2023370140428544
    },
-   "seconds": 1.3212089538574219
+   "seconds": 1.3723559379577637
   },
   {
    "run": "full_range",
@@ -9134,7 +9134,7 @@
     "final_idle_stock_usd": 2.0881972158071997,
     "final_idle_usdg": 2.2023370140428544
    },
-   "seconds": 0.6128771305084229
+   "seconds": 0.46346497535705566
   },
   {
    "run": "full_range",
@@ -9270,7 +9270,7 @@
     "final_idle_stock_usd": 3.8064154467367173,
     "final_idle_usdg": 3.802939365213394
    },
-   "seconds": 0.31487107276916504
+   "seconds": 0.5007481575012207
   },
   {
    "run": "full_range",
@@ -9406,7 +9406,7 @@
     "final_idle_stock_usd": 24.995742432288502,
     "final_idle_usdg": 26.810449308704378
    },
-   "seconds": 0.31584620475769043
+   "seconds": 0.45885705947875977
   },
   {
    "run": "full_range",
@@ -9542,7 +9542,7 @@
     "final_idle_stock_usd": 3.5683656844302125,
     "final_idle_usdg": 3.802939365213394
    },
-   "seconds": 0.944594144821167
+   "seconds": 0.9916427135467529
   },
   {
    "run": "single600_trig300",
@@ -9677,7 +9677,7 @@
     "final_idle_stock_usd": 814.0357872766224,
     "final_idle_usdg": 0.0
    },
-   "seconds": 1.6654789447784424
+   "seconds": 1.6816859245300293
   },
   {
    "run": "full_range",
@@ -9813,7 +9813,7 @@
     "final_idle_stock_usd": 0.1960002882464866,
     "final_idle_usdg": 0.22023370140439272
    },
-   "seconds": 1.4580259323120117
+   "seconds": 1.7280387878417969
   },
   {
    "run": "single600_trig300",
@@ -9948,7 +9948,7 @@
     "final_idle_stock_usd": 40683.71326677072,
     "final_idle_usdg": 0.0
    },
-   "seconds": 1.4821858406066895
+   "seconds": 1.7643930912017822
   },
   {
    "run": "full_range",
@@ -10084,7 +10084,7 @@
     "final_idle_stock_usd": 9.800014412323415,
     "final_idle_usdg": 11.011685070217133
    },
-   "seconds": 1.180163860321045
+   "seconds": 1.487497091293335
   }
  ]
 }

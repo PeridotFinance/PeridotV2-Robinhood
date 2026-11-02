@@ -11,9 +11,10 @@ Outputs in release/ (git-ignored):
 
 Verification BEFORE anything is published, all recorded in release/VERIFICATION.json:
   1. the local datasets and small inputs match the manifest (bundle.verify);
-  2. the core archive is extracted to a fresh directory and reproduce_offline.sh is run there with network access disabled
-     (HTTP(S) proxies pointed at a dead port), which re-verifies the inputs, replays every pinned quote from the saved state and reruns the
-     current-caps baselines, comparing every number with the committed evidence;
+  2. the core archive is extracted to a fresh directory and reproduce_offline.sh is run there under a macOS sandbox that DENIES ALL NETWORK
+     (sandbox-exec "(deny network*)"), proven first by a probe that must fail to open a socket or resolve a name. If sandbox-exec is not
+     available the run falls back to dead HTTP(S) proxies and is recorded as "proxy-only (NOT network isolation)". The run re-verifies the
+     inputs, replays every pinned quote and fork proof from the saved state and reruns the baselines, comparing every number with the evidence;
   3. the raw-log archive is extracted and every event hash is checked against the manifest;
   4. with --require-cold: the cold SPY/NVDA/GLD rebuild logs must show all hashes matching.
 Publication (a GitHub release asset upload) is a separate, operator-approved step; the command is printed, not run.
@@ -150,8 +151,20 @@ def main():
         pkg = Path(tmp) / f"ramses-research-inputs-{a.version}"
         env = dict(os.environ, HTTP_PROXY="http://127.0.0.1:9", HTTPS_PROXY="http://127.0.0.1:9", http_proxy="http://127.0.0.1:9", https_proxy="http://127.0.0.1:9", NO_PROXY="")
         env.pop("ROBINHOOD_RPC_URL", None)
-        code, secs, tail = run(["sh", "reproduce_offline.sh"] + (["full"] if a.full else []), pkg, env, REL / "offline-reproduction.log")
-        ver["steps"]["offlineReproductionFromCoreArchive"] = {"passed": code == 0 and "REPRODUCED" in tail, "seconds": round(secs), "mode": "full" if a.full else "quick", "tail": tail[-200:]}
+        probe = "import socket,sys\ntry:\n    socket.create_connection(('1.1.1.1',443),3); print('NETWORK REACHABLE'); sys.exit(1)\nexcept OSError: pass\ntry:\n    socket.getaddrinfo('rpc.mainnet.chain.robinhood.com',443); print('DNS RESOLVED'); sys.exit(1)\nexcept OSError: pass\nprint('NO NETWORK')"
+        sandbox = ["sandbox-exec", "-p", "(version 1)(allow default)(deny network*)"] if shutil.which("sandbox-exec") else None
+        if sandbox:
+            pc, _s, ptail = run(sandbox + [sys.executable, "-c", probe], pkg, env)
+            isolated = pc == 0 and "NO NETWORK" in ptail
+            ver["steps"]["networkIsolationProbe"] = {"passed": bool(isolated), "method": "sandbox-exec (deny network*)", "output": ptail.strip()[-80:]}
+            cmd = sandbox + ["sh", "reproduce_offline.sh"] + (["full"] if a.full else [])
+            label = "sandbox-exec (deny network*): sockets and DNS blocked, probe verified"
+        else:
+            isolated, cmd, label = False, ["sh", "reproduce_offline.sh"] + (["full"] if a.full else []), "proxy-only (NOT network isolation): HTTP(S) proxies point at a dead port"
+            ver["steps"]["networkIsolationProbe"] = {"passed": False, "method": "none available", "output": label}
+        code, secs, tail = run(cmd, pkg, env, REL / "offline-reproduction.log")
+        ver["steps"]["offlineReproductionFromCoreArchive"] = {"passed": code == 0 and "REPRODUCED" in tail, "networkIsolated": bool(isolated), "isolation": label, "seconds": round(secs),
+                                                              "mode": "full" if a.full else "quick", "tail": tail[-200:]}
     # 3. raw-log archive verifies against the manifest
     with tempfile.TemporaryDirectory() as tmp:
         with tarfile.open(raw) as t:

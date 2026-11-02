@@ -1,0 +1,663 @@
+{
+ "schema": "ramses-fork-replay-2",
+ "pool": "SPY/USDG CL1",
+ "address": "0x38453c115607463ac284820ce959831042f3df4e",
+ "pin": {
+  "l2Block": 104334038,
+  "hash": "0x50ee4835d5d48786cc4d5e8d3966d902cbe1cd432b9ca01bf8c328562ec6537a",
+  "timestamp": 1793634566,
+  "native": 26328095
+ },
+ "usdg": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+ "sizesUsd": [
+  50,
+  250,
+  1000,
+  5000,
+  10000,
+  50000
+ ],
+ "limitPct": 10.0,
+ "toleranceRel": 1e-06,
+ "inputsFile": "inputs/SPY-USDG_CL1/104334038-50ee4835.json",
+ "inputsSha256": "8a5f39604223d7e414098e0520cc8e7e7b01feaf1fcd29dc00733002f1f1a068",
+ "forgeLogFile": "fork-replay/SPY-USDG_CL1@104334038.forge.log",
+ "forgeLogSha256": "2590f7ac62ae8411bf6823890433b2392fa28e0a24fc8f10cf2c71c0c28d6c7c",
+ "expectedRowCount": 30,
+ "forkRows": [
+  {
+   "kind": "buy",
+   "index": 0,
+   "requestedIn": 50000000,
+   "consumed": 50000000,
+   "out": 65472520776765955,
+   "sqrtAfter": 2189291077805018965322579
+  },
+  {
+   "kind": "sell",
+   "index": 0,
+   "requestedIn": 65482652780520440,
+   "consumed": 65482652780520440,
+   "out": 49992263,
+   "sqrtAfter": 2189270372553973955334700
+  },
+  {
+   "kind": "buyLimited",
+   "index": 0,
+   "requestedIn": 50000000,
+   "consumed": 50000000,
+   "out": 65472520776765955,
+   "sqrtAfter": 2189291077805018965322579
+  },
+  {
+   "kind": "sellLimited",
+   "index": 0,
+   "requestedIn": 65482652780520440,
+   "consumed": 65482652780520440,
+   "out": 49992263,
+   "sqrtAfter": 2189270372553973955334700
+  },
+  {
+   "kind": "buy",
+   "index": 1,
+   "requestedIn": 250000000,
+   "consumed": 250000000,
+   "out": 327356411913484307,
+   "sqrtAfter": 2189332488405019549236154
+  },
+  {
+   "kind": "sell",
+   "index": 1,
+   "requestedIn": 327413263902602240,
+   "consumed": 327413263902602240,
+   "out": 249956590,
+   "sqrtAfter": 2189228963128876989283845
+  },
+  {
+   "kind": "buyLimited",
+   "index": 1,
+   "requestedIn": 250000000,
+   "consumed": 250000000,
+   "out": 327356411913484307,
+   "sqrtAfter": 2189332488405019549236154
+  },
+  {
+   "kind": "sellLimited",
+   "index": 1,
+   "requestedIn": 327413263902602240,
+   "consumed": 327413263902602240,
+   "out": 249956590,
+   "sqrtAfter": 2189228963128876989283845
+  },
+  {
+   "kind": "buy",
+   "index": 2,
+   "requestedIn": 1000000000,
+   "consumed": 1000000000,
+   "out": 1309332776442917280,
+   "sqrtAfter": 2189487778155021738912059
+  },
+  {
+   "kind": "sell",
+   "index": 2,
+   "requestedIn": 1309653055610408960,
+   "consumed": 1309653055610408960,
+   "out": 999755447,
+   "sqrtAfter": 2189073691735369459128638
+  },
+  {
+   "kind": "buyLimited",
+   "index": 2,
+   "requestedIn": 1000000000,
+   "consumed": 1000000000,
+   "out": 1309332776442917280,
+   "sqrtAfter": 2189487778155021738912059
+  },
+  {
+   "kind": "sellLimited",
+   "index": 2,
+   "requestedIn": 1309653055610408960,
+   "consumed": 1309653055610408960,
+   "out": 999755447,
+   "sqrtAfter": 2189073691735369459128638
+  },
+  {
+   "kind": "buy",
+   "index": 3,
+   "requestedIn": 5000000000,
+   "consumed": 5000000000,
+   "out": 6544185158348444091,
+   "sqrtAfter": 2190317811722451181093305
+  },
+  {
+   "kind": "sell",
+   "index": 3,
+   "requestedIn": 6548265278052043776,
+   "consumed": 6548265278052043776,
+   "out": 4996886449,
+   "sqrtAfter": 2188245453967016816315286
+  },
+  {
+   "kind": "buyLimited",
+   "index": 3,
+   "requestedIn": 5000000000,
+   "consumed": 5000000000,
+   "out": 6544185158348444091,
+   "sqrtAfter": 2190317811722451181093305
+  },
+  {
+   "kind": "sellLimited",
+   "index": 3,
+   "requestedIn": 6548265278052043776,
+   "consumed": 6548265278052043776,
+   "out": 4996886449,
+   "sqrtAfter": 2188245453967016816315286
+  },
+  {
+   "kind": "buy",
+   "index": 4,
+   "requestedIn": 10000000000,
+   "consumed": 10000000000,
+   "out": 13082173866416815340,
+   "sqrtAfter": 2191354527529683838158385
+  },
+  {
+   "kind": "sell",
+   "index": 4,
+   "requestedIn": 13096530556104087552,
+   "consumed": 13096530556104087552,
+   "out": 9989047843,
+   "sqrtAfter": 2187210762072995558102159
+  },
+  {
+   "kind": "buyLimited",
+   "index": 4,
+   "requestedIn": 10000000000,
+   "consumed": 10000000000,
+   "out": 13082173866416815340,
+   "sqrtAfter": 2191354527529683838158385
+  },
+  {
+   "kind": "sellLimited",
+   "index": 4,
+   "requestedIn": 13096530556104087552,
+   "consumed": 13096530556104087552,
+   "out": 9989047843,
+   "sqrtAfter": 2187210762072995558102159
+  },
+  {
+   "kind": "buy",
+   "index": 5,
+   "requestedIn": 50000000000,
+   "consumed": 50000000000,
+   "out": 65188212678942007852,
+   "sqrtAfter": 2198539875969601132697520
+  },
+  {
+   "kind": "sell",
+   "index": 5,
+   "requestedIn": 65482652780520439808,
+   "consumed": 65482652780520439808,
+   "out": 49817692336,
+   "sqrtAfter": 2182219798773093618554802
+  },
+  {
+   "kind": "buyLimited",
+   "index": 5,
+   "requestedIn": 50000000000,
+   "consumed": 50000000000,
+   "out": 65188212678942007852,
+   "sqrtAfter": 2198539875969601132697520
+  },
+  {
+   "kind": "sellLimited",
+   "index": 5,
+   "requestedIn": 65482652780520439808,
+   "consumed": 65482652780520439808,
+   "out": 49817692336,
+   "sqrtAfter": 2182219798773093618554802
+  },
+  {
+   "kind": "sequential",
+   "index": 0,
+   "requestedIn": 50000000,
+   "consumed": 65472520776765955,
+   "out": 49985001,
+   "sqrtAfter": 0
+  },
+  {
+   "kind": "sequential",
+   "index": 1,
+   "requestedIn": 250000000,
+   "consumed": 327356411913484307,
+   "out": 249925006,
+   "sqrtAfter": 0
+  },
+  {
+   "kind": "sequential",
+   "index": 2,
+   "requestedIn": 1000000000,
+   "consumed": 1309332776442917280,
+   "out": 999700036,
+   "sqrtAfter": 0
+  },
+  {
+   "kind": "sequential",
+   "index": 3,
+   "requestedIn": 5000000000,
+   "consumed": 6544185158348444091,
+   "out": 4998500464,
+   "sqrtAfter": 0
+  },
+  {
+   "kind": "sequential",
+   "index": 4,
+   "requestedIn": 10000000000,
+   "consumed": 13082173866416815340,
+   "out": 9997001640,
+   "sqrtAfter": 0
+  },
+  {
+   "kind": "sequential",
+   "index": 5,
+   "requestedIn": 50000000000,
+   "consumed": 65188212678942007852,
+   "out": 49985033698,
+   "sqrtAfter": 0
+  }
+ ],
+ "report": [
+  {
+   "kind": "buy",
+   "index": 0,
+   "requestedIn": 50000000,
+   "forkConsumed": 50000000,
+   "forkOut": 65472520776765955,
+   "forkSqrtAfter": 2189291077805018965322579,
+   "offlineConsumed": 50000000.0,
+   "offlineOut": 6.547252077674122e+16,
+   "offlineStatus": "filled",
+   "offlineIsLowerBound": false,
+   "match": true
+  },
+  {
+   "kind": "buy",
+   "index": 1,
+   "requestedIn": 250000000,
+   "forkConsumed": 250000000,
+   "forkOut": 327356411913484307,
+   "forkSqrtAfter": 2189332488405019549236154,
+   "offlineConsumed": 250000000.0,
+   "offlineOut": 3.2735641191253914e+17,
+   "offlineStatus": "filled",
+   "offlineIsLowerBound": false,
+   "match": true
+  },
+  {
+   "kind": "buy",
+   "index": 2,
+   "requestedIn": 1000000000,
+   "forkConsumed": 1000000000,
+   "forkOut": 1309332776442917280,
+   "forkSqrtAfter": 2189487778155021738912059,
+   "offlineConsumed": 1000000000.0,
+   "offlineOut": 1.309332776442115e+18,
+   "offlineStatus": "filled",
+   "offlineIsLowerBound": false,
+   "match": true
+  },
+  {
+   "kind": "buy",
+   "index": 3,
+   "requestedIn": 5000000000,
+   "forkConsumed": 5000000000,
+   "forkOut": 6544185158348444091,
+   "forkSqrtAfter": 2190317811722451181093305,
+   "offlineConsumed": 5000000000.0,
+   "offlineOut": 6.544185160568353e+18,
+   "offlineStatus": "filled",
+   "offlineIsLowerBound": false,
+   "match": true
+  },
+  {
+   "kind": "buy",
+   "index": 4,
+   "requestedIn": 10000000000,
+   "forkConsumed": 10000000000,
+   "forkOut": 13082173866416815340,
+   "forkSqrtAfter": 2191354527529683838158385,
+   "offlineConsumed": 10000000000.0,
+   "offlineOut": 1.3082173869321726e+19,
+   "offlineStatus": "filled",
+   "offlineIsLowerBound": false,
+   "match": true
+  },
+  {
+   "kind": "buy",
+   "index": 5,
+   "requestedIn": 50000000000,
+   "forkConsumed": 50000000000,
+   "forkOut": 65188212678942007852,
+   "forkSqrtAfter": 2198539875969601132697520,
+   "offlineConsumed": 50000000000.00001,
+   "offlineOut": 6.518821269527333e+19,
+   "offlineStatus": "filled",
+   "offlineIsLowerBound": false,
+   "match": true
+  },
+  {
+   "kind": "buyLimited",
+   "index": 0,
+   "requestedIn": 50000000,
+   "forkConsumed": 50000000,
+   "forkOut": 65472520776765955,
+   "forkSqrtAfter": 2189291077805018965322579,
+   "offlineConsumed": 50000000.0,
+   "offlineOut": 6.547252077674122e+16,
+   "offlineStatus": "filled",
+   "offlineIsLowerBound": false,
+   "match": true
+  },
+  {
+   "kind": "buyLimited",
+   "index": 1,
+   "requestedIn": 250000000,
+   "forkConsumed": 250000000,
+   "forkOut": 327356411913484307,
+   "forkSqrtAfter": 2189332488405019549236154,
+   "offlineConsumed": 250000000.0,
+   "offlineOut": 3.2735641191253914e+17,
+   "offlineStatus": "filled",
+   "offlineIsLowerBound": false,
+   "match": true
+  },
+  {
+   "kind": "buyLimited",
+   "index": 2,
+   "requestedIn": 1000000000,
+   "forkConsumed": 1000000000,
+   "forkOut": 1309332776442917280,
+   "forkSqrtAfter": 2189487778155021738912059,
+   "offlineConsumed": 1000000000.0,
+   "offlineOut": 1.309332776442115e+18,
+   "offlineStatus": "filled",
+   "offlineIsLowerBound": false,
+   "match": true
+  },
+  {
+   "kind": "buyLimited",
+   "index": 3,
+   "requestedIn": 5000000000,
+   "forkConsumed": 5000000000,
+   "forkOut": 6544185158348444091,
+   "forkSqrtAfter": 2190317811722451181093305,
+   "offlineConsumed": 5000000000.0,
+   "offlineOut": 6.544185160568353e+18,
+   "offlineStatus": "filled",
+   "offlineIsLowerBound": false,
+   "match": true
+  },
+  {
+   "kind": "buyLimited",
+   "index": 4,
+   "requestedIn": 10000000000,
+   "forkConsumed": 10000000000,
+   "forkOut": 13082173866416815340,
+   "forkSqrtAfter": 2191354527529683838158385,
+   "offlineConsumed": 10000000000.0,
+   "offlineOut": 1.3082173869321726e+19,
+   "offlineStatus": "filled",
+   "offlineIsLowerBound": false,
+   "match": true
+  },
+  {
+   "kind": "buyLimited",
+   "index": 5,
+   "requestedIn": 50000000000,
+   "forkConsumed": 50000000000,
+   "forkOut": 65188212678942007852,
+   "forkSqrtAfter": 2198539875969601132697520,
+   "offlineConsumed": 50000000000.00001,
+   "offlineOut": 6.518821269527333e+19,
+   "offlineStatus": "filled",
+   "offlineIsLowerBound": false,
+   "match": true
+  },
+  {
+   "kind": "sell",
+   "index": 0,
+   "requestedIn": 65482652780520440,
+   "forkConsumed": 65482652780520440,
+   "forkOut": 49992263,
+   "forkSqrtAfter": 2189270372553973955334700,
+   "offlineConsumed": 6.548265278052044e+16,
+   "offlineOut": 49992263.596695326,
+   "offlineStatus": "filled",
+   "offlineIsLowerBound": false,
+   "match": true
+  },
+  {
+   "kind": "sell",
+   "index": 1,
+   "requestedIn": 327413263902602240,
+   "forkConsumed": 327413263902602240,
+   "forkOut": 249956590,
+   "forkSqrtAfter": 2189228963128876989283845,
+   "offlineConsumed": 3.2741326390260224e+17,
+   "offlineOut": 249956590.0370424,
+   "offlineStatus": "filled",
+   "offlineIsLowerBound": false,
+   "match": true
+  },
+  {
+   "kind": "sell",
+   "index": 2,
+   "requestedIn": 1309653055610408960,
+   "forkConsumed": 1309653055610408960,
+   "forkOut": 999755447,
+   "forkSqrtAfter": 2189073691735369459128638,
+   "offlineConsumed": 1.309653055610409e+18,
+   "offlineOut": 999755447.316309,
+   "offlineStatus": "filled",
+   "offlineIsLowerBound": false,
+   "match": true
+  },
+  {
+   "kind": "sell",
+   "index": 3,
+   "requestedIn": 6548265278052043776,
+   "forkConsumed": 6548265278052043776,
+   "forkOut": 4996886449,
+   "forkSqrtAfter": 2188245453967016816315286,
+   "offlineConsumed": 6.548265278052044e+18,
+   "offlineOut": 4996886450.618593,
+   "offlineStatus": "filled",
+   "offlineIsLowerBound": false,
+   "match": true
+  },
+  {
+   "kind": "sell",
+   "index": 4,
+   "requestedIn": 13096530556104087552,
+   "forkConsumed": 13096530556104087552,
+   "forkOut": 9989047843,
+   "forkSqrtAfter": 2187210762072995558102159,
+   "offlineConsumed": 1.3096530556104088e+19,
+   "offlineOut": 9989047844.422035,
+   "offlineStatus": "filled",
+   "offlineIsLowerBound": false,
+   "match": true
+  },
+  {
+   "kind": "sell",
+   "index": 5,
+   "requestedIn": 65482652780520439808,
+   "forkConsumed": 65482652780520439808,
+   "forkOut": 49817692336,
+   "forkSqrtAfter": 2182219798773093618554802,
+   "offlineConsumed": 6.548265278052045e+19,
+   "offlineOut": 49817692341.929436,
+   "offlineStatus": "filled",
+   "offlineIsLowerBound": false,
+   "match": true
+  },
+  {
+   "kind": "sellLimited",
+   "index": 0,
+   "requestedIn": 65482652780520440,
+   "forkConsumed": 65482652780520440,
+   "forkOut": 49992263,
+   "forkSqrtAfter": 2189270372553973955334700,
+   "offlineConsumed": 6.548265278052044e+16,
+   "offlineOut": 49992263.596695326,
+   "offlineStatus": "filled",
+   "offlineIsLowerBound": false,
+   "match": true
+  },
+  {
+   "kind": "sellLimited",
+   "index": 1,
+   "requestedIn": 327413263902602240,
+   "forkConsumed": 327413263902602240,
+   "forkOut": 249956590,
+   "forkSqrtAfter": 2189228963128876989283845,
+   "offlineConsumed": 3.2741326390260224e+17,
+   "offlineOut": 249956590.0370424,
+   "offlineStatus": "filled",
+   "offlineIsLowerBound": false,
+   "match": true
+  },
+  {
+   "kind": "sellLimited",
+   "index": 2,
+   "requestedIn": 1309653055610408960,
+   "forkConsumed": 1309653055610408960,
+   "forkOut": 999755447,
+   "forkSqrtAfter": 2189073691735369459128638,
+   "offlineConsumed": 1.309653055610409e+18,
+   "offlineOut": 999755447.316309,
+   "offlineStatus": "filled",
+   "offlineIsLowerBound": false,
+   "match": true
+  },
+  {
+   "kind": "sellLimited",
+   "index": 3,
+   "requestedIn": 6548265278052043776,
+   "forkConsumed": 6548265278052043776,
+   "forkOut": 4996886449,
+   "forkSqrtAfter": 2188245453967016816315286,
+   "offlineConsumed": 6.548265278052044e+18,
+   "offlineOut": 4996886450.618593,
+   "offlineStatus": "filled",
+   "offlineIsLowerBound": false,
+   "match": true
+  },
+  {
+   "kind": "sellLimited",
+   "index": 4,
+   "requestedIn": 13096530556104087552,
+   "forkConsumed": 13096530556104087552,
+   "forkOut": 9989047843,
+   "forkSqrtAfter": 2187210762072995558102159,
+   "offlineConsumed": 1.3096530556104088e+19,
+   "offlineOut": 9989047844.422035,
+   "offlineStatus": "filled",
+   "offlineIsLowerBound": false,
+   "match": true
+  },
+  {
+   "kind": "sellLimited",
+   "index": 5,
+   "requestedIn": 65482652780520439808,
+   "forkConsumed": 65482652780520439808,
+   "forkOut": 49817692336,
+   "forkSqrtAfter": 2182219798773093618554802,
+   "offlineConsumed": 6.548265278052045e+19,
+   "offlineOut": 49817692341.929436,
+   "offlineStatus": "filled",
+   "offlineIsLowerBound": false,
+   "match": true
+  },
+  {
+   "kind": "sequential",
+   "index": 0,
+   "requestedIn": 50000000,
+   "forkConsumed": 65472520776765955,
+   "forkOut": 49985001,
+   "forkSqrtAfter": 0,
+   "offlineConsumed": 6.547252077674122e+16,
+   "offlineOut": 49985001.160097346,
+   "offlineStatus": "filled/filled",
+   "offlineIsLowerBound": false,
+   "match": true
+  },
+  {
+   "kind": "sequential",
+   "index": 1,
+   "requestedIn": 250000000,
+   "forkConsumed": 327356411913484307,
+   "forkOut": 249925006,
+   "forkSqrtAfter": 0,
+   "offlineConsumed": 3.2735641191253914e+17,
+   "offlineOut": 249925006.510839,
+   "offlineStatus": "filled/filled",
+   "offlineIsLowerBound": false,
+   "match": true
+  },
+  {
+   "kind": "sequential",
+   "index": 2,
+   "requestedIn": 1000000000,
+   "forkConsumed": 1309332776442917280,
+   "forkOut": 999700036,
+   "forkSqrtAfter": 0,
+   "offlineConsumed": 1.309332776442115e+18,
+   "offlineOut": 999700036.680492,
+   "offlineStatus": "filled/filled",
+   "offlineIsLowerBound": false,
+   "match": true
+  },
+  {
+   "kind": "sequential",
+   "index": 3,
+   "requestedIn": 5000000000,
+   "forkConsumed": 6544185158348444091,
+   "forkOut": 4998500464,
+   "forkSqrtAfter": 0,
+   "offlineConsumed": 6.544185160568353e+18,
+   "offlineOut": 4998500467.26026,
+   "offlineStatus": "filled/filled",
+   "offlineIsLowerBound": false,
+   "match": true
+  },
+  {
+   "kind": "sequential",
+   "index": 4,
+   "requestedIn": 10000000000,
+   "forkConsumed": 13082173866416815340,
+   "forkOut": 9997001640,
+   "forkSqrtAfter": 0,
+   "offlineConsumed": 1.3082173869321726e+19,
+   "offlineOut": 9997001644.117424,
+   "offlineStatus": "filled/filled",
+   "offlineIsLowerBound": false,
+   "match": true
+  },
+  {
+   "kind": "sequential",
+   "index": 5,
+   "requestedIn": 50000000000,
+   "forkConsumed": 65188212678942007852,
+   "forkOut": 49985033698,
+   "forkSqrtAfter": 0,
+   "offlineConsumed": 6.518821269527333e+19,
+   "offlineOut": 49985033718.17188,
+   "offlineStatus": "filled/filled",
+   "offlineIsLowerBound": false,
+   "match": true
+  }
+ ],
+ "errors": [],
+ "verified": true
+}

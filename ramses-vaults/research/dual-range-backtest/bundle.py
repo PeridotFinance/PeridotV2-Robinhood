@@ -43,6 +43,11 @@ SIGS = {
 }
 DATASET_COLS = ("block", "idx", "ts", "s_after", "tick_after", "L_after", "in_tok", "in_amt", "fee_ppm", "proto", "a0", "a1")
 SMALL_INPUTS = ("answer_updated.json", "gauge_notify.json")
+# The REQUIRED sets are fixed here, in code. They are deliberately NOT read from the manifest: a manifest that drops an input or an event
+# stream (and the file with it) must fail verification, not pass with a smaller set.
+REQUIRED_SMALL_INPUTS = SMALL_INPUTS
+REQUIRED_EVENT_STREAMS = tuple(SIGS)
+SMALL_INPUT_DIR = "evidence/bundle/inputs"
 
 
 def canon_hash(logs, to_block):
@@ -92,8 +97,8 @@ def make(pair):
                         "dataset": {"swaps": len(cols["block"]), "columns": list(DATASET_COLS), "sha256": dataset_hash(cols),
                                     "gridLimitBlock": meta.get("grid_limit_block"), "swapsDroppedAfterGrid": meta.get("swaps_dropped_after_grid")},
                         "rawFileBytes": (CACHE.parent / f"ramses-group-pool-{pair}.json").stat().st_size}
-    for f in SMALL_INPUTS:
-        m["smallInputs"][f] = {"sha256": file_sha(RESULTS / f), "committedAt": f"evidence/bundle/inputs/{f}"}
+    for f in REQUIRED_SMALL_INPUTS:
+        m["smallInputs"][f] = {"sha256": file_sha(RESULTS / f), "committedAt": f"{SMALL_INPUT_DIR}/{f}"}
     m["created"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
     m["note"] = ("Raw logs and pickled datasets are not committed (too large). Rebuild with `python3 bundle.py rebuild PAIR`; every hash below is verified. "
                  "The chain is the source of truth; the public RPC serves all logs but only ~9 minutes of state, so state reads are NOT recoverable and are not part of this bundle.")
@@ -112,32 +117,75 @@ def fetch_raw(pair, to_block, cache_dir):
     return out, r
 
 
+def manifest_violations(m, pair):
+    """Structural checks of the manifest against the constants in this file (never against itself)."""
+    v = []
+    spec = (m.get("pairs") or {}).get(pair)
+    if spec is None:
+        return [f"{pair} is not in the manifest"]
+    if spec.get("pool", "").lower() != ADDR[pair]["pool"].lower():
+        v.append(f"{pair}: manifest pool {spec.get('pool')} != the expected pool {ADDR[pair]['pool']}")
+    if not isinstance(spec.get("toBlock"), int) or spec["toBlock"] <= 0:
+        v.append(f"{pair}: toBlock missing or invalid")
+    ev = spec.get("events") or {}
+    for k in REQUIRED_EVENT_STREAMS:
+        if k not in ev:
+            v.append(f"{pair}: required event stream '{k}' is missing from the manifest")
+            continue
+        e = ev[k]
+        if e.get("signature") != SIGS[k] or e.get("topic0") != T(SIGS[k]):
+            v.append(f"{pair}: event stream '{k}' has the wrong signature/topic0")
+        if not isinstance(e.get("count"), int) or e["count"] < 0 or len(str(e.get("sha256", ""))) != 64:
+            v.append(f"{pair}: event stream '{k}' has an invalid count/sha256")
+    if len(str((spec.get("dataset") or {}).get("sha256", ""))) != 64:
+        v.append(f"{pair}: dataset sha256 missing")
+    return v
+
+
 def verify_raw(pair, raw, m):
+    """Every REQUIRED event stream must be present in the raw file and match the manifest; the stream list comes from code, not the manifest."""
     ok = True
-    for k, spec in m["pairs"][pair]["events"].items():
-        n, hx = canon_hash(raw[k], m["pairs"][pair]["toBlock"])
-        good = (n == spec["count"] and hx == spec["sha256"])
+    spec = m["pairs"][pair]
+    for k in REQUIRED_EVENT_STREAMS:
+        if k not in raw:
+            print(f"  FAIL {k}: stream MISSING from the raw file")
+            ok = False
+            continue
+        if k not in (spec.get("events") or {}):
+            print(f"  FAIL {k}: stream missing from the manifest")
+            ok = False
+            continue
+        n, hx = canon_hash(raw[k], spec["toBlock"])
+        e = spec["events"][k]
+        good = (n == e["count"] and hx == e["sha256"])
         ok &= good
-        print(f"  {'OK  ' if good else 'FAIL'} {k}: {n} logs" + ("" if good else f" (manifest {spec['count']})"))
+        print(f"  {'OK  ' if good else 'FAIL'} {k}: {n} logs" + ("" if good else f" (manifest {e['count']})"))
     return ok
 
 
 def verify_small_inputs(m):
-    """The committed small inputs (feed answers, gauge notifications) must exist and match the manifest. Returns True only if ALL do."""
+    """The REQUIRED small inputs (fixed in code) must be listed in the manifest, exist at their canonical committed path, and match the manifest hash.
+    Removing one from disk AND from the manifest fails: the required set does not come from the manifest."""
     ok = True
-    if not m.get("smallInputs"):
-        print("  FAIL manifest lists no small inputs")
-        return False
-    for f, spec in m["smallInputs"].items():
-        p = HERE / spec["committedAt"]
-        if not p.exists():
-            print(f"  FAIL committed input {f}: MISSING at {p}")
+    listed = m.get("smallInputs") or {}
+    for f in REQUIRED_SMALL_INPUTS:
+        spec = listed.get(f)
+        if spec is None:
+            print(f"  FAIL required input {f}: not listed in the manifest")
             ok = False
-        elif file_sha(p) != spec["sha256"]:
-            print(f"  FAIL committed input {f}: hash mismatch")
+            continue
+        p = HERE / SMALL_INPUT_DIR / f
+        if spec.get("committedAt") != f"{SMALL_INPUT_DIR}/{f}":
+            print(f"  FAIL required input {f}: manifest points at a non-canonical path {spec.get('committedAt')}")
+            ok = False
+        elif not p.exists():
+            print(f"  FAIL required input {f}: MISSING at {p}")
+            ok = False
+        elif file_sha(p) != spec.get("sha256"):
+            print(f"  FAIL required input {f}: hash mismatch")
             ok = False
         else:
-            print(f"  OK   committed input {f}")
+            print(f"  OK   required input {f}")
     return ok
 
 
@@ -147,6 +195,12 @@ def rebuild(pair, cache_dir, out_dir):
         print(f"FAIL: {pair} is not in the manifest")
         return 3
     spec = m["pairs"][pair]
+    bad = manifest_violations(m, pair)
+    for line in bad:
+        print("  FAIL", line)
+    if bad:
+        print("MANIFEST DOES NOT DESCRIBE ALL REQUIRED EVENT STREAMS")
+        return 5
     if not verify_small_inputs(m):
         print("REQUIRED SMALL INPUTS MISSING OR MODIFIED")
         return 4
@@ -170,8 +224,8 @@ def rebuild(pair, cache_dir, out_dir):
     pickle.dump((cols, meta), open(out_dir / f"dataset_{pair}.pkl", "wb"))
     # an unpacked bundle is self-contained: the verified small inputs sit next to the dataset (RAMSES_RESULTS_DIR=<out_dir>)
     import shutil
-    for f, sp in m["smallInputs"].items():
-        shutil.copyfile(HERE / sp["committedAt"], out_dir / f)
+    for f in REQUIRED_SMALL_INPUTS:
+        shutil.copyfile(HERE / SMALL_INPUT_DIR / f, out_dir / f)
     pools = out_dir / "pools_static.json"
     if not pools.exists() and (HERE / "evidence" / "pools_static.json").exists():
         shutil.copyfile(HERE / "evidence" / "pools_static.json", pools)
@@ -186,6 +240,11 @@ def verify(pair, raw_path, results_dir=None):
     if pair not in m.get("pairs", {}):
         print(f"  FAIL {pair} is not in the manifest")
         return 3
+    bad = manifest_violations(m, pair)
+    for line in bad:
+        print("  FAIL", line)
+    if bad:
+        rc |= 5
     if raw_path:
         rp = Path(raw_path)
         if not rp.exists():

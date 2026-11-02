@@ -1,140 +1,147 @@
 {
  "schema": "ramses-r33-routes-1",
  "readOnly": true,
- "generated": "2026-11-02T14:40:01Z",
+ "generated": "2026-11-02T15:50:12Z",
  "amountsR33": [
   1000,
   5000,
   20000,
   100000
  ],
- "note": "each pool is read at its own recent block; multi-hop figures are non-atomic composites; quotes only",
+ "note": "each pool is read at its own recent block; multi-hop figures are NON-ATOMIC composites of independent pins; quotes only; shortfalls are relative to the r33/USDG CL200 SPOT (a thin pool), not to a defensible price",
  "pins": {
   "r33/USDG CL200": {
-   "l2Block": 104292814,
-   "hash": "0x1761f88cacf13ca050b00ce70d5c495ff197bfb7a0a6b34cef68e584e8d7bacf",
-   "timestamp": 1793630400,
-   "native": 26327749,
+   "l2Block": 104334489,
+   "hash": "0xb0df69506a150c604e3142bac9321487caf2613218e7462e51be17cbc3c72f0a",
+   "timestamp": 1793634611,
+   "native": 26328099,
    "kind": "CL",
-   "inputsFile": "inputs/routes/r33-USDG_CL200.json",
+   "inputsFile": "inputs/routes/r33-USDG_CL200/104334489-b0df6950.json",
+   "inputsSha256": "552faa851285808099571976e7c89e537d289d6fb34038f93038878bdd2b05bf",
    "fee_ppm": 20000,
    "scan": "full",
    "ticks": 11,
    "liquidity": "5491200628116413"
   },
   "r33/USDG CL500": {
-   "l2Block": 104292874,
-   "hash": "0x95e0e251127b3758358358bd62afd9f0e575e17c3c059a912a62c1243dd2b1bd",
-   "timestamp": 1793630406,
-   "native": 26327750,
+   "l2Block": 104334544,
+   "hash": "0x064e26cab5ead34b868ecef0ea09190d44d77effa33ca91a947c9ac925ea25ae",
+   "timestamp": 1793634617,
+   "native": 26328099,
    "kind": "CL",
-   "inputsFile": "inputs/routes/r33-USDG_CL500.json",
+   "inputsFile": "inputs/routes/r33-USDG_CL500/104334544-064e26ca.json",
+   "inputsSha256": "f8bfd09cbc8be875474b4ee0f2aa2bd41c224346150d9262abd2ff33f4a5e04b",
    "fee_ppm": 50000,
    "scan": "full",
    "ticks": 6,
    "liquidity": "88304945554977829"
   },
   "r33/USDG CL5": {
-   "l2Block": 104292914,
-   "hash": "0x51b628bd2ed09b26d1e83dbd457583f1115d34310b7387430a01f44409044289",
-   "timestamp": 1793630410,
-   "native": 26327750,
+   "l2Block": 104334589,
+   "hash": "0xe13de29ea317f0b423292899ecaa3758f7ad08207cc97ab9ad82a92f129069ca",
+   "timestamp": 1793634621,
+   "native": 26328100,
    "kind": "CL",
-   "inputsFile": "inputs/routes/r33-USDG_CL5.json",
+   "inputsFile": "inputs/routes/r33-USDG_CL5/104334589-e13de29e.json",
+   "inputsSha256": "5a197864fe166a624f613fd16c817ab9a59b22292836edde02a581a95fada58f",
    "fee_ppm": 250,
    "scan": "full",
    "ticks": 4,
    "liquidity": "0"
   },
   "r33/RAM CL100": {
-   "l2Block": 104294038,
-   "hash": "0x3fdc01020c997b955202068818c412a8426b55683ae0729311172d386b0f6f8e",
-   "timestamp": 1793630520,
-   "native": 26327759,
+   "l2Block": 104335445,
+   "hash": "0xa36054ec202837992de96db8db8d0dee7fc9b4a5cdd5c37a6cd608e9eb97a3d0",
+   "timestamp": 1793634706,
+   "native": 26328106,
    "kind": "CL",
-   "inputsFile": "inputs/routes/r33-RAM_CL100.json",
+   "inputsFile": "inputs/routes/r33-RAM_CL100/104335445-a36054ec.json",
+   "inputsSha256": "70fce041352e0b137d572a3532655ee36bda5f5802fb517b93d49eb5c786964d",
    "fee_ppm": 10000,
    "scan": "full",
    "ticks": 8,
    "liquidity": "148216265823046937392561"
   },
   "r33/RAM CL200": {
-   "l2Block": 104294113,
-   "hash": "0xb16ca1304c3412457d88e6447b4142e061299b4094298d5e960bf18bb036a6fd",
-   "timestamp": 1793630528,
-   "native": 26327760,
+   "l2Block": 104335514,
+   "hash": "0xd46f29316ce8997c6a81a29a46a6e461101ecf8893d505fb724fbf9532fc9c8a",
+   "timestamp": 1793634713,
+   "native": 26328108,
    "kind": "CL",
-   "inputsFile": "inputs/routes/r33-RAM_CL200.json",
+   "inputsFile": "inputs/routes/r33-RAM_CL200/104335514-d46f2931.json",
+   "inputsSha256": "e28f9a160aac53f222d148dcd6308a813de8fbc5404a3361049d2cf4bf4f6a3a",
    "fee_ppm": 20000,
    "scan": "full",
    "ticks": 4,
    "liquidity": "39640598519608407375596"
   },
   "WETH/RAM CL100": {
-   "l2Block": 104294164,
-   "hash": "0x2c0143a104fae25f5a10e80abfc578a16c8b22320a3e5330d2ce2eca71146cf0",
-   "timestamp": 1793630533,
-   "native": 26327760,
+   "l2Block": 104335571,
+   "hash": "0x12b2ee0550c69975a00f85de34488c844ab755c444b4ddbcbd5d52f4ad95523f",
+   "timestamp": 1793634719,
+   "native": 26328108,
    "kind": "CL",
-   "inputsFile": "inputs/routes/WETH-RAM_CL100.json",
+   "inputsFile": "inputs/routes/WETH-RAM_CL100/104335571-12b2ee05.json",
+   "inputsSha256": "5f12566b2d8672aba16ab962ecab41b1306401f573a0dd678de08919e3dd84bf",
    "fee_ppm": 17500,
    "scan": "full",
    "ticks": 141,
-   "liquidity": "258025838680958960608637"
+   "liquidity": "274403717503378427631002"
   },
   "WETH/USDG CL1": {
-   "l2Block": 104294351,
-   "hash": "0x72395545cd5f913280a80804094d7eae4e0c3f9f5e99153ab4cc06f9865203ee",
-   "timestamp": 1793630552,
-   "native": 26327763,
+   "l2Block": 104335742,
+   "hash": "0x7ab8716a2439e48efd1d9fefc185ec3bb870e18afde751de1608ebe408c666b4",
+   "timestamp": 1793634736,
+   "native": 26328109,
    "kind": "CL",
-   "inputsFile": "inputs/routes/WETH-USDG_CL1.json",
+   "inputsFile": "inputs/routes/WETH-USDG_CL1/104335742-7ab8716a.json",
+   "inputsSha256": "201fa62a499dc810b2cef058e1f3fb31b68ea1b1d1682dcc22dd495995c5ecbd",
    "fee_ppm": 300,
    "scan": "window",
-   "ticks": 182,
-   "liquidity": "412456250518623850"
+   "ticks": 184,
+   "liquidity": "424960484989486473"
   },
   "r33/USDG DLMM200": {
-   "l2Block": 104294528,
-   "hash": "0xd91a632fe81352aa23ab4dc8be14c39fdde6988dafdfc8ae8934e350bdf2f053",
-   "native": 26327764,
-   "timestamp": 1793630570,
+   "l2Block": 104335898,
+   "hash": "0x62ef551d4512c07288c4ca1925640aa0bad98a18ed69194b2341415c7adba74c",
+   "native": 26328110,
+   "timestamp": 1793634752,
    "kind": "DLMM",
    "binStep": 200,
    "pool": "0x544c010194d904a152524455fd9f3de59bbac034"
   },
   "r33/RAM DLMM200": {
-   "l2Block": 104294543,
-   "hash": "0x60fdabd166718573decfcf830512b8c6ac7026c13254ac2127262f120abb6948",
-   "native": 26327764,
-   "timestamp": 1793630571,
+   "l2Block": 104335912,
+   "hash": "0x17385eedc83fcc1d3611fa433ae544e0aa6578eb13f755143a2940c042c60755",
+   "native": 26328110,
+   "timestamp": 1793634753,
    "kind": "DLMM",
    "binStep": 200,
    "pool": "0x865ce837dd246e4059f3d435eec9eab9a78fa8e6"
   },
   "r33/RAM DLMM25": {
-   "l2Block": 104294558,
-   "hash": "0x7f81585b0eb2fd8b69e60061c8f13cd5367d159f0e405671d551293d5599e18c",
-   "native": 26327764,
-   "timestamp": 1793630573,
+   "l2Block": 104335927,
+   "hash": "0x2fd45260624fb4320b29c84876eb92339b4089af9011ace383dd062bd679cd29",
+   "native": 26328111,
+   "timestamp": 1793634755,
    "kind": "DLMM",
    "binStep": 25,
    "pool": "0xcf507f940d7b58c46efaaa7d307e98c1be27f12f"
   },
   "RAM/USDG DLMM100": {
-   "l2Block": 104294573,
-   "hash": "0x4ac67ef12d4acc030493cf3254410cb715b6081659cd492ddccfb19e2bf5aa01",
-   "native": 26327764,
-   "timestamp": 1793630574,
+   "l2Block": 104335942,
+   "hash": "0x6d41d6b92cf8c66df92f4458f143030ace4469bd3bc6aa5adb3aa70726ac6e10",
+   "native": 26328111,
+   "timestamp": 1793634757,
    "kind": "DLMM",
    "binStep": 100,
    "pool": "0xe5c549d30eb7ac99dcaaddd4a7fec48c5d523a31"
   },
   "r33/USDG V2": {
-   "l2Block": 104294588,
-   "hash": "0xa941d4b089e86bf707249125c4e8f52363a1df3fff29e3b87f48c6b8c2281532",
-   "native": 26327764,
-   "timestamp": 1793630576,
+   "l2Block": 104335957,
+   "hash": "0x344f2b235190fe4e37f87b7aa5eb099bd6795efbd01dccef106f709eec8e483a",
+   "native": 26328111,
+   "timestamp": 1793634758,
    "kind": "legacy constant product",
    "pool": "0xd8b66ac1a247db8f32ce0ea9770ce6966eb9f567",
    "fee": 0.03,
@@ -144,16 +151,16 @@
    ]
   },
   "RAM/USDG V2": {
-   "l2Block": 104294608,
-   "hash": "0x2c04c3b5f3fdc0b5ab4f4f788c4d086262e96b02e3223eac81f4a4c8d8c88c15",
-   "native": 26327764,
-   "timestamp": 1793630578,
+   "l2Block": 104335977,
+   "hash": "0x15016693abbe09182cf9266345813aa290ad5ab7485e3eaf0a5374015b48c420",
+   "native": 26328111,
+   "timestamp": 1793634760,
    "kind": "legacy constant product",
    "pool": "0x039e4cc74db4983c7c1d5bc9ab50fb8e43ffbd05",
    "fee": 0.02,
    "reserves": [
-    56473774554041818814291,
-    2053570553
+    56647832717134679870527,
+    2047386496
    ]
   }
  },
@@ -218,7 +225,7 @@
        "pool": "r33/USDG CL200",
        "status": "filled",
        "in": 1e+23,
-       "consumed": 1e+23,
+       "consumed": 9.999999999999997e+22,
        "out": 326841587.3645591
       }
      ],
@@ -288,7 +295,7 @@
        "pool": "r33/USDG CL500",
        "status": "capacity_exhausted",
        "in": 1e+23,
-       "consumed": 2.4313495152904173e+22,
+       "consumed": 2.431349515290416e+22,
        "out": 1002922798.8844328
       }
      ],
@@ -514,95 +521,95 @@
    "results": [
     {
      "status": "filled",
-     "usdgOut": 44.691001,
+     "usdgOut": 44.793067,
      "trail": [
       {
        "pool": "r33/RAM CL100",
        "status": "filled",
        "in": 1e+21,
        "consumed": 1e+21,
-       "out": 1.2668008051869446e+21
+       "out": 1.2697890923856305e+21
       },
       {
        "pool": "RAM/USDG DLMM100",
        "status": "filled",
-       "in": 1.2668008051869446e+21,
-       "consumed": 1.2668008051869446e+21,
-       "out": 44691001.0
+       "in": 1.2697890923856305e+21,
+       "consumed": 1.2697890923856305e+21,
+       "out": 44793067.0
       }
      ],
      "r33": 1000,
      "nominalUsdAtReferenceMid": 46.693781261625844,
-     "shortfallBpVsReferenceMid": 428.91798597424423
+     "shortfallBpVsReferenceMid": 407.05940068895165
     },
     {
      "status": "filled",
-     "usdgOut": 151.179186,
+     "usdgOut": 158.19243,
      "trail": [
       {
        "pool": "r33/RAM CL100",
        "status": "filled",
        "in": 5e+21,
        "consumed": 5e+21,
-       "out": 4.2852902822186456e+21
+       "out": 4.4844221576422516e+21
       },
       {
        "pool": "RAM/USDG DLMM100",
        "status": "filled",
-       "in": 4.2852902822186456e+21,
-       "consumed": 4.2852902822186456e+21,
-       "out": 151179186.0
+       "in": 4.4844221576422516e+21,
+       "consumed": 4.4844221576422516e+21,
+       "out": 158192430.0
       }
      ],
      "r33": 5000,
      "nominalUsdAtReferenceMid": 233.46890630812922,
-     "shortfallBpVsReferenceMid": 3524.6543794369054
+     "shortfallBpVsReferenceMid": 3224.261315927882
     },
     {
      "status": "filled",
-     "usdgOut": 151.179186,
+     "usdgOut": 158.19243,
      "trail": [
       {
        "pool": "r33/RAM CL100",
        "status": "filled",
        "in": 2e+22,
        "consumed": 2e+22,
-       "out": 4.2852902822186456e+21
+       "out": 4.4844221576422516e+21
       },
       {
        "pool": "RAM/USDG DLMM100",
        "status": "filled",
-       "in": 4.2852902822186456e+21,
-       "consumed": 4.2852902822186456e+21,
-       "out": 151179186.0
+       "in": 4.4844221576422516e+21,
+       "consumed": 4.4844221576422516e+21,
+       "out": 158192430.0
       }
      ],
      "r33": 20000,
      "nominalUsdAtReferenceMid": 933.8756252325169,
-     "shortfallBpVsReferenceMid": 8381.163594859227
+     "shortfallBpVsReferenceMid": 8306.065328981971
     },
     {
      "status": "filled",
-     "usdgOut": 151.179186,
+     "usdgOut": 158.19243,
      "trail": [
       {
        "pool": "r33/RAM CL100",
        "status": "filled",
        "in": 1e+23,
-       "consumed": 1e+23,
-       "out": 4.2852902822186456e+21
+       "consumed": 9.999999999999997e+22,
+       "out": 4.4844221576422516e+21
       },
       {
        "pool": "RAM/USDG DLMM100",
        "status": "filled",
-       "in": 4.2852902822186456e+21,
-       "consumed": 4.2852902822186456e+21,
-       "out": 151179186.0
+       "in": 4.4844221576422516e+21,
+       "consumed": 4.4844221576422516e+21,
+       "out": 158192430.0
       }
      ],
      "r33": 100000,
      "nominalUsdAtReferenceMid": 4669.378126162584,
-     "shortfallBpVsReferenceMid": 9676.232718971845
+     "shortfallBpVsReferenceMid": 9661.213065796395
     }
    ]
   },
@@ -612,95 +619,95 @@
    "results": [
     {
      "status": "filled",
-     "usdgOut": 44.17265807893272,
+     "usdgOut": 44.00856962194261,
      "trail": [
       {
        "pool": "r33/RAM CL100",
        "status": "filled",
        "in": 1e+21,
        "consumed": 1e+21,
-       "out": 1.2668008051869446e+21
+       "out": 1.2697890923856305e+21
       },
       {
        "pool": "RAM/USDG V2",
        "status": "filled",
-       "in": 1.2668008051869446e+21,
-       "consumed": 1.2668008051869446e+21,
-       "out": 44172658.07893272
+       "in": 1.2697890923856305e+21,
+       "consumed": 1.2697890923856305e+21,
+       "out": 44008569.62194261
       }
      ],
      "r33": 1000,
      "nominalUsdAtReferenceMid": 46.693781261625844,
-     "shortfallBpVsReferenceMid": 539.9269698393539
+     "shortfallBpVsReferenceMid": 575.0683639514987
     },
     {
      "status": "filled",
-     "usdgOut": 142.14052351340985,
+     "usdgOut": 147.4007235695142,
      "trail": [
       {
        "pool": "r33/RAM CL100",
        "status": "filled",
        "in": 5e+21,
        "consumed": 5e+21,
-       "out": 4.2852902822186456e+21
+       "out": 4.4844221576422516e+21
       },
       {
        "pool": "RAM/USDG V2",
        "status": "filled",
-       "in": 4.2852902822186456e+21,
-       "consumed": 4.2852902822186456e+21,
-       "out": 142140523.51340985
+       "in": 4.4844221576422516e+21,
+       "consumed": 4.4844221576422516e+21,
+       "out": 147400723.56951421
       }
      ],
      "r33": 5000,
      "nominalUsdAtReferenceMid": 233.46890630812922,
-     "shortfallBpVsReferenceMid": 3911.800686391419
+     "shortfallBpVsReferenceMid": 3686.494450144181
     },
     {
      "status": "filled",
-     "usdgOut": 142.14052351340985,
+     "usdgOut": 147.4007235695142,
      "trail": [
       {
        "pool": "r33/RAM CL100",
        "status": "filled",
        "in": 2e+22,
        "consumed": 2e+22,
-       "out": 4.2852902822186456e+21
+       "out": 4.4844221576422516e+21
       },
       {
        "pool": "RAM/USDG V2",
        "status": "filled",
-       "in": 4.2852902822186456e+21,
-       "consumed": 4.2852902822186456e+21,
-       "out": 142140523.51340985
+       "in": 4.4844221576422516e+21,
+       "consumed": 4.4844221576422516e+21,
+       "out": 147400723.56951421
       }
      ],
      "r33": 20000,
      "nominalUsdAtReferenceMid": 933.8756252325169,
-     "shortfallBpVsReferenceMid": 8477.950171597855
+     "shortfallBpVsReferenceMid": 8421.623612536045
     },
     {
      "status": "filled",
-     "usdgOut": 142.14052351340985,
+     "usdgOut": 147.4007235695142,
      "trail": [
       {
        "pool": "r33/RAM CL100",
        "status": "filled",
        "in": 1e+23,
-       "consumed": 1e+23,
-       "out": 4.2852902822186456e+21
+       "consumed": 9.999999999999997e+22,
+       "out": 4.4844221576422516e+21
       },
       {
        "pool": "RAM/USDG V2",
        "status": "filled",
-       "in": 4.2852902822186456e+21,
-       "consumed": 4.2852902822186456e+21,
-       "out": 142140523.51340985
+       "in": 4.4844221576422516e+21,
+       "consumed": 4.4844221576422516e+21,
+       "out": 147400723.56951421
       }
      ],
      "r33": 100000,
      "nominalUsdAtReferenceMid": 4669.378126162584,
-     "shortfallBpVsReferenceMid": 9695.590034319572
+     "shortfallBpVsReferenceMid": 9684.32472250721
     }
    ]
   },
@@ -710,123 +717,123 @@
    "results": [
     {
      "status": "filled",
-     "usdgOut": 44.95990182065487,
+     "usdgOut": 44.7894688909704,
      "trail": [
       {
        "pool": "r33/RAM CL100",
        "status": "filled",
        "in": 1e+21,
        "consumed": 1e+21,
-       "out": 1.2668008051869446e+21
+       "out": 1.2697890923856305e+21
       },
       {
        "pool": "WETH/RAM CL100",
        "status": "filled",
-       "in": 1.2668008051869446e+21,
-       "consumed": 1.2668008051869446e+21,
-       "out": 1.9656514066103676e+16
+       "in": 1.2697890923856305e+21,
+       "consumed": 1.2697890923856305e+21,
+       "out": 1.964388607713353e+16
       },
       {
        "pool": "WETH/USDG CL1",
        "status": "filled",
-       "in": 1.9656514066103676e+16,
-       "consumed": 1.9656514066103676e+16,
-       "out": 44959901.82065487
+       "in": 1.964388607713353e+16,
+       "consumed": 1.964388607713353e+16,
+       "out": 44789468.890970394
       }
      ],
      "r33": 1000,
      "nominalUsdAtReferenceMid": 46.693781261625844,
-     "shortfallBpVsReferenceMid": 371.329841816842
+     "shortfallBpVsReferenceMid": 407.8299763271598
     },
     {
      "status": "filled",
-     "usdgOut": 152.08104043337198,
+     "usdgOut": 158.1716151225279,
      "trail": [
       {
        "pool": "r33/RAM CL100",
        "status": "filled",
        "in": 5e+21,
        "consumed": 5e+21,
-       "out": 4.2852902822186456e+21
+       "out": 4.4844221576422516e+21
       },
       {
        "pool": "WETH/RAM CL100",
        "status": "filled",
-       "in": 4.2852902822186456e+21,
-       "consumed": 4.2852902822186456e+21,
-       "out": 6.649034408394433e+16
+       "in": 4.4844221576422516e+21,
+       "consumed": 4.4844221576422516e+21,
+       "out": 6.937172115371035e+16
       },
       {
        "pool": "WETH/USDG CL1",
        "status": "filled",
-       "in": 6.649034408394433e+16,
-       "consumed": 6.649034408394433e+16,
-       "out": 152081040.433372
+       "in": 6.937172115371035e+16,
+       "consumed": 6.937172115371035e+16,
+       "out": 158171615.1225279
       }
      ],
      "r33": 5000,
      "nominalUsdAtReferenceMid": 233.46890630812922,
-     "shortfallBpVsReferenceMid": 3486.025919329172
+     "shortfallBpVsReferenceMid": 3225.1528640916727
     },
     {
      "status": "filled",
-     "usdgOut": 152.08104043337198,
+     "usdgOut": 158.1716151225279,
      "trail": [
       {
        "pool": "r33/RAM CL100",
        "status": "filled",
        "in": 2e+22,
        "consumed": 2e+22,
-       "out": 4.2852902822186456e+21
+       "out": 4.4844221576422516e+21
       },
       {
        "pool": "WETH/RAM CL100",
        "status": "filled",
-       "in": 4.2852902822186456e+21,
-       "consumed": 4.2852902822186456e+21,
-       "out": 6.649034408394433e+16
+       "in": 4.4844221576422516e+21,
+       "consumed": 4.4844221576422516e+21,
+       "out": 6.937172115371035e+16
       },
       {
        "pool": "WETH/USDG CL1",
        "status": "filled",
-       "in": 6.649034408394433e+16,
-       "consumed": 6.649034408394433e+16,
-       "out": 152081040.433372
+       "in": 6.937172115371035e+16,
+       "consumed": 6.937172115371035e+16,
+       "out": 158171615.1225279
       }
      ],
      "r33": 20000,
      "nominalUsdAtReferenceMid": 933.8756252325169,
-     "shortfallBpVsReferenceMid": 8371.506479832293
+     "shortfallBpVsReferenceMid": 8306.288216022918
     },
     {
      "status": "filled",
-     "usdgOut": 152.08104043337198,
+     "usdgOut": 158.1716151225279,
      "trail": [
       {
        "pool": "r33/RAM CL100",
        "status": "filled",
        "in": 1e+23,
-       "consumed": 1e+23,
-       "out": 4.2852902822186456e+21
+       "consumed": 9.999999999999997e+22,
+       "out": 4.4844221576422516e+21
       },
       {
        "pool": "WETH/RAM CL100",
        "status": "filled",
-       "in": 4.2852902822186456e+21,
-       "consumed": 4.2852902822186456e+21,
-       "out": 6.649034408394433e+16
+       "in": 4.4844221576422516e+21,
+       "consumed": 4.4844221576422516e+21,
+       "out": 6.937172115371035e+16
       },
       {
        "pool": "WETH/USDG CL1",
        "status": "filled",
-       "in": 6.649034408394433e+16,
-       "consumed": 6.649034408394433e+16,
-       "out": 152081040.433372
+       "in": 6.937172115371035e+16,
+       "consumed": 6.937172115371035e+16,
+       "out": 158171615.1225279
       }
      ],
      "r33": 100000,
      "nominalUsdAtReferenceMid": 4669.378126162584,
-     "shortfallBpVsReferenceMid": 9674.30129596646
+     "shortfallBpVsReferenceMid": 9661.257643204584
     }
    ]
   },
@@ -836,7 +843,7 @@
    "results": [
     {
      "status": "filled",
-     "usdgOut": 43.892405,
+     "usdgOut": 43.889115,
      "trail": [
       {
        "pool": "r33/RAM CL200",
@@ -850,16 +857,16 @@
        "status": "filled",
        "in": 1.2441639796485553e+21,
        "consumed": 1.2441639796485553e+21,
-       "out": 43892405.0
+       "out": 43889115.0
       }
      ],
      "r33": 1000,
      "nominalUsdAtReferenceMid": 46.693781261625844,
-     "shortfallBpVsReferenceMid": 599.9463281694195
+     "shortfallBpVsReferenceMid": 600.6509187832243
     },
     {
      "status": "filled",
-     "usdgOut": 202.659164,
+     "usdgOut": 202.643976,
      "trail": [
       {
        "pool": "r33/RAM CL200",
@@ -873,16 +880,16 @@
        "status": "filled",
        "in": 5.744529832829866e+21,
        "consumed": 5.744529832829866e+21,
-       "out": 202659164.0
+       "out": 202643976.0
       }
      ],
      "r33": 5000,
      "nominalUsdAtReferenceMid": 233.46890630812922,
-     "shortfallBpVsReferenceMid": 1319.6507747145959
+     "shortfallBpVsReferenceMid": 1320.3013110211293
     },
     {
      "status": "filled",
-     "usdgOut": 770.696765,
+     "usdgOut": 770.355183,
      "trail": [
       {
        "pool": "r33/RAM CL200",
@@ -896,16 +903,16 @@
        "status": "filled",
        "in": 2.1981697323861715e+22,
        "consumed": 2.1981697323861715e+22,
-       "out": 770696765.0
+       "out": 770355183.0
       }
      ],
      "r33": 20000,
      "nominalUsdAtReferenceMid": 933.8756252325169,
-     "shortfallBpVsReferenceMid": 1747.3296852767573
+     "shortfallBpVsReferenceMid": 1750.9873672075282
     },
     {
      "status": "filled",
-     "usdgOut": 3354.893927,
+     "usdgOut": 3351.234665,
      "trail": [
       {
        "pool": "r33/RAM CL200",
@@ -919,12 +926,12 @@
        "status": "filled",
        "in": 1.0070533547870206e+23,
        "consumed": 1.0070533547870206e+23,
-       "out": 3354893927.0
+       "out": 3351234665.0
       }
      ],
      "r33": 100000,
      "nominalUsdAtReferenceMid": 4669.378126162584,
-     "shortfallBpVsReferenceMid": 2815.1161967318785
+     "shortfallBpVsReferenceMid": 2822.9529190986045
     }
    ]
   },
@@ -934,7 +941,7 @@
    "results": [
     {
      "status": "filled",
-     "usdgOut": 43.40000595301367,
+     "usdgOut": 43.13916303600615,
      "trail": [
       {
        "pool": "r33/RAM CL200",
@@ -948,16 +955,16 @@
        "status": "filled",
        "in": 1.2441639796485553e+21,
        "consumed": 1.2441639796485553e+21,
-       "out": 43400005.953013666
+       "out": 43139163.03600615
       }
      ],
      "r33": 1000,
      "nominalUsdAtReferenceMid": 46.693781261625844,
-     "shortfallBpVsReferenceMid": 705.399138732653
+     "shortfallBpVsReferenceMid": 761.2615919244403
     },
     {
      "status": "filled",
-     "usdgOut": 186.15500588214604,
+     "usdgOut": 185.07571017228298,
      "trail": [
       {
        "pool": "r33/RAM CL200",
@@ -971,16 +978,16 @@
        "status": "filled",
        "in": 5.744529832829866e+21,
        "consumed": 5.744529832829866e+21,
-       "out": 186155005.88214603
+       "out": 185075710.172283
       }
      ],
      "r33": 5000,
      "nominalUsdAtReferenceMid": 233.46890630812922,
-     "shortfallBpVsReferenceMid": 2026.5611028964558
+     "shortfallBpVsReferenceMid": 2072.7897732119204
     },
     {
      "status": "filled",
-     "usdgOut": 567.0405929824219,
+     "usdgOut": 564.074539778353,
      "trail": [
       {
        "pool": "r33/RAM CL200",
@@ -994,16 +1001,16 @@
        "status": "filled",
        "in": 2.1981697323861715e+22,
        "consumed": 2.1981697323861715e+22,
-       "out": 567040592.9824219
+       "out": 564074539.778353
       }
      ],
      "r33": 20000,
      "nominalUsdAtReferenceMid": 933.8756252325169,
-     "shortfallBpVsReferenceMid": 3928.0930172983176
+     "shortfallBpVsReferenceMid": 3959.853704952312
     },
     {
      "status": "filled",
-     "usdgOut": 1306.1540740443781,
+     "usdgOut": 1300.7616186314372,
      "trail": [
       {
        "pool": "r33/RAM CL200",
@@ -1017,12 +1024,12 @@
        "status": "filled",
        "in": 1.0070533547870206e+23,
        "consumed": 1.0070533547870206e+23,
-       "out": 1306154074.044378
+       "out": 1300761618.631437
       }
      ],
      "r33": 100000,
      "nominalUsdAtReferenceMid": 4669.378126162584,
-     "shortfallBpVsReferenceMid": 7202.7237059128265
+     "shortfallBpVsReferenceMid": 7214.272257491305
     }
    ]
   },
@@ -1032,7 +1039,7 @@
    "results": [
     {
      "status": "filled",
-     "usdgOut": 44.15651741135379,
+     "usdgOut": 43.885608222192445,
      "trail": [
       {
        "pool": "r33/RAM CL200",
@@ -1046,23 +1053,23 @@
        "status": "filled",
        "in": 1.2441639796485553e+21,
        "consumed": 1.2441639796485553e+21,
-       "out": 1.9305272812851676e+16
+       "out": 1.9247467569132236e+16
       },
       {
        "pool": "WETH/USDG CL1",
        "status": "filled",
-       "in": 1.9305272812851676e+16,
-       "consumed": 1.9305272812851676e+16,
-       "out": 44156517.41135379
+       "in": 1.9247467569132236e+16,
+       "consumed": 1.9247467569132236e+16,
+       "out": 43885608.222192444
       }
      ],
      "r33": 1000,
      "nominalUsdAtReferenceMid": 46.693781261625844,
-     "shortfallBpVsReferenceMid": 543.3836758808918
+     "shortfallBpVsReferenceMid": 601.401934809942
     },
     {
      "status": "filled",
-     "usdgOut": 203.86308361517183,
+     "usdgOut": 202.61324070000032,
      "trail": [
       {
        "pool": "r33/RAM CL200",
@@ -1076,23 +1083,23 @@
        "status": "filled",
        "in": 5.744529832829866e+21,
        "consumed": 5.744529832829866e+21,
-       "out": 8.912986204519594e+16
+       "out": 8.886335265638376e+16
       },
       {
        "pool": "WETH/USDG CL1",
        "status": "filled",
-       "in": 8.912986204519594e+16,
-       "consumed": 8.912986204519594e+16,
-       "out": 203863083.61517182
+       "in": 8.886335265638376e+16,
+       "consumed": 8.886335265638376e+16,
+       "out": 202613240.70000032
       }
      ],
      "r33": 5000,
      "nominalUsdAtReferenceMid": 233.46890630812922,
-     "shortfallBpVsReferenceMid": 1268.0841813634925
+     "shortfallBpVsReferenceMid": 1321.6177732638191
     },
     {
      "status": "filled",
-     "usdgOut": 779.8767203492685,
+     "usdgOut": 775.0832137823184,
      "trail": [
       {
        "pool": "r33/RAM CL200",
@@ -1106,23 +1113,23 @@
        "status": "filled",
        "in": 2.1981697323861715e+22,
        "consumed": 2.1981697323861715e+22,
-       "out": 3.409755841901347e+17
+       "out": 3.399503193012274e+17
       },
       {
        "pool": "WETH/USDG CL1",
        "status": "filled",
-       "in": 3.409755841901347e+17,
-       "consumed": 3.409755841901347e+17,
-       "out": 779876720.3492684
+       "in": 3.399503193012274e+17,
+       "consumed": 3.399503193012274e+17,
+       "out": 775083213.7823184
       }
      ],
      "r33": 20000,
      "nominalUsdAtReferenceMid": 933.8756252325169,
-     "shortfallBpVsReferenceMid": 1649.0301355162328
+     "shortfallBpVsReferenceMid": 1700.3593108093196
     },
     {
      "status": "filled",
-     "usdgOut": 3568.1158389429393,
+     "usdgOut": 3533.069117215481,
      "trail": [
       {
        "pool": "r33/RAM CL200",
@@ -1135,20 +1142,20 @@
        "pool": "WETH/RAM CL100",
        "status": "filled",
        "in": 1.0070533547870206e+23,
-       "consumed": 1.0070533547870206e+23,
-       "out": 1.5602624451928317e+18
+       "consumed": 1.0070533547870208e+23,
+       "out": 1.5498104231737152e+18
       },
       {
        "pool": "WETH/USDG CL1",
        "status": "filled",
-       "in": 1.5602624451928317e+18,
-       "consumed": 1.5602624451928317e+18,
-       "out": 3568115838.9429393
+       "in": 1.5498104231737152e+18,
+       "consumed": 1.5498104231737152e+18,
+       "out": 3533069117.2154813
       }
      ],
      "r33": 100000,
      "nominalUsdAtReferenceMid": 4669.378126162584,
-     "shortfallBpVsReferenceMid": 2358.4774191862034
+     "shortfallBpVsReferenceMid": 2433.5339273132518
     }
    ]
   },
@@ -1158,7 +1165,7 @@
    "results": [
     {
      "status": "filled",
-     "usdgOut": 45.618419,
+     "usdgOut": 45.615001,
      "trail": [
       {
        "pool": "r33/RAM DLMM200",
@@ -1172,16 +1179,16 @@
        "status": "filled",
        "in": 1.2930891878016148e+21,
        "consumed": 1.2930891878016148e+21,
-       "out": 45618419.0
+       "out": 45615001.0
       }
      ],
      "r33": 1000,
      "nominalUsdAtReferenceMid": 46.693781261625844,
-     "shortfallBpVsReferenceMid": 230.3009592649119
+     "shortfallBpVsReferenceMid": 231.03296252265926
     },
     {
      "status": "filled",
-     "usdgOut": 228.092099,
+     "usdgOut": 228.075005,
      "trail": [
       {
        "pool": "r33/RAM DLMM200",
@@ -1195,16 +1202,16 @@
        "status": "filled",
        "in": 6.465445939008074e+21,
        "consumed": 6.465445939008074e+21,
-       "out": 228092099.0
+       "out": 228075005.0
       }
      ],
      "r33": 5000,
      "nominalUsdAtReferenceMid": 233.46890630812922,
-     "shortfallBpVsReferenceMid": 230.3007879358887
+     "shortfallBpVsReferenceMid": 231.03296252265926
     },
     {
      "status": "filled",
-     "usdgOut": 904.822759,
+     "usdgOut": 904.446187,
      "trail": [
       {
        "pool": "r33/RAM DLMM200",
@@ -1218,16 +1225,16 @@
        "status": "filled",
        "in": 2.5861783756032296e+22,
        "consumed": 2.5861783756032296e+22,
-       "out": 904822759.0
+       "out": 904446187.0
       }
      ],
      "r33": 20000,
      "nominalUsdAtReferenceMid": 933.8756252325169,
-     "shortfallBpVsReferenceMid": 311.0999521513724
+     "shortfallBpVsReferenceMid": 315.13230924288814
     },
     {
      "status": "filled",
-     "usdgOut": 3844.110457,
+     "usdgOut": 3833.864317,
      "trail": [
       {
        "pool": "r33/RAM DLMM200",
@@ -1241,12 +1248,12 @@
        "status": "filled",
        "in": 1.2930891878016145e+23,
        "consumed": 1.2930891878016145e+23,
-       "out": 3844110457.0
+       "out": 3833864317.0
       }
      ],
      "r33": 100000,
      "nominalUsdAtReferenceMid": 4669.378126162584,
-     "shortfallBpVsReferenceMid": 1767.40381023888
+     "shortfallBpVsReferenceMid": 1789.3470748945972
     }
    ]
   },
@@ -1256,7 +1263,7 @@
    "results": [
     {
      "status": "filled",
-     "usdgOut": 45.069201999501296,
+     "usdgOut": 44.798438764897675,
      "trail": [
       {
        "pool": "r33/RAM DLMM200",
@@ -1270,16 +1277,16 @@
        "status": "filled",
        "in": 1.2930891878016148e+21,
        "consumed": 1.2930891878016148e+21,
-       "out": 45069201.999501295
+       "out": 44798438.764897674
       }
      ],
      "r33": 1000,
      "nominalUsdAtReferenceMid": 46.693781261625844,
-     "shortfallBpVsReferenceMid": 347.92197552432344
+     "shortfallBpVsReferenceMid": 405.9089766383539
     },
     {
      "status": "filled",
-     "usdgOut": 207.16004971806856,
+     "usdgOut": 205.96544527305184,
      "trail": [
       {
        "pool": "r33/RAM DLMM200",
@@ -1293,16 +1300,16 @@
        "status": "filled",
        "in": 6.465445939008074e+21,
        "consumed": 6.465445939008074e+21,
-       "out": 207160049.71806857
+       "out": 205965445.27305183
       }
      ],
      "r33": 5000,
      "nominalUsdAtReferenceMid": 233.46890630812922,
-     "shortfallBpVsReferenceMid": 1126.867684698817
+     "shortfallBpVsReferenceMid": 1178.035288295679
     },
     {
      "status": "filled",
-     "usdgOut": 636.1266760535859,
+     "usdgOut": 632.8647245393519,
      "trail": [
       {
        "pool": "r33/RAM DLMM200",
@@ -1316,16 +1323,16 @@
        "status": "filled",
        "in": 2.5861783756032296e+22,
        "consumed": 2.5861783756032296e+22,
-       "out": 636126676.0535859
+       "out": 632864724.5393518
       }
      ],
      "r33": 20000,
      "nominalUsdAtReferenceMid": 933.8756252325169,
-     "shortfallBpVsReferenceMid": 3188.314815528002
+     "shortfallBpVsReferenceMid": 3223.2440012364505
     },
     {
      "status": "filled",
-     "usdgOut": 1420.5187699617184,
+     "usdgOut": 1414.8967471908547,
      "trail": [
       {
        "pool": "r33/RAM DLMM200",
@@ -1339,12 +1346,12 @@
        "status": "filled",
        "in": 1.2930891878016145e+23,
        "consumed": 1.2930891878016145e+23,
-       "out": 1420518769.9617183
+       "out": 1414896747.1908548
       }
      ],
      "r33": 100000,
      "nominalUsdAtReferenceMid": 4669.378126162584,
-     "shortfallBpVsReferenceMid": 6957.798808362651
+     "shortfallBpVsReferenceMid": 6969.839004335136
     }
    ]
   },
@@ -1354,7 +1361,7 @@
    "results": [
     {
      "status": "filled",
-     "usdgOut": 45.89287977451969,
+     "usdgOut": 45.611319851325895,
      "trail": [
       {
        "pool": "r33/RAM DLMM200",
@@ -1368,23 +1375,23 @@
        "status": "filled",
        "in": 1.2930891878016148e+21,
        "consumed": 1.2930891878016148e+21,
-       "out": 2.0064413910701496e+16
+       "out": 2.000433649671554e+16
       },
       {
        "pool": "WETH/USDG CL1",
        "status": "filled",
-       "in": 2.0064413910701496e+16,
-       "consumed": 2.0064413910701496e+16,
-       "out": 45892879.77451969
+       "in": 2.000433649671554e+16,
+       "consumed": 2.000433649671554e+16,
+       "out": 45611319.85132589
       }
      ],
      "r33": 1000,
      "nominalUsdAtReferenceMid": 46.693781261625844,
-     "shortfallBpVsReferenceMid": 171.5220882666779
+     "shortfallBpVsReferenceMid": 231.82132203748984
     },
     {
      "status": "filled",
-     "usdgOut": 229.44430576478453,
+     "usdgOut": 228.03779157144,
      "trail": [
       {
        "pool": "r33/RAM DLMM200",
@@ -1398,23 +1405,23 @@
        "status": "filled",
        "in": 6.465445939008074e+21,
        "consumed": 6.465445939008074e+21,
-       "out": 1.0031421812296472e+17
+       "out": 1.0001433276291318e+17
       },
       {
        "pool": "WETH/USDG CL1",
        "status": "filled",
-       "in": 1.0031421812296472e+17,
-       "consumed": 1.0031421812296472e+17,
-       "out": 229444305.76478454
+       "in": 1.0001433276291318e+17,
+       "consumed": 1.0001433276291318e+17,
+       "out": 228037791.57144
       }
      ],
      "r33": 5000,
      "nominalUsdAtReferenceMid": 233.46890630812922,
-     "shortfallBpVsReferenceMid": 172.38272140758127
+     "shortfallBpVsReferenceMid": 232.62689762727052
     },
     {
      "status": "filled",
-     "usdgOut": 917.4759518692073,
+     "usdgOut": 911.7600177185559,
      "trail": [
       {
        "pool": "r33/RAM DLMM200",
@@ -1428,23 +1435,23 @@
        "status": "filled",
        "in": 2.5861783756032296e+22,
        "consumed": 2.5861783756032296e+22,
-       "out": 4.01139144801281e+17
+       "out": 3.9989925096504026e+17
       },
       {
        "pool": "WETH/USDG CL1",
        "status": "filled",
-       "in": 4.01139144801281e+17,
-       "consumed": 4.01139144801281e+17,
-       "out": 917475951.8692073
+       "in": 3.9989925096504026e+17,
+       "consumed": 3.9989925096504026e+17,
+       "out": 911760017.7185559
       }
      ],
      "r33": 20000,
      "nominalUsdAtReferenceMid": 933.8756252325169,
-     "shortfallBpVsReferenceMid": 175.60875260264396
+     "shortfallBpVsReferenceMid": 236.81534153388583
     },
     {
      "status": "filled",
-     "usdgOut": 4579.042486807266,
+     "usdgOut": 4526.566820828302,
      "trail": [
       {
        "pool": "r33/RAM DLMM200",
@@ -1457,20 +1464,20 @@
        "pool": "WETH/RAM CL100",
        "status": "filled",
        "in": 1.2930891878016145e+23,
-       "consumed": 1.2930891878016145e+23,
-       "out": 2.0024221537529636e+18
+       "consumed": 1.2930891878016147e+23,
+       "out": 1.985716554359634e+18
       },
       {
        "pool": "WETH/USDG CL1",
        "status": "filled",
-       "in": 2.0024221537529636e+18,
-       "consumed": 2.0024221537529636e+18,
-       "out": 4579042486.807266
+       "in": 1.985716554359634e+18,
+       "consumed": 1.985716554359634e+18,
+       "out": 4526566820.828302
       }
      ],
      "r33": 100000,
      "nominalUsdAtReferenceMid": 4669.378126162584,
-     "shortfallBpVsReferenceMid": 193.46396225477181
+     "shortfallBpVsReferenceMid": 305.84652061932616
     }
    ]
   },
@@ -1480,7 +1487,7 @@
    "results": [
     {
      "status": "filled",
-     "usdgOut": 45.524682,
+     "usdgOut": 45.52127,
      "trail": [
       {
        "pool": "r33/RAM DLMM25",
@@ -1494,12 +1501,12 @@
        "status": "filled",
        "in": 1.2904321293987786e+21,
        "consumed": 1.2904321293987786e+21,
-       "out": 45524682.0
+       "out": 45521270.0
       }
      ],
      "r33": 1000,
      "nominalUsdAtReferenceMid": 46.693781261625844,
-     "shortfallBpVsReferenceMid": 250.37579524249009
+     "shortfallBpVsReferenceMid": 251.10651353255076
     },
     {
      "status": "capacity_exhausted@r33/RAM DLMM25",
@@ -1557,7 +1564,7 @@
    "results": [
     {
      "status": "filled",
-     "usdgOut": 44.978621528594445,
+     "usdgOut": 44.70839641652907,
      "trail": [
       {
        "pool": "r33/RAM DLMM25",
@@ -1571,12 +1578,12 @@
        "status": "filled",
        "in": 1.2904321293987786e+21,
        "consumed": 1.2904321293987786e+21,
-       "out": 44978621.52859444
+       "out": 44708396.41652907
       }
      ],
      "r33": 1000,
      "nominalUsdAtReferenceMid": 46.693781261625844,
-     "shortfallBpVsReferenceMid": 367.32080518845464
+     "shortfallBpVsReferenceMid": 425.19256129047164
     },
     {
      "status": "capacity_exhausted@r33/RAM DLMM25",
@@ -1634,7 +1641,7 @@
    "results": [
     {
      "status": "filled",
-     "usdgOut": 45.7985804798972,
+     "usdgOut": 45.517598978149046,
      "trail": [
       {
        "pool": "r33/RAM DLMM25",
@@ -1648,19 +1655,19 @@
        "status": "filled",
        "in": 1.2904321293987786e+21,
        "consumed": 1.2904321293987786e+21,
-       "out": 2.002318606706732e+16
+       "out": 1.996323204994803e+16
       },
       {
        "pool": "WETH/USDG CL1",
        "status": "filled",
-       "in": 2.002318606706732e+16,
-       "consumed": 2.002318606706732e+16,
-       "out": 45798580.47989719
+       "in": 1.996323204994803e+16,
+       "consumed": 1.996323204994803e+16,
+       "out": 45517598.97814905
       }
      ],
      "r33": 1000,
      "nominalUsdAtReferenceMid": 46.693781261625844,
-     "shortfallBpVsReferenceMid": 191.7173459807908
+     "shortfallBpVsReferenceMid": 251.89270427396605
     },
     {
      "status": "capacity_exhausted@r33/RAM DLMM25",
@@ -1919,95 +1926,95 @@
   ],
   "RAM/USDG DLMM100": [
    {
-    "amountIn": 1266800805186944630784,
+    "amountIn": 1269789092385630453760,
     "swapForY": true,
     "amountInLeft": 0,
-    "amountOut": 44691001,
-    "fee": 12691760566966701520
+    "amountOut": 44793067,
+    "fee": 12815906478237375700
    },
    {
-    "amountIn": 4285290282218645618688,
+    "amountIn": 4484422157642251632640,
     "swapForY": true,
     "amountInLeft": 0,
-    "amountOut": 151179186,
-    "fee": 42933252014978055793
+    "amountOut": 158192430,
+    "fee": 45261008561116651556
    },
    {
-    "amountIn": 4285290282218645618688,
+    "amountIn": 4484422157642251632640,
     "swapForY": true,
     "amountInLeft": 0,
-    "amountOut": 151179186,
-    "fee": 42933252014978055793
+    "amountOut": 158192430,
+    "fee": 45261008561116651556
    },
    {
-    "amountIn": 4285290282218645618688,
+    "amountIn": 4484422157642251632640,
     "swapForY": true,
     "amountInLeft": 0,
-    "amountOut": 151179186,
-    "fee": 42933252014978055793
+    "amountOut": 158192430,
+    "fee": 45261008561116651556
    },
    {
     "amountIn": 1244163979648555286528,
     "swapForY": true,
     "amountInLeft": 0,
-    "amountOut": 43892405,
-    "fee": 12464967871103963277
+    "amountOut": 43889115,
+    "fee": 12557273725521219859
    },
    {
     "amountIn": 5744529832829865951232,
     "swapForY": true,
     "amountInLeft": 0,
-    "amountOut": 202659164,
-    "fee": 57553008262664219499
+    "amountOut": 202643976,
+    "fee": 57979201066119728717
    },
    {
     "amountIn": 21981697323861714927616,
     "swapForY": true,
     "amountInLeft": 0,
-    "amountOut": 770696765,
-    "fee": 222555339352778367288
+    "amountOut": 770355183,
+    "fee": 225639350093468764017
    },
    {
     "amountIn": 100705335478702061912064,
     "swapForY": true,
     "amountInLeft": 0,
-    "amountOut": 3354893927,
-    "fee": 1384918762250124688700
+    "amountOut": 3351234665,
+    "fee": 1445149392913560764450
    },
    {
     "amountIn": 1293089187801614778368,
     "swapForY": true,
     "amountInLeft": 0,
-    "amountOut": 45618419,
-    "fee": 12955137300287428061
+    "amountOut": 45615001,
+    "fee": 13051072968149682434
    },
    {
     "amountIn": 6465445939008073891840,
     "swapForY": true,
     "amountInLeft": 0,
-    "amountOut": 228092099,
-    "fee": 64775686501437140304
+    "amountOut": 228075005,
+    "fee": 65255364840748412167
    },
    {
     "amountIn": 25861783756032295567360,
     "swapForY": true,
     "amountInLeft": 0,
-    "amountOut": 904822759,
-    "fee": 263174994189564133360
+    "amountOut": 904446187,
+    "fee": 267260653386651675039
    },
    {
     "amountIn": 129308918780161452670976,
     "swapForY": true,
     "amountInLeft": 0,
-    "amountOut": 3844110457,
-    "fee": 2153640063476845815426
+    "amountOut": 3833864317,
+    "fee": 2213870694140281891178
    },
    {
     "amountIn": 1290432129398778626048,
     "swapForY": true,
     "amountInLeft": 0,
-    "amountOut": 45524682,
-    "fee": 12928516896414013360
+    "amountOut": 45521270,
+    "fee": 13024255434275622944
    }
   ]
  },
@@ -2031,49 +2038,49 @@
    }
   },
   "RAM/USDG V2": {
-   "1266800805186944630784": {
-    "onChain": 44172657,
-    "formula": 44172658.07893272
+   "1269789092385630453760": {
+    "onChain": 44008568,
+    "formula": 44008569.62194261
    },
-   "4285290282218645618688": {
-    "onChain": 142140522,
-    "formula": 142140523.51340985
+   "4484422157642251632640": {
+    "onChain": 147400722,
+    "formula": 147400723.56951421
    },
    "1244163979648555286528": {
-    "onChain": 43400004,
-    "formula": 43400005.953013666
+    "onChain": 43139162,
+    "formula": 43139163.03600615
    },
    "5744529832829865951232": {
-    "onChain": 186155004,
-    "formula": 186155005.88214603
+    "onChain": 185075709,
+    "formula": 185075710.172283
    },
    "21981697323861714927616": {
-    "onChain": 567040591,
-    "formula": 567040592.9824219
+    "onChain": 564074538,
+    "formula": 564074539.778353
    },
    "100705335478702061912064": {
-    "onChain": 1306154073,
-    "formula": 1306154074.044378
+    "onChain": 1300761617,
+    "formula": 1300761618.631437
    },
    "1293089187801614778368": {
-    "onChain": 45069200,
-    "formula": 45069201.999501295
+    "onChain": 44798437,
+    "formula": 44798438.764897674
    },
    "6465445939008073891840": {
-    "onChain": 207160048,
-    "formula": 207160049.71806857
+    "onChain": 205965444,
+    "formula": 205965445.27305183
    },
    "25861783756032295567360": {
-    "onChain": 636126675,
-    "formula": 636126676.0535859
+    "onChain": 632864723,
+    "formula": 632864724.5393518
    },
    "129308918780161452670976": {
-    "onChain": 1420518768,
-    "formula": 1420518769.9617183
+    "onChain": 1414896746,
+    "formula": 1414896747.1908548
    },
    "1290432129398778626048": {
-    "onChain": 44978620,
-    "formula": 44978621.52859444
+    "onChain": 44708395,
+    "formula": 44708396.41652907
    }
   }
  }

@@ -25,14 +25,33 @@ def show(path):
 
 
 def check():
-    doc = json.loads((HERE / "evidence" / "pools" / "pool-quotes.json").read_text())
+    """Recompute every published quote from its saved snapshot; verify the snapshot's sha256, pin and (where present) its fork-replay binding."""
+    import hashlib
+    pools_dir = HERE / "evidence" / "pools"
+    doc = json.loads((pools_dir / "pool-quotes.json").read_text())
     bad = 0
     for name, rec in doc["pools"].items():
-        inp = json.loads((HERE / "evidence" / "pools" / rec["inputsFile"]).read_text())
-        q = QM.quote_all(inp, USDG, SIZES)
-        same = q["rows"] == rec["quotes"] and QM.depth(inp, USDG) == rec["depth"]
-        print(("OK   " if same else "FAIL ") + name)
-        bad += 0 if same else 1
+        f = pools_dir / rec["inputsFile"]
+        problems = []
+        if not f.exists():
+            problems.append("snapshot MISSING")
+        else:
+            raw = f.read_bytes()
+            if hashlib.sha256(raw).hexdigest() != rec["inputsSha256"]:
+                problems.append("snapshot sha256 mismatch")
+            inp = json.loads(raw)
+            if inp["pin"]["l2Block"] != rec["pinL2Block"] or inp["pin"]["hash"] != rec["pinHash"]:
+                problems.append("snapshot pin differs from the quote's pin")
+            q = QM.quote_all(inp, USDG, SIZES)
+            if q["rows"] != rec["quotes"] or QM.depth(inp, USDG) != rec["depth"]:
+                problems.append("recomputed quotes differ")
+        if rec.get("forkReplayFile"):
+            rp = pools_dir / rec["forkReplayFile"]
+            rd = json.loads(rp.read_text()) if rp.exists() else {}
+            if rd.get("inputsSha256") != rec["inputsSha256"] or rd.get("inputsFile") != rec["inputsFile"]:
+                problems.append("fork replay is not bound to this snapshot")
+        print(("OK   " if not problems else "FAIL ") + name + ("" if not problems else ": " + "; ".join(problems)))
+        bad += 1 if problems else 0
     return bad
 
 
