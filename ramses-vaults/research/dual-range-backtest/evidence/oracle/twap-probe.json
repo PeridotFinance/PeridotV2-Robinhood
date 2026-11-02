@@ -1,0 +1,420 @@
+{
+ "schema": "ramses-twap-probe-1",
+ "readOnly": true,
+ "pin": {
+  "l2Block": 104452756,
+  "hash": "0xe3e83f264f0348910cd28ed004838ee63c88c5dd713cef5b8c828789756801d4",
+  "native": 26329094,
+  "timestamp": 1793646628
+ },
+ "pools": {
+  "SPY/USDG CL1": {
+   "pool": "0x38453c115607463ac284820ce959831042f3df4e",
+   "tick": -210016,
+   "observationIndex": 1512,
+   "cardinality": 1801,
+   "cardinalityNext": 1801,
+   "newestObservationAgeSeconds": 43,
+   "oldestObservationAgeSeconds": 114782,
+   "observeLadder": [
+    {
+     "windowSeconds": 60,
+     "ok": true,
+     "twapTick": -210016.5,
+     "spotMinusTwapTicks": 0.5,
+     "spotMinusTwapPct": 0.004999875006239662
+    },
+    {
+     "windowSeconds": 300,
+     "ok": true,
+     "twapTick": -210017.76666666666,
+     "spotMinusTwapTicks": 1.7666666666627862,
+     "spotMinusTwapPct": 0.01766734388357616
+    },
+    {
+     "windowSeconds": 900,
+     "ok": true,
+     "twapTick": -210012.27444444445,
+     "spotMinusTwapTicks": -3.725555555545725,
+     "spotMinusTwapPct": -0.03724675457529303
+    },
+    {
+     "windowSeconds": 1800,
+     "ok": true,
+     "twapTick": -210008.26777777777,
+     "spotMinusTwapTicks": -7.732222222228302,
+     "spotMinusTwapPct": -0.07728847342989287
+    },
+    {
+     "windowSeconds": 3600,
+     "ok": true,
+     "twapTick": -209999.8488888889,
+     "spotMinusTwapTicks": -16.15111111110309,
+     "spotMinusTwapPct": -0.1613726901207979
+    },
+    {
+     "windowSeconds": 21600,
+     "ok": true,
+     "twapTick": -209976.10393518518,
+     "spotMinusTwapTicks": -39.89606481482042,
+     "spotMinusTwapPct": -0.3981459901893025
+    },
+    {
+     "windowSeconds": 43200,
+     "ok": true,
+     "twapTick": -209979.2364814815,
+     "spotMinusTwapTicks": -36.76351851850632,
+     "spotMinusTwapPct": -0.36694192132393777
+    },
+    {
+     "windowSeconds": 86400,
+     "ok": true,
+     "twapTick": -209986.2478587963,
+     "spotMinusTwapTicks": -29.752141203702195,
+     "spotMinusTwapPct": -0.29706442480658124
+    },
+    {
+     "windowSeconds": 172800,
+     "ok": false,
+     "error": "eth_call: rpc error 3: execution reverted"
+    }
+   ],
+   "longestServedWindowSeconds": 86400
+  },
+  "NVDA/USDG CL10": {
+   "pool": "0xdac1904d823f7d6bcaaf431ceee40c934fed321b",
+   "tick": 223073,
+   "observationIndex": 774,
+   "cardinality": 1000,
+   "cardinalityNext": 1000,
+   "newestObservationAgeSeconds": 20,
+   "oldestObservationAgeSeconds": 45258,
+   "observeLadder": [
+    {
+     "windowSeconds": 60,
+     "ok": true,
+     "twapTick": 223077.23333333334,
+     "spotMinusTwapTicks": -4.233333333337214,
+     "spotMinusTwapPct": -0.042322258412330616
+    },
+    {
+     "windowSeconds": 300,
+     "ok": true,
+     "twapTick": 223082.55666666667,
+     "spotMinusTwapTicks": -9.556666666670935,
+     "spotMinusTwapPct": -0.09551624282024829
+    },
+    {
+     "windowSeconds": 900,
+     "ok": true,
+     "twapTick": 223069.45777777777,
+     "spotMinusTwapTicks": 3.5422222222259734,
+     "spotMinusTwapPct": 0.0354267250117557
+    },
+    {
+     "windowSeconds": 1800,
+     "ok": true,
+     "twapTick": 223056.35888888888,
+     "spotMinusTwapTicks": 16.641111111122882,
+     "spotMinusTwapPct": 0.16654131738129685
+    },
+    {
+     "windowSeconds": 3600,
+     "ok": true,
+     "twapTick": 223032.05583333335,
+     "spotMinusTwapTicks": 40.94416666665347,
+     "spotMinusTwapPct": 0.41026046952339357
+    },
+    {
+     "windowSeconds": 21600,
+     "ok": true,
+     "twapTick": 222982.37231481483,
+     "spotMinusTwapTicks": 90.6276851851726,
+     "spotMinusTwapPct": 0.9103502513419404
+    },
+    {
+     "windowSeconds": 43200,
+     "ok": true,
+     "twapTick": 222976.7566435185,
+     "spotMinusTwapTicks": 96.24335648148553,
+     "spotMinusTwapPct": 0.9670312666872016
+    },
+    {
+     "windowSeconds": 86400,
+     "ok": false,
+     "error": "eth_call: rpc error 3: execution reverted"
+    },
+    {
+     "windowSeconds": 172800,
+     "ok": false,
+     "error": "eth_call: rpc error 3: execution reverted"
+    }
+   ],
+   "longestServedWindowSeconds": 43200
+  },
+  "META/USDG CL50": {
+   "pool": "0x960f79d8dfec7f2f0c1b24cdac6bb9df1371c6e2",
+   "tick": 212162,
+   "observationIndex": 69,
+   "cardinality": 121,
+   "cardinalityNext": 121,
+   "newestObservationAgeSeconds": 217,
+   "oldestObservationAgeSeconds": 10981,
+   "observeLadder": [
+    {
+     "windowSeconds": 60,
+     "ok": true,
+     "twapTick": 212162.0,
+     "spotMinusTwapTicks": 0.0,
+     "spotMinusTwapPct": 0.0
+    },
+    {
+     "windowSeconds": 300,
+     "ok": true,
+     "twapTick": 212160.89333333334,
+     "spotMinusTwapTicks": 1.1066666666592937,
+     "spotMinusTwapPct": 0.011066725687047807
+    },
+    {
+     "windowSeconds": 900,
+     "ok": true,
+     "twapTick": 212150.36777777778,
+     "spotMinusTwapTicks": 11.632222222222481,
+     "spotMinusTwapPct": 0.11638408026692915
+    },
+    {
+     "windowSeconds": 1800,
+     "ok": true,
+     "twapTick": 212140.54277777777,
+     "spotMinusTwapTicks": 21.457222222234122,
+     "spotMinusTwapPct": 0.21479184221713243
+    },
+    {
+     "windowSeconds": 3600,
+     "ok": true,
+     "twapTick": 212142.45361111112,
+     "spotMinusTwapTicks": 19.546388888877118,
+     "spotMinusTwapPct": 0.1956452524112695
+    },
+    {
+     "windowSeconds": 21600,
+     "ok": false,
+     "error": "eth_call: rpc error 3: execution reverted"
+    },
+    {
+     "windowSeconds": 43200,
+     "ok": false,
+     "error": "eth_call: rpc error 3: execution reverted"
+    },
+    {
+     "windowSeconds": 86400,
+     "ok": false,
+     "error": "eth_call: rpc error 3: execution reverted"
+    },
+    {
+     "windowSeconds": 172800,
+     "ok": false,
+     "error": "eth_call: rpc error 3: execution reverted"
+    }
+   ],
+   "longestServedWindowSeconds": 3600
+  },
+  "GLD/USDG CL1": {
+   "pool": "0x9896af2f6fed9939acc87637b973b6484e6619d8",
+   "tick": 217397,
+   "observationIndex": 0,
+   "cardinality": 1,
+   "cardinalityNext": 1,
+   "newestObservationAgeSeconds": 250,
+   "oldestObservationAgeSeconds": 250,
+   "observeLadder": [
+    {
+     "windowSeconds": 60,
+     "ok": true,
+     "twapTick": 217397.0,
+     "spotMinusTwapTicks": 0.0,
+     "spotMinusTwapPct": 0.0
+    },
+    {
+     "windowSeconds": 300,
+     "ok": false,
+     "error": "eth_call: rpc error 3: execution reverted"
+    },
+    {
+     "windowSeconds": 900,
+     "ok": false,
+     "error": "eth_call: rpc error 3: execution reverted"
+    },
+    {
+     "windowSeconds": 1800,
+     "ok": false,
+     "error": "eth_call: rpc error 3: execution reverted"
+    },
+    {
+     "windowSeconds": 3600,
+     "ok": false,
+     "error": "eth_call: rpc error 3: execution reverted"
+    },
+    {
+     "windowSeconds": 21600,
+     "ok": false,
+     "error": "eth_call: rpc error 3: execution reverted"
+    },
+    {
+     "windowSeconds": 43200,
+     "ok": false,
+     "error": "eth_call: rpc error 3: execution reverted"
+    },
+    {
+     "windowSeconds": 86400,
+     "ok": false,
+     "error": "eth_call: rpc error 3: execution reverted"
+    },
+    {
+     "windowSeconds": 172800,
+     "ok": false,
+     "error": "eth_call: rpc error 3: execution reverted"
+    }
+   ],
+   "longestServedWindowSeconds": 60
+  },
+  "r33/USDG CL200": {
+   "pool": "0xc276b9a27ab1e60e32b581db6a23bb1fab0fc30b",
+   "tick": -307180,
+   "observationIndex": 0,
+   "cardinality": 1,
+   "cardinalityNext": 1,
+   "newestObservationAgeSeconds": 3735,
+   "oldestObservationAgeSeconds": 3735,
+   "observeLadder": [
+    {
+     "windowSeconds": 60,
+     "ok": true,
+     "twapTick": -307180.0,
+     "spotMinusTwapTicks": 0.0,
+     "spotMinusTwapPct": 0.0
+    },
+    {
+     "windowSeconds": 300,
+     "ok": true,
+     "twapTick": -307180.0,
+     "spotMinusTwapTicks": 0.0,
+     "spotMinusTwapPct": 0.0
+    },
+    {
+     "windowSeconds": 900,
+     "ok": true,
+     "twapTick": -307180.0,
+     "spotMinusTwapTicks": 0.0,
+     "spotMinusTwapPct": 0.0
+    },
+    {
+     "windowSeconds": 1800,
+     "ok": true,
+     "twapTick": -307180.0,
+     "spotMinusTwapTicks": 0.0,
+     "spotMinusTwapPct": 0.0
+    },
+    {
+     "windowSeconds": 3600,
+     "ok": true,
+     "twapTick": -307180.0,
+     "spotMinusTwapTicks": 0.0,
+     "spotMinusTwapPct": 0.0
+    },
+    {
+     "windowSeconds": 21600,
+     "ok": false,
+     "error": "eth_call: rpc error 3: execution reverted"
+    },
+    {
+     "windowSeconds": 43200,
+     "ok": false,
+     "error": "eth_call: rpc error 3: execution reverted"
+    },
+    {
+     "windowSeconds": 86400,
+     "ok": false,
+     "error": "eth_call: rpc error 3: execution reverted"
+    },
+    {
+     "windowSeconds": 172800,
+     "ok": false,
+     "error": "eth_call: rpc error 3: execution reverted"
+    }
+   ],
+   "longestServedWindowSeconds": 3600
+  },
+  "r33/USDG CL500": {
+   "pool": "0x9f301fa81ccdda903a3590e7b9abee12e035709e",
+   "tick": -307121,
+   "observationIndex": 0,
+   "cardinality": 1,
+   "cardinalityNext": 1,
+   "newestObservationAgeSeconds": 55915,
+   "oldestObservationAgeSeconds": 55915,
+   "observeLadder": [
+    {
+     "windowSeconds": 60,
+     "ok": true,
+     "twapTick": -307121.0,
+     "spotMinusTwapTicks": 0.0,
+     "spotMinusTwapPct": 0.0
+    },
+    {
+     "windowSeconds": 300,
+     "ok": true,
+     "twapTick": -307121.0,
+     "spotMinusTwapTicks": 0.0,
+     "spotMinusTwapPct": 0.0
+    },
+    {
+     "windowSeconds": 900,
+     "ok": true,
+     "twapTick": -307121.0,
+     "spotMinusTwapTicks": 0.0,
+     "spotMinusTwapPct": 0.0
+    },
+    {
+     "windowSeconds": 1800,
+     "ok": true,
+     "twapTick": -307121.0,
+     "spotMinusTwapTicks": 0.0,
+     "spotMinusTwapPct": 0.0
+    },
+    {
+     "windowSeconds": 3600,
+     "ok": true,
+     "twapTick": -307121.0,
+     "spotMinusTwapTicks": 0.0,
+     "spotMinusTwapPct": 0.0
+    },
+    {
+     "windowSeconds": 21600,
+     "ok": true,
+     "twapTick": -307121.0,
+     "spotMinusTwapTicks": 0.0,
+     "spotMinusTwapPct": 0.0
+    },
+    {
+     "windowSeconds": 43200,
+     "ok": true,
+     "twapTick": -307121.0,
+     "spotMinusTwapTicks": 0.0,
+     "spotMinusTwapPct": 0.0
+    },
+    {
+     "windowSeconds": 86400,
+     "ok": false,
+     "error": "eth_call: rpc error 3: execution reverted"
+    },
+    {
+     "windowSeconds": 172800,
+     "ok": false,
+     "error": "eth_call: rpc error 3: execution reverted"
+    }
+   ],
+   "longestServedWindowSeconds": 43200
+  }
+ }
+}

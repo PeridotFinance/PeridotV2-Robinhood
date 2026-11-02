@@ -669,7 +669,7 @@ Everything below is read from the contracts on this branch (`ramses-vaults/src`)
 
 **Funded in-kind liquidation need not swap.** A liquidator who already holds the borrowed asset repays in kind and receives collateral pTokens; no pool is touched, so the lending liquidation path is independent of Ramses depth. A swap is needed only (a) by a liquidator who does not hold the debt asset and wants to convert, or whose seized collateral is redeemed for the underlying and sold, or (b) by a margin flow that must close a position by swapping. For r33 collateral, (a) is where local r33 sale capacity matters (section 4), and it is the liquidator's cost, not a protocol swap. A small pilot could show an in-kind liquidation end to end without any Ramses swap; that is a later, separately approved step.
 
-**Gaps to close before any pilot (not done here):** the in-kind liquidation followed by a redemption that needs an LP unwind now has a local-fixture proof (section 15B) but no version on a fork of the real pools; no Ramses margin / router adapter; the one-sided case is proven for redemption (15C) but not for a seized-collateral market.
+**Gaps to close before any pilot (not done here):** the in-kind liquidation followed by a redemption that needs an LP unwind has a local-fixture proof and an NVDA real-pool proof (section 15B), and no SPY real-pool version; no Ramses margin / router adapter; the one-sided case is proven for redemption (15C, local and NVDA real-pool) but not for a seized-collateral market or for SPY.
 
 ## 10. Withdrawals and principal when an optional LP becomes one-sided
 
@@ -770,7 +770,7 @@ Four proofs, each tied to a test that runs: a fork test against the **real** SPY
 
 ### 15A. SPY dividends and `uiMultiplier`
 
-The SPY token exposes `uiMultiplier()` (1.001718 now, i.e. 0.17% accumulated) and the pause flags the guard reads. On a fork of the real token, **moving the multiplier by a quarterly-size step (+0.33%, an assumed size) leaves balances, total supply, the pool's SPY balance, the pool's price and liquidity, and exact-amount transfers unchanged**: the multiplier is metadata, so raw accounting (pool reserves, vault ledgers, adapter balance-delta checks) is unaffected by the step itself. The repository's contracts never read `uiMultiplier`; they price a raw token with the Chainlink feed. Whether that feed's price per token already includes the multiplier (handoff 01 and Chainlink's description say so) is **unverified here**; if it does, a step shows up as a feed move against a pool that has not yet repriced. The real oracle guard (real token and pool, feed mocked fresh, test bounds 150 bp allocation / 300 bp removal, since the Ramses vault is not deployed) then behaves as follows for a feed step relative to the pool spot:
+The SPY token exposes `uiMultiplier()` (1.001718 now, i.e. 0.17% accumulated) and the pause flags the guard reads. On a fork of the real token, **moving the multiplier by a quarterly-size step (+0.33%, an assumed size) leaves balances, total supply, the pool's SPY balance, the pool's price and liquidity, and exact-amount transfers unchanged**: the multiplier is metadata, so raw accounting (pool reserves, vault ledgers, adapter balance-delta checks) is unaffected by the step itself. The repository's contracts never read `uiMultiplier`; they price a raw token with the Chainlink feed. Chainlink's documentation states that the token price equals the underlying equity price times `uiMultiplier`; the SPY feed was checked against the pool (section 16, `multiplierCheckSPY`): the pool-over-feed basis at feed updates is +0.056% (standard error 0.022%), which fits "the feed already includes the multiplier" and rejects "bare equity price" (+0.17%, 5.3 standard errors) and "multiplier applied twice" (-0.17%, 10.4 standard errors). The multiplier must therefore NOT be applied again. This is a statistical consistency check on about 90 observations with the multiplier read once at the pin, not a proof of the feed's internals. A multiplier step then shows up as a feed move against a pool that has not yet repriced. The real oracle guard (real token and pool, feed mocked fresh, test bounds 150 bp allocation / 300 bp removal, since the Ramses vault is not deployed) then behaves as follows for a feed step relative to the pool spot:
 
 | step (bp) | -600 | -400 | -200 | -100 | -33 | 0 | +17 | +33 | +100 | +200 | +400 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -781,11 +781,15 @@ A step the size of the accumulated multiplier (+17 bp) or a quarterly one (+33 b
 
 ### 15B. Funded in-kind liquidation, then a collateral redemption that needs an LP unwind
 
-Local test `testFundedLiquidationThenCollateralRedemptionNeedsLpUnwind`: a borrower is made liquidatable by a price fall (pool and feed move together). The liquidator repays 27 USDG **from its own balance**; the borrower's collateral pTokens are seized; **the Ramses position's liquidity is unchanged**, so the liquidation touched neither the pool nor the LP. The liquidator then redeems the seized pTokens for the underlying stock: the amount owed (1.134e18) exceeds the market's local cash (1.02e18), so the vault unwinds LP liquidity through `withdrawForSide` (position liquidity falls) and the redeemer is paid at the settled, loss-aware rate (never above the pre-redemption preview) with all seized pTokens burned. The market keeps at least 50% of its assets as local cash, so only redemptions above that touch Ramses.
+Local test `testFundedLiquidationThenCollateralRedemptionNeedsLpUnwind`: a borrower is made liquidatable by a price fall (pool and feed move together). The liquidator repays 27 USDG **from its own balance**; the borrower's collateral pTokens are seized; **the Ramses position's liquidity is unchanged**, so the liquidation touched neither the pool nor the LP. The liquidator then redeems the seized pTokens for the underlying stock: the amount owed (1.134e18) exceeds the market's local cash (1.02e18), so the vault unwinds LP liquidity through `withdrawForSide` (position liquidity falls) and the redeemer is paid at the settled, loss-aware rate (never above the pre-redemption preview) with all seized pTokens burned. The ledger saved before the liquidation is byte-identical to the ledger immediately after it, the borrower's debt falls by exactly the repayment, the liquidator's USDG falls by exactly the repayment, and total supply falls by exactly the redeemed shares. The market keeps at least 50% of its assets as local cash, so only redemptions above that touch Ramses.
+
+**On the real NVDA/USDG pool** (`test/fork/LendingForkProofs.t.sol::testForkProofFundedLiquidationThenRedemptionUnwindsRealLp`, `logs/fork-lending-proofs.log`, pin header in the log): after a price shock the same sequence holds with the real pool, real PositionManager and gauge: two funded liquidation rounds, ledger byte-identical, liquidity unchanged, then a redemption owed 0.642 NVDA against 0.507 NVDA of local cash unwinds the real LP. **This is a mechanism proof at one pinned block and a small size, not liquidation capacity**: measured depth (section 3) and validated liquidation capacity remain separate, and a larger second round was rejected by the market (`LIQUIDATE_SEIZE_TOO_MUCH`). **SPY has no real-pool version of 15B or 15C yet** (the fixture is NVDA-oriented).
 
 ### 15C. One-sided recovery
 
 With the position holding only the stock token (price fell) and settlement swaps paused (the production configuration): (1) a USDG redemption beyond local cash **reverts atomically** (shares, ledger, cash and position unchanged, `testOneSidedRedemptionRevertsAtomicallyThenSucceedsWhenThePriceReturns`) while the stock-side supplier is paid in kind; (2) **the price returning** puts the untouched position back in range and the same redemption succeeds; (3) **recentring alone does not create the missing token**: the matched-only redeploy leaves the stock idle and the USDG redemption still reverts (`...ByRecentringAlone...`); (4) an **explicit decision to unpause the bounded settlement swap** serves the redemption through the oracle-floored swap and **books a loss** (cumulative loss rose from about 0 to 16.4 USD-wad in the fixture; the pUSDG rate only falls, never rises; `...BoundedSettlementSwapRealizesALoss`). A funded loss reserve is the other path (section 10) and was not re-tested here.
+
+**On the real NVDA/USDG pool** (`testForkProofPersistentOneSidedStateAndReserveRecovery`): with swaps paused and the price shocked below the range, the USDG redemption beyond local cash reverts atomically; recentring, the price returning, and three days later still leave it reverting, because the pair's available USDG is about 0.4976 USDG (raw 497,590) against the 5 USDG requested; a permissionless reserve deposit then recovers it. Assertions on idle and liquidity are relaxed to be pin-independent. Same scope limits as 15B.
 
 ### 15D. Oracle staleness: sessions, closures, and what actually blocks
 
@@ -816,4 +820,140 @@ Operations while the feed is older than 12 h (`testStaleFeedOperationMatrix`, `t
 | keeper: `checkpoint`, `rebalance`, `recenter` | blocked |
 | guardian: `emergencyDecrease` | blocked (it books loss at the oracle price) |
 
-So a stale feed does not trap suppliers whose redemptions fit in local cash and never stops repayment, but it stops new borrowing and supply, collateral withdrawal, liquidation, and every operation that needs the LP or the oracle price. Policy options (a different bound, a session-aware bound, a fallback price) are decisions for the operator and are **not** proposed or tested here.
+Each stale outcome above is asserted with its specific revert reason (the oracle's `StaleOracle(address,uint256)`, or `RedeemTransferOutNotPossible()` for the redemption beyond local cash) and each is paired with a fresh-feed control that succeeds (`testStaleFeedOperationMatrixWithFreshControlsAndSpecificReasons`).
+
+So a stale feed does not trap suppliers whose redemptions fit in local cash and never stops repayment, but it stops new borrowing and supply, collateral withdrawal, liquidation, and every operation that needs the LP or the oracle price. Section 16 studies a bounded fallback price as an isolated, test-only prototype; the guard, its 12 h bound and every deployed or configured value are unchanged, and adopting any option is a decision for the operator.
+
+## 16. Bounded oracle fallback for SPY and NVDA (Phase 0 investigation; test-only prototype, nothing deployed or configured)
+
+**Scope.** Research and an isolated prototype (`test/fallback/AnchoredFallbackOracle.sol`, test-only, not under `src/`, not wired to any guard, vault or market). The guard's 12 h bound, pause checks, USDG-at-$1 valuation and every deployed or configured value are unchanged. Borrowing and leverage stay disabled in every variant studied. Data: `evidence/oracle/fallback-study.json` (`fallback_study.py`, offline from the saved feed answers and pool swap history; about 10.4 weeks for SPY and 12.7 weeks for NVDA) and `evidence/oracle/twap-probe.json` (`twap_probe.py`, read-only at one pin).
+
+### 16A. Three different situations, three different answers
+
+| situation | how it looks on chain | evidence | fallback? |
+| --- | --- | --- | --- |
+| **Scheduled closure** (weekend, exchange holiday) | feed frozen at its last value, flags clear | NVDA's stale time is almost all closure; the longest observed run was 69.7 h | yes, bounded by a closure duration, **needs an operator-maintained calendar** |
+| **Quiet market or feed outage in a trading session** | feed older than 12 h, flags clear, **indistinguishable from each other on chain** | SPY: older than 12 h for about a third of open-session time (its feed updates only on a 0.5% move); NVDA about 4% | yes, but only a shorter duration; a real outage is caught only by the move limit |
+| **Issuer pause / corporate action** | `paused()` or `oraclePaused()` true; the multiplier changes | the guard already treats both flags as hard stops | **no**, never; also halt if `uiMultiplier()` differs from its value at the anchor |
+
+There is no generic catch-all: the prototype reverts `IssuerPaused`, `MultiplierChanged`, `FallbackNotAllowedFor`, `FallbackExpired`, `MoveExceedsBound`, `AnchorMissing` or `NoPoolHistory` with a specific reason in each case.
+
+### 16B. The multiplier is not applied again
+
+Chainlink's documentation states that the token price is the underlying equity price times `uiMultiplier`. The SPY feed was checked against the pool at every open-session feed update (1.001718 read at the pin):
+
+Measured over 90 feed updates in open sessions: mean basis +0.056% (median +0.031%, standard error 0.022%).
+
+| hypothesis for SPY | expected pool-over-feed basis | distance from the measured mean |
+| --- | --- | --- |
+| feedIncludesMultiplier (expect ~0) | +0.000% | 2.6 standard errors |
+| feedIsBareEquityPrice (expect +mult-1) | +0.172% | 5.3 standard errors |
+| multiplierAppliedTwice (expect -(mult-1)) | -0.172% | 10.4 standard errors |
+
+The fit is "the feed already includes the multiplier". It is a consistency check on about 90 observations with the multiplier read once, not a proof of the feed's internals (a distribution inside the window would blur it). The prototype only **reads** `uiMultiplier()`, to halt when it changes after the anchor; it never multiplies by it.
+
+### 16C. What the Ramses pools can support
+
+| pool | observation cardinality | longest TWAP window the pool serves | USD to move the price 2% (buy / sell) |
+| --- | --- | --- | --- |
+| SPY/USDG CL1 | 1801 | 86400 s | $89,819 / $84,109 |
+| NVDA/USDG CL10 | 1000 | 43200 s | $3,910 / $6,999 |
+| META/USDG CL50 | 121 | 3600 s | $2,917 / $2,973 |
+| GLD/USDG CL1 | 1 | 60 s | $15,205 / $15,742 |
+| r33/USDG CL200 | 1 | 3600 s | $222 / $12 |
+| r33/USDG CL500 | 1 | 43200 s | $198 / $202 |
+
+* **History is a per-pool property and differs by orders of magnitude.** SPY serves a 24 h TWAP, NVDA 12 h, META only 1 h, GLD and the r33 pools effectively none (cardinality 1). Only SPY and NVDA can support the design; META could only with a very frequent anchor poke; GLD and r33 cannot.
+* **The anchor must be taken while the feed is fresh.** NVDA's 12 h history cannot reach back to a 60 h-old answer, so the pool's TWAP at the answer time is recorded at poke time (permissionless) and stored; a missed poke means no fallback for that answer (`AnchorMissing`), never a recomputation from a later price.
+* **Depth is small for NVDA.** About $3.9k buys a 2% move up in NVDA/USDG CL10 (SPY about $90k). The TWAP window spreads a short spike (a 12 s spike of +10% moves a 30 min mean by about 0.07%, tested), but a push held for the whole window is limited only by the move limit L and by arbitrage, which does not exist while the market is closed. **Manipulation cost is therefore measured only as depth; the cost of holding a push through a closure is not quantified here.** Removing our own liquidity does not change the observation history (it is the pool's), but it lowers depth: the operator's $1,000 pair cap; the live Uniswap vault's ranged cap is $50 is about 1% of SPY's 2% depth and about 25% of NVDA's, so ex-our-liquidity NVDA is materially thinner. The Ramses vault is not deployed, so today none of that liquidity is ours.
+* **Bounded extraction.** With borrowing and liquidation off, a manipulated fallback can only mis-price an exit or settlement by at most L: about L x the exposed notional, i.e. 2% of a $1,000 cap = $20, before the unchanged removal/allocation deviation guards.
+
+### 16D. Candidate options: availability, remaining failures, trust and implementation cost
+
+| option | recovers | remains broken | trust added | implementation |
+| --- | --- | --- | --- | --- |
+| **0. Chainlink alone** (today) | nothing; in this window SPY's feed was older than 12 h about 51% of the time and NVDA's about 29% | everything that needs the oracle during stale time | none new | none |
+| **1. Independent secondary oracle** | would recover staleness only if it updates while Chainlink does not | n/a | a new data provider; **none found on Robinhood Chain** (web search only; no on-chain probe of Pyth/RedStone addresses was done) | an adapter plus a second pause/units/multiplier story |
+| **2. Ramses TWAP as the price** | availability | needs the pool's absolute basis to the feed (median 0.1% to 0.4%, p99 up to 3.7% on NVDA overnight); no anchor; thin-pool manipulation; GLD/r33/META lack history | none new, but weakest price | small |
+| **3. Anchored hybrid (prototype)**: last fresh Chainlink answer x pool's relative move since it | exits and settlement during closures and quiet sessions, bounded by D and L | gaps longer than D; moves beyond L (the Monday gap risk); missed pokes; pools without history; **liquidation and new borrowing** | a closure calendar (operator-maintained; a wrong holiday widens the window), a poke keeper, pool honesty over the window | the prototype is about 200 lines, 36 tests, 13/13 mutations killed; audit and a poke/calendar operations plan are not done |
+| **4. Hold-and-bound**: keep the anchor price flat and use the pool only as a move detector | the same availability as 3 | the same, plus it never "tracks" a real closure move | same as 3 | simpler than 3 |
+
+**What the error data says about 3 versus 4.** At the moment of the next Chainlink answer the anchored estimate is not clearly better than simply keeping the last price (the next answer arrives when the price has moved about 0.5%, by the feed's own trigger, so "keep the last price" is wrong by about 0.5% in open-session gaps by construction). The pool's relative move helps a little in some gaps and adds noise in others:
+
+| pair | gap between feed answers | pairs | keep the last price: median / p90 / max | anchored 1 h TWAP: median / p90 / max |
+| --- | --- | --- | --- | --- |
+| SPY | <1h | 2 | 0.51% / 0.51% / 0.51% | 0.48% / 0.48% / 0.48% |
+| SPY | 1-6h | 19 | 0.51% / 0.55% / 0.56% | 0.36% / 0.81% / 0.81% |
+| SPY | 6-12h | 12 | 0.51% / 0.53% / 0.55% | 0.26% / 0.37% / 0.98% |
+| SPY | 12-24h | 28 | 0.52% / 0.55% / 0.60% | 0.23% / 0.37% / 0.48% |
+| SPY | 24-48h | 19 | 0.17% / 0.43% / 0.45% | 0.19% / 0.56% / 1.28% |
+| SPY | >48h | 11 | 0.18% / 0.69% / 0.69% | 0.21% / 0.58% / 1.04% |
+| SPY | gap starts and ends in open sessions | 32 | 0.51% / 0.53% / 0.56% | 0.29% / 0.56% / 0.98% |
+| SPY | gap spans a weekend or holiday | 13 | 0.19% / 0.69% / 0.69% | 0.25% / 0.58% / 1.04% |
+| NVDA | <1h | 443 | 0.54% / 0.64% / 1.43% | 0.55% / 0.89% / 2.37% |
+| NVDA | 1-6h | 257 | 0.52% / 0.58% / 1.41% | 0.44% / 0.98% / 2.50% |
+| NVDA | 6-12h | 42 | 0.52% / 0.57% / 0.62% | 0.31% / 0.76% / 1.46% |
+| NVDA | 12-24h | 18 | 0.51% / 0.55% / 0.58% | 0.41% / 0.74% / 1.03% |
+| NVDA | >48h | 13 | 0.35% / 1.13% / 1.16% | 0.42% / 0.94% / 1.02% |
+| NVDA | gap starts and ends in open sessions | 740 | 0.53% / 0.62% / 1.43% | 0.52% / 0.92% / 2.50% |
+| NVDA | gap spans a weekend or holiday | 15 | 0.37% / 1.13% / 1.16% | 0.37% / 0.94% / 1.02% |
+
+The sample is small for closures (13 SPY and 15 NVDA closure gaps) and the next Chainlink answer is a proxy for the true price, conditional on an update having occurred. The defensible reading is that **the pool's role is a move detector that bounds how stale a price may be, not a precision upgrade**, which is why option 4 is a legitimate simplification of option 3.
+
+| pair | session | feed updates | 1 h TWAP vs feed: median | p90 | p99 | max |
+| --- | --- | --- | --- | --- | --- | --- |
+| SPY | regular | 44 | 0.22% | 0.38% | 0.83% | 0.83% |
+| SPY | overnight | 46 | 0.12% | 0.36% | 1.36% | 1.36% |
+| NVDA | regular | 446 | 0.44% | 1.05% | 1.67% | 2.46% |
+| NVDA | overnight | 326 | 0.36% | 1.11% | 3.68% | 4.73% |
+
+(The anchored design uses the pool's relative move, so this static basis cancels; it is shown because option 2 would have to absorb it and because the anchor is refused when it exceeds `maxBasisBps`.)
+
+### 16E. Availability recovered at L = 2% (evidence-derived limits)
+
+| pair | rule | max age D | move limit L | stale trading-session time recovered | stale closure time recovered | stale hours/week now -> after | error vs next answer: p99 / max | wrongly liquidated at 98% / 99% of limit |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| SPY | open sessions only | 24 h | 2% | 98.9% | 0.0% | 85.8 -> 48.7 | 1.42% / 1.49% | 0.0% / 3.1% |
+| SPY | open sessions only | 48 h | 2% | 98.9% | 0.0% | 85.8 -> 48.7 | 1.42% / 1.49% | 0.0% / 3.1% |
+| SPY | open sessions only | 72 h | 2% | 100.0% | 0.0% | 85.8 -> 48.3 | 1.42% / 1.49% | 0.0% / 3.1% |
+| SPY | all sessions incl. weekend/holiday | 24 h | 2% | 98.9% | 26.1% | 85.8 -> 36.1 | 1.35% / 1.49% | 0.0% / 2.3% |
+| SPY | all sessions incl. weekend/holiday | 48 h | 2% | 98.9% | 78.4% | 85.8 -> 10.8 | 1.29% / 1.49% | 0.0% / 2.6% |
+| SPY | all sessions incl. weekend/holiday | 72 h | 2% | 100.0% | 98.3% | 85.8 -> 0.8 | 1.32% / 1.49% | 0.0% / 2.7% |
+| NVDA | open sessions only | 24 h | 2% | 93.7% | 0.0% | 49.0 -> 44.2 | 1.21% / 1.25% | 0.0% / 3.3% |
+| NVDA | open sessions only | 48 h | 2% | 93.7% | 0.0% | 49.0 -> 44.2 | 1.21% / 1.25% | 0.0% / 3.3% |
+| NVDA | open sessions only | 72 h | 2% | 100.0% | 0.0% | 49.0 -> 43.9 | 1.21% / 1.25% | 0.0% / 2.9% |
+| NVDA | all sessions incl. weekend/holiday | 24 h | 2% | 93.7% | 28.0% | 49.0 -> 31.9 | 1.35% / 1.39% | 0.0% / 5.5% |
+| NVDA | all sessions incl. weekend/holiday | 48 h | 2% | 93.7% | 83.9% | 49.0 -> 7.4 | 1.80% / 2.07% | 0.4% / 6.6% |
+| NVDA | all sessions incl. weekend/holiday | 72 h | 2% | 100.0% | 98.8% | 49.0 -> 0.5 | 1.98% / 2.34% | 1.0% / 6.4% |
+
+Move limit sensitivity at D = 72 h:
+
+| pair | rule (D = 72 h) | L | trading-session time recovered | closure time recovered | error max |
+| --- | --- | --- | --- | --- | --- |
+| SPY | all sessions | 1% | 97.0% | 98.3% | 1.34% |
+| SPY | all sessions | 2% | 100.0% | 98.3% | 1.49% |
+| SPY | all sessions | 3% | 100.0% | 98.3% | 1.49% |
+| NVDA | all sessions | 1% | 100.0% | 85.5% | 1.74% |
+| NVDA | all sessions | 2% | 100.0% | 98.8% | 2.34% |
+| NVDA | all sessions | 3% | 100.0% | 98.9% | 2.34% |
+
+How the limits follow from the data: **L = 2%** is the smallest tested limit that recovers essentially all staleness (1% leaves 3% of SPY's stale trading-session time and 14.5% of NVDA's stale closure time unrecovered) while the observed estimate error stays at or under about 1.5% (SPY) and 2.3% (NVDA). **D** for closures is set by the longest observed run, 69.7 h; D = 48 h leaves 16% to 22% of closure time unrecovered, 72 h leaves about 1% to 2%. Open-session staleness is a quiet market or an outage; the table shows the prototype's open-session maximum age (24 h) recovers nearly all of SPY's open-session staleness and 94% of NVDA's. **These are measurements over one regime of about three months, not guarantees;** a regime with larger gaps (earnings, macro events) would fail the move limit and revert, which is the intended behaviour.
+
+**Remaining failures even with option 3:** closures longer than D; gap moves larger than L at the open (the fallback correctly refuses); a missed poke; META, GLD and r33 (no usable pool history); every issuer pause and corporate action (by design); and the closure calendar being wrong.
+
+### 16F. Exits, settlement, liquidation, new borrowing, evaluated separately
+
+| use | with fallback? | reason |
+| --- | --- | --- |
+| New borrowing, leverage, allocation (`rebalance`, `recenter` post-check) | **never** | a wrong price here creates risk rather than preserving access |
+| Exits and settlement valuation (redemption beyond local cash, checkpoint, emergency decrease) | allowed, within D and L | the existing removal bound and oracle-floored amount checks still apply; error bounded by L |
+| Liquidation | **off by default**; if enabled, collateral priced at max(anchor, fallback) | a downward estimate error of 1% to 2% would wrongly liquidate borrowers within that margin of the limit: in the table, 1.0% / 6.4% of samples at 98% / 99% of the limit for NVDA. The upward-biased price removes false liquidations and accepts that a real fall is not acted on until the feed returns or D expires |
+| Repayment, within-cash redemption, `collectFees` | unchanged (already allowed while stale) | |
+
+**Bad debt.** With the collateral factor 0.3 and 8% liquidation incentive assumed from the earlier readiness work (not re-read from a deployment), collateral would have to fall about two thirds from the borrowing limit before a position is under water, so a delay of at most D with a move of at most L is not a bad-debt path by itself; the exposures are a larger real move that the limit refuses to price (no liquidation until the feed resumes) and a corporate action (handled by the pause and multiplier halts). Feed outages longer than D leave the existing StaleOracle behaviour, unchanged.
+
+### 16G. Prototype and tests
+
+`test/fallback/AnchoredFallbackOracle.t.sol`, run for the stock as token0 and as token1 (36 tests, `logs/fallback-prototype-tests.log`): fresh feed returned untouched and multiplier not applied; anchor stored at the answer's own timestamp with the TWAP ending then; anchor never written by the fallback and refused from a stale feed; fallback equals anchor x relative move (1.0001^100 checked); closure versus open durations; move limit both directions; basis refusal; pool history too short; every pause flag blocks everything including a fresh feed; multiplier change halts; borrow and allocation never use the fallback; liquidation off by default and upward-biased when on; guardian can only disable; short spike versus sustained push; invalid feed rounds fail closed. 13 of 13 mutations of its safeguards (multiplier check, anchor-equals-latest-answer, borrow allowed, move bound, calendar, upward bias, orientation, anchor window, pause, stale poke, basis, guardian, multiplier applied) are caught (`logs/fallback-prototype-mutations.log`). Python: `test_fallback_study.py` (TWAP integral, spike weighting, window clamp).
+
+**Not done:** a mainnet-fork integration against the real feed, token and pool (the prototype uses mocks); a fork test of `observe()` ladders at the anchor time; the calendar and the poke keeper; the cost of holding a pool push through a closure; META, GLD and r33; the choice between options 3 and 4, which is the operator's. The Chainlink documentation page itself returned 404 to this tooling; its statements were taken from a search summary and are used as methodology evidence only.

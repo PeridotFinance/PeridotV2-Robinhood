@@ -24,35 +24,45 @@ contract StockProofsTest is LendingFixture {
 
     function testFundedLiquidationThenCollateralRedemptionNeedsLpUnwind() public {
         uint128 liq0 = _borrowAndCrash();
-        uint128 liqAtCrash = adapter.positionState(PAIR).liquidity;
-        assertEq(liqAtCrash, liq0, "moving the price does not touch the position");
-        bytes32 ledgerBefore = keccak256(abi.encode(vault.ledger(PAIR)));
+        assertEq(adapter.positionState(PAIR).liquidity, liq0, "moving the price does not touch the position");
+        bytes memory ledgerBefore = abi.encode(vault.ledger(PAIR));
 
         // funded in-kind liquidation: the liquidator pays USDG it already holds and receives collateral pTokens; no swap, no pool call
         uint256 sharesBefore = sMarket.balanceOf(address(this));
         uint256 usdgBefore = usdg.balanceOf(address(this));
+        uint256 borrowBefore = uMarket.borrowBalanceStored(alice);
         uMarket.liquidateBorrow(alice, 27e6, PToken(stockAccount));
         uint256 seized = sMarket.balanceOf(address(this)) - sharesBefore;
         assertGt(seized, 0, "collateral pTokens seized");
         assertEq(usdgBefore - usdg.balanceOf(address(this)), 27e6, "repaid in kind from the liquidator's own USDG");
+        assertEq(borrowBefore - uMarket.borrowBalanceStored(alice), 27e6, "the borrower's debt fell by exactly the repayment");
         assertEq(adapter.positionState(PAIR).liquidity, liq0, "liquidation did not touch the Ramses position");
+        // the vault ledger saved BEFORE the liquidation equals the ledger IMMEDIATELY AFTER it, byte for byte
+        assertEq(abi.encode(vault.ledger(PAIR)), ledgerBefore, "the liquidation step left the vault ledger untouched");
         emit log_named_uint("seized pTokens", seized);
 
         // redeeming the seized collateral for the underlying: more than the market's local cash, so the LP must be unwound
         uint256 localCash = stock.balanceOf(stockAccount);
-        uint256 owed = seized * sMarket.exchangeRateStored() / 1e18;
-        emit log_named_uint("redemption owed (stock wei)", owed);
-        emit log_named_uint("local cash (stock wei)", localCash);
-        assertGt(owed, localCash, "the redemption exceeds local cash");
+        uint256 previewOwed = seized * sMarket.exchangeRateStored() / 1e18;
+        assertGt(previewOwed, localCash, "the redemption exceeds local cash");
         uint256 stockBefore = stock.balanceOf(address(this));
+        uint256 totalSupplyBefore = sMarket.totalSupply();
+        uint256 principalBefore = vault.ledger(PAIR).stockPrincipal;
         sMarket.redeem(seized);
         uint256 received = stock.balanceOf(address(this)) - stockBefore;
-        assertGt(received, 0, "underlying received");
+        uint256 settledRate = sMarket.exchangeRateStored();
+        // balance deltas
+        assertApproxEqAbs(received, seized * settledRate / 1e18, 10, "the redeemer received shares x settled rate (wei rounding of the post-redemption rate)");
+        assertLe(received, previewOwed, "paid at or below the pre-redemption preview");
+        assertGe(received, previewOwed * 99 / 100, "within 1% of the preview (the settled rate absorbs any recognized loss)");
+        assertEq(stock.balanceOf(address(this)) - stockBefore, received);
+        // share changes
+        assertEq(sMarket.balanceOf(address(this)), sharesBefore, "all seized pTokens burned: the liquidator is back to its starting shares");
+        assertEq(totalSupplyBefore - sMarket.totalSupply(), seized, "total pToken supply fell by exactly the seized shares");
+        // the LP was unwound to fund it, and the principal fell by about what left the vault
         assertLt(adapter.positionState(PAIR).liquidity, liq0, "the LP was unwound to fund the redemption");
-        // the redeemer was paid at the settled (loss-aware) exchange rate: never more than the pre-redemption preview
-        assertLe(received, owed + 1, "paid at or below the preview rate");
-        assertEq(sMarket.balanceOf(address(this)), sharesBefore, "all seized pTokens burned");
-        ledgerBefore; // the ledger legitimately changed (principal withdrawn); the point is the liquidation step alone left it alone (checked via the position above)
+        assertLt(vault.ledger(PAIR).stockPrincipal, principalBefore, "stock principal fell");
+        assertGe(principalBefore - vault.ledger(PAIR).stockPrincipal, received - localCash, "at least the part above local cash came out of the vault");
     }
 
     function testOneSidedRedemptionRevertsAtomicallyThenSucceedsWhenThePriceReturns() public {
@@ -114,6 +124,38 @@ contract StockProofsTest is LendingFixture {
         uMarket.redeemUnderlying{ gas: 8_000_000 }(cash + 5e6);
     }
 
+    /// @dev PERSISTENCE: once the keeper has recentred at the low price the stock sits idle and no position holds USDG, so a later price return does not
+    /// restore the missing token; only an explicit funding of the loss reserve (or the bounded swap) does.
+    function testOneSidedStatePersistsAfterRecentreAndPriceReturnReserveFundingRecovers() public {
+        uint256 cash = _oneSidedAndBlocked();
+        vm.warp(vm.getBlockTimestamp() + 1 hours + 1);
+        fresh();
+        recenter();                                                     // the keeper acts at the low price: the position is gone, stock idle
+        assertEq(adapter.positionState(PAIR).liquidity, 0);
+        shift(-3000);                                                   // the price returns to where it was
+        vm.warp(vm.getBlockTimestamp() + 3 days);                       // ... and a long time passes with fresh feed updates
+        fresh();
+        assertEq(adapter.positionState(PAIR).usdgAmount, 0, "still no USDG in any position");
+        bytes32 ledgerHash = keccak256(abi.encode(vault.ledger(PAIR)));
+        uint256 bobShares = uMarket.balanceOf(bob);
+        vm.prank(bob);
+        vm.expectRevert();
+        uMarket.redeemUnderlying{ gas: 8_000_000 }(cash + 5e6);
+        assertEq(uMarket.balanceOf(bob), bobShares, "still atomic: shares unchanged");
+        assertEq(keccak256(abi.encode(vault.ledger(PAIR))), ledgerHash, "still atomic: ledger unchanged");
+
+        // an explicit, permissionless USDG deposit into the loss reserve recovers it, without any swap
+        usdg.approve(address(reserve), type(uint256).max);
+        reserve.deposit(PAIR, address(usdg), 50e6);
+        uint256 reserveBefore = reserve.available(PAIR, address(usdg));
+        uint256 bobUsdgBefore = usdg.balanceOf(bob);
+        vm.prank(bob);
+        uMarket.redeemUnderlying{ gas: 8_000_000 }(cash + 5e6);
+        assertGe(usdg.balanceOf(bob) - bobUsdgBefore, cash + 5e6 - 1, "bob received the full amount");
+        assertLt(reserve.available(PAIR, address(usdg)), reserveBefore, "the reserve paid the USDG deficit");
+        assertLt(uMarket.balanceOf(bob), bobShares, "bob's shares were burned for it");
+    }
+
     function testOneSidedRecoveryByEnablingTheBoundedSettlementSwapRealizesALoss() public {
         uint256 cash = _oneSidedAndBlocked();
         uint256 rateBefore = uMarket.exchangeRateStored();
@@ -132,16 +174,30 @@ contract StockProofsTest is LendingFixture {
 
     // ---------------------------------------------------------------------------------------------
     // Which operations actually block when the feed is older than the 12 h bound? (the guard is not relaxed)
+    // Every operation is run twice on identical state: with the feed STALE (expected rejection with a specific reason, or success for the
+    // operations that do not need a price) and after a FRESH-feed control (must succeed), so an unrelated failure cannot masquerade as a block.
     // ---------------------------------------------------------------------------------------------
-    function _try(string memory name, address target, bytes memory data, address caller) internal returns (bool ok) {
+    function _probe(address target, bytes memory data, address caller) internal returns (bool ok, bytes memory ret) {
         uint256 snap = vm.snapshot();
         vm.prank(caller);
-        (ok,) = target.call{ gas: 8_000_000 }(data);
+        (ok, ret) = target.call{ gas: 8_000_000 }(data);
         vm.revertTo(snap);
-        emit log_string(string.concat("STALE,", name, ",", ok ? "ALLOWED" : "BLOCKED"));
     }
 
-    function testStaleFeedOperationMatrix() public {
+    function _sel(bytes memory ret) internal pure returns (bytes4 sel) {
+        if (ret.length >= 4) assembly { sel := mload(add(ret, 32)) }
+    }
+
+    struct Op {
+        string name;
+        address target;
+        bytes data;
+        address caller;
+        bool allowedWhenStale;
+        bytes4 reason; // expected revert selector when blocked (0 = any revert is accepted only if explicitly marked in the test)
+    }
+
+    function _staleState() internal returns (uint256 cash, uint128 liq) {
         supply();
         recenter();
         enableBorrow();
@@ -149,43 +205,75 @@ contract StockProofsTest is LendingFixture {
         uMarket.borrow(10e6);
         vm.prank(alice);
         usdg.approve(usdgAccount, type(uint256).max);
-        uint256 cash = usdg.balanceOf(usdgAccount);
+        vm.warp(vm.getBlockTimestamp() + 1 hours + 1);
+        shift(700);                                                    // the oracle centre moved 700 ticks: a recenter is due; the feed follows the pool
+        vm.prank(alice);
+        stock.approve(stockAccount, type(uint256).max);
+        liq = adapter.positionState(PAIR).liquidity;
+        // add REAL supply and push the excess above the 50% buffer into the vault, so `rebalance` has idle to deploy and the fresh control can succeed
+        vm.prank(bob);
+        uMarket.mint(100e6);
+        vm.prank(alice);
+        sMarket.mint(1e18);
+        vm.prank(keeper);
+        uMarket.rebalanceVault();
+        vm.prank(keeper);
+        sMarket.rebalanceVault();
+        cash = usdg.balanceOf(usdgAccount);                             // measured AFTER the top-up so `cash + x` really exceeds local cash
         vm.warp(vm.getBlockTimestamp() + 13 hours);                     // the feed is NOT refreshed: older than the 12 h bound
-        uint128 liq = adapter.positionState(PAIR).liquidity;
+    }
 
-        // lending side
-        bool mintOk = _try("lending: supply (mint)", usdgAccount, abi.encodeCall(uMarket.mint, (1e6)), bob);
-        bool cashOk = _try("lending: redeem within local cash", usdgAccount, abi.encodeCall(uMarket.redeemUnderlying, (cash / 2)), bob);
-        bool beyondOk = _try("lending: redeem beyond local cash (needs LP unwind)", usdgAccount, abi.encodeCall(uMarket.redeemUnderlying, (cash + 5e6)), bob);
-        bool borrowOk = _try("lending: borrow", usdgAccount, abi.encodeCall(uMarket.borrow, (1e6)), alice);
-        bool repayOk = _try("lending: repay", usdgAccount, abi.encodeCall(uMarket.repayBorrow, (1e6)), alice);
-        bool collOk = _try("lending: redeem collateral while in debt", stockAccount, abi.encodeCall(sMarket.redeemUnderlying, (0.1e18)), alice);
-        // keeper / guardian side
-        bool cpOk = _try("vault: checkpoint", address(vault), abi.encodeCall(vault.checkpoint, (PAIR, block.timestamp)), keeper);
-        bool rbOk = _try("vault: rebalance", address(vault), abi.encodeCall(vault.rebalance, (PAIR, block.timestamp)), keeper);
-        bool rcOk = _try("vault: recenter", address(vault), abi.encodeCall(vault.recenter, (PAIR, block.timestamp)), keeper);
-        bool cfOk = _try("vault: collectFees", address(vault), abi.encodeCall(vault.collectFees, (PAIR, block.timestamp)), keeper);
-        bool edOk = _try("vault: emergencyDecrease (guardian)", address(vault), abi.encodeCall(vault.emergencyDecrease, (PAIR, liq, block.timestamp)), guardian);
+    function testStaleFeedOperationMatrixWithFreshControlsAndSpecificReasons() public {
+        (uint256 cash, uint128 liq) = _staleState();
+        bytes4 staleErr = bytes4(keccak256("StaleOracle(address,uint256)"));
+        Op[] memory ops = new Op[](11);
+        ops[0] = Op("lending: supply (mint)", usdgAccount, abi.encodeCall(uMarket.mint, (1e6)), bob, false, staleErr);
+        ops[1] = Op("lending: redeem within local cash", usdgAccount, abi.encodeCall(uMarket.redeemUnderlying, (cash / 4)), bob, true, 0);
+        ops[2] = Op("lending: redeem beyond local cash (needs LP unwind)", usdgAccount, abi.encodeCall(uMarket.redeemUnderlying, (cash + 5e6)), bob, false, bytes4(keccak256("RedeemTransferOutNotPossible()")));
+        ops[3] = Op("lending: borrow", usdgAccount, abi.encodeCall(uMarket.borrow, (1e6)), alice, false, staleErr);
+        ops[4] = Op("lending: repay", usdgAccount, abi.encodeCall(uMarket.repayBorrow, (1e6)), alice, true, 0);
+        ops[5] = Op("lending: redeem collateral while in debt", stockAccount, abi.encodeCall(sMarket.redeemUnderlying, (0.1e18)), alice, false, staleErr);
+        ops[6] = Op("vault: checkpoint", address(vault), abi.encodeCall(vault.checkpoint, (PAIR, block.timestamp)), keeper, false, staleErr);
+        ops[7] = Op("vault: rebalance", address(vault), abi.encodeCall(vault.rebalance, (PAIR, block.timestamp)), keeper, false, staleErr);
+        ops[8] = Op("vault: recenter", address(vault), abi.encodeCall(vault.recenter, (PAIR, block.timestamp)), keeper, false, staleErr);
+        ops[9] = Op("vault: collectFees", address(vault), abi.encodeCall(vault.collectFees, (PAIR, block.timestamp)), keeper, true, 0);
+        ops[10] = Op("vault: emergencyDecrease (guardian)", address(vault), abi.encodeCall(vault.emergencyDecrease, (PAIR, liq, block.timestamp)), guardian, false, staleErr);
 
-        // facts already established by the existing suite, re-asserted here so the matrix cannot silently drift
-        assertTrue(cashOk, "a redemption fully covered by local cash is allowed while stale");
-        assertTrue(repayOk, "repaying debt is allowed while stale");
-        assertFalse(beyondOk, "a redemption that needs the LP is blocked while stale");
-        assertFalse(borrowOk, "borrowing is blocked while stale");
-        assertFalse(collOk, "redeeming collateral while in debt is blocked while stale");
-        assertFalse(rbOk, "allocation is blocked while stale");
-        assertFalse(rcOk, "recentering is blocked while stale");
-        mintOk; cpOk; cfOk; edOk;
+        bool[] memory staleOk = new bool[](ops.length);
+        bytes[] memory staleRet = new bytes[](ops.length);
+        for (uint256 i; i < ops.length; i++) {
+            (staleOk[i], staleRet[i]) = _probe(ops[i].target, ops[i].data, ops[i].caller);
+        }
+        fresh();                                                       // the control: SAME state, feed re-stamped
+        for (uint256 i; i < ops.length; i++) {
+            (bool freshOk, bytes memory freshRet) = _probe(ops[i].target, ops[i].data, ops[i].caller);
+            assertTrue(freshOk, string.concat("fresh-feed control must succeed: ", ops[i].name, " reason=", vm.toString(_sel(freshRet))));
+            if (ops[i].allowedWhenStale) {
+                assertTrue(staleOk[i], string.concat("allowed while stale: ", ops[i].name));
+            } else {
+                assertFalse(staleOk[i], string.concat("blocked while stale: ", ops[i].name));
+                assertEq(_sel(staleRet[i]), ops[i].reason, string.concat("specific rejection reason: ", ops[i].name));
+            }
+            emit log_string(string.concat("STALE,", ops[i].name, ",stale=", staleOk[i] ? "ALLOWED" : "BLOCKED", ",fresh=ALLOWED,reason=", vm.toString(_sel(staleRet[i]))));
+        }
     }
 
     function testStaleFeedBlocksLiquidationOfAnUnderwaterAccountButNotRepayment() public {
         _borrowAndCrash();                                             // alice is underwater at the crashed price, and the feed was fresh at the crash
         vm.prank(alice);
         usdg.approve(usdgAccount, type(uint256).max);
+        bytes memory liqCall = abi.encodeCall(uMarket.liquidateBorrow, (alice, 10e6, PToken(stockAccount)));
+        bytes memory repayCall = abi.encodeCall(uMarket.repayBorrow, (5e6));
+        (bool freshLiq,) = _probe(usdgAccount, liqCall, address(this));
+        assertTrue(freshLiq, "control: liquidation works with a fresh feed");
         vm.warp(vm.getBlockTimestamp() + 13 hours);                     // ... then the feed goes stale
-        bool liqOk = _try("lending: liquidateBorrow of an underwater account", usdgAccount, abi.encodeCall(uMarket.liquidateBorrow, (alice, 10e6, PToken(stockAccount))), address(this));
-        bool repayOk = _try("lending: repay by the underwater borrower", usdgAccount, abi.encodeCall(uMarket.repayBorrow, (5e6)), alice);
+        (bool liqOk, bytes memory liqRet) = _probe(usdgAccount, liqCall, address(this));
+        (bool repayOk,) = _probe(usdgAccount, repayCall, alice);
         assertFalse(liqOk, "liquidation needs a live price and is blocked while stale (the guard is not relaxed)");
+        assertEq(_sel(liqRet), bytes4(keccak256("StaleOracle(address,uint256)")), "rejected because the oracle is stale");
         assertTrue(repayOk, "the borrower can still repay");
+        fresh();
+        (bool liqFresh,) = _probe(usdgAccount, liqCall, address(this));
+        assertTrue(liqFresh, "re-stamping the feed restores liquidation");
     }
 }
