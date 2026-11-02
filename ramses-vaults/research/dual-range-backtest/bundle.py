@@ -122,9 +122,34 @@ def verify_raw(pair, raw, m):
     return ok
 
 
+def verify_small_inputs(m):
+    """The committed small inputs (feed answers, gauge notifications) must exist and match the manifest. Returns True only if ALL do."""
+    ok = True
+    if not m.get("smallInputs"):
+        print("  FAIL manifest lists no small inputs")
+        return False
+    for f, spec in m["smallInputs"].items():
+        p = HERE / spec["committedAt"]
+        if not p.exists():
+            print(f"  FAIL committed input {f}: MISSING at {p}")
+            ok = False
+        elif file_sha(p) != spec["sha256"]:
+            print(f"  FAIL committed input {f}: hash mismatch")
+            ok = False
+        else:
+            print(f"  OK   committed input {f}")
+    return ok
+
+
 def rebuild(pair, cache_dir, out_dir):
     m = load_manifest()
+    if pair not in m.get("pairs", {}):
+        print(f"FAIL: {pair} is not in the manifest")
+        return 3
     spec = m["pairs"][pair]
+    if not verify_small_inputs(m):
+        print("REQUIRED SMALL INPUTS MISSING OR MODIFIED")
+        return 4
     raw, r = fetch_raw(pair, spec["toBlock"], cache_dir)
     ok = verify_raw(pair, raw, m)
     if not ok:
@@ -140,27 +165,44 @@ def rebuild(pair, cache_dir, out_dir):
     hx = dataset_hash(cols)
     good = hx == spec["dataset"]["sha256"]
     print(f"  {'OK  ' if good else 'FAIL'} dataset columns: {len(cols['block'])} swaps")
+    if not good:
+        return 2
     pickle.dump((cols, meta), open(out_dir / f"dataset_{pair}.pkl", "wb"))
-    return 0 if good else 2
+    # an unpacked bundle is self-contained: the verified small inputs sit next to the dataset (RAMSES_RESULTS_DIR=<out_dir>)
+    import shutil
+    for f, sp in m["smallInputs"].items():
+        shutil.copyfile(HERE / sp["committedAt"], out_dir / f)
+    pools = out_dir / "pools_static.json"
+    if not pools.exists() and (HERE / "evidence" / "pools_static.json").exists():
+        shutil.copyfile(HERE / "evidence" / "pools_static.json", pools)
+    return 0
 
 
-def verify(pair, raw_path):
+def verify(pair, raw_path, results_dir=None):
+    """Offline verification. FAILS (non-zero) when a required input is missing: the dataset pickle, the manifest entry, the committed
+    small inputs, and the raw log file when ``raw_path`` is given."""
     m = load_manifest()
     rc = 0
+    if pair not in m.get("pairs", {}):
+        print(f"  FAIL {pair} is not in the manifest")
+        return 3
     if raw_path:
-        raw = json.loads(Path(raw_path).read_text())
-        rc |= 0 if verify_raw(pair, raw, m) else 1
-    ds = RESULTS / f"dataset_{pair}.pkl"
-    if ds.exists():
+        rp = Path(raw_path)
+        if not rp.exists():
+            print(f"  FAIL raw log file MISSING: {rp}")
+            rc |= 1
+        else:
+            rc |= 0 if verify_raw(pair, json.loads(rp.read_text()), m) else 1
+    ds = Path(results_dir or RESULTS) / f"dataset_{pair}.pkl"
+    if not ds.exists():
+        print(f"  FAIL dataset MISSING: {ds}  (rebuild it: python3 bundle.py rebuild {pair})")
+        rc |= 2
+    else:
         cols, _ = pickle.load(open(ds, "rb"))
         good = dataset_hash(cols) == m["pairs"][pair]["dataset"]["sha256"]
-        print(f"  {'OK  ' if good else 'FAIL'} local dataset")
+        print(f"  {'OK  ' if good else 'FAIL'} dataset {ds}")
         rc |= 0 if good else 2
-    for f, spec in m["smallInputs"].items():
-        p = HERE / spec["committedAt"]
-        good = p.exists() and file_sha(p) == spec["sha256"]
-        print(f"  {'OK  ' if good else 'FAIL'} committed input {f}")
-        rc |= 0 if good else 4
+    rc |= 0 if verify_small_inputs(m) else 4
     return rc
 
 
@@ -171,13 +213,14 @@ def main():
     ap.add_argument("--cache", default="/tmp/ramses-bundle-cache")
     ap.add_argument("--out", default="/tmp/ramses-bundle-out")
     ap.add_argument("--raw")
+    ap.add_argument("--results-dir")
     a = ap.parse_args()
     if a.cmd == "make":
         make(a.pair)
     elif a.cmd == "rebuild":
         sys.exit(rebuild(a.pair, a.cache, a.out))
     else:
-        sys.exit(verify(a.pair, a.raw))
+        sys.exit(verify(a.pair, a.raw, a.results_dir))
 
 
 if __name__ == "__main__":

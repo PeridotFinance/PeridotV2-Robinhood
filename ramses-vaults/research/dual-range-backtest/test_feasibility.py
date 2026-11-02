@@ -233,6 +233,16 @@ class EngineFields(unittest.TestCase):
         first_mid = mid.recenter_log[0][0]
         self.assertGreaterEqual(first_mid, first_instant)
 
+    def test_fee_stress_scales_or_replaces_the_fee_in_force(self):
+        prices = [100.0] + [100.0 + 0.3 * math.sin(i / 3.0) for i in range(120)]
+        base_ = E.Sim(make_dataset(prices, fee_ppm=100), self.cfg(core_half=600), always_open).run()
+        x2 = E.Sim(make_dataset(prices, fee_ppm=100), self.cfg(core_half=600, fee_mult=2.0), always_open).run()
+        fixed = E.Sim(make_dataset(prices, fee_ppm=100), self.cfg(core_half=600, fee_fixed_ppm=300.0), always_open).run()
+        self.assertAlmostEqual(x2.fees_usd_cum / base_.fees_usd_cum, 2.0, delta=0.01)
+        self.assertAlmostEqual(fixed.fees_usd_cum / base_.fees_usd_cum, 3.0, delta=0.02)
+        mixed = E.Sim(make_dataset(prices, fee_ppm=900), self.cfg(core_half=600, fee_fixed_ppm=300.0), always_open).run()
+        self.assertAlmostEqual(mixed.fees_usd_cum, fixed.fees_usd_cum, delta=fixed.fees_usd_cum * 1e-9)
+
     def test_ranged_value_cap_limits_deployment(self):
         prices = [100.0] * 20
         ds = make_dataset(prices, stock_is_token0=False)

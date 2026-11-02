@@ -6,7 +6,8 @@ sys.path.insert(0, str(HERE / "lib"))
 from evidence_lib import Rpc, TimeIndex, keccak_topic, words, s256, sN, topic_addr, topic_int, addr_topic, iso, session_of  # noqa
 
 CACHE = Path("/Users/joshua/Peridot/evidence-cache")
-RESULTS = HERE / "results"
+import os
+RESULTS = Path(os.environ["RAMSES_RESULTS_DIR"]) if os.environ.get("RAMSES_RESULTS_DIR") else HERE / "results"  # offline reproduction points this at an unpacked input bundle
 RESULTS.mkdir(exist_ok=True)
 
 ADDR = {

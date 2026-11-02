@@ -1,0 +1,80 @@
+  OK   committed input answer_updated.json
+  OK   committed input gauge_notify.json
+  NVDA init: 1 logs (4s)
+Traceback (most recent call last):
+  File "/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/lib/evidence_lib.py", line 179, in _logs_raw
+    res = self.call("eth_getLogs", [flt])
+  File "/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/lib/evidence_lib.py", line 100, in call
+    raise _rpc_error(method, payload["error"])
+evidence_lib.EvidenceError: eth_getLogs: rpc error -32000: logs matched by query exceeds limit of 10000
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/lib/evidence_lib.py", line 160, in _logs_window
+    raw = self._logs_raw(address, topics, lo, hi)
+  File "/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/lib/evidence_lib.py", line 183, in _logs_raw
+    raise SplitWindow() from e
+evidence_lib.SplitWindow
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/lib/evidence_lib.py", line 179, in _logs_raw
+    res = self.call("eth_getLogs", [flt])
+  File "/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/lib/evidence_lib.py", line 100, in call
+    raise _rpc_error(method, payload["error"])
+evidence_lib.EvidenceError: eth_getLogs: rpc error -32000: logs matched by query exceeds limit of 10000
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/lib/evidence_lib.py", line 160, in _logs_window
+    raw = self._logs_raw(address, topics, lo, hi)
+  File "/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/lib/evidence_lib.py", line 183, in _logs_raw
+    raise SplitWindow() from e
+evidence_lib.SplitWindow
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/lib/evidence_lib.py", line 81, in call
+    payload = json.load(urllib.request.urlopen(req, timeout=self.timeout))
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/urllib/request.py", line 214, in urlopen
+    return opener.open(url, data, timeout)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/urllib/request.py", line 523, in open
+    response = meth(req, response)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/urllib/request.py", line 632, in http_response
+    response = self.parent.error(
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/urllib/request.py", line 561, in error
+    return self._call_chain(*args)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/urllib/request.py", line 494, in _call_chain
+    result = func(*args)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/urllib/request.py", line 641, in http_error_default
+    raise HTTPError(req.full_url, code, msg, hdrs, fp)
+urllib.error.HTTPError: HTTP Error 429: Too Many Requests
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/bundle.py", line 227, in <module>
+    main()
+  File "/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/bundle.py", line 221, in main
+    sys.exit(rebuild(a.pair, a.cache, a.out))
+  File "/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/bundle.py", line 153, in rebuild
+    raw, r = fetch_raw(pair, spec["toBlock"], cache_dir)
+  File "/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/bundle.py", line 110, in fetch_raw
+    out[k] = r.logs(a, [T(sig)], 0, to_block, to_block)
+  File "/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/lib/evidence_lib.py", line 145, in logs
+    out.extend(self._logs_window(address, topics, cur, hi, final_upto))
+  File "/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/lib/evidence_lib.py", line 165, in _logs_window
+    raw = self._logs_window(address, topics, lo, mid, final_upto) + \
+  File "/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/lib/evidence_lib.py", line 166, in _logs_window
+    self._logs_window(address, topics, mid + 1, hi, final_upto)
+  File "/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/lib/evidence_lib.py", line 160, in _logs_window
+    raw = self._logs_raw(address, topics, lo, hi)
+  File "/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/lib/evidence_lib.py", line 179, in _logs_raw
+    res = self.call("eth_getLogs", [flt])
+  File "/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/lib/evidence_lib.py", line 89, in call
+    raise EvidenceError(f"{method}: {last}") from e
+evidence_lib.EvidenceError: eth_getLogs: HTTP 429

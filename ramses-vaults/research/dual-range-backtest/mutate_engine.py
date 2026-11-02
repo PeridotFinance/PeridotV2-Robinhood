@@ -6,7 +6,7 @@ HERE = Path(__file__).parent
 ENG = HERE / "engine.py"
 FEAS = HERE / "feasibility.py"
 CASES = [
-    ("protocol share ignored", "rate = fee_ppm / 1e6 * (1.0 - (proto if c.protocol_share is None else c.protocol_share))", "rate = fee_ppm / 1e6"),
+    ("protocol share ignored", "rate = fee_eff / 1e6 * (1.0 - (proto if c.protocol_share is None else c.protocol_share))", "rate = fee_eff / 1e6"),
     ("cooldown ignored", "ready = [n for n in due if t - self.layers[n].last >= c.cooldown]", "ready = list(due)"),
     ("stale feed not blocking", "if age > c.max_stale:", "if False:"),
     ("closed session not blocking", "if self.session_of(int(t)) in c.block_sessions:", "if False:"),
@@ -27,6 +27,8 @@ CASES = [
     ("reserve cut ignored", "kept = fee_raw * (1.0 - c.reserve_bps / 1e4)", "kept = fee_raw"),
     ("full range lower bound off by one (legacy)", "lo = -((-min_tick) // spacing) * spacing", "lo = (min_tick // spacing) * spacing + spacing"),
     ("full range upper bound off by one (legacy)", "hi = (max_tick // spacing) * spacing", "hi = (max_tick // spacing) * spacing - spacing"),
+    ("fee stress multiplier ignored", "fee_ppm * c.fee_mult", "fee_ppm"),
+    ("fixed fee ignored", "c.fee_fixed_ppm if c.fee_fixed_ppm is not None else", "fee_ppm if True else"),
     ("keeper polling ignored", "            if t - self._last_poll < c.poll_s:\n                return          # the keeper is not looking yet: no decision, no execution\n", "            if False:\n                return\n"),
     # --- feasibility.py ---
     ("F: min half-width not enforced", "if not (MIN_HALF_WIDTH_TICKS <= h <= MAX_HALF_WIDTH_TICKS):", "if not (h <= MAX_HALF_WIDTH_TICKS):", "feas"),

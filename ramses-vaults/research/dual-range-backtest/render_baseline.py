@@ -66,6 +66,23 @@ def main():
             x = pick(doc, run, "full")
             print(f"| {run} | ${x['fees_usd']:.2f} | ${x['lvr_usd']:.2f} | ${x['gas_usd']:.3f} | ${x['maintenance_gas_usd']:.2f} | ${x['fees_minus_lvr_minus_gas']:.2f} | "
                   f"${x['fees_minus_lvr_minus_gas_minus_maintenance_usd']:.2f} | {x['window_excess_after_all_costs_observed_maintenance_pct']:+.2f}% / {x['annualised_excess_after_all_costs_observed_maintenance_pct']:+.1f}%/yr |")
+        print("\n**Supplier returns versus protocol-paid operating costs (full window)**. In the contract the keeper wallet pays gas and the vault owes suppliers only their claims, so recenter gas and maintenance are operator/protocol costs, not deductions from supplier principal. Supplier view = the run with recenter gas added back; protocol view = reserve-cut inflow minus gas minus maintenance.\n")
+        print("| run | supplier return | hold | supplier excess vs hold (window / annualised) | reserve-cut inflow to the loss reserve | recenter gas (operator-paid) | maintenance (operator-paid, assumed) | protocol net (inflow - costs) |")
+        print("| --- | --- | --- | --- | --- | --- | --- | --- |")
+        for run in ("single600_trig300", "single600_trig300_poll300", "full_range"):
+            if run not in runs:
+                continue
+            x = pick(doc, run, "full")
+            print(f"| {run} | {x['supplier_return_pct']:+.2f}% | {x['hold_ret_pct']:+.2f}% | {x['supplier_excess_vs_hold_pct']:+.2f}% / {x['supplier_excess_vs_hold_apr_pct']:+.1f}%/yr | "
+                  f"${x['protocol_reserve_inflow_usd']:.2f} | ${x['gas_usd']:.3f} | ${x['maintenance_gas_usd']:.2f} | ${x['protocol_net_usd']:.2f} |")
+        if "fee_x2" in runs:
+            print("\n**Fee history and fee stress (full window; time-varying fee in force on every swap is the baseline; the stresses scale or replace it with volume unchanged, so they are upper-bound fee scenarios, not forecasts)**\n")
+            print("| run | fees to holders | supplier excess vs hold (window / annualised) | after all assumed costs incl. maintenance (window / annualised) |")
+            print("| --- | --- | --- | --- |")
+            for run, label in (("single600_trig300", "actual fee in force (baseline)"), ("fee_fixed150", "constant 150 ppm (listed / instantaneous)"), ("fee_x15", "fee x1.5"), ("fee_x2", "fee x2"), ("fee_x3", "fee x3")):
+                if run in runs:
+                    x = pick(doc, run, "full")
+                    print(f"| {label} | ${x['fees_usd']:.2f} | {x['supplier_excess_vs_hold_pct']:+.2f}% / {x['supplier_excess_vs_hold_apr_pct']:+.1f}%/yr | {x['window_excess_after_all_costs_pct']:+.2f}% / {x['annualised_excess_after_all_costs_pct']:+.1f}%/yr |")
         x = pick(doc, "single600_trig300", "full")
         print(f"\nExcess versus holding = fees to holders + inventory effect - recenter gas (baseline: ${x['fees_usd']:.2f} + ${x['inventory_effect_usd']:.2f} - ${x['gas_usd']:.3f}); "
               f"end state idle USDG ${x['final_idle_usdg']:.0f}, idle stock ${x['final_idle_stock_usd']:.0f}; RAM accrued {x['ram_tokens']:.1f} tokens, valued at zero.\n")

@@ -151,6 +151,8 @@ class Config:
     max_tick: int = 887272
     max_ranged_usd: float | None = None  # RangePolicy.maxRangedValueUsd: cap on the ranged position's oracle value (None = uncapped, legacy)
     poll_s: float = 0.0             # keeper polling interval: 0 = evaluate on every swap/oracle update (idealised, zero latency); >0 = at most once per interval
+    fee_mult: float = 1.0           # STRESS: scale the fee actually in force on every swap (volume and price path unchanged; no volume elasticity)
+    fee_fixed_ppm: float | None = None  # STRESS/COMPARISON: replace the time-varying fee by one constant (e.g. the listed fee)
     reserve_bps: int = 0            # vault reserveFeeBps: share of collected LP fees that goes to the loss reserve, not to holders
 
 
@@ -548,7 +550,8 @@ class Sim:
         if not layers:
             return
         c = self.cfg
-        rate = fee_ppm / 1e6 * (1.0 - (proto if c.protocol_share is None else c.protocol_share))
+        fee_eff = c.fee_fixed_ppm if c.fee_fixed_ppm is not None else fee_ppm * c.fee_mult
+        rate = fee_eff / 1e6 * (1.0 - (proto if c.protocol_share is None else c.protocol_share))
         pts = {lo_s, hi_s}
         for ly in layers:
             for e in (tick_sqrt(ly.lo), tick_sqrt(ly.hi)):

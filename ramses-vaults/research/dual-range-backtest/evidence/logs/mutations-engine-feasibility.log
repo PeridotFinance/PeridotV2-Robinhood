@@ -18,6 +18,8 @@ KILLED   ranged-value cap ignored
 KILLED   reserve cut ignored
 KILLED   full range lower bound off by one (legacy)
 KILLED   full range upper bound off by one (legacy)
+KILLED   fee stress multiplier ignored
+KILLED   fixed fee ignored
 KILLED   keeper polling ignored
 KILLED   F: min half-width not enforced
 KILLED   F: max half-width not enforced

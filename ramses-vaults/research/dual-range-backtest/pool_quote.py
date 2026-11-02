@@ -1,261 +1,191 @@
 """Read-only, pinned verification and execution-cost quotes for candidate Ramses CL pools (partner pool-selection request).
 
-For each pool this reads, at ONE recent block (the public RPC keeps ~9 minutes of state; the block number and hash are
-recorded): token0/token1, tickSpacing(), fee(), slot0 (price, tick, feeProtocol), liquidity() and every initialized tick in a
-window around the price. From that it computes, with exact constant-liquidity pool math (the same walk as
-test/fork/GroupDepth.t.sol), the USDG-denominated cost of buying and selling at several sizes (fee + price impact versus the
-pre-trade mid price) and the input needed to move the price 1, 2 and 5% each way. It also counts swap volume over the last
-~24h from Swap logs. These are LOCAL pool-math quotes at the pinned block, not router quotes, and they ignore other pools.
+For each pool this reads, at ONE recent block (the public RPC keeps ~9 minutes of state; block number, hash and native number are
+recorded): token0/token1, tickSpacing(), fee(), the full slot0 words, liquidity(), every tickBitmap word in the scanned range and every
+initialized tick's (liquidityGross, liquidityNet). **All of it is saved** to evidence/pools/inputs/<slug>.json so the quotes can be
+replayed offline later (the RPC cannot serve these historical state reads again):
 
-  python3 pool_quote.py            writes evidence/pools/pool-quotes.json
+  python3 quote_offline.py evidence/pools/inputs/<slug>.json      # recompute the quotes from the saved inputs, no network
+
+Scan modes: "full" reads the entire bitmap (MIN_TICK..MAX_TICK) so liquidity running out is a real capacity statement; "window" reads
+a range around the price (used for tick-spacing-1 pools whose full bitmap is ~7,000 words) and can only report scan_window_exhausted.
+The quote walk is quote_math.py (zero-liquidity gaps are crossed for free; four distinct end statuses); it is validated against the
+deployed pool on a fork by test/fork/PoolQuoteReplay.t.sol + replay_pool.py.
+
+  python3 pool_quote.py [name-substring ...]     writes inputs and merges into evidence/pools/pool-quotes.json
 """
 from __future__ import annotations
 
-import bisect
 import datetime as _dt
 import json
-import math
 import sys
+from concurrent.futures import ThreadPoolExecutor
 
-from common import *  # noqa: F401,F403  (rpc, T, words, sN, HERE, USDG)
+from common import *  # noqa: F401,F403  (Rpc, T, words, sN, HERE, USDG)
+import quote_math as QM
 
-Q96 = 2 ** 96
 USDG_ADDR = USDG.lower()
 SIZES_USD = [50, 250, 1_000, 5_000, 10_000, 50_000]
+WINDOW_TICKS = 5_000          # scan half-width for tick-spacing-1 pools
+BLOCKS_PER_DAY = 690_000       # ~8 blocks/s on the L2 header clock; only bounds the 24 h Swap-log scan
+INPUT_DIR = HERE / "evidence" / "pools" / "inputs"
+OUT = HERE / "evidence" / "pools" / "pool-quotes.json"
 
-# name -> (pool, window ticks each side). Candidates named in the partner feedback plus the existing GLD pool.
+# name -> (pool, spacing, scan mode). Candidates named in the partner feedback plus the existing GLD pool.
 POOLS = {
-    "SPY/USDG CL1": ("0x38453c115607463ac284820ce959831042f3df4e", 500),
-    "NVDA/USDG CL10": ("0xdac1904d823f7d6bcaaf431ceee40c934fed321b", 800),
-    "META/USDG CL50": ("0x960f79d8dfec7f2f0c1b24cdac6bb9df1371c6e2", 1200),
-    "GLD/USDG CL1": ("0x9896af2f6fed9939acc87637b973b6484e6619d8", 500),
-    "r33/USDG CL200": ("0xc276b9a27ab1e60e32b581db6a23bb1fab0fc30b", 1800),
+    "SPY/USDG CL1": ("0x38453c115607463ac284820ce959831042f3df4e", 1, "window"),
+    "NVDA/USDG CL10": ("0xdac1904d823f7d6bcaaf431ceee40c934fed321b", 10, "full"),
+    "META/USDG CL50": ("0x960f79d8dfec7f2f0c1b24cdac6bb9df1371c6e2", 50, "full"),
+    "GLD/USDG CL1": ("0x9896af2f6fed9939acc87637b973b6484e6619d8", 1, "window"),
+    "r33/USDG CL200": ("0xc276b9a27ab1e60e32b581db6a23bb1fab0fc30b", 200, "full"),
+    "r33/USDG CL500": ("0x9f301fa81ccdda903a3590e7b9abee12e035709e", 500, "full"),   # route comparison; fork-validated like the others
 }
-BLOCKS_PER_DAY = 690_000  # ~8 blocks/s on the L2 header clock (measured from two keeper blocks 5 s apart); only bounds the log scan
-
-
-def tick_sqrt(t):
-    return math.exp(t * math.log(1.0001) / 2.0)
+SLUG = lambda name: name.replace("/", "-").replace(" ", "_")
 
 
 def enc_int(x):
     return format(x % (1 << 256), "064x")
 
 
+def _rpc():
+    return Rpc(cache_dir=None, min_interval=0.3)
+
+
 def eth_call(r, to, sig, args="", block=None):
-    data = "0x" + T(sig)[2:10] + args
-    return r.call("eth_call", [{"to": to, "data": data}, hex(block)])
+    return r.call("eth_call", [{"to": to, "data": "0x" + T(sig)[2:10] + args}, hex(block)])
 
 
-def read_pool(r, pool, window, block):
+def read_inputs(pool: str, spacing: int, mode: str, block: int) -> dict:
+    r = _rpc()
     w = lambda res: words(res)
     t0 = "0x" + w(eth_call(r, pool, "token0()", block=block))[0].to_bytes(32, "big")[12:].hex()
     t1 = "0x" + w(eth_call(r, pool, "token1()", block=block))[0].to_bytes(32, "big")[12:].hex()
-    spacing = sN(w(eth_call(r, pool, "tickSpacing()", block=block))[0], 24)
+    sp = sN(w(eth_call(r, pool, "tickSpacing()", block=block))[0], 24)
+    assert sp == spacing, f"tickSpacing {sp} != expected {spacing}"
     fee = w(eth_call(r, pool, "fee()", block=block))[0]
     liq = w(eth_call(r, pool, "liquidity()", block=block))[0]
     s0 = w(eth_call(r, pool, "slot0()", block=block))
-    sqrtp, tick, fee_protocol = s0[0], sN(s0[1], 24), s0[5]
-    dec = {}
-    for tok in (t0, t1):
-        dec[tok] = w(eth_call(r, tok, "decimals()", block=block))[0]
-    lo_c = math.floor((tick - window) / spacing)
-    hi_c = math.floor((tick + window) / spacing)
-    ticks = []
-    for word in range(lo_c >> 8, (hi_c >> 8) + 1):
-        bm = w(eth_call(r, pool, "tickBitmap(int16)", enc_int(word), block=block))[0]
+    tick = sN(s0[1], 24)
+    dec0 = w(eth_call(r, t0, "decimals()", block=block))[0]
+    dec1 = w(eth_call(r, t1, "decimals()", block=block))[0]
+    if mode == "full":
+        from_tick, to_tick = QM.MIN_TICK, QM.MAX_TICK
+    else:
+        from_tick, to_tick = tick - WINDOW_TICKS, tick + WINDOW_TICKS
+    lo_c, hi_c = from_tick // sp, to_tick // sp          # floor division: compressed tick of the bound
+    word_lo, word_hi = lo_c >> 8, hi_c >> 8
+
+    def get_word(word):
+        rr = _rpc()
+        return word, w(eth_call(rr, pool, "tickBitmap(int16)", enc_int(word), block=block))[0]
+
+    with ThreadPoolExecutor(3) as ex:
+        bitmap = dict(ex.map(get_word, range(word_lo, word_hi + 1)))
+    tick_list = []
+    for word, bm in bitmap.items():
         for b in range(256):
             if (bm >> b) & 1:
                 c = word * 256 + b
                 if lo_c <= c <= hi_c:
-                    t = c * spacing
-                    res = w(eth_call(r, pool, "ticks(int24)", enc_int(t), block=block))
-                    ticks.append((t, sN(res[1], 128), res[0]))
-    ticks.sort()
-    return dict(token0=t0, token1=t1, dec0=dec[t0], dec1=dec[t1], spacing=spacing, fee_ppm=fee, liquidity=liq, sqrtp=sqrtp, tick=tick,
-                fee_protocol_slot0=fee_protocol, ticks=ticks, window=window)
+                    tick_list.append(c * sp)
+
+    def get_tick(t):
+        rr = _rpc()
+        res = w(eth_call(rr, pool, "ticks(int24)", enc_int(t), block=block))
+        return t, (res[0], sN(res[1], 128))
+
+    with ThreadPoolExecutor(3) as ex:
+        tick_data = dict(ex.map(get_tick, tick_list))
+    b = r.call("eth_getBlockByNumber", [hex(block), False])
+    return {"schema": "ramses-pool-inputs-1", "pool": pool, "pin": {"l2Block": block, "hash": b["hash"], "timestamp": int(b["timestamp"], 16), "native": int(b["l1BlockNumber"], 16)},
+            "token0": t0, "token1": t1, "dec0": dec0, "dec1": dec1, "tickSpacing": sp, "fee_ppm": fee,
+            "slot0": {"sqrtPriceX96": str(s0[0]), "tick": tick, "rawWords": [str(x) for x in s0], "feeProtocol": s0[5]},
+            "liquidity": str(liq),
+            "scan": {"mode": mode, "fromTick": from_tick, "toTick": to_tick, "wordLo": word_lo, "wordHi": word_hi},
+            "bitmap": {str(k): hex(v) for k, v in sorted(bitmap.items()) if v},
+            "ticks": {str(t): {"liquidityGross": str(g), "liquidityNet": str(n)} for t, (g, n) in sorted(tick_data.items())}}
 
 
-def swap(st, gross, zero_for_one):
-    """Constant-liquidity walk across the initialized ticks. Returns (out_raw, final_sqrt, exhausted). ``gross`` is the raw input
-    including the fee. Beyond the scanned window liquidity is unknown: the walk stops there and reports ``exhausted``."""
-    s = st["sqrtp"] / Q96
-    L = float(st["liquidity"])
-    fee = st["fee_ppm"] / 1e6
-    ticks = st["ticks"]
-    tick = st["tick"]
-    rem = float(gross)
-    out = 0.0
-    if zero_for_one:
-        bounds = [(t, n) for t, n, _ in ticks if t <= tick][::-1]
-        edge = tick_sqrt(tick - st["window"])
-    else:
-        bounds = [(t, n) for t, n, _ in ticks if t > tick]
-        edge = tick_sqrt(tick + st["window"])
-    i = 0
-    while rem > 0:
-        if i < len(bounds):
-            st_next, net_l = tick_sqrt(bounds[i][0]), bounds[i][1]
-            crossing = True
-        else:
-            st_next, net_l, crossing = edge, 0, False
-        if zero_for_one:
-            if L <= 0:
-                return out, s, True
-            need_net = L * (1.0 / st_next - 1.0 / s)
-        else:
-            if L <= 0:
-                return out, s, True
-            need_net = L * (st_next - s)
-        need_gross = need_net / (1.0 - fee)
-        if rem <= need_gross:
-            net = rem * (1.0 - fee)
-            if zero_for_one:
-                s_new = 1.0 / (1.0 / s + net / L)
-                out += L * (s - s_new)
-            else:
-                s_new = s + net / L
-                out += L * (1.0 / s - 1.0 / s_new)
-            return out, s_new, False
-        if zero_for_one:
-            out += L * (s - st_next)
-        else:
-            out += L * (1.0 / s - 1.0 / st_next)
-        rem -= need_gross
-        s = st_next
-        if not crossing:
-            return out, s, True
-        L = L - net_l if zero_for_one else L + net_l
-        i += 1
-    return out, s, False
-
-
-def usdg_per_stock(st):
-    r = (st["sqrtp"] / Q96) ** 2
-    usdg0 = st["token0"] == USDG_ADDR
-    d_stock = st["dec1"] if usdg0 else st["dec0"]
-    return (10 ** d_stock) / (r * 1e6) if usdg0 else r * (10 ** d_stock) / 1e6
-
-
-def costs(st):
-    usdg0 = st["token0"] == USDG_ADDR
-    p = usdg_per_stock(st)
-    d_stock = st["dec1"] if usdg0 else st["dec0"]
-    rows = []
-    for size in SIZES_USD:
-        # BUY stock with `size` USDG
-        gross = size * 1e6
-        out, s_end, ex_b = swap(st, gross, zero_for_one=usdg0)
-        q = out / 10 ** d_stock
-        buy = None if ex_b else (1 - q * p / size) * 1e4
-        # SELL stock worth `size` at mid
-        q_in = size / p * 10 ** d_stock
-        out2, s_end2, ex_s = swap(st, q_in, zero_for_one=not usdg0)
-        sell = None if ex_s else (1 - (out2 / 1e6) / size) * 1e4
-        rows.append({"sizeUsd": size, "buyCostBps": buy, "sellCostBps": sell, "buyExhaustedWindow": ex_b, "sellExhaustedWindow": ex_s,
-                     "roundTripBps": (buy + sell) if buy is not None and sell is not None else None,
-                     "feeOnlyBps": st["fee_ppm"] / 100.0})
-    return rows
-
-
-def walk_to(st, target, zero_for_one):
-    """Gross raw input (including fee) that moves the pool's sqrt price to ``target``; None if the scanned window runs out first."""
-    s = st["sqrtp"] / Q96
-    L = float(st["liquidity"])
-    fee = st["fee_ppm"] / 1e6
-    tick = st["tick"]
-    if zero_for_one:
-        bounds = [(t, n) for t, n, _ in st["ticks"] if t <= tick][::-1]
-        edge = tick_sqrt(tick - st["window"])
-    else:
-        bounds = [(t, n) for t, n, _ in st["ticks"] if t > tick]
-        edge = tick_sqrt(tick + st["window"])
-    total_net, i = 0.0, 0
-    while True:
-        crossing = i < len(bounds)
-        nxt = tick_sqrt(bounds[i][0]) if crossing else edge
-        if zero_for_one:
-            stop = max(nxt, target)
-            if L <= 0:
-                return None
-            total_net += L * (1.0 / stop - 1.0 / s)
-        else:
-            stop = min(nxt, target)
-            if L <= 0:
-                return None
-            total_net += L * (stop - s)
-        s = stop
-        if stop == target:
-            return total_net / (1.0 - fee)
-        if not crossing:
-            return None
-        net_l = bounds[i][1]
-        L = L - net_l if zero_for_one else L + net_l
-        i += 1
-
-
-def depth(st):
-    usdg0 = st["token0"] == USDG_ADDR
-    p = usdg_per_stock(st)
-    d_stock = st["dec1"] if usdg0 else st["dec0"]
-    s0 = st["sqrtp"] / Q96
-    res = []
-    for direction in ("price_up_buy_stock", "price_down_sell_stock"):
-        up = direction == "price_up_buy_stock"
-        zfo = usdg0 if up else (not usdg0)           # USDG token0: stock price up <=> sqrt price down <=> token0 (USDG) in
-        for pct in (1.0, 2.0, 5.0):
-            f = math.sqrt(1 + pct / 100.0) if up else math.sqrt(1 - pct / 100.0)
-            target = s0 / f if usdg0 else s0 * f
-            gross = walk_to(st, target, zfo)
-            if gross is None:
-                res.append({"direction": direction, "movePct": pct, "inputUsd": None, "note": "target not reached inside the scanned window"})
-                continue
-            in_is_usdg = (zfo == usdg0)               # input token is token0 when zfo; token0 is USDG iff usdg0
-            usd = gross / 1e6 if in_is_usdg else gross / 10 ** d_stock * p
-            res.append({"direction": direction, "movePct": pct, "inputUsd": usd})
-    return res
-
-
-def volume_24h(r, pool, st, head):
+def volume_24h(r, pool, inputs, head):
     sig = "Swap(address,address,int256,int256,uint160,uint128,int24)"
     logs = r.logs(pool, [T(sig)], head - BLOCKS_PER_DAY, head, head - 200)
-    usdg0 = st["token0"] == USDG_ADDR
-    vol = 0.0
-    n = 0
+    usdg0 = inputs["token0"] == USDG_ADDR
+    vol, n = 0.0, 0
     for l in logs:
-        w = words(l["data"])
-        a = sN(w[0] if usdg0 else w[1], 256)
-        vol += abs(a) / 1e6
+        wd = words(l["data"])
+        vol += abs(sN(wd[0] if usdg0 else wd[1], 256)) / 1e6
         n += 1
     return {"swaps": n, "usdgVolume": vol, "fromBlock": head - BLOCKS_PER_DAY, "toBlock": head}
 
 
-def main():
+def record_from_inputs(name: str, inputs: dict, vol=None) -> dict:
+    q = QM.quote_all(inputs, USDG_ADDR, SIZES_USD)
+    st = QM.make_state(inputs)
+    # total executable capacity: the most the pool can pay out for an unbounded input (the pool keeps filling at collapsing prices)
+    import copy as _c
+    usdg0 = st["token0"].lower() == USDG_ADDR
+    d_stock = st["dec1"] if usdg0 else st["dec0"]
+    sell = QM.swap(_c.deepcopy(st), 1e40, not usdg0)
+    buy = QM.swap(_c.deepcopy(st), 1e40, usdg0)
+    capacity = {"maxUsdgFromSelling": sell["out"] / 1e6, "sellStatus": sell["status"],
+                "maxStockUsdFromBuyingAtMid": buy["out"] / 10 ** d_stock * QM.usdg_per_stock(st, USDG_ADDR), "buyStatus": buy["status"]}
+    rec = {"executableCapacity": capacity, "pool": inputs["pool"], "pinL2Block": inputs["pin"]["l2Block"], "pinHash": inputs["pin"]["hash"], "pinTimestamp": inputs["pin"]["timestamp"],
+           "pinNative": inputs["pin"]["native"], "inputsFile": f"inputs/{SLUG(name)}.json", "token0": inputs["token0"], "token1": inputs["token1"],
+           "dec0": inputs["dec0"], "dec1": inputs["dec1"], "tickSpacing": inputs["tickSpacing"], "fee_ppm": inputs["fee_ppm"],
+           "slot0FeeProtocolRaw": inputs["slot0"]["feeProtocol"], "liquidity": int(inputs["liquidity"]), "tick": inputs["slot0"]["tick"],
+           "usdgPerStock": QM.usdg_per_stock(st, USDG_ADDR), "initializedTicksScanned": len(inputs["ticks"]), "scan": inputs["scan"],
+           "quoteLimitPct": q["limitPct"], "quotes": q["rows"], "depth": QM.depth(inputs, USDG_ADDR)}
+    if vol is not None:
+        rec["volume24h"] = vol
+    return rec
+
+
+def from_inputs():
+    """Rebuild pool-quotes.json from the SAVED inputs (the same files the fork replay used), adding the 24 h volume from logs at each pin."""
     r = rpc()
-    out = {"schema": "ramses-pool-quotes-1", "readOnly": True, "generated": _dt.datetime.now(_dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-           "command": "python3 " + " ".join(sys.argv), "method": "local constant-liquidity pool math at one pinned block per pool; not router quotes",
+    doc = {"schema": "ramses-pool-quotes-2", "readOnly": True, "generated": _dt.datetime.now(_dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+           "method": "offline quote_math.py over saved pinned inputs (evidence/pools/inputs); one block per pool; not router quotes; independent one-way quotes plus a sequential "
+                     "round trip (buy then sell in the evolving pool state, so impact is returned: it measures reversal cost, NOT the cost of exiting a position); statuses distinguish "
+                     "filled / price_limit_rejection / capacity_exhausted / scan_window_exhausted",
            "sizesUsd": SIZES_USD, "pools": {}}
+    for name in POOLS:
+        f = INPUT_DIR / f"{SLUG(name)}.json"
+        inputs = json.loads(f.read_text())
+        prev = (json.loads(OUT.read_text()).get("pools", {}).get(name, {}) if OUT.exists() else {})
+        vol = prev["volume24h"] if prev.get("pinL2Block") == inputs["pin"]["l2Block"] and "volume24h" in prev else volume_24h(r, inputs["pool"], inputs, inputs["pin"]["l2Block"])
+        doc["pools"][name] = record_from_inputs(name, inputs, vol)
+        print("rebuilt", name, "pin", inputs["pin"]["l2Block"], flush=True)
+    OUT.write_text(json.dumps(doc, indent=1))
+
+
+def main():
+    if "--from-inputs" in sys.argv:
+        return from_inputs()
     only = sys.argv[1:]
-    for name, (addr, window) in POOLS.items():
+    r = rpc()
+    doc = json.loads(OUT.read_text()) if OUT.exists() else {}
+    doc.update({"schema": "ramses-pool-quotes-2", "readOnly": True, "generated": _dt.datetime.now(_dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+                "method": "offline quote_math.py over saved pinned inputs (evidence/pools/inputs); one block per pool; not router quotes; independent one-way quotes plus a sequential "
+                          "round trip (buy then sell in the evolving pool state); statuses distinguish filled / price_limit_rejection / capacity_exhausted / scan_window_exhausted",
+                "sizesUsd": SIZES_USD})
+    doc.setdefault("pools", {})
+    INPUT_DIR.mkdir(parents=True, exist_ok=True)
+    for name, (addr, spacing, mode) in POOLS.items():
         if only and not any(o in name for o in only):
             continue
         head = r.head()
         block = head - 5
-        b = r.call("eth_getBlockByNumber", [hex(block), False])
-        st = read_pool(r, addr, window, block)
-        vol = volume_24h(r, addr, st, block)
-        rec = {"pool": addr, "pinL2Block": block, "pinHash": b["hash"], "pinTimestamp": int(b["timestamp"], 16), "pinNative": int(b["l1BlockNumber"], 16),
-               "token0": st["token0"], "token1": st["token1"], "dec0": st["dec0"], "dec1": st["dec1"], "tickSpacing": st["spacing"], "fee_ppm": st["fee_ppm"],
-               "slot0FeeProtocolRaw": st["fee_protocol_slot0"], "liquidity": st["liquidity"], "tick": st["tick"], "usdgPerStock": usdg_per_stock(st),
-               "initializedTicksInWindow": len(st["ticks"]), "windowTicks": window, "volume24h": vol, "costs": costs(st), "depth": depth(st)}
-        out["pools"][name] = rec
-        print(name, "block", block, "spacing", st["spacing"], "fee", st["fee_ppm"], "ticks", len(st["ticks"]), "vol24h", round(vol["usdgVolume"]), flush=True)
-        for c in rec["costs"]:
-            print("   $%-6d buy %s sell %s" % (c["sizeUsd"], None if c["buyCostBps"] is None else round(c["buyCostBps"], 1), None if c["sellCostBps"] is None else round(c["sellCostBps"], 1)), flush=True)
-    path = HERE / "evidence" / "pools" / "pool-quotes.json"
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(out, indent=1))
-    print("wrote", path)
+        inputs = read_inputs(addr, spacing, mode, block)
+        (INPUT_DIR / f"{SLUG(name)}.json").write_text(json.dumps(inputs, indent=1))
+        vol = volume_24h(r, addr, inputs, block)
+        rec = record_from_inputs(name, inputs, vol)
+        doc["pools"][name] = rec
+        print(name, "block", block, "spacing", spacing, mode, "fee", inputs["fee_ppm"], "ticks", len(inputs["ticks"]), "vol24h", round(vol["usdgVolume"]), flush=True)
+        for row in rec["quotes"]:
+            f = lambda x: x["status"] if x["costBps"] is None else f"{x['costBps']:.1f}"
+            print("   $%-6d buy %-22s sell %-22s seqRT %s" % (row["sizeUsd"], f(row["buy"]), f(row["sell"]), f(row["sequentialRoundTrip"])), flush=True)
+        OUT.write_text(json.dumps(doc, indent=1))
+    print("wrote", OUT)
 
 
 if __name__ == "__main__":

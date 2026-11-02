@@ -1,9 +1,8 @@
 {
- "schema": "ramses-pool-quotes-1",
+ "schema": "ramses-pool-quotes-2",
  "readOnly": true,
- "generated": "2026-11-02T12:40:16Z",
- "command": "python3 pool_quote.py",
- "method": "local constant-liquidity pool math at one pinned block per pool; not router quotes",
+ "generated": "2026-11-02T14:46:39Z",
+ "method": "offline quote_math.py over saved pinned inputs (evidence/pools/inputs); one block per pool; not router quotes; independent one-way quotes plus a sequential round trip (buy then sell in the evolving pool state, so impact is returned: it measures reversal cost, NOT the cost of exiting a position); statuses distinguish filled / price_limit_rejection / capacity_exhausted / scan_window_exhausted",
  "sizesUsd": [
   50,
   250,
@@ -14,11 +13,18 @@
  ],
  "pools": {
   "SPY/USDG CL1": {
+   "executableCapacity": {
+    "maxUsdgFromSelling": 93433.61950810607,
+    "sellStatus": "scan_window_exhausted",
+    "maxStockUsdFromBuyingAtMid": 142549.97089100388,
+    "buyStatus": "scan_window_exhausted"
+   },
    "pool": "0x38453c115607463ac284820ce959831042f3df4e",
-   "pinL2Block": 104222297,
-   "pinHash": "0x6f115c167c5e45a5859ee564b504c9356a1974d05e936897ac1d443a18c56b38",
-   "pinTimestamp": 1793623215,
-   "pinNative": 26327156,
+   "pinL2Block": 104270659,
+   "pinHash": "0x2acd5b71a1f6396d1e49a386f92ef299550f20d69e9936d977ef64eaf2663aef",
+   "pinTimestamp": 1793628143,
+   "pinNative": 26327564,
+   "inputsFile": "inputs/SPY-USDG_CL1.json",
    "token0": "0x117cc2133c37b721f49de2a7a74833232b3b4c0c",
    "token1": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
    "dec0": 18,
@@ -26,113 +32,330 @@
    "tickSpacing": 1,
    "fee_ppm": 100,
    "slot0FeeProtocolRaw": 500000,
-   "liquidity": 373145833817211326,
-   "tick": -209991,
-   "usdgPerStock": 759.7410306229399,
-   "initializedTicksInWindow": 73,
-   "windowTicks": 500,
-   "volume24h": {
-    "swaps": 2003,
-    "usdgVolume": 960781.8338299997,
-    "fromBlock": 103532297,
-    "toBlock": 104222297
+   "liquidity": 373148983250930001,
+   "tick": -209976,
+   "usdgPerStock": 760.8818896851235,
+   "initializedTicksScanned": 90,
+   "scan": {
+    "mode": "window",
+    "fromTick": -214976,
+    "toTick": -204976,
+    "wordLo": -840,
+    "wordHi": -801
    },
-   "costs": [
+   "quoteLimitPct": 10.0,
+   "quotes": [
     {
      "sizeUsd": 50,
-     "buyCostBps": 1.0486040194024326,
-     "sellCostBps": 1.0486038958801291,
-     "buyExhaustedWindow": false,
-     "sellExhaustedWindow": false,
-     "roundTripBps": 2.097207915282562,
-     "feeOnlyBps": 1.0
+     "buyRawIn": 50000000,
+     "sellRawIn": 65713221299946504,
+     "buy": {
+      "status": "filled",
+      "costBps": 1.0485669231441452,
+      "filledFraction": 1.0,
+      "out": 6.5706330828919656e+16,
+      "consumed": 50000000.0,
+      "sqrtAfter": 2.7584221598750982e-05
+     },
+     "buyLimited": {
+      "status": "filled",
+      "costBps": 1.0485669231441452,
+      "filledFraction": 1.0,
+      "out": 6.5706330828919656e+16,
+      "consumed": 50000000.0,
+      "sqrtAfter": 2.7584221598750982e-05
+     },
+     "sell": {
+      "status": "filled",
+      "costBps": 1.0485666887960488,
+      "filledFraction": 1.0,
+      "out": 49994757.16655602,
+      "consumed": 6.5713221299946504e+16,
+      "sqrtAfter": 2.7583953636726014e-05
+     },
+     "sellLimited": {
+      "status": "filled",
+      "costBps": 1.0485666887960488,
+      "filledFraction": 1.0,
+      "out": 49994757.16655602,
+      "consumed": 6.5713221299946504e+16,
+      "sqrtAfter": 2.7583953636726014e-05
+     },
+     "sequentialRoundTrip": {
+      "status": "filled",
+      "costBps": 1.9998948701660524
+     },
+     "sumOfIndependentOneWayQuotesBps": 2.097133611940194
     },
     {
      "sizeUsd": 250,
-     "buyCostBps": 1.243013957814565,
-     "sellCostBps": 1.2430139643404559,
-     "buyExhaustedWindow": false,
-     "sellExhaustedWindow": false,
-     "roundTripBps": 2.4860279221550208,
-     "feeOnlyBps": 1.0
+     "buyRawIn": 250000000,
+     "sellRawIn": 328566106499732480,
+     "buy": {
+      "status": "filled",
+      "costBps": 1.242829678513857,
+      "filledFraction": 1.0,
+      "out": 3.2852527132888134e+17,
+      "consumed": 250000000.0,
+      "sqrtAfter": 2.7584757524102452e-05
+     },
+     "buyLimited": {
+      "status": "filled",
+      "costBps": 1.242829678513857,
+      "filledFraction": 1.0,
+      "out": 3.2852527132888134e+17,
+      "consumed": 250000000.0,
+      "sqrtAfter": 2.7584757524102452e-05
+     },
+     "sell": {
+      "status": "filled",
+      "costBps": 1.2428296178923492,
+      "filledFraction": 1.0,
+      "out": 249968929.2595527,
+      "consumed": 3.285661064997325e+17,
+      "sqrtAfter": 2.758341772699272e-05
+     },
+     "sellLimited": {
+      "status": "filled",
+      "costBps": 1.2428296178923492,
+      "filledFraction": 1.0,
+      "out": 249968929.2595527,
+      "consumed": 3.285661064997325e+17,
+      "sqrtAfter": 2.758341772699272e-05
+     },
+     "sequentialRoundTrip": {
+      "status": "filled",
+      "costBps": 1.9998757037098525
+     },
+     "sumOfIndependentOneWayQuotesBps": 2.4856592964062063
     },
     {
      "sizeUsd": 1000,
-     "buyCostBps": 1.9719849319532745,
-     "sellCostBps": 1.9719849424715274,
-     "buyExhaustedWindow": false,
-     "sellExhaustedWindow": false,
-     "roundTripBps": 3.943969874424802,
-     "feeOnlyBps": 1.0
+     "buyRawIn": 1000000000,
+     "sellRawIn": 1314264425998929920,
+     "buy": {
+      "status": "filled",
+      "costBps": 1.971247831117351,
+      "filledFraction": 1.0,
+      "out": 1.3140053519090035e+18,
+      "consumed": 1000000000.0,
+      "sqrtAfter": 2.7586767244170472e-05
+     },
+     "buyLimited": {
+      "status": "filled",
+      "costBps": 1.971247831117351,
+      "filledFraction": 1.0,
+      "out": 1.3140053519090035e+18,
+      "consumed": 1000000000.0,
+      "sqrtAfter": 2.7586767244170472e-05
+     },
+     "sell": {
+      "status": "filled",
+      "costBps": 1.9712478240696552,
+      "filledFraction": 1.0,
+      "out": 999802875.2175931,
+      "consumed": 1.31426442599893e+18,
+      "sqrtAfter": 2.758140825093995e-05
+     },
+     "sellLimited": {
+      "status": "filled",
+      "costBps": 1.9712478240696552,
+      "filledFraction": 1.0,
+      "out": 999802875.2175931,
+      "consumed": 1.31426442599893e+18,
+      "sqrtAfter": 2.758140825093995e-05
+     },
+     "sequentialRoundTrip": {
+      "status": "filled",
+      "costBps": 1.9998028813017488
+     },
+     "sumOfIndependentOneWayQuotesBps": 3.942495655187006
     },
     {
      "sizeUsd": 5000,
-     "buyCostBps": 4.450878718340601,
-     "sellCostBps": 5.858035669172867,
-     "buyExhaustedWindow": false,
-     "sellExhaustedWindow": false,
-     "roundTripBps": 10.308914387513468,
-     "feeOnlyBps": 1.0
+     "buyRawIn": 5000000000,
+     "sellRawIn": 6571322129994649600,
+     "buy": {
+      "status": "filled",
+      "costBps": 5.871156804331257,
+      "filledFraction": 1.0,
+      "out": 6.567464003730952e+18,
+      "consumed": 5000000000.0,
+      "sqrtAfter": 2.759756200261429e-05
+     },
+     "buyLimited": {
+      "status": "filled",
+      "costBps": 5.871156804331257,
+      "filledFraction": 1.0,
+      "out": 6.567464003730952e+18,
+      "consumed": 5000000000.0,
+      "sqrtAfter": 2.759756200261429e-05
+     },
+     "sell": {
+      "status": "filled",
+      "costBps": 3.9995779339441206,
+      "filledFraction": 1.0,
+      "out": 4998000211.033028,
+      "consumed": 6.57132212999465e+18,
+      "sqrtAfter": 2.7578180561703345e-05
+     },
+     "sellLimited": {
+      "status": "filled",
+      "costBps": 3.9995779339441206,
+      "filledFraction": 1.0,
+      "out": 4998000211.033028,
+      "consumed": 6.57132212999465e+18,
+      "sqrtAfter": 2.7578180561703345e-05
+     },
+     "sequentialRoundTrip": {
+      "status": "filled",
+      "costBps": 1.999412932025546
+     },
+     "sumOfIndependentOneWayQuotesBps": 9.870734738275377
     },
     {
      "sizeUsd": 10000,
-     "buyCostBps": 5.662036754150446,
-     "sellCostBps": 10.77848614356336,
-     "buyExhaustedWindow": false,
-     "sellExhaustedWindow": false,
-     "roundTripBps": 16.440522897713805,
-     "feeOnlyBps": 1.0
+     "buyRawIn": 10000000000,
+     "sellRawIn": 13142644259989299200,
+     "buy": {
+      "status": "filled",
+      "costBps": 10.848838905230807,
+      "filledFraction": 1.0,
+      "out": 1.3128386016952762e+19,
+      "consumed": 10000000000.0,
+      "sqrtAfter": 2.7612100610921974e-05
+     },
+     "buyLimited": {
+      "status": "filled",
+      "costBps": 10.848838905230807,
+      "filledFraction": 1.0,
+      "out": 1.3128386016952762e+19,
+      "consumed": 10000000000.0,
+      "sqrtAfter": 2.7612100610921974e-05
+     },
+     "sell": {
+      "status": "filled",
+      "costBps": 5.083458970207566,
+      "filledFraction": 1.0,
+      "out": 9994916541.029793,
+      "consumed": 1.31426442599893e+19,
+      "sqrtAfter": 2.757573782362744e-05
+     },
+     "sellLimited": {
+      "status": "filled",
+      "costBps": 5.083458970207566,
+      "filledFraction": 1.0,
+      "out": 9994916541.029793,
+      "consumed": 1.31426442599893e+19,
+      "sqrtAfter": 2.757573782362744e-05
+     },
+     "sequentialRoundTrip": {
+      "status": "filled",
+      "costBps": 1.9989152136767885
+     },
+     "sumOfIndependentOneWayQuotesBps": 15.932297875438373
     },
     {
      "sizeUsd": 50000,
-     "buyCostBps": 24.14268897548366,
-     "sellCostBps": 77.61956219760945,
-     "buyExhaustedWindow": false,
-     "sellExhaustedWindow": false,
-     "roundTripBps": 101.76225117309312,
-     "feeOnlyBps": 1.0
+     "buyRawIn": 50000000000,
+     "sellRawIn": 65713221299946496000,
+     "buy": {
+      "status": "filled",
+      "costBps": 52.59484309111828,
+      "filledFraction": 0.9999999999999997,
+      "out": 6.536760364361824e+19,
+      "consumed": 49999999999.999985,
+      "sqrtAfter": 2.7716085735706637e-05
+     },
+     "buyLimited": {
+      "status": "filled",
+      "costBps": 52.59484309111828,
+      "filledFraction": 0.9999999999999997,
+      "out": 6.536760364361824e+19,
+      "consumed": 49999999999.999985,
+      "sqrtAfter": 2.7716085735706637e-05
+     },
+     "sell": {
+      "status": "filled",
+      "costBps": 24.817227396418673,
+      "filledFraction": 1.0,
+      "out": 49875913863.01791,
+      "consumed": 6.57132212999465e+19,
+      "sqrtAfter": 2.7477655848888064e-05
+     },
+     "sellLimited": {
+      "status": "filled",
+      "costBps": 24.817227396418673,
+      "filledFraction": 1.0,
+      "out": 49875913863.01791,
+      "consumed": 6.57132212999465e+19,
+      "sqrtAfter": 2.7477655848888064e-05
+     },
+     "sequentialRoundTrip": {
+      "status": "filled",
+      "costBps": 1.9947409966003526
+     },
+     "sumOfIndependentOneWayQuotesBps": 77.41207048753695
     }
    ],
    "depth": [
     {
      "direction": "price_up_buy_stock",
      "movePct": 1.0,
-     "inputUsd": 68431.06148689345
+     "inputUsd": 52833.92826029328,
+     "status": "filled"
     },
     {
      "direction": "price_up_buy_stock",
      "movePct": 2.0,
-     "inputUsd": 113897.72384431672
+     "inputUsd": 92689.41859663361,
+     "status": "filled"
     },
     {
      "direction": "price_up_buy_stock",
      "movePct": 5.0,
-     "inputUsd": 163787.3046976738
+     "inputUsd": 138183.08622922862,
+     "status": "filled"
     },
     {
      "direction": "price_down_sell_stock",
      "movePct": 1.0,
-     "inputUsd": 32454.003913562636
+     "inputUsd": 55444.44092026401,
+     "status": "filled"
     },
     {
      "direction": "price_down_sell_stock",
      "movePct": 2.0,
-     "inputUsd": 52329.92056551686
+     "inputUsd": 75990.43234625246,
+     "status": "filled"
     },
     {
      "direction": "price_down_sell_stock",
      "movePct": 5.0,
-     "inputUsd": null,
-     "note": "target not reached inside the scanned window"
+     "inputUsd": 92651.95618349916,
+     "status": "filled"
     }
-   ]
+   ],
+   "volume24h": {
+    "swaps": 2187,
+    "usdgVolume": 1047913.8375359998,
+    "fromBlock": 103580659,
+    "toBlock": 104270659
+   }
   },
   "NVDA/USDG CL10": {
+   "executableCapacity": {
+    "maxUsdgFromSelling": 20646.403946652666,
+    "sellStatus": "capacity_exhausted",
+    "maxStockUsdFromBuyingAtMid": 66571.46037736545,
+    "buyStatus": "capacity_exhausted"
+   },
    "pool": "0xdac1904d823f7d6bcaaf431ceee40c934fed321b",
-   "pinL2Block": 104222574,
-   "pinHash": "0x469f87d92e7edfd22e878619b30b1283841fad4d2bf246157f5130edb2be8d17",
-   "pinTimestamp": 1793623242,
-   "pinNative": 26327159,
+   "pinL2Block": 104267064,
+   "pinHash": "0x8ace7e558b59060e5d6db1f3196ae8efc4ef74cfacf2b7ccf0adf0d371a317fe",
+   "pinTimestamp": 1793627779,
+   "pinNative": 26327533,
+   "inputsFile": "inputs/NVDA-USDG_CL10.json",
    "token0": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
    "token1": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
    "dec0": 6,
@@ -141,111 +364,329 @@
    "fee_ppm": 100,
    "slot0FeeProtocolRaw": 500000,
    "liquidity": 50348504949926366,
-   "tick": 223007,
-   "usdgPerStock": 206.72440517004992,
-   "initializedTicksInWindow": 21,
-   "windowTicks": 800,
-   "volume24h": {
-    "swaps": 1249,
-    "usdgVolume": 102770.13328700009,
-    "fromBlock": 103532574,
-    "toBlock": 104222574
+   "tick": 222975,
+   "usdgPerStock": 207.38549269876296,
+   "initializedTicksScanned": 49,
+   "scan": {
+    "mode": "full",
+    "fromTick": -887272,
+    "toTick": 887272,
+    "wordLo": -347,
+    "wordHi": 346
    },
-   "costs": [
+   "quoteLimitPct": 10.0,
+   "quotes": [
     {
      "sizeUsd": 50,
-     "buyCostBps": 1.6905111602549816,
-     "sellCostBps": 1.690511134136985,
-     "buyExhaustedWindow": false,
-     "sellExhaustedWindow": false,
-     "roundTripBps": 3.3810222943919666,
-     "feeOnlyBps": 1.0
+     "buyRawIn": 50000000,
+     "sellRawIn": 241096902918987264,
+     "buy": {
+      "status": "filled",
+      "costBps": 1.6894097830288946,
+      "filledFraction": 1.0,
+      "out": 2.4105617177234234e+17,
+      "consumed": 50000000.0,
+      "sqrtAfter": 69435.38835905425
+     },
+     "buyLimited": {
+      "status": "filled",
+      "costBps": 1.6894097830288946,
+      "filledFraction": 1.0,
+      "out": 2.4105617177234234e+17,
+      "consumed": 50000000.0,
+      "sqrtAfter": 69435.38835905425
+     },
+     "sell": {
+      "status": "filled",
+      "costBps": 1.6894097879582848,
+      "filledFraction": 1.0,
+      "out": 49991552.951060206,
+      "consumed": 2.4109690291898726e+17,
+      "sqrtAfter": 69444.96419383783
+     },
+     "sellLimited": {
+      "status": "filled",
+      "costBps": 1.6894097879582848,
+      "filledFraction": 1.0,
+      "out": 49991552.951060206,
+      "consumed": 2.4109690291898726e+17,
+      "sqrtAfter": 69444.96419383783
+     },
+     "sequentialRoundTrip": {
+      "status": "filled",
+      "costBps": 1.9998310712865397
+     },
+     "sumOfIndependentOneWayQuotesBps": 3.3788195709871793
     },
     {
      "sizeUsd": 250,
-     "buyCostBps": 4.451602290805878,
-     "sellCostBps": 4.451602289574641,
-     "buyExhaustedWindow": false,
-     "sellExhaustedWindow": false,
-     "roundTripBps": 8.90320458038052,
-     "feeOnlyBps": 1.0
+     "buyRawIn": 250000000,
+     "sellRawIn": 1205484514594936320,
+     "buy": {
+      "status": "filled",
+      "costBps": 4.445881332140189,
+      "filledFraction": 1.0,
+      "out": 1.2049485704849743e+18,
+      "consumed": 250000000.0,
+      "sqrtAfter": 69416.25177424897
+     },
+     "buyLimited": {
+      "status": "filled",
+      "costBps": 4.445881332140189,
+      "filledFraction": 1.0,
+      "out": 1.2049485704849743e+18,
+      "consumed": 250000000.0,
+      "sqrtAfter": 69416.25177424897
+     },
+     "sell": {
+      "status": "filled",
+      "costBps": 4.446098424545353,
+      "filledFraction": 1.0,
+      "out": 249888847.53938636,
+      "consumed": 1.2054845145949363e+18,
+      "sqrtAfter": 69464.11652366121
+     },
+     "sellLimited": {
+      "status": "filled",
+      "costBps": 4.446098424545353,
+      "filledFraction": 1.0,
+      "out": 249888847.53938636,
+      "consumed": 1.2054845145949363e+18,
+      "sqrtAfter": 69464.11652366121
+     },
+     "sequentialRoundTrip": {
+      "status": "filled",
+      "costBps": 1.9995554498053458
+     },
+     "sumOfIndependentOneWayQuotesBps": 8.891979756685542
     },
     {
      "sizeUsd": 1000,
-     "buyCostBps": 14.792126261727878,
-     "sellCostBps": 14.792126261504723,
-     "buyExhaustedWindow": false,
-     "sellExhaustedWindow": false,
-     "roundTripBps": 29.5842525232326,
-     "feeOnlyBps": 1.0
+     "buyRawIn": 1000000000,
+     "sellRawIn": 4821938058379745280,
+     "buy": {
+      "status": "filled",
+      "costBps": 14.755294993952228,
+      "filledFraction": 1.0,
+      "out": 4.81482314653035e+18,
+      "consumed": 1000000000.0,
+      "sqrtAfter": 69344.6756790421
+     },
+     "buyLimited": {
+      "status": "filled",
+      "costBps": 14.755294993952228,
+      "filledFraction": 1.0,
+      "out": 4.81482314653035e+18,
+      "consumed": 1000000000.0,
+      "sqrtAfter": 69344.6756790421
+     },
+     "sell": {
+      "status": "filled",
+      "costBps": 14.770156272309043,
+      "filledFraction": 1.0,
+      "out": 998522984.3727691,
+      "consumed": 4.821938058379745e+18,
+      "sqrtAfter": 69535.93776049887
+     },
+     "sellLimited": {
+      "status": "filled",
+      "costBps": 14.770156272309043,
+      "filledFraction": 1.0,
+      "out": 998522984.3727691,
+      "consumed": 4.821938058379745e+18,
+      "sqrtAfter": 69535.93776049887
+     },
+     "sequentialRoundTrip": {
+      "status": "filled",
+      "costBps": 1.9985246081655195
+     },
+     "sumOfIndependentOneWayQuotesBps": 29.52545126626127
     },
     {
      "sizeUsd": 5000,
-     "buyCostBps": 80.57637469200407,
-     "sellCostBps": 69.73411584619838,
-     "buyExhaustedWindow": false,
-     "sellExhaustedWindow": false,
-     "roundTripBps": 150.31049053820243,
-     "feeOnlyBps": 1.0
+     "buyRawIn": 5000000000,
+     "sellRawIn": 24109690291898728448,
+     "buy": {
+      "status": "filled",
+      "costBps": 95.17549992951402,
+      "filledFraction": 1.0,
+      "out": 2.388022510923101e+19,
+      "consumed": 5000000000.0,
+      "sqrtAfter": 68696.78992434859
+     },
+     "buyLimited": {
+      "status": "filled",
+      "costBps": 95.17549992951402,
+      "filledFraction": 1.0,
+      "out": 2.388022510923101e+19,
+      "consumed": 5000000000.0,
+      "sqrtAfter": 68696.78992434859
+     },
+     "sell": {
+      "status": "filled",
+      "costBps": 69.5126245226163,
+      "filledFraction": 1.0,
+      "out": 4965243687.738691,
+      "consumed": 2.410969029189873e+19,
+      "sqrtAfter": 69920.13193876305
+     },
+     "sellLimited": {
+      "status": "filled",
+      "costBps": 69.5126245226163,
+      "filledFraction": 1.0,
+      "out": 4965243687.738691,
+      "consumed": 2.410969029189873e+19,
+      "sqrtAfter": 69920.13193876305
+     },
+     "sequentialRoundTrip": {
+      "status": "filled",
+      "costBps": 1.9904831266359668
+     },
+     "sumOfIndependentOneWayQuotesBps": 164.68812445213032
     },
     {
      "sizeUsd": 10000,
-     "buyCostBps": 192.8772211848029,
-     "sellCostBps": 137.9792885903064,
-     "buyExhaustedWindow": false,
-     "sellExhaustedWindow": false,
-     "roundTripBps": 330.8565097751093,
-     "feeOnlyBps": 1.0
+     "buyRawIn": 10000000000,
+     "sellRawIn": 48219380583797456896,
+     "buy": {
+      "status": "filled",
+      "costBps": 209.98337116678755,
+      "filledFraction": 1.0000000000000002,
+      "out": 4.720685377474145e+19,
+      "consumed": 10000000000.000002,
+      "sqrtAfter": 67948.67343775045
+     },
+     "buyLimited": {
+      "status": "filled",
+      "costBps": 209.98337116678755,
+      "filledFraction": 1.0000000000000002,
+      "out": 4.720685377474145e+19,
+      "consumed": 10000000000.000002,
+      "sqrtAfter": 67948.67343775045
+     },
+     "sell": {
+      "status": "filled",
+      "costBps": 137.5286599486003,
+      "filledFraction": 1.0,
+      "out": 9862471340.0514,
+      "consumed": 4.821938058379746e+19,
+      "sqrtAfter": 70403.99462538504
+     },
+     "sellLimited": {
+      "status": "filled",
+      "costBps": 137.5286599486003,
+      "filledFraction": 1.0,
+      "out": 9862471340.0514,
+      "consumed": 4.821938058379746e+19,
+      "sqrtAfter": 70403.99462538504
+     },
+     "sequentialRoundTrip": {
+      "status": "filled",
+      "costBps": 1.9790029847732704
+     },
+     "sumOfIndependentOneWayQuotesBps": 347.51203111538786
     },
     {
      "sizeUsd": 50000,
-     "buyCostBps": null,
-     "sellCostBps": null,
-     "buyExhaustedWindow": true,
-     "sellExhaustedWindow": true,
-     "roundTripBps": null,
-     "feeOnlyBps": 1.0
+     "buyRawIn": 50000000000,
+     "sellRawIn": 241096902918987284480,
+     "buy": {
+      "status": "filled",
+      "costBps": 795.9675455879467,
+      "filledFraction": 0.9999999999999999,
+      "out": 2.2190637191245912e+20,
+      "consumed": 49999999999.99999,
+      "sqrtAfter": 64558.124213894924
+     },
+     "buyLimited": {
+      "status": "price_limit_rejection",
+      "costBps": null,
+      "filledFraction": 0.5269193500216484,
+      "out": 1.2057073124436038e+20,
+      "consumed": 26345967501.082417,
+      "sqrtAfter": 66208.6101128282
+     },
+     "sell": {
+      "status": "filled",
+      "costBps": 5870.722523716021,
+      "filledFraction": 1.0,
+      "out": 20646387381.41989,
+      "consumed": 2.410969029189873e+20,
+      "sqrtAfter": 91527875.38881569
+     },
+     "sellLimited": {
+      "status": "price_limit_rejection",
+      "costBps": null,
+      "filledFraction": 0.42470164638232777,
+      "out": 20620701078.610527,
+      "consumed": 1.0239425160737415e+20,
+      "sqrtAfter": 73196.37254506043
+     },
+     "sequentialRoundTrip": {
+      "status": "filled",
+      "costBps": 1.9204090872593227
+     },
+     "sumOfIndependentOneWayQuotesBps": 6666.690069303968
     }
    ],
    "depth": [
     {
      "direction": "price_up_buy_stock",
      "movePct": 1.0,
-     "inputUsd": 3245.1311104830384
+     "inputUsd": 2716.0638474643483,
+     "status": "filled"
     },
     {
      "direction": "price_up_buy_stock",
      "movePct": 2.0,
-     "inputUsd": 5185.05469025451
+     "inputUsd": 4659.086808803039,
+     "status": "filled"
     },
     {
      "direction": "price_up_buy_stock",
      "movePct": 5.0,
-     "inputUsd": 11749.490707638828
+     "inputUsd": 11413.85014695777,
+     "status": "filled"
     },
     {
      "direction": "price_down_sell_stock",
      "movePct": 1.0,
-     "inputUsd": 3637.2373226761333
+     "inputUsd": 3653.098939319116,
+     "status": "filled"
     },
     {
      "direction": "price_down_sell_stock",
      "movePct": 2.0,
-     "inputUsd": 7303.695069715164
+     "inputUsd": 7326.824623989973,
+     "status": "filled"
     },
     {
      "direction": "price_down_sell_stock",
      "movePct": 5.0,
-     "inputUsd": 18398.498562871177
+     "inputUsd": 18483.116022046837,
+     "status": "filled"
     }
-   ]
+   ],
+   "volume24h": {
+    "swaps": 1305,
+    "usdgVolume": 109093.44596399998,
+    "fromBlock": 103577064,
+    "toBlock": 104267064
+   }
   },
   "META/USDG CL50": {
+   "executableCapacity": {
+    "maxUsdgFromSelling": 5397.5009387222935,
+    "sellStatus": "capacity_exhausted",
+    "maxStockUsdFromBuyingAtMid": 106379.20601605861,
+    "buyStatus": "capacity_exhausted"
+   },
    "pool": "0x960f79d8dfec7f2f0c1b24cdac6bb9df1371c6e2",
-   "pinL2Block": 104222675,
-   "pinHash": "0x7dee23935ab83accdf55814c5a823522466ba9f5de7b401971b1d966f0188d16",
-   "pinTimestamp": 1793623253,
-   "pinNative": 26327159,
+   "pinL2Block": 104266713,
+   "pinHash": "0xf8739623dad03faf400a0d487beef11d09f1dbf29002b4f8409786b81df67160",
+   "pinTimestamp": 1793627745,
+   "pinNative": 26327530,
+   "inputsFile": "inputs/META-USDG_CL50.json",
    "token0": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
    "token1": "0xc0d6457c16cc70d6790dd43521c899c87ce02f35",
    "dec0": 6,
@@ -254,111 +695,329 @@
    "fee_ppm": 150,
    "slot0FeeProtocolRaw": 500000,
    "liquidity": 11763304438456318,
-   "tick": 212168,
-   "usdgPerStock": 611.0832238774224,
-   "initializedTicksInWindow": 11,
-   "windowTicks": 1200,
-   "volume24h": {
-    "swaps": 465,
-    "usdgVolume": 26685.53522399999,
-    "fromBlock": 103532675,
-    "toBlock": 104222675
+   "tick": 212120,
+   "usdgPerStock": 614.0339723800364,
+   "initializedTicksScanned": 30,
+   "scan": {
+    "mode": "full",
+    "fromTick": -887272,
+    "toTick": 887272,
+    "wordLo": -70,
+    "wordHi": 69
    },
-   "costs": [
+   "quoteLimitPct": 10.0,
+   "quotes": [
     {
      "sizeUsd": 50,
-     "buyCostBps": 3.2186424347158127,
-     "sellCostBps": 3.2186424369939903,
-     "buyExhaustedWindow": false,
-     "sellExhaustedWindow": false,
-     "roundTripBps": 6.437284871709803,
-     "feeOnlyBps": 1.5
+     "buyRawIn": 50000000,
+     "sellRawIn": 81428719336483424,
+     "buy": {
+      "status": "filled",
+      "costBps": 3.214508691274931,
+      "filledFraction": 1.0,
+      "out": 8.140254400388078e+16,
+      "consumed": 50000000.0,
+      "sqrtAfter": 40348.679158665145
+     },
+     "buyLimited": {
+      "status": "filled",
+      "costBps": 3.214508691274931,
+      "filledFraction": 1.0,
+      "out": 8.140254400388078e+16,
+      "consumed": 50000000.0,
+      "sqrtAfter": 40348.679158665145
+     },
+     "sell": {
+      "status": "filled",
+      "costBps": 3.2145086912072074,
+      "filledFraction": 1.0,
+      "out": 49983927.45654397,
+      "consumed": 8.142871933648342e+16,
+      "sqrtAfter": 40362.52042664255
+     },
+     "sellLimited": {
+      "status": "filled",
+      "costBps": 3.2145086912072074,
+      "filledFraction": 1.0,
+      "out": 49983927.45654397,
+      "consumed": 8.142871933648342e+16,
+      "sqrtAfter": 40362.52042664255
+     },
+     "sequentialRoundTrip": {
+      "status": "filled",
+      "costBps": 2.9995178568542613
+     },
+     "sumOfIndependentOneWayQuotesBps": 6.429017382482138
     },
     {
      "sizeUsd": 250,
-     "buyCostBps": 10.087307897892472,
-     "sellCostBps": 10.08730789882395,
-     "buyExhaustedWindow": false,
-     "sellExhaustedWindow": false,
-     "roundTripBps": 20.174615796716424,
-     "feeOnlyBps": 1.5
+     "buyRawIn": 250000000,
+     "sellRawIn": 407143596682417088,
+     "buy": {
+      "status": "filled",
+      "costBps": 10.066667537519391,
+      "filledFraction": 1.0,
+      "out": 4.06733738759634e+17,
+      "consumed": 250000000.0,
+      "sqrtAfter": 40321.022712599515
+     },
+     "buyLimited": {
+      "status": "filled",
+      "costBps": 10.066667537519391,
+      "filledFraction": 1.0,
+      "out": 4.06733738759634e+17,
+      "consumed": 250000000.0,
+      "sqrtAfter": 40321.022712599515
+     },
+     "sell": {
+      "status": "filled",
+      "costBps": 10.066667537526053,
+      "filledFraction": 1.0,
+      "out": 249748333.31156185,
+      "consumed": 4.071435966824171e+17,
+      "sqrtAfter": 40390.205336254316
+     },
+     "sellLimited": {
+      "status": "filled",
+      "costBps": 10.066667537526053,
+      "filledFraction": 1.0,
+      "out": 249748333.31156185,
+      "consumed": 4.071435966824171e+17,
+      "sqrtAfter": 40390.205336254316
+     },
+     "sequentialRoundTrip": {
+      "status": "filled",
+      "costBps": 2.9984901922985863
+     },
+     "sumOfIndependentOneWayQuotesBps": 20.133335075045444
     },
     {
      "sizeUsd": 1000,
-     "buyCostBps": 35.76095554150061,
-     "sellCostBps": 35.76095554216785,
-     "buyExhaustedWindow": false,
-     "sellExhaustedWindow": false,
-     "roundTripBps": 71.52191108366846,
-     "feeOnlyBps": 1.5
+     "buyRawIn": 1000000000,
+     "sellRawIn": 1628574386729668352,
+     "buy": {
+      "status": "filled",
+      "costBps": 35.67877372975259,
+      "filledFraction": 1.0,
+      "out": 1.6227638330250486e+18,
+      "consumed": 1000000000.0,
+      "sqrtAfter": 40217.64809165111
+     },
+     "buyLimited": {
+      "status": "filled",
+      "costBps": 35.67877372975259,
+      "filledFraction": 1.0,
+      "out": 1.6227638330250486e+18,
+      "consumed": 1000000000.0,
+      "sqrtAfter": 40217.64809165111
+     },
+     "sell": {
+      "status": "filled",
+      "costBps": 35.67881740796142,
+      "filledFraction": 1.0,
+      "out": 996432118.2592039,
+      "consumed": 1.6285743867296684e+18,
+      "sqrtAfter": 40494.02374729843
+     },
+     "sellLimited": {
+      "status": "filled",
+      "costBps": 35.67881740796142,
+      "filledFraction": 1.0,
+      "out": 996432118.2592039,
+      "consumed": 1.6285743867296684e+18,
+      "sqrtAfter": 40494.02374729843
+     },
+     "sequentialRoundTrip": {
+      "status": "filled",
+      "costBps": 2.9946489504417695
+     },
+     "sumOfIndependentOneWayQuotesBps": 71.35759113771401
     },
     {
      "sizeUsd": 5000,
-     "buyCostBps": 170.4614084042677,
-     "sellCostBps": null,
-     "buyExhaustedWindow": false,
-     "sellExhaustedWindow": true,
-     "roundTripBps": null,
-     "feeOnlyBps": 1.5
+     "buyRawIn": 5000000000,
+     "sellRawIn": 8142871933648342016,
+     "buy": {
+      "status": "filled",
+      "costBps": 170.01461515807725,
+      "filledFraction": 1.0,
+      "out": 8.004431209840269e+18,
+      "consumed": 5000000000.0,
+      "sqrtAfter": 39676.001209487324
+     },
+     "buyLimited": {
+      "status": "filled",
+      "costBps": 170.01461515807725,
+      "filledFraction": 1.0,
+      "out": 8.004431209840269e+18,
+      "consumed": 5000000000.0,
+      "sqrtAfter": 39676.001209487324
+     },
+     "sell": {
+      "status": "filled",
+      "costBps": 249.992254086292,
+      "filledFraction": 1.0,
+      "out": 4875003872.956854,
+      "consumed": 8.142871933648342e+18,
+      "sqrtAfter": 42310.426323917745
+     },
+     "sellLimited": {
+      "status": "filled",
+      "costBps": 249.992254086292,
+      "filledFraction": 1.0,
+      "out": 4875003872.956854,
+      "consumed": 8.142871933648342e+18,
+      "sqrtAfter": 42310.426323917745
+     },
+     "sequentialRoundTrip": {
+      "status": "filled",
+      "costBps": 2.9745015369975203
+     },
+     "sumOfIndependentOneWayQuotesBps": 420.0068692443692
     },
     {
      "sizeUsd": 10000,
-     "buyCostBps": 333.44167647418874,
-     "sellCostBps": null,
-     "buyExhaustedWindow": false,
-     "sellExhaustedWindow": true,
-     "roundTripBps": null,
-     "feeOnlyBps": 1.5
+     "buyRawIn": 10000000000,
+     "sellRawIn": 16285743867296684032,
+     "buy": {
+      "status": "filled",
+      "costBps": 332.56687010447814,
+      "filledFraction": 1.0,
+      "out": 1.574413398076968e+19,
+      "consumed": 10000000000.0,
+      "sqrtAfter": 39020.37972274826
+     },
+     "buyLimited": {
+      "status": "filled",
+      "costBps": 332.56687010447814,
+      "filledFraction": 1.0,
+      "out": 1.574413398076968e+19,
+      "consumed": 10000000000.0,
+      "sqrtAfter": 39020.37972274826
+     },
+     "sell": {
+      "status": "filled",
+      "costBps": 4602.4990869801095,
+      "filledFraction": 0.9999999999999999,
+      "out": 5397500913.019891,
+      "consumed": 1.6285743867296682e+19,
+      "sqrtAfter": 527934186.69393784
+     },
+     "sellLimited": {
+      "status": "price_limit_rejection",
+      "costBps": null,
+      "filledFraction": 0.5092710592037233,
+      "out": 4958880674.034294,
+      "consumed": 8.293858029218724e+18,
+      "sqrtAfter": 42538.536603488115
+     },
+     "sequentialRoundTrip": {
+      "status": "filled",
+      "costBps": 2.9501221835637192
+     },
+     "sumOfIndependentOneWayQuotesBps": 4935.065957084587
     },
     {
      "sizeUsd": 50000,
-     "buyCostBps": null,
-     "sellCostBps": null,
-     "buyExhaustedWindow": true,
-     "sellExhaustedWindow": true,
-     "roundTripBps": null,
-     "feeOnlyBps": 1.5
+     "buyRawIn": 50000000000,
+     "sellRawIn": 81428719336483422208,
+     "buy": {
+      "status": "filled",
+      "costBps": 1222.1368503024132,
+      "filledFraction": 1.0,
+      "out": 7.147701547907851e+19,
+      "consumed": 50000000000.0,
+      "sqrtAfter": 36607.07604284707
+     },
+     "buyLimited": {
+      "status": "price_limit_rejection",
+      "costBps": null,
+      "filledFraction": 0.28666970410591713,
+      "out": 2.2249260697454424e+19,
+      "consumed": 14333485205.295856,
+      "sqrtAfter": 38477.55410306434
+     },
+     "sell": {
+      "status": "filled",
+      "costBps": 8920.499812764892,
+      "filledFraction": 1.0,
+      "out": 5397500936.175535,
+      "consumed": 8.142871933648342e+19,
+      "sqrtAfter": 5328019248.334943
+     },
+     "sellLimited": {
+      "status": "price_limit_rejection",
+      "costBps": null,
+      "filledFraction": 0.10185421184074467,
+      "out": 4958880674.034294,
+      "consumed": 8.293858029218724e+18,
+      "sqrtAfter": 42538.536603488115
+     },
+     "sequentialRoundTrip": {
+      "status": "filled",
+      "costBps": 2.8167092105590985
+     },
+     "sumOfIndependentOneWayQuotesBps": 10142.636663067306
     }
    ],
    "depth": [
     {
      "direction": "price_up_buy_stock",
      "movePct": 1.0,
-     "inputUsd": 1450.5521101242168
+     "inputUsd": 1454.0507623751826,
+     "status": "filled"
     },
     {
      "direction": "price_up_buy_stock",
      "movePct": 2.0,
-     "inputUsd": 2893.9404195709108
+     "inputUsd": 2900.9190116875834,
+     "status": "filled"
     },
     {
      "direction": "price_up_buy_stock",
      "movePct": 5.0,
-     "inputUsd": 7193.85731467768
+     "inputUsd": 7213.72796274478,
+     "status": "filled"
     },
     {
      "direction": "price_down_sell_stock",
      "movePct": 1.0,
-     "inputUsd": 1465.1662427579186
+     "inputUsd": 1468.6994199481205,
+     "status": "filled"
     },
     {
      "direction": "price_down_sell_stock",
      "movePct": 2.0,
-     "inputUsd": 2711.7134284187464
+     "inputUsd": 2959.821971947729,
+     "status": "filled"
     },
     {
      "direction": "price_down_sell_stock",
      "movePct": 5.0,
-     "inputUsd": 3527.6787108455906
+     "inputUsd": 4125.504587773667,
+     "status": "filled"
     }
-   ]
+   ],
+   "volume24h": {
+    "swaps": 524,
+    "usdgVolume": 30096.419335000002,
+    "fromBlock": 103576713,
+    "toBlock": 104266713
+   }
   },
   "GLD/USDG CL1": {
+   "executableCapacity": {
+    "maxUsdgFromSelling": 23379.03154820563,
+    "sellStatus": "scan_window_exhausted",
+    "maxStockUsdFromBuyingAtMid": 102199.4070501908,
+    "buyStatus": "scan_window_exhausted"
+   },
    "pool": "0x9896af2f6fed9939acc87637b973b6484e6619d8",
-   "pinL2Block": 104222748,
-   "pinHash": "0xb555883d0d0247e64c772c24507a8766e870fc70eadf6e1f99d05245bfca0cf3",
-   "pinTimestamp": 1793623260,
-   "pinNative": 26327160,
+   "pinL2Block": 104269458,
+   "pinHash": "0xfc459b3f6d3b26fe04b5d3f3712bb79650af46018a15f28d4e4e2344a9ef12e4",
+   "pinTimestamp": 1793628022,
+   "pinNative": 26327553,
+   "inputsFile": "inputs/GLD-USDG_CL1.json",
    "token0": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
    "token1": "0xc9a981fee1f9dec688bb123ccdecc63d0debfc4e",
    "dec0": 6,
@@ -366,113 +1025,330 @@
    "tickSpacing": 1,
    "fee_ppm": 150,
    "slot0FeeProtocolRaw": 500000,
-   "liquidity": 81582149802230393,
-   "tick": 217533,
-   "usdgPerStock": 357.37909269013096,
-   "initializedTicksInWindow": 9,
-   "windowTicks": 500,
-   "volume24h": {
-    "swaps": 702,
-    "usdgVolume": 104935.7800319999,
-    "fromBlock": 103532748,
-    "toBlock": 104222748
+   "liquidity": 81606746873641963,
+   "tick": 217437,
+   "usdgPerStock": 360.8175693050626,
+   "initializedTicksScanned": 20,
+   "scan": {
+    "mode": "window",
+    "fromTick": 212437,
+    "toTick": 222437,
+    "wordLo": 829,
+    "wordHi": 868
    },
-   "costs": [
+   "quoteLimitPct": 10.0,
+   "quotes": [
     {
      "sizeUsd": 50,
-     "buyCostBps": 1.8240902299138106,
-     "sellCostBps": 1.8240902308552798,
-     "buyExhaustedWindow": false,
-     "sellExhaustedWindow": false,
-     "roundTripBps": 3.6481804607690904,
-     "feeOnlyBps": 1.5
+     "buyRawIn": 50000000,
+     "sellRawIn": 138574183336749344,
+     "buy": {
+      "status": "filled",
+      "costBps": 1.8224451431592126,
+      "filledFraction": 1.0,
+      "out": 1.385489289520104e+17,
+      "consumed": 50000000.0,
+      "sqrtAfter": 52643.18486311563
+     },
+     "buyLimited": {
+      "status": "filled",
+      "costBps": 1.8224451431592126,
+      "filledFraction": 1.0,
+      "out": 1.385489289520104e+17,
+      "consumed": 50000000.0,
+      "sqrtAfter": 52643.18486311563
+     },
+     "sell": {
+      "status": "filled",
+      "costBps": 1.8224451443682455,
+      "filledFraction": 1.0,
+      "out": 49990887.77427816,
+      "consumed": 1.3857418333674934e+17,
+      "sqrtAfter": 52646.58044420147
+     },
+     "sellLimited": {
+      "status": "filled",
+      "costBps": 1.8224451443682455,
+      "filledFraction": 1.0,
+      "out": 49990887.77427816,
+      "consumed": 1.3857418333674934e+17,
+      "sqrtAfter": 52646.58044420147
+     },
+     "sequentialRoundTrip": {
+      "status": "filled",
+      "costBps": 2.9997266698589264
+     },
+     "sumOfIndependentOneWayQuotesBps": 3.644890287527458
     },
     {
      "sizeUsd": 250,
-     "buyCostBps": 3.1200235733364057,
-     "sellCostBps": 3.120240969538557,
-     "buyExhaustedWindow": false,
-     "sellExhaustedWindow": false,
-     "roundTripBps": 6.240264542874963,
-     "feeOnlyBps": 1.5
+     "buyRawIn": 250000000,
+     "sellRawIn": 692870916683746688,
+     "buy": {
+      "status": "filled",
+      "costBps": 3.112017612835194,
+      "filledFraction": 1.0,
+      "out": 6.926552940341325e+17,
+      "consumed": 250000000.0,
+      "sqrtAfter": 52636.39490534486
+     },
+     "buyLimited": {
+      "status": "filled",
+      "costBps": 3.112017612835194,
+      "filledFraction": 1.0,
+      "out": 6.926552940341325e+17,
+      "consumed": 250000000.0,
+      "sqrtAfter": 52636.39490534486
+     },
+     "sell": {
+      "status": "filled",
+      "costBps": 3.112017609538942,
+      "filledFraction": 1.0,
+      "out": 249922199.55976152,
+      "consumed": 6.928709166837467e+17,
+      "sqrtAfter": 52653.37171588021
+     },
+     "sellLimited": {
+      "status": "filled",
+      "costBps": 3.112017609538942,
+      "filledFraction": 1.0,
+      "out": 249922199.55976152,
+      "consumed": 6.928709166837467e+17,
+      "sqrtAfter": 52653.37171588021
+     },
+     "sequentialRoundTrip": {
+      "status": "filled",
+      "costBps": 2.999533234366858
+     },
+     "sumOfIndependentOneWayQuotesBps": 6.224035222374136
     },
     {
      "sizeUsd": 1000,
-     "buyCostBps": 7.976126966998676,
-     "sellCostBps": 7.977814753100665,
-     "buyExhaustedWindow": false,
-     "sellExhaustedWindow": false,
-     "roundTripBps": 15.95394172009934,
-     "feeOnlyBps": 1.5
+     "buyRawIn": 1000000000,
+     "sellRawIn": 2771483666734986752,
+     "buy": {
+      "status": "filled",
+      "costBps": 7.9449531538988705,
+      "filledFraction": 1.0,
+      "out": 2.769281735945086e+18,
+      "consumed": 1000000000.0,
+      "sqrtAfter": 52610.948155885206
+     },
+     "buyLimited": {
+      "status": "filled",
+      "costBps": 7.9449531538988705,
+      "filledFraction": 1.0,
+      "out": 2.769281735945086e+18,
+      "consumed": 1000000000.0,
+      "sqrtAfter": 52610.948155885206
+     },
+     "sell": {
+      "status": "filled",
+      "costBps": 7.9449531540631835,
+      "filledFraction": 1.0,
+      "out": 999205504.6845937,
+      "consumed": 2.771483666734987e+18,
+      "sqrtAfter": 52678.83898467549
+     },
+     "sellLimited": {
+      "status": "filled",
+      "costBps": 7.9449531540631835,
+      "filledFraction": 1.0,
+      "out": 999205504.6845937,
+      "consumed": 2.771483666734987e+18,
+      "sqrtAfter": 52678.83898467549
+     },
+     "sequentialRoundTrip": {
+      "status": "filled",
+      "costBps": 2.9988084042631424
+     },
+     "sumOfIndependentOneWayQuotesBps": 15.889906307962054
     },
     {
      "sizeUsd": 5000,
-     "buyCostBps": 33.81748081728975,
-     "sellCostBps": 33.832407624895254,
-     "buyExhaustedWindow": false,
-     "sellExhaustedWindow": false,
-     "roundTripBps": 67.649888442185,
-     "feeOnlyBps": 1.5
+     "buyRawIn": 5000000000,
+     "sellRawIn": 13857418333674932224,
+     "buy": {
+      "status": "filled",
+      "costBps": 33.70703985824508,
+      "filledFraction": 1.0,
+      "out": 1.3810709078464377e+19,
+      "consumed": 5000000000.0,
+      "sqrtAfter": 52474.3632075782
+     },
+     "buyLimited": {
+      "status": "filled",
+      "costBps": 33.70703985824508,
+      "filledFraction": 1.0,
+      "out": 1.3810709078464377e+19,
+      "consumed": 5000000000.0,
+      "sqrtAfter": 52474.3632075782
+     },
+     "sell": {
+      "status": "filled",
+      "costBps": 33.66630073268206,
+      "filledFraction": 1.0,
+      "out": 4983166849.633658,
+      "consumed": 1.3857418333674932e+19,
+      "sqrtAfter": 52814.87406896854
+     },
+     "sellLimited": {
+      "status": "filled",
+      "costBps": 33.66630073268206,
+      "filledFraction": 1.0,
+      "out": 4983166849.633658,
+      "consumed": 1.3857418333674932e+19,
+      "sqrtAfter": 52814.87406896854
+     },
+     "sequentialRoundTrip": {
+      "status": "filled",
+      "costBps": 2.994944665047905
+     },
+     "sumOfIndependentOneWayQuotesBps": 67.37334059092714
     },
     {
      "sizeUsd": 10000,
-     "buyCostBps": 65.96325156435378,
-     "sellCostBps": 65.9897397090059,
-     "buyExhaustedWindow": false,
-     "sellExhaustedWindow": false,
-     "roundTripBps": 131.9529912733597,
-     "feeOnlyBps": 1.5
+     "buyRawIn": 10000000000,
+     "sellRawIn": 27714836667349864448,
+     "buy": {
+      "status": "filled",
+      "costBps": 66.38740176682201,
+      "filledFraction": 1.0,
+      "out": 2.7530845067676148e+19,
+      "consumed": 10000000000.0,
+      "sqrtAfter": 52300.564987048296
+     },
+     "buyLimited": {
+      "status": "filled",
+      "costBps": 66.38740176682201,
+      "filledFraction": 1.0,
+      "out": 2.7530845067676148e+19,
+      "consumed": 10000000000.0,
+      "sqrtAfter": 52300.564987048296
+     },
+     "sell": {
+      "status": "filled",
+      "costBps": 65.66236165958306,
+      "filledFraction": 1.0,
+      "out": 9934337638.340418,
+      "consumed": 2.7714836667349864e+19,
+      "sqrtAfter": 52985.023536307686
+     },
+     "sellLimited": {
+      "status": "filled",
+      "costBps": 65.66236165958306,
+      "filledFraction": 1.0,
+      "out": 9934337638.340418,
+      "consumed": 2.7714836667349864e+19,
+      "sqrtAfter": 52985.023536307686
+     },
+     "sequentialRoundTrip": {
+      "status": "filled",
+      "costBps": 2.9900433222807
+     },
+     "sumOfIndependentOneWayQuotesBps": 132.04976342640506
     },
     {
      "sizeUsd": 50000,
-     "buyCostBps": null,
-     "sellCostBps": null,
-     "buyExhaustedWindow": true,
-     "sellExhaustedWindow": true,
-     "roundTripBps": null,
-     "feeOnlyBps": 1.5
+     "buyRawIn": 50000000000,
+     "sellRawIn": 138574183336749318144,
+     "buy": {
+      "status": "filled",
+      "costBps": 316.9202610789446,
+      "filledFraction": 0.9999999999999999,
+      "out": 1.3418248670056091e+20,
+      "consumed": 49999999999.99999,
+      "sqrtAfter": 51016.42551585366
+     },
+     "buyLimited": {
+      "status": "filled",
+      "costBps": 316.9202610789446,
+      "filledFraction": 0.9999999999999999,
+      "out": 1.3418248670056091e+20,
+      "consumed": 49999999999.99999,
+      "sqrtAfter": 51016.42551585366
+     },
+     "sell": {
+      "status": "scan_window_exhausted",
+      "costBps": null,
+      "filledFraction": 0.47483128989598267,
+      "out": 23379031548.205627,
+      "consumed": 6.579935822007107e+19,
+      "sqrtAfter": 67595.31430195566
+     },
+     "sellLimited": {
+      "status": "price_limit_rejection",
+      "costBps": null,
+      "filledFraction": 0.47482037720459097,
+      "out": 23378628462.354923,
+      "consumed": 6.579784600277346e+19,
+      "sqrtAfter": 55492.57875042578
+     },
+     "sequentialRoundTrip": {
+      "status": "filled",
+      "costBps": 2.9524687655957393
+     },
+     "sumOfIndependentOneWayQuotesBps": null
     }
    ],
    "depth": [
     {
      "direction": "price_up_buy_stock",
      "movePct": 1.0,
-     "inputUsd": 7684.447731389549
+     "inputUsd": 7606.56970007809,
+     "status": "filled"
     },
     {
      "direction": "price_up_buy_stock",
      "movePct": 2.0,
-     "inputUsd": 15205.694170852315
+     "inputUsd": 15173.148163491118,
+     "status": "filled"
     },
     {
      "direction": "price_up_buy_stock",
      "movePct": 5.0,
-     "inputUsd": 37721.371971681096
+     "inputUsd": 37862.00173303437,
+     "status": "filled"
     },
     {
      "direction": "price_down_sell_stock",
      "movePct": 1.0,
-     "inputUsd": 7758.776586470391
+     "inputUsd": 7798.560945596064,
+     "status": "filled"
     },
     {
      "direction": "price_down_sell_stock",
      "movePct": 2.0,
-     "inputUsd": 15565.901026804147
+     "inputUsd": 15709.983363699252,
+     "status": "filled"
     },
     {
      "direction": "price_down_sell_stock",
      "movePct": 5.0,
-     "inputUsd": null,
-     "note": "target not reached inside the scanned window"
+     "inputUsd": 23740.952133437546,
+     "status": "filled"
     }
-   ]
+   ],
+   "volume24h": {
+    "swaps": 881,
+    "usdgVolume": 138048.096726,
+    "fromBlock": 103579458,
+    "toBlock": 104269458
+   }
   },
   "r33/USDG CL200": {
+   "executableCapacity": {
+    "maxUsdgFromSelling": 326.85259712632705,
+    "sellStatus": "capacity_exhausted",
+    "maxStockUsdFromBuyingAtMid": 41213.635703382424,
+    "buyStatus": "capacity_exhausted"
+   },
    "pool": "0xc276b9a27ab1e60e32b581db6a23bb1fab0fc30b",
-   "pinL2Block": 104222825,
-   "pinHash": "0x2edcd24c88f572a512966e31da2665b233127b413c6c3c9fa8d9723a7e5da89a",
-   "pinTimestamp": 1793623268,
-   "pinNative": 26327160,
+   "pinL2Block": 104290641,
+   "pinHash": "0xc6f80c7738bfb75c6caf183e7a0194c822a9ee8a49a8409910401dbdaf13b317",
+   "pinTimestamp": 1793630180,
+   "pinNative": 26327732,
+   "inputsFile": "inputs/r33-USDG_CL200.json",
    "token0": "0x4e5195469a0360f5dfe811730c9ccacff0a0feee",
    "token1": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
    "dec0": 18,
@@ -483,102 +1359,644 @@
    "liquidity": 5491200628116413,
    "tick": -306968,
    "usdgPerStock": 0.046693781261625836,
-   "initializedTicksInWindow": 1,
-   "windowTicks": 1800,
-   "volume24h": {
-    "swaps": 3,
-    "usdgVolume": 27.969887,
-    "fromBlock": 103532825,
-    "toBlock": 104222825
+   "initializedTicksScanned": 11,
+   "scan": {
+    "mode": "full",
+    "fromTick": -887272,
+    "toTick": 887272,
+    "wordLo": -18,
+    "wordHi": 17
    },
-   "costs": [
+   "quoteLimitPct": 10.0,
+   "quotes": [
     {
      "sizeUsd": 50,
-     "buyCostBps": 348.1277692324214,
-     "sellCostBps": 588.6435535984857,
-     "buyExhaustedWindow": false,
-     "sellExhaustedWindow": false,
-     "roundTripBps": 936.7713228309071,
-     "feeOnlyBps": 200.0
+     "buyRawIn": 50000000,
+     "sellRawIn": 1070806403958792257536,
+     "buy": {
+      "status": "filled",
+      "costBps": 348.1277692324214,
+      "filledFraction": 1.0,
+      "out": 1.0335286594897957e+21,
+      "consumed": 50000000.0,
+      "sqrtAfter": 2.1796283770159977e-07
+     },
+     "buyLimited": {
+      "status": "filled",
+      "costBps": 348.1277692324214,
+      "filledFraction": 1.0,
+      "out": 1.0335286594897957e+21,
+      "consumed": 50000000.0,
+      "sqrtAfter": 2.1796283770159977e-07
+     },
+     "sell": {
+      "status": "filled",
+      "costBps": 588.6435535984857,
+      "filledFraction": 1.0,
+      "out": 47056782.23200757,
+      "consumed": 1.0708064039587923e+21,
+      "sqrtAfter": 2.075179501350227e-07
+     },
+     "sellLimited": {
+      "status": "filled",
+      "costBps": 588.6435535984857,
+      "filledFraction": 1.0,
+      "out": 47056782.23200757,
+      "consumed": 1.0708064039587923e+21,
+      "sqrtAfter": 2.075179501350227e-07
+     },
+     "sequentialRoundTrip": {
+      "status": "filled",
+      "costBps": 393.1945929183134
+     },
+     "sumOfIndependentOneWayQuotesBps": 936.7713228309071
     },
     {
      "sizeUsd": 250,
-     "buyCostBps": 375.22626090318533,
-     "sellCostBps": null,
-     "buyExhaustedWindow": false,
-     "sellExhaustedWindow": true,
-     "roundTripBps": null,
-     "feeOnlyBps": 200.0
+     "buyRawIn": 250000000,
+     "sellRawIn": 5354032019793961287680,
+     "buy": {
+      "status": "filled",
+      "costBps": 375.22626090318533,
+      "filledFraction": 1.0,
+      "out": 5.153134678239639e+21,
+      "consumed": 250000000.0,
+      "sqrtAfter": 2.1828200482892405e-07
+     },
+     "buyLimited": {
+      "status": "filled",
+      "costBps": 375.22626090318533,
+      "filledFraction": 1.0,
+      "out": 5.153134678239639e+21,
+      "consumed": 250000000.0,
+      "sqrtAfter": 2.1828200482892405e-07
+     },
+     "sell": {
+      "status": "filled",
+      "costBps": 1887.8744753819553,
+      "filledFraction": 1.0,
+      "out": 202803138.1154511,
+      "consumed": 5.354032019793961e+21,
+      "sqrtAfter": 1.7807229417892442e-07
+     },
+     "sellLimited": {
+      "status": "price_limit_rejection",
+      "costBps": null,
+      "filledFraction": 0.26198005670265273,
+      "out": 60891345.5329526,
+      "consumed": 1.4026496121334402e+21,
+      "sqrtAfter": 2.0499854422766825e-07
+     },
+     "sequentialRoundTrip": {
+      "status": "filled",
+      "costBps": 393.27935402559854
+     },
+     "sumOfIndependentOneWayQuotesBps": 2263.1007362851406
     },
     {
      "sizeUsd": 1000,
-     "buyCostBps": 430.13426048823857,
-     "sellCostBps": null,
-     "buyExhaustedWindow": false,
-     "sellExhaustedWindow": true,
-     "roundTripBps": null,
-     "feeOnlyBps": 200.0
+     "buyRawIn": 1000000000,
+     "sellRawIn": 21416128079175845150720,
+     "buy": {
+      "status": "filled",
+      "costBps": 430.13426048823857,
+      "filledFraction": 1.0,
+      "out": 2.0494947037790075e+22,
+      "consumed": 1000000000.0,
+      "sqrtAfter": 2.1947888155639018e-07
+     },
+     "buyLimited": {
+      "status": "filled",
+      "costBps": 430.13426048823857,
+      "filledFraction": 1.0,
+      "out": 2.0494947037790075e+22,
+      "consumed": 1000000000.0,
+      "sqrtAfter": 2.1947888155639018e-07
+     },
+     "sell": {
+      "status": "filled",
+      "costBps": 6732.31613829741,
+      "filledFraction": 1.0,
+      "out": 326768386.17025894,
+      "consumed": 2.1416128079175845e+22,
+      "sqrtAfter": 2.6963401091910803e-09
+     },
+     "sellLimited": {
+      "status": "price_limit_rejection",
+      "costBps": null,
+      "filledFraction": 0.06549501417566318,
+      "out": 60891345.5329526,
+      "consumed": 1.4026496121334402e+21,
+      "sqrtAfter": 2.0499854422766825e-07
+     },
+     "sequentialRoundTrip": {
+      "status": "filled",
+      "costBps": 393.79281332092455
+     },
+     "sumOfIndependentOneWayQuotesBps": 7162.450398785649
     },
     {
      "sizeUsd": 5000,
-     "buyCostBps": 701.2263345180459,
-     "sellCostBps": null,
-     "buyExhaustedWindow": false,
-     "sellExhaustedWindow": true,
-     "roundTripBps": null,
-     "feeOnlyBps": 200.0
+     "buyRawIn": 5000000000,
+     "sellRawIn": 107080640395879225753600,
+     "buy": {
+      "status": "filled",
+      "costBps": 701.2263345180459,
+      "filledFraction": 1.0,
+      "out": 9.957186389961449e+22,
+      "consumed": 5000000000.0,
+      "sqrtAfter": 2.2586222410287615e-07
+     },
+     "buyLimited": {
+      "status": "filled",
+      "costBps": 701.2263345180459,
+      "filledFraction": 1.0,
+      "out": 9.957186389961449e+22,
+      "consumed": 5000000000.0,
+      "sqrtAfter": 2.2586222410287615e-07
+     },
+     "sell": {
+      "status": "filled",
+      "costBps": 9346.31522590518,
+      "filledFraction": 0.9999999999999999,
+      "out": 326842387.04741037,
+      "consumed": 1.0708064039587921e+23,
+      "sqrtAfter": 3.2691524464722273e-10
+     },
+     "sellLimited": {
+      "status": "price_limit_rejection",
+      "costBps": null,
+      "filledFraction": 0.013099002835132635,
+      "out": 60891345.5329526,
+      "consumed": 1.4026496121334402e+21,
+      "sqrtAfter": 2.0499854422766825e-07
+     },
+     "sequentialRoundTrip": {
+      "status": "filled",
+      "costBps": 389.0472148052049
+     },
+     "sumOfIndependentOneWayQuotesBps": 10047.541560423226
     },
     {
      "sizeUsd": 10000,
-     "buyCostBps": 1018.5965144369635,
-     "sellCostBps": null,
-     "buyExhaustedWindow": false,
-     "sellExhaustedWindow": true,
-     "roundTripBps": null,
-     "feeOnlyBps": 200.0
+     "buyRawIn": 10000000000,
+     "sellRawIn": 214161280791758451507200,
+     "buy": {
+      "status": "filled",
+      "costBps": 1018.5965144369635,
+      "filledFraction": 1.0,
+      "out": 1.9234688737757435e+23,
+      "consumed": 10000000000.0,
+      "sqrtAfter": 2.3384140228598361e-07
+     },
+     "buyLimited": {
+      "status": "price_limit_rejection",
+      "costBps": null,
+      "filledFraction": 0.5483880547274139,
+      "out": 1.0883578342277175e+23,
+      "consumed": 5483880547.274139,
+      "sqrtAfter": 2.2663441792408414e-07
+     },
+     "sell": {
+      "status": "filled",
+      "costBps": 9673.152268419031,
+      "filledFraction": 1.0000000000000002,
+      "out": 326847731.5809681,
+      "consumed": 2.141612807917585e+23,
+      "sqrtAfter": 1.557892906264231e-10
+     },
+     "sellLimited": {
+      "status": "price_limit_rejection",
+      "costBps": null,
+      "filledFraction": 0.006549501417566318,
+      "out": 60891345.5329526,
+      "consumed": 1.4026496121334402e+21,
+      "sqrtAfter": 2.0499854422766825e-07
+     },
+     "sequentialRoundTrip": {
+      "status": "filled",
+      "costBps": 382.7924732024823
+     },
+     "sumOfIndependentOneWayQuotesBps": 10691.748782855995
     },
     {
      "sizeUsd": 50000,
-     "buyCostBps": null,
-     "sellCostBps": null,
-     "buyExhaustedWindow": true,
-     "sellExhaustedWindow": true,
-     "roundTripBps": null,
-     "feeOnlyBps": 200.0
+     "buyRawIn": 50000000000,
+     "sellRawIn": 1070806403958792358199296,
+     "buy": {
+      "status": "filled",
+      "costBps": 2939.132726788777,
+      "filledFraction": 1.0,
+      "out": 7.560821893657634e+23,
+      "consumed": 50000000000.0,
+      "sqrtAfter": 2.970440550389531e-07
+     },
+     "buyLimited": {
+      "status": "price_limit_rejection",
+      "costBps": null,
+      "filledFraction": 0.10967761094548278,
+      "out": 1.0883578342277175e+23,
+      "consumed": 5483880547.274139,
+      "sqrtAfter": 2.2663441792408414e-07
+     },
+     "sell": {
+      "status": "filled",
+      "costBps": 9934.629668156489,
+      "filledFraction": 1.0,
+      "out": 326851659.21755135,
+      "consumed": 1.0708064039587924e+24,
+      "sqrtAfter": 3.0030784273777776e-11
+     },
+     "sellLimited": {
+      "status": "price_limit_rejection",
+      "costBps": null,
+      "filledFraction": 0.0013099002835132633,
+      "out": 60891345.5329526,
+      "consumed": 1.4026496121334402e+21,
+      "sqrtAfter": 2.0499854422766825e-07
+     },
+     "sequentialRoundTrip": {
+      "status": "filled",
+      "costBps": 344.3317686035341
+     },
+     "sumOfIndependentOneWayQuotesBps": 12873.762394945266
     }
    ],
    "depth": [
     {
      "direction": "price_up_buy_stock",
      "movePct": 1.0,
-     "inputUsd": 6.038917203285766
+     "inputUsd": 6.038917203285766,
+     "status": "filled"
     },
     {
      "direction": "price_up_buy_stock",
      "movePct": 2.0,
-     "inputUsd": 222.18436991584105
+     "inputUsd": 222.18436991584105,
+     "status": "filled"
     },
     {
      "direction": "price_up_buy_stock",
      "movePct": 5.0,
-     "inputUsd": 2218.705222986591
+     "inputUsd": 2218.7052229865903,
+     "status": "filled"
     },
     {
      "direction": "price_down_sell_stock",
      "movePct": 1.0,
-     "inputUsd": 6.09976348206104
+     "inputUsd": 6.09976348206104,
+     "status": "filled"
     },
     {
      "direction": "price_down_sell_stock",
      "movePct": 2.0,
-     "inputUsd": 12.292654121512745
+     "inputUsd": 12.292654121512745,
+     "status": "filled"
     },
     {
      "direction": "price_down_sell_stock",
      "movePct": 5.0,
-     "inputUsd": 31.454468895696113
+     "inputUsd": 31.454468895696113,
+     "status": "filled"
     }
-   ]
+   ],
+   "volume24h": {
+    "swaps": 3,
+    "usdgVolume": 27.969887,
+    "fromBlock": 103600641,
+    "toBlock": 104290641
+   }
+  },
+  "r33/USDG CL500": {
+   "executableCapacity": {
+    "maxUsdgFromSelling": 1002.9227988844328,
+    "sellStatus": "capacity_exhausted",
+    "maxStockUsdFromBuyingAtMid": 11920.859225201159,
+    "buyStatus": "capacity_exhausted"
+   },
+   "pool": "0x9f301fa81ccdda903a3590e7b9abee12e035709e",
+   "pinL2Block": 104292547,
+   "pinHash": "0xa269be93bd4bbf962445c81f23e44b29f251a78723dc03333c21736ec21832f3",
+   "pinTimestamp": 1793630373,
+   "pinNative": 26327748,
+   "inputsFile": "inputs/r33-USDG_CL500.json",
+   "token0": "0x4e5195469a0360f5dfe811730c9ccacff0a0feee",
+   "token1": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "dec0": 18,
+   "dec1": 6,
+   "tickSpacing": 500,
+   "fee_ppm": 50000,
+   "slot0FeeProtocolRaw": 50000,
+   "liquidity": 88304945554977829,
+   "tick": -307121,
+   "usdgPerStock": 0.045981014369298835,
+   "initializedTicksScanned": 6,
+   "scan": {
+    "mode": "full",
+    "fromTick": -887272,
+    "toTick": 887272,
+    "wordLo": -7,
+    "wordHi": 6
+   },
+   "quoteLimitPct": 10.0,
+   "quotes": [
+    {
+     "sizeUsd": 50,
+     "buyRawIn": 50000000,
+     "sellRawIn": 1087405327738585350144,
+     "buy": {
+      "status": "filled",
+      "costBps": 523.7714042342545,
+      "filledFraction": 1.0,
+      "out": 1.0304501461904403e+21,
+      "consumed": 50000000.0,
+      "sqrtAfter": 2.1496974956497928e-07
+     },
+     "buyLimited": {
+      "status": "filled",
+      "costBps": 523.7714042342545,
+      "filledFraction": 1.0,
+      "out": 1.0304501461904403e+21,
+      "consumed": 50000000.0,
+      "sqrtAfter": 2.1496974956497928e-07
+     },
+     "sell": {
+      "status": "filled",
+      "costBps": 523.7714042333474,
+      "filledFraction": 1.0,
+      "out": 47381142.97883326,
+      "consumed": 1.0874053277385854e+21,
+      "sqrtAfter": 2.1389527811400306e-07
+     },
+     "sellLimited": {
+      "status": "filled",
+      "costBps": 523.7714042333474,
+      "filledFraction": 1.0,
+      "out": 47381142.97883326,
+      "consumed": 1.0874053277385854e+21,
+      "sqrtAfter": 2.1389527811400306e-07
+     },
+     "sequentialRoundTrip": {
+      "status": "filled",
+      "costBps": 973.8707170117411
+     },
+     "sumOfIndependentOneWayQuotesBps": 1047.5428084676018
+    },
+    {
+     "sizeUsd": 250,
+     "buyRawIn": 250000000,
+     "sellRawIn": 5437026638692926619648,
+     "buy": {
+      "status": "filled",
+      "costBps": 617.6791689180538,
+      "filledFraction": 1.0,
+      "out": 5.10119282913561e+21,
+      "consumed": 250000000.0,
+      "sqrtAfter": 2.1712138443441826e-07
+     },
+     "buyLimited": {
+      "status": "filled",
+      "costBps": 617.6791689180538,
+      "filledFraction": 1.0,
+      "out": 5.10119282913561e+21,
+      "consumed": 250000000.0,
+      "sqrtAfter": 2.1712138443441826e-07
+     },
+     "sell": {
+      "status": "filled",
+      "costBps": 617.6791689181193,
+      "filledFraction": 1.0,
+      "out": 234558020.777047,
+      "consumed": 5.437026638692927e+21,
+      "sqrtAfter": 2.1177561339282752e-07
+     },
+     "sellLimited": {
+      "status": "filled",
+      "costBps": 617.6791689181193,
+      "filledFraction": 1.0,
+      "out": 234558020.777047,
+      "consumed": 5.437026638692927e+21,
+      "sqrtAfter": 2.1177561339282752e-07
+     },
+     "sequentialRoundTrip": {
+      "status": "filled",
+      "costBps": 969.4067752340707
+     },
+     "sumOfIndependentOneWayQuotesBps": 1235.3583378361732
+    },
+    {
+     "sizeUsd": 1000,
+     "buyRawIn": 1000000000,
+     "sellRawIn": 21748106554771706478592,
+     "buy": {
+      "status": "filled",
+      "costBps": 953.8507456022627,
+      "filledFraction": 1.0,
+      "out": 1.967366178950106e+22,
+      "consumed": 1000000000.0,
+      "sqrtAfter": 2.251900151948144e-07
+     },
+     "buyLimited": {
+      "status": "price_limit_rejection",
+      "costBps": null,
+      "filledFraction": 0.9728575523138446,
+      "out": 1.91645210277233e+22,
+      "consumed": 972857552.3138447,
+      "sqrtAfter": 2.2489801201039711e-07
+     },
+     "sell": {
+      "status": "filled",
+      "costBps": 959.9840551811567,
+      "filledFraction": 1.0,
+      "out": 904001594.4818844,
+      "consumed": 2.1748106554771706e+22,
+      "sqrtAfter": 2.028009971342124e-07
+     },
+     "sellLimited": {
+      "status": "price_limit_rejection",
+      "costBps": null,
+      "filledFraction": 0.9726173999309897,
+      "out": 880661621.1460391,
+      "consumed": 2.1152586850724173e+22,
+      "sqrtAfter": 2.034279059823626e-07
+     },
+     "sequentialRoundTrip": {
+      "status": "filled",
+      "costBps": 953.3904711587348
+     },
+     "sumOfIndependentOneWayQuotesBps": 1913.8348007834193
+    },
+    {
+     "sizeUsd": 5000,
+     "buyRawIn": 5000000000,
+     "sellRawIn": 108740532773858532392960,
+     "buy": {
+      "status": "filled",
+      "costBps": 2407.327227539756,
+      "filledFraction": 1.0,
+      "out": 8.256312824548964e+22,
+      "consumed": 5000000000.0,
+      "sqrtAfter": 2.692851083965374e-07
+     },
+     "buyLimited": {
+      "status": "price_limit_rejection",
+      "costBps": null,
+      "filledFraction": 0.19457151046276894,
+      "out": 1.91645210277233e+22,
+      "consumed": 972857552.3138447,
+      "sqrtAfter": 2.2489801201039711e-07
+     },
+     "sell": {
+      "status": "capacity_exhausted",
+      "costBps": null,
+      "filledFraction": 0.22359183399871274,
+      "out": 1002922798.8844328,
+      "consumed": 2.431349515290416e+22,
+      "sqrtAfter": 5.421214631071437e-20
+     },
+     "sellLimited": {
+      "status": "price_limit_rejection",
+      "costBps": null,
+      "filledFraction": 0.19452347998619796,
+      "out": 880661621.1460391,
+      "consumed": 2.1152586850724173e+22,
+      "sqrtAfter": 2.034279059823626e-07
+     },
+     "sequentialRoundTrip": {
+      "status": "filled",
+      "costBps": 883.4777911215219
+     },
+     "sumOfIndependentOneWayQuotesBps": null
+    },
+    {
+     "sizeUsd": 10000,
+     "buyRawIn": 10000000000,
+     "sellRawIn": 217481065547717064785920,
+     "buy": {
+      "status": "filled",
+      "costBps": 3783.6792947428944,
+      "filledFraction": 1.0,
+      "out": 1.3519320507656511e+23,
+      "consumed": 10000000000.0,
+      "sqrtAfter": 3.351562080979466e-07
+     },
+     "buyLimited": {
+      "status": "price_limit_rejection",
+      "costBps": null,
+      "filledFraction": 0.09728575523138447,
+      "out": 1.91645210277233e+22,
+      "consumed": 972857552.3138447,
+      "sqrtAfter": 2.2489801201039711e-07
+     },
+     "sell": {
+      "status": "capacity_exhausted",
+      "costBps": null,
+      "filledFraction": 0.11179591699935637,
+      "out": 1002922798.8844328,
+      "consumed": 2.431349515290416e+22,
+      "sqrtAfter": 5.421214631071437e-20
+     },
+     "sellLimited": {
+      "status": "price_limit_rejection",
+      "costBps": null,
+      "filledFraction": 0.09726173999309898,
+      "out": 880661621.1460391,
+      "consumed": 2.1152586850724173e+22,
+      "sqrtAfter": 2.034279059823626e-07
+     },
+     "sequentialRoundTrip": {
+      "status": "filled",
+      "costBps": 816.003085308834
+     },
+     "sumOfIndependentOneWayQuotesBps": null
+    },
+    {
+     "sizeUsd": 50000,
+     "buyRawIn": 50000000000,
+     "sellRawIn": 1087405327738585458147328,
+     "buy": {
+      "status": "filled",
+      "costBps": 7629.371368067871,
+      "filledFraction": 1.0000000000000002,
+      "out": 2.577834204452631e+23,
+      "consumed": 50000000000.00001,
+      "sqrtAfter": 8.81277249689085e-07
+     },
+     "buyLimited": {
+      "status": "price_limit_rejection",
+      "costBps": null,
+      "filledFraction": 0.019457151046276894,
+      "out": 1.91645210277233e+22,
+      "consumed": 972857552.3138447,
+      "sqrtAfter": 2.2489801201039711e-07
+     },
+     "sell": {
+      "status": "capacity_exhausted",
+      "costBps": null,
+      "filledFraction": 0.022359183399871273,
+      "out": 1002922798.8844328,
+      "consumed": 2.431349515290416e+22,
+      "sqrtAfter": 5.421214631071437e-20
+     },
+     "sellLimited": {
+      "status": "price_limit_rejection",
+      "costBps": null,
+      "filledFraction": 0.019452347998619793,
+      "out": 880661621.1460391,
+      "consumed": 2.1152586850724173e+22,
+      "sqrtAfter": 2.034279059823626e-07
+     },
+     "sequentialRoundTrip": {
+      "status": "filled",
+      "costBps": 622.3612040851078
+     },
+     "sumOfIndependentOneWayQuotesBps": null
+    }
+   ],
+   "depth": [
+    {
+     "direction": "price_up_buy_stock",
+     "movePct": 1.0,
+     "inputUsd": 99.41204618197541,
+     "status": "filled"
+    },
+    {
+     "direction": "price_up_buy_stock",
+     "movePct": 2.0,
+     "inputUsd": 198.3331596775333,
+     "status": "filled"
+    },
+    {
+     "direction": "price_up_buy_stock",
+     "movePct": 5.0,
+     "inputUsd": 492.22205956584287,
+     "status": "filled"
+    },
+    {
+     "direction": "price_down_sell_stock",
+     "movePct": 1.0,
+     "inputUsd": 100.4136914889056,
+     "status": "filled"
+    },
+    {
+     "direction": "price_down_sell_stock",
+     "movePct": 2.0,
+     "inputUsd": 202.36043285407953,
+     "status": "filled"
+    },
+    {
+     "direction": "price_down_sell_stock",
+     "movePct": 5.0,
+     "inputUsd": 517.8002958522137,
+     "status": "filled"
+    }
+   ],
+   "volume24h": {
+    "swaps": 1,
+    "usdgVolume": 81.876304,
+    "fromBlock": 103602547,
+    "toBlock": 104292547
+   }
   }
  }
 }

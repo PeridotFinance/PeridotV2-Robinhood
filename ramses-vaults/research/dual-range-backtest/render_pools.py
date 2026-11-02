@@ -22,24 +22,35 @@ def main():
     print("| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |")
     for name, p in q["pools"].items():
         g = gw[p["pool"].lower()]
-        t = fr["pools"][name]["timeWeightedFee"]
-        print(f"| {name} | `{p['pool']}` | {p['pinL2Block']:,} | {p['tickSpacing']} | {p['fee_ppm']} ppm | {g['feeTier']} ppm | {t['30d_meanPpm']:.0f} ppm | {p['liquidity']:.3e} | "
+        t = fr["pools"].get(name, {}).get("timeWeightedFee", {"30d_meanPpm": float("nan")})
+        print(f"| {name} | `{p['pool']}` | {p['pinL2Block']:,} | {p['tickSpacing']} | {p['fee_ppm']} ppm | {g['feeTier']} ppm | {('n/a' if t['30d_meanPpm'] != t['30d_meanPpm'] else format(t['30d_meanPpm'], '.0f') + ' ppm')} | {p['liquidity']:.3e} | "
               f"${p['volume24h']['usdgVolume']:,.0f} / ${g['last24hVolume'] or 0:,.0f} | ${g['tvlUsd']:,.0f} |")
-    print("\n**One-way execution cost in bp of trade size** (fee + price impact versus the pre-trade mid, local pool math at the pin; buy / sell)\n")
     sizes = q["sizesUsd"]
+    ab = {"filled": "", "price_limit_rejection": "limit", "capacity_exhausted": "no capacity", "scan_window_exhausted": "beyond scan"}
+    def cell(x):
+        return f"{x['costBps']:.1f}" if x["costBps"] is not None else ab.get(x["status"], x["status"])
+    print("\n**One-way execution cost in bp of trade size** (fee + price impact versus the pre-trade mid; independent quotes at the pin; buy / sell)\n")
     print("| pool | " + " | ".join(f"${s:,}" for s in sizes) + " |")
     print("| --- | " + " | ".join("---" for _ in sizes) + " |")
     for name, p in q["pools"].items():
-        cells = []
-        for c in p["costs"]:
-            cells.append(f"{fmt(c['buyCostBps'])} / {fmt(c['sellCostBps'])}")
-        print(f"| {name} | " + " | ".join(cells) + " |")
-    print("\n**Depth: USDG-equivalent input needed to move the price** (+1% / +5% buying the stock, -1% / -5% selling it)\n")
+        print(f"| {name} | " + " | ".join(f"{cell(r_['buy'])} / {cell(r_['sell'])}" for r_ in p["quotes"]) + " |")
+    print("\n**Sequential round trip, bp** (buy, then sell what was bought, in the same evolving pool state: this is the cost of *reversing at once* and returns the price impact, so it is NOT the cost of exiting a position; it replaces the old `roundTripBps`, which added two independent quotes)\n")
+    print("| pool | " + " | ".join(f"${s:,}" for s in sizes) + " |")
+    print("| --- | " + " | ".join("---" for _ in sizes) + " |")
+    for name, p in q["pools"].items():
+        print(f"| {name} | " + " | ".join(cell(r_["sequentialRoundTrip"]) for r_ in p["quotes"]) + " |")
+    print("\n**Executable capacity** (the pool keeps filling at collapsing prices, so a trade is rarely refused; this is the most it can PAY for an unbounded input)\n")
+    print("| pool | scan | most USDG obtainable by selling the stock | most stock (USD at mid) obtainable by spending USDG | statuses |")
+    print("| --- | --- | --- | --- | --- |")
+    for name, p in q["pools"].items():
+        c = p["executableCapacity"]
+        print(f"| {name} | {p['scan']['mode']} | ${c['maxUsdgFromSelling']:,.0f} | ${c['maxStockUsdFromBuyingAtMid']:,.0f} | sell {c['sellStatus']}, buy {c['buyStatus']} |")
+    print("\n**Depth: USDG-equivalent input that moves the price** (+1% / +5% buying the stock, -1% / -5% selling it)\n")
     print("| pool | +1% | +5% | -1% | -5% |")
     print("| --- | --- | --- | --- | --- |")
     for name, p in q["pools"].items():
-        d = {(x["direction"], x["movePct"]): x["inputUsd"] for x in p["depth"]}
-        f = lambda k: "beyond window" if d[k] is None else f"${d[k]:,.0f}"
+        d = {(x["direction"], x["movePct"]): x for x in p["depth"]}
+        f = lambda k: ab.get(d[k]["status"], d[k]["status"]) if d[k]["inputUsd"] is None else f"${d[k]['inputUsd']:,.0f}"
         print(f"| {name} | {f(('price_up_buy_stock', 1.0))} | {f(('price_up_buy_stock', 5.0))} | {f(('price_down_sell_stock', 1.0))} | {f(('price_down_sell_stock', 5.0))} |")
     print("\n**Fee reconciliation**\n")
     print("| pool | listed | FeeAdjustment events | fee range seen (ppm) | fee() vs events at matched blocks | implied fee from swaps vs event fee | protocol delta / predicted | feeGrowth delta / predicted | share of last 30 days at 150 ppm |")

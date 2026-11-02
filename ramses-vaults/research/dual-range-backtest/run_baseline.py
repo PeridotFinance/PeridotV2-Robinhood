@@ -25,7 +25,7 @@ import feasibility as FZ
 PROFILES = {
     # name -> (capital, ranged cap or None = capital, label, output suffix)
     "research": (10_000.0, None, "RESEARCH SCENARIO: $10,000 pair, ranged cap = capital (not a current cap)", ""),
-    "caps": (1_000.0, 50.0, "CURRENT CAPS: $1,000 pair, $50 ranged value (the existing caps named by the operator; $50 matches the live Uniswap vault's maxRangedValueUsd)", "_caps"),
+    "caps": (1_000.0, 50.0, "CURRENT CAPS: $1,000 pair (OPERATOR-SUPPLIED, pending configuration readback), $50 ranged value (operator-supplied; $50 matches the live Uniswap vault's maxRangedValueUsd)", "_caps"),
 }
 CAPITAL = 10_000.0
 POLL_S = 300.0                    # the deployed Uniswap keeper polls every 300 s (INTERVAL_SECONDS); the Ramses keeper's cadence is an assumption
@@ -54,6 +54,10 @@ RUNS = {
     "single600_trig300_gas040": (dict(core_half=600, trigger_ticks=300, gas_usd=RECENTER_GAS_CONSERVATIVE), "sensitivity: engine's conservative $0.40 per recenter"),
     "single600_trig300_cap5k": (dict(core_half=600, trigger_ticks=300, max_ranged_usd=CAPITAL / 2), "sensitivity: maxRangedValueUsd = half of capital (rest stays idle)"),
     "single600_trig300_histshare": (dict(core_half=600, trigger_ticks=300, protocol_share=None), "sensitivity: historical protocol share (5% before 2026-09-30, then 50%)"),
+    "fee_fixed150": (dict(core_half=600, trigger_ticks=300, fee_fixed_ppm=150.0), "COMPARISON: the listed/instantaneous 150 ppm held constant instead of the fee actually in force"),
+    "fee_x15": (dict(core_half=600, trigger_ticks=300, fee_mult=1.5), "STRESS: every swap's fee x1.5 (volume unchanged)"),
+    "fee_x2": (dict(core_half=600, trigger_ticks=300, fee_mult=2.0), "STRESS: every swap's fee x2 (volume unchanged)"),
+    "fee_x3": (dict(core_half=600, trigger_ticks=300, fee_mult=3.0), "STRESS: every swap's fee x3 (volume unchanged)"),
     "full_range": (dict(full_range=True, core_half=0, wide_half=0), "full range (adapter default minUsableTick..maxUsableTick); no recentering"),
 }
 
@@ -99,6 +103,15 @@ def _run(job):
         "window_hold_return_pct_": r["hold_ret_pct"],
         "window_excess_after_all_costs_pct": r["excess_pct"] - maint / eq0 * 100.0,
         "annualised_excess_after_all_costs_pct": (r["excess_pct"] - maint / eq0 * 100.0) * 365.0 / days,
+        # SUPPLIER view versus PROTOCOL-paid operating costs. In the contract the keeper wallet pays gas and the vault owes suppliers only their claims:
+        # recenter gas and maintenance are operator/protocol costs, not deductions from supplier principal. The engine charges recenter gas against
+        # equity; it is added back here for the supplier view.
+        "supplier_return_pct": r["ret_pct"] + r["gas_usd"] / eq0 * 100.0,
+        "supplier_excess_vs_hold_pct": r["excess_pct"] + r["gas_usd"] / eq0 * 100.0,
+        "supplier_excess_vs_hold_apr_pct": (r["excess_pct"] + r["gas_usd"] / eq0 * 100.0) * 365.0 / days,
+        "protocol_operating_cost_usd": r["gas_usd"] + maint,
+        "protocol_reserve_inflow_usd": r["reserve_usd"],
+        "protocol_net_usd": r["reserve_usd"] - r["gas_usd"] - maint,
         "maintenance_observed_avg_usd": MAINTENANCE_OBSERVED_AVG_USD_PER_DAY * days,
         "window_excess_after_all_costs_observed_maintenance_pct": r["excess_pct"] - MAINTENANCE_OBSERVED_AVG_USD_PER_DAY * days / eq0 * 100.0,
         "annualised_excess_after_all_costs_observed_maintenance_pct": (r["excess_pct"] - MAINTENANCE_OBSERVED_AVG_USD_PER_DAY * days / eq0 * 100.0) * 365.0 / days,

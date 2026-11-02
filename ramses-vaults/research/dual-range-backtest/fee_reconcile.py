@@ -237,7 +237,7 @@ def main():
            "command": "python3 " + " ".join(sys.argv), "head": head,
            "gate": "NOT waived. This file reconciles numbers; whether a fee difference is acceptable, and any GLD activation, remain operator decisions.",
            "pools": {}}
-    for name, (addr, _w) in POOLS.items():
+    for name, (addr, *_rest) in POOLS.items():
         listed = gw[addr.lower()]["feeTier"]
         tl, fee_f, pro_f = timeline(r, name, addr, head, listed)
         tl["gatewayFeeProtocol"] = gw[addr.lower()]["feeProtocol"]

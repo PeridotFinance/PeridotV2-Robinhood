@@ -1,0 +1,8 @@
+KILLED   missing dataset tolerated
+KILLED   missing small input tolerated
+KILLED   modified small input tolerated
+KILLED   rebuild skips small-input check
+KILLED   missing raw file tolerated
+KILLED   empty small-input list accepted
+KILLED   unknown pair accepted in verify (after strengthening the test)
+all mutations killed
