@@ -19,6 +19,8 @@ from urllib.error import HTTPError, URLError
 from urllib.parse import urlsplit
 from urllib.request import Request, urlopen
 
+from keccak import keccak_hex
+
 CHAIN_ID = 4663
 ROLLOUT_BLOCK = 84_107_567
 SOURCE_COMMIT = "a41096221409403cef84d2c7c4cf62195bcca81d"
@@ -69,11 +71,7 @@ class EvidenceError(RuntimeError):
 
 
 def keccak(text: str) -> str:
-    try:
-        from Crypto.Hash import keccak as ethereum_keccak
-    except ImportError as exc:
-        raise EvidenceError("Install remediation/tools/strategy_evidence_requirements.txt") from exc
-    return "0x" + ethereum_keccak.new(digest_bits=256, data=text.encode()).hexdigest()
+    return keccak_hex(text)
 
 
 def quantity(value, name="quantity") -> int:

@@ -8,10 +8,9 @@ keeper behavior are unchanged.
 ## Run
 
 ```sh
-python -m venv /tmp/strategy-evidence-venv
-/tmp/strategy-evidence-venv/bin/pip install -r remediation/tools/strategy_evidence_requirements.txt
+# No third-party packages are required (Keccak-256 is bundled in keccak.py).
 export ROBINHOOD_ARCHIVE_RPC_URL='https://your-archive-provider'
-/tmp/strategy-evidence-venv/bin/python remediation/tools/strategy_evidence.py \
+python3 remediation/tools/strategy_evidence.py \
   --from-block 84107567 --to-block YOUR_FINALIZED_END_BLOCK \
   --sample-step 10000 --log-step 2000 \
   --output remediation/evidence/strategy-evidence/UNIQUE_WINDOW.json
@@ -81,7 +80,7 @@ before a historical replay claims exact deployed behavior.
 
 ```sh
 cd remediation/tools
-/tmp/strategy-evidence-venv/bin/python -m unittest -v test_strategy_evidence
+python3 -m unittest -v test_strategy_evidence
 ```
 
 These test failure handling and interpretation, using explicitly synthetic responses.
