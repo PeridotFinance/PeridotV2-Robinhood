@@ -31,3 +31,7 @@ frontend/dist/
 
 # Stray local terminal capture
 /ran
+
+# Phase 0 research outputs (generated locally; only the code and tests are published)
+ramses-vaults/research/dual-range-backtest/results/
+ramses-vaults/research/dual-range-backtest/__pycache__/
