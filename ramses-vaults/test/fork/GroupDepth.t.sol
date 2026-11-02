@@ -30,7 +30,8 @@ abstract contract GroupDepthBase is Test {
     }
 
     function _net(int24 t) internal view returns (int128 net) {
-        (bool ok, bytes memory data) = address(pool).staticcall(abi.encodeWithSignature("ticks(int24)", t));
+        (bool ok, bytes memory data) =
+            address(pool).staticcall(abi.encodeWithSignature("ticks(int24)", t));
         require(ok && data.length >= 64, "ticks()");
         uint256 gross;
         assembly {
@@ -40,7 +41,11 @@ abstract contract GroupDepthBase is Test {
         require(gross > 0, "uninitialized tick has no gross");
     }
 
-    function _scan(int24 from, int24 to) internal view returns (int24[] memory ticks, int128[] memory nets, uint256 n) {
+    function _scan(int24 from, int24 to)
+        internal
+        view
+        returns (int24[] memory ticks, int128[] memory nets, uint256 n)
+    {
         ticks = new int24[](4096);
         nets = new int128[](4096);
         int24 cLo = _compress(from);
@@ -68,11 +73,16 @@ abstract contract GroupDepthBase is Test {
 
     /// @dev amount of the input token needed to move the sqrt price from `s` to `target` (either direction), plus the
     /// output token obtained, walking the initialized ticks. Constant liquidity inside each interval.
-    function _walk(uint160 s, int24 tick, uint128 liq, uint160 target, bool down, int24[] memory ticks, int128[] memory nets, uint256 n)
-        internal
-        pure
-        returns (uint256 amountIn, uint256 amountOut)
-    {
+    function _walk(
+        uint160 s,
+        int24 tick,
+        uint128 liq,
+        uint160 target,
+        bool down,
+        int24[] memory ticks,
+        int128[] memory nets,
+        uint256 n
+    ) internal pure returns (uint256 amountIn, uint256 amountOut) {
         // collect ticks in walking order
         uint160 cur = s;
         uint128 L = liq;
@@ -123,10 +133,18 @@ abstract contract GroupDepthBase is Test {
         emit log_named_uint("DEPTH_BLOCK", block.number);
         emit log_named_int("DEPTH_TICK", tick);
         emit log_named_uint("DEPTH_LIQ", liq);
-        (int24[] memory ticks, int128[] memory nets, uint256 n) = _scan(tick - WINDOW, tick + WINDOW);
+        (int24[] memory ticks, int128[] memory nets, uint256 n) =
+            _scan(tick - WINDOW, tick + WINDOW);
         emit log_named_uint("DEPTH_TICKCOUNT", n);
         for (uint256 i = 0; i < n; i++) {
-            emit log_string(string.concat("TICK,", label(), ",", vm.toString(int256(ticks[i])), ",", vm.toString(int256(nets[i]))));
+            emit log_string(string.concat(
+                    "TICK,",
+                    label(),
+                    ",",
+                    vm.toString(int256(ticks[i])),
+                    ",",
+                    vm.toString(int256(nets[i]))
+                ));
         }
         // price moves in percent of PRICE: price ratio r => sqrt ratio sqrt(r); use 1e6 fixed point
         uint256[3] memory pcts = [uint256(10_000), 20_000, 50_000]; // 1%, 2%, 5% in 1e6
@@ -138,12 +156,18 @@ abstract contract GroupDepthBase is Test {
                 // sqrt(ratio/1e6) = _sqrt(ratio * 1e6) / 1e6
                 uint160 target = uint160(uint256(s) * _sqrt(ratio * 1e6) / 1e6);
                 (uint256 amtIn, uint256 amtOut) = _walk(s, tick, liq, target, down, ticks, nets, n);
-                emit log_string(
-                    string.concat(
-                        "DEPTH,", label(), ",", down ? "token0_in_sqrt_down" : "token1_in_sqrt_up", ",", vm.toString(pcts[i]), ",",
-                        vm.toString(amtIn), ",", vm.toString(amtOut)
-                    )
-                );
+                emit log_string(string.concat(
+                        "DEPTH,",
+                        label(),
+                        ",",
+                        down ? "token0_in_sqrt_down" : "token1_in_sqrt_up",
+                        ",",
+                        vm.toString(pcts[i]),
+                        ",",
+                        vm.toString(amtIn),
+                        ",",
+                        vm.toString(amtOut)
+                    ));
             }
         }
     }
