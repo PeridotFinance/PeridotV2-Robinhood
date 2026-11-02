@@ -89,7 +89,8 @@ def run(cmd, cwd, env=None, log=None):
     p = subprocess.run(cmd, cwd=cwd, env=env, capture_output=True, text=True)
     if log:
         Path(log).write_text(p.stdout + p.stderr)
-    return p.returncode, time.time() - t, (p.stdout + p.stderr)[-600:]
+    # stdout and stderr are kept apart: the success marker is printed on stdout, unittest chatter goes to stderr
+    return p.returncode, time.time() - t, p.stdout[-600:] + "\n--stderr--\n" + p.stderr[-300:]
 
 
 def cold_ok(pair):

@@ -1,5 +1,5 @@
 {
- "created": "2026-11-02T12:49:19Z",
+ "created": "2026-11-02T16:30:49Z",
  "note": "Raw logs and pickled datasets are not committed (too large). Rebuild with `python3 bundle.py rebuild PAIR`; every hash below is verified. The chain is the source of truth; the public RPC serves all logs but only ~9 minutes of state, so state reads are NOT recoverable and are not part of this bundle.",
  "pairs": {
   "GLD": {
@@ -119,7 +119,7 @@
      "a1"
     ],
     "gridLimitBlock": 104180000,
-    "sha256": "dfbc6a6eab92b46a35ef2c6432696fd92a8068d64475ecae0db9c7cbc4cd8d81",
+    "sha256": "b27f150bece07f4c74196eaacf7c3a24166d6fe80bf21e5350d12dbf69afd191",
     "swaps": 331486,
     "swapsDroppedAfterGrid": 8
    },

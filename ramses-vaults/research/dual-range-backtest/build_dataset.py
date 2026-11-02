@@ -28,6 +28,11 @@ def build_from_raw(name: str, raw: dict, ti: TimeIndex, limit: int | None = None
     swaps = [l for l in raw["swap"] if l["blockNumber"] <= limit]
     if swaps:
         ti.ensure(swaps[0]["blockNumber"], min(swaps[-1]["blockNumber"], limit - 1))
+    # Timestamps are interpolated on the REGULAR header grid only. A shared header cache may also hold off-grid anchors added by other scripts (fork pins,
+    # evidence end blocks); using them would make the dataset depend on whatever else was cached, so they are ignored: the dataset is a function of the logs
+    # and the immutable on-chain headers at multiples of the grid step, which is what bundle.py rebuilds cold.
+    ti.grid = {k: v for k, v in ti.grid.items() if k % ti.step == 0}
+    ti._keys = None
     dropped_tail = len(raw["swap"]) - len(swaps)
     for l in swaps:
         w = words(l["data"])
