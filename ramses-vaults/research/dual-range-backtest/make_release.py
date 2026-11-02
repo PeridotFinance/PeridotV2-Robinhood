@@ -94,16 +94,21 @@ def run(cmd, cwd, env=None, log=None):
 
 
 def cold_ok(pair):
+    """A cold-reconstruction log counts only if it is a FRESH fetch: every one of the 12 event streams shows a fetch time, all hashes (12 streams, 2 small
+    inputs, the dataset columns) are OK, nothing failed, and it is not marked as a cache-assisted second pass."""
+    import re
     f = HERE / "evidence" / "logs" / f"bundle-rebuild-{pair}.log"
     if not f.exists():
         return False
     txt = f.read_text()
-    return ("FAIL" not in txt) and txt.count("  OK   ") >= 12 + 2 and "OK   dataset columns" in txt
+    fetched = len(re.findall(rf"{pair} \w+: \d+ logs \(\d+s\)", txt))
+    return ("FAIL" not in txt and "Traceback" not in txt and "Second pass" not in txt and fetched >= len(B.REQUIRED_EVENT_STREAMS)
+            and txt.count("  OK   ") >= len(B.REQUIRED_EVENT_STREAMS) + 3 and "OK   dataset columns" in txt)
 
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--version", default="v1")
+    ap.add_argument("--version", default="v1.1")
     ap.add_argument("--require-cold", action="store_true")
     ap.add_argument("--full", action="store_true", help="reproduce_offline.sh full (every baseline); default is the quick set")
     a = ap.parse_args()

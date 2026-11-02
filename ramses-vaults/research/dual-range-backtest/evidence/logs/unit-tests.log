@@ -1,116 +1,125 @@
-....................................................................../Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/test_bundle.py:52: ResourceWarning: unclosed file <_io.BufferedWriter name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmpshf57_b6/results/dataset_SPY.pkl'>
+....................................................................../Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/test_bundle.py:52: ResourceWarning: unclosed file <_io.BufferedWriter name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmpixo1gfwr/results/dataset_SPY.pkl'>
   pickle.dump((self.cols, {}), open(self.results / "dataset_SPY.pkl", "wb"))
 ResourceWarning: Enable tracemalloc to get the object allocation traceback
-./Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/test_bundle.py:52: ResourceWarning: unclosed file <_io.BufferedWriter name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmppgojiutp/results/dataset_SPY.pkl'>
+./Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/test_bundle.py:52: ResourceWarning: unclosed file <_io.BufferedWriter name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmpzmv1857v/results/dataset_SPY.pkl'>
   pickle.dump((self.cols, {}), open(self.results / "dataset_SPY.pkl", "wb"))
 ResourceWarning: Enable tracemalloc to get the object allocation traceback
-/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/bundle.py:260: ResourceWarning: unclosed file <_io.BufferedReader name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmppgojiutp/results/dataset_SPY.pkl'>
+/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/bundle.py:260: ResourceWarning: unclosed file <_io.BufferedReader name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmpzmv1857v/results/dataset_SPY.pkl'>
   cols, _ = pickle.load(open(ds, "rb"))
 ResourceWarning: Enable tracemalloc to get the object allocation traceback
-./Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/test_bundle.py:52: ResourceWarning: unclosed file <_io.BufferedWriter name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmp_fpryhy2/results/dataset_SPY.pkl'>
+./Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/test_bundle.py:52: ResourceWarning: unclosed file <_io.BufferedWriter name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmpkg_h5ggn/results/dataset_SPY.pkl'>
   pickle.dump((self.cols, {}), open(self.results / "dataset_SPY.pkl", "wb"))
 ResourceWarning: Enable tracemalloc to get the object allocation traceback
-/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/bundle.py:260: ResourceWarning: unclosed file <_io.BufferedReader name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmp_fpryhy2/results/dataset_SPY.pkl'>
+/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/bundle.py:260: ResourceWarning: unclosed file <_io.BufferedReader name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmpkg_h5ggn/results/dataset_SPY.pkl'>
   cols, _ = pickle.load(open(ds, "rb"))
 ResourceWarning: Enable tracemalloc to get the object allocation traceback
-./Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/test_bundle.py:52: ResourceWarning: unclosed file <_io.BufferedWriter name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmpajxp5pvd/results/dataset_SPY.pkl'>
+./Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/test_bundle.py:52: ResourceWarning: unclosed file <_io.BufferedWriter name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmpg2s24oip/results/dataset_SPY.pkl'>
   pickle.dump((self.cols, {}), open(self.results / "dataset_SPY.pkl", "wb"))
 ResourceWarning: Enable tracemalloc to get the object allocation traceback
-/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/bundle.py:260: ResourceWarning: unclosed file <_io.BufferedReader name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmpajxp5pvd/results/dataset_SPY.pkl'>
+/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/bundle.py:260: ResourceWarning: unclosed file <_io.BufferedReader name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmpg2s24oip/results/dataset_SPY.pkl'>
   cols, _ = pickle.load(open(ds, "rb"))
 ResourceWarning: Enable tracemalloc to get the object allocation traceback
-./Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/test_bundle.py:52: ResourceWarning: unclosed file <_io.BufferedWriter name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmpgxcw___c/results/dataset_SPY.pkl'>
+./Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/test_bundle.py:52: ResourceWarning: unclosed file <_io.BufferedWriter name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmp479kprew/results/dataset_SPY.pkl'>
   pickle.dump((self.cols, {}), open(self.results / "dataset_SPY.pkl", "wb"))
 ResourceWarning: Enable tracemalloc to get the object allocation traceback
-/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/bundle.py:260: ResourceWarning: unclosed file <_io.BufferedReader name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmpgxcw___c/results/dataset_SPY.pkl'>
+/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/bundle.py:260: ResourceWarning: unclosed file <_io.BufferedReader name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmp479kprew/results/dataset_SPY.pkl'>
   cols, _ = pickle.load(open(ds, "rb"))
 ResourceWarning: Enable tracemalloc to get the object allocation traceback
-./Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/test_bundle.py:52: ResourceWarning: unclosed file <_io.BufferedWriter name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmp3idk7mdy/results/dataset_SPY.pkl'>
+./Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/test_bundle.py:52: ResourceWarning: unclosed file <_io.BufferedWriter name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmpfz6piobj/results/dataset_SPY.pkl'>
   pickle.dump((self.cols, {}), open(self.results / "dataset_SPY.pkl", "wb"))
 ResourceWarning: Enable tracemalloc to get the object allocation traceback
-/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/bundle.py:260: ResourceWarning: unclosed file <_io.BufferedReader name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmp3idk7mdy/results/dataset_SPY.pkl'>
+/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/bundle.py:260: ResourceWarning: unclosed file <_io.BufferedReader name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmpfz6piobj/results/dataset_SPY.pkl'>
   cols, _ = pickle.load(open(ds, "rb"))
 ResourceWarning: Enable tracemalloc to get the object allocation traceback
-./Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/test_bundle.py:52: ResourceWarning: unclosed file <_io.BufferedWriter name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmpysjzguwh/results/dataset_SPY.pkl'>
+./Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/test_bundle.py:52: ResourceWarning: unclosed file <_io.BufferedWriter name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmpyeos0zkv/results/dataset_SPY.pkl'>
   pickle.dump((self.cols, {}), open(self.results / "dataset_SPY.pkl", "wb"))
 ResourceWarning: Enable tracemalloc to get the object allocation traceback
-./Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/test_bundle.py:52: ResourceWarning: unclosed file <_io.BufferedWriter name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmpaksou8_e/results/dataset_SPY.pkl'>
+./Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/test_bundle.py:52: ResourceWarning: unclosed file <_io.BufferedWriter name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmph6bpu13n/results/dataset_SPY.pkl'>
   pickle.dump((self.cols, {}), open(self.results / "dataset_SPY.pkl", "wb"))
 ResourceWarning: Enable tracemalloc to get the object allocation traceback
-/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/bundle.py:260: ResourceWarning: unclosed file <_io.BufferedReader name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmpaksou8_e/results/dataset_SPY.pkl'>
+/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/bundle.py:260: ResourceWarning: unclosed file <_io.BufferedReader name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmph6bpu13n/results/dataset_SPY.pkl'>
   cols, _ = pickle.load(open(ds, "rb"))
 ResourceWarning: Enable tracemalloc to get the object allocation traceback
-./Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/test_bundle.py:52: ResourceWarning: unclosed file <_io.BufferedWriter name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmp8dkyr37q/results/dataset_SPY.pkl'>
+./Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/test_bundle.py:52: ResourceWarning: unclosed file <_io.BufferedWriter name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmpsx4xl7z4/results/dataset_SPY.pkl'>
   pickle.dump((self.cols, {}), open(self.results / "dataset_SPY.pkl", "wb"))
 ResourceWarning: Enable tracemalloc to get the object allocation traceback
-/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/bundle.py:260: ResourceWarning: unclosed file <_io.BufferedReader name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmp8dkyr37q/results/dataset_SPY.pkl'>
+/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/bundle.py:260: ResourceWarning: unclosed file <_io.BufferedReader name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmpsx4xl7z4/results/dataset_SPY.pkl'>
   cols, _ = pickle.load(open(ds, "rb"))
 ResourceWarning: Enable tracemalloc to get the object allocation traceback
-./Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/test_bundle.py:52: ResourceWarning: unclosed file <_io.BufferedWriter name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmpflx6t8yy/results/dataset_SPY.pkl'>
+./Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/test_bundle.py:52: ResourceWarning: unclosed file <_io.BufferedWriter name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmppbr2333x/results/dataset_SPY.pkl'>
   pickle.dump((self.cols, {}), open(self.results / "dataset_SPY.pkl", "wb"))
 ResourceWarning: Enable tracemalloc to get the object allocation traceback
-/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/test_bundle.py:77: ResourceWarning: unclosed file <_io.BufferedWriter name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmpflx6t8yy/results/dataset_SPY.pkl'>
+/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/test_bundle.py:77: ResourceWarning: unclosed file <_io.BufferedWriter name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmppbr2333x/results/dataset_SPY.pkl'>
   pickle.dump((dict(self.cols, block=[9, 9, 9]), {}), open(self.results / "dataset_SPY.pkl", "wb"))
 ResourceWarning: Enable tracemalloc to get the object allocation traceback
-/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/bundle.py:260: ResourceWarning: unclosed file <_io.BufferedReader name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmpflx6t8yy/results/dataset_SPY.pkl'>
+/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/bundle.py:260: ResourceWarning: unclosed file <_io.BufferedReader name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmppbr2333x/results/dataset_SPY.pkl'>
   cols, _ = pickle.load(open(ds, "rb"))
 ResourceWarning: Enable tracemalloc to get the object allocation traceback
-./Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/test_bundle.py:52: ResourceWarning: unclosed file <_io.BufferedWriter name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmp1jhyv80i/results/dataset_SPY.pkl'>
+./Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/test_bundle.py:52: ResourceWarning: unclosed file <_io.BufferedWriter name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmpef7d7_qa/results/dataset_SPY.pkl'>
   pickle.dump((self.cols, {}), open(self.results / "dataset_SPY.pkl", "wb"))
 ResourceWarning: Enable tracemalloc to get the object allocation traceback
-/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/bundle.py:260: ResourceWarning: unclosed file <_io.BufferedReader name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmp1jhyv80i/results/dataset_SPY.pkl'>
+/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/bundle.py:260: ResourceWarning: unclosed file <_io.BufferedReader name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmpef7d7_qa/results/dataset_SPY.pkl'>
   cols, _ = pickle.load(open(ds, "rb"))
 ResourceWarning: Enable tracemalloc to get the object allocation traceback
-./Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/test_bundle.py:52: ResourceWarning: unclosed file <_io.BufferedWriter name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmph9jwsjs6/results/dataset_SPY.pkl'>
+./Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/test_bundle.py:52: ResourceWarning: unclosed file <_io.BufferedWriter name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmpgwvr6ne5/results/dataset_SPY.pkl'>
   pickle.dump((self.cols, {}), open(self.results / "dataset_SPY.pkl", "wb"))
 ResourceWarning: Enable tracemalloc to get the object allocation traceback
-/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/bundle.py:260: ResourceWarning: unclosed file <_io.BufferedReader name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmph9jwsjs6/results/dataset_SPY.pkl'>
+/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/bundle.py:260: ResourceWarning: unclosed file <_io.BufferedReader name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmpgwvr6ne5/results/dataset_SPY.pkl'>
   cols, _ = pickle.load(open(ds, "rb"))
 ResourceWarning: Enable tracemalloc to get the object allocation traceback
-./Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/test_bundle.py:52: ResourceWarning: unclosed file <_io.BufferedWriter name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmprgmeod6y/results/dataset_SPY.pkl'>
+./Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/test_bundle.py:52: ResourceWarning: unclosed file <_io.BufferedWriter name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmp3fl_zkqj/results/dataset_SPY.pkl'>
   pickle.dump((self.cols, {}), open(self.results / "dataset_SPY.pkl", "wb"))
 ResourceWarning: Enable tracemalloc to get the object allocation traceback
-/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/bundle.py:260: ResourceWarning: unclosed file <_io.BufferedReader name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmprgmeod6y/results/dataset_SPY.pkl'>
+/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/bundle.py:260: ResourceWarning: unclosed file <_io.BufferedReader name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmp3fl_zkqj/results/dataset_SPY.pkl'>
   cols, _ = pickle.load(open(ds, "rb"))
 ResourceWarning: Enable tracemalloc to get the object allocation traceback
-./Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/test_bundle.py:52: ResourceWarning: unclosed file <_io.BufferedWriter name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmp0v3nm27z/results/dataset_SPY.pkl'>
+./Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/test_bundle.py:52: ResourceWarning: unclosed file <_io.BufferedWriter name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmpp6htxge_/results/dataset_SPY.pkl'>
   pickle.dump((self.cols, {}), open(self.results / "dataset_SPY.pkl", "wb"))
 ResourceWarning: Enable tracemalloc to get the object allocation traceback
-/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/bundle.py:260: ResourceWarning: unclosed file <_io.BufferedReader name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmp0v3nm27z/results/dataset_SPY.pkl'>
+/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/bundle.py:260: ResourceWarning: unclosed file <_io.BufferedReader name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmpp6htxge_/results/dataset_SPY.pkl'>
   cols, _ = pickle.load(open(ds, "rb"))
 ResourceWarning: Enable tracemalloc to get the object allocation traceback
-./Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/test_bundle.py:52: ResourceWarning: unclosed file <_io.BufferedWriter name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmpg7fuph0j/results/dataset_SPY.pkl'>
+./Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/test_bundle.py:52: ResourceWarning: unclosed file <_io.BufferedWriter name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmprypbmxg0/results/dataset_SPY.pkl'>
   pickle.dump((self.cols, {}), open(self.results / "dataset_SPY.pkl", "wb"))
 ResourceWarning: Enable tracemalloc to get the object allocation traceback
-./Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/test_bundle.py:52: ResourceWarning: unclosed file <_io.BufferedWriter name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmpzo57nwvv/results/dataset_SPY.pkl'>
+./Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/test_bundle.py:52: ResourceWarning: unclosed file <_io.BufferedWriter name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmpxnqc08tx/results/dataset_SPY.pkl'>
   pickle.dump((self.cols, {}), open(self.results / "dataset_SPY.pkl", "wb"))
 ResourceWarning: Enable tracemalloc to get the object allocation traceback
-./Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/test_bundle.py:52: ResourceWarning: unclosed file <_io.BufferedWriter name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmptqds6ljs/results/dataset_SPY.pkl'>
+./Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/test_bundle.py:52: ResourceWarning: unclosed file <_io.BufferedWriter name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmpstipyzq1/results/dataset_SPY.pkl'>
   pickle.dump((self.cols, {}), open(self.results / "dataset_SPY.pkl", "wb"))
 ResourceWarning: Enable tracemalloc to get the object allocation traceback
-/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/bundle.py:260: ResourceWarning: unclosed file <_io.BufferedReader name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmptqds6ljs/results/dataset_SPY.pkl'>
+/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/bundle.py:260: ResourceWarning: unclosed file <_io.BufferedReader name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmpstipyzq1/results/dataset_SPY.pkl'>
   cols, _ = pickle.load(open(ds, "rb"))
 ResourceWarning: Enable tracemalloc to get the object allocation traceback
-./Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/test_bundle.py:52: ResourceWarning: unclosed file <_io.BufferedWriter name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmpgz0c_c1j/results/dataset_SPY.pkl'>
+./Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/test_bundle.py:52: ResourceWarning: unclosed file <_io.BufferedWriter name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmpm75cmddw/results/dataset_SPY.pkl'>
   pickle.dump((self.cols, {}), open(self.results / "dataset_SPY.pkl", "wb"))
 ResourceWarning: Enable tracemalloc to get the object allocation traceback
-/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/bundle.py:260: ResourceWarning: unclosed file <_io.BufferedReader name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmpgz0c_c1j/results/dataset_SPY.pkl'>
+/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/bundle.py:260: ResourceWarning: unclosed file <_io.BufferedReader name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmpm75cmddw/results/dataset_SPY.pkl'>
   cols, _ = pickle.load(open(ds, "rb"))
 ResourceWarning: Enable tracemalloc to get the object allocation traceback
-./Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/test_bundle.py:52: ResourceWarning: unclosed file <_io.BufferedWriter name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmp8ro42pmk/results/dataset_SPY.pkl'>
+./Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/test_bundle.py:52: ResourceWarning: unclosed file <_io.BufferedWriter name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmp29pi_lr6/results/dataset_SPY.pkl'>
   pickle.dump((self.cols, {}), open(self.results / "dataset_SPY.pkl", "wb"))
 ResourceWarning: Enable tracemalloc to get the object allocation traceback
-./Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/test_bundle.py:52: ResourceWarning: unclosed file <_io.BufferedWriter name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmptdmnwi1z/results/dataset_SPY.pkl'>
+./Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/test_bundle.py:52: ResourceWarning: unclosed file <_io.BufferedWriter name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmpge3zi1vm/results/dataset_SPY.pkl'>
   pickle.dump((self.cols, {}), open(self.results / "dataset_SPY.pkl", "wb"))
 ResourceWarning: Enable tracemalloc to get the object allocation traceback
-/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/test_bundle.py:175: ResourceWarning: unclosed file <_io.BufferedWriter name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmptdmnwi1z/results/dataset_GLD.pkl'>
+/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/test_bundle.py:175: ResourceWarning: unclosed file <_io.BufferedWriter name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmpge3zi1vm/results/dataset_GLD.pkl'>
   pickle.dump((self.cols, {}), open(self.results / "dataset_GLD.pkl", "wb"))   # present on disk but absent from the manifest
 ResourceWarning: Enable tracemalloc to get the object allocation traceback
-./Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/test_bundle.py:52: ResourceWarning: unclosed file <_io.BufferedWriter name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmpftxoyn_d/results/dataset_SPY.pkl'>
+./Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/test_bundle.py:52: ResourceWarning: unclosed file <_io.BufferedWriter name='/var/folders/z0/qdybf6rs2kz04kkz8m61gl5r0000gn/T/tmp8x6y4rdy/results/dataset_SPY.pkl'>
   pickle.dump((self.cols, {}), open(self.results / "dataset_SPY.pkl", "wb"))
 ResourceWarning: Enable tracemalloc to get the object allocation traceback
-.................
+..................../Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/test_dataset_grid.py:84: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/results/dataset_SPY.pkl'>
+  cols, _ = pickle.load(open(f, "rb"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/test_dataset_grid.py:84: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/results/dataset_GLD.pkl'>
+  cols, _ = pickle.load(open(f, "rb"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/test_dataset_grid.py:84: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/joshua/Peridot/ramses-group-pr/ramses-vaults/research/dual-range-backtest/results/dataset_NVDA.pkl'>
+  cols, _ = pickle.load(open(f, "rb"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+.........
 ----------------------------------------------------------------------
-Ran 107 tests in 1.360s
+Ran 119 tests in 3.233s
 
 OK

@@ -4,7 +4,7 @@
 #   sh reproduce_offline.sh full       also every other baseline (GLD, research scenarios) and the unit tests
 set -e
 cd "$(dirname "$0")"
-python3 -m unittest test_bundle test_quote_math test_feasibility test_engine test_replay_check
+python3 -m unittest test_bundle test_quote_math test_feasibility test_engine test_replay_check test_dataset_grid test_release_gate
 python3 unpack_datasets.py SPY GLD NVDA
 for P in SPY GLD NVDA; do python3 bundle.py verify "$P"; done
 python3 quote_offline.py --check
