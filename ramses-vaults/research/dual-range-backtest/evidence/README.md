@@ -1076,6 +1076,8 @@ Research, read-only verification and test-only prototypes. No `src/` change, no 
 
 ### 17A. Reconciled live baseline (Uniswap NVDA/USDG vault, read fresh)
 
+> **Superseded where it differs by section 18:** the balance sheet is reconciled at one block in 18A, the keeper gap's cause is established in 18B (gas shortage; "not established" below is out of date; 178 transactions, not 176), and V3 is verified against source in 18C.
+
 Read-only reconstruction by a delegated agent from chain state and event logs (`evidence/live-baseline/`: scripts `lb_*.py`, `run_all.sh`, raw request log `raw/rpc-log.jsonl`, results `results.json`, `decomposition.json`, `costs.json`, `state-table.json`, `stale-oracle-simulation.json`); the lead re-read the following **independently with `cast`** and they match: the ledger (stock principal 21,137,493,913,601,450 raw, stock idle about 2.962e16, USDG idle 0, cumulative loss 546,235,985,148,367,630 to the wei), both pToken exchange rates (pNVDA 198853415317349043453506389 identical; pUSDG within a fraction of a percent of a percent of the agent's value, it moves with each fee collection), pUSDG total borrows 1,936,152, the controller's oracle address, and the live oracle's NVDA staleness threshold (259,200 s) with an empty cached-price slot. Main pin: L2 block 104,960,794, hash `0x93a7902a...1772`, native block 26,333,444, 2026-11-03T09:42:13Z. State is pruned within minutes, so each group of state reads has its own pin (listed in `raw/snapshot.json`); everything historical is rebuilt from logs plus end-state checks.
 
 **Bottom line.** The operator's approximate 1% APY is not reproduced. **Suppliers have lost money since the market was seeded (2026-09-05, 59 days):** exchange-rate growth pNVDA **-0.573%**, pUSDG **-1.180% stored (-1.165% with interest accrued)**, about -3.5% and -7.2% annualised (simple). The cause is the LP: about **$0.196 gross fees** ($0.157 net of the 20% reserve cut) against **$0.546 recognized strategy loss**, net about **-$0.385** on a time-weighted principal of $9.8 to $19.4. **Borrowing interest to suppliers is about $0.005** (utilisation 0.04% on pNVDA, about 6.6% on pUSDG; realised average borrow rate 2.0% and 2.7%). The nearest figures to "1%" are the pUSDG instantaneous supply rate (0.43%) and the size of the negative exchange-rate moves; none is a positive realised yield. All of this is on a TVL of about **$36** (pNVDA $7.01, pUSDG $29.18), mostly protocol or team wallets. Protocol-paid costs exceed all income (below). Short-window annualisations are meaningless: the 7-day and 24-hour figures reflect one loss burst booked on 2026-11-02.
@@ -1228,12 +1230,13 @@ Known hosting baseline: the margin keeper on DigitalOcean App Platform, Frankfur
 
 | item | basis | per year |
 | --- | --- | --- |
-| hosting | existing $12/month app; a Ramses keeper job added to the same worker and database: $0 incremental; if run as a separate worker: +$5/month | $144 existing; $0 to $60 incremental |
+| hosting | **corrected (18B):** the LP keeper is its own $5/month app; the $12/month app is the margin keeper. Together $17/month. A Ramses keeper job could share a worker ($0 incremental) or be a new one (+$5/month) | $204 existing; $0 to $60 incremental |
 | RPC | the public endpoint, rate limited (429s were hit), about nine minutes of archive state, browser-style User-Agent required; no paid plan proposed | $0 (risk: availability, no deep history) |
 | keeper transactions | **measured on the live keeper** (17A, ETH at $2,254): checkpoint about $0.023, rebalance about $0.037, recentre about $0.06; 176 transactions cost $5.24 in total; the baselines assume $0.0663 per recentre and a maintenance of $0.1428/day (observed average) to $0.5737/day (assumed) | $52 (observed average) to $209 (assumed) per year; recentres add $1.6 to $5.4 per year (NVDA, 6 to 20 recentres per 90 days) |
 | monitoring | the keeper's own status/health output; external heartbeat alerts and Telegram are deferred, not installed | $0 |
 | seed capital | not an expense; it is protection capital (17C) | n/a |
 | total incremental for the Ramses strategy | gas plus at most one extra worker | about **$52 to $270 per year**, against LP fees of $0.75 to $8.63 per year before the reserve cut |
+| **correction: measured burn of the live keeper at today's cadence** | about $0.85/day wall-clock (18B), above both baseline assumptions | about **$310 per year**, mostly avoidable (18E) |
 
 ### 17G. Wording corrections and CI
 
@@ -1250,3 +1253,201 @@ Known hosting baseline: the margin keeper on DigitalOcean App Platform, Frankfur
 5. **Not deployed / not built:** the Ramses vault, a Ramses margin or router adapter, the DLMM adapter and an r33 price source (r33 stays blocked); META dataset and fork tests not done.
 6. **Live Uniswap vault, separate from the Ramses activation but unresolved:** a 7.75 USDG one-sided shortfall against a $0.076 reserve with swaps paused (only 12.82 of pUSDG's 29.18 USDG NAV instantly redeemable); negative realised supplier return; keeper gaps of up to 20 days with an unestablished cause; lending priced on feed answers up to 72 h old while the guard refuses after 12 h; the 17A items not verified.
 7. **CI:** the new jobs are unproven until they run.
+
+## 18. Live balance sheet, keeper root causes, V3 verification, integration prototype, break-even (2026-11-03)
+
+Read-only on chain and test-only in code. No signing, broadcast, deployment, merge, cap change, borrowing activation or production parameter change. **Where this section differs from 17A it supersedes it.** Secondary oracle work, META and r33 stay deferred. Evidence: `evidence/live-baseline/balance-sheet/`, `keeper-diagnosis/`, `v3-verification/`, `breakeven.json`. Every redeem, swap and reserve path below is an `eth_call` or `eth_simulateV1` simulation, some with a state override or a synthetic donor; none is a transaction. The lead checked the balance-sheet arithmetic and independently re-read the keeper balance, nonce and funding transaction, the vault implementation slot, and the adapter's runtime bytes against the compiled artifact.
+
+### 18A. Reconciled balance sheet at ONE block
+
+L2 block **105,020,681**, hash `0x516dd567...cbd57`, native 26,333,958, 2026-11-03T11:25:05Z. Oracle $205.55021071 (feed age 4,864 s), pool spot $205.083923 (-22.68 bp), USDG fixed at $1.
+
+| line | NVDA raw | USDG raw | USD at oracle | USD at spot |
+| --- | --- | --- | --- | --- |
+| pNVDA local cash | 13,110,498,743,128,914 | | 2.694866 | 2.688753 |
+| pUSDG local cash | | 12,818,702 | 12.818702 | 12.818702 |
+| pNVDA borrows (current) | 14,636,122,062,899 | | 0.003008 | 0.003002 |
+| pUSDG borrows (current; includes margin accounts) | | 1,941,134 | 1.941134 | 1.941134 |
+| vault idle (ledger equals balance) | 29,621,285,384,682,670 | 67 | 6.088728 | 6.074916 |
+| LP position (token 4148743, ticks 220,800 to 225,660) | 29,144,302,398,784,260 at oracle (29,453,644,875,567,432 at spot) | 6,811,031 (6,747,517) | 12.801648 | 12.787986 |
+| uncollected fees | 0 | 0 | 0 | 0 |
+| **assets** | 71,890,722,648,658,743 | 21,570,934 | **36.348087** | **36.314493** |
+| pNVDA suppliers | 34,262,630,667,686,583 | | 7.042691 | 7.026715 |
+| pUSDG suppliers | | 29,182,301 | 29.182301 | 29.182301 |
+| market reserves | 2,619,466,797 | 539 | 0.000540 | 0.000540 |
+| **claims** | 34,262,633,287,153,380 | 29,182,840 | **36.225531** | **36.209555** |
+| **assets minus claims** | **+37,628,089,361,505,363** | **-7,611,906** | **+0.122556** | **+0.104937** |
+
+No double counting: market assets are local cash + vault principal + borrows - reserves = supplier claims (residual 1 raw per market); consolidating replaces principal (14,423,005 raw USDG, 21,137,498,421,961,568 raw NVDA) with what the vault actually holds. Memo lines, not in the totals: the **loss reserve** (0.000286619 NVDA + 0.017301 USDG = $0.076216, contingent); margin vault 18.593324 USDG and insurance fund 0.988358 USDG (both are holdings inside pUSDG claims, not extra claims). Fees were 0 by storage calculation and both collect simulations; the keeper collected shortly before the pin.
+
+**Four different quantities**
+1. **Realised loss:** $0.546236, already written into principals and rates.
+2. **Marked result:** +$0.122555 at oracle, +$0.104936 at spot, before fees. It cannot be booked: the gain branch requires both native sides covered, so it is realisable only through a route that turns NVDA into USDG.
+3. **Scarce-token withdrawal liquidity:** each pUSDG holder can exit alone (except `0x12c1...`, refused for its own debt), but **if everyone goes, 19.565792 of 29.182301 USDG gets out**; the remaining 9.6166 is 1.941134 lent out plus 7.675915 of principal with almost no USDG behind it. First come, first served. The view functions understate this (`withdrawableAssets` shows 67 raw USDG; a redeem above local cash succeeds by unwinding the LP).
+4. **Total solvency:** solvent by $0.122556 at oracle and $0.104937 at spot; **below about $202.38 (-1.54%) both principals start to scale down.**
+
+**Is the shortage offset by stock backing? In value yes, in token no.** At this pin USDG is short 7.611907 (7.675421 at spot; the earlier 7.75 was another block). NVDA surplus is 0.037628 NVDA, $7.734462: 0.037031862 NVDA covers the shortage at the oracle price, leaving $0.122555. 26.08% of USDG claims rely on NVDA's value. Sensitivity (`positionStateAt`, pool assumed at oracle):
+
+| NVDA price | USDG short | NVDA surplus (USD) | gross minus benchmark | pro-rata factor | USDG principal after | short after |
+| --- | --- | --- | --- | --- | --- | --- |
+| -20%, $164.44 | 13.520222 | 11.4721 | -2.048096 | 0.885574 | 12.772637 | 11.869854 |
+| -10%, $185.00 | 10.483813 | 9.6855 | -0.798268 | 0.956458 | 13.795000 | 9.855808 |
+| pin, $205.55 | 7.611907 | 7.7345 | +0.122555 | 1 | 14.423005 | 7.611907 |
+| +10%, $226.11 | 4.880352 | 5.6430 | +0.762676 | 1 | 14.423005 | 4.880352 |
+
+**Recovery routes, actual cost (none executed; gas is execution gas at the base fee, excluding L1 data):**
+
+| route | numbers | who bears it | authority | solves USDG? |
+| --- | --- | --- | --- | --- |
+| wait | LP USDG tops out at 13.519775 at or above $257.78 (+25.41%), still 0.903163 short. A recentring model reaches cover near $254.10 (+23.62%), 3 recentres, about $0.15, no fees or execution loss modeled | all suppliers carry NVDA risk | keeper for recentres | not alone |
+| **bounded settlement swap, currently paused** | sells 0.037633018 NVDA for 7.690907 USDG at 204.3659: **cost $0.044568, 57.95 bp** (34.99 fee, about 22.7 oracle/spot gap, 0.04 impact); $25 cap not binding; about 42 bp inside the 100 bp slippage floor; 786,522 to 823,572 gas, about $0.036. Afterwards a bank run gets 27.241617 USDG out; only the 1.941 lent USDG stays locked | the vault's unbooked NVDA surplus; no pro-rata scaling; LP fully unwound | `setPairPause` by timelock (`CONFIG_ROLE`), then a redeem or `syncVault` | **yes** |
+| reserve funding | deposit 7.658120 USDG more; binding limit is **50% per call**, not $10 or $25: 3.84, 1.92, ...; about 1 day; 10 syncs $0.166, 24 syncs $0.380. **A redeem alone never draws it to completion:** only `syncVault` does | the depositor is a donor; about $7.78 of NVDA stays stranded, and by source reading any later gain goes to stock principal (pNVDA holders) | deposit permissionless; `syncVault` by the operator | yes, at a cost of the whole shortage |
+| recentre or rebalance | as-is both revert (`RecenterNotNeeded`, `DeployLossTooHigh`); forced: shortage moves 7,611,907 to 7,609,509 | negligible | keeper | **no** (matched-only) |
+| emergency decrease | moves 6.75 USDG to idle, shortage unchanged, and `emergencyMode` sets withdrawable to 0: a run gets local cash only | everyone loses access | guardian to trigger, timelock to undo | **no, worse** |
+| in-kind | does not exist on chain. Would pay 6.811098 USDG + 0.037031862 NVDA | the recipient takes NVDA risk | new code | avoids the need for USDG, creates none |
+
+**Holders.** Sums equal total supply on both markets. **Potentially external, none identified, treated as external:** `0xdc48fd39...` (3.003229 USDG), `0x12c1e2c3...` (0.011192), `0x5085...` through the margin vault (10.419533 free) and its position 4 ($1.681661 of pNVDA): **$15.115615 gross, $14.144035 net of their debts; 13.422761 USDG redeemable when each is simulated alone**, competing first come, first served with the deployer and insurance fund for the same 19.566 USDG. The chain shows `0x12c1...` funded `0xdc48...` and that an unidentified contract `0x0df73542...` funded both `0x12c1...` and `0x5085...` and once the governor: this does not establish ownership either way. **This means the live shortfall may affect people other than the team.**
+
+### 18B. Keeper root causes
+
+**App:** `peridot-range-keeper` (`6dc249f8...`, Frankfurt, **$5/month** by tier listing), wallet `0x978e2ADF...fAc4`. It is **not** the $12/month margin keeper, which earlier text in 17F conflated; `remediation/evidence/keeper-health.json` describes the margin keeper. 178 transactions, nonces contiguous, all status 1 (97 checkpoints, 79 rebalances, 2 recentres); the earlier count of 176 was two transactions old.
+
+| period (UTC) | state | evidence |
+| --- | --- | --- |
+| before 10-15 12:00 | no cloud app | app created 10-15 11:59 |
+| 10-15 12:00 to 10-18 11:05 | monitor-only, no role | `KEEPER_ROLE` executed 10-18 11:04 |
+| 10-18 11:05 to 10-19 00:05 | executing, **oracle refusal** | 151 `StaleOracle` cycles, no transaction |
+| 10-19 00:05 to 10-22 16:29 | sending | 138 transactions |
+| 10-22 16:35 to 11-02 10:57 | **process up, no gas** | 2,998 `awaiting_gas` cycles |
+| 11-02 11:03 to now | sending | 40 transactions |
+
+* **The 10.77-day gap (10-22 16:29 to 11-02 11:03) is a gas shortage**, not a crash, oracle problem or pause. The 0.002 ETH lasted 3.68 active days (0.0017 usable / 0.000465 per day predicts 3.66); nonce 137 left 0.000294912 ETH, below the worker's 0.0003 floor. The feed was fresh 68.1% of the gap, so about 176 h of fresh feed went unused. The process stayed up (one `started` line since 10-18, longest heartbeat gap 656 s) and **nothing alerted, because the only configured alert is `DEPLOYMENT_FAILED`**. It restarted when the governor sent 0.005 ETH (`0x0684921f...`, block 104,165,036, 11-02 11:01:36); no deployment.
+* **The 20.09-day gap (09-16 11:58 to 10-06 14:01) is not a keeper failure:** all liquidity had been removed at its start, so there was nothing to checkpoint; allocation was paused from 09-26 to 10-06; the keeper did not exist yet.
+* **The other seven gaps over 2 h (09-15 to 10-19)** were manual-operation or pre-deployment periods. The 130.8 h gap splits into 117.8 h not deployed and 13.0 h oracle refusal. **No gap over 2 h occurred while the keeper could send** (longest 4,009 s). Oracle refusal explains only the 13.0 h; contract rejection none.
+* **It will run out again around 11-12 to 11-15** (balance 0.004797 ETH, read independently; 8.66 active days of usable gas).
+* **Spending is mostly waste:** $5.30 of gas against $0.185 of fees collected on about $18.7 of pair value. 78 of 79 rebalances deployed less than their own gas (median $0.00038 deployed, $2.92 total gas, $0.104 total deployed). 41 checkpoints were sent only to discover dust. About $0.85/day wall-clock, $310/year.
+
+Could not determine: the original 0.002 ETH funding transaction; why the role grant waited 2.9 days after it was executable; whether a laptop keeper ran 10-09 to 10-13; why funding happened on 11-02; the cause of one `SEND FAILED` at 10-22 15:07 (its detail went only to the temp journal); runtime logs before 10-18 (the API refuses superseded deployments, so nothing is inferred from their absence). An unidentified EOA `0x9613633f...` sent the keeper 0.0000092 ETH on 10-21; too small to matter, purpose unknown.
+
+**Recovery and monitoring plan (nothing executed): see 18H for approvals.** Alarm states, replayed from 10-18: `EXPECTED_WAIT` (feed over 12 h, quiet), `GAS_LOW` (under 3 active days; **would have fired 10-19 12:10, 76 h before gas ran out**), `GAS_CRITICAL` (under 0.0003 ETH; 10-22 16:35), `STALLED` (gas fine, feed fresh for 30 min, checkpoint older than 7,800 s), `PROCESS_DOWN` (no heartbeat for 900 s or deployment not active). `STALLED` and `PROCESS_DOWN` had no false positives but also **no true event to catch, so their detection is untested.** Host: a scheduled GitHub Actions read of public chain data ($0, independent of DigitalOcean; cron is best-effort; `PROCESS_DOWN` needs a DigitalOcean read token or stays manual, since `STALLED` catches a dead process in about 2 h 10 min while the market is open). Telegram stays deferred. **Do not run `keeper/provision.py --deploy` on the enabled app:** from reading the code it would drop both keystore secrets.
+
+### 18C. Deployed V3 against source; `isLiquidatable()`
+
+**Verified at block 104,995,850, compiled from `07b67d5` (profile `vault_v3`, the V3 source blobs are identical through HEAD; no repo record names the deploying commit).** Adapter implementation `0xb24ba4dd...`: exact byte match, nothing masked (re-confirmed independently). Vault implementation `0x53a23ef7...` (slot re-read independently): match including metadata, with the four RangeLib link slots filled. RangeLib `0x7c585bab...`: match with its one self-address immutable. SettlementLib `0x813AbFeC...`: match against its pinned archived artifact, not recompiled here. Proxy admins are owned by the timelock (3,600 s delay); the governor EOA alone holds proposer, executor and canceller, and the timelock holds vault admin and config.
+
+**`isLiquidatable()` true on closed positions is a misleading query result only.** It has no status check and an emptied account has zero equity. Simulations on positions 1, 2 and 5 at block 104,997,830: `liquidate` reverts `LiquidationError(8)` (status gate); ordinary `liquidateBorrow` is refused in all four market pairings (`INSUFFICIENT_SHORTFALL`); `beginLiquidation` refuses (`not active`); forcing the status to active by state override still reverts `LiquidationError(10)` (zero debt). Closed accounts cannot be reopened, and each new position gets a new account. The keeper returns `resolved` before any simulation, so no wasted transactions (dry run: 0 attempts). **Display risk only:** a UI that does not gate on `status == ACTIVE` would show a closed position as liquidatable with maximum health; no frontend code in these repositories calls it, the other developer's code is not visible.
+
+**Documentation corrected with this evidence:** root `README.md` and `remediation/README.md` (live band is half-width 2,400, about +27.1% / -21.3%, since block 92,657,111, not +12.7% / -11.3%; the keeper role also gates `clearRange`, `collectFees`, `checkpoint` and `burnEmptyPosition`), `keeper/README.md` (gas failure mode, `--deploy` warning, which app), plus the local `CLAUDE.md` and `deployments/README.md`. Neither handoff 00 copy was touched. `SetRangePolicy.s.sol` is on the nested repo's `feat/range-policy-2400` branch, not main.
+
+### 18D. Integration prototype (`test/prototypes`, real vault, controller, market and reserve code; `src/` unchanged)
+
+The vault has about 100 bytes of EIP-170 headroom, so `RoutedVault` runs the **unmodified** vault code behind a test-only router and adds one primitive and one atomic check. **No market code changes:**
+
+* **`exchangeSurplus`** swaps the scarce token into the vault for the surplus token at the fresh oracle price. Principals do not change. Bounded by the deficit, the surplus and idle. It re-runs the guard's freshness, pause and removal-bound checks.
+* **`InKindRedeemer`** checkpoints (recognizing any loss, reverting on a stale feed), takes the holder's pTokens, computes the holder's pro-rata share of the deficit, borrows that much of the scarce token for the length of the transaction from a bridge, exchanges it, calls the **real** `market.redeem`, repays the bridge, and pays the mixture. **The bridge is intra-transaction float, not reserve, seed or supplier cash.**
+* **Atomic `CoverageGuard` check** inside the router: `rebalance` and `recenter` revert if exposure rose and the reserve no longer covers it; `depositForPair` and any unpausing `setPairPause` require coverage. A failed read reverts.
+
+Results: **28 local tests** (`logs/prototypes-tests.log`; 14 integration including the shared scenarios, 14 earlier) and **16 fork tests on real SPY and NVDA pool, position manager, gauge and tokens with real transfers** (`logs/fork-inkind-spy-nvda.log`, pin in the log; later feed updates simulated with `vm.mockCall`; small size, not capacity).
+
+| property | result |
+| --- | --- |
+| debt-free mixed redemption, one-sided inventory, reserve 0 | the plain redeem reverts; in-kind pays the value at the oracle within 0.1%. NVDA fork: 190.72 USDG of value paid as 99.999999 USDG + 0.5957 NVDA; SPY: 191.105 paid as 99.999999 USDG + 0.1635 SPY. Shares burned by the market, bridge repaid exactly, reserve untouched, stock principal untouched and still fully backed, no new loss |
+| remaining holders | exchange rate preserved within 0.1%; **exit order does not change the mix** (within 0.5%, one raw unit of USDG in the local run); stock side not charged |
+| indebted account | refused (`HasDebt`), and the ordinary redeem still fails the controller's collateral check |
+| stale feed, pool beyond the removal bound | refused; no share moved; a within-cash redemption still works. The primitive enforces both by itself (direct-call test) |
+| insufficient coverage, atomic | `recenter` and `rebalance` that add exposure revert, ledger and liquidity unchanged; admitted once covered |
+| **failed monitoring call versus blocked allocation** | stale price or failed reserve read: `status()` returns `UNKNOWN` and never reverts; `enforce()` reverts and **pauses nothing**; `requireCovered()` reverts, so new exposure stays blocked anyway |
+| risk-reducing operations while short | checkpoint, an LP-unwinding redemption, a recentre that lowered exposure ($94.08 to $70.23) and the guardian's emergency decrease all work |
+| recovery / unpause | the guard and guardian cannot unpause. The admin (timelock `CONFIG_ROLE`) can, **but the same atomic check applies**: refused while short and while stale, accepted when fresh and covered; swaps are a separate decision. Changing the coverage requirement would be a separate timelocked action |
+
+Mutation check of the integration contracts (`logs/integration-prototype-mutations.log`): 13 mutants, 12 killed; the survivor was **equivalent** (`referenceSqrtPriceX96` runs the same validation), replaced by a real one which a new direct test kills.
+
+**Not proven, needed for production:** the vault's reentrancy guard across the exchange; a real bridge source; a checkpoint path not requiring the redeemer to hold `KEEPER_ROLE` (the prototype needs it, which is wider than it should be); router or library packaging within EIP-170; the "permitted collateral claims" variant for accounts with debt; stock-side fork scenario (local fuzz covers the mirror in the model, the integration scenarios exercise the USDG side); audit. The live vault could only get this through a timelocked upgrade, which nothing here authorizes.
+
+### 18E. Strategies with observed keeper costs and cadence
+
+Measured gas (ETH at $2,254): checkpoint $0.0233, rebalance $0.0370, recentre $0.0615. Supplier returns, retained income and protocol cost are separate columns; protocol cost excludes hosting.
+
+| pair | configuration | supplier excess vs hold (window) | gross fees / LVR | gross fees per year at caps | retained at 20% / 50% | recentres per year | protocol cost per year: hourly, 24/5 / every 4 h, 24/5 / daily / weekly |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| SPY | full range | +0.03% | 1.19 | $1.71 | $0.34 / $0.85 | 0 | $145.44 / $36.36 / $8.51 / $1.21 |
+| SPY | ±2400 | +0.01% | 1.06 | $0.75 | $0.15 / $0.38 | 0 | $145.44 / $36.36 / $8.51 / $1.21 |
+| SPY | ±1200 | +0.02% | 1.17 | $1.45 | $0.29 / $0.73 | 0 | $145.44 / $36.36 / $8.51 / $1.21 |
+| SPY | ±600 | +0.04% | 1.24 | $2.84 | $0.57 / $1.42 | 0 | $145.44 / $36.36 / $8.51 / $1.21 |
+| NVDA | full range | +0.10% | 0.62 | $5.46 | $1.09 / $2.73 | 0 | $145.44 / $36.36 / $8.51 / $1.21 |
+| NVDA | ±2400 | +0.05% | 0.78 | $2.34 | $0.47 / $1.17 | 24 | $147.83 / $38.75 / $10.90 / $3.61 |
+| NVDA | ±1200 | +0.09% | 0.64 | $4.49 | $0.90 / $2.24 | 24 | $147.83 / $38.75 / $10.90 / $3.61 |
+| NVDA | ±600 | +0.17% | 0.58 | $8.63 | $1.73 / $4.32 | 81 | $153.42 / $44.35 / $16.49 / $9.20 |
+
+**What cadence is actually required.** `rebalance` and `recenter` need a checkpoint inside `maxCheckpointAge` (3,600 s), but a keeper only needs one **immediately before** them, not on a clock. Withdrawals refresh a stale checkpoint themselves. On the Ramses code the market rate previews unrecognized loss and a within-cash redemption checkpoints first (`testLossPreviewAndCheckpointBeforeCashExit`), so lengthening the cadence does not let an exit run ahead of a loss there. **On the live vault this needs a review before any change:** the diagnosis flags delayed recognition for redemptions from local cash, and the 10.77-day gap booked -$0.157 at its next checkpoint. Removable without touching accounting: **the 41 discovery checkpoints and the dust rebalances** (a worker change: read idle balances first and act only when matched deployable value is at least about 10x the transaction cost). Keeper runway from today's balance: 8.7 active days now; about 19 with hourly checkpoints and no dust rebalances; about 116 at 6-hourly (risk review needed). Fees are credited later at a longer cadence, so a depositor entering between collections shares uncollected fees: a small fairness cost.
+
+### 18F. Conditional break-even
+
+**Conditional on assumptions, not a proposal: no cap is increased.** Fee income is not assumed linear: the position's share is V*l / (V*l + L_pool) at fixed volume with no volume response, fitted to the at-caps baseline and checked against the $10,000 baseline (table). Break-even is the size where retained income covers protocol cost plus an assumed 5% carry on the seed (30% gap, both legs). The depth limit is the size at which the scarce token of a 30% gap fits within the depth that moves the pool 2%.
+
+| pair | configuration | current cap | size at half the fee flow (fixed volume) | fee model check: predicted / observed at the $10,000 baseline, per year | depth limit (30% gap's scarce token within 2% depth) | seed per $ deployed (30% gap, both legs) | break-even at 50% retention, 5% seed carry: weekly / daily / hourly |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| SPY | full range | $1,000 pair | $20,986,393 | $17 / $17 | $851,673 | 2.8% | none / none / none |
+| SPY | ±2400 | $50 ranged | $2,373,023 | $149 / $149 | $143,542 | 22.0% | none / none / none |
+| SPY | ±1200 | $50 ranged | $1,222,094 | $287 / $285 | $148,113 | 26.5% | $891 / $6,683 / none |
+| SPY | ±600 | $50 ranged | $620,212 | $555 / $548 | $150,402 | 28.7% | $84 / $596 / $10,593 |
+| NVDA | full range | $1,000 pair | $777,507 | $54 / $52 | $37,072 | 2.8% | $944 / $6,683 / $177,828 |
+| NVDA | ±2400 | $50 ranged | $87,916 | $318 / $286 | $6,248 | 22.0% | $282 / $841 / $15,849 |
+| NVDA | ±1200 | $50 ranged | $45,276 | $340 / $301 | $6,447 | 26.5% | $112 / $335 / $5,309 |
+| NVDA | ±600 | $50 ranged | $22,978 | $209 / $172 | $6,547 | 28.7% | $126 / $224 / $2,239 |
+
+* **At the current caps almost nothing breaks even:** ranged policies are limited to $50 and every ranged figure above exceeds that. NVDA full range reaches it near $944 only at a **weekly** cadence with 50% retention, a cadence not reviewed for the live vault. SPY full range and SPY ±2400 have none at any tested cadence: the seed carry exceeds retained income per dollar.
+* **Depth may prevent reaching it:** NVDA ranged limits are only about $6,200 to $6,500. Hourly cadence puts NVDA ±2400 at $15,849 and NVDA full range at $177,828, both beyond their depth limits. Fees measured here are from one quarter, and a 2% depth figure is a calm-market reading at one pin.
+* **Reserve constraint:** ranged seed is 22% to 29% of the deployed value at a 30% gap, against 2.8% for full range. Narrow ranges earn more per dollar and need far more protection per dollar.
+* **This break-even is the protocol's, not the supplier's.** LVR falls on suppliers: gross fees over LVR are 0.58 to 0.78 for NVDA in this window (below 1 at every width, and not improved by size) and 1.06 to 1.24 for SPY. Hosting ($5/month for this keeper) is not included.
+
+### 18G. Reserve table in actual units
+
+Valuation: NVDA $204.52, SPY $752.23 now; the stock leg is valued at the stressed price, because that is when it is drawn. **Direction is unknown in advance, so both legs must be funded at the same time; one gap draws one leg.** Reserves are per pair, so SPY and NVDA are funded separately and add. **Loss coverage** (shortfall + swap-path cost + recovery gas once) and **withdrawal liquidity** (the scarce token every supplier of that side would need with no swap) are different quantities that overlap: **use one or the other, never the sum.** With swaps paused and no in-kind path, liquidity is the operative column; with a working settlement swap or in-kind exit, loss coverage is. **Retained income is replenishment, never counted as seed.**
+
+| pair | deployed (current caps) | stress | stock valued at | LOSS COVER: USDG units (price falls) | LOSS COVER: stock units (price rises) | both legs funded today | WITHDRAWAL LIQUIDITY without a swap: USDG units / stock units | both legs today |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| SPY | full range, $1000 | SPY worst 28 days (x0.966 / x1.066) | $802.08 | 0.57 USDG | 0.00129 SPY | $1.53 | 8.57 USDG / 0.02064 SPY | $24.10 |
+| SPY | full range, $1000 | 30% gap (x0.700 / x1.429) | $1074.61 | 14.42 USDG | 0.01904 SPY | $28.74 | 73.82 USDG / 0.09814 SPY | $147.65 |
+| SPY | full range, $1000 | 50% gap (x0.500 / x2.000) | $1504.46 | 44.42 USDG | 0.05883 SPY | $88.68 | 117.85 USDG / 0.15667 SPY | $235.70 |
+| SPY | ±2400, $50 | SPY worst 28 days (x0.966 / x1.066) | $802.08 | 0.44 USDG | 0.00080 SPY | $1.04 | 3.79 USDG / 0.00913 SPY | $10.66 |
+| SPY | ±2400, $50 | 30% gap (x0.700 / x1.429) | $1074.61 | 5.82 USDG | 0.00761 SPY | $11.55 | 21.90 USDG / 0.02911 SPY | $43.80 |
+| SPY | ±2400, $50 | 50% gap (x0.500 / x2.000) | $1504.46 | 11.42 USDG | 0.01496 SPY | $22.67 | 17.73 USDG / 0.02357 SPY | $35.46 |
+| SPY | ±1200, $50 | SPY worst 28 days (x0.966 / x1.066) | $802.08 | 0.53 USDG | 0.00116 SPY | $1.41 | 7.36 USDG / 0.01773 SPY | $20.69 |
+| SPY | ±1200, $50 | 30% gap (x0.700 / x1.429) | $1074.61 | 6.96 USDG | 0.00913 SPY | $13.83 | 21.22 USDG / 0.02822 SPY | $42.45 |
+| SPY | ±1200, $50 | 50% gap (x0.500 / x2.000) | $1504.46 | 12.23 USDG | 0.01604 SPY | $24.30 | 17.18 USDG / 0.02284 SPY | $34.36 |
+| SPY | ±600, $50 | SPY worst 28 days (x0.966 / x1.066) | $802.08 | 0.73 USDG | 0.00186 SPY | $2.13 | 14.50 USDG / 0.03266 SPY | $39.07 |
+| SPY | ±600, $50 | 30% gap (x0.700 / x1.429) | $1074.61 | 7.51 USDG | 0.00985 SPY | $14.92 | 20.90 USDG / 0.02779 SPY | $41.80 |
+| SPY | ±600, $50 | 50% gap (x0.500 / x2.000) | $1504.46 | 12.62 USDG | 0.01656 SPY | $25.08 | 16.92 USDG / 0.02249 SPY | $33.84 |
+| NVDA | full range, $1000 | NVDA worst 28 days (x0.831 / x1.201) | $245.59 | 4.69 USDG | 0.02210 NVDA | $9.21 | 42.17 USDG / 0.20355 NVDA | $83.80 |
+| NVDA | full range, $1000 | 30% gap (x0.700 / x1.429) | $292.17 | 14.42 USDG | 0.07002 NVDA | $28.74 | 73.82 USDG / 0.36096 NVDA | $147.65 |
+| NVDA | full range, $1000 | 50% gap (x0.500 / x2.000) | $409.04 | 44.42 USDG | 0.21639 NVDA | $88.68 | 117.85 USDG / 0.57623 NVDA | $235.70 |
+| NVDA | ±2400, $50 | NVDA worst 28 days (x0.831 / x1.201) | $245.59 | 2.26 USDG | 0.01053 NVDA | $4.41 | 18.65 USDG / 0.09001 NVDA | $37.05 |
+| NVDA | ±2400, $50 | 30% gap (x0.700 / x1.429) | $292.17 | 5.82 USDG | 0.02798 NVDA | $11.55 | 21.90 USDG / 0.10708 NVDA | $43.80 |
+| NVDA | ±2400, $50 | 50% gap (x0.500 / x2.000) | $409.04 | 11.42 USDG | 0.05502 NVDA | $22.67 | 17.73 USDG / 0.08669 NVDA | $35.46 |
+| NVDA | ±1200, $50 | NVDA worst 28 days (x0.831 / x1.201) | $245.59 | 3.52 USDG | 0.01666 NVDA | $6.93 | 23.39 USDG / 0.11452 NVDA | $46.81 |
+| NVDA | ±1200, $50 | 30% gap (x0.700 / x1.429) | $292.17 | 6.96 USDG | 0.03357 NVDA | $13.83 | 21.22 USDG / 0.10378 NVDA | $42.45 |
+| NVDA | ±1200, $50 | 50% gap (x0.500 / x2.000) | $409.04 | 12.23 USDG | 0.05900 NVDA | $24.30 | 17.18 USDG / 0.08401 NVDA | $34.36 |
+| NVDA | ±600, $50 | NVDA worst 28 days (x0.831 / x1.201) | $245.59 | 4.17 USDG | 0.01983 NVDA | $8.22 | 23.03 USDG / 0.11278 NVDA | $46.10 |
+| NVDA | ±600, $50 | 30% gap (x0.700 / x1.429) | $292.17 | 7.51 USDG | 0.03624 NVDA | $14.92 | 20.90 USDG / 0.10220 NVDA | $41.80 |
+| NVDA | ±600, $50 | 50% gap (x0.500 / x2.000) | $409.04 | 12.62 USDG | 0.06091 NVDA | $25.08 | 16.92 USDG / 0.08273 NVDA | $33.84 |
+
+Two limits on using these numbers: the stock leg carries the stock's own price risk (a fall lowers it when USDG is what is needed), and the configured payout limits apply. On the live settings (50% of the deficit per call, $10 per event, $25 per day) a funded reserve still pays slowly and only through `syncVault` (18A), so **a large seed does not by itself deliver exits on the day.**
+
+### 18H. Live actions for separate approval (none taken; costs at ETH $2,254 to $2,266)
+
+| # | action | exact effect | cost | authority |
+| --- | --- | --- | --- | --- |
+| 1 | keeper gas top-up: `cast send 0x978e2ADF18da8B846552932c0aB2B1193da1fAc4 --value 0.003ether --account robinhood-deployer --rpc-url https://rpc.mainnet.chain.robinhood.com`, by about 11-10 | about 6 more active days. The governor holds about 0.015 ETH, so this rate is not sustainable | $6.76 | user-local signature |
+| 2 | scheduled read-only alarm workflow | detects `GAS_LOW` and `STALLED`; no on-chain effect | $0 | a commit to the default branch |
+| 3 | worker change: no discovery checkpoints or dust rebalances | runway about 19 active days instead of 8.7 at the hourly cadence | hosting unchanged; one redeploy, which clears the temp journal, so at most one extra rebalance | review, merge, `doctl ... create-deployment` |
+| 4 | **resolve the USDG shortage: timelock `setPairPause(pair, false, false, false)`, delay 3,600 s, then `syncVault` or a redeem, then re-pause** | about 0.0376 NVDA sold for about 7.69 USDG; USDG side covered; **LP fully unwound**; bank-run exit rises from 19.57 to 27.24 USDG; stock principal unchanged | about **$0.045** swap cost (moves with the oracle/spot gap; 42 bp of room at this pin) + gas about $0.04 + 2 timelock transactions | timelock schedule and execute; **while unpaused the swap is reachable through any redeem**, so the window should be kept short. Needs a fresh simulation at execution |
+| 5 | alternative to 4: donate 7.66 USDG to the reserve and run `syncVault` | shortage covered without selling; $7.68 donated; the NVDA surplus stays stranded | $7.66 + up to $0.38 gas | operator |
+
+Action 4 is the cheapest route that actually solves the scarce-token problem; choosing it, or leaving the position open, is the operator's decision.
+
+### 18I. CI and remaining blockers
+
+**CI:** `ramses-deterministic` **passed in 6 m 45 s on `1f1aa56`** on both the push and pull-request runs, covering the `ramses` profile without fork tests, `src/` sizes, and the Python research tests; `contracts` passed; `ramses-fork` is skipped by design (manual-only). The PR body records the result for the current head. Fork results are in their logs at their own pins and are not CI results.
+
+**Remaining blockers:** (1) Ramses stale-price liquidation (unchanged); (2) live USDG shortage and first-come exits, affecting potentially external holders; (3) keeper gas runs out about 11-12 to 11-15 with no alert; (4) reserve funding and on-chain coverage restriction (prototype only); (5) in-kind exit and atomic gate need a production design, audit and timelocked upgrade; (6) economics at current caps; (7) governance remains a single EOA holding proposer, executor, canceller and guardian; (8) live lending prices on feed answers up to 72 h old.
