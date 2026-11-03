@@ -1,0 +1,81 @@
+{
+ "pinnedBlock": {
+  "number": "0x640f23b",
+  "hash": "0x3d142fc61ef0ac267c8ba3b69538eda3afd503b82647ae0fd27b5d44dcb5d0ca",
+  "timestamp": 1793694701
+ },
+ "stork": {
+  "address": "0xacC0a0cF13571d30B4b8637996F5D6D774d4fd62",
+  "codeBytes": 170,
+  "codeSha256": "c85d18dc1e49769e01f9f88981176e213b2bc24d2f14d33a81d54bc06579f6db",
+  "ids": {
+   "NVDA_24_5": {
+    "id": "0xf6ca4c26ee2527432d22bf6ef9429db0d082b9a0da6ee461283dd01f55f7b61b",
+    "raw": {
+     "code": 3,
+     "message": "execution reverted",
+     "data": "0xc5723b51"
+    }
+   },
+   "NVDA_24_5_USDC": {
+    "id": "0x7d68b8e55387605f562563ee6d95e2d9cdb93dbe01690cd15d231ac132bb2889",
+    "raw": {
+     "code": 3,
+     "message": "execution reverted",
+     "data": "0xc5723b51"
+    }
+   },
+   "SPY_24_5": {
+    "id": "0x01ef2ebdefa4a9fbd6f75da48007552e7a56dfd99247197a38205efb3bae634e",
+    "raw": {
+     "code": 3,
+     "message": "execution reverted",
+     "data": "0xc5723b51"
+    }
+   },
+   "SPY_24_5_USDC": {
+    "id": "0x5760aee7a0ebc6c24df00064ea13b085f81c0ea2e97224847d52855dd798f9b3",
+    "raw": {
+     "code": 3,
+     "message": "execution reverted",
+     "data": "0xc5723b51"
+    }
+   },
+   "BTCUSD(control)": {
+    "id": "0x7404e3d104ea7841c3d9e6fd20adfe99b4ad586bc08d8f3bd3afef894cf184de",
+    "raw": {
+     "code": 3,
+     "message": "execution reverted",
+     "data": "0xc5723b51"
+    }
+   },
+   "ETHUSD(control)": {
+    "id": "0x59102b37de83bdda9f38ac8254e596f0d9ac61d2035c07936675e87342817160",
+    "raw": {
+     "code": 3,
+     "message": "execution reverted",
+     "data": "0xc5723b51"
+    }
+   }
+  },
+  "slots": {
+   "impl": "0x000000000000000000000000f89cef90cf229c564596cf105d19bc92e17b98c4",
+   "admin": "0x0000000000000000000000000000000000000000000000000000000000000000",
+   "beacon": "0x0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "version()": "0x00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000005312e302e36000000000000000000000000000000000000000000000000000000",
+  "owner()": "0x000000000000000000000000865f7a954b2d91f0d87dc85734338cf0fec109b3"
+ },
+ "dataStreamsVerifierProxy": {
+  "address": "0xcE73c8ad08CBDEaCa6078BF0627C8fe0a9a536E7",
+  "codeBytes": 7009,
+  "codeSha256": "246be742ffcc522f72309f1f42c77817af4d6f823969ce9e5763f2a9327ca231",
+  "slots": {
+   "impl": "0x0000000000000000000000000000000000000000000000000000000000000000",
+   "admin": "0x0000000000000000000000000000000000000000000000000000000000000000",
+   "beacon": "0x0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "typeAndVersion": "0x00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000013566572696669657250726f787920322e302e3000000000000000000000000000"
+ },
+ "pythProOwnerAddressCodeBytes": 177
+}

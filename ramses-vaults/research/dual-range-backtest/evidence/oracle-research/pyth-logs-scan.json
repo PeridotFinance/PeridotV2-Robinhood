@@ -1,0 +1,185 @@
+{
+ "pinned": {
+  "block": 104914489,
+  "hash": "0xed4a42475e63fef65f08b269c68b1c73deced5c22ddef79cddeaa3f229027da7",
+  "timestamp": 1793694166
+ },
+ "rangeLimit": "RPC rejects spans > 10,000,000 blocks (error -32602 seen with address filter)",
+ "scans": {
+  "PythCore": {
+   "address": "0x8250f4aF4B972684F7b336503E2D6dFeDeB1487a",
+   "totalLogs": 860,
+   "firstLogBlock": 10499487,
+   "lastLogBlock": 100429631,
+   "chunks": [
+    {
+     "from": 0,
+     "to": 9999999,
+     "logs": 0,
+     "topic0Counts": {}
+    },
+    {
+     "from": 10000000,
+     "to": 19999999,
+     "logs": 4,
+     "topic0Counts": {
+      "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0": 2,
+      "0xbc7cd75a20ee27fd9adebab32041f755214dbc6bffa90cc0225b39da2e5c2d3b": 1,
+      "0x7f26b83ff96e1f2b6a682f133852f6798a09c465da95921460cefb3847402498": 1
+     }
+    },
+    {
+     "from": 20000000,
+     "to": 29999999,
+     "logs": 0,
+     "topic0Counts": {}
+    },
+    {
+     "from": 30000000,
+     "to": 39999999,
+     "logs": 0,
+     "topic0Counts": {}
+    },
+    {
+     "from": 40000000,
+     "to": 49999999,
+     "logs": 0,
+     "topic0Counts": {}
+    },
+    {
+     "from": 50000000,
+     "to": 59999999,
+     "logs": 22,
+     "topic0Counts": {
+      "0xd06a6b7f4918494b3719217d1802786c1f5112a6c1d88fe2cfec00b4584f6aec": 22
+     }
+    },
+    {
+     "from": 60000000,
+     "to": 69999999,
+     "logs": 0,
+     "topic0Counts": {}
+    },
+    {
+     "from": 70000000,
+     "to": 79999999,
+     "logs": 7,
+     "topic0Counts": {
+      "0xd06a6b7f4918494b3719217d1802786c1f5112a6c1d88fe2cfec00b4584f6aec": 7
+     }
+    },
+    {
+     "from": 80000000,
+     "to": 89999999,
+     "logs": 0,
+     "topic0Counts": {}
+    },
+    {
+     "from": 90000000,
+     "to": 99999999,
+     "logs": 815,
+     "topic0Counts": {
+      "0xd06a6b7f4918494b3719217d1802786c1f5112a6c1d88fe2cfec00b4584f6aec": 815
+     }
+    },
+    {
+     "from": 100000000,
+     "to": 104914489,
+     "logs": 12,
+     "topic0Counts": {
+      "0xd06a6b7f4918494b3719217d1802786c1f5112a6c1d88fe2cfec00b4584f6aec": 12
+     }
+    }
+   ],
+   "lastLogTimestamp": 1793227433,
+   "firstLogTimestamp": 1784129155
+  },
+  "PythPro": {
+   "address": "0xACeA761c27A909d4D3895128EBe6370FDE2dF481",
+   "totalLogs": 12,
+   "firstLogBlock": 10500227,
+   "lastLogBlock": 104399381,
+   "chunks": [
+    {
+     "from": 0,
+     "to": 9999999,
+     "logs": 0,
+     "topic0Counts": {}
+    },
+    {
+     "from": 10000000,
+     "to": 19999999,
+     "logs": 4,
+     "topic0Counts": {
+      "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0": 2,
+      "0xbc7cd75a20ee27fd9adebab32041f755214dbc6bffa90cc0225b39da2e5c2d3b": 1,
+      "0xc7f505b2f371ae2175ee4913f4499e1f2633a7b5936321eed1cdaeb6115181d2": 1
+     }
+    },
+    {
+     "from": 20000000,
+     "to": 29999999,
+     "logs": 0,
+     "topic0Counts": {}
+    },
+    {
+     "from": 30000000,
+     "to": 39999999,
+     "logs": 0,
+     "topic0Counts": {}
+    },
+    {
+     "from": 40000000,
+     "to": 49999999,
+     "logs": 0,
+     "topic0Counts": {}
+    },
+    {
+     "from": 50000000,
+     "to": 59999999,
+     "logs": 0,
+     "topic0Counts": {}
+    },
+    {
+     "from": 60000000,
+     "to": 69999999,
+     "logs": 0,
+     "topic0Counts": {}
+    },
+    {
+     "from": 70000000,
+     "to": 79999999,
+     "logs": 0,
+     "topic0Counts": {}
+    },
+    {
+     "from": 80000000,
+     "to": 89999999,
+     "logs": 0,
+     "topic0Counts": {}
+    },
+    {
+     "from": 90000000,
+     "to": 99999999,
+     "logs": 1,
+     "topic0Counts": {
+      "0xbc7cd75a20ee27fd9adebab32041f755214dbc6bffa90cc0225b39da2e5c2d3b": 1
+     }
+    },
+    {
+     "from": 100000000,
+     "to": 104914489,
+     "logs": 7,
+     "topic0Counts": {
+      "0xaf73b0b217208b61be286bbc37095bce7eb8b9ccf617244c2f0f154e8e04e3ff": 6,
+      "0xaa8526c81766fdf5a7d35d60b700ee7d06af554b023ff0946db07c0bae8f7902": 1
+     }
+    }
+   ],
+   "lastLogTimestamp": 1793641204,
+   "firstLogTimestamp": 1784129230
+  }
+ },
+ "block1Timestamp": 1777567931,
+ "secondsPerBlockAverage": 0.1537083691081029
+}
