@@ -1,0 +1,36 @@
+{
+ "policyChange": {
+  "schedule": {
+   "tx": "0x9815881814fc0655eb60dca3ab9893d976437bef76795fac4067fba571e32b9f",
+   "block": 92604770,
+   "timestamp": 1792411865,
+   "status": "0x1",
+   "frm": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+   "to": "0x6797fb8ce049b42c5bc2b42bf76c6d15c7b12498"
+  },
+  "execute": {
+   "tx": "0xd434d7a34e5295abd6c8147c6a0dba1655b5e1b9de3077a56808735e6217a815",
+   "block": 92657111,
+   "timestamp": 1792417240,
+   "status": "0x1",
+   "frm": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+   "to": "0x6797fb8ce049b42c5bc2b42bf76c6d15c7b12498"
+  }
+ },
+ "build": {
+  "commit": "07b67d5cf8deaafe15d2ec2365350696d8adc58a",
+  "extract": "git archive 07b67d5 foundry.toml remediation/src contracts | tar -x -C <dir>",
+  "command": "FOUNDRY_PROFILE=vault_v3 forge build remediation/src/RobinhoodBoostedVaultV3.sol remediation/src/UniswapV4PairedAdapterV3.sol remediation/src/libraries/RangeLib.sol --offline",
+  "forge": "1.7.1-Homebrew 4072e487",
+  "solc": "0.8.26",
+  "via_ir": true,
+  "optimizer_runs": 1,
+  "evm": "cancun",
+  "artifacts": {
+   "RobinhoodBoostedVaultV3": "81a3a7b5557afdc40f119de36a1b295424f48faf40864198e3df5cd5c10b195f",
+   "UniswapV4PairedAdapterV3": "39355d5182ca2c4884b85d1077c5add68552d371c30d31d0e801deb7367ec329",
+   "RangeLib": "35e80c0af2071bb5b5a7c117d2a8801c58d7d00d2bc157ea11fc22c5098b470e"
+  }
+ },
+ "note": "t1_compare.py, t1_creation.py and t1_rangelib_creation.py read _build/c07b67d5/remediation/out-vault-v3/<X>.sol/<X>.json; _build was removed afterwards, so rebuild with the recipe or repoint BUILD at artifacts-vault_v3-07b67d5."
+}

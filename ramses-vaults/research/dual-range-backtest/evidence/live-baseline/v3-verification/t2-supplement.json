@@ -1,0 +1,163 @@
+{
+ "pin": {
+  "l2": 104998915,
+  "hash": "0xdc49f9f7460ccde616c3979821e04ba1ac9b56f374280f5d9f61c1a4900c6db0",
+  "timestamp": 1793702854
+ },
+ "closedAccountReopenAttempts": [
+  {
+   "positionId": 1,
+   "account": "0xa1a7a0f0c270fd9229ff7a2e6a67b0c2eb67d45b",
+   "engine.borrowAllowed_from_controller": {
+    "ok": true,
+    "return": "0x0000000000000000000000000000000000000000000000000000000000000000"
+   },
+   "engine.activateAccount_from_executor": {
+    "ok": false,
+    "message": "execution reverted: RiskEngine: invalid activation",
+    "data": "0x08c379a00000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000001e5269736b456e67696e653a20696e76616c69642061637469766174696f6e0000",
+    "decoded": "Error(\"RiskEngine: invalid activation\")"
+   },
+   "engine.beginClose_from_executor": {
+    "ok": false,
+    "message": "execution reverted: RiskEngine: not active",
+    "data": "0x08c379a0000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000165269736b456e67696e653a206e6f742061637469766500000000000000000000",
+    "decoded": "Error(\"RiskEngine: not active\")"
+   },
+   "engine.registerAccount_again_from_executor": {
+    "ok": false,
+    "message": "execution reverted: RiskEngine: already registered",
+    "data": "0x08c379a00000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000001e5269736b456e67696e653a20616c726561647920726567697374657265640000",
+    "decoded": "Error(\"RiskEngine: already registered\")"
+   },
+   "executor.addCollateral_from_owner": {
+    "ok": false,
+    "message": "execution reverted",
+    "data": "0x927a8820000000000000000000000000000000000000000000000000000000000000002f",
+    "decoded": "ExecutorError(uint8) args=0x2f"
+   },
+   "executor.repayWithUnderlying_from_owner": {
+    "ok": false,
+    "message": "execution reverted",
+    "data": "0x927a8820000000000000000000000000000000000000000000000000000000000000002f",
+    "decoded": "ExecutorError(uint8) args=0x2f"
+   }
+  },
+  {
+   "positionId": 2,
+   "account": "0x4fe6a2daff417572675a5173a25d167dff02981d",
+   "engine.borrowAllowed_from_controller": {
+    "ok": true,
+    "return": "0x0000000000000000000000000000000000000000000000000000000000000000"
+   },
+   "engine.activateAccount_from_executor": {
+    "ok": false,
+    "message": "execution reverted: RiskEngine: invalid activation",
+    "data": "0x08c379a00000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000001e5269736b456e67696e653a20696e76616c69642061637469766174696f6e0000",
+    "decoded": "Error(\"RiskEngine: invalid activation\")"
+   },
+   "engine.beginClose_from_executor": {
+    "ok": false,
+    "message": "execution reverted: RiskEngine: not active",
+    "data": "0x08c379a0000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000165269736b456e67696e653a206e6f742061637469766500000000000000000000",
+    "decoded": "Error(\"RiskEngine: not active\")"
+   },
+   "engine.registerAccount_again_from_executor": {
+    "ok": false,
+    "message": "execution reverted: RiskEngine: already registered",
+    "data": "0x08c379a00000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000001e5269736b456e67696e653a20616c726561647920726567697374657265640000",
+    "decoded": "Error(\"RiskEngine: already registered\")"
+   },
+   "executor.addCollateral_from_owner": {
+    "ok": false,
+    "message": "execution reverted",
+    "data": "0x927a8820000000000000000000000000000000000000000000000000000000000000002f",
+    "decoded": "ExecutorError(uint8) args=0x2f"
+   },
+   "executor.repayWithUnderlying_from_owner": {
+    "ok": false,
+    "message": "execution reverted",
+    "data": "0x927a8820000000000000000000000000000000000000000000000000000000000000002f",
+    "decoded": "ExecutorError(uint8) args=0x2f"
+   }
+  },
+  {
+   "positionId": 5,
+   "account": "0x062a4ed42f2b8204eac6ccf24f46c9fd1535d932",
+   "engine.borrowAllowed_from_controller": {
+    "ok": true,
+    "return": "0x0000000000000000000000000000000000000000000000000000000000000000"
+   },
+   "engine.activateAccount_from_executor": {
+    "ok": false,
+    "message": "execution reverted: RiskEngine: invalid activation",
+    "data": "0x08c379a00000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000001e5269736b456e67696e653a20696e76616c69642061637469766174696f6e0000",
+    "decoded": "Error(\"RiskEngine: invalid activation\")"
+   },
+   "engine.beginClose_from_executor": {
+    "ok": false,
+    "message": "execution reverted: RiskEngine: not active",
+    "data": "0x08c379a0000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000165269736b456e67696e653a206e6f742061637469766500000000000000000000",
+    "decoded": "Error(\"RiskEngine: not active\")"
+   },
+   "engine.registerAccount_again_from_executor": {
+    "ok": false,
+    "message": "execution reverted: RiskEngine: already registered",
+    "data": "0x08c379a00000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000001e5269736b456e67696e653a20616c726561647920726567697374657265640000",
+    "decoded": "Error(\"RiskEngine: already registered\")"
+   },
+   "executor.addCollateral_from_owner": {
+    "ok": false,
+    "message": "execution reverted",
+    "data": "0x927a8820000000000000000000000000000000000000000000000000000000000000002f",
+    "decoded": "ExecutorError(uint8) args=0x2f"
+   },
+   "executor.repayWithUnderlying_from_owner": {
+    "ok": false,
+    "message": "execution reverted",
+    "data": "0x927a8820000000000000000000000000000000000000000000000000000000000000002f",
+    "decoded": "ExecutorError(uint8) args=0x2f"
+   }
+  }
+ ],
+ "marketPriceable": {
+  "pUSDG": true,
+  "pNVDA": true
+ },
+ "marginImplVsSnapshot": {
+  "liquidator": {
+   "impl": "0x868dbcb39fea9060272504e0636a1e068a13e3a2",
+   "artifact": "snapshot/artifacts/margin/IsolatedMarginLiquidatorUpgradeable.json",
+   "onchainBytes": 12815,
+   "artifactBytes": 12815,
+   "exactEqualIncludingMetadataAfterMasks": true,
+   "masks": []
+  },
+  "riskEngine": {
+   "impl": "0x6408136abd8182fdc3becaf0f7dea2163baa1676",
+   "artifact": "snapshot/artifacts/margin/IsolatedMarginRiskEngineUpgradeable.json",
+   "onchainBytes": 14665,
+   "artifactBytes": 14665,
+   "exactEqualIncludingMetadataAfterMasks": false,
+   "masks": [],
+   "differingOffsets": "14622..14653 (32 bytes, the IPFS hash inside the 53-byte CBOR metadata at 14612); executable body identical",
+   "bodyEqualExclMetadata": true
+  },
+  "executor": {
+   "impl": "0xd44a1d425cfa875efc0263c0cf717840c213fbd8",
+   "artifact": "snapshot/artifacts/margin/IsolatedMarginExecutorUpgradeable.json",
+   "onchainBytes": 21254,
+   "artifactBytes": 21254,
+   "exactEqualIncludingMetadataAfterMasks": true,
+   "masks": []
+  }
+ },
+ "vaultSettlementLibEmbedded": {
+  "address": "0x813abfec0de50f8674798cbab72ed7b5d8ccb9cb",
+  "onchainOffsets": [
+   12396
+  ],
+  "compiledObjectContainsSameAddressAtSameOffsets": true,
+  "note": "pre-linked at compile time by the vault_v3 profile's libraries setting, so not a link reference; verified as compiled bytes"
+ }
+}

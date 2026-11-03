@@ -1,0 +1,1483 @@
+{
+"reconciliation": {
+"computedFinal": 4787897046282000,
+"latestChain": 4797107073321028,
+"diffWei": -9210027039028,
+"balanceAfterTxBeforeGasOut": null,
+"balanceAfterLastTxBeforeGasOut": 285702231790000,
+"heartbeatAwaitingBal": 294912258829028,
+"gasOutDiff": -9210027039028,
+"resolved": {
+"inboundWei": 9210027039028,
+"tx": "0xa8188fce0463d2140147c60f7e0426ebf8b3eadb4442641a4999dfa17a5bf237",
+"from": "0x9613633f02e45ff50a05abeca1981a326717d7f6",
+"ts": 1792601793,
+"note": "Third-party native transfer, equals diffWei exactly; computed balance + inbound == chain balance"
+},
+"residualAfterInbound": 0
+},
+"statusCount": {
+"0x1": 178
+},
+"keeperTxWithoutProdVaultLog": [],
+"series": [
+{
+"t": 1792368340,
+"iso": "2026-10-19T00:05:40Z",
+"type": "recenter",
+"nonce": 0,
+"feeWei": 26557491216000,
+"balanceWei": 1973442508784000
+},
+{
+"t": 1792372035,
+"iso": "2026-10-19T01:07:15Z",
+"type": "checkpoint",
+"nonce": 1,
+"feeWei": 10392079264000,
+"balanceWei": 1963050429520000
+},
+{
+"t": 1792375730,
+"iso": "2026-10-19T02:08:50Z",
+"type": "checkpoint",
+"nonce": 2,
+"feeWei": 10352793648000,
+"balanceWei": 1952697635872000
+},
+{
+"t": 1792379423,
+"iso": "2026-10-19T03:10:23Z",
+"type": "checkpoint",
+"nonce": 3,
+"feeWei": 10396604776000,
+"balanceWei": 1942301031096000
+},
+{
+"t": 1792379734,
+"iso": "2026-10-19T03:15:34Z",
+"type": "rebalance",
+"nonce": 4,
+"feeWei": 16475014710000,
+"balanceWei": 1925826016386000
+},
+{
+"t": 1792383426,
+"iso": "2026-10-19T04:17:06Z",
+"type": "checkpoint",
+"nonce": 5,
+"feeWei": 10360715780000,
+"balanceWei": 1915465300606000
+},
+{
+"t": 1792387121,
+"iso": "2026-10-19T05:18:41Z",
+"type": "checkpoint",
+"nonce": 6,
+"feeWei": 10337160000000,
+"balanceWei": 1905128140606000
+},
+{
+"t": 1792390814,
+"iso": "2026-10-19T06:20:14Z",
+"type": "checkpoint",
+"nonce": 7,
+"feeWei": 10409134816000,
+"balanceWei": 1894719005790000
+},
+{
+"t": 1792394512,
+"iso": "2026-10-19T07:21:52Z",
+"type": "checkpoint",
+"nonce": 8,
+"feeWei": 10386208560000,
+"balanceWei": 1884332797230000
+},
+{
+"t": 1792398210,
+"iso": "2026-10-19T08:23:30Z",
+"type": "checkpoint",
+"nonce": 9,
+"feeWei": 10380656312000,
+"balanceWei": 1873952140918000
+},
+{
+"t": 1792400368,
+"iso": "2026-10-19T08:59:28Z",
+"type": "rebalance",
+"nonce": 10,
+"feeWei": 16854480236000,
+"balanceWei": 1857097660682000
+},
+{
+"t": 1792404063,
+"iso": "2026-10-19T10:01:03Z",
+"type": "checkpoint",
+"nonce": 11,
+"feeWei": 9316350000000,
+"balanceWei": 1847781310682000
+},
+{
+"t": 1792404067,
+"iso": "2026-10-19T10:01:07Z",
+"type": "rebalance",
+"nonce": 12,
+"feeWei": 14460462744000,
+"balanceWei": 1833320847938000
+},
+{
+"t": 1792407768,
+"iso": "2026-10-19T11:02:48Z",
+"type": "checkpoint",
+"nonce": 13,
+"feeWei": 10337680000000,
+"balanceWei": 1822983167938000
+},
+{
+"t": 1792407772,
+"iso": "2026-10-19T11:02:52Z",
+"type": "rebalance",
+"nonce": 14,
+"feeWei": 14521813870000,
+"balanceWei": 1808461354068000
+},
+{
+"t": 1792411472,
+"iso": "2026-10-19T12:04:32Z",
+"type": "checkpoint",
+"nonce": 15,
+"feeWei": 10364343288000,
+"balanceWei": 1798097010780000
+},
+{
+"t": 1792413323,
+"iso": "2026-10-19T12:35:23Z",
+"type": "rebalance",
+"nonce": 16,
+"feeWei": 16515556624000,
+"balanceWei": 1781581454156000
+},
+{
+"t": 1792417026,
+"iso": "2026-10-19T13:37:06Z",
+"type": "checkpoint",
+"nonce": 17,
+"feeWei": 10445171664000,
+"balanceWei": 1771136282492000
+},
+{
+"t": 1792417030,
+"iso": "2026-10-19T13:37:10Z",
+"type": "rebalance",
+"nonce": 18,
+"feeWei": 14719358556000,
+"balanceWei": 1756416923936000
+},
+{
+"t": 1792420760,
+"iso": "2026-10-19T14:39:20Z",
+"type": "checkpoint",
+"nonce": 19,
+"feeWei": 10603735632000,
+"balanceWei": 1745813188304000
+},
+{
+"t": 1792420765,
+"iso": "2026-10-19T14:39:25Z",
+"type": "rebalance",
+"nonce": 20,
+"feeWei": 14820482254000,
+"balanceWei": 1730992706050000
+},
+{
+"t": 1792424468,
+"iso": "2026-10-19T15:41:08Z",
+"type": "checkpoint",
+"nonce": 21,
+"feeWei": 10493394800000,
+"balanceWei": 1720499311250000
+},
+{
+"t": 1792425707,
+"iso": "2026-10-19T16:01:47Z",
+"type": "rebalance",
+"nonce": 22,
+"feeWei": 16711222308000,
+"balanceWei": 1703788088942000
+},
+{
+"t": 1792429410,
+"iso": "2026-10-19T17:03:30Z",
+"type": "checkpoint",
+"nonce": 23,
+"feeWei": 10393483364000,
+"balanceWei": 1693394605578000
+},
+{
+"t": 1792429415,
+"iso": "2026-10-19T17:03:35Z",
+"type": "rebalance",
+"nonce": 24,
+"feeWei": 14761183110000,
+"balanceWei": 1678633422468000
+},
+{
+"t": 1792433118,
+"iso": "2026-10-19T18:05:18Z",
+"type": "checkpoint",
+"nonce": 25,
+"feeWei": 8486810040000,
+"balanceWei": 1670146612428000
+},
+{
+"t": 1792433123,
+"iso": "2026-10-19T18:05:23Z",
+"type": "rebalance",
+"nonce": 26,
+"feeWei": 14696599008000,
+"balanceWei": 1655450013420000
+},
+{
+"t": 1792436832,
+"iso": "2026-10-19T19:07:12Z",
+"type": "checkpoint",
+"nonce": 27,
+"feeWei": 10520005608000,
+"balanceWei": 1644930007812000
+},
+{
+"t": 1792436837,
+"iso": "2026-10-19T19:07:17Z",
+"type": "rebalance",
+"nonce": 28,
+"feeWei": 14604166954000,
+"balanceWei": 1630325840858000
+},
+{
+"t": 1792440542,
+"iso": "2026-10-19T20:09:02Z",
+"type": "checkpoint",
+"nonce": 29,
+"feeWei": 8333720708000,
+"balanceWei": 1621992120150000
+},
+{
+"t": 1792444242,
+"iso": "2026-10-19T21:10:42Z",
+"type": "checkpoint",
+"nonce": 30,
+"feeWei": 8426969880000,
+"balanceWei": 1613565150270000
+},
+{
+"t": 1792447940,
+"iso": "2026-10-19T22:12:20Z",
+"type": "checkpoint",
+"nonce": 31,
+"feeWei": 9271193868000,
+"balanceWei": 1604293956402000
+},
+{
+"t": 1792451041,
+"iso": "2026-10-19T23:04:01Z",
+"type": "rebalance",
+"nonce": 32,
+"feeWei": 16902194080000,
+"balanceWei": 1587391762322000
+},
+{
+"t": 1792454737,
+"iso": "2026-10-20T00:05:37Z",
+"type": "checkpoint",
+"nonce": 33,
+"feeWei": 10341815072000,
+"balanceWei": 1577049947250000
+},
+{
+"t": 1792455048,
+"iso": "2026-10-20T00:10:48Z",
+"type": "rebalance",
+"nonce": 34,
+"feeWei": 16892460640000,
+"balanceWei": 1560157486610000
+},
+{
+"t": 1792458740,
+"iso": "2026-10-20T01:12:20Z",
+"type": "checkpoint",
+"nonce": 35,
+"feeWei": 10342431712000,
+"balanceWei": 1549815054898000
+},
+{
+"t": 1792458744,
+"iso": "2026-10-20T01:12:24Z",
+"type": "rebalance",
+"nonce": 36,
+"feeWei": 14533205260000,
+"balanceWei": 1535281849638000
+},
+{
+"t": 1792462436,
+"iso": "2026-10-20T02:13:56Z",
+"type": "checkpoint",
+"nonce": 37,
+"feeWei": 10371140000000,
+"balanceWei": 1524910709638000
+},
+{
+"t": 1792462441,
+"iso": "2026-10-20T02:14:01Z",
+"type": "rebalance",
+"nonce": 38,
+"feeWei": 14670643374000,
+"balanceWei": 1510240066264000
+},
+{
+"t": 1792466133,
+"iso": "2026-10-20T03:15:33Z",
+"type": "checkpoint",
+"nonce": 39,
+"feeWei": 10372416390000,
+"balanceWei": 1499867649874000
+},
+{
+"t": 1792466137,
+"iso": "2026-10-20T03:15:37Z",
+"type": "rebalance",
+"nonce": 40,
+"feeWei": 14445175310000,
+"balanceWei": 1485422474564000
+},
+{
+"t": 1792469827,
+"iso": "2026-10-20T04:17:07Z",
+"type": "checkpoint",
+"nonce": 41,
+"feeWei": 10359142524000,
+"balanceWei": 1475063332040000
+},
+{
+"t": 1792469831,
+"iso": "2026-10-20T04:17:11Z",
+"type": "rebalance",
+"nonce": 42,
+"feeWei": 14484071112000,
+"balanceWei": 1460579260928000
+},
+{
+"t": 1792473527,
+"iso": "2026-10-20T05:18:47Z",
+"type": "checkpoint",
+"nonce": 43,
+"feeWei": 9493574744000,
+"balanceWei": 1451085686184000
+},
+{
+"t": 1792477226,
+"iso": "2026-10-20T06:20:26Z",
+"type": "checkpoint",
+"nonce": 44,
+"feeWei": 9318326760000,
+"balanceWei": 1441767359424000
+},
+{
+"t": 1792480930,
+"iso": "2026-10-20T07:22:10Z",
+"type": "checkpoint",
+"nonce": 45,
+"feeWei": 8279935704000,
+"balanceWei": 1433487423720000
+},
+{
+"t": 1792483401,
+"iso": "2026-10-20T08:03:21Z",
+"type": "rebalance",
+"nonce": 46,
+"feeWei": 17458960792000,
+"balanceWei": 1416028462928000
+},
+{
+"t": 1792487102,
+"iso": "2026-10-20T09:05:02Z",
+"type": "checkpoint",
+"nonce": 47,
+"feeWei": 9309272166000,
+"balanceWei": 1406719190762000
+},
+{
+"t": 1792490496,
+"iso": "2026-10-20T10:01:36Z",
+"type": "rebalance",
+"nonce": 48,
+"feeWei": 16860347952000,
+"balanceWei": 1389858842810000
+},
+{
+"t": 1792494194,
+"iso": "2026-10-20T11:03:14Z",
+"type": "checkpoint",
+"nonce": 49,
+"feeWei": 8302126294000,
+"balanceWei": 1381556716516000
+},
+{
+"t": 1792494199,
+"iso": "2026-10-20T11:03:19Z",
+"type": "rebalance",
+"nonce": 50,
+"feeWei": 14614116590000,
+"balanceWei": 1366942599926000
+},
+{
+"t": 1792497899,
+"iso": "2026-10-20T12:04:59Z",
+"type": "checkpoint",
+"nonce": 51,
+"feeWei": 8331501816000,
+"balanceWei": 1358611098110000
+},
+{
+"t": 1792497905,
+"iso": "2026-10-20T12:05:05Z",
+"type": "rebalance",
+"nonce": 52,
+"feeWei": 14519406660000,
+"balanceWei": 1344091691450000
+},
+{
+"t": 1792501608,
+"iso": "2026-10-20T13:06:48Z",
+"type": "checkpoint",
+"nonce": 53,
+"feeWei": 9284547186000,
+"balanceWei": 1334807144264000
+},
+{
+"t": 1792503154,
+"iso": "2026-10-20T13:32:34Z",
+"type": "rebalance",
+"nonce": 54,
+"feeWei": 17672277444000,
+"balanceWei": 1317134866820000
+},
+{
+"t": 1792506857,
+"iso": "2026-10-20T14:34:17Z",
+"type": "checkpoint",
+"nonce": 55,
+"feeWei": 10848051800000,
+"balanceWei": 1306286815020000
+},
+{
+"t": 1792506862,
+"iso": "2026-10-20T14:34:22Z",
+"type": "rebalance",
+"nonce": 56,
+"feeWei": 14869635888000,
+"balanceWei": 1291417179132000
+},
+{
+"t": 1792510565,
+"iso": "2026-10-20T15:36:05Z",
+"type": "checkpoint",
+"nonce": 57,
+"feeWei": 11025796950000,
+"balanceWei": 1280391382182000
+},
+{
+"t": 1792510570,
+"iso": "2026-10-20T15:36:10Z",
+"type": "rebalance",
+"nonce": 58,
+"feeWei": 14987500414000,
+"balanceWei": 1265403881768000
+},
+{
+"t": 1792514272,
+"iso": "2026-10-20T16:37:52Z",
+"type": "checkpoint",
+"nonce": 59,
+"feeWei": 10916210970000,
+"balanceWei": 1254487670798000
+},
+{
+"t": 1792515817,
+"iso": "2026-10-20T17:03:37Z",
+"type": "rebalance",
+"nonce": 60,
+"feeWei": 19428214300000,
+"balanceWei": 1235059456498000
+},
+{
+"t": 1792519511,
+"iso": "2026-10-20T18:05:11Z",
+"type": "checkpoint",
+"nonce": 61,
+"feeWei": 10733477500000,
+"balanceWei": 1224325978998000
+},
+{
+"t": 1792519515,
+"iso": "2026-10-20T18:05:15Z",
+"type": "rebalance",
+"nonce": 62,
+"feeWei": 15289561728000,
+"balanceWei": 1209036417270000
+},
+{
+"t": 1792523214,
+"iso": "2026-10-20T19:06:54Z",
+"type": "checkpoint",
+"nonce": 63,
+"feeWei": 8483970528000,
+"balanceWei": 1200552446742000
+},
+{
+"t": 1792526609,
+"iso": "2026-10-20T20:03:29Z",
+"type": "rebalance",
+"nonce": 64,
+"feeWei": 17758361472000,
+"balanceWei": 1182794085270000
+},
+{
+"t": 1792530308,
+"iso": "2026-10-20T21:05:08Z",
+"type": "checkpoint",
+"nonce": 65,
+"feeWei": 10615366440000,
+"balanceWei": 1172178718830000
+},
+{
+"t": 1792534005,
+"iso": "2026-10-20T22:06:45Z",
+"type": "checkpoint",
+"nonce": 66,
+"feeWei": 10584396376000,
+"balanceWei": 1161594322454000
+},
+{
+"t": 1792535857,
+"iso": "2026-10-20T22:37:37Z",
+"type": "rebalance",
+"nonce": 67,
+"feeWei": 17149638898000,
+"balanceWei": 1144444683556000
+},
+{
+"t": 1792539548,
+"iso": "2026-10-20T23:39:08Z",
+"type": "checkpoint",
+"nonce": 68,
+"feeWei": 9303553996000,
+"balanceWei": 1135141129560000
+},
+{
+"t": 1792543242,
+"iso": "2026-10-21T00:40:42Z",
+"type": "checkpoint",
+"nonce": 69,
+"feeWei": 10391409626000,
+"balanceWei": 1124749719934000
+},
+{
+"t": 1792543246,
+"iso": "2026-10-21T00:40:46Z",
+"type": "rebalance",
+"nonce": 70,
+"feeWei": 14542317128000,
+"balanceWei": 1110207402806000
+},
+{
+"t": 1792546937,
+"iso": "2026-10-21T01:42:17Z",
+"type": "checkpoint",
+"nonce": 71,
+"feeWei": 9304773798000,
+"balanceWei": 1100902629008000
+},
+{
+"t": 1792547248,
+"iso": "2026-10-21T01:47:28Z",
+"type": "rebalance",
+"nonce": 72,
+"feeWei": 14445054918000,
+"balanceWei": 1086457574090000
+},
+{
+"t": 1792550941,
+"iso": "2026-10-21T02:49:01Z",
+"type": "checkpoint",
+"nonce": 73,
+"feeWei": 10361236158000,
+"balanceWei": 1076096337932000
+},
+{
+"t": 1792554633,
+"iso": "2026-10-21T03:50:33Z",
+"type": "checkpoint",
+"nonce": 74,
+"feeWei": 10337920000000,
+"balanceWei": 1065758417932000
+},
+{
+"t": 1792558325,
+"iso": "2026-10-21T04:52:05Z",
+"type": "checkpoint",
+"nonce": 75,
+"feeWei": 10365600672000,
+"balanceWei": 1055392817260000
+},
+{
+"t": 1792561710,
+"iso": "2026-10-21T05:48:30Z",
+"type": "rebalance",
+"nonce": 76,
+"feeWei": 18568252260000,
+"balanceWei": 1036824565000000
+},
+{
+"t": 1792565400,
+"iso": "2026-10-21T06:50:00Z",
+"type": "checkpoint",
+"nonce": 77,
+"feeWei": 8324140000000,
+"balanceWei": 1028500425000000
+},
+{
+"t": 1792565404,
+"iso": "2026-10-21T06:50:04Z",
+"type": "rebalance",
+"nonce": 78,
+"feeWei": 14437603180000,
+"balanceWei": 1014062821820000
+},
+{
+"t": 1792569099,
+"iso": "2026-10-21T07:51:39Z",
+"type": "checkpoint",
+"nonce": 79,
+"feeWei": 9265640000000,
+"balanceWei": 1004797181820000
+},
+{
+"t": 1792569103,
+"iso": "2026-10-21T07:51:43Z",
+"type": "rebalance",
+"nonce": 80,
+"feeWei": 14422260000000,
+"balanceWei": 990374921820000
+},
+{
+"t": 1792572796,
+"iso": "2026-10-21T08:53:16Z",
+"type": "checkpoint",
+"nonce": 81,
+"feeWei": 9352757204000,
+"balanceWei": 981022164616000
+},
+{
+"t": 1792572800,
+"iso": "2026-10-21T08:53:20Z",
+"type": "rebalance",
+"nonce": 82,
+"feeWei": 14422300000000,
+"balanceWei": 966599864616000
+},
+{
+"t": 1792576496,
+"iso": "2026-10-21T09:54:56Z",
+"type": "checkpoint",
+"nonce": 83,
+"feeWei": 8322560000000,
+"balanceWei": 958277304616000
+},
+{
+"t": 1792579580,
+"iso": "2026-10-21T10:46:20Z",
+"type": "rebalance",
+"nonce": 84,
+"feeWei": 18526296222000,
+"balanceWei": 939751008394000
+},
+{
+"t": 1792583274,
+"iso": "2026-10-21T11:47:54Z",
+"type": "checkpoint",
+"nonce": 85,
+"feeWei": 10338320000000,
+"balanceWei": 929412688394000
+},
+{
+"t": 1792583278,
+"iso": "2026-10-21T11:47:58Z",
+"type": "rebalance",
+"nonce": 86,
+"feeWei": 14472620172000,
+"balanceWei": 914940068222000
+},
+{
+"t": 1792586974,
+"iso": "2026-10-21T12:49:34Z",
+"type": "checkpoint",
+"nonce": 87,
+"feeWei": 10342188510000,
+"balanceWei": 904597879712000
+},
+{
+"t": 1792586978,
+"iso": "2026-10-21T12:49:38Z",
+"type": "rebalance",
+"nonce": 88,
+"feeWei": 14429632588000,
+"balanceWei": 890168247124000
+},
+{
+"t": 1792590674,
+"iso": "2026-10-21T13:51:14Z",
+"type": "checkpoint",
+"nonce": 89,
+"feeWei": 11747739552000,
+"balanceWei": 878420507572000
+},
+{
+"t": 1792590679,
+"iso": "2026-10-21T13:51:19Z",
+"type": "rebalance",
+"nonce": 90,
+"feeWei": 14960251790000,
+"balanceWei": 863460255782000
+},
+{
+"t": 1792594379,
+"iso": "2026-10-21T14:52:59Z",
+"type": "checkpoint",
+"nonce": 91,
+"feeWei": 10577893032000,
+"balanceWei": 852882362750000
+},
+{
+"t": 1792594383,
+"iso": "2026-10-21T14:53:03Z",
+"type": "rebalance",
+"nonce": 92,
+"feeWei": 15026702840000,
+"balanceWei": 837855659910000
+},
+{
+"t": 1792598079,
+"iso": "2026-10-21T15:54:39Z",
+"type": "checkpoint",
+"nonce": 93,
+"feeWei": 10636438952000,
+"balanceWei": 827219220958000
+},
+{
+"t": 1792598083,
+"iso": "2026-10-21T15:54:43Z",
+"type": "rebalance",
+"nonce": 94,
+"feeWei": 14918427120000,
+"balanceWei": 812300793838000
+},
+{
+"t": 1792601781,
+"iso": "2026-10-21T16:56:21Z",
+"type": "checkpoint",
+"nonce": 95,
+"feeWei": 10627135040000,
+"balanceWei": 801673658798000
+},
+{
+"t": 1792601785,
+"iso": "2026-10-21T16:56:25Z",
+"type": "rebalance",
+"nonce": 96,
+"feeWei": 14922753810000,
+"balanceWei": 786750904988000
+},
+{
+"t": 1792605485,
+"iso": "2026-10-21T17:58:05Z",
+"type": "checkpoint",
+"nonce": 97,
+"feeWei": 10615106376000,
+"balanceWei": 776135798612000
+},
+{
+"t": 1792609188,
+"iso": "2026-10-21T18:59:48Z",
+"type": "checkpoint",
+"nonce": 98,
+"feeWei": 9492871172000,
+"balanceWei": 766642927440000
+},
+{
+"t": 1792609501,
+"iso": "2026-10-21T19:05:01Z",
+"type": "rebalance",
+"nonce": 99,
+"feeWei": 17079210772000,
+"balanceWei": 749563716668000
+},
+{
+"t": 1792613201,
+"iso": "2026-10-21T20:06:41Z",
+"type": "checkpoint",
+"nonce": 100,
+"feeWei": 10507580830000,
+"balanceWei": 739056135838000
+},
+{
+"t": 1792613205,
+"iso": "2026-10-21T20:06:45Z",
+"type": "rebalance",
+"nonce": 101,
+"feeWei": 14875240870000,
+"balanceWei": 724180894968000
+},
+{
+"t": 1792616902,
+"iso": "2026-10-21T21:08:22Z",
+"type": "checkpoint",
+"nonce": 102,
+"feeWei": 10486927080000,
+"balanceWei": 713693967888000
+},
+{
+"t": 1792616906,
+"iso": "2026-10-21T21:08:26Z",
+"type": "rebalance",
+"nonce": 103,
+"feeWei": 14689250972000,
+"balanceWei": 699004716916000
+},
+{
+"t": 1792620604,
+"iso": "2026-10-21T22:10:04Z",
+"type": "checkpoint",
+"nonce": 104,
+"feeWei": 10478252176000,
+"balanceWei": 688526464740000
+},
+{
+"t": 1792621532,
+"iso": "2026-10-21T22:25:32Z",
+"type": "rebalance",
+"nonce": 105,
+"feeWei": 17264121246000,
+"balanceWei": 671262343494000
+},
+{
+"t": 1792625226,
+"iso": "2026-10-21T23:27:06Z",
+"type": "checkpoint",
+"nonce": 106,
+"feeWei": 8468130148000,
+"balanceWei": 662794213346000
+},
+{
+"t": 1792625232,
+"iso": "2026-10-21T23:27:12Z",
+"type": "rebalance",
+"nonce": 107,
+"feeWei": 14555088934000,
+"balanceWei": 648239124412000
+},
+{
+"t": 1792628927,
+"iso": "2026-10-22T00:28:47Z",
+"type": "checkpoint",
+"nonce": 108,
+"feeWei": 9281035848000,
+"balanceWei": 638958088564000
+},
+{
+"t": 1792628931,
+"iso": "2026-10-22T00:28:51Z",
+"type": "rebalance",
+"nonce": 109,
+"feeWei": 14428351820000,
+"balanceWei": 624529736744000
+},
+{
+"t": 1792632623,
+"iso": "2026-10-22T01:30:23Z",
+"type": "checkpoint",
+"nonce": 110,
+"feeWei": 9369047268000,
+"balanceWei": 615160689476000
+},
+{
+"t": 1792632627,
+"iso": "2026-10-22T01:30:27Z",
+"type": "rebalance",
+"nonce": 111,
+"feeWei": 14486030620000,
+"balanceWei": 600674658856000
+},
+{
+"t": 1792636337,
+"iso": "2026-10-22T02:32:17Z",
+"type": "checkpoint",
+"nonce": 112,
+"feeWei": 8377032576000,
+"balanceWei": 592297626280000
+},
+{
+"t": 1792636341,
+"iso": "2026-10-22T02:32:21Z",
+"type": "rebalance",
+"nonce": 113,
+"feeWei": 14510544110000,
+"balanceWei": 577787082170000
+},
+{
+"t": 1792640033,
+"iso": "2026-10-22T03:33:53Z",
+"type": "checkpoint",
+"nonce": 114,
+"feeWei": 8274185920000,
+"balanceWei": 569512896250000
+},
+{
+"t": 1792640037,
+"iso": "2026-10-22T03:33:57Z",
+"type": "rebalance",
+"nonce": 115,
+"feeWei": 14542116232000,
+"balanceWei": 554970780018000
+},
+{
+"t": 1792643742,
+"iso": "2026-10-22T04:35:42Z",
+"type": "checkpoint",
+"nonce": 116,
+"feeWei": 8265940000000,
+"balanceWei": 546704840018000
+},
+{
+"t": 1792643746,
+"iso": "2026-10-22T04:35:46Z",
+"type": "rebalance",
+"nonce": 117,
+"feeWei": 14464283060000,
+"balanceWei": 532240556958000
+},
+{
+"t": 1792647440,
+"iso": "2026-10-22T05:37:20Z",
+"type": "checkpoint",
+"nonce": 118,
+"feeWei": 8267200000000,
+"balanceWei": 523973356958000
+},
+{
+"t": 1792647444,
+"iso": "2026-10-22T05:37:24Z",
+"type": "rebalance",
+"nonce": 119,
+"feeWei": 14424982354000,
+"balanceWei": 509548374604000
+},
+{
+"t": 1792651138,
+"iso": "2026-10-22T06:38:58Z",
+"type": "checkpoint",
+"nonce": 120,
+"feeWei": 9285453840000,
+"balanceWei": 500262920764000
+},
+{
+"t": 1792651142,
+"iso": "2026-10-22T06:39:02Z",
+"type": "rebalance",
+"nonce": 121,
+"feeWei": 14457997086000,
+"balanceWei": 485804923678000
+},
+{
+"t": 1792654838,
+"iso": "2026-10-22T07:40:38Z",
+"type": "checkpoint",
+"nonce": 122,
+"feeWei": 9349592112000,
+"balanceWei": 476455331566000
+},
+{
+"t": 1792654843,
+"iso": "2026-10-22T07:40:43Z",
+"type": "rebalance",
+"nonce": 123,
+"feeWei": 14426909850000,
+"balanceWei": 462028421716000
+},
+{
+"t": 1792658538,
+"iso": "2026-10-22T08:42:18Z",
+"type": "checkpoint",
+"nonce": 124,
+"feeWei": 9442302922000,
+"balanceWei": 452586118794000
+},
+{
+"t": 1792658542,
+"iso": "2026-10-22T08:42:22Z",
+"type": "rebalance",
+"nonce": 125,
+"feeWei": 14443144170000,
+"balanceWei": 438142974624000
+},
+{
+"t": 1792662237,
+"iso": "2026-10-22T09:43:57Z",
+"type": "checkpoint",
+"nonce": 126,
+"feeWei": 8322690910000,
+"balanceWei": 429820283714000
+},
+{
+"t": 1792662241,
+"iso": "2026-10-22T09:44:01Z",
+"type": "rebalance",
+"nonce": 127,
+"feeWei": 14508115818000,
+"balanceWei": 415312167896000
+},
+{
+"t": 1792665938,
+"iso": "2026-10-22T10:45:38Z",
+"type": "checkpoint",
+"nonce": 128,
+"feeWei": 8284595160000,
+"balanceWei": 407027572736000
+},
+{
+"t": 1792667173,
+"iso": "2026-10-22T11:06:13Z",
+"type": "rebalance",
+"nonce": 129,
+"feeWei": 16987832480000,
+"balanceWei": 390039740256000
+},
+{
+"t": 1792670871,
+"iso": "2026-10-22T12:07:51Z",
+"type": "checkpoint",
+"nonce": 130,
+"feeWei": 9281586816000,
+"balanceWei": 380758153440000
+},
+{
+"t": 1792674262,
+"iso": "2026-10-22T13:04:22Z",
+"type": "rebalance",
+"nonce": 131,
+"feeWei": 16820140000000,
+"balanceWei": 363938013440000
+},
+{
+"t": 1792677957,
+"iso": "2026-10-22T14:05:57Z",
+"type": "checkpoint",
+"nonce": 132,
+"feeWei": 10681242766000,
+"balanceWei": 353256770674000
+},
+{
+"t": 1792677962,
+"iso": "2026-10-22T14:06:02Z",
+"type": "rebalance",
+"nonce": 133,
+"feeWei": 14634410504000,
+"balanceWei": 338622360170000
+},
+{
+"t": 1792681971,
+"iso": "2026-10-22T15:12:51Z",
+"type": "checkpoint",
+"nonce": 134,
+"feeWei": 10012121856000,
+"balanceWei": 328610238314000
+},
+{
+"t": 1792681975,
+"iso": "2026-10-22T15:12:55Z",
+"type": "rebalance",
+"nonce": 135,
+"feeWei": 16453170930000,
+"balanceWei": 312157067384000
+},
+{
+"t": 1792685671,
+"iso": "2026-10-22T16:14:31Z",
+"type": "checkpoint",
+"nonce": 136,
+"feeWei": 10888965742000,
+"balanceWei": 301268101642000
+},
+{
+"t": 1792686598,
+"iso": "2026-10-22T16:29:58Z",
+"type": "rebalance",
+"nonce": 137,
+"feeWei": 15565869852000,
+"balanceWei": 285702231790000
+},
+{
+"t": 1793617296,
+"iso": "2026-11-02T11:01:36Z",
+"funded": 5000000000000000,
+"tx": "0x0684921f331be71f7b7916e7e16f27c66dedd58031fa621d3054fa8fead95b9f",
+"balanceWei": 5285702231790000
+},
+{
+"t": 1793617388,
+"iso": "2026-11-02T11:03:08Z",
+"type": "checkpoint",
+"nonce": 138,
+"feeWei": 10522946484000,
+"balanceWei": 5275179285306000
+},
+{
+"t": 1793617393,
+"iso": "2026-11-02T11:03:13Z",
+"type": "rebalance",
+"nonce": 139,
+"feeWei": 14863201980000,
+"balanceWei": 5260316083326000
+},
+{
+"t": 1793621092,
+"iso": "2026-11-02T12:04:52Z",
+"type": "checkpoint",
+"nonce": 140,
+"feeWei": 10346416912000,
+"balanceWei": 5249969666414000
+},
+{
+"t": 1793621096,
+"iso": "2026-11-02T12:04:56Z",
+"type": "rebalance",
+"nonce": 141,
+"feeWei": 14728259300000,
+"balanceWei": 5235241407114000
+},
+{
+"t": 1793624802,
+"iso": "2026-11-02T13:06:42Z",
+"type": "checkpoint",
+"nonce": 142,
+"feeWei": 8329285096000,
+"balanceWei": 5226912122018000
+},
+{
+"t": 1793624807,
+"iso": "2026-11-02T13:06:47Z",
+"type": "rebalance",
+"nonce": 143,
+"feeWei": 14715749538000,
+"balanceWei": 5212196372480000
+},
+{
+"t": 1793628515,
+"iso": "2026-11-02T14:08:35Z",
+"type": "checkpoint",
+"nonce": 144,
+"feeWei": 10510479384000,
+"balanceWei": 5201685893096000
+},
+{
+"t": 1793629752,
+"iso": "2026-11-02T14:29:12Z",
+"type": "rebalance",
+"nonce": 145,
+"feeWei": 16768988720000,
+"balanceWei": 5184916904376000
+},
+{
+"t": 1793633459,
+"iso": "2026-11-02T15:30:59Z",
+"type": "checkpoint",
+"nonce": 146,
+"feeWei": 10530575432000,
+"balanceWei": 5174386328944000
+},
+{
+"t": 1793633463,
+"iso": "2026-11-02T15:31:03Z",
+"type": "rebalance",
+"nonce": 147,
+"feeWei": 15333315240000,
+"balanceWei": 5159053013704000
+},
+{
+"t": 1793637165,
+"iso": "2026-11-02T16:32:45Z",
+"type": "checkpoint",
+"nonce": 148,
+"feeWei": 8291651800000,
+"balanceWei": 5150761361904000
+},
+{
+"t": 1793637169,
+"iso": "2026-11-02T16:32:49Z",
+"type": "rebalance",
+"nonce": 149,
+"feeWei": 15058550738000,
+"balanceWei": 5135702811166000
+},
+{
+"t": 1793640870,
+"iso": "2026-11-02T17:34:30Z",
+"type": "checkpoint",
+"nonce": 150,
+"feeWei": 9423192528000,
+"balanceWei": 5126279618638000
+},
+{
+"t": 1793640874,
+"iso": "2026-11-02T17:34:34Z",
+"type": "rebalance",
+"nonce": 151,
+"feeWei": 14753847212000,
+"balanceWei": 5111525771426000
+},
+{
+"t": 1793644572,
+"iso": "2026-11-02T18:36:12Z",
+"type": "checkpoint",
+"nonce": 152,
+"feeWei": 10391025330000,
+"balanceWei": 5101134746096000
+},
+{
+"t": 1793644576,
+"iso": "2026-11-02T18:36:16Z",
+"type": "rebalance",
+"nonce": 153,
+"feeWei": 14744214582000,
+"balanceWei": 5086390531514000
+},
+{
+"t": 1793648274,
+"iso": "2026-11-02T19:37:54Z",
+"type": "checkpoint",
+"nonce": 154,
+"feeWei": 9559381760000,
+"balanceWei": 5076831149754000
+},
+{
+"t": 1793648278,
+"iso": "2026-11-02T19:37:58Z",
+"type": "rebalance",
+"nonce": 155,
+"feeWei": 17421693120000,
+"balanceWei": 5059409456634000
+},
+{
+"t": 1793651664,
+"iso": "2026-11-02T20:34:24Z",
+"type": "recenter",
+"nonce": 156,
+"feeWei": 26415161316000,
+"balanceWei": 5032994295318000
+},
+{
+"t": 1793654437,
+"iso": "2026-11-02T21:20:37Z",
+"type": "rebalance",
+"nonce": 157,
+"feeWei": 19416520000000,
+"balanceWei": 5013577775318000
+},
+{
+"t": 1793658130,
+"iso": "2026-11-02T22:22:10Z",
+"type": "checkpoint",
+"nonce": 158,
+"feeWei": 9956800000000,
+"balanceWei": 5003620975318000
+},
+{
+"t": 1793658134,
+"iso": "2026-11-02T22:22:14Z",
+"type": "rebalance",
+"nonce": 159,
+"feeWei": 14250798040000,
+"balanceWei": 4989370177278000
+},
+{
+"t": 1793661826,
+"iso": "2026-11-02T23:23:46Z",
+"type": "checkpoint",
+"nonce": 160,
+"feeWei": 11034340416000,
+"balanceWei": 4978335836862000
+},
+{
+"t": 1793661830,
+"iso": "2026-11-02T23:23:50Z",
+"type": "rebalance",
+"nonce": 161,
+"feeWei": 14301496710000,
+"balanceWei": 4964034340152000
+},
+{
+"t": 1793665524,
+"iso": "2026-11-03T00:25:24Z",
+"type": "checkpoint",
+"nonce": 162,
+"feeWei": 7112494470000,
+"balanceWei": 4956921845682000
+},
+{
+"t": 1793665528,
+"iso": "2026-11-03T00:25:28Z",
+"type": "rebalance",
+"nonce": 163,
+"feeWei": 14255918790000,
+"balanceWei": 4942665926892000
+},
+{
+"t": 1793669218,
+"iso": "2026-11-03T01:26:58Z",
+"type": "checkpoint",
+"nonce": 164,
+"feeWei": 11039213292000,
+"balanceWei": 4931626713600000
+},
+{
+"t": 1793669223,
+"iso": "2026-11-03T01:27:03Z",
+"type": "rebalance",
+"nonce": 165,
+"feeWei": 14249407608000,
+"balanceWei": 4917377305992000
+},
+{
+"t": 1793672914,
+"iso": "2026-11-03T02:28:34Z",
+"type": "checkpoint",
+"nonce": 166,
+"feeWei": 8506127504000,
+"balanceWei": 4908871178488000
+},
+{
+"t": 1793676607,
+"iso": "2026-11-03T03:30:07Z",
+"type": "checkpoint",
+"nonce": 167,
+"feeWei": 9267580000000,
+"balanceWei": 4899603598488000
+},
+{
+"t": 1793680300,
+"iso": "2026-11-03T04:31:40Z",
+"type": "checkpoint",
+"nonce": 168,
+"feeWei": 8307777520000,
+"balanceWei": 4891295820968000
+},
+{
+"t": 1793681839,
+"iso": "2026-11-03T04:57:19Z",
+"type": "rebalance",
+"nonce": 169,
+"feeWei": 16651650672000,
+"balanceWei": 4874644170296000
+},
+{
+"t": 1793685531,
+"iso": "2026-11-03T05:58:51Z",
+"type": "checkpoint",
+"nonce": 170,
+"feeWei": 8350426212000,
+"balanceWei": 4866293744084000
+},
+{
+"t": 1793689225,
+"iso": "2026-11-03T07:00:25Z",
+"type": "checkpoint",
+"nonce": 171,
+"feeWei": 10020393804000,
+"balanceWei": 4856273350280000
+},
+{
+"t": 1793689230,
+"iso": "2026-11-03T07:00:30Z",
+"type": "rebalance",
+"nonce": 172,
+"feeWei": 14249260000000,
+"balanceWei": 4842024090280000
+},
+{
+"t": 1793692925,
+"iso": "2026-11-03T08:02:05Z",
+"type": "checkpoint",
+"nonce": 173,
+"feeWei": 8353635750000,
+"balanceWei": 4833670454530000
+},
+{
+"t": 1793696625,
+"iso": "2026-11-03T09:03:45Z",
+"type": "checkpoint",
+"nonce": 174,
+"feeWei": 8551919400000,
+"balanceWei": 4825118535130000
+},
+{
+"t": 1793696629,
+"iso": "2026-11-03T09:03:49Z",
+"type": "rebalance",
+"nonce": 175,
+"feeWei": 14341742384000,
+"balanceWei": 4810776792746000
+},
+{
+"t": 1793700327,
+"iso": "2026-11-03T10:05:27Z",
+"type": "checkpoint",
+"nonce": 176,
+"feeWei": 8614923632000,
+"balanceWei": 4802161869114000
+},
+{
+"t": 1793700331,
+"iso": "2026-11-03T10:05:31Z",
+"type": "rebalance",
+"nonce": 177,
+"feeWei": 14264822832000,
+"balanceWei": 4787897046282000
+}
+],
+"funding": [
+{
+"note": "10-15 funding: 2e15 observed at first heartbeat, see funding-scan-20261015 if found"
+},
+{
+"tx": "0x0684921f331be71f7b7916e7e16f27c66dedd58031fa621d3054fa8fead95b9f",
+"block": 104165036,
+"ts": 1793617296,
+"from": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+"to": "0x978e2adf18da8b846552932c0ab2b1193da1fac4",
+"valueWei": 5000000000000000,
+"type": "0x2",
+"nonce": 321,
+"status": "0x1"
+},
+{
+"tx": "0xa8188fce0463d2140147c60f7e0426ebf8b3eadb4442641a4999dfa17a5bf237",
+"block": 94437771,
+"ts": 1792601793,
+"from": "0x9613633f02e45ff50a05abeca1981a326717d7f6",
+"to": "0x978e2adf18da8b846552932c0ab2b1193da1fac4",
+"valueWei": 9210027039028,
+"type": "0x0",
+"nonce": 103,
+"status": "0x1"
+}
+]
+}

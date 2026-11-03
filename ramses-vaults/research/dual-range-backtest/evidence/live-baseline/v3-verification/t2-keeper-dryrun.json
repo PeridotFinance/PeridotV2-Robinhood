@@ -1,0 +1,89 @@
+{
+ "cycleStatus": "monitoring",
+ "positions": [
+  {
+   "positionId": 1,
+   "status": "resolved",
+   "snapshot": {
+    "positionId": 1,
+    "status": 5,
+    "account": "0xa1a7a0f0c270fd9229ff7a2e6a67b0c2eb67d45b",
+    "debt": 0,
+    "fresh": true,
+    "block": 105003451
+   },
+   "journal": {
+    "attempts": 0
+   }
+  },
+  {
+   "positionId": 2,
+   "status": "resolved",
+   "snapshot": {
+    "positionId": 2,
+    "status": 5,
+    "account": "0x4fe6a2daff417572675a5173a25d167dff02981d",
+    "debt": 0,
+    "fresh": true,
+    "block": 105003485
+   },
+   "journal": {
+    "attempts": 0
+   }
+  },
+  {
+   "positionId": 3,
+   "status": "not_executable_stop",
+   "reason": "{'code': 3, 'message': 'execution reverted: RiskEngine: healthy', 'data': '0x08c379a0000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000135269736b456e67696e653a206865616c74687900000000000000000000000000'}",
+   "snapshot": {
+    "positionId": 3,
+    "status": 2,
+    "account": "0x7f082ffd0ee3460aee9a22d8fe0e9d33efcd4945",
+    "debt": 972559,
+    "fresh": true,
+    "block": 105003512
+   },
+   "journal": {
+    "attempts": 0
+   }
+  },
+  {
+   "positionId": 4,
+   "status": "not_executable_stop",
+   "reason": "{'code': 3, 'message': 'execution reverted: RiskEngine: healthy', 'data': '0x08c379a0000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000135269736b456e67696e653a206865616c74687900000000000000000000000000'}",
+   "snapshot": {
+    "positionId": 4,
+    "status": 2,
+    "account": "0x4a0e01f9d41414f8e15eee188d7b184fc5a97571",
+    "debt": 962591,
+    "fresh": true,
+    "block": 105003546
+   },
+   "journal": {
+    "attempts": 0
+   }
+  },
+  {
+   "positionId": 5,
+   "status": "resolved",
+   "snapshot": {
+    "positionId": 5,
+    "status": 5,
+    "account": "0x062a4ed42f2b8204eac6ccf24f46c9fd1535d932",
+    "debt": 0,
+    "fresh": true,
+    "block": 105003574
+   },
+   "journal": {
+    "attempts": 0
+   }
+  }
+ ],
+ "methodCounts": {
+  "eth_blockNumber": 5,
+  "eth_chainId": 1,
+  "eth_getCode": 4,
+  "eth_call": 31
+ },
+ "note": "execute=False; service.py cycle + tools/keeper.py run unmodified"
+}

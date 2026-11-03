@@ -1,0 +1,294 @@
+{
+ "gapThresholdSec": 7200,
+ "checkpoints": 188,
+ "gaps": [
+  {
+   "from": "2026-09-15T17:58:25Z",
+   "to": "2026-09-16T11:58:10Z",
+   "fromTs": 1789495105,
+   "toTs": 1789559890,
+   "hours": 18.0,
+   "days": 0.75,
+   "fromWho": "governor",
+   "toWho": "governor",
+   "toType": "checkpoint",
+   "feedFreshSeconds": 63447,
+   "feedFreshPct": 97.9,
+   "feedFreshIntervals": [
+    [
+     "2026-09-15T17:58:25Z",
+     "2026-09-16T02:52:35Z"
+    ],
+    [
+     "2026-09-16T03:14:53Z",
+     "2026-09-16T11:58:10Z"
+    ]
+   ],
+   "feedAgeAtEnd_h": 8.72,
+   "weekdayFrom": "Tue",
+   "weekdayTo": "Wed",
+   "nvdaFrom": 211.92474816,
+   "nvdaTo": 213.03500813
+  },
+  {
+   "from": "2026-09-16T11:58:10Z",
+   "to": "2026-10-06T14:01:00Z",
+   "fromTs": 1789559890,
+   "toTs": 1791295260,
+   "hours": 482.05,
+   "days": 20.09,
+   "fromWho": "governor",
+   "toWho": "governor",
+   "toType": "checkpoint",
+   "feedFreshSeconds": 1216873,
+   "feedFreshPct": 70.1,
+   "feedFreshIntervals": [
+    [
+     "2026-09-16T11:58:10Z",
+     "2026-09-18T02:15:01Z"
+    ],
+    [
+     "2026-09-18T03:23:45Z",
+     "2026-09-19T07:55:32Z"
+    ],
+    [
+     "2026-09-21T00:00:20Z",
+     "2026-09-23T03:07:56Z"
+    ],
+    [
+     "2026-09-23T11:32:51Z",
+     "2026-09-24T05:59:59Z"
+    ],
+    [
+     "2026-09-24T06:02:59Z",
+     "2026-09-25T04:41:56Z"
+    ],
+    [
+     "2026-09-25T06:22:16Z",
+     "2026-09-26T07:56:05Z"
+    ],
+    [
+     "2026-09-28T00:00:23Z",
+     "2026-09-30T05:56:39Z"
+    ],
+    [
+     "2026-09-30T13:19:16Z",
+     "2026-10-02T05:41:16Z"
+    ],
+    [
+     "2026-10-02T08:01:01Z",
+     "2026-10-03T05:07:32Z"
+    ],
+    [
+     "2026-10-05T00:00:42Z",
+     "2026-10-06T14:01:00Z"
+    ]
+   ],
+   "feedAgeAtEnd_h": 0.04,
+   "weekdayFrom": "Wed",
+   "weekdayTo": "Tue",
+   "nvdaFrom": 213.03500813,
+   "nvdaTo": 243.21338304
+  },
+  {
+   "from": "2026-10-06T14:01:00Z",
+   "to": "2026-10-09T11:06:06Z",
+   "fromTs": 1791295260,
+   "toTs": 1791543966,
+   "hours": 69.08,
+   "days": 2.88,
+   "fromWho": "governor",
+   "toWho": "governor",
+   "toType": "recenter",
+   "feedFreshSeconds": 234199,
+   "feedFreshPct": 94.2,
+   "feedFreshIntervals": [
+    [
+     "2026-10-06T14:01:00Z",
+     "2026-10-08T03:01:06Z"
+    ],
+    [
+     "2026-10-08T07:02:53Z",
+     "2026-10-09T11:06:06Z"
+    ]
+   ],
+   "feedAgeAtEnd_h": 2.97,
+   "weekdayFrom": "Tue",
+   "weekdayTo": "Fri",
+   "nvdaFrom": 243.21338304,
+   "nvdaTo": 234.53165855
+  },
+  {
+   "from": "2026-10-09T11:06:06Z",
+   "to": "2026-10-09T14:59:58Z",
+   "fromTs": 1791543966,
+   "toTs": 1791557998,
+   "hours": 3.9,
+   "days": 0.16,
+   "fromWho": "governor",
+   "toWho": "governor",
+   "toType": "checkpoint",
+   "feedFreshSeconds": 14032,
+   "feedFreshPct": 100.0,
+   "feedFreshIntervals": [
+    [
+     "2026-10-09T11:06:06Z",
+     "2026-10-09T14:59:58Z"
+    ]
+   ],
+   "feedAgeAtEnd_h": 1.4,
+   "weekdayFrom": "Fri",
+   "weekdayTo": "Fri",
+   "nvdaFrom": 234.53165855,
+   "nvdaTo": 231.57436794
+  },
+  {
+   "from": "2026-10-09T15:00:06Z",
+   "to": "2026-10-09T17:12:24Z",
+   "fromTs": 1791558006,
+   "toTs": 1791565944,
+   "hours": 2.21,
+   "days": 0.09,
+   "fromWho": "governor",
+   "toWho": "governor",
+   "toType": "checkpoint",
+   "feedFreshSeconds": 7938,
+   "feedFreshPct": 100.0,
+   "feedFreshIntervals": [
+    [
+     "2026-10-09T15:00:06Z",
+     "2026-10-09T17:12:24Z"
+    ]
+   ],
+   "feedAgeAtEnd_h": 2.05,
+   "weekdayFrom": "Fri",
+   "weekdayTo": "Fri",
+   "nvdaFrom": 231.57436794,
+   "nvdaTo": 230.36242923
+  },
+  {
+   "from": "2026-10-09T17:12:24Z",
+   "to": "2026-10-12T14:17:22Z",
+   "fromTs": 1791565944,
+   "toTs": 1791814642,
+   "hours": 69.08,
+   "days": 2.88,
+   "fromWho": "governor",
+   "toWho": "governor",
+   "toType": "recenter",
+   "feedFreshSeconds": 87213,
+   "feedFreshPct": 35.1,
+   "feedFreshIntervals": [
+    [
+     "2026-10-09T17:12:24Z",
+     "2026-10-10T03:09:16Z"
+    ],
+    [
+     "2026-10-12T00:00:41Z",
+     "2026-10-12T14:17:22Z"
+    ]
+   ],
+   "feedAgeAtEnd_h": 0.06,
+   "weekdayFrom": "Fri",
+   "weekdayTo": "Mon",
+   "nvdaFrom": 230.36242923,
+   "nvdaTo": 225.28949995
+  },
+  {
+   "from": "2026-10-12T14:17:22Z",
+   "to": "2026-10-13T13:17:26Z",
+   "fromTs": 1791814642,
+   "toTs": 1791897446,
+   "hours": 23.0,
+   "days": 0.96,
+   "fromWho": "governor",
+   "toWho": "governor",
+   "toType": "checkpoint",
+   "feedFreshSeconds": 82804,
+   "feedFreshPct": 100.0,
+   "feedFreshIntervals": [
+    [
+     "2026-10-12T14:17:22Z",
+     "2026-10-13T13:17:26Z"
+    ]
+   ],
+   "feedAgeAtEnd_h": 2.65,
+   "weekdayFrom": "Mon",
+   "weekdayTo": "Tue",
+   "nvdaFrom": 225.28949995,
+   "nvdaTo": 224.14861627
+  },
+  {
+   "from": "2026-10-13T13:17:33Z",
+   "to": "2026-10-19T00:05:40Z",
+   "fromTs": 1791897453,
+   "toTs": 1792368340,
+   "hours": 130.8,
+   "days": 5.45,
+   "fromWho": "governor",
+   "toWho": "keeper",
+   "toType": "recenter",
+   "feedFreshSeconds": 310317,
+   "feedFreshPct": 65.9,
+   "feedFreshIntervals": [
+    [
+     "2026-10-13T13:17:33Z",
+     "2026-10-14T08:03:51Z"
+    ],
+    [
+     "2026-10-14T11:01:07Z",
+     "2026-10-17T06:21:48Z"
+    ],
+    [
+     "2026-10-19T00:00:42Z",
+     "2026-10-19T00:05:40Z"
+    ]
+   ],
+   "feedAgeAtEnd_h": 0.08,
+   "weekdayFrom": "Tue",
+   "weekdayTo": "Mon",
+   "nvdaFrom": 224.14861627,
+   "nvdaTo": 215.6280479
+  },
+  {
+   "from": "2026-10-22T16:29:58Z",
+   "to": "2026-11-02T11:03:08Z",
+   "fromTs": 1792686598,
+   "toTs": 1793617388,
+   "hours": 258.55,
+   "days": 10.77,
+   "fromWho": "keeper",
+   "toWho": "keeper",
+   "toType": "checkpoint",
+   "feedFreshSeconds": 633629,
+   "feedFreshPct": 68.1,
+   "feedFreshIntervals": [
+    [
+     "2026-10-22T16:29:58Z",
+     "2026-10-24T07:55:31Z"
+    ],
+    [
+     "2026-10-26T00:00:49Z",
+     "2026-10-27T05:21:07Z"
+    ],
+    [
+     "2026-10-27T05:32:21Z",
+     "2026-10-28T04:50:08Z"
+    ],
+    [
+     "2026-10-28T06:07:52Z",
+     "2026-10-31T08:02:00Z"
+    ],
+    [
+     "2026-11-02T01:00:25Z",
+     "2026-11-02T11:03:08Z"
+    ]
+   ],
+   "feedAgeAtEnd_h": 9.73,
+   "weekdayFrom": "Thu",
+   "weekdayTo": "Mon",
+   "nvdaFrom": 214.31099644,
+   "nvdaTo": 207.39099107
+  }
+ ]
+}

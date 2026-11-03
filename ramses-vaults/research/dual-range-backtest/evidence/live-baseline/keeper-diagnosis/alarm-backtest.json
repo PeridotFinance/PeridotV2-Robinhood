@@ -1,0 +1,59 @@
+{
+ "rules": {
+  "GAS_CRITICAL": "balance < 0.0003 ETH (worker floor)",
+  "EXPECTED_WAIT_FEED_STALE": "feed age > 43200s (quiet, no page)",
+  "STALLED": "balance OK AND feed continuously fresh >=1800s AND last PairCheckpoint age > 7800s",
+  "GAS_LOW": "(balance-floor)/0.0005 ETH per day < 3 active days",
+  "PROCESS_DOWN (log-based, separate)": "newest heartbeat in DO run logs older than 900s or deployment phase != ACTIVE"
+ },
+ "segments": [
+  {
+   "state": "EXPECTED_WAIT_FEED_STALE",
+   "from": "2026-10-18T11:05:24Z",
+   "fromTs": 1792321524,
+   "hours": 13.0
+  },
+  {
+   "state": "OK",
+   "from": "2026-10-19T00:05:24Z",
+   "fromTs": 1792368324,
+   "hours": 12.08
+  },
+  {
+   "state": "GAS_LOW",
+   "from": "2026-10-19T12:10:24Z",
+   "fromTs": 1792411824,
+   "hours": 76.42
+  },
+  {
+   "state": "GAS_CRITICAL",
+   "from": "2026-10-22T16:35:24Z",
+   "fromTs": 1792686924,
+   "hours": 258.5
+  },
+  {
+   "state": "OK",
+   "from": "2026-11-02T11:05:24Z",
+   "fromTs": 1793617524,
+   "hours": 2.25
+  },
+  {
+   "state": "EXPECTED_WAIT_FEED_STALE",
+   "from": "2026-11-02T13:20:24Z",
+   "fromTs": 1793625624,
+   "hours": 0.17
+  },
+  {
+   "state": "OK",
+   "from": "2026-11-02T13:30:24Z",
+   "fromTs": 1793626224,
+   "hours": 20.76
+  }
+ ],
+ "maxHeartbeatGapSec": 656,
+ "processDownFalsePositivesAt900s": 0,
+ "window": [
+  "2026-10-18T11:05:24Z",
+  "2026-11-03T10:15:47Z"
+ ]
+}

@@ -1,0 +1,225 @@
+[
+ {
+  "id": "b447801c-7301-455f-a3cf-3236385eb588",
+  "phase": "ACTIVE",
+  "cause": "app spec updated",
+  "created": "2026-10-18T11:05:03Z",
+  "updated": "2026-11-01T11:05:43Z",
+  "phase_last": "2026-10-18T11:05:36Z",
+  "cause_details": {
+   "digitalocean_user_action": {
+    "user": {
+     "uuid": "db43eb05-2ad5-4ef8-9f87-c1844c41f3c9",
+     "email": "peridotprotocol@gmail.com",
+     "full_name": "peridotprotocol@gmail.com"
+    },
+    "name": "UPDATE_SPEC"
+   },
+   "type": "MANUAL"
+  },
+  "worker_src": [
+   {
+    "name": "range-keeper",
+    "source_commit": "a41096221409403cef84d2c7c4cf62195bcca81d"
+   }
+  ],
+  "git": [
+   {
+    "repo_clone_url": "https://github.com/PeridotFinance/PeridotV2-Robinhood.git",
+    "branch": "main"
+   }
+  ],
+  "envKeys": [
+   [
+    [
+     "INTERVAL_SECONDS",
+     null
+    ],
+    [
+     "KEEPER_ADDRESS",
+     null
+    ],
+    [
+     "KEYSTORE_JSON_BASE64",
+     "SECRET"
+    ],
+    [
+     "KEYSTORE_PASSWORD",
+     "SECRET"
+    ],
+    [
+     "EXECUTE",
+     null
+    ]
+   ]
+  ],
+  "tier": "basic",
+  "steps": [],
+  "generalFlags": [
+   {}
+  ]
+ },
+ {
+  "id": "ad603207-dc5f-4970-b2e1-10c816a89d5c",
+  "phase": "SUPERSEDED",
+  "cause": "manual",
+  "created": "2026-10-15T12:21:30Z",
+  "updated": "2026-11-01T11:05:43Z",
+  "phase_last": "2026-10-18T11:05:40Z",
+  "cause_details": {
+   "digitalocean_user_action": {
+    "user": {
+     "uuid": "db43eb05-2ad5-4ef8-9f87-c1844c41f3c9",
+     "email": "peridotprotocol@gmail.com",
+     "full_name": "peridotprotocol@gmail.com"
+    },
+    "name": "CREATE_DEPLOYMENT"
+   },
+   "type": "MANUAL"
+  },
+  "worker_src": [
+   {
+    "name": "range-keeper",
+    "source_commit": "a41096221409403cef84d2c7c4cf62195bcca81d"
+   }
+  ],
+  "git": [
+   {
+    "repo_clone_url": "https://github.com/PeridotFinance/PeridotV2-Robinhood.git",
+    "branch": "main"
+   }
+  ],
+  "envKeys": [
+   [
+    [
+     "EXECUTE",
+     null
+    ],
+    [
+     "INTERVAL_SECONDS",
+     null
+    ],
+    [
+     "KEEPER_ADDRESS",
+     null
+    ]
+   ]
+  ],
+  "tier": "basic",
+  "steps": [],
+  "generalFlags": [
+   {}
+  ]
+ },
+ {
+  "id": "ca816e36-d39d-45bb-8c99-616dfaea9787",
+  "phase": "CANCELED",
+  "cause": "manual",
+  "created": "2026-10-15T12:21:07Z",
+  "updated": "2026-10-15T12:21:51Z",
+  "phase_last": "2026-10-15T12:21:40Z",
+  "cause_details": {
+   "digitalocean_user_action": {
+    "user": {
+     "uuid": "db43eb05-2ad5-4ef8-9f87-c1844c41f3c9",
+     "email": "peridotprotocol@gmail.com",
+     "full_name": "peridotprotocol@gmail.com"
+    },
+    "name": "CREATE_DEPLOYMENT"
+   },
+   "type": "MANUAL"
+  },
+  "worker_src": [
+   {
+    "name": "range-keeper",
+    "source_commit": "a41096221409403cef84d2c7c4cf62195bcca81d"
+   }
+  ],
+  "git": [
+   {
+    "repo_clone_url": "https://github.com/PeridotFinance/PeridotV2-Robinhood.git",
+    "branch": "main"
+   }
+  ],
+  "envKeys": [
+   [
+    [
+     "EXECUTE",
+     null
+    ],
+    [
+     "INTERVAL_SECONDS",
+     null
+    ],
+    [
+     "KEEPER_ADDRESS",
+     null
+    ]
+   ]
+  ],
+  "tier": "basic",
+  "steps": [
+   [
+    "build.components.range-keeper",
+    "RUNNING",
+    "0001-01-01T00:00:00Z",
+    "0001-01-01T00:00:00Z"
+   ]
+  ],
+  "generalFlags": [
+   {}
+  ]
+ },
+ {
+  "id": "5df5945b-8ae6-4803-902d-0b805fe22f80",
+  "phase": "SUPERSEDED",
+  "cause": "initial deployment",
+  "created": "2026-10-15T11:59:12Z",
+  "updated": "2026-10-29T12:22:54Z",
+  "phase_last": "2026-10-15T12:22:48Z",
+  "cause_details": {
+   "digitalocean_user_action": {
+    "user": {
+     "uuid": "db43eb05-2ad5-4ef8-9f87-c1844c41f3c9",
+     "email": "peridotprotocol@gmail.com",
+     "full_name": "peridotprotocol@gmail.com"
+    },
+    "name": "CREATE_DEPLOYMENT"
+   },
+   "type": "MANUAL"
+  },
+  "worker_src": [
+   {
+    "name": "range-keeper",
+    "source_commit": "874c108635ee0d4b7684aef6c60510763e83305c"
+   }
+  ],
+  "git": [
+   {
+    "repo_clone_url": "https://github.com/PeridotFinance/PeridotV2-Robinhood.git",
+    "branch": "main"
+   }
+  ],
+  "envKeys": [
+   [
+    [
+     "EXECUTE",
+     null
+    ],
+    [
+     "INTERVAL_SECONDS",
+     null
+    ],
+    [
+     "KEEPER_ADDRESS",
+     null
+    ]
+   ]
+  ],
+  "tier": "basic",
+  "steps": [],
+  "generalFlags": [
+   {}
+  ]
+ }
+]

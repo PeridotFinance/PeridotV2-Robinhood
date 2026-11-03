@@ -1,0 +1,594 @@
+{
+ "pin": {
+  "l2": 104997830,
+  "hash": "0x606a7f8fbf33ff883269c4d27da1bde44c2155cdd4b42eab24c586d5143748e5",
+  "timestamp": 1793702741,
+  "l1": 26333760
+ },
+ "caller": "0x00000000000000000000000000000000000dEaD1",
+ "proxies": {
+  "executor": {
+   "proxy": "0x6A45Ae86bD992d250580d08D340A06A04D478977",
+   "impl": "0xd44a1d425cfa875efc0263c0cf717840c213fbd8",
+   "admin": "0x561fa1749f4b58a70d0d7d67e74e6fbeeba6f9b8",
+   "implCodeBytes": 21254,
+   "implCodehash": "0xbaa445e0c3c41eb97f9929a3e4b2e7d8764a6755330f079add25c3943812707b"
+  },
+  "liquidator": {
+   "proxy": "0x1434CDa56d0Aeac4d5abC16F91ca76a8A989083c",
+   "impl": "0x868dbcb39fea9060272504e0636a1e068a13e3a2",
+   "admin": "0xefabb43f04594734dda642b2e20f3b3e50ae059d",
+   "implCodeBytes": 12815,
+   "implCodehash": "0x8188387f51547a8fc805c9929455695928a6d6461a87c85ea659eea447982066"
+  },
+  "riskEngine": {
+   "proxy": "0xC8b178C3c74570472FF1eeE0DD559e61AF9f9678",
+   "impl": "0x6408136abd8182fdc3becaf0f7dea2163baa1676",
+   "admin": "0xba8f4e4554e794d961dd8b928ded1812c6862505",
+   "implCodeBytes": 14665,
+   "implCodehash": "0x7277003001607079f29ae68b6624be818ee2300f21c42b4059262f19967b24fa"
+  },
+  "config": {
+   "proxy": "0x09F94fe0B79E000c8a26617c63E3427fdECB528b",
+   "impl": "0xac01f0565f966406d9ed4e0bfd726d9b4883ee8a",
+   "admin": "0xf483213b2f0de3b7501d5e67c494dc8b5e07223f",
+   "implCodeBytes": 9730,
+   "implCodehash": "0xa8a0031a0f108e0a39b6e2a12487b2ccd0e02d3b68baea31c5db7c3a47d084ca"
+  },
+  "marginVault": {
+   "proxy": "0x04D4A5555b7a37017A67B4D21A1Da5838de28B9e",
+   "impl": "0xa27012f6d0cb100182b736de99354376e75f4022",
+   "admin": "0xad132dbd3da0b409ef3cb2522e758283fc6125bd",
+   "implCodeBytes": 7995,
+   "implCodehash": "0x7b311305f3c0a7c9fd06b92b12a97837c81544e304248d4f564434ac6d09d985"
+  }
+ },
+ "nextPositionId": 6,
+ "positions": [
+  {
+   "positionId": 1,
+   "owner": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+   "account": "0xa1a7a0f0c270fd9229ff7a2e6a67b0c2eb67d45b",
+   "marginPToken": "0x55aed0569c8f0d166d71face57b57c2f2624a563",
+   "positionPToken": "0xa155cccb986774ae818b3f10f07d01d1b7a47b26",
+   "debtPToken": "0x55aed0569c8f0d166d71face57b57c2f2624a563",
+   "lockedMarginPTokens": 0,
+   "borrowedPrincipal": 0,
+   "requestedLeverageX100": 200,
+   "side": 0,
+   "executorStatus": "CLOSED",
+   "engineStatus": "CLOSED",
+   "pUSDG_balance": 0,
+   "pNVDA_balance": 0,
+   "debt_pUSDG_stored": 0,
+   "debt_pNVDA_stored": 0,
+   "debt_current_debtMarket(eth_call)": 0,
+   "metrics": {
+    "gross": 0,
+    "debt": 0,
+    "equity": 0,
+    "initReq": 0,
+    "maintReq": 0,
+    "healthBps": "MAX",
+    "levX100": "MAX"
+   },
+   "isLiquidatable": true,
+   "liquidate_from_arbitrary": {
+    "ok": false,
+    "message": "execution reverted",
+    "data": "0x546f3e320000000000000000000000000000000000000000000000000000000000000008",
+    "decoded": "LiquidationError(uint8) args=0x8"
+   },
+   "liquidate_from_keeper": {
+    "ok": false,
+    "message": "execution reverted",
+    "data": "0x546f3e320000000000000000000000000000000000000000000000000000000000000008",
+    "decoded": "LiquidationError(uint8) args=0x8"
+   },
+   "beginLiquidation_from_liquidator": {
+    "ok": false,
+    "message": "execution reverted: RiskEngine: not active",
+    "data": "0x08c379a0000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000165269736b456e67696e653a206e6f742061637469766500000000000000000000",
+    "decoded": "Error(\"RiskEngine: not active\")"
+   },
+   "beginLiquidation_from_arbitrary": {
+    "ok": false,
+    "message": "execution reverted: RiskEngine: not liquidator",
+    "data": "0x08c379a00000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000001a5269736b456e67696e653a206e6f74206c697175696461746f72000000000000",
+    "decoded": "Error(\"RiskEngine: not liquidator\")"
+   },
+   "authorizeMovement_from_liquidator": {
+    "ok": false,
+    "message": "execution reverted: RiskEngine: movement not allowed",
+    "data": "0x08c379a0000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000205269736b456e67696e653a206d6f76656d656e74206e6f7420616c6c6f776564",
+    "decoded": "Error(\"RiskEngine: movement not allowed\")"
+   },
+   "liquidationRedeem_from_arbitrary": {
+    "ok": false,
+    "message": "execution reverted: IsolatedAccount: not liquidator",
+    "data": "0x08c379a00000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000001f49736f6c617465644163636f756e743a206e6f74206c697175696461746f7200",
+    "decoded": "Error(\"IsolatedAccount: not liquidator\")"
+   },
+   "ordinary_liquidateBorrow": {
+    "repay_pUSDG_seize_pNVDA": {
+     "ok": false,
+     "message": "execution reverted",
+     "data": "0xb4cf93cc0000000000000000000000000000000000000000000000000000000000000003",
+     "decoded": "unknown selector 0xb4cf93cc body=0000000000000000000000000000000000000000000000000000000000000003"
+    },
+    "repay_pUSDG_seize_pUSDG": {
+     "ok": false,
+     "message": "execution reverted",
+     "data": "0xb4cf93cc0000000000000000000000000000000000000000000000000000000000000003",
+     "decoded": "unknown selector 0xb4cf93cc body=0000000000000000000000000000000000000000000000000000000000000003"
+    },
+    "repay_pNVDA_seize_pUSDG": {
+     "ok": false,
+     "message": "execution reverted",
+     "data": "0xb4cf93cc0000000000000000000000000000000000000000000000000000000000000003",
+     "decoded": "unknown selector 0xb4cf93cc body=0000000000000000000000000000000000000000000000000000000000000003"
+    },
+    "repay_pNVDA_seize_pNVDA": {
+     "ok": false,
+     "message": "execution reverted",
+     "data": "0xb4cf93cc0000000000000000000000000000000000000000000000000000000000000003",
+     "decoded": "unknown selector 0xb4cf93cc body=0000000000000000000000000000000000000000000000000000000000000003"
+    }
+   }
+  },
+  {
+   "positionId": 2,
+   "owner": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+   "account": "0x4fe6a2daff417572675a5173a25d167dff02981d",
+   "marginPToken": "0x55aed0569c8f0d166d71face57b57c2f2624a563",
+   "positionPToken": "0x55aed0569c8f0d166d71face57b57c2f2624a563",
+   "debtPToken": "0xa155cccb986774ae818b3f10f07d01d1b7a47b26",
+   "lockedMarginPTokens": 0,
+   "borrowedPrincipal": 0,
+   "requestedLeverageX100": 200,
+   "side": 1,
+   "executorStatus": "CLOSED",
+   "engineStatus": "CLOSED",
+   "pUSDG_balance": 0,
+   "pNVDA_balance": 0,
+   "debt_pUSDG_stored": 0,
+   "debt_pNVDA_stored": 0,
+   "debt_current_debtMarket(eth_call)": 0,
+   "metrics": {
+    "gross": 0,
+    "debt": 0,
+    "equity": 0,
+    "initReq": 0,
+    "maintReq": 0,
+    "healthBps": "MAX",
+    "levX100": "MAX"
+   },
+   "isLiquidatable": true,
+   "liquidate_from_arbitrary": {
+    "ok": false,
+    "message": "execution reverted",
+    "data": "0x546f3e320000000000000000000000000000000000000000000000000000000000000008",
+    "decoded": "LiquidationError(uint8) args=0x8"
+   },
+   "liquidate_from_keeper": {
+    "ok": false,
+    "message": "execution reverted",
+    "data": "0x546f3e320000000000000000000000000000000000000000000000000000000000000008",
+    "decoded": "LiquidationError(uint8) args=0x8"
+   },
+   "beginLiquidation_from_liquidator": {
+    "ok": false,
+    "message": "execution reverted: RiskEngine: not active",
+    "data": "0x08c379a0000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000165269736b456e67696e653a206e6f742061637469766500000000000000000000",
+    "decoded": "Error(\"RiskEngine: not active\")"
+   },
+   "beginLiquidation_from_arbitrary": {
+    "ok": false,
+    "message": "execution reverted: RiskEngine: not liquidator",
+    "data": "0x08c379a00000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000001a5269736b456e67696e653a206e6f74206c697175696461746f72000000000000",
+    "decoded": "Error(\"RiskEngine: not liquidator\")"
+   },
+   "authorizeMovement_from_liquidator": {
+    "ok": false,
+    "message": "execution reverted: RiskEngine: movement not allowed",
+    "data": "0x08c379a0000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000205269736b456e67696e653a206d6f76656d656e74206e6f7420616c6c6f776564",
+    "decoded": "Error(\"RiskEngine: movement not allowed\")"
+   },
+   "liquidationRedeem_from_arbitrary": {
+    "ok": false,
+    "message": "execution reverted: IsolatedAccount: not liquidator",
+    "data": "0x08c379a00000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000001f49736f6c617465644163636f756e743a206e6f74206c697175696461746f7200",
+    "decoded": "Error(\"IsolatedAccount: not liquidator\")"
+   },
+   "ordinary_liquidateBorrow": {
+    "repay_pUSDG_seize_pNVDA": {
+     "ok": false,
+     "message": "execution reverted",
+     "data": "0xb4cf93cc0000000000000000000000000000000000000000000000000000000000000003",
+     "decoded": "unknown selector 0xb4cf93cc body=0000000000000000000000000000000000000000000000000000000000000003"
+    },
+    "repay_pUSDG_seize_pUSDG": {
+     "ok": false,
+     "message": "execution reverted",
+     "data": "0xb4cf93cc0000000000000000000000000000000000000000000000000000000000000003",
+     "decoded": "unknown selector 0xb4cf93cc body=0000000000000000000000000000000000000000000000000000000000000003"
+    },
+    "repay_pNVDA_seize_pUSDG": {
+     "ok": false,
+     "message": "execution reverted",
+     "data": "0xb4cf93cc0000000000000000000000000000000000000000000000000000000000000003",
+     "decoded": "unknown selector 0xb4cf93cc body=0000000000000000000000000000000000000000000000000000000000000003"
+    },
+    "repay_pNVDA_seize_pNVDA": {
+     "ok": false,
+     "message": "execution reverted",
+     "data": "0xb4cf93cc0000000000000000000000000000000000000000000000000000000000000003",
+     "decoded": "unknown selector 0xb4cf93cc body=0000000000000000000000000000000000000000000000000000000000000003"
+    }
+   }
+  },
+  {
+   "positionId": 3,
+   "owner": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+   "account": "0x7f082ffd0ee3460aee9a22d8fe0e9d33efcd4945",
+   "marginPToken": "0x55aed0569c8f0d166d71face57b57c2f2624a563",
+   "positionPToken": "0xa155cccb986774ae818b3f10f07d01d1b7a47b26",
+   "debtPToken": "0x55aed0569c8f0d166d71face57b57c2f2624a563",
+   "lockedMarginPTokens": 2499976447,
+   "borrowedPrincipal": 969646,
+   "requestedLeverageX100": 300,
+   "side": 0,
+   "executorStatus": "ACTIVE",
+   "engineStatus": "ACTIVE",
+   "pUSDG_balance": 0,
+   "pNVDA_balance": 31158663,
+   "debt_pUSDG_stored": 970065,
+   "debt_pNVDA_stored": 0,
+   "debt_current_debtMarket(eth_call)": 972559,
+   "metrics": {
+    "gross": 1273590452791215604,
+    "debt": 970065000000000000,
+    "equity": 303525452791215604,
+    "initReq": 254718090558243120,
+    "maintReq": 127359045279121560,
+    "healthBps": 23832,
+    "levX100": 419
+   },
+   "isLiquidatable": false,
+   "liquidate_from_arbitrary": {
+    "ok": false,
+    "message": "execution reverted: RiskEngine: healthy",
+    "data": "0x08c379a0000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000135269736b456e67696e653a206865616c74687900000000000000000000000000",
+    "decoded": "Error(\"RiskEngine: healthy\")"
+   },
+   "liquidate_from_keeper": {
+    "ok": false,
+    "message": "execution reverted: RiskEngine: healthy",
+    "data": "0x08c379a0000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000135269736b456e67696e653a206865616c74687900000000000000000000000000",
+    "decoded": "Error(\"RiskEngine: healthy\")"
+   },
+   "beginLiquidation_from_liquidator": {
+    "ok": false,
+    "message": "execution reverted: RiskEngine: healthy",
+    "data": "0x08c379a0000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000135269736b456e67696e653a206865616c74687900000000000000000000000000",
+    "decoded": "Error(\"RiskEngine: healthy\")"
+   },
+   "beginLiquidation_from_arbitrary": {
+    "ok": false,
+    "message": "execution reverted: RiskEngine: not liquidator",
+    "data": "0x08c379a00000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000001a5269736b456e67696e653a206e6f74206c697175696461746f72000000000000",
+    "decoded": "Error(\"RiskEngine: not liquidator\")"
+   },
+   "authorizeMovement_from_liquidator": {
+    "ok": false,
+    "message": "execution reverted: RiskEngine: movement not allowed",
+    "data": "0x08c379a0000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000205269736b456e67696e653a206d6f76656d656e74206e6f7420616c6c6f776564",
+    "decoded": "Error(\"RiskEngine: movement not allowed\")"
+   },
+   "liquidationRedeem_from_arbitrary": {
+    "ok": false,
+    "message": "execution reverted: IsolatedAccount: not liquidator",
+    "data": "0x08c379a00000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000001f49736f6c617465644163636f756e743a206e6f74206c697175696461746f7200",
+    "decoded": "Error(\"IsolatedAccount: not liquidator\")"
+   },
+   "ordinary_liquidateBorrow": {
+    "repay_pUSDG_seize_pNVDA": {
+     "ok": false,
+     "message": "execution reverted",
+     "data": "0xb4cf93cc0000000000000000000000000000000000000000000000000000000000000003",
+     "decoded": "unknown selector 0xb4cf93cc body=0000000000000000000000000000000000000000000000000000000000000003"
+    },
+    "repay_pUSDG_seize_pUSDG": {
+     "ok": false,
+     "message": "execution reverted",
+     "data": "0xb4cf93cc0000000000000000000000000000000000000000000000000000000000000003",
+     "decoded": "unknown selector 0xb4cf93cc body=0000000000000000000000000000000000000000000000000000000000000003"
+    },
+    "repay_pNVDA_seize_pUSDG": {
+     "ok": false,
+     "message": "execution reverted",
+     "data": "0xb4cf93cc0000000000000000000000000000000000000000000000000000000000000003",
+     "decoded": "unknown selector 0xb4cf93cc body=0000000000000000000000000000000000000000000000000000000000000003"
+    },
+    "repay_pNVDA_seize_pNVDA": {
+     "ok": false,
+     "message": "execution reverted",
+     "data": "0xb4cf93cc0000000000000000000000000000000000000000000000000000000000000003",
+     "decoded": "unknown selector 0xb4cf93cc body=0000000000000000000000000000000000000000000000000000000000000003"
+    }
+   }
+  },
+  {
+   "positionId": 4,
+   "owner": "0x5085037684db1d4a59c6e8a3d22adddefc7a05bc",
+   "account": "0x4a0e01f9d41414f8e15eee188d7b184fc5a97571",
+   "marginPToken": "0x55aed0569c8f0d166d71face57b57c2f2624a563",
+   "positionPToken": "0xa155cccb986774ae818b3f10f07d01d1b7a47b26",
+   "debtPToken": "0x55aed0569c8f0d166d71face57b57c2f2624a563",
+   "lockedMarginPTokens": 4899852163,
+   "borrowedPrincipal": 960123,
+   "requestedLeverageX100": 200,
+   "side": 0,
+   "executorStatus": "ACTIVE",
+   "engineStatus": "ACTIVE",
+   "pUSDG_balance": 0,
+   "pNVDA_balance": 41142162,
+   "debt_pUSDG_stored": 960123,
+   "debt_pNVDA_stored": 0,
+   "debt_current_debtMarket(eth_call)": 962591,
+   "metrics": {
+    "gross": 1681659599142284998,
+    "debt": 960123000000000000,
+    "equity": 721536599142284998,
+    "initReq": 336331919828456999,
+    "maintReq": 168165959914228499,
+    "healthBps": 42906,
+    "levX100": 233
+   },
+   "isLiquidatable": false,
+   "liquidate_from_arbitrary": {
+    "ok": false,
+    "message": "execution reverted: RiskEngine: healthy",
+    "data": "0x08c379a0000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000135269736b456e67696e653a206865616c74687900000000000000000000000000",
+    "decoded": "Error(\"RiskEngine: healthy\")"
+   },
+   "liquidate_from_keeper": {
+    "ok": false,
+    "message": "execution reverted: RiskEngine: healthy",
+    "data": "0x08c379a0000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000135269736b456e67696e653a206865616c74687900000000000000000000000000",
+    "decoded": "Error(\"RiskEngine: healthy\")"
+   },
+   "beginLiquidation_from_liquidator": {
+    "ok": false,
+    "message": "execution reverted: RiskEngine: healthy",
+    "data": "0x08c379a0000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000135269736b456e67696e653a206865616c74687900000000000000000000000000",
+    "decoded": "Error(\"RiskEngine: healthy\")"
+   },
+   "beginLiquidation_from_arbitrary": {
+    "ok": false,
+    "message": "execution reverted: RiskEngine: not liquidator",
+    "data": "0x08c379a00000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000001a5269736b456e67696e653a206e6f74206c697175696461746f72000000000000",
+    "decoded": "Error(\"RiskEngine: not liquidator\")"
+   },
+   "authorizeMovement_from_liquidator": {
+    "ok": false,
+    "message": "execution reverted: RiskEngine: movement not allowed",
+    "data": "0x08c379a0000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000205269736b456e67696e653a206d6f76656d656e74206e6f7420616c6c6f776564",
+    "decoded": "Error(\"RiskEngine: movement not allowed\")"
+   },
+   "liquidationRedeem_from_arbitrary": {
+    "ok": false,
+    "message": "execution reverted: IsolatedAccount: not liquidator",
+    "data": "0x08c379a00000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000001f49736f6c617465644163636f756e743a206e6f74206c697175696461746f7200",
+    "decoded": "Error(\"IsolatedAccount: not liquidator\")"
+   },
+   "ordinary_liquidateBorrow": {
+    "repay_pUSDG_seize_pNVDA": {
+     "ok": false,
+     "message": "execution reverted",
+     "data": "0xb4cf93cc0000000000000000000000000000000000000000000000000000000000000003",
+     "decoded": "unknown selector 0xb4cf93cc body=0000000000000000000000000000000000000000000000000000000000000003"
+    },
+    "repay_pUSDG_seize_pUSDG": {
+     "ok": false,
+     "message": "execution reverted",
+     "data": "0xb4cf93cc0000000000000000000000000000000000000000000000000000000000000003",
+     "decoded": "unknown selector 0xb4cf93cc body=0000000000000000000000000000000000000000000000000000000000000003"
+    },
+    "repay_pNVDA_seize_pUSDG": {
+     "ok": false,
+     "message": "execution reverted",
+     "data": "0xb4cf93cc0000000000000000000000000000000000000000000000000000000000000003",
+     "decoded": "unknown selector 0xb4cf93cc body=0000000000000000000000000000000000000000000000000000000000000003"
+    },
+    "repay_pNVDA_seize_pNVDA": {
+     "ok": false,
+     "message": "execution reverted",
+     "data": "0xb4cf93cc0000000000000000000000000000000000000000000000000000000000000003",
+     "decoded": "unknown selector 0xb4cf93cc body=0000000000000000000000000000000000000000000000000000000000000003"
+    }
+   }
+  },
+  {
+   "positionId": 5,
+   "owner": "0x5085037684db1d4a59c6e8a3d22adddefc7a05bc",
+   "account": "0x062a4ed42f2b8204eac6ccf24f46c9fd1535d932",
+   "marginPToken": "0x55aed0569c8f0d166d71face57b57c2f2624a563",
+   "positionPToken": "0xa155cccb986774ae818b3f10f07d01d1b7a47b26",
+   "debtPToken": "0x55aed0569c8f0d166d71face57b57c2f2624a563",
+   "lockedMarginPTokens": 0,
+   "borrowedPrincipal": 0,
+   "requestedLeverageX100": 200,
+   "side": 0,
+   "executorStatus": "CLOSED",
+   "engineStatus": "CLOSED",
+   "pUSDG_balance": 0,
+   "pNVDA_balance": 0,
+   "debt_pUSDG_stored": 0,
+   "debt_pNVDA_stored": 0,
+   "debt_current_debtMarket(eth_call)": 0,
+   "metrics": {
+    "gross": 0,
+    "debt": 0,
+    "equity": 0,
+    "initReq": 0,
+    "maintReq": 0,
+    "healthBps": "MAX",
+    "levX100": "MAX"
+   },
+   "isLiquidatable": true,
+   "liquidate_from_arbitrary": {
+    "ok": false,
+    "message": "execution reverted",
+    "data": "0x546f3e320000000000000000000000000000000000000000000000000000000000000008",
+    "decoded": "LiquidationError(uint8) args=0x8"
+   },
+   "liquidate_from_keeper": {
+    "ok": false,
+    "message": "execution reverted",
+    "data": "0x546f3e320000000000000000000000000000000000000000000000000000000000000008",
+    "decoded": "LiquidationError(uint8) args=0x8"
+   },
+   "beginLiquidation_from_liquidator": {
+    "ok": false,
+    "message": "execution reverted: RiskEngine: not active",
+    "data": "0x08c379a0000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000165269736b456e67696e653a206e6f742061637469766500000000000000000000",
+    "decoded": "Error(\"RiskEngine: not active\")"
+   },
+   "beginLiquidation_from_arbitrary": {
+    "ok": false,
+    "message": "execution reverted: RiskEngine: not liquidator",
+    "data": "0x08c379a00000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000001a5269736b456e67696e653a206e6f74206c697175696461746f72000000000000",
+    "decoded": "Error(\"RiskEngine: not liquidator\")"
+   },
+   "authorizeMovement_from_liquidator": {
+    "ok": false,
+    "message": "execution reverted: RiskEngine: movement not allowed",
+    "data": "0x08c379a0000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000205269736b456e67696e653a206d6f76656d656e74206e6f7420616c6c6f776564",
+    "decoded": "Error(\"RiskEngine: movement not allowed\")"
+   },
+   "liquidationRedeem_from_arbitrary": {
+    "ok": false,
+    "message": "execution reverted: IsolatedAccount: not liquidator",
+    "data": "0x08c379a00000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000001f49736f6c617465644163636f756e743a206e6f74206c697175696461746f7200",
+    "decoded": "Error(\"IsolatedAccount: not liquidator\")"
+   },
+   "ordinary_liquidateBorrow": {
+    "repay_pUSDG_seize_pNVDA": {
+     "ok": false,
+     "message": "execution reverted",
+     "data": "0xb4cf93cc0000000000000000000000000000000000000000000000000000000000000003",
+     "decoded": "unknown selector 0xb4cf93cc body=0000000000000000000000000000000000000000000000000000000000000003"
+    },
+    "repay_pUSDG_seize_pUSDG": {
+     "ok": false,
+     "message": "execution reverted",
+     "data": "0xb4cf93cc0000000000000000000000000000000000000000000000000000000000000003",
+     "decoded": "unknown selector 0xb4cf93cc body=0000000000000000000000000000000000000000000000000000000000000003"
+    },
+    "repay_pNVDA_seize_pUSDG": {
+     "ok": false,
+     "message": "execution reverted",
+     "data": "0xb4cf93cc0000000000000000000000000000000000000000000000000000000000000003",
+     "decoded": "unknown selector 0xb4cf93cc body=0000000000000000000000000000000000000000000000000000000000000003"
+    },
+    "repay_pNVDA_seize_pNVDA": {
+     "ok": false,
+     "message": "execution reverted",
+     "data": "0xb4cf93cc0000000000000000000000000000000000000000000000000000000000000003",
+     "decoded": "unknown selector 0xb4cf93cc body=0000000000000000000000000000000000000000000000000000000000000003"
+    }
+   }
+  }
+ ],
+ "nonexistent_position_liquidate": {
+  "ok": false,
+  "message": "execution reverted",
+  "data": "0x546f3e320000000000000000000000000000000000000000000000000000000000000008",
+  "decoded": "LiquidationError(uint8) args=0x8"
+ },
+ "zero_recipient_on_closed": {
+  "ok": false,
+  "message": "execution reverted",
+  "data": "0x546f3e320000000000000000000000000000000000000000000000000000000000000008",
+  "decoded": "LiquidationError(uint8) args=0x8"
+ },
+ "override_slots": {
+  "executor.positions": 8,
+  "engine.accounts": 5
+ },
+ "counterfactuals": [
+  {
+   "positionId": 1,
+   "executorPackedSlot": "0xad67d757c34507f157cacfa2e3153e9f260a2244f30428821be7be64587ac568",
+   "before": "0x50000c8",
+   "after": "0x20000c8",
+   "executor_forced_ACTIVE_engine_unchanged": {
+    "ok": false,
+    "message": "execution reverted",
+    "data": "0x546f3e32000000000000000000000000000000000000000000000000000000000000000a",
+    "decoded": "LiquidationError(uint8) args=0xa"
+   },
+   "readback_status": "ACTIVE",
+   "engineSlot": "0xe028f4228d3856aef90ae15295a33799d70fa9d58483cf6b2e93db5781117ec9",
+   "both_forced_ACTIVE": {
+    "ok": false,
+    "message": "execution reverted",
+    "data": "0x546f3e32000000000000000000000000000000000000000000000000000000000000000a",
+    "decoded": "LiquidationError(uint8) args=0xa"
+   },
+   "engine_only_forced_ACTIVE_beginLiquidation_from_liquidator": {
+    "ok": true,
+    "return": "0x0000000000000000000000000000000000000000000000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+   }
+  },
+  {
+   "positionId": 2,
+   "executorPackedSlot": "0x6add646517a5b0f6793cd5891b7937d28a5b2981a5d88ebc7cd776088fea904a",
+   "before": "0x50100c8",
+   "after": "0x20100c8",
+   "executor_forced_ACTIVE_engine_unchanged": {
+    "ok": false,
+    "message": "execution reverted",
+    "data": "0x546f3e32000000000000000000000000000000000000000000000000000000000000000a",
+    "decoded": "LiquidationError(uint8) args=0xa"
+   },
+   "readback_status": "ACTIVE",
+   "engineSlot": "0xfe3f048120d86986db2d0c767c9771c278a9f8f15b57262a00052174bc3a0763",
+   "both_forced_ACTIVE": {
+    "ok": false,
+    "message": "execution reverted",
+    "data": "0x546f3e32000000000000000000000000000000000000000000000000000000000000000a",
+    "decoded": "LiquidationError(uint8) args=0xa"
+   },
+   "engine_only_forced_ACTIVE_beginLiquidation_from_liquidator": {
+    "ok": true,
+    "return": "0x0000000000000000000000000000000000000000000000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+   }
+  },
+  {
+   "positionId": 5,
+   "executorPackedSlot": "0x91238f30f286c9a1c6e901c4eda3b214c381c846e3dbe48df95c21488e8e1fe4",
+   "before": "0x50000c8",
+   "after": "0x20000c8",
+   "executor_forced_ACTIVE_engine_unchanged": {
+    "ok": false,
+    "message": "execution reverted",
+    "data": "0x546f3e32000000000000000000000000000000000000000000000000000000000000000a",
+    "decoded": "LiquidationError(uint8) args=0xa"
+   },
+   "readback_status": "ACTIVE",
+   "engineSlot": "0xe3251fc0af038fa5beab6ea0193e27ed5ed2afddb007c27fc37328885e02b532",
+   "both_forced_ACTIVE": {
+    "ok": false,
+    "message": "execution reverted",
+    "data": "0x546f3e32000000000000000000000000000000000000000000000000000000000000000a",
+    "decoded": "LiquidationError(uint8) args=0xa"
+   },
+   "engine_only_forced_ACTIVE_beginLiquidation_from_liquidator": {
+    "ok": true,
+    "return": "0x0000000000000000000000000000000000000000000000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+   }
+  }
+ ]
+}
