@@ -8,19 +8,19 @@ f = lambda x, d=2: "-" if x is None else f"{100 * x:.{d}f}%"
 
 
 def basis_table():
-    rows = ["| pair | session | feed updates | 1 h TWAP vs feed: median | p90 | p99 | max |", "| --- | --- | --- | --- | --- | --- | --- |"]
+    rows = ["| pair | session | feed updates | 30 min TWAP vs feed: median | p90 | p99 | max |", "| --- | --- | --- | --- | --- | --- | --- |"]
     for pair, d in S["pairs"].items():
-        for sess, b in d["basisPoolTwapVsFeedAtFeedUpdate"]["1h"].items():
+        for sess, b in d["basisPoolTwapVsFeedAtFeedUpdate"]["30m"].items():
             if b["n"] >= 5:
                 rows.append(f"| {pair} | {sess} | {b['n']} | {f(b['p50'])} | {f(b['p90'])} | {f(b['p99'])} | {f(b['max'])} |")
     return "\n".join(rows)
 
 
 def error_table():
-    rows = ["| pair | gap between feed answers | pairs | keep the last price: median / p90 / max | anchored 1 h TWAP: median / p90 / max |", "| --- | --- | --- | --- | --- |"]
+    rows = ["| pair | gap between feed answers | pairs | keep the last price: median / p90 / max | anchored 30 min TWAP: median / p90 / max |", "| --- | --- | --- | --- | --- |"]
     for pair, d in S["pairs"].items():
         for g, v in list(d["anchoredErrorByGap"].items()) + list(d["anchoredErrorByGapSpanningClosure"].items()):
-            n, a = v["naiveKeepLastPrice"], v["anchoredTwap_1h"]
+            n, a = v["naiveKeepLastPrice"], v["anchoredTwap_30m"]
             rows.append(f"| {pair} | {g} | {v['pairs']} | {f(n['p50'])} / {f(n['p90'])} / {f(n['max'])} | {f(a['p50'])} / {f(a['p90'])} / {f(a['max'])} |")
     return "\n".join(rows)
 
@@ -77,3 +77,70 @@ def mult():
 if __name__ == "__main__":
     for fn in (pools_table, basis_table, error_table, availability_table, limit_sensitivity, mult):
         print(fn.__name__.upper()); print(fn()); print()
+
+
+# ---------------------------------------------------------------- replay tables (fallback_replay.py): the executable policy, step by step
+RP = None
+
+
+def _rp():
+    global RP
+    if RP is None:
+        RP = json.load(open(HERE / "evidence/oracle/fallback-replay.json"))
+    return RP
+
+
+def _fails(d):
+    return "; ".join(f"{k.replace('AnchorMissing: ', 'no anchor: ')} {v} min" for k, v in list(d.items())[:4]) or "none"
+
+
+def replay_reference():
+    rows = ["| pair | weeks | oracle returns a price: trading / closure | exit completes (price AND removal guard at 6%): trading / closure | refusals (stale minutes) | one multiplier step per window loses | error vs next answer p99 / max |", "| --- | --- | --- | --- | --- | --- | --- |"]
+    for pair, r in _rp()["pairs"].items():
+        x = r["reference"]
+        e = x["errorVsNextAnswer"]
+        rows.append(f"| {pair} | {r['weeksObserved']:.1f} | {f(x['returnsShareTrading'], 1)} / {f(x['returnsShareClosure'], 1)} | {f(x['completesShareTrading'], 1)} / {f(x['completesShareClosure'], 1)} | {_fails(x['failures'])} | {f(x['multiplierStepLossShare'], 1)} of recovered minutes | {f(e['p99'])} / {f(e['max'])} |")
+    return "\n".join(rows)
+
+
+def replay_grid():
+    rows = ["| pair | D open | D closed | L | trading time: price returned | closure time: price returned | error vs next answer p99 / max | refusals |", "| --- | --- | --- | --- | --- | --- | --- | --- |"]
+    for pair, r in _rp()["pairs"].items():
+        for g in r["grid"]:
+            if g["clock"] != "as-written" or g["L"] != 0.02:
+                continue
+            e = g["errorVsNextAnswer"]
+            rows.append(f"| {pair} | {g['dOpenH']} h | {g['dClosedH']} h | 2% | {f(g['returnsShareTrading'], 1)} | {f(g['returnsShareClosure'], 1)} | {f(e['p99']) if e else '-'} / {f(e['max']) if e else '-'} | {_fails(g['failures'])} |")
+    return "\n".join(rows)
+
+
+def replay_limit():
+    rows = ["| pair | L (D open 24 h, D closed 72 h) | trading time | closure time | error p99 / max |", "| --- | --- | --- | --- | --- |"]
+    for pair, r in _rp()["pairs"].items():
+        for g in r["grid"]:
+            if g["clock"] == "as-written" and g["dOpenH"] == 24 and g["dClosedH"] == 72:
+                e = g["errorVsNextAnswer"]
+                rows.append(f"| {pair} | {f(g['L'], 0)} | {f(g['returnsShareTrading'], 1)} | {f(g['returnsShareClosure'], 1)} | {f(e['p99']) if e else '-'} / {f(e['max']) if e else '-'} |")
+    return "\n".join(rows)
+
+
+def replay_pokes():
+    rows = ["| pair | poke model | max basis accepted at poke | answers anchored | trading time | closure time | why answers were not anchored |", "| --- | --- | --- | --- | --- | --- | --- |"]
+    for pair, r in _rp()["pairs"].items():
+        for s in r["sensitivityPokeAndBasis"]:
+            if s["maxBasis"] not in (0.01, 0.02):
+                continue
+            why = ", ".join(f"{k} {v}" for k, v in s["notAnchoredReasons"].items()) or "-"
+            rows.append(f"| {pair} | {s['poke']} | {f(s['maxBasis'], 1)} | {f(s['anchoredAnswerShare'], 0)} | {f(s['returnsShareTrading'], 1)} | {f(s['returnsShareClosure'], 1)} | {why} |")
+    return "\n".join(rows)
+
+
+def replay_modes():
+    rows = ["| pair | variant | removal bound R | price returned: trading / closure | exit completes: trading / closure | error vs next answer p99 / max |", "| --- | --- | --- | --- | --- | --- |"]
+    for pair, r in _rp()["pairs"].items():
+        for s in r["sensitivityRemovalBoundModeWindow"]:
+            if "mode" not in s:
+                continue
+            e = s["errorVsNextAnswer"]
+            rows.append(f"| {pair} | {s['mode']} | {f(s['removalBound'], 0)} | {f(s['returnsShareTrading'], 1)} / {f(s['returnsShareClosure'], 1)} | {f(s['completesShareTrading'], 1)} / {f(s['completesShareClosure'], 1)} | {f(e['p99'])} / {f(e['max'])} |")
+    return "\n".join(rows)

@@ -1,0 +1,4665 @@
+{
+ "schema": "ramses-fallback-replay-1",
+ "doc": "Step-by-step REPLAY of the executable fallback policy (test/fallback/AnchoredFallbackOracle.sol: poke() / price()) over the saved feed answers and\npool swap history. Replaces the earlier availability tables that assumed every feed answer was anchored, used one duration for every session and\nignored basis refusal, observation history, pokes and the guard's own removal check. Offline. Changes no guard; the 12 h bound stays.\n\nWhat is replayed, for every stale minute (feed older than 12 h):\n  poke()   an answer is ANCHORED only if a poke happens while that answer is still the latest and fresh, the pool's observation history reaches back\n           to (poke delay + W) before now, and |pool TWAP at the answer / answer - 1| <= maxBasis.  Poke models: ideal (1 min after the answer), a keeper\n           polling every 15 min, hour or 2 h (a poke later than maxPokeDelay = 1 h is refused: PokeTooLate), and 10% / 30% of answers never poked (seeded).\n  price()  AnchorMissing unless the latest answer is anchored; age limit D_closed while the calendar says closed, else D_open (the prototype's rule,\n           'as written': a closed-session anchor is over D_open the moment the market reopens), or a variant 'since-open' clock that counts only\n           the time since the later of the anchor and the reopening; then |pool TWAP now / pool TWAP at the anchor - 1| <= L.\n  Two outcomes are counted separately:\n    RETURNS    the oracle would return a price (anchored mode: anchor x relative move; hold mode: the anchor price held flat);\n    COMPLETES  RETURNS and the vault's own removal guard would also pass: |pool spot / returned price - 1| <= R (maxRemovalDeviationBps). Exits can\n               STILL be blocked by things this replay cannot see: the pair's withdrawable balance of the requested token (one-sided positions, README\n               15C), the reserve and swap settings, caps and the checkpoint.",
+ "history": {
+  "SPY": 86400,
+  "NVDA": 43200
+ },
+ "pairs": {
+  "SPY": {
+   "pair": "SPY",
+   "weeksObserved": 10.434277447089949,
+   "windowStart": 1787270600,
+   "windowEnd": 1793581251,
+   "grid": [
+    {
+     "clock": "as-written",
+     "dOpenH": 18,
+     "dClosedH": 48,
+     "L": 0.01,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.5794320798158097,
+     "returnsShareClosure": 0.784200958519253,
+     "completesShareTrading": 0.5794320798158097,
+     "completesShareClosure": 0.784200958519253,
+     "failures": {
+      "FallbackExpired": 15673,
+      "AnchorMissing: basis too wide": 720
+     },
+     "errorVsNextAnswer": {
+      "n": 1241,
+      "p50": 0.002742847410501792,
+      "p90": 0.0082411566443914,
+      "p99": 0.010598400517293438,
+      "max": 0.013296092538123139,
+      "understateP1": -0.00975570121878111,
+      "overstateP99": 0.010479574835547956
+     }
+    },
+    {
+     "clock": "as-written",
+     "dOpenH": 18,
+     "dClosedH": 48,
+     "L": 0.02,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.5794320798158097,
+     "returnsShareClosure": 0.784200958519253,
+     "completesShareTrading": 0.5794320798158097,
+     "completesShareClosure": 0.784200958519253,
+     "failures": {
+      "FallbackExpired": 15673,
+      "AnchorMissing: basis too wide": 720
+     },
+     "errorVsNextAnswer": {
+      "n": 1241,
+      "p50": 0.002742847410501792,
+      "p90": 0.0082411566443914,
+      "p99": 0.010598400517293438,
+      "max": 0.013296092538123139,
+      "understateP1": -0.00975570121878111,
+      "overstateP99": 0.010479574835547956
+     }
+    },
+    {
+     "clock": "as-written",
+     "dOpenH": 18,
+     "dClosedH": 48,
+     "L": 0.03,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.5794320798158097,
+     "returnsShareClosure": 0.784200958519253,
+     "completesShareTrading": 0.5794320798158097,
+     "completesShareClosure": 0.784200958519253,
+     "failures": {
+      "FallbackExpired": 15673,
+      "AnchorMissing: basis too wide": 720
+     },
+     "errorVsNextAnswer": {
+      "n": 1241,
+      "p50": 0.002742847410501792,
+      "p90": 0.0082411566443914,
+      "p99": 0.010598400517293438,
+      "max": 0.013296092538123139,
+      "understateP1": -0.00975570121878111,
+      "overstateP99": 0.010479574835547956
+     }
+    },
+    {
+     "clock": "as-written",
+     "dOpenH": 18,
+     "dClosedH": 72,
+     "L": 0.01,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.5794320798158097,
+     "returnsShareClosure": 0.9825483391175013,
+     "completesShareTrading": 0.5794320798158097,
+     "completesShareClosure": 0.9825483391175013,
+     "failures": {
+      "FallbackExpired": 9672,
+      "AnchorMissing: basis too wide": 720
+     },
+     "errorVsNextAnswer": {
+      "n": 1436,
+      "p50": 0.002980663804795558,
+      "p90": 0.008265381476410427,
+      "p99": 0.013296092538123139,
+      "max": 0.015070236941901127,
+      "understateP1": -0.0098725895421512,
+      "overstateP99": 0.013296092538123139
+     }
+    },
+    {
+     "clock": "as-written",
+     "dOpenH": 18,
+     "dClosedH": 72,
+     "L": 0.02,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.5794320798158097,
+     "returnsShareClosure": 0.9825483391175013,
+     "completesShareTrading": 0.5794320798158097,
+     "completesShareClosure": 0.9825483391175013,
+     "failures": {
+      "FallbackExpired": 9672,
+      "AnchorMissing: basis too wide": 720
+     },
+     "errorVsNextAnswer": {
+      "n": 1436,
+      "p50": 0.002980663804795558,
+      "p90": 0.008265381476410427,
+      "p99": 0.013296092538123139,
+      "max": 0.015070236941901127,
+      "understateP1": -0.0098725895421512,
+      "overstateP99": 0.013296092538123139
+     }
+    },
+    {
+     "clock": "as-written",
+     "dOpenH": 18,
+     "dClosedH": 72,
+     "L": 0.03,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.5794320798158097,
+     "returnsShareClosure": 0.9825483391175013,
+     "completesShareTrading": 0.5794320798158097,
+     "completesShareClosure": 0.9825483391175013,
+     "failures": {
+      "FallbackExpired": 9672,
+      "AnchorMissing: basis too wide": 720
+     },
+     "errorVsNextAnswer": {
+      "n": 1436,
+      "p50": 0.002980663804795558,
+      "p90": 0.008265381476410427,
+      "p99": 0.013296092538123139,
+      "max": 0.015070236941901127,
+      "understateP1": -0.0098725895421512,
+      "overstateP99": 0.013296092538123139
+     }
+    },
+    {
+     "clock": "as-written",
+     "dOpenH": 18,
+     "dClosedH": 96,
+     "L": 0.01,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.5794320798158097,
+     "returnsShareClosure": 1.0,
+     "completesShareTrading": 0.5794320798158097,
+     "completesShareClosure": 1.0,
+     "failures": {
+      "FallbackExpired": 9144,
+      "AnchorMissing: basis too wide": 720
+     },
+     "errorVsNextAnswer": {
+      "n": 1454,
+      "p50": 0.0029303344761153483,
+      "p90": 0.00824426690914315,
+      "p99": 0.013296092538123139,
+      "max": 0.015070236941901127,
+      "understateP1": -0.0098725895421512,
+      "overstateP99": 0.013296092538123139
+     }
+    },
+    {
+     "clock": "as-written",
+     "dOpenH": 18,
+     "dClosedH": 96,
+     "L": 0.02,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.5794320798158097,
+     "returnsShareClosure": 1.0,
+     "completesShareTrading": 0.5794320798158097,
+     "completesShareClosure": 1.0,
+     "failures": {
+      "FallbackExpired": 9144,
+      "AnchorMissing: basis too wide": 720
+     },
+     "errorVsNextAnswer": {
+      "n": 1454,
+      "p50": 0.0029303344761153483,
+      "p90": 0.00824426690914315,
+      "p99": 0.013296092538123139,
+      "max": 0.015070236941901127,
+      "understateP1": -0.0098725895421512,
+      "overstateP99": 0.013296092538123139
+     }
+    },
+    {
+     "clock": "as-written",
+     "dOpenH": 18,
+     "dClosedH": 96,
+     "L": 0.03,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.5794320798158097,
+     "returnsShareClosure": 1.0,
+     "completesShareTrading": 0.5794320798158097,
+     "completesShareClosure": 1.0,
+     "failures": {
+      "FallbackExpired": 9144,
+      "AnchorMissing: basis too wide": 720
+     },
+     "errorVsNextAnswer": {
+      "n": 1454,
+      "p50": 0.0029303344761153483,
+      "p90": 0.00824426690914315,
+      "p99": 0.013296092538123139,
+      "max": 0.015070236941901127,
+      "understateP1": -0.0098725895421512,
+      "overstateP99": 0.013296092538123139
+     }
+    },
+    {
+     "clock": "as-written",
+     "dOpenH": 24,
+     "dClosedH": 48,
+     "L": 0.01,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9585571757482733,
+     "returnsShareClosure": 0.784200958519253,
+     "completesShareTrading": 0.9585571757482733,
+     "completesShareClosure": 0.784200958519253,
+     "failures": {
+      "FallbackExpired": 6781,
+      "AnchorMissing: basis too wide": 720
+     },
+     "errorVsNextAnswer": {
+      "n": 1537,
+      "p50": 0.0024646086908854947,
+      "p90": 0.007930116521488006,
+      "p99": 0.010479574835547956,
+      "max": 0.013296092538123139,
+      "understateP1": -0.00964022845749124,
+      "overstateP99": 0.010418671191806617
+     }
+    },
+    {
+     "clock": "as-written",
+     "dOpenH": 24,
+     "dClosedH": 48,
+     "L": 0.02,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9585571757482733,
+     "returnsShareClosure": 0.784200958519253,
+     "completesShareTrading": 0.9585571757482733,
+     "completesShareClosure": 0.784200958519253,
+     "failures": {
+      "FallbackExpired": 6781,
+      "AnchorMissing: basis too wide": 720
+     },
+     "errorVsNextAnswer": {
+      "n": 1537,
+      "p50": 0.0024646086908854947,
+      "p90": 0.007930116521488006,
+      "p99": 0.010479574835547956,
+      "max": 0.013296092538123139,
+      "understateP1": -0.00964022845749124,
+      "overstateP99": 0.010418671191806617
+     }
+    },
+    {
+     "clock": "as-written",
+     "dOpenH": 24,
+     "dClosedH": 48,
+     "L": 0.03,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9585571757482733,
+     "returnsShareClosure": 0.784200958519253,
+     "completesShareTrading": 0.9585571757482733,
+     "completesShareClosure": 0.784200958519253,
+     "failures": {
+      "FallbackExpired": 6781,
+      "AnchorMissing: basis too wide": 720
+     },
+     "errorVsNextAnswer": {
+      "n": 1537,
+      "p50": 0.0024646086908854947,
+      "p90": 0.007930116521488006,
+      "p99": 0.010479574835547956,
+      "max": 0.013296092538123139,
+      "understateP1": -0.00964022845749124,
+      "overstateP99": 0.010418671191806617
+     }
+    },
+    {
+     "clock": "as-written",
+     "dOpenH": 24,
+     "dClosedH": 72,
+     "L": 0.01,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9585571757482733,
+     "returnsShareClosure": 0.9825483391175013,
+     "completesShareTrading": 0.9585571757482733,
+     "completesShareClosure": 0.9825483391175013,
+     "failures": {
+      "FallbackExpired": 780,
+      "AnchorMissing: basis too wide": 720
+     },
+     "errorVsNextAnswer": {
+      "n": 1732,
+      "p50": 0.002736416844544065,
+      "p90": 0.007945747614603205,
+      "p99": 0.01272222366826048,
+      "max": 0.015070236941901127,
+      "understateP1": -0.00975570121878111,
+      "overstateP99": 0.01272222366826048
+     }
+    },
+    {
+     "clock": "as-written",
+     "dOpenH": 24,
+     "dClosedH": 72,
+     "L": 0.02,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9585571757482733,
+     "returnsShareClosure": 0.9825483391175013,
+     "completesShareTrading": 0.9585571757482733,
+     "completesShareClosure": 0.9825483391175013,
+     "failures": {
+      "FallbackExpired": 780,
+      "AnchorMissing: basis too wide": 720
+     },
+     "errorVsNextAnswer": {
+      "n": 1732,
+      "p50": 0.002736416844544065,
+      "p90": 0.007945747614603205,
+      "p99": 0.01272222366826048,
+      "max": 0.015070236941901127,
+      "understateP1": -0.00975570121878111,
+      "overstateP99": 0.01272222366826048
+     }
+    },
+    {
+     "clock": "as-written",
+     "dOpenH": 24,
+     "dClosedH": 72,
+     "L": 0.03,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9585571757482733,
+     "returnsShareClosure": 0.9825483391175013,
+     "completesShareTrading": 0.9585571757482733,
+     "completesShareClosure": 0.9825483391175013,
+     "failures": {
+      "FallbackExpired": 780,
+      "AnchorMissing: basis too wide": 720
+     },
+     "errorVsNextAnswer": {
+      "n": 1732,
+      "p50": 0.002736416844544065,
+      "p90": 0.007945747614603205,
+      "p99": 0.01272222366826048,
+      "max": 0.015070236941901127,
+      "understateP1": -0.00975570121878111,
+      "overstateP99": 0.01272222366826048
+     }
+    },
+    {
+     "clock": "as-written",
+     "dOpenH": 24,
+     "dClosedH": 96,
+     "L": 0.01,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9585571757482733,
+     "returnsShareClosure": 1.0,
+     "completesShareTrading": 0.9585571757482733,
+     "completesShareClosure": 1.0,
+     "failures": {
+      "AnchorMissing: basis too wide": 720,
+      "FallbackExpired": 252
+     },
+     "errorVsNextAnswer": {
+      "n": 1750,
+      "p50": 0.0027148833734018663,
+      "p90": 0.007939539719185484,
+      "p99": 0.01272222366826048,
+      "max": 0.015070236941901127,
+      "understateP1": -0.00975570121878111,
+      "overstateP99": 0.01272222366826048
+     }
+    },
+    {
+     "clock": "as-written",
+     "dOpenH": 24,
+     "dClosedH": 96,
+     "L": 0.02,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9585571757482733,
+     "returnsShareClosure": 1.0,
+     "completesShareTrading": 0.9585571757482733,
+     "completesShareClosure": 1.0,
+     "failures": {
+      "AnchorMissing: basis too wide": 720,
+      "FallbackExpired": 252
+     },
+     "errorVsNextAnswer": {
+      "n": 1750,
+      "p50": 0.0027148833734018663,
+      "p90": 0.007939539719185484,
+      "p99": 0.01272222366826048,
+      "max": 0.015070236941901127,
+      "understateP1": -0.00975570121878111,
+      "overstateP99": 0.01272222366826048
+     }
+    },
+    {
+     "clock": "as-written",
+     "dOpenH": 24,
+     "dClosedH": 96,
+     "L": 0.03,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9585571757482733,
+     "returnsShareClosure": 1.0,
+     "completesShareTrading": 0.9585571757482733,
+     "completesShareClosure": 1.0,
+     "failures": {
+      "AnchorMissing: basis too wide": 720,
+      "FallbackExpired": 252
+     },
+     "errorVsNextAnswer": {
+      "n": 1750,
+      "p50": 0.0027148833734018663,
+      "p90": 0.007939539719185484,
+      "p99": 0.01272222366826048,
+      "max": 0.015070236941901127,
+      "understateP1": -0.00975570121878111,
+      "overstateP99": 0.01272222366826048
+     }
+    },
+    {
+     "clock": "as-written",
+     "dOpenH": 36,
+     "dClosedH": 48,
+     "L": 0.01,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9587277223501321,
+     "returnsShareClosure": 0.784200958519253,
+     "completesShareTrading": 0.9587277223501321,
+     "completesShareClosure": 0.784200958519253,
+     "failures": {
+      "FallbackExpired": 6777,
+      "AnchorMissing: basis too wide": 720
+     },
+     "errorVsNextAnswer": {
+      "n": 1537,
+      "p50": 0.0024646086908854947,
+      "p90": 0.007930116521488006,
+      "p99": 0.010479574835547956,
+      "max": 0.013296092538123139,
+      "understateP1": -0.00964022845749124,
+      "overstateP99": 0.010418671191806617
+     }
+    },
+    {
+     "clock": "as-written",
+     "dOpenH": 36,
+     "dClosedH": 48,
+     "L": 0.02,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9587277223501321,
+     "returnsShareClosure": 0.784200958519253,
+     "completesShareTrading": 0.9587277223501321,
+     "completesShareClosure": 0.784200958519253,
+     "failures": {
+      "FallbackExpired": 6777,
+      "AnchorMissing: basis too wide": 720
+     },
+     "errorVsNextAnswer": {
+      "n": 1537,
+      "p50": 0.0024646086908854947,
+      "p90": 0.007930116521488006,
+      "p99": 0.010479574835547956,
+      "max": 0.013296092538123139,
+      "understateP1": -0.00964022845749124,
+      "overstateP99": 0.010418671191806617
+     }
+    },
+    {
+     "clock": "as-written",
+     "dOpenH": 36,
+     "dClosedH": 48,
+     "L": 0.03,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9587277223501321,
+     "returnsShareClosure": 0.784200958519253,
+     "completesShareTrading": 0.9587277223501321,
+     "completesShareClosure": 0.784200958519253,
+     "failures": {
+      "FallbackExpired": 6777,
+      "AnchorMissing: basis too wide": 720
+     },
+     "errorVsNextAnswer": {
+      "n": 1537,
+      "p50": 0.0024646086908854947,
+      "p90": 0.007930116521488006,
+      "p99": 0.010479574835547956,
+      "max": 0.013296092538123139,
+      "understateP1": -0.00964022845749124,
+      "overstateP99": 0.010418671191806617
+     }
+    },
+    {
+     "clock": "as-written",
+     "dOpenH": 36,
+     "dClosedH": 72,
+     "L": 0.01,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9587277223501321,
+     "returnsShareClosure": 0.9825483391175013,
+     "completesShareTrading": 0.9587277223501321,
+     "completesShareClosure": 0.9825483391175013,
+     "failures": {
+      "FallbackExpired": 776,
+      "AnchorMissing: basis too wide": 720
+     },
+     "errorVsNextAnswer": {
+      "n": 1732,
+      "p50": 0.002736416844544065,
+      "p90": 0.007945747614603205,
+      "p99": 0.01272222366826048,
+      "max": 0.015070236941901127,
+      "understateP1": -0.00975570121878111,
+      "overstateP99": 0.01272222366826048
+     }
+    },
+    {
+     "clock": "as-written",
+     "dOpenH": 36,
+     "dClosedH": 72,
+     "L": 0.02,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9587277223501321,
+     "returnsShareClosure": 0.9825483391175013,
+     "completesShareTrading": 0.9587277223501321,
+     "completesShareClosure": 0.9825483391175013,
+     "failures": {
+      "FallbackExpired": 776,
+      "AnchorMissing: basis too wide": 720
+     },
+     "errorVsNextAnswer": {
+      "n": 1732,
+      "p50": 0.002736416844544065,
+      "p90": 0.007945747614603205,
+      "p99": 0.01272222366826048,
+      "max": 0.015070236941901127,
+      "understateP1": -0.00975570121878111,
+      "overstateP99": 0.01272222366826048
+     }
+    },
+    {
+     "clock": "as-written",
+     "dOpenH": 36,
+     "dClosedH": 72,
+     "L": 0.03,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9587277223501321,
+     "returnsShareClosure": 0.9825483391175013,
+     "completesShareTrading": 0.9587277223501321,
+     "completesShareClosure": 0.9825483391175013,
+     "failures": {
+      "FallbackExpired": 776,
+      "AnchorMissing: basis too wide": 720
+     },
+     "errorVsNextAnswer": {
+      "n": 1732,
+      "p50": 0.002736416844544065,
+      "p90": 0.007945747614603205,
+      "p99": 0.01272222366826048,
+      "max": 0.015070236941901127,
+      "understateP1": -0.00975570121878111,
+      "overstateP99": 0.01272222366826048
+     }
+    },
+    {
+     "clock": "as-written",
+     "dOpenH": 36,
+     "dClosedH": 96,
+     "L": 0.01,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9587277223501321,
+     "returnsShareClosure": 1.0,
+     "completesShareTrading": 0.9587277223501321,
+     "completesShareClosure": 1.0,
+     "failures": {
+      "AnchorMissing: basis too wide": 720,
+      "FallbackExpired": 248
+     },
+     "errorVsNextAnswer": {
+      "n": 1750,
+      "p50": 0.0027148833734018663,
+      "p90": 0.007939539719185484,
+      "p99": 0.01272222366826048,
+      "max": 0.015070236941901127,
+      "understateP1": -0.00975570121878111,
+      "overstateP99": 0.01272222366826048
+     }
+    },
+    {
+     "clock": "as-written",
+     "dOpenH": 36,
+     "dClosedH": 96,
+     "L": 0.02,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9587277223501321,
+     "returnsShareClosure": 1.0,
+     "completesShareTrading": 0.9587277223501321,
+     "completesShareClosure": 1.0,
+     "failures": {
+      "AnchorMissing: basis too wide": 720,
+      "FallbackExpired": 248
+     },
+     "errorVsNextAnswer": {
+      "n": 1750,
+      "p50": 0.0027148833734018663,
+      "p90": 0.007939539719185484,
+      "p99": 0.01272222366826048,
+      "max": 0.015070236941901127,
+      "understateP1": -0.00975570121878111,
+      "overstateP99": 0.01272222366826048
+     }
+    },
+    {
+     "clock": "as-written",
+     "dOpenH": 36,
+     "dClosedH": 96,
+     "L": 0.03,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9587277223501321,
+     "returnsShareClosure": 1.0,
+     "completesShareTrading": 0.9587277223501321,
+     "completesShareClosure": 1.0,
+     "failures": {
+      "AnchorMissing: basis too wide": 720,
+      "FallbackExpired": 248
+     },
+     "errorVsNextAnswer": {
+      "n": 1750,
+      "p50": 0.0027148833734018663,
+      "p90": 0.007939539719185484,
+      "p99": 0.01272222366826048,
+      "max": 0.015070236941901127,
+      "understateP1": -0.00975570121878111,
+      "overstateP99": 0.01272222366826048
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 18,
+     "dClosedH": 48,
+     "L": 0.01,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.6002387652426026,
+     "returnsShareClosure": 0.784200958519253,
+     "completesShareTrading": 0.6002387652426026,
+     "completesShareClosure": 0.784200958519253,
+     "failures": {
+      "FallbackExpired": 15185,
+      "AnchorMissing: basis too wide": 720
+     },
+     "errorVsNextAnswer": {
+      "n": 1265,
+      "p50": 0.002723848932038919,
+      "p90": 0.00822892677838205,
+      "p99": 0.010638463081721672,
+      "max": 0.013296092538123139,
+      "understateP1": -0.00975570121878111,
+      "overstateP99": 0.010516339084520432
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 18,
+     "dClosedH": 48,
+     "L": 0.02,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.6002387652426026,
+     "returnsShareClosure": 0.784200958519253,
+     "completesShareTrading": 0.6002387652426026,
+     "completesShareClosure": 0.784200958519253,
+     "failures": {
+      "FallbackExpired": 15185,
+      "AnchorMissing: basis too wide": 720
+     },
+     "errorVsNextAnswer": {
+      "n": 1265,
+      "p50": 0.002723848932038919,
+      "p90": 0.00822892677838205,
+      "p99": 0.010638463081721672,
+      "max": 0.013296092538123139,
+      "understateP1": -0.00975570121878111,
+      "overstateP99": 0.010516339084520432
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 18,
+     "dClosedH": 48,
+     "L": 0.03,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.6002387652426026,
+     "returnsShareClosure": 0.784200958519253,
+     "completesShareTrading": 0.6002387652426026,
+     "completesShareClosure": 0.784200958519253,
+     "failures": {
+      "FallbackExpired": 15185,
+      "AnchorMissing: basis too wide": 720
+     },
+     "errorVsNextAnswer": {
+      "n": 1265,
+      "p50": 0.002723848932038919,
+      "p90": 0.00822892677838205,
+      "p99": 0.010638463081721672,
+      "max": 0.013296092538123139,
+      "understateP1": -0.00975570121878111,
+      "overstateP99": 0.010516339084520432
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 18,
+     "dClosedH": 72,
+     "L": 0.01,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.6002387652426026,
+     "returnsShareClosure": 0.9825483391175013,
+     "completesShareTrading": 0.6002387652426026,
+     "completesShareClosure": 0.9825483391175013,
+     "failures": {
+      "FallbackExpired": 9184,
+      "AnchorMissing: basis too wide": 720
+     },
+     "errorVsNextAnswer": {
+      "n": 1460,
+      "p50": 0.002943149404008749,
+      "p90": 0.00825367746994754,
+      "p99": 0.013296092538123139,
+      "max": 0.015070236941901127,
+      "understateP1": -0.0098725895421512,
+      "overstateP99": 0.013296092538123139
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 18,
+     "dClosedH": 72,
+     "L": 0.02,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.6002387652426026,
+     "returnsShareClosure": 0.9825483391175013,
+     "completesShareTrading": 0.6002387652426026,
+     "completesShareClosure": 0.9825483391175013,
+     "failures": {
+      "FallbackExpired": 9184,
+      "AnchorMissing: basis too wide": 720
+     },
+     "errorVsNextAnswer": {
+      "n": 1460,
+      "p50": 0.002943149404008749,
+      "p90": 0.00825367746994754,
+      "p99": 0.013296092538123139,
+      "max": 0.015070236941901127,
+      "understateP1": -0.0098725895421512,
+      "overstateP99": 0.013296092538123139
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 18,
+     "dClosedH": 72,
+     "L": 0.03,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.6002387652426026,
+     "returnsShareClosure": 0.9825483391175013,
+     "completesShareTrading": 0.6002387652426026,
+     "completesShareClosure": 0.9825483391175013,
+     "failures": {
+      "FallbackExpired": 9184,
+      "AnchorMissing: basis too wide": 720
+     },
+     "errorVsNextAnswer": {
+      "n": 1460,
+      "p50": 0.002943149404008749,
+      "p90": 0.00825367746994754,
+      "p99": 0.013296092538123139,
+      "max": 0.015070236941901127,
+      "understateP1": -0.0098725895421512,
+      "overstateP99": 0.013296092538123139
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 18,
+     "dClosedH": 96,
+     "L": 0.01,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.6002387652426026,
+     "returnsShareClosure": 1.0,
+     "completesShareTrading": 0.6002387652426026,
+     "completesShareClosure": 1.0,
+     "failures": {
+      "FallbackExpired": 8656,
+      "AnchorMissing: basis too wide": 720
+     },
+     "errorVsNextAnswer": {
+      "n": 1478,
+      "p50": 0.0029137208585050534,
+      "p90": 0.0082411566443914,
+      "p99": 0.013296092538123139,
+      "max": 0.015070236941901127,
+      "understateP1": -0.0098725895421512,
+      "overstateP99": 0.013296092538123139
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 18,
+     "dClosedH": 96,
+     "L": 0.02,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.6002387652426026,
+     "returnsShareClosure": 1.0,
+     "completesShareTrading": 0.6002387652426026,
+     "completesShareClosure": 1.0,
+     "failures": {
+      "FallbackExpired": 8656,
+      "AnchorMissing: basis too wide": 720
+     },
+     "errorVsNextAnswer": {
+      "n": 1478,
+      "p50": 0.0029137208585050534,
+      "p90": 0.0082411566443914,
+      "p99": 0.013296092538123139,
+      "max": 0.015070236941901127,
+      "understateP1": -0.0098725895421512,
+      "overstateP99": 0.013296092538123139
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 18,
+     "dClosedH": 96,
+     "L": 0.03,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.6002387652426026,
+     "returnsShareClosure": 1.0,
+     "completesShareTrading": 0.6002387652426026,
+     "completesShareClosure": 1.0,
+     "failures": {
+      "FallbackExpired": 8656,
+      "AnchorMissing: basis too wide": 720
+     },
+     "errorVsNextAnswer": {
+      "n": 1478,
+      "p50": 0.0029137208585050534,
+      "p90": 0.0082411566443914,
+      "p99": 0.013296092538123139,
+      "max": 0.015070236941901127,
+      "understateP1": -0.0098725895421512,
+      "overstateP99": 0.013296092538123139
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 24,
+     "dClosedH": 48,
+     "L": 0.01,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9691310650635286,
+     "returnsShareClosure": 0.784200958519253,
+     "completesShareTrading": 0.9691310650635286,
+     "completesShareClosure": 0.784200958519253,
+     "failures": {
+      "FallbackExpired": 6533,
+      "AnchorMissing: basis too wide": 720
+     },
+     "errorVsNextAnswer": {
+      "n": 1553,
+      "p50": 0.002475996210681619,
+      "p90": 0.00792625693560689,
+      "p99": 0.010516339084520432,
+      "max": 0.013296092538123139,
+      "understateP1": -0.00964022845749124,
+      "overstateP99": 0.01045470688701755
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 24,
+     "dClosedH": 48,
+     "L": 0.02,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9691310650635286,
+     "returnsShareClosure": 0.784200958519253,
+     "completesShareTrading": 0.9691310650635286,
+     "completesShareClosure": 0.784200958519253,
+     "failures": {
+      "FallbackExpired": 6533,
+      "AnchorMissing: basis too wide": 720
+     },
+     "errorVsNextAnswer": {
+      "n": 1553,
+      "p50": 0.002475996210681619,
+      "p90": 0.00792625693560689,
+      "p99": 0.010516339084520432,
+      "max": 0.013296092538123139,
+      "understateP1": -0.00964022845749124,
+      "overstateP99": 0.01045470688701755
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 24,
+     "dClosedH": 48,
+     "L": 0.03,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9691310650635286,
+     "returnsShareClosure": 0.784200958519253,
+     "completesShareTrading": 0.9691310650635286,
+     "completesShareClosure": 0.784200958519253,
+     "failures": {
+      "FallbackExpired": 6533,
+      "AnchorMissing: basis too wide": 720
+     },
+     "errorVsNextAnswer": {
+      "n": 1553,
+      "p50": 0.002475996210681619,
+      "p90": 0.00792625693560689,
+      "p99": 0.010516339084520432,
+      "max": 0.013296092538123139,
+      "understateP1": -0.00964022845749124,
+      "overstateP99": 0.01045470688701755
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 24,
+     "dClosedH": 72,
+     "L": 0.01,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9691310650635286,
+     "returnsShareClosure": 0.9825483391175013,
+     "completesShareTrading": 0.9691310650635286,
+     "completesShareClosure": 0.9825483391175013,
+     "failures": {
+      "AnchorMissing: basis too wide": 720,
+      "FallbackExpired": 532
+     },
+     "errorVsNextAnswer": {
+      "n": 1748,
+      "p50": 0.002736416844544065,
+      "p90": 0.007945747614603205,
+      "p99": 0.01272222366826048,
+      "max": 0.015070236941901127,
+      "understateP1": -0.00975570121878111,
+      "overstateP99": 0.01272222366826048
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 24,
+     "dClosedH": 72,
+     "L": 0.02,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9691310650635286,
+     "returnsShareClosure": 0.9825483391175013,
+     "completesShareTrading": 0.9691310650635286,
+     "completesShareClosure": 0.9825483391175013,
+     "failures": {
+      "AnchorMissing: basis too wide": 720,
+      "FallbackExpired": 532
+     },
+     "errorVsNextAnswer": {
+      "n": 1748,
+      "p50": 0.002736416844544065,
+      "p90": 0.007945747614603205,
+      "p99": 0.01272222366826048,
+      "max": 0.015070236941901127,
+      "understateP1": -0.00975570121878111,
+      "overstateP99": 0.01272222366826048
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 24,
+     "dClosedH": 72,
+     "L": 0.03,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9691310650635286,
+     "returnsShareClosure": 0.9825483391175013,
+     "completesShareTrading": 0.9691310650635286,
+     "completesShareClosure": 0.9825483391175013,
+     "failures": {
+      "AnchorMissing: basis too wide": 720,
+      "FallbackExpired": 532
+     },
+     "errorVsNextAnswer": {
+      "n": 1748,
+      "p50": 0.002736416844544065,
+      "p90": 0.007945747614603205,
+      "p99": 0.01272222366826048,
+      "max": 0.015070236941901127,
+      "understateP1": -0.00975570121878111,
+      "overstateP99": 0.01272222366826048
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 24,
+     "dClosedH": 96,
+     "L": 0.01,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9691310650635286,
+     "returnsShareClosure": 1.0,
+     "completesShareTrading": 0.9691310650635286,
+     "completesShareClosure": 1.0,
+     "failures": {
+      "AnchorMissing: basis too wide": 720,
+      "FallbackExpired": 4
+     },
+     "errorVsNextAnswer": {
+      "n": 1766,
+      "p50": 0.0027148833734018663,
+      "p90": 0.007930116521488006,
+      "p99": 0.01272222366826048,
+      "max": 0.015070236941901127,
+      "understateP1": -0.00975570121878111,
+      "overstateP99": 0.01272222366826048
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 24,
+     "dClosedH": 96,
+     "L": 0.02,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9691310650635286,
+     "returnsShareClosure": 1.0,
+     "completesShareTrading": 0.9691310650635286,
+     "completesShareClosure": 1.0,
+     "failures": {
+      "AnchorMissing: basis too wide": 720,
+      "FallbackExpired": 4
+     },
+     "errorVsNextAnswer": {
+      "n": 1766,
+      "p50": 0.0027148833734018663,
+      "p90": 0.007930116521488006,
+      "p99": 0.01272222366826048,
+      "max": 0.015070236941901127,
+      "understateP1": -0.00975570121878111,
+      "overstateP99": 0.01272222366826048
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 24,
+     "dClosedH": 96,
+     "L": 0.03,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9691310650635286,
+     "returnsShareClosure": 1.0,
+     "completesShareTrading": 0.9691310650635286,
+     "completesShareClosure": 1.0,
+     "failures": {
+      "AnchorMissing: basis too wide": 720,
+      "FallbackExpired": 4
+     },
+     "errorVsNextAnswer": {
+      "n": 1766,
+      "p50": 0.0027148833734018663,
+      "p90": 0.007930116521488006,
+      "p99": 0.01272222366826048,
+      "max": 0.015070236941901127,
+      "understateP1": -0.00975570121878111,
+      "overstateP99": 0.01272222366826048
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 36,
+     "dClosedH": 48,
+     "L": 0.01,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9693016116653875,
+     "returnsShareClosure": 0.784200958519253,
+     "completesShareTrading": 0.9693016116653875,
+     "completesShareClosure": 0.784200958519253,
+     "failures": {
+      "FallbackExpired": 6529,
+      "AnchorMissing: basis too wide": 720
+     },
+     "errorVsNextAnswer": {
+      "n": 1553,
+      "p50": 0.002475996210681619,
+      "p90": 0.00792625693560689,
+      "p99": 0.010516339084520432,
+      "max": 0.013296092538123139,
+      "understateP1": -0.00964022845749124,
+      "overstateP99": 0.01045470688701755
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 36,
+     "dClosedH": 48,
+     "L": 0.02,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9693016116653875,
+     "returnsShareClosure": 0.784200958519253,
+     "completesShareTrading": 0.9693016116653875,
+     "completesShareClosure": 0.784200958519253,
+     "failures": {
+      "FallbackExpired": 6529,
+      "AnchorMissing: basis too wide": 720
+     },
+     "errorVsNextAnswer": {
+      "n": 1553,
+      "p50": 0.002475996210681619,
+      "p90": 0.00792625693560689,
+      "p99": 0.010516339084520432,
+      "max": 0.013296092538123139,
+      "understateP1": -0.00964022845749124,
+      "overstateP99": 0.01045470688701755
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 36,
+     "dClosedH": 48,
+     "L": 0.03,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9693016116653875,
+     "returnsShareClosure": 0.784200958519253,
+     "completesShareTrading": 0.9693016116653875,
+     "completesShareClosure": 0.784200958519253,
+     "failures": {
+      "FallbackExpired": 6529,
+      "AnchorMissing: basis too wide": 720
+     },
+     "errorVsNextAnswer": {
+      "n": 1553,
+      "p50": 0.002475996210681619,
+      "p90": 0.00792625693560689,
+      "p99": 0.010516339084520432,
+      "max": 0.013296092538123139,
+      "understateP1": -0.00964022845749124,
+      "overstateP99": 0.01045470688701755
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 36,
+     "dClosedH": 72,
+     "L": 0.01,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9693016116653875,
+     "returnsShareClosure": 0.9825483391175013,
+     "completesShareTrading": 0.9693016116653875,
+     "completesShareClosure": 0.9825483391175013,
+     "failures": {
+      "AnchorMissing: basis too wide": 720,
+      "FallbackExpired": 528
+     },
+     "errorVsNextAnswer": {
+      "n": 1748,
+      "p50": 0.002736416844544065,
+      "p90": 0.007945747614603205,
+      "p99": 0.01272222366826048,
+      "max": 0.015070236941901127,
+      "understateP1": -0.00975570121878111,
+      "overstateP99": 0.01272222366826048
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 36,
+     "dClosedH": 72,
+     "L": 0.02,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9693016116653875,
+     "returnsShareClosure": 0.9825483391175013,
+     "completesShareTrading": 0.9693016116653875,
+     "completesShareClosure": 0.9825483391175013,
+     "failures": {
+      "AnchorMissing: basis too wide": 720,
+      "FallbackExpired": 528
+     },
+     "errorVsNextAnswer": {
+      "n": 1748,
+      "p50": 0.002736416844544065,
+      "p90": 0.007945747614603205,
+      "p99": 0.01272222366826048,
+      "max": 0.015070236941901127,
+      "understateP1": -0.00975570121878111,
+      "overstateP99": 0.01272222366826048
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 36,
+     "dClosedH": 72,
+     "L": 0.03,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9693016116653875,
+     "returnsShareClosure": 0.9825483391175013,
+     "completesShareTrading": 0.9693016116653875,
+     "completesShareClosure": 0.9825483391175013,
+     "failures": {
+      "AnchorMissing: basis too wide": 720,
+      "FallbackExpired": 528
+     },
+     "errorVsNextAnswer": {
+      "n": 1748,
+      "p50": 0.002736416844544065,
+      "p90": 0.007945747614603205,
+      "p99": 0.01272222366826048,
+      "max": 0.015070236941901127,
+      "understateP1": -0.00975570121878111,
+      "overstateP99": 0.01272222366826048
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 36,
+     "dClosedH": 96,
+     "L": 0.01,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9693016116653875,
+     "returnsShareClosure": 1.0,
+     "completesShareTrading": 0.9693016116653875,
+     "completesShareClosure": 1.0,
+     "failures": {
+      "AnchorMissing: basis too wide": 720
+     },
+     "errorVsNextAnswer": {
+      "n": 1766,
+      "p50": 0.0027148833734018663,
+      "p90": 0.007930116521488006,
+      "p99": 0.01272222366826048,
+      "max": 0.015070236941901127,
+      "understateP1": -0.00975570121878111,
+      "overstateP99": 0.01272222366826048
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 36,
+     "dClosedH": 96,
+     "L": 0.02,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9693016116653875,
+     "returnsShareClosure": 1.0,
+     "completesShareTrading": 0.9693016116653875,
+     "completesShareClosure": 1.0,
+     "failures": {
+      "AnchorMissing: basis too wide": 720
+     },
+     "errorVsNextAnswer": {
+      "n": 1766,
+      "p50": 0.0027148833734018663,
+      "p90": 0.007930116521488006,
+      "p99": 0.01272222366826048,
+      "max": 0.015070236941901127,
+      "understateP1": -0.00975570121878111,
+      "overstateP99": 0.01272222366826048
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 36,
+     "dClosedH": 96,
+     "L": 0.03,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9693016116653875,
+     "returnsShareClosure": 1.0,
+     "completesShareTrading": 0.9693016116653875,
+     "completesShareClosure": 1.0,
+     "failures": {
+      "AnchorMissing: basis too wide": 720
+     },
+     "errorVsNextAnswer": {
+      "n": 1766,
+      "p50": 0.0027148833734018663,
+      "p90": 0.007930116521488006,
+      "p99": 0.01272222366826048,
+      "max": 0.015070236941901127,
+      "understateP1": -0.00975570121878111,
+      "overstateP99": 0.01272222366826048
+     }
+    }
+   ],
+   "sensitivityPokeAndBasis": [
+    {
+     "poke": "ideal",
+     "maxBasis": 0.005,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9541229640999404,
+     "returnsShareClosure": 0.9825483391175013,
+     "completesShareTrading": 0.9541229640999404,
+     "completesShareClosure": 0.9825483391175013,
+     "failures": {
+      "AnchorMissing: basis too wide": 824,
+      "FallbackExpired": 780
+     },
+     "errorVsNextAnswer": {
+      "n": 1728,
+      "p50": 0.00273258429737977,
+      "p90": 0.007950881288756761,
+      "p99": 0.01272222366826048,
+      "max": 0.015070236941901127,
+      "understateP1": -0.00975570121878111,
+      "overstateP99": 0.01272222366826048
+     },
+     "anchoredAnswerShare": 0.967391304347826,
+     "notAnchoredReasons": {
+      "basis too wide": 3
+     }
+    },
+    {
+     "poke": "ideal",
+     "maxBasis": 0.01,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9585571757482733,
+     "returnsShareClosure": 0.9825483391175013,
+     "completesShareTrading": 0.9585571757482733,
+     "completesShareClosure": 0.9825483391175013,
+     "failures": {
+      "FallbackExpired": 780,
+      "AnchorMissing: basis too wide": 720
+     },
+     "errorVsNextAnswer": {
+      "n": 1732,
+      "p50": 0.002736416844544065,
+      "p90": 0.007945747614603205,
+      "p99": 0.01272222366826048,
+      "max": 0.015070236941901127,
+      "understateP1": -0.00975570121878111,
+      "overstateP99": 0.01272222366826048
+     },
+     "anchoredAnswerShare": 0.9891304347826086,
+     "notAnchoredReasons": {
+      "basis too wide": 1
+     }
+    },
+    {
+     "poke": "ideal",
+     "maxBasis": 0.02,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9892555640828856,
+     "returnsShareClosure": 0.9825483391175013,
+     "completesShareTrading": 0.9892555640828856,
+     "completesShareClosure": 0.9825483391175013,
+     "failures": {
+      "FallbackExpired": 780
+     },
+     "errorVsNextAnswer": {
+      "n": 1756,
+      "p50": 0.002787091010424403,
+      "p90": 0.00822892677838205,
+      "p99": 0.013518411751386905,
+      "max": 0.015070236941901127,
+      "understateP1": -0.01178215740353905,
+      "overstateP99": 0.01272222366826048
+     },
+     "anchoredAnswerShare": 1.0,
+     "notAnchoredReasons": {}
+    },
+    {
+     "poke": "ideal",
+     "maxBasis": 0.04,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9892555640828856,
+     "returnsShareClosure": 0.9825483391175013,
+     "completesShareTrading": 0.9892555640828856,
+     "completesShareClosure": 0.9825483391175013,
+     "failures": {
+      "FallbackExpired": 780
+     },
+     "errorVsNextAnswer": {
+      "n": 1756,
+      "p50": 0.002787091010424403,
+      "p90": 0.00822892677838205,
+      "p99": 0.013518411751386905,
+      "max": 0.015070236941901127,
+      "understateP1": -0.01178215740353905,
+      "overstateP99": 0.01272222366826048
+     },
+     "anchoredAnswerShare": 1.0,
+     "notAnchoredReasons": {}
+    },
+    {
+     "poke": "keeper15m",
+     "maxBasis": 0.005,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9541229640999404,
+     "returnsShareClosure": 0.9825483391175013,
+     "completesShareTrading": 0.9541229640999404,
+     "completesShareClosure": 0.9825483391175013,
+     "failures": {
+      "AnchorMissing: basis too wide": 824,
+      "FallbackExpired": 780
+     },
+     "errorVsNextAnswer": {
+      "n": 1728,
+      "p50": 0.00273258429737977,
+      "p90": 0.007950881288756761,
+      "p99": 0.01272222366826048,
+      "max": 0.015070236941901127,
+      "understateP1": -0.00975570121878111,
+      "overstateP99": 0.01272222366826048
+     },
+     "anchoredAnswerShare": 0.967391304347826,
+     "notAnchoredReasons": {
+      "basis too wide": 3
+     }
+    },
+    {
+     "poke": "keeper15m",
+     "maxBasis": 0.01,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9585571757482733,
+     "returnsShareClosure": 0.9825483391175013,
+     "completesShareTrading": 0.9585571757482733,
+     "completesShareClosure": 0.9825483391175013,
+     "failures": {
+      "FallbackExpired": 780,
+      "AnchorMissing: basis too wide": 720
+     },
+     "errorVsNextAnswer": {
+      "n": 1732,
+      "p50": 0.002736416844544065,
+      "p90": 0.007945747614603205,
+      "p99": 0.01272222366826048,
+      "max": 0.015070236941901127,
+      "understateP1": -0.00975570121878111,
+      "overstateP99": 0.01272222366826048
+     },
+     "anchoredAnswerShare": 0.9891304347826086,
+     "notAnchoredReasons": {
+      "basis too wide": 1
+     }
+    },
+    {
+     "poke": "keeper15m",
+     "maxBasis": 0.02,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9892555640828856,
+     "returnsShareClosure": 0.9825483391175013,
+     "completesShareTrading": 0.9892555640828856,
+     "completesShareClosure": 0.9825483391175013,
+     "failures": {
+      "FallbackExpired": 780
+     },
+     "errorVsNextAnswer": {
+      "n": 1756,
+      "p50": 0.002787091010424403,
+      "p90": 0.00822892677838205,
+      "p99": 0.013518411751386905,
+      "max": 0.015070236941901127,
+      "understateP1": -0.01178215740353905,
+      "overstateP99": 0.01272222366826048
+     },
+     "anchoredAnswerShare": 1.0,
+     "notAnchoredReasons": {}
+    },
+    {
+     "poke": "keeper15m",
+     "maxBasis": 0.04,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9892555640828856,
+     "returnsShareClosure": 0.9825483391175013,
+     "completesShareTrading": 0.9892555640828856,
+     "completesShareClosure": 0.9825483391175013,
+     "failures": {
+      "FallbackExpired": 780
+     },
+     "errorVsNextAnswer": {
+      "n": 1756,
+      "p50": 0.002787091010424403,
+      "p90": 0.00822892677838205,
+      "p99": 0.013518411751386905,
+      "max": 0.015070236941901127,
+      "understateP1": -0.01178215740353905,
+      "overstateP99": 0.01272222366826048
+     },
+     "anchoredAnswerShare": 1.0,
+     "notAnchoredReasons": {}
+    },
+    {
+     "poke": "keeper1h",
+     "maxBasis": 0.005,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9541229640999404,
+     "returnsShareClosure": 0.9825483391175013,
+     "completesShareTrading": 0.9541229640999404,
+     "completesShareClosure": 0.9825483391175013,
+     "failures": {
+      "AnchorMissing: basis too wide": 824,
+      "FallbackExpired": 780
+     },
+     "errorVsNextAnswer": {
+      "n": 1728,
+      "p50": 0.00273258429737977,
+      "p90": 0.007950881288756761,
+      "p99": 0.01272222366826048,
+      "max": 0.015070236941901127,
+      "understateP1": -0.00975570121878111,
+      "overstateP99": 0.01272222366826048
+     },
+     "anchoredAnswerShare": 0.9565217391304348,
+     "notAnchoredReasons": {
+      "basis too wide": 3,
+      "superseded before the poke": 1
+     }
+    },
+    {
+     "poke": "keeper1h",
+     "maxBasis": 0.01,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9585571757482733,
+     "returnsShareClosure": 0.9825483391175013,
+     "completesShareTrading": 0.9585571757482733,
+     "completesShareClosure": 0.9825483391175013,
+     "failures": {
+      "FallbackExpired": 780,
+      "AnchorMissing: basis too wide": 720
+     },
+     "errorVsNextAnswer": {
+      "n": 1732,
+      "p50": 0.002736416844544065,
+      "p90": 0.007945747614603205,
+      "p99": 0.01272222366826048,
+      "max": 0.015070236941901127,
+      "understateP1": -0.00975570121878111,
+      "overstateP99": 0.01272222366826048
+     },
+     "anchoredAnswerShare": 0.9782608695652174,
+     "notAnchoredReasons": {
+      "basis too wide": 1,
+      "superseded before the poke": 1
+     }
+    },
+    {
+     "poke": "keeper1h",
+     "maxBasis": 0.02,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9892555640828856,
+     "returnsShareClosure": 0.9825483391175013,
+     "completesShareTrading": 0.9892555640828856,
+     "completesShareClosure": 0.9825483391175013,
+     "failures": {
+      "FallbackExpired": 780
+     },
+     "errorVsNextAnswer": {
+      "n": 1756,
+      "p50": 0.002787091010424403,
+      "p90": 0.00822892677838205,
+      "p99": 0.013518411751386905,
+      "max": 0.015070236941901127,
+      "understateP1": -0.01178215740353905,
+      "overstateP99": 0.01272222366826048
+     },
+     "anchoredAnswerShare": 0.9891304347826086,
+     "notAnchoredReasons": {
+      "superseded before the poke": 1
+     }
+    },
+    {
+     "poke": "keeper1h",
+     "maxBasis": 0.04,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9892555640828856,
+     "returnsShareClosure": 0.9825483391175013,
+     "completesShareTrading": 0.9892555640828856,
+     "completesShareClosure": 0.9825483391175013,
+     "failures": {
+      "FallbackExpired": 780
+     },
+     "errorVsNextAnswer": {
+      "n": 1756,
+      "p50": 0.002787091010424403,
+      "p90": 0.00822892677838205,
+      "p99": 0.013518411751386905,
+      "max": 0.015070236941901127,
+      "understateP1": -0.01178215740353905,
+      "overstateP99": 0.01272222366826048
+     },
+     "anchoredAnswerShare": 0.9891304347826086,
+     "notAnchoredReasons": {
+      "superseded before the poke": 1
+     }
+    },
+    {
+     "poke": "keeper2h",
+     "maxBasis": 0.005,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.2937665217020551,
+     "returnsShareClosure": 0.20624690133862172,
+     "completesShareTrading": 0.2937665217020551,
+     "completesShareClosure": 0.20624690133862172,
+     "failures": {
+      "AnchorMissing: poke too late (maxPokeDelay)": 39808,
+      "FallbackExpired": 771
+     },
+     "errorVsNextAnswer": {
+      "n": 438,
+      "p50": 0.0026862200213950693,
+      "p90": 0.005709304398475057,
+      "p99": 0.008304807620552523,
+      "max": 0.008649959040619493,
+      "understateP1": -0.005439269395126067,
+      "overstateP99": 0.008304807620552523
+     },
+     "anchoredAnswerShare": 0.29347826086956524,
+     "notAnchoredReasons": {
+      "poke too late (maxPokeDelay)": 62,
+      "basis too wide": 1,
+      "superseded before the poke": 2
+     }
+    },
+    {
+     "poke": "keeper2h",
+     "maxBasis": 0.01,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.2937665217020551,
+     "returnsShareClosure": 0.20624690133862172,
+     "completesShareTrading": 0.2937665217020551,
+     "completesShareClosure": 0.20624690133862172,
+     "failures": {
+      "AnchorMissing: poke too late (maxPokeDelay)": 39808,
+      "FallbackExpired": 771
+     },
+     "errorVsNextAnswer": {
+      "n": 438,
+      "p50": 0.0026862200213950693,
+      "p90": 0.005709304398475057,
+      "p99": 0.008304807620552523,
+      "max": 0.008649959040619493,
+      "understateP1": -0.005439269395126067,
+      "overstateP99": 0.008304807620552523
+     },
+     "anchoredAnswerShare": 0.30434782608695654,
+     "notAnchoredReasons": {
+      "poke too late (maxPokeDelay)": 62,
+      "superseded before the poke": 2
+     }
+    },
+    {
+     "poke": "keeper2h",
+     "maxBasis": 0.02,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.2937665217020551,
+     "returnsShareClosure": 0.20624690133862172,
+     "completesShareTrading": 0.2937665217020551,
+     "completesShareClosure": 0.20624690133862172,
+     "failures": {
+      "AnchorMissing: poke too late (maxPokeDelay)": 39808,
+      "FallbackExpired": 771
+     },
+     "errorVsNextAnswer": {
+      "n": 438,
+      "p50": 0.0026862200213950693,
+      "p90": 0.005709304398475057,
+      "p99": 0.008304807620552523,
+      "max": 0.008649959040619493,
+      "understateP1": -0.005439269395126067,
+      "overstateP99": 0.008304807620552523
+     },
+     "anchoredAnswerShare": 0.30434782608695654,
+     "notAnchoredReasons": {
+      "poke too late (maxPokeDelay)": 62,
+      "superseded before the poke": 2
+     }
+    },
+    {
+     "poke": "keeper2h",
+     "maxBasis": 0.04,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.2937665217020551,
+     "returnsShareClosure": 0.20624690133862172,
+     "completesShareTrading": 0.2937665217020551,
+     "completesShareClosure": 0.20624690133862172,
+     "failures": {
+      "AnchorMissing: poke too late (maxPokeDelay)": 39808,
+      "FallbackExpired": 771
+     },
+     "errorVsNextAnswer": {
+      "n": 438,
+      "p50": 0.0026862200213950693,
+      "p90": 0.005709304398475057,
+      "p99": 0.008304807620552523,
+      "max": 0.008649959040619493,
+      "understateP1": -0.005439269395126067,
+      "overstateP99": 0.008304807620552523
+     },
+     "anchoredAnswerShare": 0.30434782608695654,
+     "notAnchoredReasons": {
+      "poke too late (maxPokeDelay)": 62,
+      "superseded before the poke": 2
+     }
+    },
+    {
+     "poke": "miss10pct",
+     "maxBasis": 0.005,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.8557175748273216,
+     "returnsShareClosure": 0.8959180300776731,
+     "completesShareTrading": 0.8557175748273216,
+     "completesShareClosure": 0.8959180300776731,
+     "failures": {
+      "AnchorMissing: missed poke": 5755,
+      "FallbackExpired": 778
+     },
+     "errorVsNextAnswer": {
+      "n": 1565,
+      "p50": 0.0025653589131142684,
+      "p90": 0.007200405323581793,
+      "p99": 0.010387398103660184,
+      "max": 0.011416230548746409,
+      "understateP1": -0.009846557018450053,
+      "overstateP99": 0.01031383425378296
+     },
+     "anchoredAnswerShare": 0.8478260869565217,
+     "notAnchoredReasons": {
+      "missed poke": 13,
+      "basis too wide": 1
+     }
+    },
+    {
+     "poke": "miss10pct",
+     "maxBasis": 0.01,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.8557175748273216,
+     "returnsShareClosure": 0.8959180300776731,
+     "completesShareTrading": 0.8557175748273216,
+     "completesShareClosure": 0.8959180300776731,
+     "failures": {
+      "AnchorMissing: missed poke": 5755,
+      "FallbackExpired": 778
+     },
+     "errorVsNextAnswer": {
+      "n": 1565,
+      "p50": 0.0025653589131142684,
+      "p90": 0.007200405323581793,
+      "p99": 0.010387398103660184,
+      "max": 0.011416230548746409,
+      "understateP1": -0.009846557018450053,
+      "overstateP99": 0.01031383425378296
+     },
+     "anchoredAnswerShare": 0.8586956521739131,
+     "notAnchoredReasons": {
+      "missed poke": 13
+     }
+    },
+    {
+     "poke": "miss10pct",
+     "maxBasis": 0.02,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.8557175748273216,
+     "returnsShareClosure": 0.8959180300776731,
+     "completesShareTrading": 0.8557175748273216,
+     "completesShareClosure": 0.8959180300776731,
+     "failures": {
+      "AnchorMissing: missed poke": 5755,
+      "FallbackExpired": 778
+     },
+     "errorVsNextAnswer": {
+      "n": 1565,
+      "p50": 0.0025653589131142684,
+      "p90": 0.007200405323581793,
+      "p99": 0.010387398103660184,
+      "max": 0.011416230548746409,
+      "understateP1": -0.009846557018450053,
+      "overstateP99": 0.01031383425378296
+     },
+     "anchoredAnswerShare": 0.8586956521739131,
+     "notAnchoredReasons": {
+      "missed poke": 13
+     }
+    },
+    {
+     "poke": "miss10pct",
+     "maxBasis": 0.04,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.8557175748273216,
+     "returnsShareClosure": 0.8959180300776731,
+     "completesShareTrading": 0.8557175748273216,
+     "completesShareClosure": 0.8959180300776731,
+     "failures": {
+      "AnchorMissing: missed poke": 5755,
+      "FallbackExpired": 778
+     },
+     "errorVsNextAnswer": {
+      "n": 1565,
+      "p50": 0.0025653589131142684,
+      "p90": 0.007200405323581793,
+      "p99": 0.010387398103660184,
+      "max": 0.011416230548746409,
+      "understateP1": -0.009846557018450053,
+      "overstateP99": 0.01031383425378296
+     },
+     "anchoredAnswerShare": 0.8586956521739131,
+     "notAnchoredReasons": {
+      "missed poke": 13
+     }
+    },
+    {
+     "poke": "miss30pct",
+     "maxBasis": 0.005,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.6441545152212842,
+     "returnsShareClosure": 0.6321930259461246,
+     "completesShareTrading": 0.6441545152212842,
+     "completesShareClosure": 0.6321930259461246,
+     "failures": {
+      "AnchorMissing: missed poke": 18699,
+      "FallbackExpired": 775
+     },
+     "errorVsNextAnswer": {
+      "n": 1135,
+      "p50": 0.002318410016622252,
+      "p90": 0.006752857463710238,
+      "p99": 0.00992407016005481,
+      "max": 0.011416230548746409,
+      "understateP1": -0.00992407016005481,
+      "overstateP99": 0.008168002293186483
+     },
+     "anchoredAnswerShare": 0.6521739130434783,
+     "notAnchoredReasons": {
+      "missed poke": 31,
+      "basis too wide": 1
+     }
+    },
+    {
+     "poke": "miss30pct",
+     "maxBasis": 0.01,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.6441545152212842,
+     "returnsShareClosure": 0.6321930259461246,
+     "completesShareTrading": 0.6441545152212842,
+     "completesShareClosure": 0.6321930259461246,
+     "failures": {
+      "AnchorMissing: missed poke": 18699,
+      "FallbackExpired": 775
+     },
+     "errorVsNextAnswer": {
+      "n": 1135,
+      "p50": 0.002318410016622252,
+      "p90": 0.006752857463710238,
+      "p99": 0.00992407016005481,
+      "max": 0.011416230548746409,
+      "understateP1": -0.00992407016005481,
+      "overstateP99": 0.008168002293186483
+     },
+     "anchoredAnswerShare": 0.6630434782608695,
+     "notAnchoredReasons": {
+      "missed poke": 31
+     }
+    },
+    {
+     "poke": "miss30pct",
+     "maxBasis": 0.02,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.6441545152212842,
+     "returnsShareClosure": 0.6321930259461246,
+     "completesShareTrading": 0.6441545152212842,
+     "completesShareClosure": 0.6321930259461246,
+     "failures": {
+      "AnchorMissing: missed poke": 18699,
+      "FallbackExpired": 775
+     },
+     "errorVsNextAnswer": {
+      "n": 1135,
+      "p50": 0.002318410016622252,
+      "p90": 0.006752857463710238,
+      "p99": 0.00992407016005481,
+      "max": 0.011416230548746409,
+      "understateP1": -0.00992407016005481,
+      "overstateP99": 0.008168002293186483
+     },
+     "anchoredAnswerShare": 0.6630434782608695,
+     "notAnchoredReasons": {
+      "missed poke": 31
+     }
+    },
+    {
+     "poke": "miss30pct",
+     "maxBasis": 0.04,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.6441545152212842,
+     "returnsShareClosure": 0.6321930259461246,
+     "completesShareTrading": 0.6441545152212842,
+     "completesShareClosure": 0.6321930259461246,
+     "failures": {
+      "AnchorMissing: missed poke": 18699,
+      "FallbackExpired": 775
+     },
+     "errorVsNextAnswer": {
+      "n": 1135,
+      "p50": 0.002318410016622252,
+      "p90": 0.006752857463710238,
+      "p99": 0.00992407016005481,
+      "max": 0.011416230548746409,
+      "understateP1": -0.00992407016005481,
+      "overstateP99": 0.008168002293186483
+     },
+     "anchoredAnswerShare": 0.6630434782608695,
+     "notAnchoredReasons": {
+      "missed poke": 31
+     }
+    }
+   ],
+   "sensitivityRemovalBoundModeWindow": [
+    {
+     "removalBound": 0.01,
+     "mode": "anchored",
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9585571757482733,
+     "returnsShareClosure": 0.9825483391175013,
+     "completesShareTrading": 0.9585571757482733,
+     "completesShareClosure": 0.9825483391175013,
+     "failures": {
+      "FallbackExpired": 780,
+      "AnchorMissing: basis too wide": 720
+     },
+     "errorVsNextAnswer": {
+      "n": 1732,
+      "p50": 0.002736416844544065,
+      "p90": 0.007945747614603205,
+      "p99": 0.01272222366826048,
+      "max": 0.015070236941901127,
+      "understateP1": -0.00975570121878111,
+      "overstateP99": 0.01272222366826048
+     }
+    },
+    {
+     "removalBound": 0.01,
+     "mode": "hold",
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9585571757482733,
+     "returnsShareClosure": 0.9825483391175013,
+     "completesShareTrading": 0.9585571757482733,
+     "completesShareClosure": 0.9695256982316972,
+     "failures": {
+      "FallbackExpired": 780,
+      "AnchorMissing: basis too wide": 720,
+      "removal guard rejects (pool spot vs returned price)": 394
+     },
+     "errorVsNextAnswer": {
+      "n": 1732,
+      "p50": 0.001943876313083348,
+      "p90": 0.00687299352665649,
+      "p99": 0.0069300404193679555,
+      "max": 0.0069300404193679555,
+      "understateP1": -0.0069300404193679555,
+      "overstateP99": 0.00687299352665649
+     }
+    },
+    {
+     "removalBound": 0.03,
+     "mode": "anchored",
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9585571757482733,
+     "returnsShareClosure": 0.9825483391175013,
+     "completesShareTrading": 0.9585571757482733,
+     "completesShareClosure": 0.9825483391175013,
+     "failures": {
+      "FallbackExpired": 780,
+      "AnchorMissing: basis too wide": 720
+     },
+     "errorVsNextAnswer": {
+      "n": 1732,
+      "p50": 0.002736416844544065,
+      "p90": 0.007945747614603205,
+      "p99": 0.01272222366826048,
+      "max": 0.015070236941901127,
+      "understateP1": -0.00975570121878111,
+      "overstateP99": 0.01272222366826048
+     }
+    },
+    {
+     "removalBound": 0.03,
+     "mode": "hold",
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9585571757482733,
+     "returnsShareClosure": 0.9825483391175013,
+     "completesShareTrading": 0.9585571757482733,
+     "completesShareClosure": 0.9825483391175013,
+     "failures": {
+      "FallbackExpired": 780,
+      "AnchorMissing: basis too wide": 720
+     },
+     "errorVsNextAnswer": {
+      "n": 1732,
+      "p50": 0.001943876313083348,
+      "p90": 0.00687299352665649,
+      "p99": 0.0069300404193679555,
+      "max": 0.0069300404193679555,
+      "understateP1": -0.0069300404193679555,
+      "overstateP99": 0.00687299352665649
+     }
+    },
+    {
+     "removalBound": 0.06,
+     "mode": "anchored",
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9585571757482733,
+     "returnsShareClosure": 0.9825483391175013,
+     "completesShareTrading": 0.9585571757482733,
+     "completesShareClosure": 0.9825483391175013,
+     "failures": {
+      "FallbackExpired": 780,
+      "AnchorMissing: basis too wide": 720
+     },
+     "errorVsNextAnswer": {
+      "n": 1732,
+      "p50": 0.002736416844544065,
+      "p90": 0.007945747614603205,
+      "p99": 0.01272222366826048,
+      "max": 0.015070236941901127,
+      "understateP1": -0.00975570121878111,
+      "overstateP99": 0.01272222366826048
+     }
+    },
+    {
+     "removalBound": 0.06,
+     "mode": "hold",
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9585571757482733,
+     "returnsShareClosure": 0.9825483391175013,
+     "completesShareTrading": 0.9585571757482733,
+     "completesShareClosure": 0.9825483391175013,
+     "failures": {
+      "FallbackExpired": 780,
+      "AnchorMissing: basis too wide": 720
+     },
+     "errorVsNextAnswer": {
+      "n": 1732,
+      "p50": 0.001943876313083348,
+      "p90": 0.00687299352665649,
+      "p99": 0.0069300404193679555,
+      "max": 0.0069300404193679555,
+      "understateP1": -0.0069300404193679555,
+      "overstateP99": 0.00687299352665649
+     }
+    },
+    {
+     "window": 3600,
+     "staleMinutes": 53709,
+     "tradingStale": 23454,
+     "closureStale": 30255,
+     "returnsShareTrading": 0.9585571757482733,
+     "returnsShareClosure": 0.9825483391175013,
+     "completesShareTrading": 0.9585571757482733,
+     "completesShareClosure": 0.9825483391175013,
+     "failures": {
+      "FallbackExpired": 780,
+      "AnchorMissing: basis too wide": 720
+     },
+     "errorVsNextAnswer": {
+      "n": 1732,
+      "p50": 0.002685109834937194,
+      "p90": 0.007770832518088966,
+      "p99": 0.011436747857286989,
+      "max": 0.013423309198166145,
+      "understateP1": -0.0103270553780902,
+      "overstateP99": 0.011196021087669594
+     }
+    }
+   ],
+   "reference": {
+    "config": {
+     "W": 1800,
+     "d_open": 86400,
+     "d_closed": 259200,
+     "L": 0.02,
+     "R": 0.06,
+     "clock": "as-written",
+     "mode": "anchored"
+    },
+    "staleMinutes": 53709,
+    "tradingStale": 23454,
+    "closureStale": 30255,
+    "returnsShareTrading": 0.9585571757482733,
+    "returnsShareClosure": 0.9825483391175013,
+    "completesShareTrading": 0.9585571757482733,
+    "completesShareClosure": 0.9825483391175013,
+    "failures": {
+     "FallbackExpired": 780,
+     "AnchorMissing: basis too wide": 720
+    },
+    "errorVsNextAnswer": {
+     "n": 1732,
+     "p50": 0.002736416844544065,
+     "p90": 0.007945747614603205,
+     "p99": 0.01272222366826048,
+     "max": 0.015070236941901127,
+     "understateP1": -0.00975570121878111,
+     "overstateP99": 0.01272222366826048
+    },
+    "multiplierStepLossShare": 0.015146957421134281
+   }
+  },
+  "NVDA": {
+   "pair": "NVDA",
+   "weeksObserved": 12.713376322751321,
+   "windowStart": 1785893315,
+   "windowEnd": 1793582365,
+   "grid": [
+    {
+     "clock": "as-written",
+     "dOpenH": 18,
+     "dClosedH": 48,
+     "L": 0.01,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.8317517312131316,
+     "returnsShareClosure": 0.7168096618935159,
+     "completesShareTrading": 0.8317517312131316,
+     "completesShareClosure": 0.7168096618935159,
+     "failures": {
+      "FallbackExpired": 5782,
+      "AnchorMissing: basis too wide": 2405,
+      "MoveExceedsBound": 1942
+     },
+     "errorVsNextAnswer": {
+      "n": 909,
+      "p50": 0.003952544451108042,
+      "p90": 0.013252719568639604,
+      "p99": 0.016631891727115322,
+      "max": 0.017429631856176186,
+      "understateP1": -0.013009207384738208,
+      "overstateP99": 0.016631891727115322
+     }
+    },
+    {
+     "clock": "as-written",
+     "dOpenH": 18,
+     "dClosedH": 48,
+     "L": 0.02,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.8317517312131316,
+     "returnsShareClosure": 0.7748647275118831,
+     "completesShareTrading": 0.8317517312131316,
+     "completesShareClosure": 0.7748647275118831,
+     "failures": {
+      "FallbackExpired": 5782,
+      "AnchorMissing: basis too wide": 2405
+     },
+     "errorVsNextAnswer": {
+      "n": 973,
+      "p50": 0.004077161973449206,
+      "p90": 0.013644945314387424,
+      "p99": 0.017429631856176186,
+      "max": 0.01975019360892105,
+      "understateP1": -0.017404493299740253,
+      "overstateP99": 0.016631891727115322
+     }
+    },
+    {
+     "clock": "as-written",
+     "dOpenH": 18,
+     "dClosedH": 48,
+     "L": 0.03,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.8317517312131316,
+     "returnsShareClosure": 0.7748647275118831,
+     "completesShareTrading": 0.8317517312131316,
+     "completesShareClosure": 0.7748647275118831,
+     "failures": {
+      "FallbackExpired": 5782,
+      "AnchorMissing: basis too wide": 2405
+     },
+     "errorVsNextAnswer": {
+      "n": 973,
+      "p50": 0.004077161973449206,
+      "p90": 0.013644945314387424,
+      "p99": 0.017429631856176186,
+      "max": 0.01975019360892105,
+      "understateP1": -0.017404493299740253,
+      "overstateP99": 0.016631891727115322
+     }
+    },
+    {
+     "clock": "as-written",
+     "dOpenH": 18,
+     "dClosedH": 72,
+     "L": 0.01,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.8317517312131316,
+     "returnsShareClosure": 0.8308570745269199,
+     "completesShareTrading": 0.8317517312131316,
+     "completesShareClosure": 0.8308570745269199,
+     "failures": {
+      "MoveExceedsBound": 2878,
+      "AnchorMissing: basis too wide": 2405,
+      "FallbackExpired": 1031
+     },
+     "errorVsNextAnswer": {
+      "n": 1032,
+      "p50": 0.0035744714075395256,
+      "p90": 0.013009207384738208,
+      "p99": 0.016612666909490148,
+      "max": 0.017429631856176186,
+      "understateP1": -0.012950851997043156,
+      "overstateP99": 0.016612666909490148
+     }
+    },
+    {
+     "clock": "as-written",
+     "dOpenH": 18,
+     "dClosedH": 72,
+     "L": 0.02,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.8317517312131316,
+     "returnsShareClosure": 0.9148605422857313,
+     "completesShareTrading": 0.8317517312131316,
+     "completesShareClosure": 0.9148605422857313,
+     "failures": {
+      "AnchorMissing: basis too wide": 2405,
+      "FallbackExpired": 1031,
+      "MoveExceedsBound": 68
+     },
+     "errorVsNextAnswer": {
+      "n": 1125,
+      "p50": 0.003784734623817121,
+      "p90": 0.013547165263734229,
+      "p99": 0.0189528640543124,
+      "max": 0.022211061717564706,
+      "understateP1": -0.0189528640543124,
+      "overstateP99": 0.01661127521497563
+     }
+    },
+    {
+     "clock": "as-written",
+     "dOpenH": 18,
+     "dClosedH": 72,
+     "L": 0.03,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.8317517312131316,
+     "returnsShareClosure": 0.9168933664165496,
+     "completesShareTrading": 0.8317517312131316,
+     "completesShareClosure": 0.9168933664165496,
+     "failures": {
+      "AnchorMissing: basis too wide": 2405,
+      "FallbackExpired": 1031
+     },
+     "errorVsNextAnswer": {
+      "n": 1127,
+      "p50": 0.003813480233301414,
+      "p90": 0.013547165263734229,
+      "p99": 0.0189528640543124,
+      "max": 0.022211061717564706,
+      "understateP1": -0.0189528640543124,
+      "overstateP99": 0.01661127521497563
+     }
+    },
+    {
+     "clock": "as-written",
+     "dOpenH": 18,
+     "dClosedH": 96,
+     "L": 0.01,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.8317517312131316,
+     "returnsShareClosure": 0.8420675017189322,
+     "completesShareTrading": 0.8317517312131316,
+     "completesShareClosure": 0.8420675017189322,
+     "failures": {
+      "MoveExceedsBound": 2878,
+      "AnchorMissing: basis too wide": 2405,
+      "FallbackExpired": 656
+     },
+     "errorVsNextAnswer": {
+      "n": 1045,
+      "p50": 0.0035360150701457815,
+      "p90": 0.012950851997043156,
+      "p99": 0.016612666909490148,
+      "max": 0.017429631856176186,
+      "understateP1": -0.012950851997043156,
+      "overstateP99": 0.016612666909490148
+     }
+    },
+    {
+     "clock": "as-written",
+     "dOpenH": 18,
+     "dClosedH": 96,
+     "L": 0.02,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.8317517312131316,
+     "returnsShareClosure": 0.9260709694777436,
+     "completesShareTrading": 0.8317517312131316,
+     "completesShareClosure": 0.9260709694777436,
+     "failures": {
+      "AnchorMissing: basis too wide": 2405,
+      "FallbackExpired": 656,
+      "MoveExceedsBound": 68
+     },
+     "errorVsNextAnswer": {
+      "n": 1138,
+      "p50": 0.0037304911018708475,
+      "p90": 0.013542723096394038,
+      "p99": 0.0189528640543124,
+      "max": 0.022211061717564706,
+      "understateP1": -0.0189528640543124,
+      "overstateP99": 0.01661127521497563
+     }
+    },
+    {
+     "clock": "as-written",
+     "dOpenH": 18,
+     "dClosedH": 96,
+     "L": 0.03,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.8317517312131316,
+     "returnsShareClosure": 0.9281037936085618,
+     "completesShareTrading": 0.8317517312131316,
+     "completesShareClosure": 0.9281037936085618,
+     "failures": {
+      "AnchorMissing: basis too wide": 2405,
+      "FallbackExpired": 656
+     },
+     "errorVsNextAnswer": {
+      "n": 1140,
+      "p50": 0.0037351002303609437,
+      "p90": 0.013542723096394038,
+      "p99": 0.0189528640543124,
+      "max": 0.022211061717564706,
+      "understateP1": -0.0189528640543124,
+      "overstateP99": 0.01661127521497563
+     }
+    },
+    {
+     "clock": "as-written",
+     "dOpenH": 24,
+     "dClosedH": 48,
+     "L": 0.01,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.9369068992049243,
+     "returnsShareClosure": 0.7168096618935159,
+     "completesShareTrading": 0.9369068992049243,
+     "completesShareClosure": 0.7168096618935159,
+     "failures": {
+      "FallbackExpired": 5372,
+      "AnchorMissing: basis too wide": 2405,
+      "MoveExceedsBound": 1942
+     },
+     "errorVsNextAnswer": {
+      "n": 923,
+      "p50": 0.003962817932228302,
+      "p90": 0.013252719568639604,
+      "p99": 0.016631891727115322,
+      "max": 0.017429631856176186,
+      "understateP1": -0.013009207384738208,
+      "overstateP99": 0.016631891727115322
+     }
+    },
+    {
+     "clock": "as-written",
+     "dOpenH": 24,
+     "dClosedH": 48,
+     "L": 0.02,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.9369068992049243,
+     "returnsShareClosure": 0.7748647275118831,
+     "completesShareTrading": 0.9369068992049243,
+     "completesShareClosure": 0.7748647275118831,
+     "failures": {
+      "FallbackExpired": 5372,
+      "AnchorMissing: basis too wide": 2405
+     },
+     "errorVsNextAnswer": {
+      "n": 987,
+      "p50": 0.004078238031346659,
+      "p90": 0.01360142706334111,
+      "p99": 0.017429631856176186,
+      "max": 0.01975019360892105,
+      "understateP1": -0.017404493299740253,
+      "overstateP99": 0.016631891727115322
+     }
+    },
+    {
+     "clock": "as-written",
+     "dOpenH": 24,
+     "dClosedH": 48,
+     "L": 0.03,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.9369068992049243,
+     "returnsShareClosure": 0.7748647275118831,
+     "completesShareTrading": 0.9369068992049243,
+     "completesShareClosure": 0.7748647275118831,
+     "failures": {
+      "FallbackExpired": 5372,
+      "AnchorMissing: basis too wide": 2405
+     },
+     "errorVsNextAnswer": {
+      "n": 987,
+      "p50": 0.004078238031346659,
+      "p90": 0.01360142706334111,
+      "p99": 0.017429631856176186,
+      "max": 0.01975019360892105,
+      "understateP1": -0.017404493299740253,
+      "overstateP99": 0.016631891727115322
+     }
+    },
+    {
+     "clock": "as-written",
+     "dOpenH": 24,
+     "dClosedH": 72,
+     "L": 0.01,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.9369068992049243,
+     "returnsShareClosure": 0.8308570745269199,
+     "completesShareTrading": 0.9369068992049243,
+     "completesShareClosure": 0.8308570745269199,
+     "failures": {
+      "MoveExceedsBound": 2878,
+      "AnchorMissing: basis too wide": 2405,
+      "FallbackExpired": 621
+     },
+     "errorVsNextAnswer": {
+      "n": 1046,
+      "p50": 0.0035966790621487776,
+      "p90": 0.012950851997043156,
+      "p99": 0.016612666909490148,
+      "max": 0.017429631856176186,
+      "understateP1": -0.012950851997043156,
+      "overstateP99": 0.016612666909490148
+     }
+    },
+    {
+     "clock": "as-written",
+     "dOpenH": 24,
+     "dClosedH": 72,
+     "L": 0.02,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.9369068992049243,
+     "returnsShareClosure": 0.9148605422857313,
+     "completesShareTrading": 0.9369068992049243,
+     "completesShareClosure": 0.9148605422857313,
+     "failures": {
+      "AnchorMissing: basis too wide": 2405,
+      "FallbackExpired": 621,
+      "MoveExceedsBound": 68
+     },
+     "errorVsNextAnswer": {
+      "n": 1139,
+      "p50": 0.003813480233301414,
+      "p90": 0.013542723096394038,
+      "p99": 0.0189528640543124,
+      "max": 0.022211061717564706,
+      "understateP1": -0.0189528640543124,
+      "overstateP99": 0.01661127521497563
+     }
+    },
+    {
+     "clock": "as-written",
+     "dOpenH": 24,
+     "dClosedH": 72,
+     "L": 0.03,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.9369068992049243,
+     "returnsShareClosure": 0.9168933664165496,
+     "completesShareTrading": 0.9369068992049243,
+     "completesShareClosure": 0.9168933664165496,
+     "failures": {
+      "AnchorMissing: basis too wide": 2405,
+      "FallbackExpired": 621
+     },
+     "errorVsNextAnswer": {
+      "n": 1141,
+      "p50": 0.003838978244068203,
+      "p90": 0.0133944444672629,
+      "p99": 0.0189528640543124,
+      "max": 0.022211061717564706,
+      "understateP1": -0.0189528640543124,
+      "overstateP99": 0.01661127521497563
+     }
+    },
+    {
+     "clock": "as-written",
+     "dOpenH": 24,
+     "dClosedH": 96,
+     "L": 0.01,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.9369068992049243,
+     "returnsShareClosure": 0.8420675017189322,
+     "completesShareTrading": 0.9369068992049243,
+     "completesShareClosure": 0.8420675017189322,
+     "failures": {
+      "MoveExceedsBound": 2878,
+      "AnchorMissing: basis too wide": 2405,
+      "FallbackExpired": 246
+     },
+     "errorVsNextAnswer": {
+      "n": 1059,
+      "p50": 0.0035451607041381283,
+      "p90": 0.012948804537801006,
+      "p99": 0.016612666909490148,
+      "max": 0.017429631856176186,
+      "understateP1": -0.012950851997043156,
+      "overstateP99": 0.016612666909490148
+     }
+    },
+    {
+     "clock": "as-written",
+     "dOpenH": 24,
+     "dClosedH": 96,
+     "L": 0.02,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.9369068992049243,
+     "returnsShareClosure": 0.9260709694777436,
+     "completesShareTrading": 0.9369068992049243,
+     "completesShareClosure": 0.9260709694777436,
+     "failures": {
+      "AnchorMissing: basis too wide": 2405,
+      "FallbackExpired": 246,
+      "MoveExceedsBound": 68
+     },
+     "errorVsNextAnswer": {
+      "n": 1152,
+      "p50": 0.0037351002303609437,
+      "p90": 0.013359705641769137,
+      "p99": 0.0189528640543124,
+      "max": 0.022211061717564706,
+      "understateP1": -0.0189528640543124,
+      "overstateP99": 0.01661127521497563
+     }
+    },
+    {
+     "clock": "as-written",
+     "dOpenH": 24,
+     "dClosedH": 96,
+     "L": 0.03,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.9369068992049243,
+     "returnsShareClosure": 0.9281037936085618,
+     "completesShareTrading": 0.9369068992049243,
+     "completesShareClosure": 0.9281037936085618,
+     "failures": {
+      "AnchorMissing: basis too wide": 2405,
+      "FallbackExpired": 246
+     },
+     "errorVsNextAnswer": {
+      "n": 1154,
+      "p50": 0.003752110692905264,
+      "p90": 0.013359705641769137,
+      "p99": 0.0189528640543124,
+      "max": 0.022211061717564706,
+      "understateP1": -0.0189528640543124,
+      "overstateP99": 0.01661127521497563
+     }
+    },
+    {
+     "clock": "as-written",
+     "dOpenH": 36,
+     "dClosedH": 48,
+     "L": 0.01,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.9369068992049243,
+     "returnsShareClosure": 0.7168096618935159,
+     "completesShareTrading": 0.9369068992049243,
+     "completesShareClosure": 0.7168096618935159,
+     "failures": {
+      "FallbackExpired": 5372,
+      "AnchorMissing: basis too wide": 2405,
+      "MoveExceedsBound": 1942
+     },
+     "errorVsNextAnswer": {
+      "n": 923,
+      "p50": 0.003962817932228302,
+      "p90": 0.013252719568639604,
+      "p99": 0.016631891727115322,
+      "max": 0.017429631856176186,
+      "understateP1": -0.013009207384738208,
+      "overstateP99": 0.016631891727115322
+     }
+    },
+    {
+     "clock": "as-written",
+     "dOpenH": 36,
+     "dClosedH": 48,
+     "L": 0.02,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.9369068992049243,
+     "returnsShareClosure": 0.7748647275118831,
+     "completesShareTrading": 0.9369068992049243,
+     "completesShareClosure": 0.7748647275118831,
+     "failures": {
+      "FallbackExpired": 5372,
+      "AnchorMissing: basis too wide": 2405
+     },
+     "errorVsNextAnswer": {
+      "n": 987,
+      "p50": 0.004078238031346659,
+      "p90": 0.01360142706334111,
+      "p99": 0.017429631856176186,
+      "max": 0.01975019360892105,
+      "understateP1": -0.017404493299740253,
+      "overstateP99": 0.016631891727115322
+     }
+    },
+    {
+     "clock": "as-written",
+     "dOpenH": 36,
+     "dClosedH": 48,
+     "L": 0.03,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.9369068992049243,
+     "returnsShareClosure": 0.7748647275118831,
+     "completesShareTrading": 0.9369068992049243,
+     "completesShareClosure": 0.7748647275118831,
+     "failures": {
+      "FallbackExpired": 5372,
+      "AnchorMissing: basis too wide": 2405
+     },
+     "errorVsNextAnswer": {
+      "n": 987,
+      "p50": 0.004078238031346659,
+      "p90": 0.01360142706334111,
+      "p99": 0.017429631856176186,
+      "max": 0.01975019360892105,
+      "understateP1": -0.017404493299740253,
+      "overstateP99": 0.016631891727115322
+     }
+    },
+    {
+     "clock": "as-written",
+     "dOpenH": 36,
+     "dClosedH": 72,
+     "L": 0.01,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.9369068992049243,
+     "returnsShareClosure": 0.8308570745269199,
+     "completesShareTrading": 0.9369068992049243,
+     "completesShareClosure": 0.8308570745269199,
+     "failures": {
+      "MoveExceedsBound": 2878,
+      "AnchorMissing: basis too wide": 2405,
+      "FallbackExpired": 621
+     },
+     "errorVsNextAnswer": {
+      "n": 1046,
+      "p50": 0.0035966790621487776,
+      "p90": 0.012950851997043156,
+      "p99": 0.016612666909490148,
+      "max": 0.017429631856176186,
+      "understateP1": -0.012950851997043156,
+      "overstateP99": 0.016612666909490148
+     }
+    },
+    {
+     "clock": "as-written",
+     "dOpenH": 36,
+     "dClosedH": 72,
+     "L": 0.02,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.9369068992049243,
+     "returnsShareClosure": 0.9148605422857313,
+     "completesShareTrading": 0.9369068992049243,
+     "completesShareClosure": 0.9148605422857313,
+     "failures": {
+      "AnchorMissing: basis too wide": 2405,
+      "FallbackExpired": 621,
+      "MoveExceedsBound": 68
+     },
+     "errorVsNextAnswer": {
+      "n": 1139,
+      "p50": 0.003813480233301414,
+      "p90": 0.013542723096394038,
+      "p99": 0.0189528640543124,
+      "max": 0.022211061717564706,
+      "understateP1": -0.0189528640543124,
+      "overstateP99": 0.01661127521497563
+     }
+    },
+    {
+     "clock": "as-written",
+     "dOpenH": 36,
+     "dClosedH": 72,
+     "L": 0.03,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.9369068992049243,
+     "returnsShareClosure": 0.9168933664165496,
+     "completesShareTrading": 0.9369068992049243,
+     "completesShareClosure": 0.9168933664165496,
+     "failures": {
+      "AnchorMissing: basis too wide": 2405,
+      "FallbackExpired": 621
+     },
+     "errorVsNextAnswer": {
+      "n": 1141,
+      "p50": 0.003838978244068203,
+      "p90": 0.0133944444672629,
+      "p99": 0.0189528640543124,
+      "max": 0.022211061717564706,
+      "understateP1": -0.0189528640543124,
+      "overstateP99": 0.01661127521497563
+     }
+    },
+    {
+     "clock": "as-written",
+     "dOpenH": 36,
+     "dClosedH": 96,
+     "L": 0.01,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.9369068992049243,
+     "returnsShareClosure": 0.8420675017189322,
+     "completesShareTrading": 0.9369068992049243,
+     "completesShareClosure": 0.8420675017189322,
+     "failures": {
+      "MoveExceedsBound": 2878,
+      "AnchorMissing: basis too wide": 2405,
+      "FallbackExpired": 246
+     },
+     "errorVsNextAnswer": {
+      "n": 1059,
+      "p50": 0.0035451607041381283,
+      "p90": 0.012948804537801006,
+      "p99": 0.016612666909490148,
+      "max": 0.017429631856176186,
+      "understateP1": -0.012950851997043156,
+      "overstateP99": 0.016612666909490148
+     }
+    },
+    {
+     "clock": "as-written",
+     "dOpenH": 36,
+     "dClosedH": 96,
+     "L": 0.02,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.9369068992049243,
+     "returnsShareClosure": 0.9260709694777436,
+     "completesShareTrading": 0.9369068992049243,
+     "completesShareClosure": 0.9260709694777436,
+     "failures": {
+      "AnchorMissing: basis too wide": 2405,
+      "FallbackExpired": 246,
+      "MoveExceedsBound": 68
+     },
+     "errorVsNextAnswer": {
+      "n": 1152,
+      "p50": 0.0037351002303609437,
+      "p90": 0.013359705641769137,
+      "p99": 0.0189528640543124,
+      "max": 0.022211061717564706,
+      "understateP1": -0.0189528640543124,
+      "overstateP99": 0.01661127521497563
+     }
+    },
+    {
+     "clock": "as-written",
+     "dOpenH": 36,
+     "dClosedH": 96,
+     "L": 0.03,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.9369068992049243,
+     "returnsShareClosure": 0.9281037936085618,
+     "completesShareTrading": 0.9369068992049243,
+     "completesShareClosure": 0.9281037936085618,
+     "failures": {
+      "AnchorMissing: basis too wide": 2405,
+      "FallbackExpired": 246
+     },
+     "errorVsNextAnswer": {
+      "n": 1154,
+      "p50": 0.003752110692905264,
+      "p90": 0.013359705641769137,
+      "p99": 0.0189528640543124,
+      "max": 0.022211061717564706,
+      "understateP1": -0.0189528640543124,
+      "overstateP99": 0.01661127521497563
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 18,
+     "dClosedH": 48,
+     "L": 0.01,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.894588355988715,
+     "returnsShareClosure": 0.7168096618935159,
+     "completesShareTrading": 0.894588355988715,
+     "completesShareClosure": 0.7168096618935159,
+     "failures": {
+      "FallbackExpired": 5536,
+      "AnchorMissing: basis too wide": 2405,
+      "MoveExceedsBound": 1943
+     },
+     "errorVsNextAnswer": {
+      "n": 922,
+      "p50": 0.003930437715895296,
+      "p90": 0.013252719568639604,
+      "p99": 0.016631891727115322,
+      "max": 0.017429631856176186,
+      "understateP1": -0.013009207384738208,
+      "overstateP99": 0.016631891727115322
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 18,
+     "dClosedH": 48,
+     "L": 0.02,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.8948448320082072,
+     "returnsShareClosure": 0.7748647275118831,
+     "completesShareTrading": 0.8948448320082072,
+     "completesShareClosure": 0.7748647275118831,
+     "failures": {
+      "FallbackExpired": 5536,
+      "AnchorMissing: basis too wide": 2405
+     },
+     "errorVsNextAnswer": {
+      "n": 987,
+      "p50": 0.004050350386175738,
+      "p90": 0.01360142706334111,
+      "p99": 0.017429631856176186,
+      "max": 0.01975019360892105,
+      "understateP1": -0.017404493299740253,
+      "overstateP99": 0.016631891727115322
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 18,
+     "dClosedH": 48,
+     "L": 0.03,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.8948448320082072,
+     "returnsShareClosure": 0.7748647275118831,
+     "completesShareTrading": 0.8948448320082072,
+     "completesShareClosure": 0.7748647275118831,
+     "failures": {
+      "FallbackExpired": 5536,
+      "AnchorMissing: basis too wide": 2405
+     },
+     "errorVsNextAnswer": {
+      "n": 987,
+      "p50": 0.004050350386175738,
+      "p90": 0.01360142706334111,
+      "p99": 0.017429631856176186,
+      "max": 0.01975019360892105,
+      "understateP1": -0.017404493299740253,
+      "overstateP99": 0.016631891727115322
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 18,
+     "dClosedH": 72,
+     "L": 0.01,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.894588355988715,
+     "returnsShareClosure": 0.8308570745269199,
+     "completesShareTrading": 0.894588355988715,
+     "completesShareClosure": 0.8308570745269199,
+     "failures": {
+      "MoveExceedsBound": 2879,
+      "AnchorMissing: basis too wide": 2405,
+      "FallbackExpired": 785
+     },
+     "errorVsNextAnswer": {
+      "n": 1045,
+      "p50": 0.0035456965909876903,
+      "p90": 0.012950851997043156,
+      "p99": 0.016612666909490148,
+      "max": 0.017429631856176186,
+      "understateP1": -0.012950851997043156,
+      "overstateP99": 0.016612666909490148
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 18,
+     "dClosedH": 72,
+     "L": 0.02,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.8948448320082072,
+     "returnsShareClosure": 0.9148605422857313,
+     "completesShareTrading": 0.8948448320082072,
+     "completesShareClosure": 0.9148605422857313,
+     "failures": {
+      "AnchorMissing: basis too wide": 2405,
+      "FallbackExpired": 785,
+      "MoveExceedsBound": 68
+     },
+     "errorVsNextAnswer": {
+      "n": 1139,
+      "p50": 0.003752110692905264,
+      "p90": 0.013542723096394038,
+      "p99": 0.0189528640543124,
+      "max": 0.022211061717564706,
+      "understateP1": -0.0189528640543124,
+      "overstateP99": 0.01661127521497563
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 18,
+     "dClosedH": 72,
+     "L": 0.03,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.8948448320082072,
+     "returnsShareClosure": 0.9168933664165496,
+     "completesShareTrading": 0.8948448320082072,
+     "completesShareClosure": 0.9168933664165496,
+     "failures": {
+      "AnchorMissing: basis too wide": 2405,
+      "FallbackExpired": 785
+     },
+     "errorVsNextAnswer": {
+      "n": 1141,
+      "p50": 0.003765400640106664,
+      "p90": 0.0133944444672629,
+      "p99": 0.0189528640543124,
+      "max": 0.022211061717564706,
+      "understateP1": -0.0189528640543124,
+      "overstateP99": 0.01661127521497563
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 18,
+     "dClosedH": 96,
+     "L": 0.01,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.894588355988715,
+     "returnsShareClosure": 0.8420675017189322,
+     "completesShareTrading": 0.894588355988715,
+     "completesShareClosure": 0.8420675017189322,
+     "failures": {
+      "MoveExceedsBound": 2879,
+      "AnchorMissing: basis too wide": 2405,
+      "FallbackExpired": 410
+     },
+     "errorVsNextAnswer": {
+      "n": 1058,
+      "p50": 0.003525681695116134,
+      "p90": 0.012948804537801006,
+      "p99": 0.016612666909490148,
+      "max": 0.017429631856176186,
+      "understateP1": -0.012950851997043156,
+      "overstateP99": 0.016612666909490148
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 18,
+     "dClosedH": 96,
+     "L": 0.02,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.8948448320082072,
+     "returnsShareClosure": 0.9260709694777436,
+     "completesShareTrading": 0.8948448320082072,
+     "completesShareClosure": 0.9260709694777436,
+     "failures": {
+      "AnchorMissing: basis too wide": 2405,
+      "FallbackExpired": 410,
+      "MoveExceedsBound": 68
+     },
+     "errorVsNextAnswer": {
+      "n": 1152,
+      "p50": 0.0037164044967908927,
+      "p90": 0.013359705641769137,
+      "p99": 0.0189528640543124,
+      "max": 0.022211061717564706,
+      "understateP1": -0.0189528640543124,
+      "overstateP99": 0.01661127521497563
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 18,
+     "dClosedH": 96,
+     "L": 0.03,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.8948448320082072,
+     "returnsShareClosure": 0.9281037936085618,
+     "completesShareTrading": 0.8948448320082072,
+     "completesShareClosure": 0.9281037936085618,
+     "failures": {
+      "AnchorMissing: basis too wide": 2405,
+      "FallbackExpired": 410
+     },
+     "errorVsNextAnswer": {
+      "n": 1154,
+      "p50": 0.0037209324398596033,
+      "p90": 0.013359705641769137,
+      "p99": 0.0189528640543124,
+      "max": 0.022211061717564706,
+      "understateP1": -0.0189528640543124,
+      "overstateP99": 0.01661127521497563
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 24,
+     "dClosedH": 48,
+     "L": 0.01,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.9997435239805078,
+     "returnsShareClosure": 0.7168096618935159,
+     "completesShareTrading": 0.9997435239805078,
+     "completesShareClosure": 0.7168096618935159,
+     "failures": {
+      "FallbackExpired": 5126,
+      "AnchorMissing: basis too wide": 2405,
+      "MoveExceedsBound": 1943
+     },
+     "errorVsNextAnswer": {
+      "n": 936,
+      "p50": 0.003935745740826335,
+      "p90": 0.013230556294251627,
+      "p99": 0.016631891727115322,
+      "max": 0.017429631856176186,
+      "understateP1": -0.013009207384738208,
+      "overstateP99": 0.016631891727115322
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 24,
+     "dClosedH": 48,
+     "L": 0.02,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 1.0,
+     "returnsShareClosure": 0.7748647275118831,
+     "completesShareTrading": 1.0,
+     "completesShareClosure": 0.7748647275118831,
+     "failures": {
+      "FallbackExpired": 5126,
+      "AnchorMissing: basis too wide": 2405
+     },
+     "errorVsNextAnswer": {
+      "n": 1001,
+      "p50": 0.004051283462255917,
+      "p90": 0.013547165263734229,
+      "p99": 0.017404493299740253,
+      "max": 0.01975019360892105,
+      "understateP1": -0.01724111675054918,
+      "overstateP99": 0.016612666909490148
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 24,
+     "dClosedH": 48,
+     "L": 0.03,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 1.0,
+     "returnsShareClosure": 0.7748647275118831,
+     "completesShareTrading": 1.0,
+     "completesShareClosure": 0.7748647275118831,
+     "failures": {
+      "FallbackExpired": 5126,
+      "AnchorMissing: basis too wide": 2405
+     },
+     "errorVsNextAnswer": {
+      "n": 1001,
+      "p50": 0.004051283462255917,
+      "p90": 0.013547165263734229,
+      "p99": 0.017404493299740253,
+      "max": 0.01975019360892105,
+      "understateP1": -0.01724111675054918,
+      "overstateP99": 0.016612666909490148
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 24,
+     "dClosedH": 72,
+     "L": 0.01,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.9997435239805078,
+     "returnsShareClosure": 0.8308570745269199,
+     "completesShareTrading": 0.9997435239805078,
+     "completesShareClosure": 0.8308570745269199,
+     "failures": {
+      "MoveExceedsBound": 2879,
+      "AnchorMissing: basis too wide": 2405,
+      "FallbackExpired": 375
+     },
+     "errorVsNextAnswer": {
+      "n": 1059,
+      "p50": 0.003548704936685909,
+      "p90": 0.012948804537801006,
+      "p99": 0.016612666909490148,
+      "max": 0.017429631856176186,
+      "understateP1": -0.012950851997043156,
+      "overstateP99": 0.016612666909490148
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 24,
+     "dClosedH": 72,
+     "L": 0.02,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 1.0,
+     "returnsShareClosure": 0.9148605422857313,
+     "completesShareTrading": 1.0,
+     "completesShareClosure": 0.9148605422857313,
+     "failures": {
+      "AnchorMissing: basis too wide": 2405,
+      "FallbackExpired": 375,
+      "MoveExceedsBound": 68
+     },
+     "errorVsNextAnswer": {
+      "n": 1153,
+      "p50": 0.003765400640106664,
+      "p90": 0.013359705641769137,
+      "p99": 0.0189528640543124,
+      "max": 0.022211061717564706,
+      "understateP1": -0.0189528640543124,
+      "overstateP99": 0.01661127521497563
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 24,
+     "dClosedH": 72,
+     "L": 0.03,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 1.0,
+     "returnsShareClosure": 0.9168933664165496,
+     "completesShareTrading": 1.0,
+     "completesShareClosure": 0.9168933664165496,
+     "failures": {
+      "AnchorMissing: basis too wide": 2405,
+      "FallbackExpired": 375
+     },
+     "errorVsNextAnswer": {
+      "n": 1155,
+      "p50": 0.003769880883703891,
+      "p90": 0.013359705641769137,
+      "p99": 0.0189528640543124,
+      "max": 0.022211061717564706,
+      "understateP1": -0.0189528640543124,
+      "overstateP99": 0.01661127521497563
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 24,
+     "dClosedH": 96,
+     "L": 0.01,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.9997435239805078,
+     "returnsShareClosure": 0.8420675017189322,
+     "completesShareTrading": 0.9997435239805078,
+     "completesShareClosure": 0.8420675017189322,
+     "failures": {
+      "MoveExceedsBound": 2879,
+      "AnchorMissing: basis too wide": 2405
+     },
+     "errorVsNextAnswer": {
+      "n": 1072,
+      "p50": 0.00352830579330754,
+      "p90": 0.012948804537801006,
+      "p99": 0.016612666909490148,
+      "max": 0.017429631856176186,
+      "understateP1": -0.012950851997043156,
+      "overstateP99": 0.016612666909490148
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 24,
+     "dClosedH": 96,
+     "L": 0.02,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 1.0,
+     "returnsShareClosure": 0.9260709694777436,
+     "completesShareTrading": 1.0,
+     "completesShareClosure": 0.9260709694777436,
+     "failures": {
+      "AnchorMissing: basis too wide": 2405,
+      "MoveExceedsBound": 68
+     },
+     "errorVsNextAnswer": {
+      "n": 1166,
+      "p50": 0.0037209324398596033,
+      "p90": 0.013354044840596657,
+      "p99": 0.0189528640543124,
+      "max": 0.022211061717564706,
+      "understateP1": -0.0189528640543124,
+      "overstateP99": 0.01661127521497563
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 24,
+     "dClosedH": 96,
+     "L": 0.03,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 1.0,
+     "returnsShareClosure": 0.9281037936085618,
+     "completesShareTrading": 1.0,
+     "completesShareClosure": 0.9281037936085618,
+     "failures": {
+      "AnchorMissing: basis too wide": 2405
+     },
+     "errorVsNextAnswer": {
+      "n": 1168,
+      "p50": 0.003724107177705216,
+      "p90": 0.013354044840596657,
+      "p99": 0.0189528640543124,
+      "max": 0.022211061717564706,
+      "understateP1": -0.0189528640543124,
+      "overstateP99": 0.01661127521497563
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 36,
+     "dClosedH": 48,
+     "L": 0.01,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.9997435239805078,
+     "returnsShareClosure": 0.7168096618935159,
+     "completesShareTrading": 0.9997435239805078,
+     "completesShareClosure": 0.7168096618935159,
+     "failures": {
+      "FallbackExpired": 5126,
+      "AnchorMissing: basis too wide": 2405,
+      "MoveExceedsBound": 1943
+     },
+     "errorVsNextAnswer": {
+      "n": 936,
+      "p50": 0.003935745740826335,
+      "p90": 0.013230556294251627,
+      "p99": 0.016631891727115322,
+      "max": 0.017429631856176186,
+      "understateP1": -0.013009207384738208,
+      "overstateP99": 0.016631891727115322
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 36,
+     "dClosedH": 48,
+     "L": 0.02,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 1.0,
+     "returnsShareClosure": 0.7748647275118831,
+     "completesShareTrading": 1.0,
+     "completesShareClosure": 0.7748647275118831,
+     "failures": {
+      "FallbackExpired": 5126,
+      "AnchorMissing: basis too wide": 2405
+     },
+     "errorVsNextAnswer": {
+      "n": 1001,
+      "p50": 0.004051283462255917,
+      "p90": 0.013547165263734229,
+      "p99": 0.017404493299740253,
+      "max": 0.01975019360892105,
+      "understateP1": -0.01724111675054918,
+      "overstateP99": 0.016612666909490148
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 36,
+     "dClosedH": 48,
+     "L": 0.03,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 1.0,
+     "returnsShareClosure": 0.7748647275118831,
+     "completesShareTrading": 1.0,
+     "completesShareClosure": 0.7748647275118831,
+     "failures": {
+      "FallbackExpired": 5126,
+      "AnchorMissing: basis too wide": 2405
+     },
+     "errorVsNextAnswer": {
+      "n": 1001,
+      "p50": 0.004051283462255917,
+      "p90": 0.013547165263734229,
+      "p99": 0.017404493299740253,
+      "max": 0.01975019360892105,
+      "understateP1": -0.01724111675054918,
+      "overstateP99": 0.016612666909490148
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 36,
+     "dClosedH": 72,
+     "L": 0.01,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.9997435239805078,
+     "returnsShareClosure": 0.8308570745269199,
+     "completesShareTrading": 0.9997435239805078,
+     "completesShareClosure": 0.8308570745269199,
+     "failures": {
+      "MoveExceedsBound": 2879,
+      "AnchorMissing: basis too wide": 2405,
+      "FallbackExpired": 375
+     },
+     "errorVsNextAnswer": {
+      "n": 1059,
+      "p50": 0.003548704936685909,
+      "p90": 0.012948804537801006,
+      "p99": 0.016612666909490148,
+      "max": 0.017429631856176186,
+      "understateP1": -0.012950851997043156,
+      "overstateP99": 0.016612666909490148
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 36,
+     "dClosedH": 72,
+     "L": 0.02,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 1.0,
+     "returnsShareClosure": 0.9148605422857313,
+     "completesShareTrading": 1.0,
+     "completesShareClosure": 0.9148605422857313,
+     "failures": {
+      "AnchorMissing: basis too wide": 2405,
+      "FallbackExpired": 375,
+      "MoveExceedsBound": 68
+     },
+     "errorVsNextAnswer": {
+      "n": 1153,
+      "p50": 0.003765400640106664,
+      "p90": 0.013359705641769137,
+      "p99": 0.0189528640543124,
+      "max": 0.022211061717564706,
+      "understateP1": -0.0189528640543124,
+      "overstateP99": 0.01661127521497563
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 36,
+     "dClosedH": 72,
+     "L": 0.03,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 1.0,
+     "returnsShareClosure": 0.9168933664165496,
+     "completesShareTrading": 1.0,
+     "completesShareClosure": 0.9168933664165496,
+     "failures": {
+      "AnchorMissing: basis too wide": 2405,
+      "FallbackExpired": 375
+     },
+     "errorVsNextAnswer": {
+      "n": 1155,
+      "p50": 0.003769880883703891,
+      "p90": 0.013359705641769137,
+      "p99": 0.0189528640543124,
+      "max": 0.022211061717564706,
+      "understateP1": -0.0189528640543124,
+      "overstateP99": 0.01661127521497563
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 36,
+     "dClosedH": 96,
+     "L": 0.01,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.9997435239805078,
+     "returnsShareClosure": 0.8420675017189322,
+     "completesShareTrading": 0.9997435239805078,
+     "completesShareClosure": 0.8420675017189322,
+     "failures": {
+      "MoveExceedsBound": 2879,
+      "AnchorMissing: basis too wide": 2405
+     },
+     "errorVsNextAnswer": {
+      "n": 1072,
+      "p50": 0.00352830579330754,
+      "p90": 0.012948804537801006,
+      "p99": 0.016612666909490148,
+      "max": 0.017429631856176186,
+      "understateP1": -0.012950851997043156,
+      "overstateP99": 0.016612666909490148
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 36,
+     "dClosedH": 96,
+     "L": 0.02,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 1.0,
+     "returnsShareClosure": 0.9260709694777436,
+     "completesShareTrading": 1.0,
+     "completesShareClosure": 0.9260709694777436,
+     "failures": {
+      "AnchorMissing: basis too wide": 2405,
+      "MoveExceedsBound": 68
+     },
+     "errorVsNextAnswer": {
+      "n": 1166,
+      "p50": 0.0037209324398596033,
+      "p90": 0.013354044840596657,
+      "p99": 0.0189528640543124,
+      "max": 0.022211061717564706,
+      "understateP1": -0.0189528640543124,
+      "overstateP99": 0.01661127521497563
+     }
+    },
+    {
+     "clock": "since-open",
+     "dOpenH": 36,
+     "dClosedH": 96,
+     "L": 0.03,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 1.0,
+     "returnsShareClosure": 0.9281037936085618,
+     "completesShareTrading": 1.0,
+     "completesShareClosure": 0.9281037936085618,
+     "failures": {
+      "AnchorMissing: basis too wide": 2405
+     },
+     "errorVsNextAnswer": {
+      "n": 1168,
+      "p50": 0.003724107177705216,
+      "p90": 0.013354044840596657,
+      "p99": 0.0189528640543124,
+      "max": 0.022211061717564706,
+      "understateP1": -0.0189528640543124,
+      "overstateP99": 0.01661127521497563
+     }
+    }
+   ],
+   "sensitivityPokeAndBasis": [
+    {
+     "poke": "ideal",
+     "maxBasis": 0.005,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.8915106437548089,
+     "returnsShareClosure": 0.7695136169322292,
+     "completesShareTrading": 0.8915106437548089,
+     "completesShareClosure": 0.7695136169322292,
+     "failures": {
+      "AnchorMissing: basis too wide": 7444,
+      "FallbackExpired": 621,
+      "MoveExceedsBound": 68
+     },
+     "errorVsNextAnswer": {
+      "n": 972,
+      "p50": 0.004006293867111044,
+      "p90": 0.013811750984296323,
+      "p99": 0.019172842472567675,
+      "max": 0.022211061717564706,
+      "understateP1": -0.019172842472567675,
+      "overstateP99": 0.016631891727115322
+     },
+     "anchoredAnswerShare": 0.6925064599483204,
+     "notAnchoredReasons": {
+      "basis too wide": 227,
+      "superseded before the poke": 11
+     }
+    },
+    {
+     "poke": "ideal",
+     "maxBasis": 0.01,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.9369068992049243,
+     "returnsShareClosure": 0.9148605422857313,
+     "completesShareTrading": 0.9369068992049243,
+     "completesShareClosure": 0.9148605422857313,
+     "failures": {
+      "AnchorMissing: basis too wide": 2405,
+      "FallbackExpired": 621,
+      "MoveExceedsBound": 68
+     },
+     "errorVsNextAnswer": {
+      "n": 1139,
+      "p50": 0.003813480233301414,
+      "p90": 0.013542723096394038,
+      "p99": 0.0189528640543124,
+      "max": 0.022211061717564706,
+      "understateP1": -0.0189528640543124,
+      "overstateP99": 0.01661127521497563
+     },
+     "anchoredAnswerShare": 0.9302325581395349,
+     "notAnchoredReasons": {
+      "basis too wide": 43,
+      "superseded before the poke": 11
+     }
+    },
+    {
+     "poke": "ideal",
+     "maxBasis": 0.02,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.9369068992049243,
+     "returnsShareClosure": 0.9867567486771696,
+     "completesShareTrading": 0.9369068992049243,
+     "completesShareClosure": 0.9867567486771696,
+     "failures": {
+      "FallbackExpired": 621,
+      "MoveExceedsBound": 68
+     },
+     "errorVsNextAnswer": {
+      "n": 1219,
+      "p50": 0.0039378313959514966,
+      "p90": 0.013252719572073746,
+      "p99": 0.018844863017962954,
+      "max": 0.022211061717564706,
+      "understateP1": -0.018844863017962954,
+      "overstateP99": 0.01660180905003039
+     },
+     "anchoredAnswerShare": 0.9767441860465116,
+     "notAnchoredReasons": {
+      "basis too wide": 7,
+      "superseded before the poke": 11
+     }
+    },
+    {
+     "poke": "ideal",
+     "maxBasis": 0.04,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.9369068992049243,
+     "returnsShareClosure": 0.9867567486771696,
+     "completesShareTrading": 0.9369068992049243,
+     "completesShareClosure": 0.9867567486771696,
+     "failures": {
+      "FallbackExpired": 621,
+      "MoveExceedsBound": 68
+     },
+     "errorVsNextAnswer": {
+      "n": 1219,
+      "p50": 0.0039378313959514966,
+      "p90": 0.013252719572073746,
+      "p99": 0.018844863017962954,
+      "max": 0.022211061717564706,
+      "understateP1": -0.018844863017962954,
+      "overstateP99": 0.01660180905003039
+     },
+     "anchoredAnswerShare": 0.9844961240310077,
+     "notAnchoredReasons": {
+      "basis too wide": 1,
+      "superseded before the poke": 11
+     }
+    },
+    {
+     "poke": "keeper15m",
+     "maxBasis": 0.005,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.8915106437548089,
+     "returnsShareClosure": 0.7695136169322292,
+     "completesShareTrading": 0.8915106437548089,
+     "completesShareClosure": 0.7695136169322292,
+     "failures": {
+      "AnchorMissing: basis too wide": 7444,
+      "FallbackExpired": 621,
+      "MoveExceedsBound": 68
+     },
+     "errorVsNextAnswer": {
+      "n": 972,
+      "p50": 0.004006293867111044,
+      "p90": 0.013811750984296323,
+      "p99": 0.019172842472567675,
+      "max": 0.022211061717564706,
+      "understateP1": -0.019172842472567675,
+      "overstateP99": 0.016631891727115322
+     },
+     "anchoredAnswerShare": 0.6330749354005168,
+     "notAnchoredReasons": {
+      "basis too wide": 170,
+      "superseded before the poke": 114
+     }
+    },
+    {
+     "poke": "keeper15m",
+     "maxBasis": 0.01,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.9369068992049243,
+     "returnsShareClosure": 0.9148605422857313,
+     "completesShareTrading": 0.9369068992049243,
+     "completesShareClosure": 0.9148605422857313,
+     "failures": {
+      "AnchorMissing: basis too wide": 2405,
+      "FallbackExpired": 621,
+      "MoveExceedsBound": 68
+     },
+     "errorVsNextAnswer": {
+      "n": 1139,
+      "p50": 0.003813480233301414,
+      "p90": 0.013542723096394038,
+      "p99": 0.0189528640543124,
+      "max": 0.022211061717564706,
+      "understateP1": -0.0189528640543124,
+      "overstateP99": 0.01661127521497563
+     },
+     "anchoredAnswerShare": 0.8191214470284238,
+     "notAnchoredReasons": {
+      "basis too wide": 26,
+      "superseded before the poke": 114
+     }
+    },
+    {
+     "poke": "keeper15m",
+     "maxBasis": 0.02,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.9369068992049243,
+     "returnsShareClosure": 0.9867567486771696,
+     "completesShareTrading": 0.9369068992049243,
+     "completesShareClosure": 0.9867567486771696,
+     "failures": {
+      "FallbackExpired": 621,
+      "MoveExceedsBound": 68
+     },
+     "errorVsNextAnswer": {
+      "n": 1219,
+      "p50": 0.0039378313959514966,
+      "p90": 0.013252719572073746,
+      "p99": 0.018844863017962954,
+      "max": 0.022211061717564706,
+      "understateP1": -0.018844863017962954,
+      "overstateP99": 0.01660180905003039
+     },
+     "anchoredAnswerShare": 0.851421188630491,
+     "notAnchoredReasons": {
+      "basis too wide": 1,
+      "superseded before the poke": 114
+     }
+    },
+    {
+     "poke": "keeper15m",
+     "maxBasis": 0.04,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.9369068992049243,
+     "returnsShareClosure": 0.9867567486771696,
+     "completesShareTrading": 0.9369068992049243,
+     "completesShareClosure": 0.9867567486771696,
+     "failures": {
+      "FallbackExpired": 621,
+      "MoveExceedsBound": 68
+     },
+     "errorVsNextAnswer": {
+      "n": 1219,
+      "p50": 0.0039378313959514966,
+      "p90": 0.013252719572073746,
+      "p99": 0.018844863017962954,
+      "max": 0.022211061717564706,
+      "understateP1": -0.018844863017962954,
+      "overstateP99": 0.01660180905003039
+     },
+     "anchoredAnswerShare": 0.8527131782945736,
+     "notAnchoredReasons": {
+      "superseded before the poke": 114
+     }
+    },
+    {
+     "poke": "keeper1h",
+     "maxBasis": 0.005,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.8915106437548089,
+     "returnsShareClosure": 0.7695136169322292,
+     "completesShareTrading": 0.8915106437548089,
+     "completesShareClosure": 0.7695136169322292,
+     "failures": {
+      "AnchorMissing: basis too wide": 7444,
+      "FallbackExpired": 621,
+      "MoveExceedsBound": 68
+     },
+     "errorVsNextAnswer": {
+      "n": 972,
+      "p50": 0.004006293867111044,
+      "p90": 0.013811750984296323,
+      "p99": 0.019172842472567675,
+      "max": 0.022211061717564706,
+      "understateP1": -0.019172842472567675,
+      "overstateP99": 0.016631891727115322
+     },
+     "anchoredAnswerShare": 0.49870801033591733,
+     "notAnchoredReasons": {
+      "basis too wide": 102,
+      "superseded before the poke": 286
+     }
+    },
+    {
+     "poke": "keeper1h",
+     "maxBasis": 0.01,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.9369068992049243,
+     "returnsShareClosure": 0.9148605422857313,
+     "completesShareTrading": 0.9369068992049243,
+     "completesShareClosure": 0.9148605422857313,
+     "failures": {
+      "AnchorMissing: basis too wide": 2405,
+      "FallbackExpired": 621,
+      "MoveExceedsBound": 68
+     },
+     "errorVsNextAnswer": {
+      "n": 1139,
+      "p50": 0.003813480233301414,
+      "p90": 0.013542723096394038,
+      "p99": 0.0189528640543124,
+      "max": 0.022211061717564706,
+      "understateP1": -0.0189528640543124,
+      "overstateP99": 0.01661127521497563
+     },
+     "anchoredAnswerShare": 0.6149870801033591,
+     "notAnchoredReasons": {
+      "basis too wide": 12,
+      "superseded before the poke": 286
+     }
+    },
+    {
+     "poke": "keeper1h",
+     "maxBasis": 0.02,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.9369068992049243,
+     "returnsShareClosure": 0.9867567486771696,
+     "completesShareTrading": 0.9369068992049243,
+     "completesShareClosure": 0.9867567486771696,
+     "failures": {
+      "FallbackExpired": 621,
+      "MoveExceedsBound": 68
+     },
+     "errorVsNextAnswer": {
+      "n": 1219,
+      "p50": 0.0039378313959514966,
+      "p90": 0.013252719572073746,
+      "p99": 0.018844863017962954,
+      "max": 0.022211061717564706,
+      "understateP1": -0.018844863017962954,
+      "overstateP99": 0.01660180905003039
+     },
+     "anchoredAnswerShare": 0.6304909560723514,
+     "notAnchoredReasons": {
+      "superseded before the poke": 286
+     }
+    },
+    {
+     "poke": "keeper1h",
+     "maxBasis": 0.04,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.9369068992049243,
+     "returnsShareClosure": 0.9867567486771696,
+     "completesShareTrading": 0.9369068992049243,
+     "completesShareClosure": 0.9867567486771696,
+     "failures": {
+      "FallbackExpired": 621,
+      "MoveExceedsBound": 68
+     },
+     "errorVsNextAnswer": {
+      "n": 1219,
+      "p50": 0.0039378313959514966,
+      "p90": 0.013252719572073746,
+      "p99": 0.018844863017962954,
+      "max": 0.022211061717564706,
+      "understateP1": -0.018844863017962954,
+      "overstateP99": 0.01660180905003039
+     },
+     "anchoredAnswerShare": 0.6304909560723514,
+     "notAnchoredReasons": {
+      "superseded before the poke": 286
+     }
+    },
+    {
+     "poke": "keeper2h",
+     "maxBasis": 0.005,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.530392408309823,
+     "returnsShareClosure": 0.623210068458342,
+     "completesShareTrading": 0.530392408309823,
+     "completesShareClosure": 0.623210068458342,
+     "failures": {
+      "AnchorMissing: poke too late (maxPokeDelay)": 8938,
+      "AnchorMissing: basis too wide": 4809,
+      "FallbackExpired": 620,
+      "MoveExceedsBound": 68
+     },
+     "errorVsNextAnswer": {
+      "n": 764,
+      "p50": 0.003441701455172974,
+      "p90": 0.012746245161306513,
+      "p99": 0.01683107521774785,
+      "max": 0.017429631856176186,
+      "understateP1": -0.010765635127456874,
+      "overstateP99": 0.01683107521774785
+     },
+     "anchoredAnswerShare": 0.25452196382428943,
+     "notAnchoredReasons": {
+      "poke too late (maxPokeDelay)": 125,
+      "basis too wide": 52,
+      "superseded before the poke": 400
+     }
+    },
+    {
+     "poke": "keeper2h",
+     "maxBasis": 0.01,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.530392408309823,
+     "returnsShareClosure": 0.6950763803772683,
+     "completesShareTrading": 0.530392408309823,
+     "completesShareClosure": 0.6950763803772683,
+     "failures": {
+      "AnchorMissing: poke too late (maxPokeDelay)": 8938,
+      "AnchorMissing: basis too wide": 2405,
+      "FallbackExpired": 620,
+      "MoveExceedsBound": 68
+     },
+     "errorVsNextAnswer": {
+      "n": 844,
+      "p50": 0.003423304092283197,
+      "p90": 0.010964523595329068,
+      "p99": 0.01672144086384919,
+      "max": 0.017429631856176186,
+      "understateP1": -0.010487464868398244,
+      "overstateP99": 0.01672144086384919
+     },
+     "anchoredAnswerShare": 0.31136950904392763,
+     "notAnchoredReasons": {
+      "poke too late (maxPokeDelay)": 125,
+      "basis too wide": 8,
+      "superseded before the poke": 400
+     }
+    },
+    {
+     "poke": "keeper2h",
+     "maxBasis": 0.02,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.530392408309823,
+     "returnsShareClosure": 0.7669725867687065,
+     "completesShareTrading": 0.530392408309823,
+     "completesShareClosure": 0.7669725867687065,
+     "failures": {
+      "AnchorMissing: poke too late (maxPokeDelay)": 8938,
+      "FallbackExpired": 620,
+      "MoveExceedsBound": 68
+     },
+     "errorVsNextAnswer": {
+      "n": 924,
+      "p50": 0.003548704936685909,
+      "p90": 0.010580200646997717,
+      "p99": 0.016631891727115322,
+      "max": 0.017429631856176186,
+      "understateP1": -0.01027547344623303,
+      "overstateP99": 0.016631891727115322
+     },
+     "anchoredAnswerShare": 0.32170542635658916,
+     "notAnchoredReasons": {
+      "poke too late (maxPokeDelay)": 125,
+      "superseded before the poke": 400
+     }
+    },
+    {
+     "poke": "keeper2h",
+     "maxBasis": 0.04,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.530392408309823,
+     "returnsShareClosure": 0.7669725867687065,
+     "completesShareTrading": 0.530392408309823,
+     "completesShareClosure": 0.7669725867687065,
+     "failures": {
+      "AnchorMissing: poke too late (maxPokeDelay)": 8938,
+      "FallbackExpired": 620,
+      "MoveExceedsBound": 68
+     },
+     "errorVsNextAnswer": {
+      "n": 924,
+      "p50": 0.003548704936685909,
+      "p90": 0.010580200646997717,
+      "p99": 0.016631891727115322,
+      "max": 0.017429631856176186,
+      "understateP1": -0.01027547344623303,
+      "overstateP99": 0.016631891727115322
+     },
+     "anchoredAnswerShare": 0.32170542635658916,
+     "notAnchoredReasons": {
+      "poke too late (maxPokeDelay)": 125,
+      "superseded before the poke": 400
+     }
+    },
+    {
+     "poke": "miss10pct",
+     "maxBasis": 0.005,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.7563477814824314,
+     "returnsShareClosure": 0.7695136169322292,
+     "completesShareTrading": 0.7563477814824314,
+     "completesShareClosure": 0.7695136169322292,
+     "failures": {
+      "AnchorMissing: basis too wide": 7444,
+      "FallbackExpired": 621,
+      "AnchorMissing: missed poke": 527,
+      "MoveExceedsBound": 68
+     },
+     "errorVsNextAnswer": {
+      "n": 954,
+      "p50": 0.003935745740826335,
+      "p90": 0.013851158716389866,
+      "p99": 0.019172842472567675,
+      "max": 0.022211061717564706,
+      "understateP1": -0.019172842472567675,
+      "overstateP99": 0.016631891727115322
+     },
+     "anchoredAnswerShare": 0.6124031007751938,
+     "notAnchoredReasons": {
+      "missed poke": 86,
+      "basis too wide": 204,
+      "superseded before the poke": 10
+     }
+    },
+    {
+     "poke": "miss10pct",
+     "maxBasis": 0.01,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.8017440369325468,
+     "returnsShareClosure": 0.9148605422857313,
+     "completesShareTrading": 0.8017440369325468,
+     "completesShareClosure": 0.9148605422857313,
+     "failures": {
+      "AnchorMissing: basis too wide": 2405,
+      "FallbackExpired": 621,
+      "AnchorMissing: missed poke": 527,
+      "MoveExceedsBound": 68
+     },
+     "errorVsNextAnswer": {
+      "n": 1121,
+      "p50": 0.003724107177705216,
+      "p90": 0.013547165263734229,
+      "p99": 0.0189528640543124,
+      "max": 0.022211061717564706,
+      "understateP1": -0.0189528640543124,
+      "overstateP99": 0.01661127521497563
+     },
+     "anchoredAnswerShare": 0.8294573643410853,
+     "notAnchoredReasons": {
+      "missed poke": 86,
+      "basis too wide": 36,
+      "superseded before the poke": 10
+     }
+    },
+    {
+     "poke": "miss10pct",
+     "maxBasis": 0.02,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.8017440369325468,
+     "returnsShareClosure": 0.9867567486771696,
+     "completesShareTrading": 0.8017440369325468,
+     "completesShareClosure": 0.9867567486771696,
+     "failures": {
+      "FallbackExpired": 621,
+      "AnchorMissing: missed poke": 527,
+      "MoveExceedsBound": 68
+     },
+     "errorVsNextAnswer": {
+      "n": 1201,
+      "p50": 0.003889825061212715,
+      "p90": 0.013269738712052392,
+      "p99": 0.018844863017962954,
+      "max": 0.022211061717564706,
+      "understateP1": -0.018844863017962954,
+      "overstateP99": 0.01660180905003039
+     },
+     "anchoredAnswerShare": 0.8669250645994832,
+     "notAnchoredReasons": {
+      "missed poke": 86,
+      "basis too wide": 7,
+      "superseded before the poke": 10
+     }
+    },
+    {
+     "poke": "miss10pct",
+     "maxBasis": 0.04,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.8017440369325468,
+     "returnsShareClosure": 0.9867567486771696,
+     "completesShareTrading": 0.8017440369325468,
+     "completesShareClosure": 0.9867567486771696,
+     "failures": {
+      "FallbackExpired": 621,
+      "AnchorMissing: missed poke": 527,
+      "MoveExceedsBound": 68
+     },
+     "errorVsNextAnswer": {
+      "n": 1201,
+      "p50": 0.003889825061212715,
+      "p90": 0.013269738712052392,
+      "p99": 0.018844863017962954,
+      "max": 0.022211061717564706,
+      "understateP1": -0.018844863017962954,
+      "overstateP99": 0.01660180905003039
+     },
+     "anchoredAnswerShare": 0.8746770025839793,
+     "notAnchoredReasons": {
+      "missed poke": 86,
+      "basis too wide": 1,
+      "superseded before the poke": 10
+     }
+    },
+    {
+     "poke": "miss30pct",
+     "maxBasis": 0.005,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.4593485509104899,
+     "returnsShareClosure": 0.6172012794834235,
+     "completesShareTrading": 0.4593485509104899,
+     "completesShareClosure": 0.6172012794834235,
+     "failures": {
+      "AnchorMissing: missed poke": 11645,
+      "AnchorMissing: basis too wide": 2581,
+      "FallbackExpired": 619,
+      "MoveExceedsBound": 68
+     },
+     "errorVsNextAnswer": {
+      "n": 747,
+      "p50": 0.003965939455044087,
+      "p90": 0.01128541002950656,
+      "p99": 0.019542739989964586,
+      "max": 0.022211061717564706,
+      "understateP1": -0.019542739989964586,
+      "overstateP99": 0.013956425476020273
+     },
+     "anchoredAnswerShare": 0.4560723514211886,
+     "notAnchoredReasons": {
+      "missed poke": 262,
+      "basis too wide": 153,
+      "superseded before the poke": 6
+     }
+    },
+    {
+     "poke": "miss30pct",
+     "maxBasis": 0.01,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.5047448063606053,
+     "returnsShareClosure": 0.6890675914023497,
+     "completesShareTrading": 0.5047448063606053,
+     "completesShareClosure": 0.6890675914023497,
+     "failures": {
+      "AnchorMissing: missed poke": 11645,
+      "FallbackExpired": 619,
+      "MoveExceedsBound": 68
+     },
+     "errorVsNextAnswer": {
+      "n": 833,
+      "p50": 0.003918769127699284,
+      "p90": 0.010911308946562892,
+      "p99": 0.019530112205829786,
+      "max": 0.022211061717564706,
+      "understateP1": -0.019530112205829786,
+      "overstateP99": 0.013954045829905892
+     },
+     "anchoredAnswerShare": 0.624031007751938,
+     "notAnchoredReasons": {
+      "missed poke": 262,
+      "basis too wide": 23,
+      "superseded before the poke": 6
+     }
+    },
+    {
+     "poke": "miss30pct",
+     "maxBasis": 0.02,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.5047448063606053,
+     "returnsShareClosure": 0.6890675914023497,
+     "completesShareTrading": 0.5047448063606053,
+     "completesShareClosure": 0.6890675914023497,
+     "failures": {
+      "AnchorMissing: missed poke": 11645,
+      "FallbackExpired": 619,
+      "MoveExceedsBound": 68
+     },
+     "errorVsNextAnswer": {
+      "n": 833,
+      "p50": 0.003918769127699284,
+      "p90": 0.010911308946562892,
+      "p99": 0.019530112205829786,
+      "max": 0.022211061717564706,
+      "understateP1": -0.019530112205829786,
+      "overstateP99": 0.013954045829905892
+     },
+     "anchoredAnswerShare": 0.648578811369509,
+     "notAnchoredReasons": {
+      "missed poke": 262,
+      "basis too wide": 4,
+      "superseded before the poke": 6
+     }
+    },
+    {
+     "poke": "miss30pct",
+     "maxBasis": 0.04,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.5047448063606053,
+     "returnsShareClosure": 0.6890675914023497,
+     "completesShareTrading": 0.5047448063606053,
+     "completesShareClosure": 0.6890675914023497,
+     "failures": {
+      "AnchorMissing: missed poke": 11645,
+      "FallbackExpired": 619,
+      "MoveExceedsBound": 68
+     },
+     "errorVsNextAnswer": {
+      "n": 833,
+      "p50": 0.003918769127699284,
+      "p90": 0.010911308946562892,
+      "p99": 0.019530112205829786,
+      "max": 0.022211061717564706,
+      "understateP1": -0.019530112205829786,
+      "overstateP99": 0.013954045829905892
+     },
+     "anchoredAnswerShare": 0.6524547803617571,
+     "notAnchoredReasons": {
+      "missed poke": 262,
+      "basis too wide": 1,
+      "superseded before the poke": 6
+     }
+    }
+   ],
+   "sensitivityRemovalBoundModeWindow": [
+    {
+     "removalBound": 0.01,
+     "mode": "anchored",
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.9369068992049243,
+     "returnsShareClosure": 0.9148605422857313,
+     "completesShareTrading": 0.9369068992049243,
+     "completesShareClosure": 0.9145615975606111,
+     "failures": {
+      "AnchorMissing: basis too wide": 2405,
+      "FallbackExpired": 621,
+      "MoveExceedsBound": 68,
+      "removal guard rejects (pool spot vs returned price)": 10
+     },
+     "errorVsNextAnswer": {
+      "n": 1139,
+      "p50": 0.003813480233301414,
+      "p90": 0.013542723096394038,
+      "p99": 0.0189528640543124,
+      "max": 0.022211061717564706,
+      "understateP1": -0.0189528640543124,
+      "overstateP99": 0.01661127521497563
+     }
+    },
+    {
+     "removalBound": 0.01,
+     "mode": "hold",
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.9369068992049243,
+     "returnsShareClosure": 0.9148605422857313,
+     "completesShareTrading": 0.9369068992049243,
+     "completesShareClosure": 0.8312158081970643,
+     "failures": {
+      "removal guard rejects (pool spot vs returned price)": 2798,
+      "AnchorMissing: basis too wide": 2405,
+      "FallbackExpired": 621,
+      "MoveExceedsBound": 68
+     },
+     "errorVsNextAnswer": {
+      "n": 1139,
+      "p50": 0.0036530619200747516,
+      "p90": 0.011283757152163343,
+      "p99": 0.011600874669121741,
+      "max": 0.011600874669121741,
+      "understateP1": -0.011600874669121741,
+      "overstateP99": 0.011283757152163343
+     }
+    },
+    {
+     "removalBound": 0.03,
+     "mode": "anchored",
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.9369068992049243,
+     "returnsShareClosure": 0.9148605422857313,
+     "completesShareTrading": 0.9369068992049243,
+     "completesShareClosure": 0.9148605422857313,
+     "failures": {
+      "AnchorMissing: basis too wide": 2405,
+      "FallbackExpired": 621,
+      "MoveExceedsBound": 68
+     },
+     "errorVsNextAnswer": {
+      "n": 1139,
+      "p50": 0.003813480233301414,
+      "p90": 0.013542723096394038,
+      "p99": 0.0189528640543124,
+      "max": 0.022211061717564706,
+      "understateP1": -0.0189528640543124,
+      "overstateP99": 0.01661127521497563
+     }
+    },
+    {
+     "removalBound": 0.03,
+     "mode": "hold",
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.9369068992049243,
+     "returnsShareClosure": 0.9148605422857313,
+     "completesShareTrading": 0.9369068992049243,
+     "completesShareClosure": 0.9148605422857313,
+     "failures": {
+      "AnchorMissing: basis too wide": 2405,
+      "FallbackExpired": 621,
+      "MoveExceedsBound": 68
+     },
+     "errorVsNextAnswer": {
+      "n": 1139,
+      "p50": 0.0036530619200747516,
+      "p90": 0.011283757152163343,
+      "p99": 0.011600874669121741,
+      "max": 0.011600874669121741,
+      "understateP1": -0.011600874669121741,
+      "overstateP99": 0.011283757152163343
+     }
+    },
+    {
+     "removalBound": 0.06,
+     "mode": "anchored",
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.9369068992049243,
+     "returnsShareClosure": 0.9148605422857313,
+     "completesShareTrading": 0.9369068992049243,
+     "completesShareClosure": 0.9148605422857313,
+     "failures": {
+      "AnchorMissing: basis too wide": 2405,
+      "FallbackExpired": 621,
+      "MoveExceedsBound": 68
+     },
+     "errorVsNextAnswer": {
+      "n": 1139,
+      "p50": 0.003813480233301414,
+      "p90": 0.013542723096394038,
+      "p99": 0.0189528640543124,
+      "max": 0.022211061717564706,
+      "understateP1": -0.0189528640543124,
+      "overstateP99": 0.01661127521497563
+     }
+    },
+    {
+     "removalBound": 0.06,
+     "mode": "hold",
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.9369068992049243,
+     "returnsShareClosure": 0.9148605422857313,
+     "completesShareTrading": 0.9369068992049243,
+     "completesShareClosure": 0.9148605422857313,
+     "failures": {
+      "AnchorMissing: basis too wide": 2405,
+      "FallbackExpired": 621,
+      "MoveExceedsBound": 68
+     },
+     "errorVsNextAnswer": {
+      "n": 1139,
+      "p50": 0.0036530619200747516,
+      "p90": 0.011283757152163343,
+      "p99": 0.011600874669121741,
+      "max": 0.011600874669121741,
+      "understateP1": -0.011600874669121741,
+      "overstateP99": 0.011283757152163343
+     }
+    },
+    {
+     "window": 3600,
+     "staleMinutes": 37350,
+     "tradingStale": 3899,
+     "closureStale": 33451,
+     "returnsShareTrading": 0.9369068992049243,
+     "returnsShareClosure": 0.916355265911333,
+     "completesShareTrading": 0.9369068992049243,
+     "completesShareClosure": 0.916355265911333,
+     "failures": {
+      "AnchorMissing: basis too wide": 2405,
+      "FallbackExpired": 621,
+      "MoveExceedsBound": 18
+     },
+     "errorVsNextAnswer": {
+      "n": 1140,
+      "p50": 0.004262545382512251,
+      "p90": 0.013217565484432203,
+      "p99": 0.020376428486169273,
+      "max": 0.02342958225520353,
+      "understateP1": -0.020376428486169273,
+      "overstateP99": 0.01670074948400102
+     }
+    }
+   ],
+   "reference": {
+    "config": {
+     "W": 1800,
+     "d_open": 86400,
+     "d_closed": 259200,
+     "L": 0.02,
+     "R": 0.06,
+     "clock": "as-written",
+     "mode": "anchored"
+    },
+    "staleMinutes": 37350,
+    "tradingStale": 3899,
+    "closureStale": 33451,
+    "returnsShareTrading": 0.9369068992049243,
+    "returnsShareClosure": 0.9148605422857313,
+    "completesShareTrading": 0.9369068992049243,
+    "completesShareClosure": 0.9148605422857313,
+    "failures": {
+     "AnchorMissing: basis too wide": 2405,
+     "FallbackExpired": 621,
+     "MoveExceedsBound": 68
+    },
+    "errorVsNextAnswer": {
+     "n": 1139,
+     "p50": 0.003813480233301414,
+     "p90": 0.013542723096394038,
+     "p99": 0.0189528640543124,
+     "max": 0.022211061717564706,
+     "understateP1": -0.0189528640543124,
+     "overstateP99": 0.01661127521497563
+    },
+    "multiplierStepLossShare": 0.01396507181223728
+   }
+  }
+ }
+}

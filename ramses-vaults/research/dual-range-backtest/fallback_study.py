@@ -26,7 +26,8 @@ import engine as E
 from evidence_lib import session_of
 
 BOUND = 12 * 3600
-WINDOWS = {"5m": 300, "15m": 900, "1h": 3600}
+WINDOWS = {"5m": 300, "15m": 900, "30m": 1800, "1h": 3600}
+POLICY_WINDOW = 1800   # the TWAP window the executable prototype and every test configure (30 min); 5m/15m/1h are sensitivity
 GAP_BUCKETS = [(0, 3600, "<1h"), (3600, 6 * 3600, "1-6h"), (6 * 3600, 12 * 3600, "6-12h"), (12 * 3600, 24 * 3600, "12-24h"), (24 * 3600, 48 * 3600, "24-48h"), (48 * 3600, 10 ** 9, ">48h")]
 
 
@@ -123,7 +124,7 @@ def study(pair, feed):
     cnt = {(rn, d, l): {s: 0 for s in stale} for rn in rules for d in d_grid for l in l_grid}
     errs_by_policy = {(rn, d, l): [] for rn in rules for d in d_grid for l in l_grid}
     t = ts_f[idx[0]] + BOUND
-    W = 3600
+    W = POLICY_WINDOW
     while t <= t_hi:
         i = bisect.bisect_right(ts_f, t) - 1
         age = t - ts_f[i]
@@ -191,9 +192,9 @@ def main():
         r = res["pairs"][pair]
         print(pair, "stale minutes", r["staleMinutes"])
         for w in ("regular", "overnight", "weekend"):
-            b = r["basisPoolTwapVsFeedAtFeedUpdate"]["1h"].get(w)
+            b = r["basisPoolTwapVsFeedAtFeedUpdate"]["30m"].get(w)
             if b:
-                print(f"   basis 1h TWAP vs feed at update, {w}: n={b['n']} p50 {100 * b['p50']:.3f}% p90 {100 * b['p90']:.3f}% p99 {100 * b['p99']:.3f}% max {100 * b['max']:.3f}%")
+                print(f"   basis 30m TWAP vs feed at update, {w}: n={b['n']} p50 {100 * b['p50']:.3f}% p90 {100 * b['p90']:.3f}% p99 {100 * b['p99']:.3f}% max {100 * b['max']:.3f}%")
     res["multiplierCheckSPY"] = multiplier_check("SPY", answers["SPY"], 1.001717991187472003)
     mc = res["multiplierCheckSPY"]
     print("SPY multiplier check: mean basis %.3f%% (se %.3f%%); sigmas away: " % (100 * mc["meanBasis"], 100 * mc["standardError"]),
