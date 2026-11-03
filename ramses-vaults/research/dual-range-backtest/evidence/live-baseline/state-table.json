@@ -1,0 +1,238 @@
+{
+ "pin": {
+  "l2": 104960794,
+  "hash": "0x93a7902a1157a63fa58e4f59a9ee8b36a9d2205f96b1a7d4ce2d351db6b71772",
+  "timestamp": 1793698933,
+  "timestampUtc": "2026-11-03T09:42:13Z",
+  "l1BlockNumber_native": 26333444,
+  "headAtStart": 104960796
+ },
+ "nvda_usd_oracle": 204.5234154,
+ "feed": {
+  "answer_usd": 204.5234154,
+  "updatedAt": 1793696700,
+  "age_sec_at_pin": 2233,
+  "age_h": 0.6202777777777778
+ },
+ "position": {
+  "tokenId": 4148743,
+  "tickLower": 220800,
+  "tickUpper": 225660,
+  "poolTick": 223113,
+  "inRange": true,
+  "liquidity": 3903269750948,
+  "poolActiveLiquidity": 287233934493292325,
+  "shareOfActivePoolLiquidity_pct": 0.0013589166467512744,
+  "atPoolSpot": {
+   "NVDA": 0.029811245821325175,
+   "USDG": 6.67357,
+   "USD": 12.770667812706403
+  },
+  "atOracleRef": {
+   "NVDA": 0.029825246444182364,
+   "USDG": 6.670707,
+   "USD": 12.770668267910882
+  },
+  "poolPriceNVDAinUSDG": 204.554942,
+  "oraclePriceNVDAinUSDG": 204.5234154,
+  "poolVsOracle_bps": 1.5414665327351251
+ },
+ "vault_ledger": {
+  "stockPrincipal": 21137493913601450,
+  "usdgPrincipal": 14422567,
+  "stockIdle": 29622914273741852,
+  "usdgIdle": 0,
+  "cumulativeLossUSDG": 0.5462359851483676,
+  "lastCheckpoint": 1793696629,
+  "lastCheckpointAgeSec": 2304,
+  "principal_USD(benchmark at oracle)": 18.74567944820648,
+  "assets_at_oracleRef": {
+   "NVDA": 0.05944816071792421,
+   "USDG": 6.670707,
+   "USD": 18.829247869277978
+  },
+  "gross_minus_benchmark_USD": 0.08356842107149731,
+  "native_surplus_NVDA(assets-principal)": 0.03831066680432277,
+  "native_shortfall_USDG(principal-assets)": 7.75186,
+  "idle_NVDA_above_principal": 0.008485420360140402,
+  "vault_token_balances": {
+   "NVDA": 29622914273741852,
+   "USDG": 0
+  }
+ },
+ "pNVDA": {
+  "totalSupply_pTokens": 172300825,
+  "exchangeRateStored": 198853415317349043453506389,
+  "exchangeRate_vs_initial_pct": -0.5732923413254931,
+  "NAV_underlying": 0.034262607513246876,
+  "NAV_USD": 7.007505509118952,
+  "getCash": 0.03424799265673036,
+  "localBalance": 0.013110498743128914,
+  "vaultAccounted": 0.02113749391360145,
+  "vaultWithdrawable_now": 0.02113749391360145,
+  "totalBorrows": 1.461540419669e-05,
+  "totalBorrows_accrued_to_pin2(eth_call sim)": 1.4636068530963e-05,
+  "totalReserves": 5.47680177e-10,
+  "utilisation_cashModel_pct": 0.04265701082744294,
+  "supplyAPR_pct(rate*2628000)": 0.0007698731256,
+  "borrowAPR_pct(rate*2628000)": 2.0053321263,
+  "supplyAPY_pct_compound_per_blockModel": 0.0007698583428306094,
+  "reserveFactor": 0.1,
+  "accrualBlockNumber": 26148189,
+  "nativeBlocksSinceLastAccrual": 185255,
+  "instantlyRedeemable_underlying(local+withdrawable)": 0.03424799265673036
+ },
+ "pUSDG": {
+  "totalSupply_pTokens": 147628790621,
+  "exchangeRateStored": 197640174909416,
+  "exchangeRate_vs_initial_pct": -1.1799125452919945,
+  "NAV_underlying": 29.17738,
+  "NAV_USD": 29.17738,
+  "getCash": 12.818702,
+  "localBalance": 12.818702,
+  "vaultAccounted": 14.422567,
+  "vaultWithdrawable_now": 0.0,
+  "totalBorrows": 1.936152,
+  "totalBorrows_accrued_to_pin2(eth_call sim)": 1.941121,
+  "totalReserves": 4.1e-05,
+  "utilisation_cashModel_pct": 13.122172405709241,
+  "supplyAPR_pct(rate*2628000)": 0.4299144377436,
+  "borrowAPR_pct(rate*2628000)": 3.6402715505808,
+  "supplyAPY_pct_compound_per_blockModel": 0.4308398823204662,
+  "reserveFactor": 0.1,
+  "accrualBlockNumber": 26148189,
+  "nativeBlocksSinceLastAccrual": 185255,
+  "instantlyRedeemable_underlying(local+withdrawable)": 12.818702
+ },
+ "TVL_USD": 36.18488550911895,
+ "vault_principal_share_of_TVL_pct": 51.80527500489779,
+ "reserve": {
+  "NVDA": 0.00028661791765494,
+  "USDG": 0.017193,
+  "USD": 0.07581307543362428,
+  "config": {
+   "stockToken": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
+   "usdg": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "maxUsePerTxUSDG": 10000000000000000000,
+   "dailyCapUSDG": 25000000000000000000,
+   "maxCoverageBps": 5000,
+   "paused": 0,
+   "exists": 1
+  }
+ },
+ "accounts": [
+  {
+   "account": "0x062a4ed42f2b8204eac6ccf24f46c9fd1535d932",
+   "isolatedMargin": true,
+   "debt_NVDA_raw_current": 0,
+   "debt_USDG_raw_current": 0,
+   "debt_USD": 0.0,
+   "collateral_pNVDA_USD": 0.0,
+   "collateral_pUSDG_USD": 0.0,
+   "controller_getAccountLiquidity": [
+    0,
+    0,
+    0
+   ],
+   "controller_liquidity_USD": 0.0,
+   "controller_shortfall_USD": 0.0
+  },
+  {
+   "account": "0x12c1e2c33f63f897e0e4ac1969c29493136f2481",
+   "isolatedMargin": false,
+   "debt_NVDA_raw_current": 14636068530963,
+   "debt_USDG_raw_current": 5979,
+   "debt_USD": 0.008972418723981013,
+   "collateral_pNVDA_USD": 0.0,
+   "collateral_pUSDG_USD": 0.011190331364122159,
+   "controller_getAccountLiquidity": [
+    0,
+    72707539150,
+    0
+   ],
+   "controller_liquidity_USD": 7.270753915e-08,
+   "controller_shortfall_USD": 0.0
+  },
+  {
+   "account": "0x4a0e01f9d41414f8e15eee188d7b184fc5a97571",
+   "isolatedMargin": true,
+   "debt_NVDA_raw_current": 0,
+   "debt_USDG_raw_current": 962587,
+   "debt_USD": 0.962587,
+   "collateral_pNVDA_USD": 1.6732591203325025,
+   "collateral_pUSDG_USD": 0.0,
+   "controller_getAccountLiquidity": [
+    0,
+    0,
+    960123000000000000
+   ],
+   "controller_liquidity_USD": 0.0,
+   "controller_shortfall_USD": 0.960123
+  },
+  {
+   "account": "0x4fe6a2daff417572675a5173a25d167dff02981d",
+   "isolatedMargin": true,
+   "debt_NVDA_raw_current": 0,
+   "debt_USDG_raw_current": 0,
+   "debt_USD": 0.0,
+   "collateral_pNVDA_USD": 0.0,
+   "collateral_pUSDG_USD": 0.0,
+   "controller_getAccountLiquidity": [
+    0,
+    0,
+    0
+   ],
+   "controller_liquidity_USD": 0.0,
+   "controller_shortfall_USD": 0.0
+  },
+  {
+   "account": "0x7f082ffd0ee3460aee9a22d8fe0e9d33efcd4945",
+   "isolatedMargin": true,
+   "debt_NVDA_raw_current": 0,
+   "debt_USDG_raw_current": 972555,
+   "debt_USD": 0.972555,
+   "collateral_pNVDA_USD": 1.2672284223205597,
+   "collateral_pUSDG_USD": 0.0,
+   "controller_getAccountLiquidity": [
+    0,
+    0,
+    970065000000000000
+   ],
+   "controller_liquidity_USD": 0.0,
+   "controller_shortfall_USD": 0.970065
+  },
+  {
+   "account": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+   "isolatedMargin": false,
+   "debt_NVDA_raw_current": 0,
+   "debt_USDG_raw_current": 0,
+   "debt_USD": 0.0,
+   "collateral_pNVDA_USD": 4.06701796646589,
+   "collateral_pUSDG_USD": 6.585085666029473,
+   "controller_getAccountLiquidity": [
+    0,
+    5268068532823551645,
+    0
+   ],
+   "controller_liquidity_USD": 5.268068532823552,
+   "controller_shortfall_USD": 0.0
+  },
+  {
+   "account": "0xa1a7a0f0c270fd9229ff7a2e6a67b0c2eb67d45b",
+   "isolatedMargin": true,
+   "debt_NVDA_raw_current": 0,
+   "debt_USDG_raw_current": 0,
+   "debt_USD": 0.0,
+   "collateral_pNVDA_USD": 0.0,
+   "collateral_pUSDG_USD": 0.0,
+   "controller_getAccountLiquidity": [
+    0,
+    0,
+    0
+   ],
+   "controller_liquidity_USD": 0.0,
+   "controller_shortfall_USD": 0.0
+  }
+ ],
+ "total_debt_USD": 1.944114418723981
+}

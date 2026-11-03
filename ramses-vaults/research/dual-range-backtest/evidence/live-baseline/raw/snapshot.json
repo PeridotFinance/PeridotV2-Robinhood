@@ -1,0 +1,437 @@
+{
+ "pin": {
+  "l2": 104960794,
+  "hash": "0x93a7902a1157a63fa58e4f59a9ee8b36a9d2205f96b1a7d4ce2d351db6b71772",
+  "timestamp": 1793698933,
+  "timestampUtc": "2026-11-03T09:42:13Z",
+  "l1BlockNumber_native": 26333444,
+  "headAtStart": 104960796
+ },
+ "code": {
+  "vault": {
+   "address": "0x280825b2d856706Ff7E0d6351CcB2e935E1a9A2f",
+   "bytes": 793,
+   "keccak": "0x2db4b3c2423e7f3a92b50b1fb59a50d3226408d821108cb64347f41f510551b6"
+  },
+  "adapter": {
+   "address": "0xadA73211711e4790bc83B5d6B39f47fE04D276f3",
+   "bytes": 793,
+   "keccak": "0x8c602cb360a61e711f16e1ed4aa32625aa7b4bc6370cec6da371d2c174c16031"
+  },
+  "guard": {
+   "address": "0xaE4D4DdB8dD646951d54fE9B13BE23DcB61C6741",
+   "bytes": 793,
+   "keccak": "0xf6324a2a18fce8c0df8fc5b6c980b0d1d439f2d42257efa2e3debda1b7d68faa"
+  },
+  "reserve": {
+   "address": "0x806b182B050f7EcF908758dD6bBF91DB8B2212aF",
+   "bytes": 793,
+   "keccak": "0x9f97af43cd9977fc163eb8ff7c52216a37028d90c6c0b769a94396fe46a80042"
+  },
+  "pNVDA": {
+   "address": "0xa155cccb986774ae818b3f10f07d01d1b7a47b26",
+   "bytes": 6266,
+   "keccak": "0x2445f919df8faee16ae63d0bc1f80d4184ecec233a5d3e9a750824435576a481"
+  },
+  "pUSDG": {
+   "address": "0x55aed0569c8f0d166d71face57b57c2f2624a563",
+   "bytes": 6266,
+   "keccak": "0x2445f919df8faee16ae63d0bc1f80d4184ecec233a5d3e9a750824435576a481"
+  },
+  "comptroller": {
+   "address": "0x6148183676e304dbe63a85c350c208da3ceac39c",
+   "bytes": 1474,
+   "keccak": "0x802476a6ae51aeb614446cedcb1d246a920411c73061f425ce9b130a89ef3d82"
+  },
+  "oracleOld": {
+   "address": "0x266f014d1325774f1190f963df4369e07dda1d33",
+   "bytes": 3928,
+   "keccak": "0x64e81ef31ff3f7575060ae3a8eb145a9aa4aec41145a988ee40a113f2dc7bcba"
+  },
+  "lendingPriceAdapter": {
+   "address": "0xe4e03c2fdaef915ace705d106b2660b1e342a2e4",
+   "bytes": 1471,
+   "keccak": "0x8a44437ef2c35e187c49f54aa92fcc3c51c3a30c1dc795cc713f610eaf353404"
+  },
+  "timelock": {
+   "address": "0x6797FB8Ce049B42C5BC2b42Bf76c6d15C7B12498",
+   "bytes": 5450,
+   "keccak": "0x4135cfbc0feefcb8eb655f35dbb5be07e94f73c6974112c81e4c9d2b47fee3c8"
+  },
+  "settlementLib": {
+   "address": "0x813AbFeC0DE50f8674798CbaB72Ed7b5D8CcB9cB",
+   "bytes": 4730,
+   "keccak": "0x2db5ef48328c828e38fe4e523a7191c4321f0eb501641c65380313097826724d"
+  },
+  "NVDA": {
+   "address": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
+   "bytes": 283,
+   "keccak": "0x6c1fdd40002dcb440c7fff6a84171404d279ccb057803b65826f7546acd65630"
+  },
+  "USDG": {
+   "address": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "bytes": 170,
+   "keccak": "0x864cc9ad53b338b82da1f7cab85ab0b3d5c8861acb422b6fec63cf36234f36a6"
+  },
+  "feedProxy": {
+   "address": "0x379EC4f7C378F34a1B47E4F3cbeBCbAC3E8E9F15",
+   "bytes": 9571,
+   "keccak": "0xbd6f524cdc4268b6bd1bb6f77a8821faeea9c52ee9e0afa0b6d948ce82c966c2"
+  }
+ },
+ "proxySlots": {
+  "vault": {
+   "impl": "0x53a23ef7a5639f237625ff7c89ff9e9ecf1dd18a",
+   "admin": "0xad2165e6f3b8146d17815968470edb8b9a0a4ab7"
+  },
+  "adapter": {
+   "impl": "0xb24ba4dd6d1436e2d2eb2cd054b07931c8bdd456",
+   "admin": "0x5a345842e3304ee97360de1c61699ba0efea906b"
+  },
+  "guard": {
+   "impl": "0x027098b6fe575b39958519da0a970cb2116d3b0e",
+   "admin": "0x7300f5ae32e9ee8de9221179ae4234a4aef53ad1"
+  },
+  "reserve": {
+   "impl": "0xa37ef5f1bf20863cb256158fe3e5e07768f43227",
+   "admin": "0xcc17491336cfc4dedc0052c57111b341e11be042"
+  },
+  "pNVDA": {
+   "implementation": "0x0c6f6962d80390f6104f80811a150e8233bd8ff1"
+  },
+  "pUSDG": {
+   "implementation": "0x0c6f6962d80390f6104f80811a150e8233bd8ff1"
+  },
+  "comptroller": {
+   "impl": "0x7c4c7431aa8e5165fb82815dfff1a9fb9871b276"
+  }
+ },
+ "vault": {
+  "pairConfig": {
+   "stockToken": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
+   "usdg": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "stockAccount": "0xa155cccb986774ae818b3f10f07d01d1b7a47b26",
+   "usdgAccount": "0x55aed0569c8f0d166d71face57b57c2f2624a563",
+   "maxPairValueUSDG": 1000000000000000000000,
+   "maxSettlementSwapUSDG": 25000000000000000000,
+   "maxCheckpointAge": 3600,
+   "deprecatedMinDeadlineDelay": 0,
+   "maxDeadlineDelay": 300,
+   "reserveFeeBps": 2000,
+   "maxSwapSlippageBps": 100,
+   "withdrawOverUnwindBps": 200,
+   "stockDecimals": 18,
+   "usdgDecimals": 6,
+   "allocationPaused": false,
+   "swapsPaused": true,
+   "emergencyMode": false,
+   "exists": true
+  },
+  "ledger": {
+   "stockPrincipal": 21137493913601450,
+   "usdgPrincipal": 14422567,
+   "stockIdle": 29622914273741852,
+   "usdgIdle": 0,
+   "cumulativeLossUSDG": 546235985148367630,
+   "lastCheckpoint": 1793696629,
+   "lastCheckpointAgeSec": 2304
+  },
+  "rangePolicy": {
+   "enabled": 1,
+   "halfWidthTicks": 2400,
+   "triggerTicks": 600,
+   "minIntervalSeconds": 3600,
+   "maxPerDay": 4,
+   "maxLossBps": 10,
+   "maxRangedValueUsdE18": 50000000000000000000
+  },
+  "rangeState": {
+   "raw": [
+    223219,
+    1,
+    1793651664,
+    4
+   ],
+   "centerTick": 223219,
+   "initialized": 1,
+   "lastRecenter": 1793651664,
+   "head": 4
+  },
+  "aggregateUsdgPrincipal": 14422567,
+  "aggregateUsdgDepositCap": 1000000000000000000000,
+  "accountedAssets_stock": 21137493913601450,
+  "liquidAssets_stock": 29622914273741852,
+  "withdrawableAssets_stock": 21137493913601450,
+  "accountedAssets_usdg": 14422567,
+  "liquidAssets_usdg": 0,
+  "withdrawableAssets_usdg": 0,
+  "totalPairAssets_poolPriced": {
+   "stock": 59434160095067029,
+   "usdg": 6673570
+  },
+  "oracleGuard": "0xae4d4ddb8dd646951d54fe9b13be23dcb61c6741",
+  "lossReserve": "0x806b182b050f7ecf908758dd6bbf91db8b2212af",
+  "liquidityAdapter": "0xada73211711e4790bc83b5d6b39f47fe04d276f3"
+ },
+ "balances": {
+  "vault": {
+   "NVDA": 29622914273741852,
+   "USDG": 0
+  },
+  "adapter": {
+   "NVDA": 0,
+   "USDG": 0
+  },
+  "reserve": {
+   "NVDA": 286617917654940,
+   "USDG": 17193
+  },
+  "pNVDA": {
+   "NVDA": 13110498743128914,
+   "USDG": 0
+  },
+  "pUSDG": {
+   "NVDA": 0,
+   "USDG": 12818702
+  },
+  "timelock": {
+   "NVDA": 0,
+   "USDG": 0
+  }
+ },
+ "adapter": {
+  "positionState": {
+   "tokenId": 4148743,
+   "liquidity": 3903269750948,
+   "stockAmount": 29811245821325177,
+   "usdgAmount": 6673570
+  },
+  "positionTicks": {
+   "tickLower": 220800,
+   "tickUpper": 225660,
+   "ranged": true
+  },
+  "poolKey": {
+   "currency0": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "currency1": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
+   "fee": 3000,
+   "tickSpacing": 60,
+   "hooks": "0x0000000000000000000000000000000000000000"
+  },
+  "poolId": "0x3bb34a44f1b2b5f32c034c38a53065a521a47b199700fa9bd19d60985ff24bf1",
+  "removalToleranceBps": 400,
+  "pool": {
+   "poolManager": "0x8366a39cc670b4001a1121b8f6a443a643e40951",
+   "sqrtPriceX96": 5539694140642403697641492349144283,
+   "tick": 223113,
+   "lpFee": 3000,
+   "poolActiveLiquidity": 287233934493292325,
+   "slot0raw": "0xbb81f41f40367890000000000011120c5289cedae7f56be3fb74cdb"
+  },
+  "positionStateAtOracleRef": {
+   "tokenId": 4148743,
+   "liquidity": 3903269750948,
+   "stockAmount": 29825246444182365,
+   "usdgAmount": 6670707
+  }
+ },
+ "guard": {
+  "feedConfig": {
+   "stockToken": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
+   "usdg": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "stockFeed": "0x379ec4f7c378f34a1b47e4f3cbebcbac3e8e9f15",
+   "usdgFeed": "0x0000000000000000000000000000000000000000",
+   "sequencerFeed": "0x0000000000000000000000000000000000000000",
+   "poolId": "0x3bb34a44f1b2b5f32c034c38a53065a521a47b199700fa9bd19d60985ff24bf1",
+   "maxStaleness": 43200,
+   "sequencerGracePeriod": 3600,
+   "maxPriceDeviationBps": 300,
+   "stockDecimals": 18,
+   "usdgDecimals": 6,
+   "stockFeedDecimals": 8,
+   "usdgFeedDecimals": 0,
+   "usdgFixedOne": 1,
+   "enabled": 1,
+   "maxRemovalDeviationBps": 600
+  },
+  "maxPriceDeviationBps": 300,
+  "maxRemovalDeviationBps": 600,
+  "pricesUSD18": {
+   "stock": 204523415400000000000,
+   "usdg": 1000000000000000000
+  },
+  "feed": {
+   "roundId": 18446744073709553043,
+   "answer": 20452341540,
+   "startedAt": 1793696688,
+   "updatedAt": 1793696700,
+   "answeredInRound": 18446744073709553043,
+   "ageSec": 2233,
+   "decimals": 8,
+   "descriptionRaw": [
+    32,
+    12,
+    37217407234450377557625387205328734559404960900665314074714057221083284635648
+   ]
+  },
+  "NVDA_oraclePaused()": false,
+  "NVDA_paused()": false,
+  "NVDA_uiMultiplier": 1000775159164630595,
+  "validatePoolPrice": {
+   "oracleStockInUsdgWad": 204523415400000000000,
+   "poolStockInUsdgWad": 204554942000000000000,
+   "referenceSqrtPriceX96": 5539978323825685059654383281635328
+  },
+  "validateRemovalPrice": {
+   "oracleStockInUsdgWad": 204523415400000000000,
+   "poolStockInUsdgWad": 204554942000000000000,
+   "referenceSqrtPriceX96": 5539978323825685059654383281635328
+  }
+ },
+ "reserve": {
+  "reserveConfig": {
+   "stockToken": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
+   "usdg": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "maxUsePerTxUSDG": 10000000000000000000,
+   "dailyCapUSDG": 25000000000000000000,
+   "maxCoverageBps": 5000,
+   "paused": 0,
+   "exists": 1
+  },
+  "available_NVDA": 286617917654940,
+  "accountedBalance_NVDA": 286617917654940,
+  "available_USDG": 17193,
+  "accountedBalance_USDG": 17193,
+  "dailyUsage": {
+   "day": 20712,
+   "usedUSDG": 3524061514747287
+  }
+ },
+ "comptroller": {
+  "oracle": "0xe4e03c2fdaef915ace705d106b2660b1e342a2e4",
+  "closeFactorMantissa()": 500000000000000000,
+  "liquidationIncentiveMantissa()": 1080000000000000000,
+  "seizeGuardianPaused()": false,
+  "transferGuardianPaused()": false,
+  "pNVDA": {
+   "markets": {
+    "isListed": 1,
+    "collateralFactorMantissa": 800000000000000000,
+    "isPeridoted": 0
+   },
+   "mintGuardianPaused(address)": 0,
+   "borrowGuardianPaused(address)": 0,
+   "borrowCaps(address)": 4350000000000000000,
+   "supplyCaps(address)": {
+    "ok": false,
+    "err": "{'code': 3, 'message': 'execution reverted', 'data': '0x'}"
+   },
+   "oracle_getUnderlyingPrice": 204523415400000000000
+  },
+  "pUSDG": {
+   "markets": {
+    "isListed": 1,
+    "collateralFactorMantissa": 800000000000000000,
+    "isPeridoted": 0
+   },
+   "mintGuardianPaused(address)": 0,
+   "borrowGuardianPaused(address)": 0,
+   "borrowCaps(address)": 1000000000,
+   "supplyCaps(address)": {
+    "ok": false,
+    "err": "{'code': 3, 'message': 'execution reverted', 'data': '0x'}"
+   },
+   "oracle_getUnderlyingPrice": 1000000000000000000000000000000
+  }
+ },
+ "oracle": {
+  "controllerOracle": "0xe4e03c2fdaef915ace705d106b2660b1e342a2e4",
+  "adapterSource": "0x266f014d1325774f1190f963df4369e07dda1d33",
+  "stockStaleThresholdSec": 259200,
+  "defaultStaleThresholdSec": 90000,
+  "NVDA": {
+   "aggregator": "0x379ec4f7c378f34a1b47e4f3cbebcbac3e8e9f15",
+   "lastValidChainlinkPrice": 0,
+   "isStockAsset": true,
+   "isPriceStale": false,
+   "assetPrices": 204523415400000000000,
+   "manualPrice_slot0map": 0
+  },
+  "USDG": {
+   "aggregator": "0x0000000000000000000000000000000000000000",
+   "lastValidChainlinkPrice": 0,
+   "isStockAsset": false,
+   "isPriceStale": true,
+   "assetPrices": 1000000000000000000,
+   "manualPrice_slot0map": 1000000000000000000
+  }
+ },
+ "pTokens": {
+  "pNVDA": {
+   "totalSupply": 172300825,
+   "exchangeRateStored": 198853415317349043453506389,
+   "totalBorrows": 14615404196690,
+   "totalReserves": 547680177,
+   "getCash": 34247992656730364,
+   "supplyRatePerBlock": 2929502,
+   "borrowRatePerBlock": 7630639750,
+   "reserveFactorMantissa": 100000000000000000,
+   "accrualBlockNumber": 26148189,
+   "borrowIndex": 1001816396388844971,
+   "decimals": 8,
+   "totalBorrowShares": 14588904962399173798874589748200,
+   "initialExchangeRateMantissa": {
+    "ok": false,
+    "err": "{'code': 3, 'message': 'execution reverted', 'data': '0x'}"
+   },
+   "underlying": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
+   "interestRateModel": "0x0987154fb5676a8ea545aaf41f8ef2492f785d22",
+   "peridottroller": "0x6148183676e304dbe63a85c350c208da3ceac39c",
+   "admin": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+   "vaultAccountedAssets": 21137493913601450,
+   "vaultLiquidAssets": 29622914273741852,
+   "vaultWithdrawableAssets": 21137493913601450,
+   "totalManagedAssets": 34247992656730364,
+   "vaultBufferMantissa": 500000000000000000,
+   "vaultPaused": 0,
+   "vaultOperator": 847281747888270366942346908342717872638559839698
+  },
+  "pUSDG": {
+   "totalSupply": 147628790621,
+   "exchangeRateStored": 197640174909416,
+   "totalBorrows": 1936152,
+   "totalReserves": 41,
+   "getCash": 12818702,
+   "supplyRatePerBlock": 1635899687,
+   "borrowRatePerBlock": 13851870436,
+   "reserveFactorMantissa": 100000000000000000,
+   "accrualBlockNumber": 26148189,
+   "borrowIndex": 1001932343931629584,
+   "decimals": 8,
+   "totalBorrowShares": 1932418464749125167184701,
+   "initialExchangeRateMantissa": {
+    "ok": false,
+    "err": "{'code': 3, 'message': 'execution reverted', 'data': '0x'}"
+   },
+   "underlying": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "interestRateModel": "0x0987154fb5676a8ea545aaf41f8ef2492f785d22",
+   "peridottroller": "0x6148183676e304dbe63a85c350c208da3ceac39c",
+   "admin": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+   "vaultAccountedAssets": 14422567,
+   "vaultLiquidAssets": 0,
+   "vaultWithdrawableAssets": 0,
+   "totalManagedAssets": 27241269,
+   "vaultBufferMantissa": 500000000000000000,
+   "vaultPaused": 0,
+   "vaultOperator": 847281747888270366942346908342717872638559839698
+  }
+ },
+ "irm": {
+  "address": "0x0987154fb5676a8ea545aaf41f8ef2492f785d22",
+  "baseRatePerBlock": 7610350076,
+  "multiplierPerBlock": 47564687975,
+  "jumpMultiplierPerBlock": 380517503805,
+  "kink": 800000000000000000,
+  "blocksPerYear": 2628000
+ }
+}

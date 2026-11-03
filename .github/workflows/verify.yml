@@ -2,6 +2,7 @@ name: Verify Robinhood snapshot
 on:
   push:
   pull_request:
+  workflow_dispatch:
 permissions:
   contents: read
 jobs:
@@ -20,3 +21,53 @@ jobs:
       - run: make test
       - run: make test-remediation
       - run: make reproduce
+
+  # Deterministic Ramses research checks (no network): the `ramses` Foundry profile minus fork tests, its size check, and the Python research tests.
+  # Fork results are NOT part of this job and never gate it; see `ramses-fork` below.
+  ramses-deterministic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: v1.7.1
+      - name: Ramses Solidity tests (non-fork)
+        run: FOUNDRY_PROFILE=ramses forge test --threads 1 --no-match-path '*/fork/*'
+      # `make size-ramses` also measures test-only imports and fails on a deployed-snapshot delegate that a compatibility test imports
+      # (RobinhoodBoostedDelegateV2, 24,625 bytes, 49 over the limit, unrelated to this research); the size check that matters is for src/ only.
+      - name: Ramses src/ contract sizes (tests and scripts skipped)
+        run: FOUNDRY_PROFILE=ramses forge build --threads 1 --sizes --skip test --skip script
+      - name: Ramses research Python tests
+        working-directory: ramses-vaults/research/dual-range-backtest
+        run: python3 -m unittest discover -p 'test_*.py'
+
+  # Mainnet-fork proofs: manual only, separately identified, never required. The public RPC keeps about nine minutes of state, so the helper pins a block
+  # immediately before running and writes the pin into the log. Results are uploaded as an artifact, not asserted by the deterministic job.
+  ramses-fork:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: v1.7.1
+      - name: Fork proofs at a freshly pinned block (each file its own pin)
+        working-directory: ramses-vaults/research/dual-range-backtest
+        run: |
+          set +e
+          for t in LendingFork LendingForkProofs FallbackFork StockMultiplierFork; do
+            python3 run_fork_tests.py ramses-vaults/test/fork/$t.t.sol /tmp/fork-logs/$t.log
+          done
+          true
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ramses-fork-logs
+          path: /tmp/fork-logs

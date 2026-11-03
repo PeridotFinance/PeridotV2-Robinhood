@@ -1,0 +1,14 @@
+{
+ "keeper": {
+  "address": "0x978e2adf18da8b846552932c0ab2b1193da1fac4",
+  "txCountLatest": 176,
+  "balanceWei": 4819986819785028,
+  "codeLen": 0
+ },
+ "governor": {
+  "address": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+  "txCountLatest": 322,
+  "balanceWei": 15052768866189347,
+  "codeLen": 0
+ }
+}

@@ -1,0 +1,202 @@
+{
+ "pin": {
+  "l2": 104964795,
+  "hash": "0xa16807d0fb2d31c2d636c985a33400356b5ff90e231d984d44f87a3ede1d5f72",
+  "timestamp": 1793699345,
+  "l1": 26333478
+ },
+ "borrowersFromEvents": {
+  "0x4fe6a2daff417572675a5173a25d167dff02981d": [
+   "pNVDA"
+  ],
+  "0x12c1e2c33f63f897e0e4ac1969c29493136f2481": [
+   "pNVDA",
+   "pUSDG"
+  ],
+  "0x94696d767e65a75581145646960fa0ec886ce5d2": [
+   "pUSDG"
+  ],
+  "0xa1a7a0f0c270fd9229ff7a2e6a67b0c2eb67d45b": [
+   "pUSDG"
+  ],
+  "0x7f082ffd0ee3460aee9a22d8fe0e9d33efcd4945": [
+   "pUSDG"
+  ],
+  "0x4a0e01f9d41414f8e15eee188d7b184fc5a97571": [
+   "pUSDG"
+  ],
+  "0x062a4ed42f2b8204eac6ccf24f46c9fd1535d932": [
+   "pUSDG"
+  ]
+ },
+ "isolatedMarginAccountsRegistered": [
+  "0xa1a7a0f0c270fd9229ff7a2e6a67b0c2eb67d45b",
+  "0x4fe6a2daff417572675a5173a25d167dff02981d",
+  "0x7f082ffd0ee3460aee9a22d8fe0e9d33efcd4945",
+  "0x4a0e01f9d41414f8e15eee188d7b184fc5a97571",
+  "0x062a4ed42f2b8204eac6ccf24f46c9fd1535d932"
+ ],
+ "accounts": [
+  {
+   "account": "0x062a4ed42f2b8204eac6ccf24f46c9fd1535d932",
+   "pNVDA": {
+    "borrowBalanceStored": 0,
+    "borrowBalanceCurrent_sim": 0,
+    "pTokenBalance": 0
+   },
+   "pUSDG": {
+    "borrowBalanceStored": 0,
+    "borrowBalanceCurrent_sim": 0,
+    "pTokenBalance": 0
+   },
+   "getAccountLiquidity(err,liq,shortfall)": [
+    0,
+    0,
+    0
+   ],
+   "assetsIn_raw": "0x0000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000100000000000000000000000055aed0569c8f0d166d71face57b57c2f2624a563"
+  },
+  {
+   "account": "0x12c1e2c33f63f897e0e4ac1969c29493136f2481",
+   "pNVDA": {
+    "borrowBalanceStored": 14615404196690,
+    "borrowBalanceCurrent_sim": 14636068530963,
+    "pTokenBalance": 0
+   },
+   "pUSDG": {
+    "borrowBalanceStored": 5963,
+    "borrowBalanceCurrent_sim": 5979,
+    "pTokenBalance": 56619720
+   },
+   "getAccountLiquidity(err,liq,shortfall)": [
+    0,
+    72707539150,
+    0
+   ],
+   "assetsIn_raw": "0x0000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000200000000000000000000000055aed0569c8f0d166d71face57b57c2f2624a563000000000000000000000000a155cccb986774ae818b3f10f07d01d1b7a47b26"
+  },
+  {
+   "account": "0x4a0e01f9d41414f8e15eee188d7b184fc5a97571",
+   "pNVDA": {
+    "borrowBalanceStored": 0,
+    "borrowBalanceCurrent_sim": 0,
+    "pTokenBalance": 41142162
+   },
+   "pUSDG": {
+    "borrowBalanceStored": 960123,
+    "borrowBalanceCurrent_sim": 962587,
+    "pTokenBalance": 0
+   },
+   "getAccountLiquidity(err,liq,shortfall)": [
+    0,
+    0,
+    960123000000000000
+   ],
+   "assetsIn_raw": "0x0000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000100000000000000000000000055aed0569c8f0d166d71face57b57c2f2624a563"
+  },
+  {
+   "account": "0x4fe6a2daff417572675a5173a25d167dff02981d",
+   "pNVDA": {
+    "borrowBalanceStored": 0,
+    "borrowBalanceCurrent_sim": 0,
+    "pTokenBalance": 0
+   },
+   "pUSDG": {
+    "borrowBalanceStored": 0,
+    "borrowBalanceCurrent_sim": 0,
+    "pTokenBalance": 0
+   },
+   "getAccountLiquidity(err,liq,shortfall)": [
+    0,
+    0,
+    0
+   ],
+   "assetsIn_raw": "0x00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000001000000000000000000000000a155cccb986774ae818b3f10f07d01d1b7a47b26"
+  },
+  {
+   "account": "0x7f082ffd0ee3460aee9a22d8fe0e9d33efcd4945",
+   "pNVDA": {
+    "borrowBalanceStored": 0,
+    "borrowBalanceCurrent_sim": 0,
+    "pTokenBalance": 31158663
+   },
+   "pUSDG": {
+    "borrowBalanceStored": 970065,
+    "borrowBalanceCurrent_sim": 972555,
+    "pTokenBalance": 0
+   },
+   "getAccountLiquidity(err,liq,shortfall)": [
+    0,
+    0,
+    970065000000000000
+   ],
+   "assetsIn_raw": "0x0000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000100000000000000000000000055aed0569c8f0d166d71face57b57c2f2624a563"
+  },
+  {
+   "account": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+   "pNVDA": {
+    "borrowBalanceStored": 0,
+    "borrowBalanceCurrent_sim": 0,
+    "pTokenBalance": 100000000
+   },
+   "pUSDG": {
+    "borrowBalanceStored": 0,
+    "borrowBalanceCurrent_sim": 0,
+    "pTokenBalance": 33318558178
+   },
+   "getAccountLiquidity(err,liq,shortfall)": [
+    0,
+    5268068532823551645,
+    0
+   ],
+   "assetsIn_raw": "0x0000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000100000000000000000000000055aed0569c8f0d166d71face57b57c2f2624a563"
+  },
+  {
+   "account": "0xa1a7a0f0c270fd9229ff7a2e6a67b0c2eb67d45b",
+   "pNVDA": {
+    "borrowBalanceStored": 0,
+    "borrowBalanceCurrent_sim": 0,
+    "pTokenBalance": 0
+   },
+   "pUSDG": {
+    "borrowBalanceStored": 0,
+    "borrowBalanceCurrent_sim": 0,
+    "pTokenBalance": 0
+   },
+   "getAccountLiquidity(err,liq,shortfall)": [
+    0,
+    0,
+    0
+   ],
+   "assetsIn_raw": "0x0000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000100000000000000000000000055aed0569c8f0d166d71face57b57c2f2624a563"
+  }
+ ],
+ "market": {
+  "pNVDA": {
+   "exchangeRateStored": 198853415317349043453506389,
+   "exchangeRateCurrent_sim": 198853523255896905891193498,
+   "totalBorrowsStored": 14615404196690,
+   "totalBorrowsCurrent_sim": 14636068530963,
+   "totalReserves": 547680177,
+   "totalSupply": 172300825,
+   "getCash": 34247992656730364,
+   "borrowIndex": 1001816396388844971,
+   "accrualBlockNumber": 26148189,
+   "supplyRatePerBlock": 2929502,
+   "borrowRatePerBlock": 7630639750
+  },
+  "pUSDG": {
+   "exchangeRateStored": 197640174909416,
+   "exchangeRateCurrent_sim": 197670473877396,
+   "totalBorrowsStored": 1936152,
+   "totalBorrowsCurrent_sim": 1941121,
+   "totalReserves": 41,
+   "totalSupply": 147628790621,
+   "getCash": 12818702,
+   "borrowIndex": 1001932343931629584,
+   "accrualBlockNumber": 26148189,
+   "supplyRatePerBlock": 1635899687,
+   "borrowRatePerBlock": 13851870436
+  }
+ }
+}
