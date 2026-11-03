@@ -102,6 +102,10 @@ abstract contract AnchoredFallbackBase is Test {
 
     function stockIsToken0() internal pure virtual returns (bool);
 
+    function holdMode() internal pure virtual returns (bool) {
+        return false;
+    }
+
     function sgn(int24 t) internal pure returns (int24) {
         return stockIsToken0() ? t : -t; // a stock price rise is a tick rise when the stock is token0, a fall when it is token1
     }
@@ -123,11 +127,13 @@ abstract contract AnchoredFallbackBase is Test {
             usdgDecimals: 6,
             twapWindow: 1800,
             maxStaleness: 12 hours,
+            maxPokeDelay: 4 hours,
             maxClosureDuration: 72 hours,
             maxOpenDuration: 24 hours,
             maxMoveBps: 200,
             maxBasisBps: 100,
-            liquidationInFallback: false
+            liquidationInFallback: false,
+            mode: holdMode() ? AnchoredFallbackOracle.Mode.HOLD : AnchoredFallbackOracle.Mode.ANCHORED
         });
         o = new AnchoredFallbackOracle(address(this), address(0xBEEF), c);
         vm.warp(T0);
@@ -197,8 +203,8 @@ abstract contract AnchoredFallbackBase is Test {
     }
 
     function _cfgWith(address p) internal view returns (AnchoredFallbackOracle.Config memory c) {
-        (IFallbackFeed f, IFallbackStock s,, IClosureCalendar k,,,,,,,,,,) = o.cfg();
-        c = AnchoredFallbackOracle.Config(f, s, IFallbackPool(p), k, stockIsToken0(), 18, 6, 1800, 12 hours, 72 hours, 24 hours, 200, 100, false);
+        (IFallbackFeed f, IFallbackStock s,, IClosureCalendar k,,,,,,,,,,,,) = o.cfg();
+        c = AnchoredFallbackOracle.Config(f, s, IFallbackPool(p), k, stockIsToken0(), 18, 6, 1800, 12 hours, 4 hours, 72 hours, 24 hours, 200, 100, false, holdMode() ? AnchoredFallbackOracle.Mode.HOLD : AnchoredFallbackOracle.Mode.ANCHORED);
     }
 
     // ------------------------------------------------------------------ fallback
@@ -209,6 +215,12 @@ abstract contract AnchoredFallbackBase is Test {
         _staleBy(13 hours);
         (uint256 p, AnchoredFallbackOracle.Source s) = o.price(AnchoredFallbackOracle.Op.EXIT);
         assertTrue(s == AnchoredFallbackOracle.Source.FALLBACK);
+        if (holdMode()) {
+            assertEq(p, 200e18, "hold mode: the anchor price flat; the pool move only gates");
+            (p,) = o.price(AnchoredFallbackOracle.Op.SETTLE);
+            assertEq(p, 200e18);
+            return;
+        }
         assertApproxEqRel(p, 200e18 * 1.0100496620928754e18 / 1e18, 1e12, "anchor x 1.0001^100");
         (p,) = o.price(AnchoredFallbackOracle.Op.SETTLE);
         assertApproxEqRel(p, 202.00993e18, 1e13);
@@ -335,8 +347,17 @@ abstract contract AnchoredFallbackBase is Test {
         (uint256 liq,) = x.price(AnchoredFallbackOracle.Op.LIQUIDATE);
         (uint256 exitP,) = x.price(AnchoredFallbackOracle.Op.EXIT);
         assertEq(liq, 200e18, "liquidation sees max(anchor, fallback): a fall cannot cause a liquidation");
-        assertLt(exitP, 200e18, "an exit does take the lower estimate");
+        if (holdMode()) assertEq(exitP, 200e18, "hold mode never adjusts the price");
+        else assertLt(exitP, 200e18, "an exit does take the lower estimate");
         // the cost of that choice is explicit: a REAL fall is not liquidated against until the feed or the duration limit resolves it
+    }
+
+    function testPokeAfterTheMaximumDelayIsRefused() public {
+        vm.warp(T0 + 4 hours + 1);
+        vm.expectRevert(abi.encodeWithSelector(AnchoredFallbackOracle.PokeTooLate.selector, 4 hours + 1, 4 hours));
+        o.poke();
+        vm.warp(T0 + 4 hours);
+        o.poke();
     }
 
     function testGuardianCanOnlyDisableTheFallback() public {
@@ -387,5 +408,25 @@ contract AnchoredFallbackStockToken0Test is AnchoredFallbackBase {
 contract AnchoredFallbackStockToken1Test is AnchoredFallbackBase {
     function stockIsToken0() internal pure override returns (bool) {
         return false;
+    }
+}
+
+contract AnchoredFallbackHoldToken0Test is AnchoredFallbackBase {
+    function stockIsToken0() internal pure override returns (bool) {
+        return true;
+    }
+
+    function holdMode() internal pure override returns (bool) {
+        return true;
+    }
+}
+
+contract AnchoredFallbackHoldToken1Test is AnchoredFallbackBase {
+    function stockIsToken0() internal pure override returns (bool) {
+        return false;
+    }
+
+    function holdMode() internal pure override returns (bool) {
+        return true;
     }
 }

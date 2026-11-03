@@ -1,3 +1,19 @@
+KILLED   multiplier check removed
+KILLED   anchor-equals-latest-answer check removed
+KILLED   borrow allowed in fallback
+KILLED   move bound removed
+KILLED   duration ignores calendar
+KILLED   liquidation not upward biased
+KILLED   orientation not inverted in ratio
+KILLED   anchor window ends now not at answer time
+KILLED   pause ignored
+KILLED   poke accepts stale feed
+KILLED   basis check removed
 KILLED   guardian can enable
 KILLED   multiplier applied to price
-13 of 13 killed
+KILLED   hold mode ignored (always anchored)
+KILLED   poke delay bound removed
+KILLED   pause check dropped on fresh path only
+KILLED   liquidation allowed in fallback by default
+KILLED   expiry check removed
+18 of 18 killed

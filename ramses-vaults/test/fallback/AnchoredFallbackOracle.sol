@@ -39,11 +39,17 @@ interface IClosureCalendar {
 ///  * Fallback value = anchor price x (pool TWAP now / pool TWAP at the anchor): the pool contributes only its RELATIVE move since the anchor, which
 ///    cancels the pool's static basis to the feed. It is allowed only while ALL hold: not paused by the issuer; the multiplier is unchanged; the
 ///    anchor is the feed's latest answer; the age is within the closure or open-session duration; the relative move is within `maxMoveBps`.
-///  * Operation classes: EXIT and SETTLE may use the fallback; LIQUIDATE only if enabled, and then collateral-side upward biased
-///    (max(anchor, fallback)); ALLOCATE and BORROW (new borrowing or leverage) NEVER use it.
+///  * Operation classes: EXIT and SETTLE may use the fallback; LIQUIDATE only if enabled (it is not, in every configuration studied) and then
+///    floored at the anchor; ALLOCATE and BORROW (new borrowing or leverage) NEVER use it. EXPIRY OF THE DURATION LIMIT DOES NOT RESTORE ANY
+///    OPERATION: it makes the fallback UNAVAILABLE (FallbackExpired) and the existing StaleOracle behaviour applies.
+///  * What the move limit bounds: the change of the POOL's TWAP since the anchor. It does NOT bound the error against the current market price (a
+///    stationary or manipulated pool can sit still across an arbitrarily large real gap) and it does NOT bound what repeated exits can extract.
 contract AnchoredFallbackOracle {
     enum Op { EXIT, SETTLE, LIQUIDATE, ALLOCATE, BORROW }
     enum Source { FEED, FALLBACK }
+    /// @dev ANCHORED: anchor price x the pool's relative move (the pool also gates). HOLD: the anchor price held flat; the pool is ONLY a move detector
+    /// that refuses (MoveExceedsBound) and never adjusts the price. Both are candidates; neither has been shown safer than the other.
+    enum Mode { ANCHORED, HOLD }
 
     struct Config {
         IFallbackFeed feed;
@@ -55,11 +61,13 @@ contract AnchoredFallbackOracle {
         uint8 usdgDecimals;
         uint32 twapWindow; // seconds
         uint32 maxStaleness; // the existing guard's bound (<= 12 h); the fallback starts exactly where the feed would revert
+        uint32 maxPokeDelay; // an answer older than this is not anchored: the multiplier can only be read NOW, so a late poke could pair a pre-step answer with a post-step multiplier
         uint32 maxClosureDuration; // anchor age allowed while a scheduled closure is in force
         uint32 maxOpenDuration; // anchor age allowed otherwise (quiet market or feed outage in a trading session)
         uint16 maxMoveBps; // |relative pool move since the anchor|
         uint16 maxBasisBps; // |pool price at the anchor / feed price - 1| required to ACCEPT an anchor
         bool liquidationInFallback;
+        Mode mode;
     }
 
     struct Anchor {
@@ -79,6 +87,7 @@ contract AnchoredFallbackOracle {
     error IssuerPaused();
     error InvalidAnswer();
     error StaleForAnchor(uint256 updatedAt);
+    error PokeTooLate(uint256 delay, uint256 maxDelay);
     error AnchorCurrent();
     error NoPoolHistory();
     error BasisTooWide(uint256 poolPrice18, uint256 feedPrice18);
@@ -91,7 +100,7 @@ contract AnchoredFallbackOracle {
     event Anchored(uint256 price18, uint64 updatedAt, int24 avgTick, uint256 multiplier);
 
     constructor(address admin_, address guardian_, Config memory c) {
-        require(c.twapWindow >= 60 && c.maxStaleness > 0 && c.maxStaleness <= 12 hours, "CFG");
+        require(c.twapWindow >= 60 && c.maxStaleness > 0 && c.maxStaleness <= 12 hours && c.maxPokeDelay > 0 && c.maxPokeDelay <= c.maxStaleness, "CFG");
         require(c.maxMoveBps > 0 && c.maxMoveBps <= 500 && c.maxBasisBps > 0, "CFG");
         require(c.maxClosureDuration >= c.maxOpenDuration && c.maxOpenDuration >= c.maxStaleness, "CFG");
         admin = admin_;
@@ -117,6 +126,7 @@ contract AnchoredFallbackOracle {
         (uint256 p, uint256 updatedAt) = _feed(c);
         if (block.timestamp - updatedAt > c.maxStaleness) revert StaleForAnchor(updatedAt);
         if (updatedAt <= anchor.updatedAt) revert AnchorCurrent();
+        if (block.timestamp - updatedAt > c.maxPokeDelay) revert PokeTooLate(block.timestamp - updatedAt, c.maxPokeDelay);
         // the TWAP window must END at the answer's own timestamp, not at now
         int24 tickAt = _avgTick(c, uint32(block.timestamp - updatedAt));
         uint256 poolPrice = _usd18(c, tickAt);
@@ -150,8 +160,11 @@ contract AnchoredFallbackOracle {
         uint256 moveBps = ratio18 > 1e18 ? ((ratio18 - 1e18) * 10_000) / 1e18 : ((1e18 - ratio18) * 10_000) / 1e18;
         if (moveBps > c.maxMoveBps) revert MoveExceedsBound(moveBps, c.maxMoveBps);
 
-        price18 = FullMath.mulDiv(a.price18, ratio18, 1e18);
-        if (op == Op.LIQUIDATE && price18 < a.price18) price18 = a.price18; // never liquidate on an estimate that is below the anchor
+        price18 = c.mode == Mode.HOLD ? a.price18 : FullMath.mulDiv(a.price18, ratio18, 1e18);
+        // Liquidation is DISABLED by default. If enabled, this floors the estimate at the anchor. That is a bias for a borrower whose COLLATERAL is the
+        // stock; it is the WRONG direction for a borrower whose DEBT is the stock, and it does not remove false liquidations in general (a true price
+        // above the anchor with a lagging pool still prices the collateral below the truth). See FallbackEconomics.t.sol.
+        if (op == Op.LIQUIDATE && price18 < a.price18) price18 = a.price18;
         return (price18, Source.FALLBACK);
     }
 

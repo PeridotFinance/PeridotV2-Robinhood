@@ -1,0 +1,69 @@
+pin 104942196 26333285 0xd04982909ba20329a2135f7a238e9f37debc5e567c5de74b36332f1d2434cf8a
+rc=0
+No files changed, compilation skipped
+
+Ran 10 tests for ramses-vaults/test/fork/FallbackFork.t.sol:NvdaFallbackForkTest
+[PASS] testCalendarFailureBubbles() (gas: 278471)
+[PASS] testDelayedPokeAcrossAMultiplierStepIsInvisibleWithinTheDelayBoundAndRefusedBeyondIt() (gas: 1779954)
+[PASS] testFallbackFollowsTheRealPoolAcrossSessionTransitions() (gas: 380939)
+[PASS] testFeedCallFailureBubbles() (gas: 272855)
+[PASS] testIssuerPauseBlocksEvenAFreshFeed() (gas: 299208)
+[PASS] testMalformedFeedAnswersFailClosed() (gas: 309768)
+[PASS] testMultiplierStepAfterTheAnchor() (gas: 319913)
+[PASS] testPokeAnchorsTheRealAnswerAtItsOwnTimestamp() (gas: 306957)
+Logs:
+  real feed age at the pin (s): 324
+
+[PASS] testPoolHistoryFailureIsASpecificError() (gas: 284226)
+[PASS] testSustainedPushMovesTheEstimateUpToTheLimitThenFailsClosed() (gas: 630396)
+Logs:
+  pool tick offset applied: -100
+  USDG-denominated input to the push (raw, positive = USDG paid in): 3616286360
+  stock received (wei): 17575414362334747525
+  estimate / anchor, bp: 10147
+  pool tick offset applied: -300
+  USDG-denominated input to the push (raw, positive = USDG paid in): 5199969406
+  stock received (wei): 24933592270584271807
+  price() succeeded after the larger push (1 = yes): 0
+  revert selector: 0x10a1bda900000000000000000000000000000000000000000000000000000000
+
+Suite result: ok. 10 passed; 0 failed; 0 skipped; finished in 11.92s (9.07s CPU time)
+
+Ran 10 tests for ramses-vaults/test/fork/FallbackFork.t.sol:SpyFallbackForkTest
+[PASS] testCalendarFailureBubbles() (gas: 202297)
+[PASS] testDelayedPokeAcrossAMultiplierStepIsInvisibleWithinTheDelayBoundAndRefusedBeyondIt() (gas: 1703680)
+[PASS] testFallbackFollowsTheRealPoolAcrossSessionTransitions() (gas: 304565)
+[PASS] testFeedCallFailureBubbles() (gas: 196681)
+[PASS] testIssuerPauseBlocksEvenAFreshFeed() (gas: 223034)
+[PASS] testMalformedFeedAnswersFailClosed() (gas: 233594)
+[PASS] testMultiplierStepAfterTheAnchor() (gas: 243639)
+[PASS] testPokeAnchorsTheRealAnswerAtItsOwnTimestamp() (gas: 205214)
+Logs:
+  real feed age at the pin (s): 14792
+
+[PASS] testPoolHistoryFailureIsASpecificError() (gas: 208052)
+[PASS] testSustainedPushMovesTheEstimateUpToTheLimitThenFailsClosed() (gas: 2152572)
+Logs:
+  pool tick offset applied: 100
+  USDG-denominated input to the push (raw, positive = USDG paid in): 39253954043
+  stock received (wei): 51869479278358500282
+  estimate / anchor, bp: 10100
+  pool tick offset applied: 300
+  USDG-denominated input to the push (raw, positive = USDG paid in): 101206421609
+  stock received (wei): 131836805085539059880
+  price() succeeded after the larger push (1 = yes): 0
+  revert selector: 0x10a1bda900000000000000000000000000000000000000000000000000000000
+
+Suite result: ok. 10 passed; 0 failed; 0 skipped; finished in 27.00s (26.11s CPU time)
+
+Ran 2 test suites in 38.95s (38.93s CPU time): 20 tests passed, 0 failed, 0 skipped (20 total tests)
+warning: invalid natspec tag '@member', custom tags must use format '@custom:name'
+    ╭▸ contracts/peridot-contracts-2-5/contracts/contracts/PTokenInterfaces.sol:112:5
+    │
+112 │ ┏     /**
+113 │ ┃      * @notice Container for borrow balance information
+114 │ ┃      * @member principal Total balance (with accrued interest), after applying the most recent balance-changing action
+115 │ ┃      * @member interestIndex Global borrowIndex as of the most recent balance-changing action
+116 │ ┃      */
+    ╰╴┗━━━━━━━┛
+
