@@ -47,3 +47,39 @@ def retention():
 if __name__ == "__main__":
     for fn in (strategy_caps, strategy_counterfactual, sizing, retention):
         print(fn.__name__.upper()); print(fn()); print()
+
+
+# ---------------------------------------------------------------- section 18
+def _b():
+    return json.load(open(HERE / "evidence" / "breakeven.json"))
+
+
+def reserve_units():
+    rows = ["| pair | deployed (current caps) | stress | stock valued at | LOSS COVER: USDG units (price falls) | LOSS COVER: stock units (price rises) | both legs funded today | WITHDRAWAL LIQUIDITY without a swap: USDG units / stock units | both legs today |", "| --- | --- | --- | --- | --- | --- | --- | --- | --- |"]
+    for r in _b()["reserveUnits"]:
+        rows.append(f"| {r['pair']} | {r['label']}, ${r['deployedUsd']:.0f} | {r['scenario']} (x{r['ratioDown']:.3f} / x{r['ratioUp']:.3f}) | ${r['stockValuationPrice']:.2f} | {r['usdgUnitsLossCover']:.2f} USDG | {r['stockUnitsLossCover']:.5f} {r['pair']} | ${r['bothLegsLossCoverTodayUsd']:.2f} | "
+                    f"{r['usdgUnitsWithdrawalNoSwap']:.2f} USDG / {r['stockUnitsWithdrawalNoSwap']:.5f} {r['pair']} | ${r['bothLegsWithdrawalTodayUsd']:.2f} |")
+    return "\n".join(rows)
+
+
+def strategy_costs():
+    d = _b()
+    cad = list(d["cadenceCostPerYear"])
+    rows = ["| pair | configuration | supplier excess vs hold (window) | gross fees / LVR | gross fees per year at caps | retained at 20% / 50% | recentres per year | protocol cost per year: " + " / ".join(c.split(" (")[0] for c in cad) + " |", "| --- | --- | --- | --- | --- | --- | --- | --- |"]
+    for r in d["rows"]:
+        rows.append(f"| {r['pair']} | {r['label']} | {r['supplierExcessVsHoldPctWindow']:+.2f}% | {r['feesToLvrRatio']:.2f} | ${r['feesPerYearAtCaps']:.2f} | ${r['retained20PerYear']:.2f} / ${r['retained50PerYear']:.2f} | {r['recentresPerYear']:.0f} | " + " / ".join(f"${r['protocolCostPerYearByCadence'][c]:.2f}" for c in cad) + " |")
+    return "\n".join(rows)
+
+
+def break_even():
+    d = _b()
+    rows = ["| pair | configuration | current cap | size at half the fee flow (fixed volume) | fee model check: predicted / observed at the $10,000 baseline, per year | depth limit (30% gap's scarce token within 2% depth) | seed per $ deployed (30% gap, both legs) | break-even at 50% retention, 5% seed carry: weekly / daily / hourly |", "| --- | --- | --- | --- | --- | --- | --- | --- |"]
+    for r in d["rows"]:
+        be = {}
+        for x in d["breakEven"]:
+            if x["pair"] == r["pair"] and x["run"] == r["run"] and x["retention"] == 0.5 and x["seedCarry"] == 0.05:
+                be[x["cadence"].split(",")[0].split(" (")[0]] = x["breakEvenUsd"]
+        fmt = lambda v: "none" if v is None else f"${v:,.0f}"
+        cap = "$1,000 pair" if r["run"] == "full_range" else "$50 ranged"
+        rows.append(f"| {r['pair']} | {r['label']} | {cap} | ${r['halfSaturationUsd']:,.0f} | ${r['predicted10kFeesPerYear']:.0f} / ${r['observed10kFeesPerYear']:.0f} | ${r['depthLimitedSizeUsd']:,.0f} | {100 * r['seedFracPer1UsdDeployed30pctGap']:.1f}% | {fmt(be.get('weekly'))} / {fmt(be.get('daily'))} / {fmt(be.get('hourly'))} |")
+    return "\n".join(rows)
