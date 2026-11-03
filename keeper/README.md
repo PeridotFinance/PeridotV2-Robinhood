@@ -15,6 +15,30 @@ loss bound, so the worker cannot do anything a keeper-role holder could not alre
   read them**; that is why the wallet is dedicated and low-privilege. Never fund it beyond a few cents of gas.
 - Logs are JSON lines with no secrets or transaction bodies.
 
+## Liveness alarm
+
+`.github/workflows/keeper-alarm.yml` runs `keeper/alarm.py` on a schedule. It only reads. A page fails the job and keeps
+one issue open, assigned to the operator; it closes itself on recovery.
+
+| state | meaning | pages |
+| --- | --- | --- |
+| `HEALTHY` | checkpoint recent, deployment ACTIVE, heartbeat recent | no |
+| `CHAIN_OK_PROCESS_UNKNOWN` | checkpoint recent, process not readable: **not** a claim of health | no |
+| `EXPECTED_WAIT` | feed over 12 h old, or just back: expected oracle refusal | no |
+| `EXPECTED_PAUSED` | allocation paused or emergency mode: the worker cannot send | no |
+| `GAS_LOW` / `GAS_CRITICAL` | under 3 active days of gas (`ALARM_BURN_WEI_PER_DAY`) / under the worker's floor | yes |
+| `STALLED` | gas, fresh feed, no pause, checkpoint over 7,800 s old, nonce not moving | yes |
+| `FAILED_SENDS` | nonce moved without the checkpoint advancing, or `SEND FAILED` / `REVERTED ON-CHAIN` in the logs | yes |
+| `PROCESS_DOWN` | deployment not ACTIVE, no heartbeat for 900 s, or `EXECUTE=false` (needs DigitalOcean access) | yes |
+| `RPC_FAILURE` | the alarm's own reads failed: says nothing about the keeper | yes |
+
+A passing job means "no page", not "healthy". **While the feed is stale or the pair is paused, a dead process is invisible
+from chain reads.** The optional `KEEPER_ALARM_DO_READ_TOKEN` secret (read-only `app:read` scope) closes that gap.
+
+**A silent alarm is not evidence of health:** GitHub delays scheduled runs and disables them after 60 days without repo
+activity, and nothing watches the alarm itself. Delivery test: `gh workflow run keeper-alarm.yml -f drill=true`, confirm the
+notification reached a person, then `gh workflow run keeper-alarm.yml` and confirm the issue closed.
+
 ## Setup (all local, user-signed)
 
 ```sh
