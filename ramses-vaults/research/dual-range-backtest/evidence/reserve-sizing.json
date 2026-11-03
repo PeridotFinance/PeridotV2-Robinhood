@@ -1,0 +1,3049 @@
+{
+ "schema": "ramses-reserve-sizing-1",
+ "doc": "Stress sizing of the dedicated loss-reserve seed at the CURRENT CAPS (and, labelled COUNTERFACTUAL, at higher ranged caps). Offline; changes nothing.\n\nDefinitions (all USD, per the vault's own accounting: benchmark = principals valued at the current oracle price, gross = what the pair holds, shortfall =\nbenchmark - gross, recognized pro rata across both sides' principals):\n  deployed position   matched value V0 deployed at price p0 into a Uniswap-v3-style range [p0*1.0001^-h, p0*1.0001^h] (h ticks) or full range\n  shortfall S(p)      hold(p) - LP(p) for a GAP move to price p (no recentre, no fee income: 'assume no future income for day-one backing')\n  composition deficit the scarce token's native claim (after the pro-rata write-down f = LP/hold) minus what the position holds of it:\n                        price falls  -> USDG deficit  D_u = max(0, y0 f - y(p));  price rises -> stock deficit D_s = max(0, x0 f - x(p)) (valued at p)\n                      This is the CASH the reserve must hold in the scarce token for all suppliers of that side to exit concurrently WITHOUT a settlement swap\n                      (swaps are paused in the configuration). It is a liquidity need, not an additional economic loss; the stock-side surplus stays in the vault.\n  swap path           if the bounded settlement swap were enabled, the surplus token is converted at <= maxSwapSlippageBps (+ pool fee): cost = converted value x\n                      (slippage + fee). Reported as an alternative to funding the whole composition deficit.\n  recovery gas        a handful of keeper/withdrawal transactions, counted ONCE.\nSeed requirement (100% coverage of the MODELED aggregate strategy shortfall): S + swap-path cost + recovery gas, with 25% and 50% contingency on top;\nand, separately, the no-swap cash requirement D. The two are never added (they overlap). Historical moves are a baseline, not proof of sufficiency.\nRetention: earnings retained at reserveFeeBps (<= 5,000 contract maximum) accumulate from LP fees measured in baseline_*_caps.json; nothing is counted on day one.\n\n  python3 reserve_sizing.py     writes evidence/reserve-sizing.json\n",
+ "caps": {
+  "pairCapUsd": 1000.0,
+  "rangedCapUsd": 50.0
+ },
+ "assumptions": {
+  "swapSlippageBps": 100,
+  "poolFeeBps": {
+   "SPY": 1.5,
+   "NVDA": 1.5
+  },
+  "recoveryTxs": 5,
+  "recoveryGasUsdEach": 0.0663,
+  "contingency": [
+   0.0,
+   0.25,
+   0.5
+  ],
+  "retentionMaxBps": 5000
+ },
+ "historicalExcursions": {
+  "SPY": {
+   "24h": {
+    "worstDown": 0.9838133496896125,
+    "worstUp": 1.0154609658331741
+   },
+   "7d": {
+    "worstDown": 0.9762513701089235,
+    "worstUp": 1.0590667402020395
+   },
+   "28d": {
+    "worstDown": 0.9657135165331512,
+    "worstUp": 1.0662674746422858
+   },
+   "whole window": {
+    "worstDown": 0.9654445686675148,
+    "worstUp": 1.0714840630917855
+   }
+  },
+  "NVDA": {
+   "24h": {
+    "worstDown": 0.9299292653912644,
+    "worstUp": 1.1199886910362313
+   },
+   "7d": {
+    "worstDown": 0.887169536767807,
+    "worstUp": 1.1717294761222887
+   },
+   "28d": {
+    "worstDown": 0.8306051944129696,
+    "worstUp": 1.2007944939720079
+   },
+   "whole window": {
+    "worstDown": 0.8306051944129696,
+    "worstUp": 1.2845646506140171
+   }
+  }
+ },
+ "scenarios": {
+  "SPY historical worst within 24h": {
+   "pair": "SPY",
+   "down": 0.9838133496896125,
+   "up": 1.0154609658331741
+  },
+  "SPY historical worst within 7d": {
+   "pair": "SPY",
+   "down": 0.9762513701089235,
+   "up": 1.0590667402020395
+  },
+  "SPY historical worst within 28d": {
+   "pair": "SPY",
+   "down": 0.9657135165331512,
+   "up": 1.0662674746422858
+  },
+  "SPY historical worst within whole window": {
+   "pair": "SPY",
+   "down": 0.9654445686675148,
+   "up": 1.0714840630917855
+  },
+  "NVDA historical worst within 24h": {
+   "pair": "NVDA",
+   "down": 0.9299292653912644,
+   "up": 1.1199886910362313
+  },
+  "NVDA historical worst within 7d": {
+   "pair": "NVDA",
+   "down": 0.887169536767807,
+   "up": 1.1717294761222887
+  },
+  "NVDA historical worst within 28d": {
+   "pair": "NVDA",
+   "down": 0.8306051944129696,
+   "up": 1.2007944939720079
+  },
+  "NVDA historical worst within whole window": {
+   "pair": "NVDA",
+   "down": 0.8306051944129696,
+   "up": 1.2845646506140171
+  },
+  "SPY synthetic gap 30%": {
+   "pair": "SPY",
+   "down": 0.7,
+   "up": 1.4285714285714286
+  },
+  "NVDA synthetic gap 30%": {
+   "pair": "NVDA",
+   "down": 0.7,
+   "up": 1.4285714285714286
+  },
+  "SPY synthetic gap 50%": {
+   "pair": "SPY",
+   "down": 0.5,
+   "up": 2.0
+  },
+  "NVDA synthetic gap 50%": {
+   "pair": "NVDA",
+   "down": 0.5,
+   "up": 2.0
+  }
+ },
+ "rows": [
+  {
+   "config": "A. current caps: \u00b1600 ticks, $50 ranged (cap-compatible)",
+   "deployedUsd": 50.0,
+   "halfWidthTicks": 600,
+   "scenario": "SPY historical worst within 24h",
+   "direction": "down",
+   "ratio": 0.9838133496896125,
+   "shortfallUsd": 0.055863567718247964,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 6.846219304453751,
+   "swapPathCostUsd": 0.06948912594020556,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 0.45685269365845355,
+   "noSwapCashSeedUsd": 7.177719304453751,
+   "withContingency": {
+    "0%": 0.45685269365845355,
+    "25%": 0.571065867073067,
+    "50%": 0.6852790404876803
+   }
+  },
+  {
+   "config": "A. current caps: \u00b1600 ticks, $50 ranged (cap-compatible)",
+   "deployedUsd": 50.0,
+   "halfWidthTicks": 600,
+   "scenario": "SPY historical worst within 24h",
+   "direction": "up",
+   "ratio": 1.0154609658331741,
+   "shortfallUsd": 0.050166467169106,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 6.539312937456221,
+   "swapPathCostUsd": 0.06637402631518063,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 0.44804049348428665,
+   "noSwapCashSeedUsd": 6.870812937456221,
+   "withContingency": {
+    "0%": 0.44804049348428665,
+    "25%": 0.5600506168553583,
+    "50%": 0.67206074022643
+   }
+  },
+  {
+   "config": "A. current caps: \u00b1600 ticks, $50 ranged (cap-compatible)",
+   "deployedUsd": 50.0,
+   "halfWidthTicks": 600,
+   "scenario": "SPY historical worst within 7d",
+   "direction": "down",
+   "ratio": 0.9762513701089235,
+   "shortfallUsd": 0.12071434819993243,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 10.044202930075961,
+   "swapPathCostUsd": 0.10194865974027101,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 0.5541630079402035,
+   "noSwapCashSeedUsd": 10.375702930075962,
+   "withContingency": {
+    "0%": 0.5541630079402035,
+    "25%": 0.6927037599252543,
+    "50%": 0.8312445119103051
+   }
+  },
+  {
+   "config": "A. current caps: \u00b1600 ticks, $50 ranged (cap-compatible)",
+   "deployedUsd": 50.0,
+   "halfWidthTicks": 600,
+   "scenario": "SPY historical worst within 7d",
+   "direction": "up",
+   "ratio": 1.0590667402020395,
+   "shortfallUsd": 0.7168251515901076,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 24.973103644990587,
+   "swapPathCostUsd": 0.25347700199665446,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 1.301802153586762,
+   "noSwapCashSeedUsd": 25.304603644990586,
+   "withContingency": {
+    "0%": 1.301802153586762,
+    "25%": 1.6272526919834527,
+    "50%": 1.952703230380143
+   }
+  },
+  {
+   "config": "A. current caps: \u00b1600 ticks, $50 ranged (cap-compatible)",
+   "deployedUsd": 50.0,
+   "halfWidthTicks": 600,
+   "scenario": "SPY historical worst within 28d",
+   "direction": "down",
+   "ratio": 0.9657135165331512,
+   "shortfallUsd": 0.2529688114523978,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 14.499904798615692,
+   "swapPathCostUsd": 0.14717403370594928,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 0.7316428451583471,
+   "noSwapCashSeedUsd": 14.831404798615692,
+   "withContingency": {
+    "0%": 0.7316428451583471,
+    "25%": 0.9145535564479339,
+    "50%": 1.0974642677375206
+   }
+  },
+  {
+   "config": "A. current caps: \u00b1600 ticks, $50 ranged (cap-compatible)",
+   "deployedUsd": 50.0,
+   "halfWidthTicks": 600,
+   "scenario": "SPY historical worst within 28d",
+   "direction": "up",
+   "ratio": 1.0662674746422858,
+   "shortfallUsd": 0.8953621566594023,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 26.194648162265,
+   "swapPathCostUsd": 0.26587567884698976,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 1.492737835506392,
+   "noSwapCashSeedUsd": 26.526148162265,
+   "withContingency": {
+    "0%": 1.492737835506392,
+    "25%": 1.86592229438299,
+    "50%": 2.239106753259588
+   }
+  },
+  {
+   "config": "A. current caps: \u00b1600 ticks, $50 ranged (cap-compatible)",
+   "deployedUsd": 50.0,
+   "halfWidthTicks": 600,
+   "scenario": "SPY historical worst within whole window",
+   "direction": "down",
+   "ratio": 0.9654445686675148,
+   "shortfallUsd": 0.2569884949928465,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 14.613608394734277,
+   "swapPathCostUsd": 0.14832812520655292,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 0.7368166201993994,
+   "noSwapCashSeedUsd": 14.945108394734277,
+   "withContingency": {
+    "0%": 0.7368166201993994,
+    "25%": 0.9210207752492493,
+    "50%": 1.105224930299099
+   }
+  },
+  {
+   "config": "A. current caps: \u00b1600 ticks, $50 ranged (cap-compatible)",
+   "deployedUsd": 50.0,
+   "halfWidthTicks": 600,
+   "scenario": "SPY historical worst within whole window",
+   "direction": "up",
+   "ratio": 1.0714840630917855,
+   "shortfallUsd": 1.0257768678968944,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 26.256514069612162,
+   "swapPathCostUsd": 0.26650361780656345,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 1.623780485703458,
+   "noSwapCashSeedUsd": 26.58801406961216,
+   "withContingency": {
+    "0%": 1.623780485703458,
+    "25%": 2.0297256071293224,
+    "50%": 2.435670728555187
+   }
+  },
+  {
+   "config": "A. current caps: \u00b1600 ticks, $50 ranged (cap-compatible)",
+   "deployedUsd": 50.0,
+   "halfWidthTicks": 600,
+   "scenario": "NVDA historical worst within 24h",
+   "direction": "down",
+   "ratio": 0.9299292653912644,
+   "shortfallUsd": 1.0437902374840249,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 24.459156220799457,
+   "swapPathCostUsd": 0.2482604356411145,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 1.6235506731251395,
+   "noSwapCashSeedUsd": 24.790656220799455,
+   "withContingency": {
+    "0%": 1.6235506731251395,
+    "25%": 2.0294383414064243,
+    "50%": 2.435326009687709
+   }
+  },
+  {
+   "config": "A. current caps: \u00b1600 ticks, $50 ranged (cap-compatible)",
+   "deployedUsd": 50.0,
+   "halfWidthTicks": 600,
+   "scenario": "NVDA historical worst within 24h",
+   "direction": "up",
+   "ratio": 1.1199886910362313,
+   "shortfallUsd": 2.2383925665080397,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 26.8171758919877,
+   "swapPathCostUsd": 0.27219433530367515,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 2.842086901811715,
+   "noSwapCashSeedUsd": 27.148675891987697,
+   "withContingency": {
+    "0%": 2.842086901811715,
+    "25%": 3.552608627264644,
+    "50%": 4.263130352717573
+   }
+  },
+  {
+   "config": "A. current caps: \u00b1600 ticks, $50 ranged (cap-compatible)",
+   "deployedUsd": 50.0,
+   "halfWidthTicks": 600,
+   "scenario": "NVDA historical worst within 7d",
+   "direction": "down",
+   "ratio": 0.887169536767807,
+   "shortfallUsd": 2.1453374910386316,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 23.863198324665145,
+   "swapPathCostUsd": 0.2422114629953512,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 2.719048954033983,
+   "noSwapCashSeedUsd": 24.194698324665143,
+   "withContingency": {
+    "0%": 2.719048954033983,
+    "25%": 3.3988111925424787,
+    "50%": 4.078573431050974
+   }
+  },
+  {
+   "config": "A. current caps: \u00b1600 ticks, $50 ranged (cap-compatible)",
+   "deployedUsd": 50.0,
+   "halfWidthTicks": 600,
+   "scenario": "NVDA historical worst within 7d",
+   "direction": "up",
+   "ratio": 1.1717294761222887,
+   "shortfallUsd": 3.5319121936594655,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 27.387637854055956,
+   "swapPathCostUsd": 0.277984524218668,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 4.141396717878133,
+   "noSwapCashSeedUsd": 27.719137854055955,
+   "withContingency": {
+    "0%": 4.141396717878133,
+    "25%": 5.176745897347667,
+    "50%": 6.212095076817199
+   }
+  },
+  {
+   "config": "A. current caps: \u00b1600 ticks, $50 ranged (cap-compatible)",
+   "deployedUsd": 50.0,
+   "halfWidthTicks": 600,
+   "scenario": "NVDA historical worst within 28d",
+   "direction": "down",
+   "ratio": 0.8306051944129696,
+   "shortfallUsd": 3.6025098814151377,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 23.032066175486683,
+   "swapPathCostUsd": 0.23377547168118987,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 4.167785353096328,
+   "noSwapCashSeedUsd": 23.36356617548668,
+   "withContingency": {
+    "0%": 4.167785353096328,
+    "25%": 5.2097316913704095,
+    "50%": 6.251678029644491
+   }
+  },
+  {
+   "config": "A. current caps: \u00b1600 ticks, $50 ranged (cap-compatible)",
+   "deployedUsd": 50.0,
+   "halfWidthTicks": 600,
+   "scenario": "NVDA historical worst within 28d",
+   "direction": "up",
+   "ratio": 1.2007944939720079,
+   "shortfallUsd": 4.258537639902443,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 27.696324843016086,
+   "swapPathCostUsd": 0.2811176971566133,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 4.871155337059056,
+   "noSwapCashSeedUsd": 28.027824843016084,
+   "withContingency": {
+    "0%": 4.871155337059056,
+    "25%": 6.088944171323821,
+    "50%": 7.306733005588584
+   }
+  },
+  {
+   "config": "A. current caps: \u00b1600 ticks, $50 ranged (cap-compatible)",
+   "deployedUsd": 50.0,
+   "halfWidthTicks": 600,
+   "scenario": "NVDA historical worst within whole window",
+   "direction": "down",
+   "ratio": 0.8306051944129696,
+   "shortfallUsd": 3.6025098814151377,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 23.032066175486683,
+   "swapPathCostUsd": 0.23377547168118987,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 4.167785353096328,
+   "noSwapCashSeedUsd": 23.36356617548668,
+   "withContingency": {
+    "0%": 4.167785353096328,
+    "25%": 5.2097316913704095,
+    "50%": 6.251678029644491
+   }
+  },
+  {
+   "config": "A. current caps: \u00b1600 ticks, $50 ranged (cap-compatible)",
+   "deployedUsd": 50.0,
+   "halfWidthTicks": 600,
+   "scenario": "NVDA historical worst within whole window",
+   "direction": "up",
+   "ratio": 1.2845646506140171,
+   "shortfallUsd": 6.3527915559526775,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 28.54206963348871,
+   "swapPathCostUsd": 0.28970200677991037,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 6.973993562732588,
+   "noSwapCashSeedUsd": 28.873569633488707,
+   "withContingency": {
+    "0%": 6.973993562732588,
+    "25%": 8.717491953415735,
+    "50%": 10.460990344098882
+   }
+  },
+  {
+   "config": "A. current caps: \u00b1600 ticks, $50 ranged (cap-compatible)",
+   "deployedUsd": 50.0,
+   "halfWidthTicks": 600,
+   "scenario": "SPY synthetic gap 30%",
+   "direction": "down",
+   "ratio": 0.7,
+   "shortfallUsd": 6.967072703421664,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 20.901721939163767,
+   "swapPathCostUsd": 0.21215247768251225,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 7.510725181104176,
+   "noSwapCashSeedUsd": 21.233221939163766,
+   "withContingency": {
+    "0%": 7.510725181104176,
+    "25%": 9.38840647638022,
+    "50%": 11.266087771656263
+   }
+  },
+  {
+   "config": "A. current caps: \u00b1600 ticks, $50 ranged (cap-compatible)",
+   "deployedUsd": 50.0,
+   "halfWidthTicks": 600,
+   "scenario": "SPY synthetic gap 30%",
+   "direction": "up",
+   "ratio": 1.4285714285714286,
+   "shortfallUsd": 9.952961004887953,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 29.859602770233924,
+   "swapPathCostUsd": 0.3030749681178743,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 10.587535973005828,
+   "noSwapCashSeedUsd": 30.191102770233922,
+   "withContingency": {
+    "0%": 10.587535973005828,
+    "25%": 13.234419966257285,
+    "50%": 15.881303959508742
+   }
+  },
+  {
+   "config": "A. current caps: \u00b1600 ticks, $50 ranged (cap-compatible)",
+   "deployedUsd": 50.0,
+   "halfWidthTicks": 600,
+   "scenario": "NVDA synthetic gap 30%",
+   "direction": "down",
+   "ratio": 0.7,
+   "shortfallUsd": 6.967072703421664,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 20.901721939163767,
+   "swapPathCostUsd": 0.21215247768251225,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 7.510725181104176,
+   "noSwapCashSeedUsd": 21.233221939163766,
+   "withContingency": {
+    "0%": 7.510725181104176,
+    "25%": 9.38840647638022,
+    "50%": 11.266087771656263
+   }
+  },
+  {
+   "config": "A. current caps: \u00b1600 ticks, $50 ranged (cap-compatible)",
+   "deployedUsd": 50.0,
+   "halfWidthTicks": 600,
+   "scenario": "NVDA synthetic gap 30%",
+   "direction": "up",
+   "ratio": 1.4285714285714286,
+   "shortfallUsd": 9.952961004887953,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 29.859602770233924,
+   "swapPathCostUsd": 0.3030749681178743,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 10.587535973005828,
+   "noSwapCashSeedUsd": 30.191102770233922,
+   "withContingency": {
+    "0%": 10.587535973005828,
+    "25%": 13.234419966257285,
+    "50%": 15.881303959508742
+   }
+  },
+  {
+   "config": "A. current caps: \u00b1600 ticks, $50 ranged (cap-compatible)",
+   "deployedUsd": 50.0,
+   "halfWidthTicks": 600,
+   "scenario": "SPY synthetic gap 50%",
+   "direction": "down",
+   "ratio": 0.5,
+   "shortfallUsd": 12.119337645301197,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 16.920441569799237,
+   "swapPathCostUsd": 0.17174248193346225,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 12.62258012723466,
+   "noSwapCashSeedUsd": 17.251941569799236,
+   "withContingency": {
+    "0%": 12.62258012723466,
+    "25%": 15.778225159043323,
+    "50%": 18.93387019085199
+   }
+  },
+  {
+   "config": "A. current caps: \u00b1600 ticks, $50 ranged (cap-compatible)",
+   "deployedUsd": 50.0,
+   "halfWidthTicks": 600,
+   "scenario": "SPY synthetic gap 50%",
+   "direction": "up",
+   "ratio": 2.0,
+   "shortfallUsd": 24.238675290602217,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 33.84088313959845,
+   "swapPathCostUsd": 0.34348496386692434,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 24.91366025446914,
+   "noSwapCashSeedUsd": 34.17238313959845,
+   "withContingency": {
+    "0%": 24.91366025446914,
+    "25%": 31.142075318086423,
+    "50%": 37.37049038170371
+   }
+  },
+  {
+   "config": "A. current caps: \u00b1600 ticks, $50 ranged (cap-compatible)",
+   "deployedUsd": 50.0,
+   "halfWidthTicks": 600,
+   "scenario": "NVDA synthetic gap 50%",
+   "direction": "down",
+   "ratio": 0.5,
+   "shortfallUsd": 12.119337645301197,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 16.920441569799237,
+   "swapPathCostUsd": 0.17174248193346225,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 12.62258012723466,
+   "noSwapCashSeedUsd": 17.251941569799236,
+   "withContingency": {
+    "0%": 12.62258012723466,
+    "25%": 15.778225159043323,
+    "50%": 18.93387019085199
+   }
+  },
+  {
+   "config": "A. current caps: \u00b1600 ticks, $50 ranged (cap-compatible)",
+   "deployedUsd": 50.0,
+   "halfWidthTicks": 600,
+   "scenario": "NVDA synthetic gap 50%",
+   "direction": "up",
+   "ratio": 2.0,
+   "shortfallUsd": 24.238675290602217,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 33.84088313959845,
+   "swapPathCostUsd": 0.34348496386692434,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 24.91366025446914,
+   "noSwapCashSeedUsd": 34.17238313959845,
+   "withContingency": {
+    "0%": 24.91366025446914,
+    "25%": 31.142075318086423,
+    "50%": 37.37049038170371
+   }
+  },
+  {
+   "config": "B. current caps: live policy \u00b12400 ticks, $50 ranged (cap-compatible)",
+   "deployedUsd": 50.0,
+   "halfWidthTicks": 2400,
+   "scenario": "SPY historical worst within 24h",
+   "direction": "down",
+   "ratio": 0.9838133496896125,
+   "shortfallUsd": 0.014600465975973975,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 1.7893234553660236,
+   "swapPathCostUsd": 0.01816163307196514,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 0.36426209904793916,
+   "noSwapCashSeedUsd": 2.1208234553660237,
+   "withContingency": {
+    "0%": 0.36426209904793916,
+    "25%": 0.455327623809924,
+    "50%": 0.5463931485719087
+   }
+  },
+  {
+   "config": "B. current caps: live policy \u00b12400 ticks, $50 ranged (cap-compatible)",
+   "deployedUsd": 50.0,
+   "halfWidthTicks": 2400,
+   "scenario": "SPY historical worst within 24h",
+   "direction": "up",
+   "ratio": 1.0154609658331741,
+   "shortfallUsd": 0.013111475456256017,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 1.7091106055216432,
+   "swapPathCostUsd": 0.01734747264604468,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 0.3619589481023007,
+   "noSwapCashSeedUsd": 2.040610605521643,
+   "withContingency": {
+    "0%": 0.3619589481023007,
+    "25%": 0.4524486851278759,
+    "50%": 0.5429384221534511
+   }
+  },
+  {
+   "config": "B. current caps: live policy \u00b12400 ticks, $50 ranged (cap-compatible)",
+   "deployedUsd": 50.0,
+   "halfWidthTicks": 2400,
+   "scenario": "SPY historical worst within 7d",
+   "direction": "down",
+   "ratio": 0.9762513701089235,
+   "shortfallUsd": 0.03154982407484397,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 2.625146390146945,
+   "swapPathCostUsd": 0.026645235859991494,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 0.3896950599348355,
+   "noSwapCashSeedUsd": 2.956646390146945,
+   "withContingency": {
+    "0%": 0.3896950599348355,
+    "25%": 0.48711882491854436,
+    "50%": 0.5845425899022533
+   }
+  },
+  {
+   "config": "B. current caps: live policy \u00b12400 ticks, $50 ranged (cap-compatible)",
+   "deployedUsd": 50.0,
+   "halfWidthTicks": 2400,
+   "scenario": "SPY historical worst within 7d",
+   "direction": "up",
+   "ratio": 1.0590667402020395,
+   "shortfallUsd": 0.18734895861459222,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 6.5269542382609576,
+   "swapPathCostUsd": 0.06624858551834871,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 0.5850975441329409,
+   "noSwapCashSeedUsd": 6.858454238260958,
+   "withContingency": {
+    "0%": 0.5850975441329409,
+    "25%": 0.7313719301661761,
+    "50%": 0.8776463161994114
+   }
+  },
+  {
+   "config": "B. current caps: live policy \u00b12400 ticks, $50 ranged (cap-compatible)",
+   "deployedUsd": 50.0,
+   "halfWidthTicks": 2400,
+   "scenario": "SPY historical worst within 28d",
+   "direction": "down",
+   "ratio": 0.9657135165331512,
+   "shortfallUsd": 0.06611576516594653,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 3.7896857525231695,
+   "swapPathCostUsd": 0.03846531038811017,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 0.43608107555405673,
+   "noSwapCashSeedUsd": 4.12118575252317,
+   "withContingency": {
+    "0%": 0.43608107555405673,
+    "25%": 0.545101344442571,
+    "50%": 0.6541216133310851
+   }
+  },
+  {
+   "config": "B. current caps: live policy \u00b12400 ticks, $50 ranged (cap-compatible)",
+   "deployedUsd": 50.0,
+   "halfWidthTicks": 2400,
+   "scenario": "SPY historical worst within 28d",
+   "direction": "up",
+   "ratio": 1.0662674746422858,
+   "shortfallUsd": 0.23500242635017798,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 7.321891435530097,
+   "swapPathCostUsd": 0.07431719807063049,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 0.6408196244208084,
+   "noSwapCashSeedUsd": 7.653391435530097,
+   "withContingency": {
+    "0%": 0.6408196244208084,
+    "25%": 0.8010245305260105,
+    "50%": 0.9612294366312126
+   }
+  },
+  {
+   "config": "B. current caps: live policy \u00b12400 ticks, $50 ranged (cap-compatible)",
+   "deployedUsd": 50.0,
+   "halfWidthTicks": 2400,
+   "scenario": "SPY historical worst within whole window",
+   "direction": "down",
+   "ratio": 0.9654445686675148,
+   "shortfallUsd": 0.06716634705972524,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 3.819403250962356,
+   "swapPathCostUsd": 0.03876694299726791,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 0.43743329005699316,
+   "noSwapCashSeedUsd": 4.150903250962356,
+   "withContingency": {
+    "0%": 0.43743329005699316,
+    "25%": 0.5467916125712414,
+    "50%": 0.6561499350854898
+   }
+  },
+  {
+   "config": "B. current caps: live policy \u00b12400 ticks, $50 ranged (cap-compatible)",
+   "deployedUsd": 50.0,
+   "halfWidthTicks": 2400,
+   "scenario": "SPY historical worst within whole window",
+   "direction": "up",
+   "ratio": 1.0714840630917855,
+   "shortfallUsd": 0.2727800107450733,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 7.89763055937479,
+   "swapPathCostUsd": 0.08016095017765412,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 0.6844409609227274,
+   "noSwapCashSeedUsd": 8.22913055937479,
+   "withContingency": {
+    "0%": 0.6844409609227274,
+    "25%": 0.8555512011534093,
+    "50%": 1.026661441384091
+   }
+  },
+  {
+   "config": "B. current caps: live policy \u00b12400 ticks, $50 ranged (cap-compatible)",
+   "deployedUsd": 50.0,
+   "halfWidthTicks": 2400,
+   "scenario": "NVDA historical worst within 24h",
+   "direction": "down",
+   "ratio": 0.9299292653912644,
+   "shortfallUsd": 0.2813335150884271,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 7.740990949120484,
+   "swapPathCostUsd": 0.07857105813357292,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 0.691404573222,
+   "noSwapCashSeedUsd": 8.072490949120484,
+   "withContingency": {
+    "0%": 0.691404573222,
+    "25%": 0.8642557165275,
+    "50%": 1.037106859833
+   }
+  },
+  {
+   "config": "B. current caps: live policy \u00b12400 ticks, $50 ranged (cap-compatible)",
+   "deployedUsd": 50.0,
+   "halfWidthTicks": 2400,
+   "scenario": "NVDA historical worst within 24h",
+   "direction": "up",
+   "ratio": 1.1199886910362313,
+   "shortfallUsd": 0.7513488737086789,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 13.243107771029928,
+   "swapPathCostUsd": 0.13441754387595375,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 1.2172664175846326,
+   "noSwapCashSeedUsd": 13.574607771029928,
+   "withContingency": {
+    "0%": 1.2172664175846326,
+    "25%": 1.5215830219807907,
+    "50%": 1.825899626376949
+   }
+  },
+  {
+   "config": "B. current caps: live policy \u00b12400 ticks, $50 ranged (cap-compatible)",
+   "deployedUsd": 50.0,
+   "halfWidthTicks": 2400,
+   "scenario": "NVDA historical worst within 7d",
+   "direction": "down",
+   "ratio": 0.887169536767807,
+   "shortfallUsd": 0.7464088568254468,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 12.450737797210925,
+   "swapPathCostUsd": 0.1263749886416909,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 1.2042838454671378,
+   "noSwapCashSeedUsd": 12.782237797210925,
+   "withContingency": {
+    "0%": 1.2042838454671378,
+    "25%": 1.5053548068339224,
+    "50%": 1.8064257682007068
+   }
+  },
+  {
+   "config": "B. current caps: live policy \u00b12400 ticks, $50 ranged (cap-compatible)",
+   "deployedUsd": 50.0,
+   "halfWidthTicks": 2400,
+   "scenario": "NVDA historical worst within 7d",
+   "direction": "up",
+   "ratio": 1.1717294761222887,
+   "shortfallUsd": 1.503525451184828,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 18.924705066838584,
+   "swapPathCostUsd": 0.19208575642841164,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 2.0271112076132396,
+   "noSwapCashSeedUsd": 19.256205066838582,
+   "withContingency": {
+    "0%": 2.0271112076132396,
+    "25%": 2.5338890095165496,
+    "50%": 3.040666811419859
+   }
+  },
+  {
+   "config": "B. current caps: live policy \u00b12400 ticks, $50 ranged (cap-compatible)",
+   "deployedUsd": 50.0,
+   "halfWidthTicks": 2400,
+   "scenario": "NVDA historical worst within 28d",
+   "direction": "down",
+   "ratio": 0.8306051944129696,
+   "shortfallUsd": 1.7365388254032936,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 18.645715052801606,
+   "swapPathCostUsd": 0.1892540077859363,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 2.25729283318923,
+   "noSwapCashSeedUsd": 18.977215052801604,
+   "withContingency": {
+    "0%": 2.25729283318923,
+    "25%": 2.8216160414865374,
+    "50%": 3.385939249783845
+   }
+  },
+  {
+   "config": "B. current caps: live policy \u00b12400 ticks, $50 ranged (cap-compatible)",
+   "deployedUsd": 50.0,
+   "halfWidthTicks": 2400,
+   "scenario": "NVDA historical worst within 28d",
+   "direction": "up",
+   "ratio": 1.2007944939720079,
+   "shortfallUsd": 2.0294439602769287,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 22.104616063590417,
+   "swapPathCostUsd": 0.22436185304544273,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 2.5853058133223716,
+   "noSwapCashSeedUsd": 22.436116063590415,
+   "withContingency": {
+    "0%": 2.5853058133223716,
+    "25%": 3.2316322666529644,
+    "50%": 3.8779587199835577
+   }
+  },
+  {
+   "config": "B. current caps: live policy \u00b12400 ticks, $50 ranged (cap-compatible)",
+   "deployedUsd": 50.0,
+   "halfWidthTicks": 2400,
+   "scenario": "NVDA historical worst within whole window",
+   "direction": "down",
+   "ratio": 0.8306051944129696,
+   "shortfallUsd": 1.7365388254032936,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 18.645715052801606,
+   "swapPathCostUsd": 0.1892540077859363,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 2.25729283318923,
+   "noSwapCashSeedUsd": 18.977215052801604,
+   "withContingency": {
+    "0%": 2.25729283318923,
+    "25%": 2.8216160414865374,
+    "50%": 3.385939249783845
+   }
+  },
+  {
+   "config": "B. current caps: live policy \u00b12400 ticks, $50 ranged (cap-compatible)",
+   "deployedUsd": 50.0,
+   "halfWidthTicks": 2400,
+   "scenario": "NVDA historical worst within whole window",
+   "direction": "up",
+   "ratio": 1.2845646506140171,
+   "shortfallUsd": 3.9268640886127173,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 29.90611974634547,
+   "swapPathCostUsd": 0.3035471154254065,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 4.561911204038124,
+   "noSwapCashSeedUsd": 30.23761974634547,
+   "withContingency": {
+    "0%": 4.561911204038124,
+    "25%": 5.702389005047655,
+    "50%": 6.842866806057185
+   }
+  },
+  {
+   "config": "B. current caps: live policy \u00b12400 ticks, $50 ranged (cap-compatible)",
+   "deployedUsd": 50.0,
+   "halfWidthTicks": 2400,
+   "scenario": "SPY synthetic gap 30%",
+   "direction": "down",
+   "ratio": 0.7,
+   "shortfallUsd": 5.268923476283604,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 21.90063324924494,
+   "swapPathCostUsd": 0.22229142747983616,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 5.82271490376344,
+   "noSwapCashSeedUsd": 22.23213324924494,
+   "withContingency": {
+    "0%": 5.82271490376344,
+    "25%": 7.2783936297043,
+    "50%": 8.734072355645159
+   }
+  },
+  {
+   "config": "B. current caps: live policy \u00b12400 ticks, $50 ranged (cap-compatible)",
+   "deployedUsd": 50.0,
+   "halfWidthTicks": 2400,
+   "scenario": "SPY synthetic gap 30%",
+   "direction": "up",
+   "ratio": 1.4285714285714286,
+   "shortfallUsd": 7.527033537548007,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 31.28661892749277,
+   "swapPathCostUsd": 0.31755918211405165,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 8.176092719662059,
+   "noSwapCashSeedUsd": 31.61811892749277,
+   "withContingency": {
+    "0%": 8.176092719662059,
+    "25%": 10.220115899577573,
+    "50%": 12.264139079493088
+   }
+  },
+  {
+   "config": "B. current caps: live policy \u00b12400 ticks, $50 ranged (cap-compatible)",
+   "deployedUsd": 50.0,
+   "halfWidthTicks": 2400,
+   "scenario": "NVDA synthetic gap 30%",
+   "direction": "down",
+   "ratio": 0.7,
+   "shortfallUsd": 5.268923476283604,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 21.90063324924494,
+   "swapPathCostUsd": 0.22229142747983616,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 5.82271490376344,
+   "noSwapCashSeedUsd": 22.23213324924494,
+   "withContingency": {
+    "0%": 5.82271490376344,
+    "25%": 7.2783936297043,
+    "50%": 8.734072355645159
+   }
+  },
+  {
+   "config": "B. current caps: live policy \u00b12400 ticks, $50 ranged (cap-compatible)",
+   "deployedUsd": 50.0,
+   "halfWidthTicks": 2400,
+   "scenario": "NVDA synthetic gap 30%",
+   "direction": "up",
+   "ratio": 1.4285714285714286,
+   "shortfallUsd": 7.527033537548007,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 31.28661892749277,
+   "swapPathCostUsd": 0.31755918211405165,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 8.176092719662059,
+   "noSwapCashSeedUsd": 31.61811892749277,
+   "withContingency": {
+    "0%": 8.176092719662059,
+    "25%": 10.220115899577573,
+    "50%": 12.264139079493088
+   }
+  },
+  {
+   "config": "B. current caps: live policy \u00b12400 ticks, $50 ranged (cap-compatible)",
+   "deployedUsd": 50.0,
+   "halfWidthTicks": 2400,
+   "scenario": "SPY synthetic gap 50%",
+   "direction": "down",
+   "ratio": 0.5,
+   "shortfallUsd": 10.906373911631146,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 17.72908405891257,
+   "swapPathCostUsd": 0.1799502031979626,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 11.41782411482911,
+   "noSwapCashSeedUsd": 18.060584058912568,
+   "withContingency": {
+    "0%": 11.41782411482911,
+    "25%": 14.272280143536387,
+    "50%": 17.126736172243664
+   }
+  },
+  {
+   "config": "B. current caps: live policy \u00b12400 ticks, $50 ranged (cap-compatible)",
+   "deployedUsd": 50.0,
+   "halfWidthTicks": 2400,
+   "scenario": "SPY synthetic gap 50%",
+   "direction": "up",
+   "ratio": 2.0,
+   "shortfallUsd": 21.812747823262292,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 35.45816811782514,
+   "swapPathCostUsd": 0.3599004063959252,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 22.504148229658217,
+   "noSwapCashSeedUsd": 35.78966811782514,
+   "withContingency": {
+    "0%": 22.504148229658217,
+    "25%": 28.13018528707277,
+    "50%": 33.75622234448733
+   }
+  },
+  {
+   "config": "B. current caps: live policy \u00b12400 ticks, $50 ranged (cap-compatible)",
+   "deployedUsd": 50.0,
+   "halfWidthTicks": 2400,
+   "scenario": "NVDA synthetic gap 50%",
+   "direction": "down",
+   "ratio": 0.5,
+   "shortfallUsd": 10.906373911631146,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 17.72908405891257,
+   "swapPathCostUsd": 0.1799502031979626,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 11.41782411482911,
+   "noSwapCashSeedUsd": 18.060584058912568,
+   "withContingency": {
+    "0%": 11.41782411482911,
+    "25%": 14.272280143536387,
+    "50%": 17.126736172243664
+   }
+  },
+  {
+   "config": "B. current caps: live policy \u00b12400 ticks, $50 ranged (cap-compatible)",
+   "deployedUsd": 50.0,
+   "halfWidthTicks": 2400,
+   "scenario": "NVDA synthetic gap 50%",
+   "direction": "up",
+   "ratio": 2.0,
+   "shortfallUsd": 21.812747823262292,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 35.45816811782514,
+   "swapPathCostUsd": 0.3599004063959252,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 22.504148229658217,
+   "noSwapCashSeedUsd": 35.78966811782514,
+   "withContingency": {
+    "0%": 22.504148229658217,
+    "25%": 28.13018528707277,
+    "50%": 33.75622234448733
+   }
+  },
+  {
+   "config": "C. current caps: full range, whole $1,000 pair (cap-compatible; the ranged cap applies to ranged policies)",
+   "deployedUsd": 1000.0,
+   "halfWidthTicks": null,
+   "scenario": "SPY historical worst within 24h",
+   "direction": "down",
+   "ratio": 0.9838133496896125,
+   "shortfallUsd": 0.033018765509154946,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 4.046531918241101,
+   "swapPathCostUsd": 0.04107229897014718,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 0.40559106447930215,
+   "noSwapCashSeedUsd": 4.378031918241101,
+   "withContingency": {
+    "0%": 0.40559106447930215,
+    "25%": 0.5069888305991277,
+    "50%": 0.6083865967189532
+   }
+  },
+  {
+   "config": "C. current caps: full range, whole $1,000 pair (cap-compatible; the ranged cap applies to ranged policies)",
+   "deployedUsd": 1000.0,
+   "halfWidthTicks": null,
+   "scenario": "SPY historical worst within 24h",
+   "direction": "up",
+   "ratio": 1.0154609658331741,
+   "shortfallUsd": 0.029651432651689902,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 3.865131592785749,
+   "swapPathCostUsd": 0.03923108566677535,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 0.4003825183184653,
+   "noSwapCashSeedUsd": 4.1966315927857485,
+   "withContingency": {
+    "0%": 0.4003825183184653,
+    "25%": 0.5004781478980815,
+    "50%": 0.6005737774776979
+   }
+  },
+  {
+   "config": "C. current caps: full range, whole $1,000 pair (cap-compatible; the ranged cap applies to ranged policies)",
+   "deployedUsd": 1000.0,
+   "halfWidthTicks": null,
+   "scenario": "SPY historical worst within 7d",
+   "direction": "down",
+   "ratio": 0.9762513701089235,
+   "shortfallUsd": 0.07134952026183328,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 5.936734706029995,
+   "swapPathCostUsd": 0.06025785726620445,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 0.46310737752803777,
+   "noSwapCashSeedUsd": 6.268234706029995,
+   "withContingency": {
+    "0%": 0.46310737752803777,
+    "25%": 0.5788842219100472,
+    "50%": 0.6946610662920567
+   }
+  },
+  {
+   "config": "C. current caps: full range, whole $1,000 pair (cap-compatible; the ranged cap applies to ranged policies)",
+   "deployedUsd": 1000.0,
+   "halfWidthTicks": null,
+   "scenario": "SPY historical worst within 7d",
+   "direction": "up",
+   "ratio": 1.0590667402020395,
+   "shortfallUsd": 0.42368725375467875,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 14.760622834745847,
+   "swapPathCostUsd": 0.14982032177267035,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 0.9050075755273491,
+   "noSwapCashSeedUsd": 15.092122834745847,
+   "withContingency": {
+    "0%": 0.9050075755273491,
+    "25%": 1.1312594694091864,
+    "50%": 1.3575113632910236
+   }
+  },
+  {
+   "config": "C. current caps: full range, whole $1,000 pair (cap-compatible; the ranged cap applies to ranged policies)",
+   "deployedUsd": 1000.0,
+   "halfWidthTicks": null,
+   "scenario": "SPY historical worst within 28d",
+   "direction": "down",
+   "ratio": 0.9657135165331512,
+   "shortfallUsd": 0.14951995025853648,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 8.570325455523403,
+   "swapPathCostUsd": 0.08698880337356255,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 0.568008753632099,
+   "noSwapCashSeedUsd": 8.901825455523403,
+   "withContingency": {
+    "0%": 0.568008753632099,
+    "25%": 0.7100109420401237,
+    "50%": 0.8520131304481485
+   }
+  },
+  {
+   "config": "C. current caps: full range, whole $1,000 pair (cap-compatible; the ranged cap applies to ranged policies)",
+   "deployedUsd": 1000.0,
+   "halfWidthTicks": null,
+   "scenario": "SPY historical worst within 28d",
+   "direction": "up",
+   "ratio": 1.0662674746422858,
+   "shortfallUsd": 0.5314549564743629,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 16.55836305443599,
+   "swapPathCostUsd": 0.1680673850025253,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 1.0310223414768882,
+   "noSwapCashSeedUsd": 16.88986305443599,
+   "withContingency": {
+    "0%": 1.0310223414768882,
+    "25%": 1.2887779268461101,
+    "50%": 1.5465335122153323
+   }
+  },
+  {
+   "config": "C. current caps: full range, whole $1,000 pair (cap-compatible; the ranged cap applies to ranged policies)",
+   "deployedUsd": 1000.0,
+   "halfWidthTicks": null,
+   "scenario": "SPY historical worst within whole window",
+   "direction": "down",
+   "ratio": 0.9654445686675148,
+   "shortfallUsd": 0.15189582766242893,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 8.63753119499097,
+   "swapPathCostUsd": 0.08767094162915835,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 0.5710667692915873,
+   "noSwapCashSeedUsd": 8.96903119499097,
+   "withContingency": {
+    "0%": 0.5710667692915873,
+    "25%": 0.7138334616144841,
+    "50%": 0.8566001539373809
+   }
+  },
+  {
+   "config": "C. current caps: full range, whole $1,000 pair (cap-compatible; the ranged cap applies to ranged policies)",
+   "deployedUsd": 1000.0,
+   "halfWidthTicks": null,
+   "scenario": "SPY historical worst within whole window",
+   "direction": "up",
+   "ratio": 1.0714840630917855,
+   "shortfallUsd": 0.6168884763833375,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 17.860389657972227,
+   "swapPathCostUsd": 0.1812829550284181,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 1.1296714314117557,
+   "noSwapCashSeedUsd": 18.191889657972226,
+   "withContingency": {
+    "0%": 1.1296714314117557,
+    "25%": 1.4120892892646948,
+    "50%": 1.6945071471176336
+   }
+  },
+  {
+   "config": "C. current caps: full range, whole $1,000 pair (cap-compatible; the ranged cap applies to ranged policies)",
+   "deployedUsd": 1000.0,
+   "halfWidthTicks": null,
+   "scenario": "NVDA historical worst within 24h",
+   "direction": "down",
+   "ratio": 0.9299292653912644,
+   "shortfallUsd": 0.6362321161452655,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 17.506151199489977,
+   "swapPathCostUsd": 0.17768743467482326,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 1.1454195508200888,
+   "noSwapCashSeedUsd": 17.837651199489976,
+   "withContingency": {
+    "0%": 1.1454195508200888,
+    "25%": 1.431774438525111,
+    "50%": 1.7181293262301334
+   }
+  },
+  {
+   "config": "C. current caps: full range, whole $1,000 pair (cap-compatible; the ranged cap applies to ranged policies)",
+   "deployedUsd": 1000.0,
+   "halfWidthTicks": null,
+   "scenario": "NVDA historical worst within 24h",
+   "direction": "up",
+   "ratio": 1.1199886910362313,
+   "shortfallUsd": 1.699165788096252,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 29.949117434006535,
+   "swapPathCostUsd": 0.3039835419551663,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 2.3346493300514184,
+   "noSwapCashSeedUsd": 30.280617434006533,
+   "withContingency": {
+    "0%": 2.3346493300514184,
+    "25%": 2.918311662564273,
+    "50%": 3.501973995077128
+   }
+  },
+  {
+   "config": "C. current caps: full range, whole $1,000 pair (cap-compatible; the ranged cap applies to ranged policies)",
+   "deployedUsd": 1000.0,
+   "halfWidthTicks": null,
+   "scenario": "NVDA historical worst within 7d",
+   "direction": "down",
+   "ratio": 0.887169536767807,
+   "shortfallUsd": 1.687994003624226,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 28.157182957040334,
+   "swapPathCostUsd": 0.2857954070139594,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 2.3052894106381854,
+   "noSwapCashSeedUsd": 28.488682957040332,
+   "withContingency": {
+    "0%": 2.3052894106381854,
+    "25%": 2.8816117632977316,
+    "50%": 3.4579341159572783
+   }
+  },
+  {
+   "config": "C. current caps: full range, whole $1,000 pair (cap-compatible; the ranged cap applies to ranged policies)",
+   "deployedUsd": 1000.0,
+   "halfWidthTicks": null,
+   "scenario": "NVDA historical worst within 7d",
+   "direction": "up",
+   "ratio": 1.1717294761222887,
+   "shortfallUsd": 3.4002034175887275,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 42.79797644556999,
+   "swapPathCostUsd": 0.4343994609225354,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 4.166102878511262,
+   "noSwapCashSeedUsd": 43.129476445569985,
+   "withContingency": {
+    "0%": 4.166102878511262,
+    "25%": 5.2076285981390775,
+    "50%": 6.249154317766894
+   }
+  },
+  {
+   "config": "C. current caps: full range, whole $1,000 pair (cap-compatible; the ranged cap applies to ranged policies)",
+   "deployedUsd": 1000.0,
+   "halfWidthTicks": null,
+   "scenario": "NVDA historical worst within 28d",
+   "direction": "down",
+   "ratio": 0.8306051944129696,
+   "shortfallUsd": 3.9271601583191114,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 42.167044126829296,
+   "swapPathCostUsd": 0.4279954978873174,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 4.686655656206429,
+   "noSwapCashSeedUsd": 42.498544126829294,
+   "withContingency": {
+    "0%": 4.686655656206429,
+    "25%": 5.858319570258036,
+    "50%": 7.029983484309643
+   }
+  },
+  {
+   "config": "C. current caps: full range, whole $1,000 pair (cap-compatible; the ranged cap applies to ranged policies)",
+   "deployedUsd": 1000.0,
+   "halfWidthTicks": null,
+   "scenario": "NVDA historical worst within 28d",
+   "direction": "up",
+   "ratio": 1.2007944939720079,
+   "shortfallUsd": 4.589561343374953,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 49.98930415489694,
+   "swapPathCostUsd": 0.5073914371722039,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 5.428452780547158,
+   "noSwapCashSeedUsd": 50.32080415489694,
+   "withContingency": {
+    "0%": 5.428452780547158,
+    "25%": 6.785565975683947,
+    "50%": 8.142679170820736
+   }
+  },
+  {
+   "config": "C. current caps: full range, whole $1,000 pair (cap-compatible; the ranged cap applies to ranged policies)",
+   "deployedUsd": 1000.0,
+   "halfWidthTicks": null,
+   "scenario": "NVDA historical worst within whole window",
+   "direction": "down",
+   "ratio": 0.8306051944129696,
+   "shortfallUsd": 3.9271601583191114,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 42.167044126829296,
+   "swapPathCostUsd": 0.4279954978873174,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 4.686655656206429,
+   "noSwapCashSeedUsd": 42.498544126829294,
+   "withContingency": {
+    "0%": 4.686655656206429,
+    "25%": 5.858319570258036,
+    "50%": 7.029983484309643
+   }
+  },
+  {
+   "config": "C. current caps: full range, whole $1,000 pair (cap-compatible; the ranged cap applies to ranged policies)",
+   "deployedUsd": 1000.0,
+   "halfWidthTicks": null,
+   "scenario": "NVDA historical worst within whole window",
+   "direction": "up",
+   "ratio": 1.2845646506140171,
+   "shortfallUsd": 8.895969976720153,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 70.58719419082091,
+   "swapPathCostUsd": 0.7164600210368323,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 9.943929997756985,
+   "noSwapCashSeedUsd": 70.91869419082091,
+   "withContingency": {
+    "0%": 9.943929997756985,
+    "25%": 12.42991249719623,
+    "50%": 14.915894996635478
+   }
+  },
+  {
+   "config": "C. current caps: full range, whole $1,000 pair (cap-compatible; the ranged cap applies to ranged policies)",
+   "deployedUsd": 1000.0,
+   "halfWidthTicks": null,
+   "scenario": "SPY synthetic gap 30%",
+   "direction": "down",
+   "ratio": 0.7,
+   "shortfallUsd": 13.339986805911167,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 73.8230173407299,
+   "swapPathCostUsd": 0.7493036260084085,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 14.420790431919576,
+   "noSwapCashSeedUsd": 74.15451734072991,
+   "withContingency": {
+    "0%": 14.420790431919576,
+    "25%": 18.02598803989947,
+    "50%": 21.631185647879363
+   }
+  },
+  {
+   "config": "C. current caps: full range, whole $1,000 pair (cap-compatible; the ranged cap applies to ranged policies)",
+   "deployedUsd": 1000.0,
+   "halfWidthTicks": null,
+   "scenario": "SPY synthetic gap 30%",
+   "direction": "up",
+   "ratio": 1.4285714285714286,
+   "shortfallUsd": 19.05712400844459,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 105.46145334389986,
+   "swapPathCostUsd": 1.0704337514405835,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 20.45905775988517,
+   "noSwapCashSeedUsd": 105.79295334389987,
+   "withContingency": {
+    "0%": 20.45905775988517,
+    "25%": 25.573822199856462,
+    "50%": 30.688586639827754
+   }
+  },
+  {
+   "config": "C. current caps: full range, whole $1,000 pair (cap-compatible; the ranged cap applies to ranged policies)",
+   "deployedUsd": 1000.0,
+   "halfWidthTicks": null,
+   "scenario": "NVDA synthetic gap 30%",
+   "direction": "down",
+   "ratio": 0.7,
+   "shortfallUsd": 13.339986805911167,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 73.8230173407299,
+   "swapPathCostUsd": 0.7493036260084085,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 14.420790431919576,
+   "noSwapCashSeedUsd": 74.15451734072991,
+   "withContingency": {
+    "0%": 14.420790431919576,
+    "25%": 18.02598803989947,
+    "50%": 21.631185647879363
+   }
+  },
+  {
+   "config": "C. current caps: full range, whole $1,000 pair (cap-compatible; the ranged cap applies to ranged policies)",
+   "deployedUsd": 1000.0,
+   "halfWidthTicks": null,
+   "scenario": "NVDA synthetic gap 30%",
+   "direction": "up",
+   "ratio": 1.4285714285714286,
+   "shortfallUsd": 19.05712400844459,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 105.46145334389986,
+   "swapPathCostUsd": 1.0704337514405835,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 20.45905775988517,
+   "noSwapCashSeedUsd": 105.79295334389987,
+   "withContingency": {
+    "0%": 20.45905775988517,
+    "25%": 25.573822199856462,
+    "50%": 30.688586639827754
+   }
+  },
+  {
+   "config": "C. current caps: full range, whole $1,000 pair (cap-compatible; the ranged cap applies to ranged policies)",
+   "deployedUsd": 1000.0,
+   "halfWidthTicks": null,
+   "scenario": "SPY synthetic gap 50%",
+   "direction": "down",
+   "ratio": 0.5,
+   "shortfallUsd": 42.893261706714156,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 117.8512480490059,
+   "swapPathCostUsd": 1.1961901676974098,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 44.420951874411564,
+   "noSwapCashSeedUsd": 118.18274804900591,
+   "withContingency": {
+    "0%": 44.420951874411564,
+    "25%": 55.52618984301446,
+    "50%": 66.63142781161734
+   }
+  },
+  {
+   "config": "C. current caps: full range, whole $1,000 pair (cap-compatible; the ranged cap applies to ranged policies)",
+   "deployedUsd": 1000.0,
+   "halfWidthTicks": null,
+   "scenario": "SPY synthetic gap 50%",
+   "direction": "up",
+   "ratio": 2.0,
+   "shortfallUsd": 85.78652341342831,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 235.70249609801192,
+   "swapPathCostUsd": 2.392380335394821,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 88.51040374882314,
+   "noSwapCashSeedUsd": 236.03399609801193,
+   "withContingency": {
+    "0%": 88.51040374882314,
+    "25%": 110.63800468602892,
+    "50%": 132.7656056232347
+   }
+  },
+  {
+   "config": "C. current caps: full range, whole $1,000 pair (cap-compatible; the ranged cap applies to ranged policies)",
+   "deployedUsd": 1000.0,
+   "halfWidthTicks": null,
+   "scenario": "NVDA synthetic gap 50%",
+   "direction": "down",
+   "ratio": 0.5,
+   "shortfallUsd": 42.893261706714156,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 117.8512480490059,
+   "swapPathCostUsd": 1.1961901676974098,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 44.420951874411564,
+   "noSwapCashSeedUsd": 118.18274804900591,
+   "withContingency": {
+    "0%": 44.420951874411564,
+    "25%": 55.52618984301446,
+    "50%": 66.63142781161734
+   }
+  },
+  {
+   "config": "C. current caps: full range, whole $1,000 pair (cap-compatible; the ranged cap applies to ranged policies)",
+   "deployedUsd": 1000.0,
+   "halfWidthTicks": null,
+   "scenario": "NVDA synthetic gap 50%",
+   "direction": "up",
+   "ratio": 2.0,
+   "shortfallUsd": 85.78652341342831,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 235.70249609801192,
+   "swapPathCostUsd": 2.392380335394821,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 88.51040374882314,
+   "noSwapCashSeedUsd": 236.03399609801193,
+   "withContingency": {
+    "0%": 88.51040374882314,
+    "25%": 110.63800468602892,
+    "50%": 132.7656056232347
+   }
+  },
+  {
+   "config": "D. COUNTERFACTUAL, needs a higher ranged cap: \u00b12400 ticks, $750 ranged (75%)",
+   "deployedUsd": 750.0,
+   "halfWidthTicks": 2400,
+   "scenario": "SPY historical worst within 24h",
+   "direction": "down",
+   "ratio": 0.9838133496896125,
+   "shortfallUsd": 0.21900698963952436,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 26.839851830490375,
+   "swapPathCostUsd": 0.2724244960794773,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 0.8229314857190017,
+   "noSwapCashSeedUsd": 27.171351830490373,
+   "withContingency": {
+    "0%": 0.8229314857190017,
+    "25%": 1.0286643571487522,
+    "50%": 1.2343972285785025
+   }
+  },
+  {
+   "config": "D. COUNTERFACTUAL, needs a higher ranged cap: \u00b12400 ticks, $750 ranged (75%)",
+   "deployedUsd": 750.0,
+   "halfWidthTicks": 2400,
+   "scenario": "SPY historical worst within 24h",
+   "direction": "up",
+   "ratio": 1.0154609658331741,
+   "shortfallUsd": 0.1966721318439113,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 25.63665908282466,
+   "swapPathCostUsd": 0.2602120896906703,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 0.7883842215345815,
+   "noSwapCashSeedUsd": 25.96815908282466,
+   "withContingency": {
+    "0%": 0.7883842215345815,
+    "25%": 0.9854802769182269,
+    "50%": 1.1825763323018723
+   }
+  },
+  {
+   "config": "D. COUNTERFACTUAL, needs a higher ranged cap: \u00b12400 ticks, $750 ranged (75%)",
+   "deployedUsd": 750.0,
+   "halfWidthTicks": 2400,
+   "scenario": "SPY historical worst within 7d",
+   "direction": "down",
+   "ratio": 0.9762513701089235,
+   "shortfallUsd": 0.4732473611227306,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 39.377195852204125,
+   "swapPathCostUsd": 0.39967853789987184,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 1.2044258990226024,
+   "noSwapCashSeedUsd": 39.70869585220412,
+   "withContingency": {
+    "0%": 1.2044258990226024,
+    "25%": 1.505532373778253,
+    "50%": 1.8066388485339036
+   }
+  },
+  {
+   "config": "D. COUNTERFACTUAL, needs a higher ranged cap: \u00b12400 ticks, $750 ranged (75%)",
+   "deployedUsd": 750.0,
+   "halfWidthTicks": 2400,
+   "scenario": "SPY historical worst within 7d",
+   "direction": "up",
+   "ratio": 1.0590667402020395,
+   "shortfallUsd": 2.810234379218855,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 97.90431357391442,
+   "swapPathCostUsd": 0.9937287827752314,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 4.135463161994086,
+   "noSwapCashSeedUsd": 98.23581357391443,
+   "withContingency": {
+    "0%": 4.135463161994086,
+    "25%": 5.169328952492608,
+    "50%": 6.20319474299113
+   }
+  },
+  {
+   "config": "D. COUNTERFACTUAL, needs a higher ranged cap: \u00b12400 ticks, $750 ranged (75%)",
+   "deployedUsd": 750.0,
+   "halfWidthTicks": 2400,
+   "scenario": "SPY historical worst within 28d",
+   "direction": "down",
+   "ratio": 0.9657135165331512,
+   "shortfallUsd": 0.9917364774892121,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 56.8452862878475,
+   "swapPathCostUsd": 0.5769796558216521,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 1.9002161333108645,
+   "noSwapCashSeedUsd": 57.1767862878475,
+   "withContingency": {
+    "0%": 1.9002161333108645,
+    "25%": 2.3752701666385807,
+    "50%": 2.8503241999662965
+   }
+  },
+  {
+   "config": "D. COUNTERFACTUAL, needs a higher ranged cap: \u00b12400 ticks, $750 ranged (75%)",
+   "deployedUsd": 750.0,
+   "halfWidthTicks": 2400,
+   "scenario": "SPY historical worst within 28d",
+   "direction": "up",
+   "ratio": 1.0662674746422858,
+   "shortfallUsd": 3.525036395252755,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 109.82837153295134,
+   "swapPathCostUsd": 1.114757971059456,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 4.971294366312211,
+   "noSwapCashSeedUsd": 110.15987153295134,
+   "withContingency": {
+    "0%": 4.971294366312211,
+    "25%": 6.214117957890264,
+    "50%": 7.456941549468317
+   }
+  },
+  {
+   "config": "D. COUNTERFACTUAL, needs a higher ranged cap: \u00b12400 ticks, $750 ranged (75%)",
+   "deployedUsd": 750.0,
+   "halfWidthTicks": 2400,
+   "scenario": "SPY historical worst within whole window",
+   "direction": "down",
+   "ratio": 0.9654445686675148,
+   "shortfallUsd": 1.0074952058957933,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 57.29104876443529,
+   "swapPathCostUsd": 0.5815041449590181,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 1.9204993508548114,
+   "noSwapCashSeedUsd": 57.62254876443529,
+   "withContingency": {
+    "0%": 1.9204993508548114,
+    "25%": 2.4006241885685142,
+    "50%": 2.880749026282217
+   }
+  },
+  {
+   "config": "D. COUNTERFACTUAL, needs a higher ranged cap: \u00b12400 ticks, $750 ranged (75%)",
+   "deployedUsd": 750.0,
+   "halfWidthTicks": 2400,
+   "scenario": "SPY historical worst within whole window",
+   "direction": "up",
+   "ratio": 1.0714840630917855,
+   "shortfallUsd": 4.09170016117605,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 118.46445839062184,
+   "swapPathCostUsd": 1.2024142526648116,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 5.625614413840862,
+   "noSwapCashSeedUsd": 118.79595839062185,
+   "withContingency": {
+    "0%": 5.625614413840862,
+    "25%": 7.032018017301077,
+    "50%": 8.438421620761293
+   }
+  },
+  {
+   "config": "D. COUNTERFACTUAL, needs a higher ranged cap: \u00b12400 ticks, $750 ranged (75%)",
+   "deployedUsd": 750.0,
+   "halfWidthTicks": 2400,
+   "scenario": "NVDA historical worst within 24h",
+   "direction": "down",
+   "ratio": 0.9299292653912644,
+   "shortfallUsd": 4.220002726326243,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 116.1148642368073,
+   "swapPathCostUsd": 1.178565872003594,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 5.7300685983298365,
+   "noSwapCashSeedUsd": 116.44636423680731,
+   "withContingency": {
+    "0%": 5.7300685983298365,
+    "25%": 7.162585747912296,
+    "50%": 8.595102897494755
+   }
+  },
+  {
+   "config": "D. COUNTERFACTUAL, needs a higher ranged cap: \u00b12400 ticks, $750 ranged (75%)",
+   "deployedUsd": 750.0,
+   "halfWidthTicks": 2400,
+   "scenario": "NVDA historical worst within 24h",
+   "direction": "up",
+   "ratio": 1.1199886910362313,
+   "shortfallUsd": 11.270233105630268,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 198.64661656544888,
+   "swapPathCostUsd": 2.016263158139306,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 13.617996263769575,
+   "noSwapCashSeedUsd": 198.9781165654489,
+   "withContingency": {
+    "0%": 13.617996263769575,
+    "25%": 17.02249532971197,
+    "50%": 20.42699439565436
+   }
+  },
+  {
+   "config": "D. COUNTERFACTUAL, needs a higher ranged cap: \u00b12400 ticks, $750 ranged (75%)",
+   "deployedUsd": 750.0,
+   "halfWidthTicks": 2400,
+   "scenario": "NVDA historical worst within 7d",
+   "direction": "down",
+   "ratio": 0.887169536767807,
+   "shortfallUsd": 11.196132852381766,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 186.76106695816384,
+   "swapPathCostUsd": 1.895624829625363,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 13.42325768200713,
+   "noSwapCashSeedUsd": 187.09256695816384,
+   "withContingency": {
+    "0%": 13.42325768200713,
+    "25%": 16.779072102508913,
+    "50%": 20.134886523010692
+   }
+  },
+  {
+   "config": "D. COUNTERFACTUAL, needs a higher ranged cap: \u00b12400 ticks, $750 ranged (75%)",
+   "deployedUsd": 750.0,
+   "halfWidthTicks": 2400,
+   "scenario": "NVDA historical worst within 7d",
+   "direction": "up",
+   "ratio": 1.1717294761222887,
+   "shortfallUsd": 22.552881767772305,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 283.8705760025788,
+   "swapPathCostUsd": 2.8812863464261746,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 25.76566811419848,
+   "noSwapCashSeedUsd": 284.2020760025788,
+   "withContingency": {
+    "0%": 25.76566811419848,
+    "25%": 32.2070851427481,
+    "50%": 38.64850217129772
+   }
+  },
+  {
+   "config": "D. COUNTERFACTUAL, needs a higher ranged cap: \u00b12400 ticks, $750 ranged (75%)",
+   "deployedUsd": 750.0,
+   "halfWidthTicks": 2400,
+   "scenario": "NVDA historical worst within 28d",
+   "direction": "down",
+   "ratio": 0.8306051944129696,
+   "shortfallUsd": 26.04808238104954,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 279.68572579202396,
+   "swapPathCostUsd": 2.8388101167890434,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 29.218392497838582,
+   "noSwapCashSeedUsd": 280.01722579202396,
+   "withContingency": {
+    "0%": 29.218392497838582,
+    "25%": 36.52299062229823,
+    "50%": 43.827588746757876
+   }
+  },
+  {
+   "config": "D. COUNTERFACTUAL, needs a higher ranged cap: \u00b12400 ticks, $750 ranged (75%)",
+   "deployedUsd": 750.0,
+   "halfWidthTicks": 2400,
+   "scenario": "NVDA historical worst within 28d",
+   "direction": "up",
+   "ratio": 1.2007944939720079,
+   "shortfallUsd": 30.441659404153825,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 331.5692409538563,
+   "swapPathCostUsd": 3.365427795681642,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 34.13858719983546,
+   "noSwapCashSeedUsd": 331.9007409538563,
+   "withContingency": {
+    "0%": 34.13858719983546,
+    "25%": 42.67323399979433,
+    "50%": 51.2078807997532
+   }
+  },
+  {
+   "config": "D. COUNTERFACTUAL, needs a higher ranged cap: \u00b12400 ticks, $750 ranged (75%)",
+   "deployedUsd": 750.0,
+   "halfWidthTicks": 2400,
+   "scenario": "NVDA historical worst within whole window",
+   "direction": "down",
+   "ratio": 0.8306051944129696,
+   "shortfallUsd": 26.04808238104954,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 279.68572579202396,
+   "swapPathCostUsd": 2.8388101167890434,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 29.218392497838582,
+   "noSwapCashSeedUsd": 280.01722579202396,
+   "withContingency": {
+    "0%": 29.218392497838582,
+    "25%": 36.52299062229823,
+    "50%": 43.827588746757876
+   }
+  },
+  {
+   "config": "D. COUNTERFACTUAL, needs a higher ranged cap: \u00b12400 ticks, $750 ranged (75%)",
+   "deployedUsd": 750.0,
+   "halfWidthTicks": 2400,
+   "scenario": "NVDA historical worst within whole window",
+   "direction": "up",
+   "ratio": 1.2845646506140171,
+   "shortfallUsd": 58.902961329190816,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 448.59179619518204,
+   "swapPathCostUsd": 4.553206731381098,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 63.78766806057191,
+   "noSwapCashSeedUsd": 448.92329619518205,
+   "withContingency": {
+    "0%": 63.78766806057191,
+    "25%": 79.73458507571489,
+    "50%": 95.68150209085786
+   }
+  },
+  {
+   "config": "D. COUNTERFACTUAL, needs a higher ranged cap: \u00b12400 ticks, $750 ranged (75%)",
+   "deployedUsd": 750.0,
+   "halfWidthTicks": 2400,
+   "scenario": "SPY synthetic gap 30%",
+   "direction": "down",
+   "ratio": 0.7,
+   "shortfallUsd": 79.03385214425407,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 328.5094987386741,
+   "swapPathCostUsd": 3.334371412197542,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 82.69972355645162,
+   "noSwapCashSeedUsd": 328.8409987386741,
+   "withContingency": {
+    "0%": 82.69972355645162,
+    "25%": 103.37465444556452,
+    "50%": 124.04958533467743
+   }
+  },
+  {
+   "config": "D. COUNTERFACTUAL, needs a higher ranged cap: \u00b12400 ticks, $750 ranged (75%)",
+   "deployedUsd": 750.0,
+   "halfWidthTicks": 2400,
+   "scenario": "SPY synthetic gap 30%",
+   "direction": "up",
+   "ratio": 1.4285714285714286,
+   "shortfallUsd": 112.90550306322018,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 469.2992839123915,
+   "swapPathCostUsd": 4.7633877317107745,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 118.00039079493096,
+   "noSwapCashSeedUsd": 469.6307839123915,
+   "withContingency": {
+    "0%": 118.00039079493096,
+    "25%": 147.5004884936637,
+    "50%": 177.00058619239644
+   }
+  },
+  {
+   "config": "D. COUNTERFACTUAL, needs a higher ranged cap: \u00b12400 ticks, $750 ranged (75%)",
+   "deployedUsd": 750.0,
+   "halfWidthTicks": 2400,
+   "scenario": "NVDA synthetic gap 30%",
+   "direction": "down",
+   "ratio": 0.7,
+   "shortfallUsd": 79.03385214425407,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 328.5094987386741,
+   "swapPathCostUsd": 3.334371412197542,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 82.69972355645162,
+   "noSwapCashSeedUsd": 328.8409987386741,
+   "withContingency": {
+    "0%": 82.69972355645162,
+    "25%": 103.37465444556452,
+    "50%": 124.04958533467743
+   }
+  },
+  {
+   "config": "D. COUNTERFACTUAL, needs a higher ranged cap: \u00b12400 ticks, $750 ranged (75%)",
+   "deployedUsd": 750.0,
+   "halfWidthTicks": 2400,
+   "scenario": "NVDA synthetic gap 30%",
+   "direction": "up",
+   "ratio": 1.4285714285714286,
+   "shortfallUsd": 112.90550306322018,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 469.2992839123915,
+   "swapPathCostUsd": 4.7633877317107745,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 118.00039079493096,
+   "noSwapCashSeedUsd": 469.6307839123915,
+   "withContingency": {
+    "0%": 118.00039079493096,
+    "25%": 147.5004884936637,
+    "50%": 177.00058619239644
+   }
+  },
+  {
+   "config": "D. COUNTERFACTUAL, needs a higher ranged cap: \u00b12400 ticks, $750 ranged (75%)",
+   "deployedUsd": 750.0,
+   "halfWidthTicks": 2400,
+   "scenario": "SPY synthetic gap 50%",
+   "direction": "down",
+   "ratio": 0.5,
+   "shortfallUsd": 163.5956086744672,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 265.93626088368853,
+   "swapPathCostUsd": 2.6992530479694388,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 166.62636172243666,
+   "noSwapCashSeedUsd": 266.26776088368854,
+   "withContingency": {
+    "0%": 166.62636172243666,
+    "25%": 208.2829521530458,
+    "50%": 249.939542583655
+   }
+  },
+  {
+   "config": "D. COUNTERFACTUAL, needs a higher ranged cap: \u00b12400 ticks, $750 ranged (75%)",
+   "deployedUsd": 750.0,
+   "halfWidthTicks": 2400,
+   "scenario": "SPY synthetic gap 50%",
+   "direction": "up",
+   "ratio": 2.0,
+   "shortfallUsd": 327.1912173489344,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 531.8725217673771,
+   "swapPathCostUsd": 5.3985060959388775,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 332.9212234448733,
+   "noSwapCashSeedUsd": 532.2040217673771,
+   "withContingency": {
+    "0%": 332.9212234448733,
+    "25%": 416.1515293060916,
+    "50%": 499.38183516731
+   }
+  },
+  {
+   "config": "D. COUNTERFACTUAL, needs a higher ranged cap: \u00b12400 ticks, $750 ranged (75%)",
+   "deployedUsd": 750.0,
+   "halfWidthTicks": 2400,
+   "scenario": "NVDA synthetic gap 50%",
+   "direction": "down",
+   "ratio": 0.5,
+   "shortfallUsd": 163.5956086744672,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 265.93626088368853,
+   "swapPathCostUsd": 2.6992530479694388,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 166.62636172243666,
+   "noSwapCashSeedUsd": 266.26776088368854,
+   "withContingency": {
+    "0%": 166.62636172243666,
+    "25%": 208.2829521530458,
+    "50%": 249.939542583655
+   }
+  },
+  {
+   "config": "D. COUNTERFACTUAL, needs a higher ranged cap: \u00b12400 ticks, $750 ranged (75%)",
+   "deployedUsd": 750.0,
+   "halfWidthTicks": 2400,
+   "scenario": "NVDA synthetic gap 50%",
+   "direction": "up",
+   "ratio": 2.0,
+   "shortfallUsd": 327.1912173489344,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 531.8725217673771,
+   "swapPathCostUsd": 5.3985060959388775,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 332.9212234448733,
+   "noSwapCashSeedUsd": 532.2040217673771,
+   "withContingency": {
+    "0%": 332.9212234448733,
+    "25%": 416.1515293060916,
+    "50%": 499.38183516731
+   }
+  },
+  {
+   "config": "E. COUNTERFACTUAL, needs a higher ranged cap: \u00b12400 ticks, $900 ranged (90%)",
+   "deployedUsd": 900.0,
+   "halfWidthTicks": 2400,
+   "scenario": "SPY historical worst within 24h",
+   "direction": "down",
+   "ratio": 0.9838133496896125,
+   "shortfallUsd": 0.2628083875674747,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 32.207822196588495,
+   "swapPathCostUsd": 0.3269093952953732,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 0.921217782862848,
+   "noSwapCashSeedUsd": 32.53932219658849,
+   "withContingency": {
+    "0%": 0.921217782862848,
+    "25%": 1.15152222857856,
+    "50%": 1.381826674294272
+   }
+  },
+  {
+   "config": "E. COUNTERFACTUAL, needs a higher ranged cap: \u00b12400 ticks, $900 ranged (90%)",
+   "deployedUsd": 900.0,
+   "halfWidthTicks": 2400,
+   "scenario": "SPY historical worst within 24h",
+   "direction": "up",
+   "ratio": 1.0154609658331741,
+   "shortfallUsd": 0.23600655821269356,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 30.763990899389608,
+   "swapPathCostUsd": 0.3122545076288045,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 0.8797610658414982,
+   "noSwapCashSeedUsd": 31.095490899389606,
+   "withContingency": {
+    "0%": 0.8797610658414982,
+    "25%": 1.0997013323018727,
+    "50%": 1.3196415987622472
+   }
+  },
+  {
+   "config": "E. COUNTERFACTUAL, needs a higher ranged cap: \u00b12400 ticks, $900 ranged (90%)",
+   "deployedUsd": 900.0,
+   "halfWidthTicks": 2400,
+   "scenario": "SPY historical worst within 7d",
+   "direction": "down",
+   "ratio": 0.9762513701089235,
+   "shortfallUsd": 0.5678968333473904,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 47.25263502264494,
+   "swapPathCostUsd": 0.47961424547984616,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 1.3790110788272365,
+   "noSwapCashSeedUsd": 47.584135022644936,
+   "withContingency": {
+    "0%": 1.3790110788272365,
+    "25%": 1.7237638485340456,
+    "50%": 2.0685166182408548
+   }
+  },
+  {
+   "config": "E. COUNTERFACTUAL, needs a higher ranged cap: \u00b12400 ticks, $900 ranged (90%)",
+   "deployedUsd": 900.0,
+   "halfWidthTicks": 2400,
+   "scenario": "SPY historical worst within 7d",
+   "direction": "up",
+   "ratio": 1.0590667402020395,
+   "shortfallUsd": 3.372281255062603,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 117.48517628869729,
+   "swapPathCostUsd": 1.1924745393302776,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 4.89625579439288,
+   "noSwapCashSeedUsd": 117.8166762886973,
+   "withContingency": {
+    "0%": 4.89625579439288,
+    "25%": 6.1203197429911,
+    "50%": 7.344383691589321
+   }
+  },
+  {
+   "config": "E. COUNTERFACTUAL, needs a higher ranged cap: \u00b12400 ticks, $900 ranged (90%)",
+   "deployedUsd": 900.0,
+   "halfWidthTicks": 2400,
+   "scenario": "SPY historical worst within 28d",
+   "direction": "down",
+   "ratio": 0.9657135165331512,
+   "shortfallUsd": 1.190083772987009,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 68.21434354541702,
+   "swapPathCostUsd": 0.6923755869859828,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 2.213959359972992,
+   "noSwapCashSeedUsd": 68.54584354541703,
+   "withContingency": {
+    "0%": 2.213959359972992,
+    "25%": 2.76744919996624,
+    "50%": 3.320939039959488
+   }
+  },
+  {
+   "config": "E. COUNTERFACTUAL, needs a higher ranged cap: \u00b12400 ticks, $900 ranged (90%)",
+   "deployedUsd": 900.0,
+   "halfWidthTicks": 2400,
+   "scenario": "SPY historical worst within 28d",
+   "direction": "up",
+   "ratio": 1.0662674746422858,
+   "shortfallUsd": 4.230043674303261,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 131.79404583954164,
+   "swapPathCostUsd": 1.3377095652713478,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 5.899253239574609,
+   "noSwapCashSeedUsd": 132.12554583954164,
+   "withContingency": {
+    "0%": 5.899253239574609,
+    "25%": 7.374066549468261,
+    "50%": 8.848879859361913
+   }
+  },
+  {
+   "config": "E. COUNTERFACTUAL, needs a higher ranged cap: \u00b12400 ticks, $900 ranged (90%)",
+   "deployedUsd": 900.0,
+   "halfWidthTicks": 2400,
+   "scenario": "SPY historical worst within whole window",
+   "direction": "down",
+   "ratio": 0.9654445686675148,
+   "shortfallUsd": 1.2089942470751112,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 68.74925851732229,
+   "swapPathCostUsd": 0.6978049739508212,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 2.2382992210259323,
+   "noSwapCashSeedUsd": 69.0807585173223,
+   "withContingency": {
+    "0%": 2.2382992210259323,
+    "25%": 2.7978740262824155,
+    "50%": 3.3574488315388984
+   }
+  },
+  {
+   "config": "E. COUNTERFACTUAL, needs a higher ranged cap: \u00b12400 ticks, $900 ranged (90%)",
+   "deployedUsd": 900.0,
+   "halfWidthTicks": 2400,
+   "scenario": "SPY historical worst within whole window",
+   "direction": "up",
+   "ratio": 1.0714840630917855,
+   "shortfallUsd": 4.910040193411305,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 142.15735006874624,
+   "swapPathCostUsd": 1.4428971031977744,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 6.6844372966090795,
+   "noSwapCashSeedUsd": 142.48885006874625,
+   "withContingency": {
+    "0%": 6.6844372966090795,
+    "25%": 8.355546620761348,
+    "50%": 10.02665594491362
+   }
+  },
+  {
+   "config": "E. COUNTERFACTUAL, needs a higher ranged cap: \u00b12400 ticks, $900 ranged (90%)",
+   "deployedUsd": 900.0,
+   "halfWidthTicks": 2400,
+   "scenario": "NVDA historical worst within 24h",
+   "direction": "down",
+   "ratio": 0.9299292653912644,
+   "shortfallUsd": 5.064003271591332,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 139.33783708416883,
+   "swapPathCostUsd": 1.4142790464043136,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 6.809782317995646,
+   "noSwapCashSeedUsd": 139.66933708416883,
+   "withContingency": {
+    "0%": 6.809782317995646,
+    "25%": 8.512227897494558,
+    "50%": 10.214673476993468
+   }
+  },
+  {
+   "config": "E. COUNTERFACTUAL, needs a higher ranged cap: \u00b12400 ticks, $900 ranged (90%)",
+   "deployedUsd": 900.0,
+   "halfWidthTicks": 2400,
+   "scenario": "NVDA historical worst within 24h",
+   "direction": "up",
+   "ratio": 1.1199886910362313,
+   "shortfallUsd": 13.524279726756276,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 238.37593987853867,
+   "swapPathCostUsd": 2.4195157897671673,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 16.275295516523443,
+   "noSwapCashSeedUsd": 238.70743987853868,
+   "withContingency": {
+    "0%": 16.275295516523443,
+    "25%": 20.344119395654303,
+    "50%": 24.412943274785164
+   }
+  },
+  {
+   "config": "E. COUNTERFACTUAL, needs a higher ranged cap: \u00b12400 ticks, $900 ranged (90%)",
+   "deployedUsd": 900.0,
+   "halfWidthTicks": 2400,
+   "scenario": "NVDA historical worst within 7d",
+   "direction": "down",
+   "ratio": 0.887169536767807,
+   "shortfallUsd": 13.435359422858141,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 224.1132803497966,
+   "swapPathCostUsd": 2.2747497955504357,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 16.041609218408578,
+   "noSwapCashSeedUsd": 224.44478034979662,
+   "withContingency": {
+    "0%": 16.041609218408578,
+    "25%": 20.052011523010723,
+    "50%": 24.062413827612865
+   }
+  },
+  {
+   "config": "E. COUNTERFACTUAL, needs a higher ranged cap: \u00b12400 ticks, $900 ranged (90%)",
+   "deployedUsd": 900.0,
+   "halfWidthTicks": 2400,
+   "scenario": "NVDA historical worst within 7d",
+   "direction": "up",
+   "ratio": 1.1717294761222887,
+   "shortfallUsd": 27.063458121327017,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 340.6446912030945,
+   "swapPathCostUsd": 3.4575436157114092,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 30.852501737038423,
+   "noSwapCashSeedUsd": 340.9761912030945,
+   "withContingency": {
+    "0%": 30.852501737038423,
+    "25%": 38.56562717129803,
+    "50%": 46.278752605557635
+   }
+  },
+  {
+   "config": "E. COUNTERFACTUAL, needs a higher ranged cap: \u00b12400 ticks, $900 ranged (90%)",
+   "deployedUsd": 900.0,
+   "halfWidthTicks": 2400,
+   "scenario": "NVDA historical worst within 28d",
+   "direction": "down",
+   "ratio": 0.8306051944129696,
+   "shortfallUsd": 31.257698857259243,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 335.6228709504289,
+   "swapPathCostUsd": 3.406572140146853,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 34.99577099740609,
+   "noSwapCashSeedUsd": 335.9543709504289,
+   "withContingency": {
+    "0%": 34.99577099740609,
+    "25%": 43.74471374675761,
+    "50%": 52.49365649610914
+   }
+  },
+  {
+   "config": "E. COUNTERFACTUAL, needs a higher ranged cap: \u00b12400 ticks, $900 ranged (90%)",
+   "deployedUsd": 900.0,
+   "halfWidthTicks": 2400,
+   "scenario": "NVDA historical worst within 28d",
+   "direction": "up",
+   "ratio": 1.2007944939720079,
+   "shortfallUsd": 36.52999128498459,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 397.8830891446275,
+   "swapPathCostUsd": 4.038513354817969,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 40.90000463980255,
+   "noSwapCashSeedUsd": 398.2145891446275,
+   "withContingency": {
+    "0%": 40.90000463980255,
+    "25%": 51.12500579975319,
+    "50%": 61.35000695970383
+   }
+  },
+  {
+   "config": "E. COUNTERFACTUAL, needs a higher ranged cap: \u00b12400 ticks, $900 ranged (90%)",
+   "deployedUsd": 900.0,
+   "halfWidthTicks": 2400,
+   "scenario": "NVDA historical worst within whole window",
+   "direction": "down",
+   "ratio": 0.8306051944129696,
+   "shortfallUsd": 31.257698857259243,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 335.6228709504289,
+   "swapPathCostUsd": 3.406572140146853,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 34.99577099740609,
+   "noSwapCashSeedUsd": 335.9543709504289,
+   "withContingency": {
+    "0%": 34.99577099740609,
+    "25%": 43.74471374675761,
+    "50%": 52.49365649610914
+   }
+  },
+  {
+   "config": "E. COUNTERFACTUAL, needs a higher ranged cap: \u00b12400 ticks, $900 ranged (90%)",
+   "deployedUsd": 900.0,
+   "halfWidthTicks": 2400,
+   "scenario": "NVDA historical worst within whole window",
+   "direction": "up",
+   "ratio": 1.2845646506140171,
+   "shortfallUsd": 70.68355359502891,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 538.3101554342185,
+   "swapPathCostUsd": 5.4638480776573175,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 76.47890167268623,
+   "noSwapCashSeedUsd": 538.6416554342185,
+   "withContingency": {
+    "0%": 76.47890167268623,
+    "25%": 95.59862709085779,
+    "50%": 114.71835250902936
+   }
+  },
+  {
+   "config": "E. COUNTERFACTUAL, needs a higher ranged cap: \u00b12400 ticks, $900 ranged (90%)",
+   "deployedUsd": 900.0,
+   "halfWidthTicks": 2400,
+   "scenario": "SPY synthetic gap 30%",
+   "direction": "down",
+   "ratio": 0.7,
+   "shortfallUsd": 94.84062257310484,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 394.21139848640894,
+   "swapPathCostUsd": 4.00124569463705,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 99.17336826774189,
+   "noSwapCashSeedUsd": 394.54289848640894,
+   "withContingency": {
+    "0%": 99.17336826774189,
+    "25%": 123.96671033467737,
+    "50%": 148.76005240161282
+   }
+  },
+  {
+   "config": "E. COUNTERFACTUAL, needs a higher ranged cap: \u00b12400 ticks, $900 ranged (90%)",
+   "deployedUsd": 900.0,
+   "halfWidthTicks": 2400,
+   "scenario": "SPY synthetic gap 30%",
+   "direction": "up",
+   "ratio": 1.4285714285714286,
+   "shortfallUsd": 135.4866036758641,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 563.1591406948698,
+   "swapPathCostUsd": 5.716065278052929,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 141.53416895391703,
+   "noSwapCashSeedUsd": 563.4906406948699,
+   "withContingency": {
+    "0%": 141.53416895391703,
+    "25%": 176.9177111923963,
+    "50%": 212.30125343087553
+   }
+  },
+  {
+   "config": "E. COUNTERFACTUAL, needs a higher ranged cap: \u00b12400 ticks, $900 ranged (90%)",
+   "deployedUsd": 900.0,
+   "halfWidthTicks": 2400,
+   "scenario": "NVDA synthetic gap 30%",
+   "direction": "down",
+   "ratio": 0.7,
+   "shortfallUsd": 94.84062257310484,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 394.21139848640894,
+   "swapPathCostUsd": 4.00124569463705,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 99.17336826774189,
+   "noSwapCashSeedUsd": 394.54289848640894,
+   "withContingency": {
+    "0%": 99.17336826774189,
+    "25%": 123.96671033467737,
+    "50%": 148.76005240161282
+   }
+  },
+  {
+   "config": "E. COUNTERFACTUAL, needs a higher ranged cap: \u00b12400 ticks, $900 ranged (90%)",
+   "deployedUsd": 900.0,
+   "halfWidthTicks": 2400,
+   "scenario": "NVDA synthetic gap 30%",
+   "direction": "up",
+   "ratio": 1.4285714285714286,
+   "shortfallUsd": 135.4866036758641,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 563.1591406948698,
+   "swapPathCostUsd": 5.716065278052929,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 141.53416895391703,
+   "noSwapCashSeedUsd": 563.4906406948699,
+   "withContingency": {
+    "0%": 141.53416895391703,
+    "25%": 176.9177111923963,
+    "50%": 212.30125343087553
+   }
+  },
+  {
+   "config": "E. COUNTERFACTUAL, needs a higher ranged cap: \u00b12400 ticks, $900 ranged (90%)",
+   "deployedUsd": 900.0,
+   "halfWidthTicks": 2400,
+   "scenario": "SPY synthetic gap 50%",
+   "direction": "down",
+   "ratio": 0.5,
+   "shortfallUsd": 196.3147304093606,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 319.12351306042626,
+   "swapPathCostUsd": 3.2391036575633265,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 199.88533406692395,
+   "noSwapCashSeedUsd": 319.45501306042627,
+   "withContingency": {
+    "0%": 199.88533406692395,
+    "25%": 249.85666758365494,
+    "50%": 299.8280011003859
+   }
+  },
+  {
+   "config": "E. COUNTERFACTUAL, needs a higher ranged cap: \u00b12400 ticks, $900 ranged (90%)",
+   "deployedUsd": 900.0,
+   "halfWidthTicks": 2400,
+   "scenario": "SPY synthetic gap 50%",
+   "direction": "up",
+   "ratio": 2.0,
+   "shortfallUsd": 392.6294608187212,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 638.2470261208525,
+   "swapPathCostUsd": 6.478207315126653,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 399.4391681338479,
+   "noSwapCashSeedUsd": 638.5785261208525,
+   "withContingency": {
+    "0%": 399.4391681338479,
+    "25%": 499.2989601673099,
+    "50%": 599.1587522007718
+   }
+  },
+  {
+   "config": "E. COUNTERFACTUAL, needs a higher ranged cap: \u00b12400 ticks, $900 ranged (90%)",
+   "deployedUsd": 900.0,
+   "halfWidthTicks": 2400,
+   "scenario": "NVDA synthetic gap 50%",
+   "direction": "down",
+   "ratio": 0.5,
+   "shortfallUsd": 196.3147304093606,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 319.12351306042626,
+   "swapPathCostUsd": 3.2391036575633265,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 199.88533406692395,
+   "noSwapCashSeedUsd": 319.45501306042627,
+   "withContingency": {
+    "0%": 199.88533406692395,
+    "25%": 249.85666758365494,
+    "50%": 299.8280011003859
+   }
+  },
+  {
+   "config": "E. COUNTERFACTUAL, needs a higher ranged cap: \u00b12400 ticks, $900 ranged (90%)",
+   "deployedUsd": 900.0,
+   "halfWidthTicks": 2400,
+   "scenario": "NVDA synthetic gap 50%",
+   "direction": "up",
+   "ratio": 2.0,
+   "shortfallUsd": 392.6294608187212,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 638.2470261208525,
+   "swapPathCostUsd": 6.478207315126653,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 399.4391681338479,
+   "noSwapCashSeedUsd": 638.5785261208525,
+   "withContingency": {
+    "0%": 399.4391681338479,
+    "25%": 499.2989601673099,
+    "50%": 599.1587522007718
+   }
+  },
+  {
+   "config": "F. COUNTERFACTUAL, needs a higher ranged cap: \u00b1600 ticks, $750 ranged (75%)",
+   "deployedUsd": 750.0,
+   "halfWidthTicks": 600,
+   "scenario": "SPY historical worst within 24h",
+   "direction": "down",
+   "ratio": 0.9838133496896125,
+   "shortfallUsd": 0.8379535157738474,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 102.69328956680624,
+   "swapPathCostUsd": 1.0423368891030833,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 2.211790404876931,
+   "noSwapCashSeedUsd": 103.02478956680625,
+   "withContingency": {
+    "0%": 2.211790404876931,
+    "25%": 2.7647380060961635,
+    "50%": 3.317685607315396
+   }
+  },
+  {
+   "config": "F. COUNTERFACTUAL, needs a higher ranged cap: \u00b1600 ticks, $750 ranged (75%)",
+   "deployedUsd": 750.0,
+   "halfWidthTicks": 600,
+   "scenario": "SPY historical worst within 24h",
+   "direction": "up",
+   "ratio": 1.0154609658331741,
+   "shortfallUsd": 0.7524970075364763,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 98.08969406184336,
+   "swapPathCostUsd": 0.9956103947277101,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 2.0796074022641866,
+   "noSwapCashSeedUsd": 98.42119406184337,
+   "withContingency": {
+    "0%": 2.0796074022641866,
+    "25%": 2.5995092528302335,
+    "50%": 3.11941110339628
+   }
+  },
+  {
+   "config": "F. COUNTERFACTUAL, needs a higher ranged cap: \u00b1600 ticks, $750 ranged (75%)",
+   "deployedUsd": 750.0,
+   "halfWidthTicks": 600,
+   "scenario": "SPY historical worst within 7d",
+   "direction": "down",
+   "ratio": 0.9762513701089235,
+   "shortfallUsd": 1.8107152229988515,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 150.66304395113949,
+   "swapPathCostUsd": 1.5292298961040658,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 3.671445119102917,
+   "noSwapCashSeedUsd": 150.9945439511395,
+   "withContingency": {
+    "0%": 3.671445119102917,
+    "25%": 4.589306398878646,
+    "50%": 5.507167678654376
+   }
+  },
+  {
+   "config": "F. COUNTERFACTUAL, needs a higher ranged cap: \u00b1600 ticks, $750 ranged (75%)",
+   "deployedUsd": 750.0,
+   "halfWidthTicks": 600,
+   "scenario": "SPY historical worst within 7d",
+   "direction": "up",
+   "ratio": 1.0590667402020395,
+   "shortfallUsd": 10.752377273851721,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 374.59655467485874,
+   "swapPathCostUsd": 3.8021550299498164,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 14.886032303801537,
+   "noSwapCashSeedUsd": 374.92805467485874,
+   "withContingency": {
+    "0%": 14.886032303801537,
+    "25%": 18.60754037975192,
+    "50%": 22.329048455702306
+   }
+  },
+  {
+   "config": "F. COUNTERFACTUAL, needs a higher ranged cap: \u00b1600 ticks, $750 ranged (75%)",
+   "deployedUsd": 750.0,
+   "halfWidthTicks": 600,
+   "scenario": "SPY historical worst within 28d",
+   "direction": "down",
+   "ratio": 0.9657135165331512,
+   "shortfallUsd": 3.794532171786045,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 217.49857197923544,
+   "swapPathCostUsd": 2.2076105055892397,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 6.333642677375285,
+   "noSwapCashSeedUsd": 217.83007197923544,
+   "withContingency": {
+    "0%": 6.333642677375285,
+    "25%": 7.917053346719106,
+    "50%": 9.500464016062928
+   }
+  },
+  {
+   "config": "F. COUNTERFACTUAL, needs a higher ranged cap: \u00b1600 ticks, $750 ranged (75%)",
+   "deployedUsd": 750.0,
+   "halfWidthTicks": 600,
+   "scenario": "SPY historical worst within 28d",
+   "direction": "up",
+   "ratio": 1.0662674746422858,
+   "shortfallUsd": 13.430432349891134,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 392.9197224339749,
+   "swapPathCostUsd": 3.9881351827048457,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 17.750067532595978,
+   "noSwapCashSeedUsd": 393.25122243397493,
+   "withContingency": {
+    "0%": 17.750067532595978,
+    "25%": 22.187584415744972,
+    "50%": 26.625101298893966
+   }
+  },
+  {
+   "config": "F. COUNTERFACTUAL, needs a higher ranged cap: \u00b1600 ticks, $750 ranged (75%)",
+   "deployedUsd": 750.0,
+   "halfWidthTicks": 600,
+   "scenario": "SPY historical worst within whole window",
+   "direction": "down",
+   "ratio": 0.9654445686675148,
+   "shortfallUsd": 3.854827424892733,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 219.20412592101414,
+   "swapPathCostUsd": 2.2249218780982933,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 6.411249302991026,
+   "noSwapCashSeedUsd": 219.53562592101414,
+   "withContingency": {
+    "0%": 6.411249302991026,
+    "25%": 8.014061628738782,
+    "50%": 9.61687395448654
+   }
+  },
+  {
+   "config": "F. COUNTERFACTUAL, needs a higher ranged cap: \u00b1600 ticks, $750 ranged (75%)",
+   "deployedUsd": 750.0,
+   "halfWidthTicks": 600,
+   "scenario": "SPY historical worst within whole window",
+   "direction": "up",
+   "ratio": 1.0714840630917855,
+   "shortfallUsd": 15.386653018453444,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 393.8477110441825,
+   "swapPathCostUsd": 3.9975542670984527,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 19.715707285551893,
+   "noSwapCashSeedUsd": 394.1792110441825,
+   "withContingency": {
+    "0%": 19.715707285551893,
+    "25%": 24.64463410693987,
+    "50%": 29.57356092832784
+   }
+  },
+  {
+   "config": "F. COUNTERFACTUAL, needs a higher ranged cap: \u00b1600 ticks, $750 ranged (75%)",
+   "deployedUsd": 750.0,
+   "halfWidthTicks": 600,
+   "scenario": "NVDA historical worst within 24h",
+   "direction": "down",
+   "ratio": 0.9299292653912644,
+   "shortfallUsd": 15.65685356226038,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 366.8873433119919,
+   "swapPathCostUsd": 3.7239065346167184,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 19.712260096877095,
+   "noSwapCashSeedUsd": 367.2188433119919,
+   "withContingency": {
+    "0%": 19.712260096877095,
+    "25%": 24.640325121096367,
+    "50%": 29.568390145315643
+   }
+  },
+  {
+   "config": "F. COUNTERFACTUAL, needs a higher ranged cap: \u00b1600 ticks, $750 ranged (75%)",
+   "deployedUsd": 750.0,
+   "halfWidthTicks": 600,
+   "scenario": "NVDA historical worst within 24h",
+   "direction": "up",
+   "ratio": 1.1199886910362313,
+   "shortfallUsd": 33.575888497620554,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 402.2576383798155,
+   "swapPathCostUsd": 4.082915029555127,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 37.990303527175676,
+   "noSwapCashSeedUsd": 402.5891383798155,
+   "withContingency": {
+    "0%": 37.990303527175676,
+    "25%": 47.4878794089696,
+    "50%": 56.98545529076351
+   }
+  },
+  {
+   "config": "F. COUNTERFACTUAL, needs a higher ranged cap: \u00b1600 ticks, $750 ranged (75%)",
+   "deployedUsd": 750.0,
+   "halfWidthTicks": 600,
+   "scenario": "NVDA historical worst within 7d",
+   "direction": "down",
+   "ratio": 0.887169536767807,
+   "shortfallUsd": 32.18006236557949,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 357.9479748699772,
+   "swapPathCostUsd": 3.633171944930268,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 36.144734310509754,
+   "noSwapCashSeedUsd": 358.2794748699772,
+   "withContingency": {
+    "0%": 36.144734310509754,
+    "25%": 45.180917888137195,
+    "50%": 54.21710146576463
+   }
+  },
+  {
+   "config": "F. COUNTERFACTUAL, needs a higher ranged cap: \u00b1600 ticks, $750 ranged (75%)",
+   "deployedUsd": 750.0,
+   "halfWidthTicks": 600,
+   "scenario": "NVDA historical worst within 7d",
+   "direction": "up",
+   "ratio": 1.1717294761222887,
+   "shortfallUsd": 52.97868290489214,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 410.81456781083926,
+   "swapPathCostUsd": 4.169767863280018,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 57.47995076817215,
+   "noSwapCashSeedUsd": 411.14606781083927,
+   "withContingency": {
+    "0%": 57.47995076817215,
+    "25%": 71.84993846021518,
+    "50%": 86.21992615225822
+   }
+  },
+  {
+   "config": "F. COUNTERFACTUAL, needs a higher ranged cap: \u00b1600 ticks, $750 ranged (75%)",
+   "deployedUsd": 750.0,
+   "halfWidthTicks": 600,
+   "scenario": "NVDA historical worst within 28d",
+   "direction": "down",
+   "ratio": 0.8306051944129696,
+   "shortfallUsd": 54.03764822122707,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 345.4809926323003,
+   "swapPathCostUsd": 3.5066320752178477,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 57.87578029644492,
+   "noSwapCashSeedUsd": 345.8124926323003,
+   "withContingency": {
+    "0%": 57.87578029644492,
+    "25%": 72.34472537055615,
+    "50%": 86.81367044466738
+   }
+  },
+  {
+   "config": "F. COUNTERFACTUAL, needs a higher ranged cap: \u00b1600 ticks, $750 ranged (75%)",
+   "deployedUsd": 750.0,
+   "halfWidthTicks": 600,
+   "scenario": "NVDA historical worst within 28d",
+   "direction": "up",
+   "ratio": 1.2007944939720079,
+   "shortfallUsd": 63.87806459853675,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 415.4448726452413,
+   "swapPathCostUsd": 4.216765457349199,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 68.42633005588596,
+   "noSwapCashSeedUsd": 415.7763726452413,
+   "withContingency": {
+    "0%": 68.42633005588596,
+    "25%": 85.53291256985744,
+    "50%": 102.63949508382893
+   }
+  },
+  {
+   "config": "F. COUNTERFACTUAL, needs a higher ranged cap: \u00b1600 ticks, $750 ranged (75%)",
+   "deployedUsd": 750.0,
+   "halfWidthTicks": 600,
+   "scenario": "NVDA historical worst within whole window",
+   "direction": "down",
+   "ratio": 0.8306051944129696,
+   "shortfallUsd": 54.03764822122707,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 345.4809926323003,
+   "swapPathCostUsd": 3.5066320752178477,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 57.87578029644492,
+   "noSwapCashSeedUsd": 345.8124926323003,
+   "withContingency": {
+    "0%": 57.87578029644492,
+    "25%": 72.34472537055615,
+    "50%": 86.81367044466738
+   }
+  },
+  {
+   "config": "F. COUNTERFACTUAL, needs a higher ranged cap: \u00b1600 ticks, $750 ranged (75%)",
+   "deployedUsd": 750.0,
+   "halfWidthTicks": 600,
+   "scenario": "NVDA historical worst within whole window",
+   "direction": "up",
+   "ratio": 1.2845646506140171,
+   "shortfallUsd": 95.29187333929019,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 428.1310445023306,
+   "swapPathCostUsd": 4.345530101698656,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 99.96890344098885,
+   "noSwapCashSeedUsd": 428.4625445023306,
+   "withContingency": {
+    "0%": 99.96890344098885,
+    "25%": 124.96112930123607,
+    "50%": 149.95335516148327
+   }
+  },
+  {
+   "config": "F. COUNTERFACTUAL, needs a higher ranged cap: \u00b1600 ticks, $750 ranged (75%)",
+   "deployedUsd": 750.0,
+   "halfWidthTicks": 600,
+   "scenario": "SPY synthetic gap 30%",
+   "direction": "down",
+   "ratio": 0.7,
+   "shortfallUsd": 104.50609055132497,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 313.52582908745654,
+   "swapPathCostUsd": 3.1822871652376836,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 108.01987771656266,
+   "noSwapCashSeedUsd": 313.85732908745655,
+   "withContingency": {
+    "0%": 108.01987771656266,
+    "25%": 135.02484714570332,
+    "50%": 162.029816574844
+   }
+  },
+  {
+   "config": "F. COUNTERFACTUAL, needs a higher ranged cap: \u00b1600 ticks, $750 ranged (75%)",
+   "deployedUsd": 750.0,
+   "halfWidthTicks": 600,
+   "scenario": "SPY synthetic gap 30%",
+   "direction": "up",
+   "ratio": 1.4285714285714286,
+   "shortfallUsd": 149.29441507331944,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 447.8940415535087,
+   "swapPathCostUsd": 4.546124521768114,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 154.17203959508757,
+   "noSwapCashSeedUsd": 448.2255415535087,
+   "withContingency": {
+    "0%": 154.17203959508757,
+    "25%": 192.71504949385945,
+    "50%": 231.25805939263137
+   }
+  },
+  {
+   "config": "F. COUNTERFACTUAL, needs a higher ranged cap: \u00b1600 ticks, $750 ranged (75%)",
+   "deployedUsd": 750.0,
+   "halfWidthTicks": 600,
+   "scenario": "NVDA synthetic gap 30%",
+   "direction": "down",
+   "ratio": 0.7,
+   "shortfallUsd": 104.50609055132497,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 313.52582908745654,
+   "swapPathCostUsd": 3.1822871652376836,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 108.01987771656266,
+   "noSwapCashSeedUsd": 313.85732908745655,
+   "withContingency": {
+    "0%": 108.01987771656266,
+    "25%": 135.02484714570332,
+    "50%": 162.029816574844
+   }
+  },
+  {
+   "config": "F. COUNTERFACTUAL, needs a higher ranged cap: \u00b1600 ticks, $750 ranged (75%)",
+   "deployedUsd": 750.0,
+   "halfWidthTicks": 600,
+   "scenario": "NVDA synthetic gap 30%",
+   "direction": "up",
+   "ratio": 1.4285714285714286,
+   "shortfallUsd": 149.29441507331944,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 447.8940415535087,
+   "swapPathCostUsd": 4.546124521768114,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 154.17203959508757,
+   "noSwapCashSeedUsd": 448.2255415535087,
+   "withContingency": {
+    "0%": 154.17203959508757,
+    "25%": 192.71504949385945,
+    "50%": 231.25805939263137
+   }
+  },
+  {
+   "config": "F. COUNTERFACTUAL, needs a higher ranged cap: \u00b1600 ticks, $750 ranged (75%)",
+   "deployedUsd": 750.0,
+   "halfWidthTicks": 600,
+   "scenario": "SPY synthetic gap 50%",
+   "direction": "down",
+   "ratio": 0.5,
+   "shortfallUsd": 181.79006467951808,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 253.80662354698853,
+   "swapPathCostUsd": 2.5761372290019335,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 184.69770190852003,
+   "noSwapCashSeedUsd": 254.13812354698854,
+   "withContingency": {
+    "0%": 184.69770190852003,
+    "25%": 230.87212738565003,
+    "50%": 277.04655286278006
+   }
+  },
+  {
+   "config": "F. COUNTERFACTUAL, needs a higher ranged cap: \u00b1600 ticks, $750 ranged (75%)",
+   "deployedUsd": 750.0,
+   "halfWidthTicks": 600,
+   "scenario": "SPY synthetic gap 50%",
+   "direction": "up",
+   "ratio": 2.0,
+   "shortfallUsd": 363.5801293590332,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 507.6132470939768,
+   "swapPathCostUsd": 5.152274458003864,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 369.0639038170371,
+   "noSwapCashSeedUsd": 507.9447470939768,
+   "withContingency": {
+    "0%": 369.0639038170371,
+    "25%": 461.32987977129636,
+    "50%": 553.5958557255557
+   }
+  },
+  {
+   "config": "F. COUNTERFACTUAL, needs a higher ranged cap: \u00b1600 ticks, $750 ranged (75%)",
+   "deployedUsd": 750.0,
+   "halfWidthTicks": 600,
+   "scenario": "NVDA synthetic gap 50%",
+   "direction": "down",
+   "ratio": 0.5,
+   "shortfallUsd": 181.79006467951808,
+   "scarceToken": "USDG",
+   "compositionDeficitUsd": 253.80662354698853,
+   "swapPathCostUsd": 2.5761372290019335,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 184.69770190852003,
+   "noSwapCashSeedUsd": 254.13812354698854,
+   "withContingency": {
+    "0%": 184.69770190852003,
+    "25%": 230.87212738565003,
+    "50%": 277.04655286278006
+   }
+  },
+  {
+   "config": "F. COUNTERFACTUAL, needs a higher ranged cap: \u00b1600 ticks, $750 ranged (75%)",
+   "deployedUsd": 750.0,
+   "halfWidthTicks": 600,
+   "scenario": "NVDA synthetic gap 50%",
+   "direction": "up",
+   "ratio": 2.0,
+   "shortfallUsd": 363.5801293590332,
+   "scarceToken": "stock",
+   "compositionDeficitUsd": 507.6132470939768,
+   "swapPathCostUsd": 5.152274458003864,
+   "recoveryGasUsd": 0.3315,
+   "lossCoverageSeedUsd": 369.0639038170371,
+   "noSwapCashSeedUsd": 507.9447470939768,
+   "withContingency": {
+    "0%": 369.0639038170371,
+    "25%": 461.32987977129636,
+    "50%": 553.5958557255557
+   }
+  }
+ ],
+ "feeIncomeAtCurrentCaps": {
+  "SPY/full_range": {
+   "days": 74.40850006944328,
+   "feesBeforeReserveUsd": 0.3480584891218643,
+   "perYearUsd": 1.7073499453814618,
+   "maintenanceUsd": 42.688156489839606,
+   "operatingCostPerYearUsd": 209.4005
+  },
+  "SPY/single600_trig300": {
+   "days": 74.40850006944328,
+   "feesBeforeReserveUsd": 0.5780869704295013,
+   "perYearUsd": 2.835720972870656,
+   "maintenanceUsd": 42.688156489839606,
+   "operatingCostPerYearUsd": 209.4005
+  },
+  "SPY/live2400_trig600_perday4": {
+   "days": 74.40850006944328,
+   "feesBeforeReserveUsd": 0.15323703733962896,
+   "perYearUsd": 0.7516818451758243,
+   "maintenanceUsd": 42.688156489839606,
+   "operatingCostPerYearUsd": 209.4005
+  },
+  "NVDA/full_range": {
+   "days": 90.01275973611132,
+   "feesBeforeReserveUsd": 1.3466072576640313,
+   "perYearUsd": 5.46046638819126,
+   "maintenanceUsd": 51.64032026060706,
+   "operatingCostPerYearUsd": 209.4005
+  },
+  "NVDA/single600_trig300": {
+   "days": 90.01275973611132,
+   "feesBeforeReserveUsd": 2.1282705734623764,
+   "perYearUsd": 8.630096017399667,
+   "maintenanceUsd": 51.64032026060706,
+   "operatingCostPerYearUsd": 214.77740435688122
+  },
+  "NVDA/live2400_trig600_perday4": {
+   "days": 90.01275973611132,
+   "feesBeforeReserveUsd": 0.5760795415138079,
+   "perYearUsd": 2.3359914002079436,
+   "maintenanceUsd": 51.64032026060706,
+   "operatingCostPerYearUsd": 211.01357130706432
+  }
+ }
+}
