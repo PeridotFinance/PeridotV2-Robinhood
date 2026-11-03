@@ -29,12 +29,16 @@ import { PeridottrollerInterface } from "peridot/PeridottrollerInterface.sol";
 import { PToken } from "peridot/PToken.sol";
 import { PriceOracle } from "peridot/PriceOracle.sol";
 
-contract LendingForkTest is Test {
-    bytes32 constant PAIR = keccak256("NVDA/USDG");
-    IRamsesPool constant pool = IRamsesPool(0xdac1904D823F7d6bcAaF431ceEe40c934fEd321b);
+/// @dev The pool, gauge, feed, pair label and token order are configuration (`_configure`), so the same fixture runs on the NVDA/USDG pool (stock =
+/// token1, the default) and on the SPY/USDG pool (stock = token0). The NVDA configuration is the original, byte-for-byte in behaviour.
+abstract contract LendingForkBase is Test {
+    bytes32 PAIR = keccak256("NVDA/USDG");
+    IRamsesPool pool = IRamsesPool(0xdac1904D823F7d6bcAaF431ceEe40c934fEd321b);
     IRamsesNfp constant pm = IRamsesNfp(0x2eBd7B85a4E08D5B508b04BA147976C94afE6590);
-    IRamsesGauge constant gauge = IRamsesGauge(0x93c6A733FB3165D94774B3A5Fc4319D29bd7b6ce);
-    IAggregatorV3 constant feed = IAggregatorV3(0x379EC4f7C378F34a1B47E4F3cbeBCbAC3E8E9F15);
+    IRamsesGauge gauge = IRamsesGauge(0x93c6A733FB3165D94774B3A5Fc4319D29bd7b6ce);
+    IAggregatorV3 feed = IAggregatorV3(0x379EC4f7C378F34a1B47E4F3cbeBCbAC3E8E9F15);
+    bool stockIsToken0;      // false for NVDA/USDG, true for SPY/USDG
+    int24 crashSign = 1;     // sign of the tick offset that makes the STOCK price fall: +1 when the stock is token1, -1 when it is token0
     address constant RAM = 0x5173D45A1191eE33cBB7D8c7e65f21B04eD54802;
     address keeper = address(0x123);
     address guardian = address(0x456);
@@ -57,12 +61,16 @@ contract LendingForkTest is Test {
     address alice = address(0xa11ce);
     address bob = address(0xb0b);
 
+    /// @dev Override to select another pool. Called first in `setUp`.
+    function _configure() internal virtual {}
+
     function setUp() public {
+        _configure();
         vm.createSelectFork(vm.envString("ROBINHOOD_RPC_URL"), vm.envUint("REMEDIATION_FORK_BLOCK"));
         vm.roll(vm.envUint("REMEDIATION_NATIVE_BLOCK"));
         assertEq(block.chainid, 4663);
-        stock = IERC20(pool.token1());
-        usdg = IERC20(pool.token0());
+        stock = IERC20(stockIsToken0 ? pool.token0() : pool.token1());
+        usdg = IERC20(stockIsToken0 ? pool.token1() : pool.token0());
         guard = new RamsesOracleGuard(address(this));
         guard.configurePair(
             PAIR,
@@ -71,8 +79,11 @@ contract LendingForkTest is Test {
             )
         );
         (uint256 price,) = guard.pricesUSD18(PAIR); // Uses the actual pinned feed: stale state fails this rehearsal.
-        uint256 rawRatio = Math.mulDiv(Math.mulDiv(1e18, 1e18, price), 1e18, 1e6);
-        uint160 ref = uint160(Math.sqrt(Math.mulDiv(rawRatio, 1 << 128, 1e18)) << 32);
+        // raw token1 per raw token0 as a Q128 ratio: stock = token1 -> stock raw per USDG raw; stock = token0 -> USDG raw per stock raw
+        uint256 ratioX128 = stockIsToken0
+            ? Math.mulDiv(price, 1 << 128, 1e30)
+            : Math.mulDiv(Math.mulDiv(Math.mulDiv(1e18, 1e18, price), 1e18, 1e6), 1 << 128, 1e18); // the original NVDA arithmetic, unchanged
+        uint160 ref = uint160(Math.sqrt(ratioX128) << 32);
         trader = new ForkTrader(pool);
         deal(address(stock), address(trader), 100000e18);
         deal(address(usdg), address(trader), 10000000e6);
@@ -220,6 +231,10 @@ contract LendingForkTest is Test {
         assertEq(usdg.allowance(address(adapter), address(pm)), 0);
     }
 
+}
+
+/// @notice The original NVDA/USDG fork suite, unchanged in behaviour.
+contract LendingForkTest is LendingForkBase {
     function testForkMarketSupplyRebalanceBorrowRepayRedeemInterest() public {
         assertGt(adapter.positionState(PAIR).liquidity, 0);
         assertGe(stock.balanceOf(address(sMarket)), vault.accountedAssets(PAIR, address(stock)));

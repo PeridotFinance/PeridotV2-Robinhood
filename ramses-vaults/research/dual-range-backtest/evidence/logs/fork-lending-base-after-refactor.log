@@ -1,0 +1,28 @@
+pin 104951404 26333364 0x6b981e18405dcaed3fdc79049062b3d665ef9b615b2a26db1ff8bf4836ff3f82
+rc=0
+No files changed, compilation skipped
+
+Ran 10 tests for ramses-vaults/test/fork/LendingFork.t.sol:LendingForkTest
+[PASS] testForkDollarCollateralStockBorrowAndRepay() (gas: 1815795)
+[PASS] testForkHarvestRamNeverInMarketNAV() (gas: 1541317)
+[PASS] testForkLossPreviewNoEarlyCashExit() (gas: 1642479)
+[PASS] testForkMarketSupplyRebalanceBorrowRepayRedeemInterest() (gas: 3430086)
+[PASS] testForkOracleFreshnessRepayAndIsolation() (gas: 1414288)
+[PASS] testForkPartialEmergencyCashExit() (gas: 2320672)
+[PASS] testForkPauseEmergencyAndDonations() (gas: 1701930)
+[PASS] testForkRealSwapFeesLiftBothMarketRates() (gas: 1124055)
+[PASS] testForkStaleCashExitAtomicFailureRefresh() (gas: 1396867)
+[PASS] testForkUnderwaterLiquidation() (gas: 2752370)
+Suite result: ok. 10 passed; 0 failed; 0 skipped; finished in 38.53s (18.04s CPU time)
+
+Ran 1 test suite in 38.54s (38.53s CPU time): 10 tests passed, 0 failed, 0 skipped (10 total tests)
+warning: invalid natspec tag '@member', custom tags must use format '@custom:name'
+    ╭▸ contracts/peridot-contracts-2-5/contracts/contracts/PTokenInterfaces.sol:112:5
+    │
+112 │ ┏     /**
+113 │ ┃      * @notice Container for borrow balance information
+114 │ ┃      * @member principal Total balance (with accrued interest), after applying the most recent balance-changing action
+115 │ ┃      * @member interestIndex Global borrowIndex as of the most recent balance-changing action
+116 │ ┃      */
+    ╰╴┗━━━━━━━┛
+
