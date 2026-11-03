@@ -15,6 +15,13 @@ loss bound, so the worker cannot do anything a keeper-role holder could not alre
   read them**; that is why the wallet is dedicated and low-privilege. Never fund it beyond a few cents of gas.
 - Logs are JSON lines with no secrets or transaction bodies.
 
+## Rebalance value gate
+
+A checkpoint is sent whenever the checkpoint is older than `maxCheckpointAge` and the contract accepts it, whether or
+not a rebalance follows. `rebalance` is only sent when the matched idle value (the smaller idle side at oracle prices,
+which is what the vault pairs) is at least `REBALANCE_MIN_VALUE_MULTIPLE` (optional env, default 10) times its estimated
+gas cost. If a read for that decision fails, the rebalance is skipped and `rebalance_value_read_failed` is logged.
+
 ## Setup (all local, user-signed)
 
 ```sh

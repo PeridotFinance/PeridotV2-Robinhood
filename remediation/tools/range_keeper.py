@@ -13,6 +13,8 @@ script never sees a key or password.
 """
 import argparse
 import json
+import math
+import os
 import re
 import subprocess
 import sys
@@ -195,6 +197,55 @@ DUST_REBALANCES = ('InvalidConfiguration', 'DeployLossTooHigh')
 # a few billionths of a dollar to deploy, where rounding alone exceeds the 10 bp loss bound. The
 # bound is working; idle fees accumulate until there is an amount worth deploying.
 
+# A rebalance is only worth sending when what it can pair is worth several times its gas. Matched
+# value is what the vault itself pairs (RangeLib.deploy): the smaller idle side at oracle prices.
+REBALANCE_MIN_VALUE_MULTIPLE = 10.0  # override with the optional env var of the same name
+REBALANCE_GAS_ESTIMATE = 750_000  # measured over 79 live rebalances: median 721k, mean about 770k
+ETH_USD_FEED = '0x78F3556b67E17Df817D51Ef5a990cDaF09E8d3A9'
+ETH_USD_MAX_AGE = 86_400
+STOCK_DECIMALS = 18
+USDG_DECIMALS = 6
+
+
+def rebalance_min_value_multiple():
+    try:
+        value = float(os.environ.get('REBALANCE_MIN_VALUE_MULTIPLE', REBALANCE_MIN_VALUE_MULTIPLE))
+    except ValueError:
+        return REBALANCE_MIN_VALUE_MULTIPLE
+    return value if math.isfinite(value) and value > 0 else REBALANCE_MIN_VALUE_MULTIPLE
+
+
+def _uints(output):
+    return [int(line.split()[0]) for line in output.strip().splitlines()]
+
+
+def rebalance_value():
+    """(matched value, estimated gas cost), both USD with 18 decimals. Raises if any read is unusable."""
+    ledger = _uints(cast('call', VAULT, 'ledger(bytes32)(uint256,uint256,uint256,uint256,uint256,uint64)', PAIR).stdout)
+    guard = cast('call', VAULT, 'oracleGuard()(address)').stdout.strip()
+    stock_price, usdg_price = _uints(cast('call', guard, 'pricesUSD18(bytes32)(uint256,uint256)', PAIR).stdout)
+    _, eth_usd, _, eth_updated, _ = _uints(
+        cast('call', ETH_USD_FEED, 'latestRoundData()(uint80,int256,uint256,uint256,uint80)').stdout)
+    gas_price = int(cast('gas-price').stdout.strip())
+    if min(stock_price, usdg_price, eth_usd, gas_price) <= 0 or time.time() - eth_updated > ETH_USD_MAX_AGE:
+        raise ValueError('unusable price')
+    matched = min(ledger[2] * stock_price // 10 ** STOCK_DECIMALS, ledger[3] * usdg_price // 10 ** USDG_DECIMALS)
+    return matched, REBALANCE_GAS_ESTIMATE * gas_price * eth_usd // 10 ** 8
+
+
+def rebalance_value_gate():
+    """(send?, log fields). Fails safe: a failed read skips this optional rebalance and nothing else."""
+    try:
+        matched, cost = rebalance_value()
+    except (RuntimeError, ValueError, IndexError, OSError) as error:  # no raw messages: they can carry call data
+        return False, {'event': 'rebalance_value_read_failed', 'errorType': type(error).__name__,
+                       'action': 'wait (rebalance value read failed)'}
+    fields = {'matchedUsd': round(matched / 1e18, 6), 'gasCostUsd': round(cost / 1e18, 6)}
+    if matched < rebalance_min_value_multiple() * cost:
+        return False, dict(fields, event='rebalance_below_value_threshold',
+                           action='wait (matched value below threshold)')
+    return True, fields
+
 
 def maybe_rebalance(execute):
     """Idle assets (new deposits, an idle-exit recenter) are deployed by `rebalance`, which needs a
@@ -210,11 +261,7 @@ def maybe_rebalance(execute):
             print(json.dumps(info))
             return 0 if waiting else 2
         if not execute:
-            info['action'] = 'checkpoint then rebalance would run; rerun with --execute'
-            print(json.dumps(info))
-            return 0
-        if time.time() - last_sent('rebalance') < REBALANCE_MIN_INTERVAL:
-            info['action'] = 'wait (rebalance sent less than an hour ago)'
+            info['action'] = 'checkpoint is due; rerun with --execute'
             print(json.dumps(info))
             return 0
         sent = send('checkpoint')
@@ -231,6 +278,11 @@ def maybe_rebalance(execute):
         info.update(action='wait' if waiting else 'ATTENTION', detail=detail)
         print(json.dumps(info))
         return 0 if waiting else 2
+    worth, fields = rebalance_value_gate()
+    info.update(fields)
+    if not worth:
+        print(json.dumps(info))
+        return 0
     ok, price = gas_price_ok()
     if not ok:
         info['action'] = 'wait (gas price above cap)'
