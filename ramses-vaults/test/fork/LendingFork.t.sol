@@ -61,6 +61,11 @@ abstract contract LendingForkBase is Test {
     address alice = address(0xa11ce);
     address bob = address(0xb0b);
 
+    /// @dev Override to wrap the unmodified vault code (test/prototypes/RoutedVault.sol).
+    function _newVault() internal virtual returns (RamsesBoostedVault) {
+        return new RamsesBoostedVault();
+    }
+
     /// @dev Override to select another pool. Called first in `setUp`.
     function _configure() internal virtual {}
 
@@ -89,7 +94,7 @@ abstract contract LendingForkBase is Test {
         deal(address(usdg), address(trader), 10000000e6);
         (uint160 spot,,,,,,) = pool.slot0();
         if (spot != ref) trader.move(spot > ref, ref); // Actual pool swap; no storage overwrite.
-        vault = new RamsesBoostedVault();
+        vault = _newVault();
         reserve = new RamsesLossReserve();
         adapter = new RamsesVaultAdapter(address(vault), pm, guard);
         reserve.initialize(address(this), address(vault));

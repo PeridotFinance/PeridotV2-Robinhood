@@ -1,5 +1,5 @@
-Compiling 2 files with Solc 0.8.26
-Solc 0.8.26 finished in 39.85s
+Compiling 5 files with Solc 0.8.26
+Solc 0.8.26 finished in 131.22s
 Compiler run successful with warnings:
 Warning (8760): This declaration has the same name as another declaration.
   --> contracts/peridot-contracts-2-5/contracts/contracts/BorrowAccountingModule.sol:67:13:
@@ -101,35 +101,68 @@ warning: invalid natspec tag '@member', custom tags must use format '@custom:nam
     ╰╴┗━━━━━━━┛
 
 
+Ran 14 tests for ramses-vaults/test/prototypes/InKindIntegration.t.sol:InKindLocalTest
+[PASS] testAFailedReserveReadFailsClosedForAllocationOnly() (gas: 2933718)
+[PASS] testAStalePriceCannotAdmitNewExposureAndAFailedMonitorIsNotAPause() (gas: 1900730)
+[PASS] testAtomicCheckBlocksNewExposureWhenCoverageIsShort() (gas: 3594485)
+[PASS] testDebtFreeMixedRedemptionPaysTheFullValueWhereThePlainRedeemReverts() (gas: 4705581)
+Logs:
+  redeemed value (raw USDG): 190645000
+  paid in USDG (raw): 99999999
+  paid in stock (wei): 1223498596764908421
+  paid, valued at the oracle (USD 1e18): 190640562999999999984
+
+[PASS] testExchangeCannotExceedTheDeficitOrBeCalledByAnyoneElse() (gas: 3554703)
+[PASS] testExchangeItselfEnforcesTheRemovalBoundAndFreshness() (gas: 3794085)
+[PASS] testExitOrderDoesNotChangeTheMixAndRemainingHoldersKeepTheirValue() (gas: 7374803)
+Logs:
+  bob USDG, first / second: 66664443
+  bob USDG if second: 66664444
+  bob stock, first: 400807763217671140
+  bob stock if second: 400807749719315186
+
+[PASS] testIndebtedAccountsAreRefusedAndKeepTheCollateralCheck() (gas: 4688515)
+[PASS] testLedgerSlotMatchesTheVaultGetter() (gas: 2812439)
+[PASS] testPoolBeyondTheRemovalBoundRefusesTheExchange() (gas: 3548878)
+[PASS] testRebalanceThatAddsLiquidityIsBlockedWhileShortAndAdmittedWhenCovered() (gas: 4272337)
+[PASS] testResumePathNeedsTheAdminAndPassesTheSameCheck() (gas: 2869441)
+[PASS] testRiskReducingOperationsStayAvailableWhileShort() (gas: 4684277)
+Logs:
+  exposure before the recentre (USD 1e18): 94075942973995427923
+  exposure after the recentre (USD 1e18): 70226649574055455650
+
+[PASS] testStaleFeedRefusesTheInKindExitAndWithinCashStillWorks() (gas: 3664716)
+Suite result: ok. 14 passed; 0 failed; 0 skipped; finished in 97.51ms (175.90ms CPU time)
+
 Ran 14 tests for ramses-vaults/test/prototypes/ReserveProtocol.t.sol:ReserveProtocolTest
-[PASS] testBothTokensMustBeCoveredNotEither() (gas: 1751581)
-[PASS] testCoverageGuardLeavesAdequatelyProtectedPairsAlone() (gas: 1891241)
-[PASS] testCoverageGuardNeverPausesOnAStalePriceItRevertsInstead() (gas: 1370597)
+[PASS] testBothTokensMustBeCoveredNotEither() (gas: 1751625)
+[PASS] testCoverageGuardLeavesAdequatelyProtectedPairsAlone() (gas: 1891329)
+[PASS] testCoverageGuardNeverPausesOnAStalePriceItRevertsInstead() (gas: 1370641)
 [PASS] testDepletedReserveIsNotNeededAndNotTouched() (gas: 2176780)
-[PASS] testDepletedReserveRestrictsNewRiskOnlyAndTheGuardCanNeverUnpause() (gas: 2267608)
-[PASS] testFuzzConservationAndRemainingHoldersAreNotCharged(uint256,uint256,uint256,uint256,uint256) (runs: 5000, μ: 779390, ~: 779916)
+[PASS] testDepletedReserveRestrictsNewRiskOnlyAndTheGuardCanNeverUnpause() (gas: 2267713)
+[PASS] testFuzzConservationAndRemainingHoldersAreNotCharged(uint256,uint256,uint256,uint256,uint256) (runs: 5000, μ: 779474, ~: 779916)
 Logs:
-  Bound result 1220696194
-  Bound result 8672
-  Bound result 4999000000000500000001
-  Bound result 999999000000000002828
-  Bound result 300
+  Bound result 3661818
+  Bound result 1348
+  Bound result 3081051318246640207938
+  Bound result 566059255435404142734
+  Bound result 1376091
 
-[PASS] testFuzzStockSideMirror(uint256,uint256,uint256,uint256,uint256) (runs: 5000, μ: 777815, ~: 778283)
+[PASS] testFuzzStockSideMirror(uint256,uint256,uint256,uint256,uint256) (runs: 5000, μ: 777877, ~: 778283)
 Logs:
-  Bound result 999999000001220696195
-  Bound result 8672
-  Bound result 4999000000000500000001
-  Bound result 999999002828
-  Bound result 300
+  Bound result 999999000000003661819
+  Bound result 1348
+  Bound result 3081051318246640207938
+  Bound result 494659082913
+  Bound result 182525193515847354510
 
-[PASS] testFuzzTheMixDoesNotDependOnTheOrderOfExits(uint256,uint256,uint256,uint256,uint256) (runs: 5000, μ: 1455639, ~: 1455876)
+[PASS] testFuzzTheMixDoesNotDependOnTheOrderOfExits(uint256,uint256,uint256,uint256,uint256) (runs: 5000, μ: 1455630, ~: 1455919)
 Logs:
-  Bound result 1220696194
-  Bound result 8672
-  Bound result 4999000000000500000001
-  Bound result 999999000000000002828
-  Bound result 300
+  Bound result 3661818
+  Bound result 1348
+  Bound result 3081051318246640207938
+  Bound result 566059255435404142734
+  Bound result 405387
 
 [PASS] testInKindModelMatchesTheRealLedgerAfterARecognizedLoss() (gas: 2164293)
 Logs:
@@ -143,6 +176,6 @@ Logs:
 [PASS] testNoDeficitMeansNoMixing() (gas: 762253)
 [PASS] testOneSidedInventoryPaysEntirelyInTheOtherToken() (gas: 722986)
 [PASS] testSeedRetainedEarningsAndStrayTransfersAreDistinguishable() (gas: 2089346)
-Suite result: ok. 14 passed; 0 failed; 0 skipped; finished in 1.04s (3.09s CPU time)
+Suite result: ok. 14 passed; 0 failed; 0 skipped; finished in 2.53s (7.34s CPU time)
 
-Ran 1 test suite in 1.05s (1.04s CPU time): 14 tests passed, 0 failed, 0 skipped (14 total tests)
+Ran 2 test suites in 2.55s (2.63s CPU time): 28 tests passed, 0 failed, 0 skipped (28 total tests)

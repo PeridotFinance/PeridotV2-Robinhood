@@ -31,6 +31,12 @@ contract CoverageGuard {
     uint16 public immutable requiredUsdgBps;
     uint16 public immutable requiredStockBps;
 
+    /// @dev What a MONITOR sees. UNKNOWN means the check itself could not run (stale price, failed call). It is not a statement about coverage, and it does
+    /// not by itself pause anything; the atomic check (`requireCovered`) treats the same condition as a revert, so UNKNOWN can never admit new exposure.
+    enum Status { COVERED, SHORT, UNKNOWN }
+
+    error CoverageInsufficient(uint256 exposureUsd, uint256 usdgCoverageUsd, uint256 stockCoverageUsd);
+
     event CoverageShort(bytes32 indexed pairId, uint256 exposureUsd, uint256 usdgCoverageUsd, uint256 requiredUsdgUsd, uint256 stockCoverageUsd, uint256 requiredStockUsd);
 
     constructor(
@@ -84,6 +90,23 @@ contract CoverageGuard {
         uint256 byStock = requiredStockBps == 0 ? type(uint256).max : Math.mulDiv(s, 10_000, requiredStockBps);
         uint256 cap = Math.min(byUsdg, byStock);
         return cap > exposure ? cap - exposure : 0;
+    }
+
+    /// @notice Monitoring read: never reverts.
+    function status() external view returns (Status) {
+        try this.snapshot() returns (uint256 exposure, uint256 u, uint256 s) {
+            (uint256 ru, uint256 rs) = required(exposure);
+            return u >= ru && s >= rs ? Status.COVERED : Status.SHORT;
+        } catch {
+            return Status.UNKNOWN;
+        }
+    }
+
+    /// @notice Atomic check: reverts when short and propagates any failure of the reads (stale price, failed reserve call), so it fails closed.
+    function requireCovered() external view {
+        (uint256 exposure, uint256 u, uint256 s) = snapshot();
+        (uint256 ru, uint256 rs) = required(exposure);
+        if (u < ru || s < rs) revert CoverageInsufficient(exposure, u, s);
     }
 
     /// @notice Permissionless and idempotent. Pauses ALLOCATION (and swaps) if the reserve no longer covers the exposure. Never unpauses.

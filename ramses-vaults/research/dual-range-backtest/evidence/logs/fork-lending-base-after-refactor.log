@@ -1,21 +1,21 @@
-pin 104951404 26333364 0x6b981e18405dcaed3fdc79049062b3d665ef9b615b2a26db1ff8bf4836ff3f82
+pin 105033912 26334072 0x7cead259f5f2a9b5dab7523adc3c769399c5cdf713a46cf30836b8c96f91af59
 rc=0
 No files changed, compilation skipped
 
 Ran 10 tests for ramses-vaults/test/fork/LendingFork.t.sol:LendingForkTest
-[PASS] testForkDollarCollateralStockBorrowAndRepay() (gas: 1815795)
-[PASS] testForkHarvestRamNeverInMarketNAV() (gas: 1541317)
-[PASS] testForkLossPreviewNoEarlyCashExit() (gas: 1642479)
-[PASS] testForkMarketSupplyRebalanceBorrowRepayRedeemInterest() (gas: 3430086)
-[PASS] testForkOracleFreshnessRepayAndIsolation() (gas: 1414288)
-[PASS] testForkPartialEmergencyCashExit() (gas: 2320672)
-[PASS] testForkPauseEmergencyAndDonations() (gas: 1701930)
-[PASS] testForkRealSwapFeesLiftBothMarketRates() (gas: 1124055)
-[PASS] testForkStaleCashExitAtomicFailureRefresh() (gas: 1396867)
-[PASS] testForkUnderwaterLiquidation() (gas: 2752370)
-Suite result: ok. 10 passed; 0 failed; 0 skipped; finished in 38.53s (18.04s CPU time)
+[PASS] testForkDollarCollateralStockBorrowAndRepay() (gas: 1818227)
+[PASS] testForkHarvestRamNeverInMarketNAV() (gas: 1542469)
+[PASS] testForkLossPreviewNoEarlyCashExit() (gas: 1627112)
+[PASS] testForkMarketSupplyRebalanceBorrowRepayRedeemInterest() (gas: 3433926)
+[PASS] testForkOracleFreshnessRepayAndIsolation() (gas: 1415952)
+[PASS] testForkPartialEmergencyCashExit() (gas: 2323104)
+[PASS] testForkPauseEmergencyAndDonations() (gas: 1700814)
+[PASS] testForkRealSwapFeesLiftBothMarketRates() (gas: 1193729)
+[PASS] testForkStaleCashExitAtomicFailureRefresh() (gas: 1399171)
+[PASS] testForkUnderwaterLiquidation() (gas: 2783957)
+Suite result: ok. 10 passed; 0 failed; 0 skipped; finished in 40.12s (18.49s CPU time)
 
-Ran 1 test suite in 38.54s (38.53s CPU time): 10 tests passed, 0 failed, 0 skipped (10 total tests)
+Ran 1 test suite in 40.14s (40.12s CPU time): 10 tests passed, 0 failed, 0 skipped (10 total tests)
 warning: invalid natspec tag '@member', custom tags must use format '@custom:name'
     ╭▸ contracts/peridot-contracts-2-5/contracts/contracts/PTokenInterfaces.sol:112:5
     │

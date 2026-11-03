@@ -1,0 +1,61 @@
+pin 105013095 26333892 0x7560755b3eb9ff82e473a53ec11f3d6a7eb884c6ce06bde274eb3c64f9f8b860
+rc=0
+No files changed, compilation skipped
+
+Ran 8 tests for ramses-vaults/test/fork/InKindFork.t.sol:NvdaInKindForkTest
+[PASS] testDebtFreeMixedRedemptionPaysTheFullValueWhereThePlainRedeemReverts() (gas: 5860460)
+Logs:
+  redeemed value (raw USDG): 190720000
+  paid in USDG (raw): 99999999
+  paid in stock (wei): 595694990445949986
+  paid, valued at the oracle (USD 1e18): 190715191999999999954
+
+[PASS] testExchangeCannotExceedTheDeficitOrBeCalledByAnyoneElse() (gas: 4426938)
+[PASS] testExchangeItselfEnforcesTheRemovalBoundAndFreshness() (gas: 4773420)
+[PASS] testExitOrderDoesNotChangeTheMixAndRemainingHoldersKeepTheirValue() (gas: 9661888)
+Logs:
+  bob USDG, first / second: 66664443
+  bob USDG if second: 66664443
+  bob stock, first: 195128086233100092
+  bob stock if second: 195128086233100092
+
+[PASS] testIndebtedAccountsAreRefusedAndKeepTheCollateralCheck() (gas: 4647617)
+[PASS] testLedgerSlotMatchesTheVaultGetter() (gas: 1521877)
+[PASS] testPoolBeyondTheRemovalBoundRefusesTheExchange() (gas: 4471001)
+[PASS] testStaleFeedRefusesTheInKindExitAndWithinCashStillWorks() (gas: 4615677)
+Suite result: ok. 8 passed; 0 failed; 0 skipped; finished in 63.55s (27.27s CPU time)
+
+Ran 8 tests for ramses-vaults/test/fork/InKindFork.t.sol:SpyInKindForkTest
+[PASS] testDebtFreeMixedRedemptionPaysTheFullValueWhereThePlainRedeemReverts() (gas: 6541790)
+Logs:
+  redeemed value (raw USDG): 191105000
+  paid in USDG (raw): 99999999
+  paid in stock (wei): 163494022305944336
+  paid, valued at the oracle (USD 1e18): 191104539999999999534
+
+[PASS] testExchangeCannotExceedTheDeficitOrBeCalledByAnyoneElse() (gas: 5116090)
+[PASS] testExchangeItselfEnforcesTheRemovalBoundAndFreshness() (gas: 5504161)
+[PASS] testExitOrderDoesNotChangeTheMixAndRemainingHoldersKeepTheirValue() (gas: 10339525)
+Logs:
+  bob USDG, first / second: 66664443
+  bob USDG if second: 66664444
+  bob stock, first: 53537878172053720
+  bob stock if second: 53537876377477725
+
+[PASS] testIndebtedAccountsAreRefusedAndKeepTheCollateralCheck() (gas: 4673400)
+[PASS] testLedgerSlotMatchesTheVaultGetter() (gas: 1521877)
+[PASS] testPoolBeyondTheRemovalBoundRefusesTheExchange() (gas: 5202106)
+[PASS] testStaleFeedRefusesTheInKindExitAndWithinCashStillWorks() (gas: 5304959)
+Suite result: ok. 8 passed; 0 failed; 0 skipped; finished in 43.88s (32.06s CPU time)
+
+Ran 2 test suites in 107.44s (107.44s CPU time): 16 tests passed, 0 failed, 0 skipped (16 total tests)
+warning: invalid natspec tag '@member', custom tags must use format '@custom:name'
+    ╭▸ contracts/peridot-contracts-2-5/contracts/contracts/PTokenInterfaces.sol:112:5
+    │
+112 │ ┏     /**
+113 │ ┃      * @notice Container for borrow balance information
+114 │ ┃      * @member principal Total balance (with accrued interest), after applying the most recent balance-changing action
+115 │ ┃      * @member interestIndex Global borrowIndex as of the most recent balance-changing action
+116 │ ┃      */
+    ╰╴┗━━━━━━━┛
+

@@ -1,0 +1,18 @@
+KILLED   no post-check on allocation
+KILLED   post-check failure swallowed
+KILLED   deposit not gated
+KILLED   unpause not gated
+KILLED   recentre that reduces exposure blocked
+KILLED   operator check removed
+KILLED   deficit bound removed (usdg)
+SURVIVED removal bound/oracle validation skipped
+KILLED   exchange at a 1% better price for the exiter
+KILLED   debt check removed
+KILLED   bridge not repaid
+KILLED   first-mover: no pro-rata share of the deficit
+KILLED   status claims covered on failure
+12 of 13 killed
+
+The survivor above was an EQUIVALENT mutant: referenceSqrtPriceX96 runs the same guard validation. Replaced by a real one, with a direct test added (testExchangeItselfEnforcesTheRemovalBoundAndFreshness):
+KILLED   removal bound skipped, reading slot0 directly
+1 of 1 killed

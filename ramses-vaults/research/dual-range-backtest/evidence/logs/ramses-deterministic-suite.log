@@ -1,4 +1,3 @@
-FOUNDRY_PROFILE=ramses forge test --threads 1 --no-match-path '*/fork/*'
 No files changed, compilation skipped
 warning: invalid natspec tag '@member', custom tags must use format '@custom:name'
     ╭▸ contracts/peridot-contracts-2-5/contracts/contracts/PTokenInterfaces.sol:112:5
@@ -12,9 +11,9 @@ warning: invalid natspec tag '@member', custom tags must use format '@custom:nam
 
 
 Ran 36 tests for ramses-vaults/test/Adapter.t.sol:AdapterStock0Test
-[PASS] testFuzz_outOfRangeBothSides(int16,bool) (runs: 256, μ: 787262, ~: 789446)
-[PASS] testFuzz_removalBand(uint16) (runs: 256, μ: 671542, ~: 660195)
-[PASS] testFuzz_roundTrip(uint96,uint64,int16) (runs: 256, μ: 824160, ~: 822579)
+[PASS] testFuzz_outOfRangeBothSides(int16,bool) (runs: 256, μ: 787175, ~: 785027)
+[PASS] testFuzz_removalBand(uint16) (runs: 256, μ: 671129, ~: 660195)
+[PASS] testFuzz_roundTrip(uint96,uint64,int16) (runs: 256, μ: 824482, ~: 826362)
 [PASS] test_allocationManipulationRejected() (gas: 72897)
 [PASS] test_badRangeAndExpiredDeadline() (gas: 64399)
 [PASS] test_feeSplitAndNoDoubleCollection() (gas: 631572)
@@ -48,12 +47,12 @@ Ran 36 tests for ramses-vaults/test/Adapter.t.sol:AdapterStock0Test
 [PASS] test_taxedVaultPullRejected() (gas: 160680)
 [PASS] test_wrongCollectReturnRejected() (gas: 455921)
 [PASS] test_wrongManagerReturnRejected() (gas: 452098)
-Suite result: ok. 36 passed; 0 failed; 0 skipped; finished in 442.37ms (433.01ms CPU time)
+Suite result: ok. 36 passed; 0 failed; 0 skipped; finished in 444.95ms (427.64ms CPU time)
 
 Ran 36 tests for ramses-vaults/test/Adapter.t.sol:AdapterUsdg0Test
-[PASS] testFuzz_outOfRangeBothSides(int16,bool) (runs: 256, μ: 787351, ~: 785293)
-[PASS] testFuzz_removalBand(uint16) (runs: 256, μ: 671834, ~: 660495)
-[PASS] testFuzz_roundTrip(uint96,uint64,int16) (runs: 256, μ: 824458, ~: 822706)
+[PASS] testFuzz_outOfRangeBothSides(int16,bool) (runs: 256, μ: 787437, ~: 789512)
+[PASS] testFuzz_removalBand(uint16) (runs: 256, μ: 671214, ~: 660495)
+[PASS] testFuzz_roundTrip(uint96,uint64,int16) (runs: 256, μ: 824658, ~: 826621)
 [PASS] test_allocationManipulationRejected() (gas: 72923)
 [PASS] test_badRangeAndExpiredDeadline() (gas: 64414)
 [PASS] test_feeSplitAndNoDoubleCollection() (gas: 631798)
@@ -87,7 +86,7 @@ Ran 36 tests for ramses-vaults/test/Adapter.t.sol:AdapterUsdg0Test
 [PASS] test_taxedVaultPullRejected() (gas: 197676)
 [PASS] test_wrongCollectReturnRejected() (gas: 456146)
 [PASS] test_wrongManagerReturnRejected() (gas: 452328)
-Suite result: ok. 36 passed; 0 failed; 0 skipped; finished in 432.57ms (431.63ms CPU time)
+Suite result: ok. 36 passed; 0 failed; 0 skipped; finished in 426.56ms (425.67ms CPU time)
 
 Ran 2 tests for ramses-vaults/test/AdapterInvariant.t.sol:AdapterStock0Invariant
 [PASS] invariant_nativePrincipalConservedWithinRounding() (runs: 64, calls: 2048, reverts: 0)
@@ -95,13 +94,13 @@ Ran 2 tests for ramses-vaults/test/AdapterInvariant.t.sol:AdapterStock0Invariant
 ╭------------------------+------------+-------+---------+----------╮
 | Contract               | Selector   | Calls | Reverts | Discards |
 +==================================================================+
-| AdapterStock0Invariant | actAdd     | 514   | 0       | 0        |
+| AdapterStock0Invariant | actAdd     | 526   | 0       | 0        |
 |------------------------+------------+-------+---------+----------|
-| AdapterStock0Invariant | actHarvest | 504   | 0       | 0        |
+| AdapterStock0Invariant | actHarvest | 544   | 0       | 0        |
 |------------------------+------------+-------+---------+----------|
-| AdapterStock0Invariant | actRemove  | 523   | 0       | 0        |
+| AdapterStock0Invariant | actRemove  | 518   | 0       | 0        |
 |------------------------+------------+-------+---------+----------|
-| AdapterStock0Invariant | actTime    | 507   | 0       | 0        |
+| AdapterStock0Invariant | actTime    | 460   | 0       | 0        |
 ╰------------------------+------------+-------+---------+----------╯
 
 [PASS] invariant_rewardsAreBackedAndSeparated() (runs: 64, calls: 2048, reverts: 0)
@@ -109,16 +108,16 @@ Ran 2 tests for ramses-vaults/test/AdapterInvariant.t.sol:AdapterStock0Invariant
 ╭------------------------+------------+-------+---------+----------╮
 | Contract               | Selector   | Calls | Reverts | Discards |
 +==================================================================+
-| AdapterStock0Invariant | actAdd     | 514   | 0       | 0        |
+| AdapterStock0Invariant | actAdd     | 526   | 0       | 0        |
 |------------------------+------------+-------+---------+----------|
-| AdapterStock0Invariant | actHarvest | 504   | 0       | 0        |
+| AdapterStock0Invariant | actHarvest | 544   | 0       | 0        |
 |------------------------+------------+-------+---------+----------|
-| AdapterStock0Invariant | actRemove  | 523   | 0       | 0        |
+| AdapterStock0Invariant | actRemove  | 518   | 0       | 0        |
 |------------------------+------------+-------+---------+----------|
-| AdapterStock0Invariant | actTime    | 507   | 0       | 0        |
+| AdapterStock0Invariant | actTime    | 460   | 0       | 0        |
 ╰------------------------+------------+-------+---------+----------╯
 
-Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 1.76s (1.76s CPU time)
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 1.89s (1.88s CPU time)
 
 Ran 2 tests for ramses-vaults/test/AdapterInvariant.t.sol:AdapterUsdg0Invariant
 [PASS] invariant_nativePrincipalConservedWithinRounding() (runs: 64, calls: 2048, reverts: 0)
@@ -126,13 +125,13 @@ Ran 2 tests for ramses-vaults/test/AdapterInvariant.t.sol:AdapterUsdg0Invariant
 ╭-----------------------+------------+-------+---------+----------╮
 | Contract              | Selector   | Calls | Reverts | Discards |
 +=================================================================+
-| AdapterUsdg0Invariant | actAdd     | 514   | 0       | 0        |
+| AdapterUsdg0Invariant | actAdd     | 526   | 0       | 0        |
 |-----------------------+------------+-------+---------+----------|
-| AdapterUsdg0Invariant | actHarvest | 504   | 0       | 0        |
+| AdapterUsdg0Invariant | actHarvest | 544   | 0       | 0        |
 |-----------------------+------------+-------+---------+----------|
-| AdapterUsdg0Invariant | actRemove  | 523   | 0       | 0        |
+| AdapterUsdg0Invariant | actRemove  | 518   | 0       | 0        |
 |-----------------------+------------+-------+---------+----------|
-| AdapterUsdg0Invariant | actTime    | 507   | 0       | 0        |
+| AdapterUsdg0Invariant | actTime    | 460   | 0       | 0        |
 ╰-----------------------+------------+-------+---------+----------╯
 
 [PASS] invariant_rewardsAreBackedAndSeparated() (runs: 64, calls: 2048, reverts: 0)
@@ -140,16 +139,16 @@ Ran 2 tests for ramses-vaults/test/AdapterInvariant.t.sol:AdapterUsdg0Invariant
 ╭-----------------------+------------+-------+---------+----------╮
 | Contract              | Selector   | Calls | Reverts | Discards |
 +=================================================================+
-| AdapterUsdg0Invariant | actAdd     | 514   | 0       | 0        |
+| AdapterUsdg0Invariant | actAdd     | 526   | 0       | 0        |
 |-----------------------+------------+-------+---------+----------|
-| AdapterUsdg0Invariant | actHarvest | 504   | 0       | 0        |
+| AdapterUsdg0Invariant | actHarvest | 544   | 0       | 0        |
 |-----------------------+------------+-------+---------+----------|
-| AdapterUsdg0Invariant | actRemove  | 523   | 0       | 0        |
+| AdapterUsdg0Invariant | actRemove  | 518   | 0       | 0        |
 |-----------------------+------------+-------+---------+----------|
-| AdapterUsdg0Invariant | actTime    | 507   | 0       | 0        |
+| AdapterUsdg0Invariant | actTime    | 460   | 0       | 0        |
 ╰-----------------------+------------+-------+---------+----------╯
 
-Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 1.72s (1.72s CPU time)
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 1.87s (1.87s CPU time)
 
 Ran 19 tests for ramses-vaults/test/fallback/AnchoredFallbackOracle.t.sol:AnchoredFallbackHoldToken0Test
 [PASS] testAMissedPokeMeansNoFallback() (gas: 173579)
@@ -171,7 +170,7 @@ Ran 19 tests for ramses-vaults/test/fallback/AnchoredFallbackOracle.t.sol:Anchor
 [PASS] testPokeRevertsWhenThePoolHistoryIsTooShort() (gas: 1863225)
 [PASS] testShortSpikeBarelyMovesTheWindowAverage() (gas: 412919)
 [PASS] testWithoutAMoveTheFallbackEqualsTheAnchor() (gas: 201934)
-Suite result: ok. 19 passed; 0 failed; 0 skipped; finished in 3.21ms (2.69ms CPU time)
+Suite result: ok. 19 passed; 0 failed; 0 skipped; finished in 2.21ms (1.79ms CPU time)
 
 Ran 19 tests for ramses-vaults/test/fallback/AnchoredFallbackOracle.t.sol:AnchoredFallbackHoldToken1Test
 [PASS] testAMissedPokeMeansNoFallback() (gas: 173465)
@@ -193,7 +192,7 @@ Ran 19 tests for ramses-vaults/test/fallback/AnchoredFallbackOracle.t.sol:Anchor
 [PASS] testPokeRevertsWhenThePoolHistoryIsTooShort() (gas: 1863228)
 [PASS] testShortSpikeBarelyMovesTheWindowAverage() (gas: 412876)
 [PASS] testWithoutAMoveTheFallbackEqualsTheAnchor() (gas: 201833)
-Suite result: ok. 19 passed; 0 failed; 0 skipped; finished in 1.87ms (1.51ms CPU time)
+Suite result: ok. 19 passed; 0 failed; 0 skipped; finished in 1.94ms (1.57ms CPU time)
 
 Ran 19 tests for ramses-vaults/test/fallback/AnchoredFallbackOracle.t.sol:AnchoredFallbackStockToken0Test
 [PASS] testAMissedPokeMeansNoFallback() (gas: 173579)
@@ -215,7 +214,7 @@ Ran 19 tests for ramses-vaults/test/fallback/AnchoredFallbackOracle.t.sol:Anchor
 [PASS] testPokeRevertsWhenThePoolHistoryIsTooShort() (gas: 1863224)
 [PASS] testShortSpikeBarelyMovesTheWindowAverage() (gas: 413087)
 [PASS] testWithoutAMoveTheFallbackEqualsTheAnchor() (gas: 202102)
-Suite result: ok. 19 passed; 0 failed; 0 skipped; finished in 2.03ms (1.68ms CPU time)
+Suite result: ok. 19 passed; 0 failed; 0 skipped; finished in 2.07ms (1.66ms CPU time)
 
 Ran 19 tests for ramses-vaults/test/fallback/AnchoredFallbackOracle.t.sol:AnchoredFallbackStockToken1Test
 [PASS] testAMissedPokeMeansNoFallback() (gas: 173485)
@@ -237,7 +236,7 @@ Ran 19 tests for ramses-vaults/test/fallback/AnchoredFallbackOracle.t.sol:Anchor
 [PASS] testPokeRevertsWhenThePoolHistoryIsTooShort() (gas: 1863239)
 [PASS] testShortSpikeBarelyMovesTheWindowAverage() (gas: 413015)
 [PASS] testWithoutAMoveTheFallbackEqualsTheAnchor() (gas: 202023)
-Suite result: ok. 19 passed; 0 failed; 0 skipped; finished in 1.82ms (1.47ms CPU time)
+Suite result: ok. 19 passed; 0 failed; 0 skipped; finished in 2.02ms (1.66ms CPU time)
 
 Ran 6 tests for ramses-vaults/test/fallback/FallbackEconomics.t.sol:FallbackEconomicsStockFirstAnchoredTest
 [PASS] testExitAtTheStaleEstimateShiftsTheLossToRemainingSuppliers() (gas: 4797863)
@@ -246,7 +245,7 @@ Ran 6 tests for ramses-vaults/test/fallback/FallbackEconomics.t.sol:FallbackEcon
 [PASS] testStationaryPoolHidesAnyRealGapFromTheMoveLimit() (gas: 1839634)
 [PASS] testStockCollateralRedemptionAtTheStalePriceLeavesTheAccountUnderwater() (gas: 3939502)
 [PASS] testUsdgCollateralRedemptionAtTheStalePriceLeavesTheAccountUnderwater() (gas: 4013998)
-Suite result: ok. 6 passed; 0 failed; 0 skipped; finished in 32.83ms (30.19ms CPU time)
+Suite result: ok. 6 passed; 0 failed; 0 skipped; finished in 39.16ms (36.07ms CPU time)
 
 Ran 6 tests for ramses-vaults/test/fallback/FallbackEconomics.t.sol:FallbackEconomicsStockFirstHoldTest
 [PASS] testExitAtTheStaleEstimateShiftsTheLossToRemainingSuppliers() (gas: 4796855)
@@ -255,7 +254,7 @@ Ran 6 tests for ramses-vaults/test/fallback/FallbackEconomics.t.sol:FallbackEcon
 [PASS] testStationaryPoolHidesAnyRealGapFromTheMoveLimit() (gas: 1839298)
 [PASS] testStockCollateralRedemptionAtTheStalePriceLeavesTheAccountUnderwater() (gas: 3936814)
 [PASS] testUsdgCollateralRedemptionAtTheStalePriceLeavesTheAccountUnderwater() (gas: 4011310)
-Suite result: ok. 6 passed; 0 failed; 0 skipped; finished in 32.90ms (30.01ms CPU time)
+Suite result: ok. 6 passed; 0 failed; 0 skipped; finished in 32.66ms (29.62ms CPU time)
 
 Ran 6 tests for ramses-vaults/test/fallback/FallbackEconomics.t.sol:FallbackEconomicsStockSecondAnchoredTest
 [PASS] testExitAtTheStaleEstimateShiftsTheLossToRemainingSuppliers() (gas: 4799495)
@@ -264,7 +263,7 @@ Ran 6 tests for ramses-vaults/test/fallback/FallbackEconomics.t.sol:FallbackEcon
 [PASS] testStationaryPoolHidesAnyRealGapFromTheMoveLimit() (gas: 1839817)
 [PASS] testStockCollateralRedemptionAtTheStalePriceLeavesTheAccountUnderwater() (gas: 3941871)
 [PASS] testUsdgCollateralRedemptionAtTheStalePriceLeavesTheAccountUnderwater() (gas: 4016362)
-Suite result: ok. 6 passed; 0 failed; 0 skipped; finished in 33.33ms (30.63ms CPU time)
+Suite result: ok. 6 passed; 0 failed; 0 skipped; finished in 32.33ms (29.43ms CPU time)
 
 Ran 6 tests for ramses-vaults/test/fallback/FallbackEconomics.t.sol:FallbackEconomicsStockSecondHoldTest
 [PASS] testExitAtTheStaleEstimateShiftsTheLossToRemainingSuppliers() (gas: 4798487)
@@ -273,7 +272,24 @@ Ran 6 tests for ramses-vaults/test/fallback/FallbackEconomics.t.sol:FallbackEcon
 [PASS] testStationaryPoolHidesAnyRealGapFromTheMoveLimit() (gas: 1839481)
 [PASS] testStockCollateralRedemptionAtTheStalePriceLeavesTheAccountUnderwater() (gas: 3939183)
 [PASS] testUsdgCollateralRedemptionAtTheStalePriceLeavesTheAccountUnderwater() (gas: 4013674)
-Suite result: ok. 6 passed; 0 failed; 0 skipped; finished in 32.80ms (30.17ms CPU time)
+Suite result: ok. 6 passed; 0 failed; 0 skipped; finished in 33.49ms (30.72ms CPU time)
+
+Ran 14 tests for ramses-vaults/test/prototypes/InKindIntegration.t.sol:InKindLocalTest
+[PASS] testAFailedReserveReadFailsClosedForAllocationOnly() (gas: 2933718)
+[PASS] testAStalePriceCannotAdmitNewExposureAndAFailedMonitorIsNotAPause() (gas: 1900730)
+[PASS] testAtomicCheckBlocksNewExposureWhenCoverageIsShort() (gas: 3594485)
+[PASS] testDebtFreeMixedRedemptionPaysTheFullValueWhereThePlainRedeemReverts() (gas: 4705581)
+[PASS] testExchangeCannotExceedTheDeficitOrBeCalledByAnyoneElse() (gas: 3554703)
+[PASS] testExchangeItselfEnforcesTheRemovalBoundAndFreshness() (gas: 3794085)
+[PASS] testExitOrderDoesNotChangeTheMixAndRemainingHoldersKeepTheirValue() (gas: 7374803)
+[PASS] testIndebtedAccountsAreRefusedAndKeepTheCollateralCheck() (gas: 4688515)
+[PASS] testLedgerSlotMatchesTheVaultGetter() (gas: 2812439)
+[PASS] testPoolBeyondTheRemovalBoundRefusesTheExchange() (gas: 3548878)
+[PASS] testRebalanceThatAddsLiquidityIsBlockedWhileShortAndAdmittedWhenCovered() (gas: 4272337)
+[PASS] testResumePathNeedsTheAdminAndPassesTheSameCheck() (gas: 2869441)
+[PASS] testRiskReducingOperationsStayAvailableWhileShort() (gas: 4684277)
+[PASS] testStaleFeedRefusesTheInKindExitAndWithinCashStillWorks() (gas: 3664716)
+Suite result: ok. 14 passed; 0 failed; 0 skipped; finished in 56.48ms (53.66ms CPU time)
 
 Ran 28 tests for ramses-vaults/test/Lending.t.sol:LendingTest
 [PASS] testAllocationPausedSwallowKeepsCashAndNoApproval() (gas: 304932)
@@ -287,7 +303,7 @@ Ran 28 tests for ramses-vaults/test/Lending.t.sol:LendingTest
 [PASS] testFeesAndRewardsLiftRatesButRamDoesNot() (gas: 3047501)
 [PASS] testFreshMarketRequiresTimelockSeed() (gas: 2042773)
 [PASS] testFreshnessBorrowRedeemCollateralButRepayAllowed() (gas: 1531985)
-[PASS] testFuzzBufferAndIdleSupplierRoundTrip(uint256) (runs: 256, μ: 528874, ~: 544759)
+[PASS] testFuzzBufferAndIdleSupplierRoundTrip(uint256) (runs: 256, μ: 528848, ~: 544759)
 [PASS] testLendingSourceItselfFailsClosedForBothMarkets() (gas: 94290)
 [PASS] testLiquidationUsingDecimalCorrectOracle() (gas: 1811156)
 [PASS] testLossPreviewAndCheckpointBeforeCashExit() (gas: 2002211)
@@ -304,7 +320,7 @@ Ran 28 tests for ramses-vaults/test/Lending.t.sol:LendingTest
 [PASS] testUnknownCheckpointFailureCannotMasqueradeAsStale() (gas: 1373515)
 [PASS] testUnknownOracleFailureDoesNotBecomeZeroAssets() (gas: 1435433)
 [PASS] testZeroCollateralLaunchDisablesBorrow() (gas: 764626)
-Suite result: ok. 28 passed; 0 failed; 0 skipped; finished in 218.64ms (216.01ms CPU time)
+Suite result: ok. 28 passed; 0 failed; 0 skipped; finished in 230.66ms (227.96ms CPU time)
 
 Ran 7 tests for ramses-vaults/test/LossReserve.t.sol:RamsesLossReserveTest
 [PASS] testConfiguredReserveTokensCannotChangeButLimitsCan() (gas: 659663)
@@ -314,37 +330,37 @@ Ran 7 tests for ramses-vaults/test/LossReserve.t.sol:RamsesLossReserveTest
 [PASS] testFeeOnTransferFromReserveToVaultRevertsWithoutAccountingDrift() (gas: 164057)
 [PASS] testOnlyUnaccountedSurplusCanBeSwept() (gas: 78829)
 [PASS] testPausedReserveCannotCoverButCanBeGovernanceWithdrawn() (gas: 98069)
-Suite result: ok. 7 passed; 0 failed; 0 skipped; finished in 4.07ms (332.63µs CPU time)
+Suite result: ok. 7 passed; 0 failed; 0 skipped; finished in 3.19ms (345.17µs CPU time)
 
 Ran 4 tests for ramses-vaults/test/MultiPair.t.sol:MultiPairTest
 [PASS] testGuardIdentityCannotChangeToAnotherValidPair() (gas: 56383)
 [PASS] testMultiPairAccountingRewardsAndEmergencyIsolation() (gas: 3686928)
 [PASS] testRegisterDuplicatePoolOrMismatchedFeedFails() (gas: 502503)
 [PASS] testSharedUsdgAggregateCapAcrossPairs() (gas: 370234)
-Suite result: ok. 4 passed; 0 failed; 0 skipped; finished in 5.30ms (2.98ms CPU time)
+Suite result: ok. 4 passed; 0 failed; 0 skipped; finished in 5.50ms (3.09ms CPU time)
 
 Ran 2 tests for ramses-vaults/test/OriginalDelegateCompatibility.t.sol:OriginalDelegateCompatibilityTest
 [PASS] testUnchangedDelegateInterfaceBufferAndSilentAllocationFailure() (gas: 1440684)
 [PASS] testUnchangedDelegateLetsCashExitPrecedeUncheckpointedLoss() (gas: 1425762)
-Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 4.52ms (2.14ms CPU time)
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 4.61ms (2.23ms CPU time)
 
 Ran 6 tests for ramses-vaults/test/Phase2.t.sol:GuardReverseOrderTest
 [PASS] testConfigurationIdentityDecimalsAndRole() (gas: 91450)
-[PASS] testFuzzOraclePriceAndBothDirectionGate(uint32,int16) (runs: 256, μ: 69580, ~: 78265)
+[PASS] testFuzzOraclePriceAndBothDirectionGate(uint32,int16) (runs: 256, μ: 69023, ~: 78164)
 [PASS] testOracleReferenceAndFixedUsdg() (gas: 58802)
 [PASS] testPausedDisabledInvalidFutureIncompleteRevert() (gas: 141958)
 [PASS] testTokenOraclePauseBlocksAllocationAndRemoval() (gas: 75302)
 [PASS] testTwelveHourBoundaryAndWeekendFreshFivePercent() (gas: 158420)
-Suite result: ok. 6 passed; 0 failed; 0 skipped; finished in 42.65ms (41.23ms CPU time)
+Suite result: ok. 6 passed; 0 failed; 0 skipped; finished in 46.96ms (45.67ms CPU time)
 
 Ran 6 tests for ramses-vaults/test/Phase2.t.sol:GuardTest
 [PASS] testConfigurationIdentityDecimalsAndRole() (gas: 91476)
-[PASS] testFuzzOraclePriceAndBothDirectionGate(uint32,int16) (runs: 256, μ: 69340, ~: 78474)
+[PASS] testFuzzOraclePriceAndBothDirectionGate(uint32,int16) (runs: 256, μ: 69218, ~: 78421)
 [PASS] testOracleReferenceAndFixedUsdg() (gas: 58853)
 [PASS] testPausedDisabledInvalidFutureIncompleteRevert() (gas: 142087)
 [PASS] testTokenOraclePauseBlocksAllocationAndRemoval() (gas: 75360)
 [PASS] testTwelveHourBoundaryAndWeekendFreshFivePercent() (gas: 158916)
-Suite result: ok. 6 passed; 0 failed; 0 skipped; finished in 44.24ms (42.90ms CPU time)
+Suite result: ok. 6 passed; 0 failed; 0 skipped; finished in 46.01ms (44.68ms CPU time)
 
 Ran 28 tests for ramses-vaults/test/Phase2.t.sol:Phase2Test
 [PASS] testActiveSwapRejectsCallbackFromWrongCaller() (gas: 408473)
@@ -375,43 +391,45 @@ Ran 28 tests for ramses-vaults/test/Phase2.t.sol:Phase2Test
 [PASS] testVaultInitializationCannotBeStolenOrRepeated() (gas: 9415251)
 [PASS] testVaultReentrancyFromAuthorizedKeeperCallbackRollsBack() (gas: 1618138)
 [PASS] testWithdrawalSettlementMinimumAndAtomicity() (gas: 1679136)
-Suite result: ok. 28 passed; 0 failed; 0 skipped; finished in 35.00ms (33.50ms CPU time)
+Suite result: ok. 28 passed; 0 failed; 0 skipped; finished in 35.26ms (33.41ms CPU time)
 
 Ran 10 tests for ramses-vaults/test/RangeLibDeploy.t.sol:RamsesRangeLibDeployTest
 [PASS] testAdapterRefusalLeavesAssetsIdleAndApprovalsRevokedWhenSoft() (gas: 267136)
 [PASS] testCapLimitsEachSide() (gas: 312016)
 [PASS] testDeploysMatchedValueAndBooksUsage() (gas: 282832)
 [PASS] testDustFinishesIdleOnlyWhenAllowed() (gas: 218803)
-[PASS] testFuzzIdleNeverIncreasesAndNeverExceedsCap(uint96,uint96,uint96) (runs: 256, μ: 202726, ~: 178006)
+[PASS] testFuzzIdleNeverIncreasesAndNeverExceedsCap(uint96,uint96,uint96) (runs: 256, μ: 197074, ~: 177568)
 [PASS] testLossBoundDisabledAtOrAboveTenThousand() (gas: 293353)
 [PASS] testLossBoundRejectsOverpricedLiquidity() (gas: 496840)
 [PASS] testNothingIdleFinishesOnlyWhenAllowed() (gas: 113113)
 [PASS] testReportedUsageMustMatchBalanceDelta() (gas: 369589)
 [PASS] testUnexpectedAdapterFailureBubblesEvenWhenSoft() (gas: 244547)
-Suite result: ok. 10 passed; 0 failed; 0 skipped; finished in 23.36ms (23.00ms CPU time)
+Suite result: ok. 10 passed; 0 failed; 0 skipped; finished in 23.58ms (23.24ms CPU time)
 
 Ran 1 test for ramses-vaults/test/RangeLibDeploy.t.sol:RecenterLossBoundTest
 [PASS] testOuterRecenterLossBoundRejectsLostPrincipal() (gas: 2020721)
-Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 346.58µs (130.42µs CPU time)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 403.17µs (147.04µs CPU time)
 
-Ran 12 tests for ramses-vaults/test/prototypes/ReserveProtocol.t.sol:ReserveProtocolTest
-[PASS] testCoverageGuardLeavesAdequatelyProtectedPairsAlone() (gas: 1891241)
-[PASS] testCoverageGuardNeverPausesOnAStalePriceItRevertsInstead() (gas: 1370575)
-[PASS] testDepletedReserveIsNotNeededAndNotTouched() (gas: 2176758)
-[PASS] testDepletedReserveRestrictsNewRiskOnlyAndTheGuardCanNeverUnpause() (gas: 2267590)
-[PASS] testFuzzConservationAndRemainingHoldersAreNotCharged(uint256,uint256,uint256,uint256,uint256) (runs: 256, μ: 778823, ~: 779872)
-[PASS] testFuzzStockSideMirror(uint256,uint256,uint256,uint256,uint256) (runs: 256, μ: 777350, ~: 778239)
-[PASS] testFuzzTheMixDoesNotDependOnTheOrderOfExits(uint256,uint256,uint256,uint256,uint256) (runs: 256, μ: 1455455, ~: 1455788)
-[PASS] testInKindModelMatchesTheRealLedgerAfterARecognizedLoss() (gas: 2164227)
-[PASS] testInKindRefusesStaleOraclesAndAccountsWithDebt() (gas: 3060697)
-[PASS] testNoDeficitMeansNoMixing() (gas: 762209)
-[PASS] testOneSidedInventoryPaysEntirelyInTheOtherToken() (gas: 722942)
+Ran 14 tests for ramses-vaults/test/prototypes/ReserveProtocol.t.sol:ReserveProtocolTest
+[PASS] testBothTokensMustBeCoveredNotEither() (gas: 1751625)
+[PASS] testCoverageGuardLeavesAdequatelyProtectedPairsAlone() (gas: 1891329)
+[PASS] testCoverageGuardNeverPausesOnAStalePriceItRevertsInstead() (gas: 1370641)
+[PASS] testDepletedReserveIsNotNeededAndNotTouched() (gas: 2176780)
+[PASS] testDepletedReserveRestrictsNewRiskOnlyAndTheGuardCanNeverUnpause() (gas: 2267713)
+[PASS] testFuzzConservationAndRemainingHoldersAreNotCharged(uint256,uint256,uint256,uint256,uint256) (runs: 256, μ: 779042, ~: 779876)
+[PASS] testFuzzStockSideMirror(uint256,uint256,uint256,uint256,uint256) (runs: 256, μ: 777889, ~: 778283)
+[PASS] testFuzzTheMixDoesNotDependOnTheOrderOfExits(uint256,uint256,uint256,uint256,uint256) (runs: 256, μ: 1455604, ~: 1455876)
+[PASS] testInKindModelMatchesTheRealLedgerAfterARecognizedLoss() (gas: 2164293)
+[PASS] testInKindRefusesStaleOraclesAndAccountsWithDebt() (gas: 3060763)
+[PASS] testInKindRefusesWhenTheOtherSideHasNoSurplus() (gas: 1501432)
+[PASS] testNoDeficitMeansNoMixing() (gas: 762253)
+[PASS] testOneSidedInventoryPaysEntirelyInTheOtherToken() (gas: 722986)
 [PASS] testSeedRetainedEarningsAndStrayTransfersAreDistinguishable() (gas: 2089346)
-Suite result: ok. 12 passed; 0 failed; 0 skipped; finished in 244.72ms (242.10ms CPU time)
+Suite result: ok. 14 passed; 0 failed; 0 skipped; finished in 250.31ms (247.24ms CPU time)
 
 Warning: the following cheatcode(s) are deprecated and will be removed in future versions:
-  snapshot(): replaced by `snapshotState`
   revertTo(uint256): replaced by `revertToState`
+  snapshot(): replaced by `snapshotState`
 Ran 7 tests for ramses-vaults/test/StockProofs.t.sol:StockProofsTest
 [PASS] testFundedLiquidationThenCollateralRedemptionNeedsLpUnwind() (gas: 3670629)
 [PASS] testOneSidedRecoveryByEnablingTheBoundedSettlementSwapRealizesALoss() (gas: 2535247)
@@ -420,7 +438,7 @@ Ran 7 tests for ramses-vaults/test/StockProofs.t.sol:StockProofsTest
 [PASS] testOneSidedStatePersistsAfterRecentreAndPriceReturnReserveFundingRecovers() (gas: 3006039)
 [PASS] testStaleFeedBlocksLiquidationOfAnUnderwaterAccountButNotRepayment() (gas: 3369640)
 [PASS] testStaleFeedOperationMatrixWithFreshControlsAndSpecificReasons() (gas: 7127100)
-Suite result: ok. 7 passed; 0 failed; 0 skipped; finished in 32.07ms (29.43ms CPU time)
+Suite result: ok. 7 passed; 0 failed; 0 skipped; finished in 32.03ms (29.04ms CPU time)
 
 Ran 5 tests for ramses-vaults/test/VaultIntegrationInvariant.t.sol:VaultIntegrationInvariant
 [PASS] invariantAggregateEqualsPairClaim() (runs: 64, calls: 2048, reverts: 0)
@@ -428,15 +446,15 @@ Ran 5 tests for ramses-vaults/test/VaultIntegrationInvariant.t.sol:VaultIntegrat
 ╭--------------------+------------+-------+---------+----------╮
 | Contract           | Selector   | Calls | Reverts | Discards |
 +==============================================================+
-| RamsesVaultHandler | checkpoint | 389   | 0       | 0        |
+| RamsesVaultHandler | checkpoint | 411   | 0       | 0        |
 |--------------------+------------+-------+---------+----------|
-| RamsesVaultHandler | deposit    | 413   | 0       | 0        |
+| RamsesVaultHandler | deposit    | 429   | 0       | 0        |
 |--------------------+------------+-------+---------+----------|
-| RamsesVaultHandler | harvest    | 420   | 0       | 0        |
+| RamsesVaultHandler | harvest    | 429   | 0       | 0        |
 |--------------------+------------+-------+---------+----------|
-| RamsesVaultHandler | rebalance  | 424   | 0       | 0        |
+| RamsesVaultHandler | rebalance  | 393   | 0       | 0        |
 |--------------------+------------+-------+---------+----------|
-| RamsesVaultHandler | withdraw   | 402   | 0       | 0        |
+| RamsesVaultHandler | withdraw   | 386   | 0       | 0        |
 ╰--------------------+------------+-------+---------+----------╯
 
 [PASS] invariantIdleAndRamNeverExceedCustody() (runs: 64, calls: 2048, reverts: 0)
@@ -444,15 +462,15 @@ Ran 5 tests for ramses-vaults/test/VaultIntegrationInvariant.t.sol:VaultIntegrat
 ╭--------------------+------------+-------+---------+----------╮
 | Contract           | Selector   | Calls | Reverts | Discards |
 +==============================================================+
-| RamsesVaultHandler | checkpoint | 389   | 0       | 0        |
+| RamsesVaultHandler | checkpoint | 411   | 0       | 0        |
 |--------------------+------------+-------+---------+----------|
-| RamsesVaultHandler | deposit    | 413   | 0       | 0        |
+| RamsesVaultHandler | deposit    | 429   | 0       | 0        |
 |--------------------+------------+-------+---------+----------|
-| RamsesVaultHandler | harvest    | 420   | 0       | 0        |
+| RamsesVaultHandler | harvest    | 429   | 0       | 0        |
 |--------------------+------------+-------+---------+----------|
-| RamsesVaultHandler | rebalance  | 424   | 0       | 0        |
+| RamsesVaultHandler | rebalance  | 393   | 0       | 0        |
 |--------------------+------------+-------+---------+----------|
-| RamsesVaultHandler | withdraw   | 402   | 0       | 0        |
+| RamsesVaultHandler | withdraw   | 386   | 0       | 0        |
 ╰--------------------+------------+-------+---------+----------╯
 
 [PASS] invariantNoStandingAdapterOrManagerApprovals() (runs: 64, calls: 2048, reverts: 0)
@@ -460,15 +478,15 @@ Ran 5 tests for ramses-vaults/test/VaultIntegrationInvariant.t.sol:VaultIntegrat
 ╭--------------------+------------+-------+---------+----------╮
 | Contract           | Selector   | Calls | Reverts | Discards |
 +==============================================================+
-| RamsesVaultHandler | checkpoint | 389   | 0       | 0        |
+| RamsesVaultHandler | checkpoint | 411   | 0       | 0        |
 |--------------------+------------+-------+---------+----------|
-| RamsesVaultHandler | deposit    | 413   | 0       | 0        |
+| RamsesVaultHandler | deposit    | 429   | 0       | 0        |
 |--------------------+------------+-------+---------+----------|
-| RamsesVaultHandler | harvest    | 420   | 0       | 0        |
+| RamsesVaultHandler | harvest    | 429   | 0       | 0        |
 |--------------------+------------+-------+---------+----------|
-| RamsesVaultHandler | rebalance  | 424   | 0       | 0        |
+| RamsesVaultHandler | rebalance  | 393   | 0       | 0        |
 |--------------------+------------+-------+---------+----------|
-| RamsesVaultHandler | withdraw   | 402   | 0       | 0        |
+| RamsesVaultHandler | withdraw   | 386   | 0       | 0        |
 ╰--------------------+------------+-------+---------+----------╯
 
 [PASS] invariantOracleValueCoversClaimsWithinRounding() (runs: 64, calls: 2048, reverts: 0)
@@ -476,15 +494,15 @@ Ran 5 tests for ramses-vaults/test/VaultIntegrationInvariant.t.sol:VaultIntegrat
 ╭--------------------+------------+-------+---------+----------╮
 | Contract           | Selector   | Calls | Reverts | Discards |
 +==============================================================+
-| RamsesVaultHandler | checkpoint | 389   | 0       | 0        |
+| RamsesVaultHandler | checkpoint | 411   | 0       | 0        |
 |--------------------+------------+-------+---------+----------|
-| RamsesVaultHandler | deposit    | 413   | 0       | 0        |
+| RamsesVaultHandler | deposit    | 429   | 0       | 0        |
 |--------------------+------------+-------+---------+----------|
-| RamsesVaultHandler | harvest    | 420   | 0       | 0        |
+| RamsesVaultHandler | harvest    | 429   | 0       | 0        |
 |--------------------+------------+-------+---------+----------|
-| RamsesVaultHandler | rebalance  | 424   | 0       | 0        |
+| RamsesVaultHandler | rebalance  | 393   | 0       | 0        |
 |--------------------+------------+-------+---------+----------|
-| RamsesVaultHandler | withdraw   | 402   | 0       | 0        |
+| RamsesVaultHandler | withdraw   | 386   | 0       | 0        |
 ╰--------------------+------------+-------+---------+----------╯
 
 [PASS] invariantPositionCustodyAndForfeiture() (runs: 64, calls: 2048, reverts: 0)
@@ -492,18 +510,18 @@ Ran 5 tests for ramses-vaults/test/VaultIntegrationInvariant.t.sol:VaultIntegrat
 ╭--------------------+------------+-------+---------+----------╮
 | Contract           | Selector   | Calls | Reverts | Discards |
 +==============================================================+
-| RamsesVaultHandler | checkpoint | 389   | 0       | 0        |
+| RamsesVaultHandler | checkpoint | 411   | 0       | 0        |
 |--------------------+------------+-------+---------+----------|
-| RamsesVaultHandler | deposit    | 413   | 0       | 0        |
+| RamsesVaultHandler | deposit    | 429   | 0       | 0        |
 |--------------------+------------+-------+---------+----------|
-| RamsesVaultHandler | harvest    | 420   | 0       | 0        |
+| RamsesVaultHandler | harvest    | 429   | 0       | 0        |
 |--------------------+------------+-------+---------+----------|
-| RamsesVaultHandler | rebalance  | 424   | 0       | 0        |
+| RamsesVaultHandler | rebalance  | 393   | 0       | 0        |
 |--------------------+------------+-------+---------+----------|
-| RamsesVaultHandler | withdraw   | 402   | 0       | 0        |
+| RamsesVaultHandler | withdraw   | 386   | 0       | 0        |
 ╰--------------------+------------+-------+---------+----------╯
 
-Suite result: ok. 5 passed; 0 failed; 0 skipped; finished in 6.64s (6.64s CPU time)
+Suite result: ok. 5 passed; 0 failed; 0 skipped; finished in 6.14s (6.14s CPU time)
 
 Ran 41 tests for ramses-vaults/test/VaultV3Compatibility.t.sol:RobinhoodBoostedVaultV3CompatibilityTest
 [PASS] testAggregateUsdgCapFailsClosedAcrossDeposits() (gas: 168053)
@@ -520,7 +538,7 @@ Ran 41 tests for ramses-vaults/test/VaultV3Compatibility.t.sol:RobinhoodBoostedV
 [PASS] testFeeOnTransferFromVaultToReserveRevertsWithoutLedgerDrift() (gas: 633423)
 [PASS] testFeeOnTransferToWithdrawalReceiverRevertsWithoutLedgerDrift() (gas: 244987)
 [PASS] testFeesAreSplitInKindBeforeClaimsIncrease() (gas: 730796)
-[PASS] testFuzzRebalanceNeverConsumesUnmatchedStock(uint96,uint64) (runs: 256, μ: 497396, ~: 497566)
+[PASS] testFuzzRebalanceNeverConsumesUnmatchedStock(uint96,uint64) (runs: 256, μ: 497384, ~: 497566)
 [PASS] testGuardianCanPauseButCannotUnpause() (gas: 43671)
 [PASS] testIdleWithdrawalDoesNotNeedOracle() (gas: 318259)
 [PASS] testIdleWithdrawalRecognizesSharedLossWhileLiquidityRemains() (gas: 563974)
@@ -547,7 +565,7 @@ Ran 41 tests for ramses-vaults/test/VaultV3Compatibility.t.sol:RobinhoodBoostedV
 [PASS] testWithdrawalReportsLossAppliedToRemainingClaim() (gas: 656834)
 [PASS] testWithdrawalUnwindsOnlyNeededSlice() (gas: 625574)
 [PASS] testZeroAggregateCapDisablesLimitAfterPrincipalExists() (gas: 177853)
-Suite result: ok. 41 passed; 0 failed; 0 skipped; finished in 82.41ms (81.28ms CPU time)
+Suite result: ok. 41 passed; 0 failed; 0 skipped; finished in 81.71ms (80.46ms CPU time)
 
 Ran 3 tests for ramses-vaults/test/VaultV3Invariant.t.sol:VaultV3AccountingInvariant
 [PASS] invariantAggregateUsdgMatchesSinglePairClaim() (runs: 64, calls: 2048, reverts: 0)
@@ -555,15 +573,15 @@ Ran 3 tests for ramses-vaults/test/VaultV3Invariant.t.sol:VaultV3AccountingInvar
 ╭----------------+---------------+-------+---------+----------╮
 | Contract       | Selector      | Calls | Reverts | Discards |
 +=============================================================+
-| VaultV3Handler | checkpoint    | 356   | 0       | 0        |
+| VaultV3Handler | checkpoint    | 312   | 0       | 0        |
 |----------------+---------------+-------+---------+----------|
-| VaultV3Handler | depositStock  | 302   | 0       | 0        |
+| VaultV3Handler | depositStock  | 374   | 0       | 0        |
 |----------------+---------------+-------+---------+----------|
-| VaultV3Handler | depositUsdg   | 366   | 0       | 0        |
+| VaultV3Handler | depositUsdg   | 349   | 0       | 0        |
 |----------------+---------------+-------+---------+----------|
-| VaultV3Handler | rebalance     | 343   | 0       | 0        |
+| VaultV3Handler | rebalance     | 336   | 0       | 0        |
 |----------------+---------------+-------+---------+----------|
-| VaultV3Handler | withdrawStock | 348   | 0       | 0        |
+| VaultV3Handler | withdrawStock | 344   | 0       | 0        |
 |----------------+---------------+-------+---------+----------|
 | VaultV3Handler | withdrawUsdg  | 333   | 0       | 0        |
 ╰----------------+---------------+-------+---------+----------╯
@@ -573,15 +591,15 @@ Ran 3 tests for ramses-vaults/test/VaultV3Invariant.t.sol:VaultV3AccountingInvar
 ╭----------------+---------------+-------+---------+----------╮
 | Contract       | Selector      | Calls | Reverts | Discards |
 +=============================================================+
-| VaultV3Handler | checkpoint    | 356   | 0       | 0        |
+| VaultV3Handler | checkpoint    | 312   | 0       | 0        |
 |----------------+---------------+-------+---------+----------|
-| VaultV3Handler | depositStock  | 302   | 0       | 0        |
+| VaultV3Handler | depositStock  | 374   | 0       | 0        |
 |----------------+---------------+-------+---------+----------|
-| VaultV3Handler | depositUsdg   | 366   | 0       | 0        |
+| VaultV3Handler | depositUsdg   | 349   | 0       | 0        |
 |----------------+---------------+-------+---------+----------|
-| VaultV3Handler | rebalance     | 343   | 0       | 0        |
+| VaultV3Handler | rebalance     | 336   | 0       | 0        |
 |----------------+---------------+-------+---------+----------|
-| VaultV3Handler | withdrawStock | 348   | 0       | 0        |
+| VaultV3Handler | withdrawStock | 344   | 0       | 0        |
 |----------------+---------------+-------+---------+----------|
 | VaultV3Handler | withdrawUsdg  | 333   | 0       | 0        |
 ╰----------------+---------------+-------+---------+----------╯
@@ -591,20 +609,20 @@ Ran 3 tests for ramses-vaults/test/VaultV3Invariant.t.sol:VaultV3AccountingInvar
 ╭----------------+---------------+-------+---------+----------╮
 | Contract       | Selector      | Calls | Reverts | Discards |
 +=============================================================+
-| VaultV3Handler | checkpoint    | 356   | 0       | 0        |
+| VaultV3Handler | checkpoint    | 312   | 0       | 0        |
 |----------------+---------------+-------+---------+----------|
-| VaultV3Handler | depositStock  | 302   | 0       | 0        |
+| VaultV3Handler | depositStock  | 374   | 0       | 0        |
 |----------------+---------------+-------+---------+----------|
-| VaultV3Handler | depositUsdg   | 366   | 0       | 0        |
+| VaultV3Handler | depositUsdg   | 349   | 0       | 0        |
 |----------------+---------------+-------+---------+----------|
-| VaultV3Handler | rebalance     | 343   | 0       | 0        |
+| VaultV3Handler | rebalance     | 336   | 0       | 0        |
 |----------------+---------------+-------+---------+----------|
-| VaultV3Handler | withdrawStock | 348   | 0       | 0        |
+| VaultV3Handler | withdrawStock | 344   | 0       | 0        |
 |----------------+---------------+-------+---------+----------|
 | VaultV3Handler | withdrawUsdg  | 333   | 0       | 0        |
 ╰----------------+---------------+-------+---------+----------╯
 
-Suite result: ok. 3 passed; 0 failed; 0 skipped; finished in 1.02s (1.02s CPU time)
+Suite result: ok. 3 passed; 0 failed; 0 skipped; finished in 1.07s (1.07s CPU time)
 
 Ran 45 tests for ramses-vaults/test/VaultV3PostExit.t.sol:VaultV3PostExitTest
 [PASS] testAggregateUsdgCapFailsClosedAcrossDeposits() (gas: 168097)
@@ -624,8 +642,8 @@ Ran 45 tests for ramses-vaults/test/VaultV3PostExit.t.sol:VaultV3PostExitTest
 [PASS] testFeeOnTransferFromVaultToReserveRevertsWithoutLedgerDrift() (gas: 633489)
 [PASS] testFeeOnTransferToWithdrawalReceiverRevertsWithoutLedgerDrift() (gas: 244987)
 [PASS] testFeesAreSplitInKindBeforeClaimsIncrease() (gas: 730831)
-[PASS] testFuzzClosedCompositionRecognizesSharedDeficit(uint96) (runs: 256, μ: 675230, ~: 675267)
-[PASS] testFuzzRebalanceNeverConsumesUnmatchedStock(uint96,uint64) (runs: 256, μ: 497498, ~: 497671)
+[PASS] testFuzzClosedCompositionRecognizesSharedDeficit(uint96) (runs: 256, μ: 675237, ~: 675267)
+[PASS] testFuzzRebalanceNeverConsumesUnmatchedStock(uint96,uint64) (runs: 256, μ: 497493, ~: 497671)
 [PASS] testGuardianCanPauseButCannotUnpause() (gas: 43737)
 [PASS] testIdleWithdrawalDoesNotNeedOracle() (gas: 318259)
 [PASS] testIdleWithdrawalRecognizesSharedLossWhileLiquidityRemains() (gas: 564040)
@@ -652,7 +670,7 @@ Ran 45 tests for ramses-vaults/test/VaultV3PostExit.t.sol:VaultV3PostExitTest
 [PASS] testWithdrawalReportsLossAppliedToRemainingClaim() (gas: 656834)
 [PASS] testWithdrawalUnwindsOnlyNeededSlice() (gas: 625574)
 [PASS] testZeroAggregateCapDisablesLimitAfterPrincipalExists() (gas: 177897)
-Suite result: ok. 45 passed; 0 failed; 0 skipped; finished in 201.81ms (200.62ms CPU time)
+Suite result: ok. 45 passed; 0 failed; 0 skipped; finished in 192.69ms (191.59ms CPU time)
 
 Ran 44 tests for ramses-vaults/test/VaultV3Recovery.t.sol:VaultV3RecoveryTest
 [PASS] testAggregateUsdgCapFailsClosedAcrossDeposits() (gas: 168075)
@@ -671,7 +689,7 @@ Ran 44 tests for ramses-vaults/test/VaultV3Recovery.t.sol:VaultV3RecoveryTest
 [PASS] testFeeOnTransferFromVaultToReserveRevertsWithoutLedgerDrift() (gas: 633467)
 [PASS] testFeeOnTransferToWithdrawalReceiverRevertsWithoutLedgerDrift() (gas: 244987)
 [PASS] testFeesAreSplitInKindBeforeClaimsIncrease() (gas: 730813)
-[PASS] testFuzzRebalanceNeverConsumesUnmatchedStock(uint96,uint64) (runs: 256, μ: 497414, ~: 497588)
+[PASS] testFuzzRebalanceNeverConsumesUnmatchedStock(uint96,uint64) (runs: 256, μ: 497400, ~: 497588)
 [PASS] testGuardianCanPauseButCannotUnpause() (gas: 43715)
 [PASS] testIdleWithdrawalDoesNotNeedOracle() (gas: 318259)
 [PASS] testIdleWithdrawalRecognizesSharedLossWhileLiquidityRemains() (gas: 564040)
@@ -699,210 +717,6 @@ Ran 44 tests for ramses-vaults/test/VaultV3Recovery.t.sol:VaultV3RecoveryTest
 [PASS] testWithdrawalReportsLossAppliedToRemainingClaim() (gas: 656834)
 [PASS] testWithdrawalUnwindsOnlyNeededSlice() (gas: 625574)
 [PASS] testZeroAggregateCapDisablesLimitAfterPrincipalExists() (gas: 177875)
-Suite result: ok. 44 passed; 0 failed; 0 skipped; finished in 103.98ms (102.86ms CPU time)
+Suite result: ok. 44 passed; 0 failed; 0 skipped; finished in 83.37ms (82.30ms CPU time)
 
-Ran 28 test suites in 13.21s (13.20s CPU time): 425 tests passed, 0 failed, 0 skipped (425 total tests)
-/Library/Developer/CommandLineTools/usr/bin/make size-ramses
-FOUNDRY_PROFILE=ramses forge build --threads 1 --sizes
-No files changed, compilation skipped
-
-╭----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------╮
-| Contract                                                                                           | Runtime Size (B) | Initcode Size (B) | Runtime Margin (B) | Initcode Margin (B) |
-+======================================================================================================================================================================================+
-| AccountingAdapterDouble                                                                            | 3,752            | 3,778             | 20,824             | 45,374              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| AccountingOracleDouble                                                                             | 1,931            | 2,021             | 22,645             | 47,131              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| AdapterDouble                                                                                      | 1,458            | 1,635             | 23,118             | 47,517              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| Address                                                                                            | 57               | 85                | 24,519             | 49,067              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| AnchoredFallbackOracle                                                                             | 6,501            | 7,906             | 18,075             | 41,246              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| BitMath                                                                                            | 57               | 85                | 24,519             | 49,067              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| BorrowAccounting                                                                                   | 57               | 85                | 24,519             | 49,067              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| BorrowAccountingModule                                                                             | 2,752            | 2,797             | 21,824             | 46,355              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| CDelegationStorage                                                                                 | 125              | 149               | 24,451             | 49,003              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| CallbackRelay                                                                                      | 344              | 370               | 24,232             | 48,782              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| CoverageGuard                                                                                      | 3,728            | 4,125             | 20,848             | 45,027              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| CustomRevert                                                                                       | 57               | 85                | 24,519             | 49,067              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| DeployHarness                                                                                      | 708              | 907               | 23,868             | 48,245              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| ERC1967Proxy                                                                                       | 130              | 669               | 24,446             | 48,483              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| ERC1967Utils                                                                                       | 57               | 85                | 24,519             | 49,067              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| Errors                                                                                             | 57               | 85                | 24,519             | 49,067              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| ExponentialNoError                                                                                 | 57               | 81                | 24,519             | 49,071              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| FactoryVoterDouble                                                                                 | 510              | 536               | 24,066             | 48,616              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| FallbackFeedShim                                                                                   | 628              | 769               | 23,948             | 48,383              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| FbCalendar                                                                                         | 218              | 242               | 24,358             | 48,910              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| FbFeed                                                                                             | 647              | 702               | 23,929             | 48,450              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| FbPool                                                                                             | 1,327            | 1,598             | 23,249             | 47,554              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| FbStock                                                                                            | 332              | 370               | 24,244             | 48,782              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| FeedDouble                                                                                         | 789              | 953               | 23,787             | 48,199              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| FixedPoint96                                                                                       | 57               | 85                | 24,519             | 49,067              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| ForkTrader                                                                                         | 1,179            | 1,319             | 23,397             | 47,833              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| FullMath                                                                                           | 57               | 85                | 24,519             | 49,067              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| GaugeDouble                                                                                        | 3,397            | 3,925             | 21,179             | 45,227              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| GroupTrader                                                                                        | 1,092            | 1,232             | 23,484             | 47,920              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| InKindRedemptionModel                                                                              | 2,006            | 2,210             | 22,570             | 46,942              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| LiquidityAmounts                                                                                   | 57               | 85                | 24,519             | 49,067              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| Math                                                                                               | 57               | 85                | 24,519             | 49,067              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| MockERC20                                                                                          | 2,629            | 3,568             | 21,947             | 45,584              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| MockLossReserve                                                                                    | 1,018            | 1,044             | 23,558             | 48,108              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| MultiFactoryDouble                                                                                 | 930              | 956               | 23,646             | 48,196              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| MultiNfpDouble                                                                                     | 5,097            | 5,242             | 19,479             | 43,910              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| NfpDouble                                                                                          | 4,706            | 4,893             | 19,870             | 44,259              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| OracleDouble                                                                                       | 511              | 537               | 24,065             | 48,615              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| PErc20                                                                                             | 17,569           | 20,498            | 7,007              | 28,654              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| PErc20Delegate                                                                                     | 18,165           | 21,094            | 6,411              | 28,058              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| PErc20Delegator                                                                                    | 6,251            | 7,378             | 18,325             | 41,774              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| PErc20Storage                                                                                      | 125              | 149               | 24,451             | 49,003              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| PTokenStorage                                                                                      | 1,304            | 1,330             | 23,272             | 47,822              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| PairDebtView                                                                                       | 431              | 567               | 24,145             | 48,585              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| Panic                                                                                              | 57               | 85                | 24,519             | 49,067              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| PausableTokenDouble                                                                                | 2,748            | 3,635             | 21,828             | 45,517              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| Peridot                                                                                            | 5,347            | 5,558             | 19,229             | 43,594              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| Peridottroller                                                                                     | 23,441           | 23,484            | 1,135              | 25,668              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| PeridottrollerErrorReporter                                                                        | 57               | 81                | 24,519             | 49,071              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| PeridottrollerV1Storage                                                                            | 559              | 585               | 24,017             | 48,567              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| PeridottrollerV2Storage                                                                            | 1,065            | 1,091             | 23,511             | 48,061              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| PeridottrollerV3Storage                                                                            | 1,791            | 1,817             | 22,785             | 47,335              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| PeridottrollerV4Storage                                                                            | 1,909            | 1,935             | 22,667             | 47,217              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| PeridottrollerV5Storage                                                                            | 2,043            | 2,069             | 22,533             | 47,083              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| PeridottrollerV6Storage                                                                            | 2,176            | 2,202             | 22,400             | 46,950              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| PeridottrollerV7Storage                                                                            | 2,288            | 2,314             | 22,288             | 46,838              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| PeridottrollerV8Storage                                                                            | 2,462            | 2,488             | 22,114             | 46,664              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| PoolDouble                                                                                         | 6,768            | 8,876             | 17,808             | 40,276              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| RamsesAccountingLib                                                                                | 2,566            | 2,598             | 22,010             | 46,554              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| RamsesBoostedDelegate                                                                              | 24,322           | 27,251            | 254                | 21,901              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| RamsesBoostedVault                                                                                 | 24,469           | 24,508            | 107                | 24,644              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| RamsesConfigLib                                                                                    | 1,107            | 1,137             | 23,469             | 48,015              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| RamsesInterestRateModel                                                                            | 939              | 965               | 23,637             | 48,187              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| RamsesLendingPriceSource                                                                           | 1,094            | 1,250             | 23,482             | 47,902              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| RamsesLossReserve                                                                                  | 7,370            | 7,409             | 17,206             | 41,743              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| RamsesMarketAccounting                                                                             | 3,405            | 3,437             | 21,171             | 45,715              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| RamsesOracleGuard                                                                                  | 9,801            | 10,322            | 14,775             | 38,830              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| RamsesPeridottroller                                                                               | 23,441           | 23,648            | 1,135              | 25,504              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| RamsesRangeLib                                                                                     | 10,670           | 10,702            | 13,906             | 38,450              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| RamsesRewardLib                                                                                    | 4,192            | 4,224             | 20,384             | 44,928              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| RamsesSettlementLib                                                                                | 4,620            | 4,652             | 19,956             | 44,500              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| RamsesSwapLib                                                                                      | 2,348            | 2,380             | 22,228             | 46,772              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| RamsesUnitroller                                                                                   | 1,507            | 1,892             | 23,069             | 47,260              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| RamsesV3PairedAdapter                                                                              | 20,337           | 20,782            | 4,239              | 28,370              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| RamsesVaultAdapter                                                                                 | 21,846           | 22,310            | 2,730              | 26,842              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| RecenterLossDouble                                                                                 | 1,058            | 1,199             | 23,518             | 47,953              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| RecenterLossHarness                                                                                | 1,180            | 1,515             | 23,396             | 47,637              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| ReenterVault                                                                                       | 324              | 467               | 24,252             | 48,685              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| ReplayTrader                                                                                       | 1,092            | 1,232             | 23,484             | 47,920              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| RobinhoodBoostedDelegateV2                                                                         | 24,625           | 27,554            | -49                | 21,598              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| RobinhoodLendingPriceAdapter                                                                       | 1,472            | 2,308             | 23,104             | 46,844              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| SafeCast (contracts/robinhood-vaults/lib/openzeppelin-contracts/contracts/utils/math/SafeCast.sol) | 57               | 85                | 24,519             | 49,067              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| SafeCast (contracts/robinhood-vaults/lib/v4-core/src/libraries/SafeCast.sol)                       | 57               | 85                | 24,519             | 49,067              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| SafeERC20                                                                                          | 57               | 85                | 24,519             | 49,067              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| SqrtPriceMath                                                                                      | 57               | 85                | 24,519             | 49,067              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| StorageSlot                                                                                        | 57               | 85                | 24,519             | 49,067              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| SwapPoolDouble                                                                                     | 8,491            | 10,620            | 16,085             | 38,532              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| TickMath                                                                                           | 57               | 85                | 24,519             | 49,067              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| TimelockController                                                                                 | 5,377            | 6,682             | 19,199             | 42,470              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| TokenDouble                                                                                        | 2,508            | 3,395             | 22,068             | 45,757              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| TokenErrorReporter                                                                                 | 115              | 139               | 24,461             | 49,013              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| UiStockDouble                                                                                      | 2,824            | 3,366             | 21,752             | 45,786              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| Unitroller                                                                                         | 1,507            | 1,550             | 23,069             | 47,602              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| UnitrollerAdminStorage                                                                             | 271              | 297               | 24,305             | 48,855              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| UnsafeMath                                                                                         | 57               | 85                | 24,519             | 49,067              |
-|----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
-| VaultMath                                                                                          | 57               | 85                | 24,519             | 49,067              |
-╰----------------------------------------------------------------------------------------------------+------------------+-------------------+--------------------+---------------------╯
-
-Error: some contracts exceed the runtime size limit (EIP-170: 24576 bytes)
-make[1]: *** [size-ramses] Error 1
-make: *** [test-ramses] Error 2
-rc=2
+Ran 29 test suites in 13.11s (13.09s CPU time): 441 tests passed, 0 failed, 0 skipped (441 total tests)
