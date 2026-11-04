@@ -1441,7 +1441,7 @@ Two limits on using these numbers: the stock leg carries the stock's own price r
 | 1 | keeper gas top-up: `cast send 0x978e2ADF18da8B846552932c0aB2B1193da1fAc4 --value 0.003ether --account robinhood-deployer --rpc-url https://rpc.mainnet.chain.robinhood.com`, by about 11-10 | about 6 more active days. The governor holds about 0.015 ETH, so this rate is not sustainable | $6.76 | user-local signature |
 | 2 | scheduled read-only alarm workflow | detects `GAS_LOW` and `STALLED`; no on-chain effect | $0 | a commit to the default branch |
 | 3 | worker change: no discovery checkpoints or dust rebalances | runway about 19 active days instead of 8.7 at the hourly cadence | hosting unchanged; one redeploy, which clears the temp journal, so at most one extra rebalance | review, merge, `doctl ... create-deployment` |
-| 4 | **resolve the USDG shortage: timelock `setPairPause(pair, false, false, false)`, delay 3,600 s, then `syncVault` or a redeem, then re-pause** | about 0.0376 NVDA sold for about 7.69 USDG; USDG side covered; **LP fully unwound**; bank-run exit rises from 19.57 to 27.24 USDG; stock principal unchanged | about **$0.045** swap cost (moves with the oracle/spot gap; 42 bp of room at this pin) + gas about $0.04 + 2 timelock transactions | timelock schedule and execute; **while unpaused the swap is reachable through any redeem**, so the window should be kept short. Needs a fresh simulation at execution |
+| 4 | **WITHDRAWN AS WRITTEN, see 19A and 19B (those flags leave allocation open).** resolve the USDG shortage: timelock `setPairPause(pair, false, false, false)`, delay 3,600 s, then `syncVault` or a redeem, then re-pause | about 0.0376 NVDA sold for about 7.69 USDG; USDG side covered; **LP fully unwound**; bank-run exit rises from 19.57 to 27.24 USDG; stock principal unchanged | about **$0.045** swap cost (moves with the oracle/spot gap; 42 bp of room at this pin) + gas about $0.04 + 2 timelock transactions | timelock schedule and execute; **while unpaused the swap is reachable through any redeem**, so the window should be kept short. Needs a fresh simulation at execution |
 | 5 | alternative to 4: donate 7.66 USDG to the reserve and run `syncVault` | shortage covered without selling; $7.68 donated; the NVDA surplus stays stranded | $7.66 + up to $0.38 gas | operator |
 
 Action 4 is the cheapest route that actually solves the scarce-token problem; choosing it, or leaving the position open, is the operator's decision.
@@ -1451,3 +1451,88 @@ Action 4 is the cheapest route that actually solves the scarce-token problem; ch
 **CI:** `ramses-deterministic` **passed in 6 m 45 s on `1f1aa56`** on both the push and pull-request runs, covering the `ramses` profile without fork tests, `src/` sizes, and the Python research tests; `contracts` passed; `ramses-fork` is skipped by design (manual-only). The PR body records the result for the current head. Fork results are in their logs at their own pins and are not CI results.
 
 **Remaining blockers:** (1) Ramses stale-price liquidation (unchanged); (2) live USDG shortage and first-come exits, affecting potentially external holders; (3) keeper gas runs out about 11-12 to 11-15 with no alert; (4) reserve funding and on-chain coverage restriction (prototype only); (5) in-kind exit and atomic gate need a production design, audit and timelocked upgrade; (6) economics at current caps; (7) governance remains a single EOA holding proposer, executor, canceller and guardian; (8) live lending prices on feed answers up to 72 h old.
+
+## 19. Operational repair package (2026-11-04): recovery sequence, operational diffs, prototype hardening
+
+Fork simulations and local code only. No signing, broadcast, deployment, merge, cap change, production parameter change or handoff 00 edit. Evidence: `test/fork/LiveRecovery.t.sol`, `logs/live-recovery-fork.log` (first line gives the pin). **It runs against the DEPLOYED contracts on a fork;** the timelock delay and market action delay are real (time is warped); the feed answer is real at the pin and re-stamped by `vm.mockCall` because time is warped. Numbers below: L2 block 105,981,884, hash `0xe852ba31...87ae`, native 26,342,145, oracle $206.43229394.
+
+### 19A. Correction to 18H action 4
+
+`setPairPause(pair, false, false, false)` also leaves allocation open and is withdrawn. Proven on the fork: the contract accepts **(allocationPaused true, swapsPaused false, emergencyMode false)**, which enables only the settlement swap; the guardian cannot set it (it can only pause), only the timelock can. Inside that state `rebalance` and `recenter` revert, a checkpoint works, and a public deposit credits the supplier while nothing enters the vault.
+
+### 19B. Is an atomic batch possible? Yes, but only after a separately delayed operator change
+
+`TimelockController.executeBatch` is atomic, but `pUSDG.syncVault` accepts only the market admin or `vaultOperator`, both the governor EOA today, so **the batch as-is reverts** (`testBatchFailsAtomicallyWhileTheGovernorIsTheOperator`; the unpause in step 1 rolls back). Making the timelock the operator needs `queueSetVaultOperator` plus its own 3,600 s action delay. The two delays can overlap (tested). The governor stays market admin throughout, so it keeps its own access.
+
+**Exact sequence (nothing sent):**
+
+| # | signer | call | gas | effect |
+| --- | --- | --- | --- | --- |
+| 1 | governor (market admin) | `pUSDG.queueSetVaultOperator(timelock)` | not measured | starts 3,600 s |
+| 2 | governor (proposer) | `timelock.scheduleBatch([vault, pUSDG, vault], [0,0,0], [setPairPause(pair,true,false,false), syncVault(type(uint256).max), setPairPause(pair,true,true,false)], 0, salt, 3600)` | not measured | starts 3,600 s; cancellable (tested) |
+| 3 | governor (admin), after the delay | `pUSDG._setVaultOperator(timelock)` | not measured | timelock may call `syncVault` |
+| 4 | **go/no-go read:** simulate step 5 by `eth_call` at the latest block and check the expected end state; otherwise wait or cancel. The batch has no expiry | | | |
+| 5 | governor (executor) | `timelock.executeBatch(...)` with an **explicit gas limit of 3,000,000** | 885,638 to 1,316,580 | atomic |
+| 6 | **verify state, not the receipt** (19D) | | | |
+| 7, 8 | governor | `queueSetVaultOperator(governor)`, then `_setVaultOperator(governor)` after 3,600 s | not measured | restores the operator |
+
+Allocation **stays paused** at the end. Reopening is a separate timelock `setPairPause(pair,false,true,false)`, tested, and a separate decision: the LP is gone and no USDG is idle to pair. Cost: step 5 about 1.29M gas x 0.02 gwei, about $0.06 at $2,266/ETH; historical timelock transactions average $0.047 and other governor config $0.049, so the whole sequence is roughly **$0.40 of gas** (an estimate, since steps 1 to 3, 7 and 8 were not measured individually) plus the swap cost below.
+
+**Why atomic, not sequential:** without the operator change, the sequence is timelock `setPairPause(true,false,false)`, governor `syncVault`, guardian `setPairPause(true,true,false)`, with a **public window** between them. Tested inside it: keeper `rebalance` and `recenter` revert and `checkpoint` works; a public mint credits the supplier with nothing entering the vault; a public redeem above local cash works (the margin vault received 18.598975 USDG with no new loss) and can reach the swap; the operator's sync completes the rest (13.651402 USDG, no loss); the guardian closes it alone. The window needs no operator change, so it is the alternative if you prefer not to touch the operator; its risk is what a public caller can trigger while swaps are on.
+
+### 19C. Reference result at the pin
+
+| | before | after batch |
+| --- | --- | --- |
+| flags (allocation, swaps, emergency paused) | false, true, false | **true, true, false** |
+| LP liquidity | 3,907,473,088,513 | **0** |
+| LP tokens at oracle | 0.028779 NVDA + 6.899400 USDG | 0 |
+| vault idle | 0.029629 NVDA + 0 USDG | 0.021665 NVDA + 0.038892 USDG |
+| vault principal | 0.021174 NVDA, 14.430179 USDG | 0.021178 NVDA (+fees), 0.001496 USDG (fee credited during the call, fully backed) |
+| pUSDG local cash | 12.818702 | **27.248881** |
+| pUSDG claims | 29.189673 | 29.191169 (fees only; exchange rate up 0.005%) |
+| pNVDA claims | 0.034299 | 0.034303 (fees only) |
+| reserve | 0.019080 USDG, 0.000296 NVDA | **0 USDG** (19,454 raw used, after the 374 raw fee cut), 0.000297 NVDA |
+| realised loss (cumulative) | $0.546236 | **$0.546236, none added** |
+
+**Swap:** 0.036747 NVDA sold for 7.548721 USDG, effective $205.43 against the $206.43 oracle: **cost about $0.037, about 49 bp**, derived from the ledger deltas. Left over: 0.000487 NVDA + 0.037396 USDG unbooked surplus, about $0.138. Vault balances equal the ledger (asserted).
+
+**Why about 1.94 USDG stays unavailable.** It is lent out, not lost: claims 29,191,169 = cash 27,248,881 + borrows 1,941,354 - reserves 561 + vault principal 1,496, to 1 raw unit. Borrowers are the two open margin positions (about $0.973 and $0.963; position 3 is the deployer's, position 4 is `0x5085...`) plus $0.006 of controller dust. It returns only when they repay or are liquidated. **The swap does not make exits orderly:** in a full-exit simulation the margin vault gets 18.598975, the deployer 6.588198, the insurance fund 0.988659, and `0xdc48...` (3.004 claimed, potentially external) **cannot redeem in full: 1.073049 USDG of cash remains**. First come, first served persists for that 1.94.
+
+### 19D. Adverse movement and failed settlement
+
+**A failed settlement is silent.** The market catches a failed vault call, so `executeBatch` **succeeds without settling**: the receipt proves nothing. In every such case the end state below is (true, true, false) with the position open, supplier claims unchanged and no loss: safe, but the operation is consumed and a retry needs a new schedule and another delay. **Step 6 must check `ledger.usdgPrincipal` and `positionState.liquidity`.**
+
+| over the delay | settles? | result |
+| --- | --- | --- |
+| oracle unchanged, -50, -100, +50 bp (pool unchanged) | yes | no loss added; swap cost moves with the gap |
+| oracle -300 bp (pool unchanged) | yes | **$0.087 loss booked** (composition valued lower) |
+| oracle +100, +300 bp | **no, silent** | oracle floor refuses the swap (about 50 bp to 100 bp of room at this pin; 0 to 50 bp at an earlier pin, so it must be re-simulated) |
+| oracle -700, +700 bp | **no, silent** | removal bound refuses |
+| pool and feed down about 3%, 10%, 18% (real swap) | yes | realises loss: +$0.104, +$0.736, +$1.784. A fall makes executing costlier: this is what the go/no-go read is for |
+| pool and feed up about 3%, 10% | yes | no loss |
+| gas limit 400,000 or 800,000 | **no, silent** | hence the explicit limit; 1,500,000 and 3,000,000 settled |
+| reserve read failure injected | **no, silent** | same end state |
+| adversary pushes the pool +30 ticks in the window | yes | small extra cost |
+| adversary pushes +60, +100, +400 ticks | **no, silent** | the floor holds: an adversary can make it fail at their own cost, not extract past the floor. In the atomic path they would have to front-run step 5 |
+
+**If execution stops partway:** after 1 to 3, no fund effect (cancel the schedule; the operator can be restored; the governor remains admin). If step 5 reverts: original flags, operation not consumed, retry. If it succeeds silently: paused with the position open; the keeper can no longer allocate and sends nothing useful, and the alarm reports `EXPECTED_PAUSED`, in which state a dead process is invisible. In the sequential path, the guardian closes the window at once, no timelock needed (tested, end state (true, true, false)).
+
+### 19E. Operational diffs (separate branches, not merged, not redeployed)
+
+* **`ops/keeper-alarm`:** `keeper/alarm.py`, tests, `.github/workflows/keeper-alarm.yml`; read-only. Injected: low gas, critical gas, expected oracle refusal (quiet), failed sends, stalled execution, dead process with and without DigitalOcean status, RPC failure, deliberate pause, healthy, and boundaries. Replay of 10-18 to 11-03: `GAS_LOW` about 76 h before gas ran out; no false page while stale. `STALLED`, `FAILED_SENDS` and `PROCESS_DOWN` have no real historical event, so they are tested by injection only. Mutants 40/40 (38 first run).
+* **Alert destination:** the job fails and one de-duplicated issue from `github-actions[bot]` is assigned to `joshschcom`. **Delivery to a person is not confirmed:** it depends on that account's notification settings, the org's token policy returned 403 to the check, and the workflow has never run. Confirmed read-only: issues enabled, login assignable. A drill after merge confirms it. Not mitigated: schedules can be delayed, stop after 60 days of repo inactivity, and nothing watches the alarm; without a DigitalOcean token a passing job means `CHAIN_OK_PROCESS_UNKNOWN`, which is a green tick.
+* **`ops/keeper-efficiency`:** sends a rebalance only if matched value is at least 10x estimated gas. **The hourly checkpoint cadence is unchanged** (a slower schedule is not approved): a checkpoint goes out when the contract reports it stale. Recentre, journal, nonce, pinned-implementation checks, gas floor and app spec unchanged; failed reads skip the optional rebalance only. Replay on real cycles: 38.3 to 23.7 transactions per active day, **$1.14 to $0.568**, runway 9.4 to 18.8 active days. Effects to review: USDG fees stay idle until the threshold; `_pairCapExceeded` runs less often since it only runs on rebalance and recentre. Mutants 10/10. Redeploy later uses `doctl apps create-deployment` (spec not resubmitted, so secrets should stay; **inferred, not rehearsed**) and never `provision.py`.
+
+### 19F. Prototype hardening
+
+* **Reentrancy:** the extension holds the vault's own guard across its transfers. A transfer-hook token tried `checkpoint`, `rebalance`, `withdrawForSide` and a nested exchange inside the exchange: all refused, with the exact guard error asserted. The redeemer has its own guard.
+* **Funding source:** the exit now funds itself: it redeems just enough shares through the real market, exchanges that, then redeems the rest. **No outside money**, and no `KEEPER_ROLE`. When no scarce token exists anywhere the call reverts atomically; an optional same-transaction float then works and is repaid in full, leaving only rounding dust in shares (15,144 raw shares).
+* **Authorization:** the redeemer holds only `IN_KIND_OPERATOR_ROLE`, and `rebalance`, `recenter`, `collectFees` and `checkpoint` revert for it. It recognizes loss through `inKindCheckpoint`, a self-call that needs the VAULT to hold `KEEPER_ROLE` on itself, reachable only through that function. That role grant needs review.
+* **Size:** vault 24,469 bytes (107 spare), so nothing fits inline. Router 1,591, extension 4,861, redeemer 5,825 bytes, all under the limit; a call through the router adds one delegatecall (`ledger()` measured 3,438 gas in total). **A router in front of the live proxy is itself a design decision requiring review**, not a free addition.
+* **Fairness, the 0.1% tolerance is gone.** Most of that gap was a **measurement artifact**: the test used the post-redemption rate. Measured against the rate the redeemer sees: paid minus owed is **-16 to -74 x 10^-18 USD** in the runs. Asserted bound: 5 raw USDG (two redeem floors, one ceil, rate truncation) plus one stock wei at the oracle, and never above the value owed. Remaining holders' rate **never falls** and rises by at most 20 raw USDG of dust. Exit order: 4 raw units. No execution cost exists in this path, since nothing is swapped against the pool; **that is why it differs from the settlement swap**.
+* **Repeated exits:** 25 small exits against one: paid $0.000004 to $0.000007 less (NVDA and SPY forks), within the per-call bound. Every exchange is counted; lifetime totals equal what was paid; a rolling UTC-day limit binds across calls, is settable only by `CONFIG_ROLE`, and zero refuses everything.
+
+Results: **37 local tests** (`logs/prototypes-tests.log`), **26 fork tests** on SPY and NVDA (`logs/fork-inkind-spy-nvda.log`), **15 live rehearsal tests**. Mutation (`logs/integration-prototype-mutations.log`): 19 mutants, 17 killed first pass; 2 survivors led to better tests (the exact guard error; an event-ORDER test, since the market also checkpoints and a call count could not see order); all killed on re-run. Transient RPC resets failed several whole runs before these; they were re-run, not treated as passes.
+
+**Supplier and protocol results stay separate:** the break-even in 18F is the protocol's; suppliers still bear LVR. No cap increase and no slower live checkpoint schedule is assumed anywhere here.

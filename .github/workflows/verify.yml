@@ -63,7 +63,7 @@ jobs:
         working-directory: ramses-vaults/research/dual-range-backtest
         run: |
           set +e
-          for t in LendingFork LendingForkProofs InKindFork FallbackFork StockMultiplierFork; do
+          for t in LendingFork LendingForkProofs InKindFork LiveRecovery FallbackFork StockMultiplierFork; do
             python3 run_fork_tests.py ramses-vaults/test/fork/$t.t.sol /tmp/fork-logs/$t.log
           done
           true
