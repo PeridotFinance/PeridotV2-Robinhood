@@ -1,54 +1,78 @@
-pin 105013095 26333892 0x7560755b3eb9ff82e473a53ec11f3d6a7eb884c6ce06bde274eb3c64f9f8b860
+pin 105982382 26342150 0xa7f818f50abbb63f2c6c48eda604dc849d87468e173547bc638d47703554cd04
 rc=0
 No files changed, compilation skipped
 
-Ran 8 tests for ramses-vaults/test/fork/InKindFork.t.sol:NvdaInKindForkTest
-[PASS] testDebtFreeMixedRedemptionPaysTheFullValueWhereThePlainRedeemReverts() (gas: 5860460)
+Ran 13 tests for ramses-vaults/test/fork/InKindFork.t.sol:NvdaInKindForkTest
+[PASS] testDebtFreeMixedRedemptionPaysTheFullValueWhereThePlainRedeemReverts() (gas: 6254596)
 Logs:
-  redeemed value (raw USDG): 190720000
+  value owed (USD 1e18): 190725017000000000000
   paid in USDG (raw): 99999999
-  paid in stock (wei): 595694990445949986
-  paid, valued at the oracle (USD 1e18): 190715191999999999954
+  paid in stock (wei): 593203369088467243
+  paid, valued at the oracle (USD 1e18): 190725016999999999926
+  paid minus owed (USD 1e18): -74
 
-[PASS] testExchangeCannotExceedTheDeficitOrBeCalledByAnyoneElse() (gas: 4426938)
-[PASS] testExchangeItselfEnforcesTheRemovalBoundAndFreshness() (gas: 4773420)
-[PASS] testExitOrderDoesNotChangeTheMixAndRemainingHoldersKeepTheirValue() (gas: 9661888)
+[PASS] testExchangeCannotExceedTheDeficitOrBeCalledByAnyoneElse() (gas: 4353546)
+[PASS] testExchangeItselfEnforcesTheRemovalBoundAndFreshness() (gas: 4828938)
+[PASS] testExitIsSelfFundedWhenThereIsNoBridge() (gas: 5585818)
+[PASS] testExitOrderDoesNotChangeTheMixAndRemainingHoldersKeepTheirValue() (gas: 11122872)
 Logs:
+  rate before: 192766167523181
+  rate after: 192766169532187
   bob USDG, first / second: 66664443
   bob USDG if second: 66664443
-  bob stock, first: 195128086233100092
-  bob stock if second: 195128086233100092
+  bob stock, first: 194314619730660027
+  bob stock if second: 194314619730660027
 
-[PASS] testIndebtedAccountsAreRefusedAndKeepTheCollateralCheck() (gas: 4647617)
-[PASS] testLedgerSlotMatchesTheVaultGetter() (gas: 1521877)
-[PASS] testPoolBeyondTheRemovalBoundRefusesTheExchange() (gas: 4471001)
-[PASS] testStaleFeedRefusesTheInKindExitAndWithinCashStillWorks() (gas: 4615677)
-Suite result: ok. 8 passed; 0 failed; 0 skipped; finished in 63.55s (27.27s CPU time)
-
-Ran 8 tests for ramses-vaults/test/fork/InKindFork.t.sol:SpyInKindForkTest
-[PASS] testDebtFreeMixedRedemptionPaysTheFullValueWhereThePlainRedeemReverts() (gas: 6541790)
+[PASS] testIndebtedAccountsAreRefusedAndKeepTheCollateralCheck() (gas: 4635119)
+[PASS] testLedgerSlotMatchesTheVaultGetter() (gas: 1424796)
+[PASS] testLossIsRecognizedBeforeTheExchange() (gas: 5649031)
+[PASS] testPoolBeyondTheRemovalBoundRefusesTheExchange() (gas: 4421585)
+[PASS] testRedeemerHoldsNoKeeperPower() (gas: 1437139)
+[PASS] testRepeatedSmallExitsCannotAccumulateUnnoticed() (gas: 36886147)
 Logs:
-  redeemed value (raw USDG): 191105000
+  one exit, paid (USD 1e18): 192766166999999999952
+  25 exits, paid (USD 1e18): 192766162999999998234
+
+[PASS] testStaleFeedRefusesTheInKindExitAndWithinCashStillWorks() (gas: 4568033)
+[PASS] testZeroLimitRefusesEverything() (gas: 4994905)
+Suite result: ok. 13 passed; 0 failed; 0 skipped; finished in 44.15s (22.29s CPU time)
+
+Ran 13 tests for ramses-vaults/test/fork/InKindFork.t.sol:SpyInKindForkTest
+[PASS] testDebtFreeMixedRedemptionPaysTheFullValueWhereThePlainRedeemReverts() (gas: 7454150)
+Logs:
+  value owed (USD 1e18): 191114815000000000000
   paid in USDG (raw): 99999999
-  paid in stock (wei): 163494022305944336
-  paid, valued at the oracle (USD 1e18): 191104539999999999534
+  paid in stock (wei): 160258832317579794
+  paid, valued at the oracle (USD 1e18): 191114814999999999940
+  paid minus owed (USD 1e18): -60
 
-[PASS] testExchangeCannotExceedTheDeficitOrBeCalledByAnyoneElse() (gas: 5116090)
-[PASS] testExchangeItselfEnforcesTheRemovalBoundAndFreshness() (gas: 5504161)
-[PASS] testExitOrderDoesNotChangeTheMixAndRemainingHoldersKeepTheirValue() (gas: 10339525)
+[PASS] testExchangeCannotExceedTheDeficitOrBeCalledByAnyoneElse() (gas: 5555700)
+[PASS] testExchangeItselfEnforcesTheRemovalBoundAndFreshness() (gas: 6073167)
+[PASS] testExitIsSelfFundedWhenThereIsNoBridge() (gas: 6786310)
+[PASS] testExitOrderDoesNotChangeTheMixAndRemainingHoldersKeepTheirValue() (gas: 12330259)
 Logs:
+  rate before: 193001485480395
+  rate after: 193001487405037
   bob USDG, first / second: 66664443
-  bob USDG if second: 66664444
-  bob stock, first: 53537878172053720
-  bob stock if second: 53537876377477725
+  bob USDG if second: 66664443
+  bob stock, first: 52478078191127266
+  bob stock if second: 52478078191127266
 
-[PASS] testIndebtedAccountsAreRefusedAndKeepTheCollateralCheck() (gas: 4673400)
-[PASS] testLedgerSlotMatchesTheVaultGetter() (gas: 1521877)
-[PASS] testPoolBeyondTheRemovalBoundRefusesTheExchange() (gas: 5202106)
-[PASS] testStaleFeedRefusesTheInKindExitAndWithinCashStillWorks() (gas: 5304959)
-Suite result: ok. 8 passed; 0 failed; 0 skipped; finished in 43.88s (32.06s CPU time)
+[PASS] testIndebtedAccountsAreRefusedAndKeepTheCollateralCheck() (gas: 4627541)
+[PASS] testLedgerSlotMatchesTheVaultGetter() (gas: 1424796)
+[PASS] testLossIsRecognizedBeforeTheExchange() (gas: 6849523)
+[PASS] testPoolBeyondTheRemovalBoundRefusesTheExchange() (gas: 5665954)
+[PASS] testRedeemerHoldsNoKeeperPower() (gas: 1437139)
+[PASS] testRepeatedSmallExitsCannotAccumulateUnnoticed() (gas: 38095807)
+Logs:
+  one exit, paid (USD 1e18): 193001484999999999734
+  25 exits, paid (USD 1e18): 193001477999999987876
 
-Ran 2 test suites in 107.44s (107.44s CPU time): 16 tests passed, 0 failed, 0 skipped (16 total tests)
+[PASS] testStaleFeedRefusesTheInKindExitAndWithinCashStillWorks() (gas: 5770317)
+[PASS] testZeroLimitRefusesEverything() (gas: 6196165)
+Suite result: ok. 13 passed; 0 failed; 0 skipped; finished in 54.69s (43.20s CPU time)
+
+Ran 2 test suites in 98.87s (98.84s CPU time): 26 tests passed, 0 failed, 0 skipped (26 total tests)
 warning: invalid natspec tag '@member', custom tags must use format '@custom:name'
     ╭▸ contracts/peridot-contracts-2-5/contracts/contracts/PTokenInterfaces.sol:112:5
     │

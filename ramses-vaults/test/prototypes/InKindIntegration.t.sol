@@ -12,6 +12,43 @@ import { RamsesBoostedDelegate } from "../../src/lending/RamsesBoostedDelegate.s
 import { RoutedVault } from "./RoutedVault.sol";
 import { CoverageGuard } from "./CoverageGuard.sol";
 import { InKindScenarios } from "./InKindScenarios.sol";
+import { InKindExtension } from "./RoutedVault.sol";
+import { InKindRedeemer } from "./InKindRedeemer.sol";
+import { TokenDouble } from "../mocks/RamsesV3Double.sol";
+
+/// @dev A token that calls back during transfers, to prove what can and cannot run inside the exchange. Etched over USDG; its extra storage is appended.
+contract HookToken is TokenDouble {
+    address internal target_;
+    bytes internal data_;
+    bool public fired;
+    bool public innerOk;
+    bytes public innerRet;
+
+    constructor() TokenDouble("USDG", 6) { }
+
+    function arm(address t, bytes calldata d) external {
+        target_ = t;
+        data_ = d;
+        fired = false;
+    }
+
+    function _fire() internal {
+        if (target_ != address(0) && !fired) {
+            fired = true;
+            (innerOk, innerRet) = target_.call(data_);
+        }
+    }
+
+    function transferFrom(address a, address b, uint256 c) public override returns (bool) {
+        _fire();
+        return super.transferFrom(a, b, c);
+    }
+
+    function transfer(address b, uint256 c) public override returns (bool) {
+        _fire();
+        return super.transfer(b, c);
+    }
+}
 
 /// @notice Local run of the in-kind scenarios, plus the atomic coverage proofs (local doubles for pool, position manager, gauge and token; real vault, markets, reserve).
 contract InKindLocalTest is LendingFixture, InKindScenarios {
@@ -35,6 +72,111 @@ contract InKindLocalTest is LendingFixture, InKindScenarios {
     function _stockFalls(int24 t) internal override { shift(t); }
     function _refreshFeed() internal override { fresh(); }
     function _poolOnly(int24 t) internal override { pool.setTick(pool.tick() + t); }
+
+    // ------------------------------------------------------------------ reentrancy across the exchange, using a token with a transfer hook
+    function _armHookToken() internal returns (HookToken h) {
+        h = new HookToken();
+        vm.etch(address(usdg), address(h).code);
+        h = HookToken(address(usdg));
+        vault.grantRole(keccak256("IN_KIND_OPERATOR_ROLE"), address(h));
+        vault.grantRole(vault.KEEPER_ROLE(), address(h));
+    }
+
+    function testNoVaultEntryPointRunsInsideTheExchange() public {
+        _setUpInKind();
+        _oneSided();
+        HookToken h = _armHookToken();
+        usdg.mint(address(redeemer), 1e6);
+        vm.prank(address(redeemer));
+        usdg.approve(address(vault), type(uint256).max);
+        bytes[4] memory attempts = [
+            abi.encodeCall(RamsesBoostedVault.checkpoint, (PAIR, block.timestamp)),
+            abi.encodeCall(RamsesBoostedVault.rebalance, (PAIR, block.timestamp)),
+            abi.encodeCall(InKindExtension.exchangeSurplus, (PAIR, true, 1)),
+            abi.encodeCall(RamsesBoostedVault.withdrawForSide, (PAIR, address(usdg), 1, address(this), block.timestamp))
+        ];
+        for (uint256 i; i < 4; i++) {
+            uint256 snap = vm.snapshotState();
+            h.arm(address(vault), attempts[i]);
+            vm.prank(address(redeemer));
+            InKindExtension(address(vault)).exchangeSurplus(PAIR, true, 1e6);
+            assertTrue(h.fired(), "the hook ran inside the exchange");
+            assertFalse(h.innerOk(), "the reentrant vault call was refused");
+            emit log_named_bytes("reentrant call revert data", h.innerRet());
+            bytes4 expected = i == 2 ? InKindExtension.Reentrant.selector : bytes4(keccak256("ReentrancyGuardReentrantCall()"));
+            assertEq(bytes4(h.innerRet()), expected, "refused by the guard specifically, not by some later check");
+            vm.revertToState(snap);
+        }
+    }
+
+    function testRedeemerRefusesReentry() public {
+        _setUpInKind();
+        _oneSided();
+        HookToken h = _armHookToken();
+        h.arm(address(redeemer), abi.encodeCall(InKindRedeemer.redeemInKind, (true, 1, 0, 0, block.timestamp)));
+        uint256 shares = uMarket.balanceOf(bob);
+        vm.prank(bob);
+        redeemer.redeemInKind{ gas: 15_000_000 }(true, shares, 0, 0, block.timestamp);
+        assertTrue(h.fired());
+        assertFalse(h.innerOk());
+        assertEq(bytes4(h.innerRet()), bytes4(keccak256("ReentrancyGuardReentrantCall()")));
+    }
+
+    // ------------------------------------------------------------------ funding source
+    function testNoScarceTokenAnywhereRevertsAtomicallyWithoutABridge() public {
+        _setUpInKind();
+        _oneSided();
+        // everyone else drains local cash and any vault USDG first
+        uint256 cash = usdg.balanceOf(usdgAccount);
+        vm.prank(bob);
+        uMarket.redeemUnderlying{ gas: 12_000_000 }(cash);
+        uint256 shares = uMarket.balanceOf(bob);
+        (uint256 avail,) = _usdgGap();
+        emit log_named_uint("USDG left in the vault", avail);
+        bytes32 h = keccak256(abi.encode(vault.ledger(PAIR)));
+        vm.prank(bob);
+        (bool done,) = address(redeemer).call{ gas: 15_000_000 }(abi.encodeCall(InKindRedeemer.redeemInKind, (true, shares, 0, 0, block.timestamp)));
+        if (avail == 0) {
+            assertFalse(done, "nothing to fund the exchange with: refused, not stuck");
+            assertEq(uMarket.balanceOf(bob), shares, "atomic: shares returned");
+            assertEq(keccak256(abi.encode(vault.ledger(PAIR))), h, "atomic: ledger unchanged");
+            // an optional same-transaction float solves it, and is repaid in full
+            address bridgeA = address(0xb51d6e);
+            usdg.mint(bridgeA, 1_000e6);
+            InKindRedeemer r2 = new InKindRedeemer(vault, PAIR, sMarket, uMarket, bridgeA);
+            _authorize(r2);
+            vm.prank(bridgeA);
+            usdg.approve(address(r2), type(uint256).max);
+            vm.prank(bob);
+            uMarket.approve(address(r2), type(uint256).max);
+            vm.prank(bob);
+            (uint256 own, uint256 other) = r2.redeemInKind{ gas: 15_000_000 }(true, shares, 0, 0, block.timestamp);
+            emit log_named_uint("with a float: USDG paid", own);
+            emit log_named_uint("with a float: stock paid", other);
+            assertEq(usdg.balanceOf(bridgeA), 1_000e6, "repaid in full, in the same transaction");
+            emit log_named_uint("with a float: dust shares returned", uMarket.balanceOf(bob));
+            assertLe(uMarket.balanceOf(bob) * uMarket.exchangeRateStored() / 1e18, 3, "only rounding dust stays with the holder, as shares");
+            assertGt(other, 0);
+        }
+    }
+
+    // ------------------------------------------------------------------ contract size and overhead (reported, asserted against EIP-170)
+    function testSizes() public {
+        _setUpInKind();
+        InKindExtension ext = new InKindExtension();
+        emit log_named_uint("vault implementation runtime bytes", RoutedVault(payable(address(vault))).implementation().code.length);
+        emit log_named_uint("router runtime bytes", address(vault).code.length);
+        emit log_named_uint("extension runtime bytes", address(ext).code.length);
+        emit log_named_uint("redeemer runtime bytes", address(redeemer).code.length);
+        assertLt(address(vault).code.length, 24_576);
+        assertLt(address(ext).code.length, 24_576);
+        assertLt(address(redeemer).code.length, 24_576);
+        // what the router adds per call: one extra delegatecall
+        uint256 g = gasleft();
+        vault.ledger(PAIR);
+        uint256 viaRouter = g - gasleft();
+        emit log_named_uint("ledger() gas via router", viaRouter);
+    }
 
     // ------------------------------------------------------------------ atomic coverage
     CoverageGuard internal gate;

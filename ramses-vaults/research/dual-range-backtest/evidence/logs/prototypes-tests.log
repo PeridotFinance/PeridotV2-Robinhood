@@ -1,5 +1,5 @@
-Compiling 5 files with Solc 0.8.26
-Solc 0.8.26 finished in 131.22s
+Compiling 3 files with Solc 0.8.26
+Solc 0.8.26 finished in 81.54s
 Compiler run successful with warnings:
 Warning (8760): This declaration has the same name as another declaration.
   --> contracts/peridot-contracts-2-5/contracts/contracts/BorrowAccountingModule.sol:67:13:
@@ -90,6 +90,12 @@ Warning (2018): Function state mutability can be restricted to view
 526 |     function liquidateBorrowAllowed(
     |     ^ (Relevant source part starts here and spans across multiple lines).
 
+Warning (2018): Function state mutability can be restricted to pure
+   --> ramses-vaults/test/prototypes/RoutedVault.sol:139:5:
+    |
+139 |     function inKindStats(bytes32 pairId) external view returns (Stats memory) {
+    |     ^ (Relevant source part starts here and spans across multiple lines).
+
 warning: invalid natspec tag '@member', custom tags must use format '@custom:name'
     ╭▸ contracts/peridot-contracts-2-5/contracts/contracts/PTokenInterfaces.sol:112:5
     │
@@ -101,38 +107,73 @@ warning: invalid natspec tag '@member', custom tags must use format '@custom:nam
     ╰╴┗━━━━━━━┛
 
 
-Ran 14 tests for ramses-vaults/test/prototypes/InKindIntegration.t.sol:InKindLocalTest
-[PASS] testAFailedReserveReadFailsClosedForAllocationOnly() (gas: 2933718)
-[PASS] testAStalePriceCannotAdmitNewExposureAndAFailedMonitorIsNotAPause() (gas: 1900730)
-[PASS] testAtomicCheckBlocksNewExposureWhenCoverageIsShort() (gas: 3594485)
-[PASS] testDebtFreeMixedRedemptionPaysTheFullValueWhereThePlainRedeemReverts() (gas: 4705581)
+Ran 23 tests for ramses-vaults/test/prototypes/InKindIntegration.t.sol:InKindLocalTest
+[PASS] testAFailedReserveReadFailsClosedForAllocationOnly() (gas: 2940970)
+[PASS] testAStalePriceCannotAdmitNewExposureAndAFailedMonitorIsNotAPause() (gas: 1906256)
+[PASS] testAtomicCheckBlocksNewExposureWhenCoverageIsShort() (gas: 3600757)
+[PASS] testDebtFreeMixedRedemptionPaysTheFullValueWhereThePlainRedeemReverts() (gas: 5079325)
 Logs:
-  redeemed value (raw USDG): 190645000
+  value owed (USD 1e18): 190640563000000000000
   paid in USDG (raw): 99999999
   paid in stock (wei): 1223498596764908421
   paid, valued at the oracle (USD 1e18): 190640562999999999984
+  paid minus owed (USD 1e18): -16
 
-[PASS] testExchangeCannotExceedTheDeficitOrBeCalledByAnyoneElse() (gas: 3554703)
-[PASS] testExchangeItselfEnforcesTheRemovalBoundAndFreshness() (gas: 3794085)
-[PASS] testExitOrderDoesNotChangeTheMixAndRemainingHoldersKeepTheirValue() (gas: 7374803)
+[PASS] testExchangeCannotExceedTheDeficitOrBeCalledByAnyoneElse() (gas: 3510304)
+[PASS] testExchangeItselfEnforcesTheRemovalBoundAndFreshness() (gas: 3874629)
+[PASS] testExitIsSelfFundedWhenThereIsNoBridge() (gas: 4510892)
+[PASS] testExitOrderDoesNotChangeTheMixAndRemainingHoldersKeepTheirValue() (gas: 8656232)
 Logs:
+  rate before: 192715046339424
+  rate after: 192715047980807
   bob USDG, first / second: 66664443
   bob USDG if second: 66664444
   bob stock, first: 400807763217671140
   bob stock if second: 400807749719315186
 
-[PASS] testIndebtedAccountsAreRefusedAndKeepTheCollateralCheck() (gas: 4688515)
-[PASS] testLedgerSlotMatchesTheVaultGetter() (gas: 2812439)
-[PASS] testPoolBeyondTheRemovalBoundRefusesTheExchange() (gas: 3548878)
-[PASS] testRebalanceThatAddsLiquidityIsBlockedWhileShortAndAdmittedWhenCovered() (gas: 4272337)
-[PASS] testResumePathNeedsTheAdminAndPassesTheSameCheck() (gas: 2869441)
-[PASS] testRiskReducingOperationsStayAvailableWhileShort() (gas: 4684277)
+[PASS] testIndebtedAccountsAreRefusedAndKeepTheCollateralCheck() (gas: 4672803)
+[PASS] testLedgerSlotMatchesTheVaultGetter() (gas: 2763216)
+[PASS] testLossIsRecognizedBeforeTheExchange() (gas: 4570996)
+[PASS] testNoScarceTokenAnywhereRevertsAtomicallyWithoutABridge() (gas: 6939549)
+Logs:
+  USDG left in the vault: 0
+  with a float: USDG paid: 0
+  with a float: stock paid: 1223228589150755794
+  with a float: dust shares returned: 15144
+
+[PASS] testNoVaultEntryPointRunsInsideTheExchange() (gas: 5913061)
+Logs:
+  reentrant call revert data: 0x3ee5aeb5
+  reentrant call revert data: 0x3ee5aeb5
+  reentrant call revert data: 0xed3ba6a6
+  reentrant call revert data: 0x3ee5aeb5
+
+[PASS] testPoolBeyondTheRemovalBoundRefusesTheExchange() (gas: 3528415)
+[PASS] testRebalanceThatAddsLiquidityIsBlockedWhileShortAndAdmittedWhenCovered() (gas: 4285245)
+[PASS] testRedeemerHoldsNoKeeperPower() (gas: 2787261)
+[PASS] testRedeemerRefusesReentry() (gas: 5601670)
+[PASS] testRepeatedSmallExitsCannotAccumulateUnnoticed() (gas: 29239106)
+Logs:
+  one exit, paid (USD 1e18): 192715045999999999939
+  25 exits, paid (USD 1e18): 192715043999999998757
+
+[PASS] testResumePathNeedsTheAdminAndPassesTheSameCheck() (gas: 2876413)
+[PASS] testRiskReducingOperationsStayAvailableWhileShort() (gas: 4691768)
 Logs:
   exposure before the recentre (USD 1e18): 94075942973995427923
   exposure after the recentre (USD 1e18): 70226649574055455650
 
-[PASS] testStaleFeedRefusesTheInKindExitAndWithinCashStillWorks() (gas: 3664716)
-Suite result: ok. 14 passed; 0 failed; 0 skipped; finished in 97.51ms (175.90ms CPU time)
+[PASS] testSizes() (gas: 3778696)
+Logs:
+  vault implementation runtime bytes: 24469
+  router runtime bytes: 1591
+  extension runtime bytes: 4861
+  redeemer runtime bytes: 5825
+  ledger() gas via router: 3438
+
+[PASS] testStaleFeedRefusesTheInKindExitAndWithinCashStillWorks() (gas: 3646102)
+[PASS] testZeroLimitRefusesEverything() (gas: 4032384)
+Suite result: ok. 23 passed; 0 failed; 0 skipped; finished in 1.38s (328.58ms CPU time)
 
 Ran 14 tests for ramses-vaults/test/prototypes/ReserveProtocol.t.sol:ReserveProtocolTest
 [PASS] testBothTokensMustBeCoveredNotEither() (gas: 1751625)
@@ -140,29 +181,29 @@ Ran 14 tests for ramses-vaults/test/prototypes/ReserveProtocol.t.sol:ReserveProt
 [PASS] testCoverageGuardNeverPausesOnAStalePriceItRevertsInstead() (gas: 1370641)
 [PASS] testDepletedReserveIsNotNeededAndNotTouched() (gas: 2176780)
 [PASS] testDepletedReserveRestrictsNewRiskOnlyAndTheGuardCanNeverUnpause() (gas: 2267713)
-[PASS] testFuzzConservationAndRemainingHoldersAreNotCharged(uint256,uint256,uint256,uint256,uint256) (runs: 5000, μ: 779474, ~: 779916)
+[PASS] testFuzzConservationAndRemainingHoldersAreNotCharged(uint256,uint256,uint256,uint256,uint256) (runs: 5000, μ: 779371, ~: 779916)
 Logs:
-  Bound result 3661818
-  Bound result 1348
-  Bound result 3081051318246640207938
-  Bound result 566059255435404142734
-  Bound result 1376091
+  Bound result 249467851978
+  Bound result 357
+  Bound result 1312380578891451282381
+  Bound result 999999080675717661074
+  Bound result 13075499354
 
-[PASS] testFuzzStockSideMirror(uint256,uint256,uint256,uint256,uint256) (runs: 5000, μ: 777877, ~: 778283)
+[PASS] testFuzzStockSideMirror(uint256,uint256,uint256,uint256,uint256) (runs: 5000, μ: 777836, ~: 778288)
 Logs:
-  Bound result 999999000000003661819
-  Bound result 1348
-  Bound result 3081051318246640207938
-  Bound result 494659082913
-  Bound result 182525193515847354510
+  Bound result 296923826647592989857
+  Bound result 2615
+  Bound result 4999000000964936440441
+  Bound result 452987962875
+  Bound result 295957599448573269091
 
-[PASS] testFuzzTheMixDoesNotDependOnTheOrderOfExits(uint256,uint256,uint256,uint256,uint256) (runs: 5000, μ: 1455630, ~: 1455919)
+[PASS] testFuzzTheMixDoesNotDependOnTheOrderOfExits(uint256,uint256,uint256,uint256,uint256) (runs: 5000, μ: 1455678, ~: 1455919)
 Logs:
-  Bound result 3661818
-  Bound result 1348
-  Bound result 3081051318246640207938
-  Bound result 566059255435404142734
-  Bound result 405387
+  Bound result 199999800
+  Bound result 9392
+  Bound result 4999100000000000000001
+  Bound result 999999000000000000019
+  Bound result 4670
 
 [PASS] testInKindModelMatchesTheRealLedgerAfterARecognizedLoss() (gas: 2164293)
 Logs:
@@ -176,6 +217,6 @@ Logs:
 [PASS] testNoDeficitMeansNoMixing() (gas: 762253)
 [PASS] testOneSidedInventoryPaysEntirelyInTheOtherToken() (gas: 722986)
 [PASS] testSeedRetainedEarningsAndStrayTransfersAreDistinguishable() (gas: 2089346)
-Suite result: ok. 14 passed; 0 failed; 0 skipped; finished in 2.53s (7.34s CPU time)
+Suite result: ok. 14 passed; 0 failed; 0 skipped; finished in 1.50s (3.70s CPU time)
 
-Ran 2 test suites in 2.55s (2.63s CPU time): 28 tests passed, 0 failed, 0 skipped (28 total tests)
+Ran 2 test suites in 1.52s (2.88s CPU time): 37 tests passed, 0 failed, 0 skipped (37 total tests)
