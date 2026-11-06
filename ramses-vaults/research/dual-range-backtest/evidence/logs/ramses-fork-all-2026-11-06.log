@@ -45,3 +45,51 @@ Ran 3 tests for ramses-vaults/test/fork/GroupFeeEntitlement.t.sol:GroupFeeEntitl
 Suite result: ok. 3 passed; 0 failed; 0 skipped; 
 Ran 22 test suites in 78.20s (399.15s CPU time): 113 tests passed, 15 failed, 0 skipped (128 total tests)
 LiveRecovery: pre-incident test signing as the old governor 0x9469 (no roles since 2026-11-05), superseded by PR 20 SequentialRecoveryLedger. PoolQuoteReplay: needs POOL env (research tool).
+
+rerun at pin 107579927 26355826 after retiring LiveRecovery and gating PoolQuoteReplay on its POOL input:
+Ran 6 tests for ramses-vaults/test/fork/SpyGuardPauseFlags.t.sol:SpyGuardPauseFlagsForkTest
+Suite result: ok. 6 passed; 0 failed; 0 skipped; 
+Ran 1 test for ramses-vaults/test/fork/Research.t.sol:ResearchTest
+Suite result: ok. 1 passed; 0 failed; 0 skipped; 
+Ran 1 test for ramses-vaults/test/fork/GroupDepth.t.sol:GroupDepthSPY
+Suite result: ok. 1 passed; 0 failed; 0 skipped; 
+Ran 10 tests for ramses-vaults/test/fork/LendingFork.t.sol:LendingForkTest
+Suite result: ok. 10 passed; 0 failed; 0 skipped; 
+Ran 3 tests for ramses-vaults/test/fork/LendingForkProofs.t.sol:SpyForkProofsTest
+Suite result: ok. 3 passed; 0 failed; 0 skipped; 
+Ran 1 test for ramses-vaults/test/fork/LiveRecovery.t.sol:LiveRecoveryForkTest
+Suite result: ok. 0 passed; 0 failed; 1 skipped; 
+Ran 1 test for ramses-vaults/test/fork/PoolQuoteReplay.t.sol:PoolQuoteReplay
+Suite result: ok. 0 passed; 0 failed; 1 skipped; 
+Ran 11 tests for ramses-vaults/test/fork/AdapterFork.t.sol:AdapterForkTest
+Suite result: ok. 11 passed; 0 failed; 0 skipped; 
+Ran 3 tests for ramses-vaults/test/fork/StockMultiplierFork.t.sol:StockMultiplierFork
+Suite result: ok. 3 passed; 0 failed; 0 skipped; 
+Ran 10 tests for ramses-vaults/test/fork/FallbackFork.t.sol:NvdaFallbackForkTest
+Suite result: ok. 10 passed; 0 failed; 0 skipped; 
+Ran 3 tests for ramses-vaults/test/fork/GroupFeeEntitlement.t.sol:GroupFeeEntitlementGLD
+Suite result: ok. 3 passed; 0 failed; 0 skipped; 
+Ran 7 tests for ramses-vaults/test/fork/VaultFork.t.sol:VaultForkTest
+Suite result: ok. 7 passed; 0 failed; 0 skipped; 
+Ran 3 tests for ramses-vaults/test/fork/LendingForkProofs.t.sol:LendingForkProofsTest
+Suite result: ok. 3 passed; 0 failed; 0 skipped; 
+Ran 1 test for ramses-vaults/test/fork/GroupDepth.t.sol:GroupDepthNVDA
+Suite result: ok. 1 passed; 0 failed; 0 skipped; 
+Ran 1 test for ramses-vaults/test/fork/GroupDepth.t.sol:GroupDepthGLD
+Suite result: ok. 1 passed; 0 failed; 0 skipped; 
+Ran 5 tests for ramses-vaults/test/fork/RewardShortfallFork.t.sol:NvdaRewardShortfallForkTest
+Suite result: ok. 5 passed; 0 failed; 0 skipped; 
+Ran 3 tests for ramses-vaults/test/fork/GroupFeeEntitlement.t.sol:GroupFeeEntitlementSPY
+Suite result: ok. 3 passed; 0 failed; 0 skipped; 
+Ran 5 tests for ramses-vaults/test/fork/RewardShortfallFork.t.sol:SpyRewardShortfallForkTest
+Suite result: ok. 5 passed; 0 failed; 0 skipped; 
+Ran 13 tests for ramses-vaults/test/fork/InKindFork.t.sol:NvdaInKindForkTest
+Suite result: ok. 13 passed; 0 failed; 0 skipped; 
+Ran 13 tests for ramses-vaults/test/fork/InKindFork.t.sol:SpyInKindForkTest
+Suite result: ok. 13 passed; 0 failed; 0 skipped; 
+Ran 3 tests for ramses-vaults/test/fork/GroupFeeEntitlement.t.sol:GroupFeeEntitlementNVDA
+Suite result: ok. 3 passed; 0 failed; 0 skipped; 
+Ran 10 tests for ramses-vaults/test/fork/FallbackFork.t.sol:SpyFallbackForkTest
+Suite result: ok. 10 passed; 0 failed; 0 skipped; 
+Ran 22 test suites in 775.65ms (4.17s CPU time): 112 tests passed, 0 failed, 2 skipped (114 total tests)
+note: SPY suites need a pin within 12 h of the last RHSPY answer; at 107616238 (13 h after the close) they fail StaleOracle by design.
