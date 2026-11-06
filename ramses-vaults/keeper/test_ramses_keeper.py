@@ -22,6 +22,7 @@ class FakeChain:
         self.reverts = reverts or {}  # function name -> error signature
         self.roles = {'KEEPER_ROLE'} if roles is None else roles
         self.gas_price = gas_price
+        self.now = 1793900000  # block timestamp
         self.sent = []
 
     def __call__(self, args, capture_output=True, text=True):
@@ -30,7 +31,7 @@ class FakeChain:
             return real(args, capture_output=True, text=True)
         out = lambda s, rc=0, err='': subprocess.CompletedProcess(args, rc, s, err)
         if args[1] == 'block':
-            return out('1793900000\n')
+            return out('%d\n' % self.now)
         if args[1] == 'gas-price':
             return out(str(self.gas_price) + '\n')
         if args[1] == 'call' and 'hasRole(bytes32,address)(bool)' in args:
@@ -145,6 +146,42 @@ class Tests(unittest.TestCase):
             lines, rc = k.step(True)
         self.assertEqual(lines[0]['action'], 'park_unsupported')
         self.assertEqual(chain.sent, [], 'no transaction: no keeper path removes liquidity without emergency mode')
+
+    def test_harvest_and_recenter_wait_out_the_anti_sybil_window(self):
+        # Wall time stays put: the hold must follow block time, which is what the gauge's threshold uses.
+        chain = FakeChain(reverts={'rebalance': 'RecenterNotNeeded()'})
+        k = keeper(chain, clock=lambda: 1793900000)
+        k.step(True)  # recenter sent; harvest must not follow within 120 s
+        self.assertEqual(chain.sent, ['recenter'])
+        chain.now += 60
+        lines, _ = k.step(True)
+        self.assertEqual(chain.sent, ['recenter'], 'recenter and harvest both held inside the window')
+        self.assertIn('wait (anti-sybil window after the last position change)', [l.get('action') for l in lines])
+        chain.now += 120
+        chain.reverts['recenter'] = 'RecenterNotNeeded()'  # no new change this time, so the claim is safe
+        k.step(True)
+        self.assertEqual(chain.sent, ['recenter', 'harvest'])
+
+    def test_shortfall_above_ceiling_is_a_wait(self):
+        chain = FakeChain(reverts={'recenter': 'RewardShortfallTooHigh(address,uint256,uint256)', 'rebalance': 'RecenterNotNeeded()',
+                                   'harvest': 'RewardShortfallTooHigh(address,uint256,uint256)'})
+        lines, rc = keeper(chain).step(True)
+        self.assertEqual(rc, 0)
+        self.assertEqual(chain.sent, [])
+
+    def test_every_booked_shortfall_raises_an_alert(self):
+        chain = FakeChain(reverts={'rebalance': 'RecenterNotNeeded()', 'harvest': 'RecenterNotNeeded()'})
+        real_call = chain.__call__
+        topic = rk.SHORTFALL_TOPIC
+        def with_logs(args, capture_output=True, text=True):
+            r = real_call(args)
+            if args[1] == 'send':
+                r.stdout = json.dumps({'status': '0x1', 'transactionHash': '0x' + 'cd' * 32, 'gasUsed': '0x10',
+                                       'logs': [{'topics': [topic]}, {'topics': ['0x' + '00' * 32]}]})
+            return r
+        lines, _ = keeper(with_logs).step(True)
+        sent = [l for l in lines if l.get('function') == 'recenter'][0]
+        self.assertEqual((sent.get('alert'), sent.get('shortfallEvents')), ('RewardShortfallBooked', 1))
 
 
 if __name__ == '__main__':

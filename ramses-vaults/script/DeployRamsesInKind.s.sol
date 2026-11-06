@@ -60,6 +60,7 @@ contract DeployRamsesInKind is Script {
     uint128 constant PAIR_CAP_USD = 1000e18; // $1,000 per side principal and ranged value
     uint16 constant COVER_USDG_BPS = 1000; // CoverageGuard: 10% of exposure in USDG
     uint16 constant COVER_STOCK_BPS = 500; // and 5% in the stock
+    uint16 constant MAX_REWARD_SHORTFALL_BPS = 2000; // operator decision 2026-11-06: refuse forfeiting over 20 % of pending rewards
     bytes32 constant KEEPER_ROLE = keccak256("KEEPER_ROLE");
     bytes32 constant GUARDIAN_ROLE = keccak256("GUARDIAN_ROLE");
     bytes32 constant CONFIG_ROLE = keccak256("CONFIG_ROLE");
@@ -354,6 +355,14 @@ contract DeployRamsesInKind is Script {
         // RewardClaimMismatch. Without forfeiture every exit that touches the vault reverts and holders cannot withdraw.
         // With it, an exit proceeds and forfeits that claim (ExitHarvestFailed). Rehearsed on a fork, 2026-11-06.
         _action(address(vault), abi.encodeCall(vault.setAllowRewardForfeiture, (PAIR, true)));
+        // Section 8a: book underpayment as a period loss, but refuse any harvest or recentre forfeiting more than 20 % of
+        // the pending rewards. Every accepted shortfall emits RewardShortfallBooked.
+        _action(
+            address(vault),
+            abi.encodeCall(
+                InKindExtension.setRewardShortfallCeiling, (PAIR, MAX_REWARD_SHORTFALL_BPS)
+            )
+        );
         // Mirrors the live NVDA/USDG Uniswap pilot: +/-2400 ticks, recentre at 600, 1 h apart, 4 a day, 10 bp loss bound; $1,000 ranged cap.
         _action(
             address(vault),
@@ -526,6 +535,11 @@ contract DeployRamsesInKind is Script {
         require(
             RamsesVaultAdapter(vm.parseJsonAddress(j, ".adapter")).allowRewardForfeiture(PAIR),
             "REWARD_FORFEITURE_OFF_EXITS_BLOCKED"
+        );
+        require(
+            RamsesV3PairedAdapter(vm.parseJsonAddress(j, ".adapter")).maxRewardShortfallBps(PAIR)
+                == MAX_REWARD_SHORTFALL_BPS,
+            "REWARD_SHORTFALL_CEILING"
         );
         (bool enabled, uint16 halfWidth, uint16 trigger,,,, uint128 maxRanged) = v.rangePolicy(PAIR);
         require(

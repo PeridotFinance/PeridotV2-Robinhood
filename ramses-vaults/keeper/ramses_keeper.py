@@ -34,6 +34,10 @@ DEADLINE_SECONDS = 290
 MAX_GAS_PRICE_WEI = int(os.environ.get('MAX_GAS_PRICE_WEI', 100_000_000))  # 0.1 gwei default, as for the other keepers
 REBALANCE_MIN_INTERVAL = 3600
 HARVEST_INTERVAL = int(os.environ.get('HARVEST_INTERVAL', 6 * 3600))
+# Ramses anti-sybil: a claim within 99 s of the position's last change pays nothing (fork-measured 2026-11-06, both gauges);
+# from 100 s it pays earned() exactly. Wait this long after any position change before harvest or recenter (both claim).
+ANTI_SYBIL_WAIT = int(os.environ.get('ANTI_SYBIL_WAIT', 120))
+SHORTFALL_TOPIC = '0x2d781398914aa8cb0d4b37e42c95b14bec56d2691b335b01806cae7b2338d8db'  # keccak256("RewardShortfallBooked(bytes32,address,uint256,uint256,uint256)")
 REBALANCE_MIN_VALUE_MULTIPLE = 10.0
 REBALANCE_GAS_ESTIMATE = 750_000
 ETH_USD_FEED = '0x78F3556b67E17Df817D51Ef5a990cDaF09E8d3A9'
@@ -63,6 +67,8 @@ REASONS = {
     'CheckpointStale()': False,
     # The gauge paid less than earned() (anti-sybil). Recenter and harvest cannot proceed: a person must decide.
     'RewardClaimMismatch()': False,
+    # Above the per-pair forfeiture ceiling: the claim would forfeit too much now (inside the anti-sybil window). Retry later.
+    'RewardShortfallTooHigh(address,uint256,uint256)': True,
 }
 DUST_REBALANCES = ('InvalidConfiguration', 'DeployLossTooHigh')  # nothing deployable yet; see range_keeper.py
 
@@ -87,9 +93,11 @@ class Keeper:
     def cast(self, *args, check=True):
         return self.sh('cast', *args, '--rpc-url', self.rpc, check=check)
 
+    def chain_now(self):
+        return int(self.cast('block', 'latest', '--field', 'timestamp').stdout.strip())
+
     def deadline(self):
-        head = int(self.cast('block', 'latest', '--field', 'timestamp').stdout.strip())
-        return max(head, int(self.clock())) + DEADLINE_SECONDS
+        return max(self.chain_now(), int(self.clock())) + DEADLINE_SECONDS
 
     def classify(self, output):
         m = re.search(r'0x[0-9a-fA-F]{8}', output or '')
@@ -118,6 +126,11 @@ class Keeper:
         except ValueError:
             return 'UNCONFIRMED'
         self.last_tx = {'tx': receipt.get('transactionHash'), 'gasUsed': int(str(receipt.get('gasUsed', '0x0')), 16)}
+        # Section 8a: alert on EVERY booked gauge underpayment (RewardShortfallBooked from the adapter).
+        booked = [l for l in receipt.get('logs', []) if (l.get('topics') or [''])[0].lower() == SHORTFALL_TOPIC]
+        if booked:
+            self.last_tx['alert'] = 'RewardShortfallBooked'
+            self.last_tx['shortfallEvents'] = len(booked)
         return 'sent' if str(receipt.get('status')).lower() in ('0x1', '1') else 'REVERTED ON-CHAIN'
 
     def gas_ok(self):
@@ -197,12 +210,19 @@ class Keeper:
             out.append(dict(self.park(execute), status='session_gap'))
             return out, 0
         rc = 0
+        # The gauge's anti-sybil threshold runs on block time, so the hold does too (wall time can differ, e.g. on a fork).
+        since = self.chain_now() - self.state.get('lastModified', 0)
         name, waiting = self.simulate('recenter')
-        if name == 'due':
+        if name == 'due' and since < ANTI_SYBIL_WAIT:
+            out.append({'function': 'recenter', 'action': 'wait (anti-sybil window after the last position change)'})
+            name = 'held'
+        elif name == 'due':
             res = self.send('recenter') if execute and self.gas_ok() else ('wait (gas price above cap)' if execute else 'due (dry run)')
+            if res == 'sent':
+                self.state['lastModified'] = self.chain_now()
             out.append(dict(self.last_tx if res in ('sent', 'REVERTED ON-CHAIN') else {}, function='recenter', action=res))
             rc = rc if res in ('sent',) or not execute else 3
-        else:
+        elif name != 'held':
             out.append({'function': 'recenter', 'simulation': name, 'action': 'wait' if waiting else 'ATTENTION'})
             rc = rc if waiting else 2
         name, waiting = self.simulate('rebalance')
@@ -225,12 +245,15 @@ class Keeper:
                 res = self.send('rebalance')
                 if res == 'sent':
                     self.state['lastRebalance'] = int(self.clock())
+                    self.state['lastModified'] = self.chain_now()
                 out.append(dict(fields, **self.last_tx, function='rebalance', action=res))
             else:
                 out.append(dict(fields, function='rebalance', action='wait' if not worth or recent else 'due (dry run)'))
         else:
             out.append({'function': 'rebalance', 'simulation': name, 'action': 'wait' if waiting else 'ATTENTION'})
-        if self.clock() - self.state.get('lastHarvest', 0) >= HARVEST_INTERVAL:
+        if self.chain_now() - self.state.get('lastModified', 0) < ANTI_SYBIL_WAIT:
+            out.append({'function': 'harvest', 'action': 'wait (anti-sybil window after the last position change)'})
+        elif self.clock() - self.state.get('lastHarvest', 0) >= HARVEST_INTERVAL:
             name, waiting = self.simulate('harvest')
             if name == 'due' and execute and not self.gas_ok():
                 out.append({'function': 'harvest', 'action': 'wait (gas price above cap)'})

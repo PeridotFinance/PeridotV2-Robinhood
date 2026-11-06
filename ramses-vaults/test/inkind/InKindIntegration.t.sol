@@ -6,6 +6,7 @@ import { PToken } from "peridot/PToken.sol";
 import { PairLedger } from "baseline/src/libraries/VaultTypes.sol";
 import { LendingFixture } from "../LendingFixture.sol";
 import { RamsesBoostedVault } from "../../src/RamsesBoostedVault.sol";
+import { RamsesV3PairedAdapter } from "../../src/RamsesV3PairedAdapter.sol";
 import { RamsesOracleGuard } from "../../src/RamsesOracleGuard.sol";
 import { RamsesLossReserve } from "../../src/RamsesLossReserve.sol";
 import { RamsesBoostedDelegate } from "../../src/lending/RamsesBoostedDelegate.sol";
@@ -554,5 +555,22 @@ contract InKindLocalTest is LendingFixture, InKindScenarios {
             l.usdgIdle,
             "slot+3 usdgIdle"
         );
+    }
+
+    /// @dev Section 8a ceiling: set only by CONFIG_ROLE through the extension, which reaches the adapter as the vault.
+    function testRewardShortfallCeilingIsConfigRoleOnly() public {
+        _setUpInKind();
+        address[3] memory others = [keeper, guardian, address(0xdead)];
+        for (uint256 i; i < others.length; i++) {
+            vm.prank(others[i]);
+            vm.expectRevert(InKindExtension.NotConfig.selector);
+            InKindExtension(address(vault)).setRewardShortfallCeiling(PAIR, 2000);
+        }
+        InKindExtension(address(vault)).setRewardShortfallCeiling(PAIR, 2000);
+        assertEq(RamsesV3PairedAdapter(address(adapter)).maxRewardShortfallBps(PAIR), 2000);
+        vm.expectRevert(RamsesV3PairedAdapter.InvalidConfiguration.selector);
+        InKindExtension(address(vault)).setRewardShortfallCeiling(PAIR, 10_001);
+        vm.expectRevert(RamsesV3PairedAdapter.NotVault.selector);
+        RamsesV3PairedAdapter(address(adapter)).setRewardShortfallCeiling(PAIR, 1);
     }
 }

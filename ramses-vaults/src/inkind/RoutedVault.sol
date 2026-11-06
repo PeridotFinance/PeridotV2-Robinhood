@@ -8,6 +8,7 @@ import { PairConfig, PairLedger } from "baseline/src/libraries/VaultTypes.sol";
 import { RamsesBoostedVault } from "../RamsesBoostedVault.sol";
 import { RamsesOracleGuard } from "../RamsesOracleGuard.sol";
 import { RamsesVaultAdapter } from "../RamsesVaultAdapter.sol";
+import { RamsesV3PairedAdapter } from "../RamsesV3PairedAdapter.sol";
 import { IRamsesPool } from "../interfaces/IRamsesV3.sol";
 import { CoverageGuard } from "./CoverageGuard.sol";
 
@@ -73,6 +74,7 @@ contract RoutedVault {
             sel == InKindExtension.exchangeSurplus.selector
                 || sel == InKindExtension.inKindCheckpoint.selector
                 || sel == InKindExtension.setInKindLimit.selector
+                || sel == InKindExtension.setRewardShortfallCeiling.selector
                 || sel == InKindExtension.inKindStats.selector
         ) {
             ret = _delegate(extension);
@@ -160,6 +162,15 @@ contract InKindExtension {
         assembly {
             st.slot := slot
         }
+    }
+
+    /// @notice CONFIG_ROLE only. Sets the adapter's ceiling on accepted gauge underpayment (bps of `earned()`), handoff 00 section 8a.
+    /// Runs in the vault's context, so the adapter's onlyVault check passes without a new vault function.
+    function setRewardShortfallCeiling(bytes32 pairId, uint16 maxShortfallBps) external {
+        RamsesBoostedVault v = RamsesBoostedVault(payable(address(this)));
+        if (!v.hasRole(CONFIG_ROLE, msg.sender)) revert NotConfig();
+        RamsesV3PairedAdapter(address(v.liquidityAdapter()))
+            .setRewardShortfallCeiling(pairId, maxShortfallBps);
     }
 
     function inKindStats(bytes32 pairId) external view returns (Stats memory) {

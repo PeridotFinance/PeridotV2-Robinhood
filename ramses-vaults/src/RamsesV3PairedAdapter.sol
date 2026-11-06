@@ -91,6 +91,11 @@ contract RamsesV3PairedAdapter {
     mapping(bytes32 => PairState) private _pairs;
     mapping(bytes32 => mapping(address => uint256)) public pendingRewards;
     mapping(bytes32 => bool) public allowRewardForfeiture;
+    /// @notice Largest accepted gauge underpayment, as bps of the rewards `earned()` reported (handoff 00 section 8a).
+    /// Zero refuses any shortfall. Only applies while forfeiture is allowed.
+    mapping(bytes32 => uint16) public maxRewardShortfallBps;
+    /// @notice Cumulative underpayment booked per pair and reward token: the period losses of section 8a.
+    mapping(bytes32 => mapping(address => uint256)) public rewardShortfall;
     mapping(address => bool) private _registeredPools;
 
     error NotVault();
@@ -107,6 +112,7 @@ contract RamsesV3PairedAdapter {
     error SlippageExceeded();
     error RewardClaimMismatch();
     error RewardSetChanged();
+    error RewardShortfallTooHigh(address token, uint256 expected, uint256 received);
 
     event PairRegistered(bytes32 indexed pairId, address indexed pool, address gauge);
     event RangeSet(bytes32 indexed pairId, int24 lower, int24 upper);
@@ -122,6 +128,15 @@ contract RamsesV3PairedAdapter {
     event PositionBurned(bytes32 indexed pairId, uint256 tokenId);
     event RewardForfeitureSet(bytes32 indexed pairId, bool allowed);
     event ExitHarvestFailed(bytes32 indexed pairId, uint256 indexed tokenId);
+    /// @notice Emitted on EVERY accepted gauge underpayment so monitoring alerts on each occurrence.
+    event RewardShortfallBooked(
+        bytes32 indexed pairId,
+        address indexed token,
+        uint256 expected,
+        uint256 received,
+        uint256 shortfall
+    );
+    event RewardShortfallCeilingSet(bytes32 indexed pairId, uint16 maxShortfallBps);
 
     modifier onlyVault() {
         if (msg.sender != vault) revert NotVault();
@@ -226,6 +241,18 @@ contract RamsesV3PairedAdapter {
         _pair(id);
         allowRewardForfeiture[id] = allowed;
         emit RewardForfeitureSet(id, allowed);
+    }
+
+    /// @notice Reached through the in-kind extension, which runs in the vault and checks CONFIG_ROLE.
+    function setRewardShortfallCeiling(bytes32 id, uint16 maxShortfallBps)
+        external
+        onlyVault
+        nonReentrant
+    {
+        _pair(id);
+        if (maxShortfallBps > BPS) revert InvalidConfiguration();
+        maxRewardShortfallBps[id] = maxShortfallBps;
+        emit RewardShortfallCeilingSet(id, maxShortfallBps);
     }
 
     function setRange(bytes32 id, int24 lower, int24 upper) external onlyVault nonReentrant {
@@ -464,7 +491,8 @@ contract RamsesV3PairedAdapter {
             _harvest(id, p);
             return;
         }
-        try this.harvestForExit(id) {} catch {
+        try this.harvestForExit(id) { }
+        catch {
             emit ExitHarvestFailed(id, p.tokenId);
         }
     }
@@ -491,9 +519,25 @@ contract RamsesV3PairedAdapter {
                 revert BalanceDeltaMismatch();
             }
             uint256 received = afterBalance - beforeBalances[i];
-            // Reject silent slashing/forfeiture and non-exact reward tokens atomically.
-            if (received != expected[i] || gaugeBalances[i] - gaugeAfter != received) {
-                revert RewardClaimMismatch();
+            uint256 paid = gaugeBalances[i] - gaugeAfter;
+            // Nothing may arrive that the gauge did not pay, and never more than earned() promised.
+            if (received > paid || received > expected[i]) revert RewardClaimMismatch();
+            // The entitlement is the larger of earned() and what left the gauge for this position. The gauge's anti-sybil
+            // rule withholds a claim within its threshold of the last position change (paid 0, earned() > 0) and, after a
+            // change, pays the slice accrued between changes to the Ramses treasury in the same claim (paid > earned()).
+            // A non-exact reward token also shows up here (paid > received); it is booked and bounded by the ceiling.
+            uint256 entitled = paid > expected[i] ? paid : expected[i];
+            if (received != entitled) {
+                // Handoff 00 section 8a: with forfeiture allowed, book the gap as a period loss and credit only what arrived,
+                // so the vault's claim-first accumulator spreads it over the period's holders in proportion. Refused above
+                // the per-pair ceiling, so a recentre cannot forfeit more than that share.
+                if (!allowRewardForfeiture[id]) revert RewardClaimMismatch();
+                uint256 shortfall = entitled - received;
+                if (shortfall * BPS > uint256(maxRewardShortfallBps[id]) * entitled) {
+                    revert RewardShortfallTooHigh(tokens[i], entitled, received);
+                }
+                rewardShortfall[id][tokens[i]] += shortfall;
+                emit RewardShortfallBooked(id, tokens[i], entitled, received, shortfall);
             }
             pendingRewards[id][tokens[i]] += received;
             emit RewardAccrued(id, tokens[i], received);
