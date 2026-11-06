@@ -93,6 +93,33 @@ rm -rf .ramses-deployer
 
 Rehearsal: swept to 0 wei. The deployer never held a role, so retiring it changes nothing on chain.
 
+## 5b. Fund the loss reserve, or nothing is ever allocated
+
+The router's coverage gate refuses every `recenter` and `rebalance` (`CoverageInsufficient`) unless the reserve holds at
+least 10 % of the ranged exposure in USDG and 5 % in SPY. Rehearsed: with an empty reserve the keeper waits forever.
+`deposit` is open to anyone. The amounts below are what each exposure needs at about $737 per SPY:
+
+| exposure allowed | USDG | SPY |
+| --- | --- | --- |
+| seeds only (about $111) | 11.1 | 0.0076 |
+| the full $1,000 cap | 100 | 0.068 |
+
+```sh
+RES=$(jq -r .reserve $J); PAIR=$(jq -r .pair $J)
+# per token: approve, then deposit (Ledger, or any wallet)
+cast send <token> 'approve(address,uint256)' $RES <amount> --ledger --from 0x064eFE76812F5f18Bd1aA9708739Fb33C810B2dD --rpc-url https://rpc.mainnet.chain.robinhood.com
+cast send $RES 'deposit(bytes32,address,uint256)' $PAIR <token> <amount> --ledger --from 0x064eFE76812F5f18Bd1aA9708739Fb33C810B2dD --rpc-url https://rpc.mainnet.chain.robinhood.com
+cast call $(jq -r .coverageGuard $J) 'headroomUsd()(uint256)' --rpc-url https://rpc.mainnet.chain.robinhood.com   # extra USD of liquidity now allowed
+```
+
+## Reward forfeiture is on, deliberately
+
+The batch sets `setAllowRewardForfeiture(pair, true)`, and `verify` checks it. This gauge has anti-sybil enabled: after a
+position change it pays less than `earned()`, and the adapter rejects that as `RewardClaimMismatch`. Rehearsed on a fork:
+with forfeiture off, every redeem that has to pull from the vault reverts, so holders could not exit. With it on, the
+exit proceeds and gives up that one claim. `recenter` and `harvest` still revert while the mismatch lasts (see the keeper
+report): fees are still collected by every checkpoint, but the range cannot move until the gauge pays what it reports.
+
 ## 6. After a clean day of checkpoints
 
 Raise the in-kind limit from 0 with one timelock call: `setInKindLimit(SPY/USDG pair, <USD 1e18 per day>)`. Until then

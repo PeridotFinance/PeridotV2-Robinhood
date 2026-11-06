@@ -350,6 +350,10 @@ contract DeployRamsesInKind is Script {
         );
         _action(address(vault), abi.encodeCall(vault.setAggregateUsdgDepositCap, (USDG, 1000e6)));
         _action(address(vault), abi.encodeCall(vault.setDeployLossBps, (PAIR, 10)));
+        // Ramses gauges with anti-sybil enabled pay less than `earned()` after a position change, which the adapter rejects as
+        // RewardClaimMismatch. Without forfeiture every exit that touches the vault reverts and holders cannot withdraw.
+        // With it, an exit proceeds and forfeits that claim (ExitHarvestFailed). Rehearsed on a fork, 2026-11-06.
+        _action(address(vault), abi.encodeCall(vault.setAllowRewardForfeiture, (PAIR, true)));
         // Mirrors the live NVDA/USDG Uniswap pilot: +/-2400 ticks, recentre at 600, 1 h apart, 4 a day, 10 bp loss bound; $1,000 ranged cap.
         _action(
             address(vault),
@@ -519,6 +523,10 @@ contract DeployRamsesInKind is Script {
             "IN_KIND_LIMIT_NOT_ZERO"
         );
         require(v.pairConfig(PAIR).exists, "PAIR_REGISTERED");
+        require(
+            RamsesVaultAdapter(vm.parseJsonAddress(j, ".adapter")).allowRewardForfeiture(PAIR),
+            "REWARD_FORFEITURE_OFF_EXITS_BLOCKED"
+        );
         (bool enabled, uint16 halfWidth, uint16 trigger,,,, uint128 maxRanged) = v.rangePolicy(PAIR);
         require(
             enabled && halfWidth == 2400 && trigger == 600 && maxRanged == PAIR_CAP_USD,
