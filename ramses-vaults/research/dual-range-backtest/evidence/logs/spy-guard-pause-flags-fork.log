@@ -1,0 +1,26 @@
+pin 107531479 26355413
+Compiling 6 files with Solc 0.8.26
+Solc 0.8.26 finished in 4.13s
+Compiler run successful with warnings:
+Warning (8760): This declaration has the same name as another declaration.
+   --> ramses-vaults/src/RamsesOracleGuard.sol:194:30:
+    |
+194 |     ) internal view returns (uint160 referenceSqrtPriceX96) {
+    |                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Note: The other declaration is here:
+   --> ramses-vaults/src/RamsesOracleGuard.sol:131:5:
+    |
+131 |     function referenceSqrtPriceX96(bytes32 id, bool allocating)
+    |     ^ (Relevant source part starts here and spans across multiple lines).
+
+
+Ran 6 tests for ramses-vaults/test/fork/SpyGuardPauseFlags.t.sol:SpyGuardPauseFlagsForkTest
+[PASS] testBaselinePricesWithBothFlagsFalse() (gas: 43385)
+[PASS] testFlagsAreCheckedEvenWithAFreshFeed() (gas: 53803)
+[PASS] testIncompleteRoundAndBadAnswerRefuse() (gas: 64143)
+[PASS] testStaleFeedAlsoRefusesEveryPath() (gas: 38246)
+[PASS] testTokenOraclePausedFlagRefusesEveryPath() (gas: 83569)
+[PASS] testTokenPauseFlagRefusesEveryPath() (gas: 36727)
+Suite result: ok. 6 passed; 0 failed; 0 skipped; finished in 3.27s (8.92ms CPU time)
+
+Ran 1 test suite in 3.30s (3.27s CPU time): 6 tests passed, 0 failed, 0 skipped (6 total tests)
