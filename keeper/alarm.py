@@ -22,6 +22,7 @@ import urllib.request
 RPC = 'https://rpc.mainnet.chain.robinhood.com'
 CHAIN_ID = 4663
 KEEPER = '0x82ABD8eE038c10F5bE00E5200C94265400999f7e'
+MARGIN_KEEPER = '0x1976117e9EA3FEC9fb82aBef12fcB95fFc9A3cf7'  # liquidations; rotated 2026-11-06
 VAULT = '0x280825b2d856706Ff7E0d6351CcB2e935E1a9A2f'
 PAIR = '0xe2050352f4346597cc69d2776d99ae60c9440dfc28f9406ce66be0bbe3fb6b06'
 FEED = '0x379EC4f7C378F34a1B47E4F3cbeBCbAC3E8E9F15'
@@ -31,6 +32,8 @@ ISSUE_TITLE = 'Keeper alarm: the range keeper needs attention'
 ISSUE_AUTHOR = 'github-actions[bot]'
 
 GAS_FLOOR_WEI = 300_000_000_000_000  # worker.MIN_GAS_WEI: below this the worker sends nothing
+# The margin worker reports gasReady only above one maximum-budget call: 8,000,000 gas at 0.1 gwei.
+MARGIN_GAS_FLOOR_WEI = 8_000_000 * 100_000_000
 BURN_WEI_PER_ACTIVE_DAY = 500_000_000_000_000  # measured; override with ALARM_BURN_WEI_PER_DAY
 LOW_RUNWAY_DAYS = 3
 FEED_MAX_AGE = 43_200  # the guard's 12 h staleness bound
@@ -42,9 +45,9 @@ SEND_FAILURES_PER_HOUR = 3
 LOG_LINES = 400
 FEED_ROUNDS_MAX = 64
 
-PAGES = {'GAS_CRITICAL', 'GAS_LOW', 'STALLED', 'FAILED_SENDS', 'PROCESS_DOWN', 'RPC_FAILURE', 'DRILL'}
+PAGES = {'GAS_CRITICAL', 'GAS_LOW', 'MARGIN_GAS_CRITICAL', 'STALLED', 'FAILED_SENDS', 'PROCESS_DOWN', 'RPC_FAILURE', 'DRILL'}
 REQUIRED = ('now', 'head_lag', 'balance_wei', 'nonce', 'last_checkpoint', 'feed_updated_at', 'feed_fresh_for',
-            'allocation_paused', 'emergency_mode')
+            'allocation_paused', 'emergency_mode', 'margin_balance_wei')
 
 
 def feed_fresh_for(now, updates):
@@ -105,6 +108,10 @@ def classify(o, burn_wei_per_day=BURN_WEI_PER_ACTIVE_DAY, low_days=LOW_RUNWAY_DA
                        status, **fields)
     if runway < low_days:
         return _result('GAS_LOW', 'Under ' + str(low_days) + ' active days of gas left', status, **fields)
+    if o['margin_balance_wei'] < MARGIN_GAS_FLOOR_WEI:
+        # Its worker keeps monitoring but cannot liquidate; nothing else on chain would show it.
+        return _result('MARGIN_GAS_CRITICAL', 'Margin keeper ' + MARGIN_KEEPER + ' is below one liquidation of gas, '
+                       'so unhealthy positions would not be liquidated', status, **fields)
     if o['allocation_paused'] or o['emergency_mode']:
         return _result('EXPECTED_PAUSED', 'Pair is paused, so the worker cannot send. A dead process is invisible '
                        'from chain reads during this; ' + why, status, **fields)
@@ -200,6 +207,7 @@ def read_chain(wall, post=curl_post, sleep=time.sleep):
     o['head_lag'] = wall - o['now']
     o['balance_wei'] = attempt(lambda: int(rpc('eth_getBalance', [KEEPER, 'latest'], post, sleep), 16))
     o['nonce'] = attempt(lambda: int(rpc('eth_getTransactionCount', [KEEPER, 'latest'], post, sleep), 16))
+    o['margin_balance_wei'] = attempt(lambda: int(rpc('eth_getBalance', [MARGIN_KEEPER, 'latest'], post, sleep), 16))
     o['last_checkpoint'] = attempt(lambda: words(call(VAULT, '0x15977d45' + PAIR[2:]))[5])
     config = attempt(lambda: words(call(VAULT, '0xf1a8151c' + PAIR[2:])))
     if config and len(config) == 18:

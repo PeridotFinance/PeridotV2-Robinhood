@@ -18,7 +18,7 @@ LOW_LINE = a.GAS_FLOOR_WEI + a.LOW_RUNWAY_DAYS * a.BURN_WEI_PER_ACTIVE_DAY
 
 
 def observed(**changes):
-    base = dict(wall=NOW, now=NOW, head_lag=5, balance_wei=GOOD_BALANCE, nonce=180, last_checkpoint=NOW - 600,
+    base = dict(wall=NOW, now=NOW, margin_balance_wei=a.MARGIN_GAS_FLOOR_WEI, head_lag=5, balance_wei=GOOD_BALANCE, nonce=180, last_checkpoint=NOW - 600,
                 feed_updated_at=NOW - 3000, feed_fresh_for=90_000, allocation_paused=False, emergency_mode=False,
                 checkpoint_simulation='would succeed', process={'configured': False})
     base.update(changes)
@@ -57,6 +57,14 @@ class ClassifyTests(unittest.TestCase):
         result = self.assertState('GAS_CRITICAL', True, balance_wei=a.GAS_FLOOR_WEI - 1)
         result = a.classify(observed(balance_wei=a.GAS_FLOOR_WEI // 2))
         self.assertLess(result['runwayActiveDays'], 0)
+
+    def test_margin_keeper_gas(self):
+        self.assertState('MARGIN_GAS_CRITICAL', True, margin_balance_wei=a.MARGIN_GAS_FLOOR_WEI - 1)
+        self.assertState('CHAIN_OK_PROCESS_UNKNOWN', False, margin_balance_wei=a.MARGIN_GAS_FLOOR_WEI)
+        # Expected quiet states must not hide it, and a range keeper gas page takes priority.
+        self.assertState('MARGIN_GAS_CRITICAL', True, margin_balance_wei=0, allocation_paused=True)
+        self.assertState('MARGIN_GAS_CRITICAL', True, margin_balance_wei=0, feed_updated_at=NOW - a.FEED_MAX_AGE - 1)
+        self.assertState('GAS_CRITICAL', True, margin_balance_wei=0, balance_wei=1)
 
     def test_gas_boundaries(self):
         self.assertState('GAS_LOW', True, balance_wei=a.GAS_FLOOR_WEI)
