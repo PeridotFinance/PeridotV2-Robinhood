@@ -5,40 +5,47 @@ import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import { Math } from "@openzeppelin/contracts/utils/math/Math.sol";
 import { PairConfig, PairLedger } from "baseline/src/libraries/VaultTypes.sol";
-import { RamsesBoostedVault } from "../../src/RamsesBoostedVault.sol";
-import { RamsesOracleGuard } from "../../src/RamsesOracleGuard.sol";
-import { RamsesVaultAdapter } from "../../src/RamsesVaultAdapter.sol";
-import { IRamsesPool } from "../../src/interfaces/IRamsesV3.sol";
+import { RamsesBoostedVault } from "../RamsesBoostedVault.sol";
+import { RamsesOracleGuard } from "../RamsesOracleGuard.sol";
+import { RamsesVaultAdapter } from "../RamsesVaultAdapter.sol";
+import { IRamsesPool } from "../interfaces/IRamsesV3.sol";
 import { CoverageGuard } from "./CoverageGuard.sol";
 
-/// @notice PHASE 0 PROTOTYPE, TEST-ONLY. Runs the UNMODIFIED `RamsesBoostedVault` code behind a router (delegatecall, same storage) and adds exactly two things
-/// around it. The vault has about 100 bytes of EIP-170 headroom, so a production version would also need an external library or extension, not more inline code.
+/// @notice Production router, deployed as the IMPLEMENTATION behind the vault proxy (proxy -> router -> vault code, all one storage). It runs the UNMODIFIED
+/// `RamsesBoostedVault` code by delegatecall and adds exactly two things around it. The vault has about 100 bytes of EIP-170 headroom, so nothing is inlined.
 ///   1. ATOMIC COVERAGE CHECK. `rebalance` and `recenter` run first, then revert if the ranged exposure INCREASED and the reserve no longer covers it;
 ///      `depositForPair` and any UNPAUSING `setPairPause` require coverage outright. A failed read (stale price, failed reserve call) reverts the whole
 ///      transaction, so it can never admit new exposure. Everything else (checkpoint, withdrawals, emergency decrease, a recentre that does not raise
 ///      exposure, pausing) passes untouched, subject only to the vault's own checks.
 ///   2. `exchangeSurplus` through `InKindExtension`.
 /// RECOVERY PATH: the guard and the guardian cannot unpause. Resuming needs CONFIG_ROLE (the timelock) AND passes through the same atomic check, so an
-/// authorized resume still fails while the reserve is short or the price is stale. Changing the coverage requirement would be a separate timelocked action.
+/// authorized resume still fails while the reserve is short or the price is stale. The gate itself is set only by CONFIG_ROLE (the timelock), so changing or
+/// removing the coverage requirement is a separate timelocked action; no deployer or other key can touch it.
 contract RoutedVault {
     address public immutable implementation;
     address public immutable extension;
-    address private immutable _owner;
     // Far from the vault's linear and namespaced storage.
-    bytes32 private constant GATE_SLOT = keccak256("peridot.prototype.routedvault.gate");
+    bytes32 private constant GATE_SLOT = keccak256("peridot.prototype.routedvault.gate"); // kept: storage location, append-only
+    bytes32 private constant CONFIG_ROLE = keccak256("CONFIG_ROLE");
+
+    error NotConfig();
+    event GateSet(address indexed gate);
 
     constructor(address implementation_, address extension_) {
         implementation = implementation_;
         extension = extension_;
-        _owner = msg.sender;
     }
 
     function setGate(CoverageGuard g) external {
-        require(msg.sender == _owner, "OWNER");
+        // Read through this contract, so the vault code answers from the vault storage.
+        if (!RamsesBoostedVault(payable(address(this))).hasRole(CONFIG_ROLE, msg.sender)) {
+            revert NotConfig();
+        }
         bytes32 slot = GATE_SLOT;
         assembly {
             sstore(slot, g)
         }
+        emit GateSet(address(g));
     }
 
     function gate() public view returns (CoverageGuard g) {
@@ -62,9 +69,18 @@ contract RoutedVault {
         bytes4 sel = msg.sig;
         CoverageGuard g = gate();
         bytes memory ret;
-        if (sel == InKindExtension.exchangeSurplus.selector || sel == InKindExtension.inKindCheckpoint.selector || sel == InKindExtension.setInKindLimit.selector || sel == InKindExtension.inKindStats.selector) {
+        if (
+            sel == InKindExtension.exchangeSurplus.selector
+                || sel == InKindExtension.inKindCheckpoint.selector
+                || sel == InKindExtension.setInKindLimit.selector
+                || sel == InKindExtension.inKindStats.selector
+        ) {
             ret = _delegate(extension);
-        } else if (address(g) != address(0) && (sel == RamsesBoostedVault.rebalance.selector || sel == RamsesBoostedVault.recenter.selector)) {
+        } else if (
+            address(g) != address(0)
+                && (sel == RamsesBoostedVault.rebalance.selector
+                    || sel == RamsesBoostedVault.recenter.selector)
+        ) {
             // If the exposure cannot be read beforehand the vault's own price checks reject the operation too; count it as zero so any exposure after is new.
             uint256 before_;
             try g.snapshot() returns (uint256 e, uint256, uint256) {
@@ -77,7 +93,8 @@ contract RoutedVault {
             g.requireCovered();
             ret = _delegate(implementation);
         } else if (address(g) != address(0) && sel == RamsesBoostedVault.setPairPause.selector) {
-            (, bool allocationPaused, bool swapsPaused,) = abi.decode(msg.data[4:], (bytes32, bool, bool, bool));
+            (, bool allocationPaused, bool swapsPaused,) =
+                abi.decode(msg.data[4:], (bytes32, bool, bool, bool));
             ret = _delegate(implementation);
             if (!allocationPaused || !swapsPaused) g.requireCovered();
         } else {
@@ -103,7 +120,8 @@ contract InKindExtension {
     bytes32 public constant IN_KIND_OPERATOR_ROLE = keccak256("IN_KIND_OPERATOR_ROLE");
     bytes32 private constant CONFIG_ROLE = keccak256("CONFIG_ROLE");
     uint256 private constant LEDGER_SLOT = 4; // RamsesBoostedVault._ledger; asserted against `ledger()` by the tests
-    bytes32 private constant GUARD_SLOT = 0x9b779b17422d0df92223018b32b4d1fa46e071723d6817e2486d003becc55f00; // ReentrancyGuardUpgradeable
+    bytes32 private constant GUARD_SLOT =
+        0x9b779b17422d0df92223018b32b4d1fa46e071723d6817e2486d003becc55f00; // ReentrancyGuardUpgradeable
     bytes32 private constant STATS_SLOT = keccak256("peridot.prototype.inkind.stats");
 
     struct Stats {
@@ -126,7 +144,15 @@ contract InKindExtension {
     error ExceedsIdle(uint256 amountOut, uint256 idle);
     error InKindLimitExceeded(uint256 used, uint256 limit);
 
-    event SurplusExchanged(bytes32 indexed pairId, address indexed tokenIn, uint256 amountIn, uint256 amountOut, uint256 stockPrice, uint256 usedTodayUsd, uint256 lifetimeUsd);
+    event SurplusExchanged(
+        bytes32 indexed pairId,
+        address indexed tokenIn,
+        uint256 amountIn,
+        uint256 amountOut,
+        uint256 stockPrice,
+        uint256 usedTodayUsd,
+        uint256 lifetimeUsd
+    );
     event InKindLimitSet(bytes32 indexed pairId, uint256 limitUsdPerDay);
 
     function _stats(bytes32 pairId) private pure returns (Stats storage st) {
@@ -141,7 +167,9 @@ contract InKindExtension {
     }
 
     function setInKindLimit(bytes32 pairId, uint256 limitUsdPerDay) external {
-        if (!RamsesBoostedVault(payable(address(this))).hasRole(CONFIG_ROLE, msg.sender)) revert NotConfig();
+        if (!RamsesBoostedVault(payable(address(this))).hasRole(CONFIG_ROLE, msg.sender)) {
+            revert NotConfig();
+        }
         _stats(pairId).limitUsdPerDay = limitUsdPerDay;
         emit InKindLimitSet(pairId, limitUsdPerDay);
     }
@@ -154,7 +182,10 @@ contract InKindExtension {
     }
 
     /// @param scarceIsUsdg true: USDG comes in, stock goes out. false: stock comes in, USDG goes out.
-    function exchangeSurplus(bytes32 pairId, bool scarceIsUsdg, uint256 amountIn) external returns (uint256 amountOut) {
+    function exchangeSurplus(bytes32 pairId, bool scarceIsUsdg, uint256 amountIn)
+        external
+        returns (uint256 amountOut)
+    {
         bytes32 guardSlot = GUARD_SLOT;
         uint256 status;
         assembly {
@@ -170,7 +201,10 @@ contract InKindExtension {
         }
     }
 
-    function _exchange(bytes32 pairId, bool scarceIsUsdg, uint256 amountIn) private returns (uint256 amountOut) {
+    function _exchange(bytes32 pairId, bool scarceIsUsdg, uint256 amountIn)
+        private
+        returns (uint256 amountOut)
+    {
         RamsesBoostedVault v = RamsesBoostedVault(payable(address(this)));
         if (!v.hasRole(IN_KIND_OPERATOR_ROLE, msg.sender)) revert NotOperator();
         PairConfig memory c = v.pairConfig(pairId);
