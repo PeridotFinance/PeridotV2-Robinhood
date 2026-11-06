@@ -530,7 +530,7 @@ contract RamsesV3PairedAdapter {
             if (received != entitled) {
                 // Handoff 00 section 8a: with forfeiture allowed, book the gap as a period loss and credit only what arrived,
                 // so the vault's claim-first accumulator spreads it over the period's holders in proportion. Refused above
-                // the per-pair ceiling, so a recentre cannot forfeit more than that share.
+                // the per-pair ceiling, so no claim books more than that share at once.
                 if (!allowRewardForfeiture[id]) revert RewardClaimMismatch();
                 uint256 shortfall = entitled - received;
                 if (shortfall * BPS > uint256(maxRewardShortfallBps[id]) * entitled) {
