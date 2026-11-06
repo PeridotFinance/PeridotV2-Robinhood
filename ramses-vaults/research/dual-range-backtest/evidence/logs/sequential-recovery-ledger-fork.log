@@ -1,0 +1,53 @@
+pin 107464088 26354835 0x0162aa056640afffc2ee4132bdc0eca979d16b146b1f9a6a33c3c164df43be55
+Compiling 1 files with Solc 0.8.26
+Solc 0.8.26 finished in 1.74s
+Compiler run successful!
+
+Ran 7 tests for ramses-vaults/test/fork/SequentialRecoveryLedger.t.sol:SequentialRecoveryLedgerForkTest
+[PASS] testAbortAfterScheduleByCancel() (gas: 304305)
+Logs:
+  STATE,abort-cancelled,flags=010,usdgPrincipal=13611598,stockPrincipal=20042466478034121,liquidity=2983211041752,cumulativeLossUSDG=1606780967761417357,usdgIdle=71,stockIdle=44877652594571089,cashPU=12798247,claimPU=27378095
+
+[PASS] testAbortInsideTheWindowByGuardian() (gas: 348667)
+Logs:
+  STATE,abort-window-closed,flags=110,usdgPrincipal=13611598,stockPrincipal=20042466478034121,liquidity=2983211041752,cumulativeLossUSDG=1606780967761417357,usdgIdle=71,stockIdle=44877652594571089,cashPU=12798247,claimPU=27378095
+
+[PASS] testGoNoGoAcrossOracleMoves() (gas: 7214963)
+Logs:
+  GRID,bps=-300,returned=13611598,loss=0,liquidityAfter=0,cumulativeLossAfter=1606780967761417357
+  GRID,bps=-100,returned=13611598,loss=0,liquidityAfter=0,cumulativeLossAfter=1606780967761417357
+  GRID,bps=-50,returned=13611598,loss=0,liquidityAfter=0,cumulativeLossAfter=1606780967761417357
+  GRID,bps=0,returned=13611598,loss=0,liquidityAfter=0,cumulativeLossAfter=1606780967761417357
+  GRID,bps=50,returned=13611598,loss=0,liquidityAfter=0,cumulativeLossAfter=1606780967761417357
+  GRID,bps=100,returned=0,loss=0,liquidityAfter=2983211041752,cumulativeLossAfter=1606780967761417357
+  GRID,bps=300,returned=0,loss=0,liquidityAfter=2983211041752,cumulativeLossAfter=1606780967761417357
+
+[PASS] testPreconditionsForTheLedgerPath() (gas: 77459)
+[PASS] testSequentialPathFromTheLedger() (gas: 2271715)
+Logs:
+  STATE,0-start,flags=010,usdgPrincipal=13611598,stockPrincipal=20042466478034121,liquidity=2983211041752,cumulativeLossUSDG=1606780967761417357,usdgIdle=71,stockIdle=44877652594571089,cashPU=12798247,claimPU=27378095
+  STATE,1a-scheduled,flags=010,usdgPrincipal=13611598,stockPrincipal=20042466478034121,liquidity=2983211041752,cumulativeLossUSDG=1606780967761417357,usdgIdle=71,stockIdle=44877652594571089,cashPU=12798247,claimPU=27378095
+  STATE,1b-executed-window-open,flags=100,usdgPrincipal=13611598,stockPrincipal=20042466478034121,liquidity=2983211041752,cumulativeLossUSDG=1606780967761417357,usdgIdle=71,stockIdle=44877652594571089,cashPU=12798247,claimPU=27378095
+  GONOGO returned (USDG raw): 13611598
+  GONOGO realizedLoss (USDG raw): 0
+  GONOGO liquidity after: 0
+  GONOGO cumulativeLoss after: 1606780967761417357
+  STATE,2-synced,flags=100,usdgPrincipal=848,stockPrincipal=20045445977794785,liquidity=0,cumulativeLossUSDG=1606780967761417357,usdgIdle=62545,stockIdle=21770697077853031,cashPU=26409845,claimPU=27378943
+  usdgPrincipal before: 13611598
+  cumulativeLoss before: 1606780967761417357
+  STATE,3-closed,flags=110,usdgPrincipal=848,stockPrincipal=20045445977794785,liquidity=0,cumulativeLossUSDG=1606780967761417357,usdgIdle=62545,stockIdle=21770697077853031,cashPU=26409845,claimPU=27378943
+
+[PASS] testSilentFailureIsVisibleInTheGoNoGo() (gas: 724312)
+Logs:
+  low-gas sync ok: 1
+  liquidity before: 2983211041752
+  liquidity after: 2983211041752
+
+[PASS] testStaleFeedAtStepTwo() (gas: 269601)
+Logs:
+  stale-feed sync call ok: 1
+  stale-feed liquidity after: 2983211041752
+
+Suite result: ok. 7 passed; 0 failed; 0 skipped; finished in 10.98s (30.63s CPU time)
+
+Ran 1 test suite in 11.01s (10.98s CPU time): 7 tests passed, 0 failed, 0 skipped (7 total tests)
