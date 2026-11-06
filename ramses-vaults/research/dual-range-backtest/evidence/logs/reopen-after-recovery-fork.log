@@ -1,0 +1,106 @@
+pin 107529419 26355396 0xdb35b39ee490ab2d05b2f27c9be02349e8335f964b26f33578422ed1c86c3deb
+Compiling 91 files with Solc 0.8.26
+Solc 0.8.26 finished in 21.21s
+Compiler run successful with warnings:
+Warning (8760): This declaration has the same name as another declaration.
+  --> contracts/peridot-contracts-2-5/contracts/contracts/BorrowAccountingModule.sol:67:13:
+   |
+67 |             uint256 balance = market.borrowBalanceStored(borrower);
+   |             ^^^^^^^^^^^^^^^
+Note: The other declaration is here:
+  --> contracts/peridot-contracts-2-5/contracts/contracts/BorrowAccountingModule.sol:35:5:
+   |
+35 |     function balance(uint256 shares, uint256 index) external pure returns (uint256) {
+   |     ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning (8760): This declaration has the same name as another declaration.
+  --> contracts/peridot-contracts-2-5/contracts/contracts/BorrowAccountingModule.sol:81:42:
+   |
+81 |     function setShares(address borrower, uint256 balance, uint256 previousClaim, uint256 repaidCash)
+   |                                          ^^^^^^^^^^^^^^^
+Note: The other declaration is here:
+  --> contracts/peridot-contracts-2-5/contracts/contracts/BorrowAccountingModule.sol:35:5:
+   |
+35 |     function balance(uint256 shares, uint256 index) external pure returns (uint256) {
+   |     ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning (8760): This declaration has the same name as another declaration.
+   --> ramses-vaults/src/RamsesOracleGuard.sol:194:30:
+    |
+194 |     ) internal view returns (uint160 referenceSqrtPriceX96) {
+    |                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Note: The other declaration is here:
+   --> ramses-vaults/src/RamsesOracleGuard.sol:131:5:
+    |
+131 |     function referenceSqrtPriceX96(bytes32 id, bool allocating)
+    |     ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning (2519): This declaration shadows an existing declaration.
+  --> ramses-vaults/src/lending/RamsesMarketAccounting.sol:49:56:
+   |
+49 |         try v.oracleGuard().pricesUSD18(pair) returns (uint256 p, uint256) {
+   |                                                        ^^^^^^^^^
+Note: The shadowed declaration is here:
+  --> ramses-vaults/src/lending/RamsesMarketAccounting.sol:58:9:
+   |
+58 |         RamsesV3PairedAdapter.PositionState memory p =
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Warning (3628): This contract has a payable fallback function, but no receive ether function. Consider adding a receive ether function.
+  --> contracts/peridot-contracts-2-5/contracts/contracts/Unitroller.sol:12:1:
+   |
+12 | contract Unitroller is UnitrollerAdminStorage, PeridottrollerErrorReporter {
+   | ^ (Relevant source part starts here and spans across multiple lines).
+Note: The payable fallback function is defined here.
+   --> contracts/peridot-contracts-2-5/contracts/contracts/Unitroller.sol:136:5:
+    |
+136 |     fallback() external payable {
+    |     ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning (3628): This contract has a payable fallback function, but no receive ether function. Consider adding a receive ether function.
+ --> ramses-vaults/src/lending/RamsesUnitroller.sol:7:1:
+  |
+7 | contract RamsesUnitroller is Unitroller {
+  | ^ (Relevant source part starts here and spans across multiple lines).
+Note: The payable fallback function is defined here.
+   --> contracts/peridot-contracts-2-5/contracts/contracts/Unitroller.sol:136:5:
+    |
+136 |     fallback() external payable {
+    |     ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning (2018): Function state mutability can be restricted to pure
+   --> contracts/peridot-contracts-2-5/contracts/contracts/Peridottroller.sol:361:5:
+    |
+361 |     function redeemVerify(address pToken, address redeemer, uint256 redeemAmount, uint256 redeemTokens)
+    |     ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning (2018): Function state mutability can be restricted to view
+   --> contracts/peridot-contracts-2-5/contracts/contracts/Peridottroller.sol:526:5:
+    |
+526 |     function liquidateBorrowAllowed(
+    |     ^ (Relevant source part starts here and spans across multiple lines).
+
+    ╭▸ contracts/peridot-contracts-2-5/contracts/contracts/PTokenInterfaces.sol:112:5
+112 │ ┏     /**
+113 │ ┃      * @notice Container for borrow balance information
+114 │ ┃      * @member principal Total balance (with accrued interest), after applying the most recent balance-changing action
+115 │ ┃      * @member interestIndex Global borrowIndex as of the most recent balance-changing action
+116 │ ┃      */
+
+
+Ran 3 tests for ramses-vaults/test/fork/ReopenAfterRecovery.t.sol:ReopenAfterRecoveryForkTest
+[PASS] testReopenAfterRecoveryAndWhatTheKeeperCanDeploy() (gas: 1748733)
+Logs:
+  STATE,r0-recovered,flags=110,usdgPrincipal=0,stockPrincipal=20045698520205249,liquidity=0,cumulativeLossUSDG=1606780967761417357,usdgIdle=54265,stockIdle=22289832076658909,cashPU=26411222,claimPU=27379469
+  STATE,r1-reopened,flags=010,usdgPrincipal=0,stockPrincipal=20045698520205249,liquidity=0,cumulativeLossUSDG=1606780967761417357,usdgIdle=54265,stockIdle=22289832076658909,cashPU=26411222,claimPU=27379469
+  keeper rebalance after reopen ok: 1
+  STATE,r2-after-keeper,flags=010,usdgPrincipal=54264,stockPrincipal=22289824247946438,liquidity=33794150368,cumulativeLossUSDG=1606782470830319048,usdgIdle=2072,stockIdle=22003563688241507,cashPU=26411222,claimPU=27433733
+  idle NVDA before: 22289832076658909
+  idle USDG before: 54265
+  liquidity after keeper: 33794150368
+
+[PASS] testReopenScheduleIsAcceptedOnlyByTheProposerAndCanBeCancelled() (gas: 1027330)
+[PASS] testStaleFeedAfterReopenBlocksAllocationNotTheFlagChange() (gas: 1067410)
+Suite result: ok. 3 passed; 0 failed; 0 skipped; finished in 22.30s (58.27s CPU time)
+
+Ran 1 test suite in 22.32s (22.30s CPU time): 3 tests passed, 0 failed, 0 skipped (3 total tests)
