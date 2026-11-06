@@ -213,14 +213,44 @@ contract DeployRamsesInKind is Script {
                 && vault.hasRole(GUARDIAN_ROLE, timelock),
             "VAULT_ROLES"
         );
-        require(
-            !vault.hasRole(CONFIG_ROLE, sender) && !vault.hasRole(bytes32(0), sender),
-            "SENDER_HAS_NO_ROLE"
+        _assertDeployerHoldsNothing(
+            sender, timelock, vault, reserve, guard, controller, sMarket, uMarket
         );
         // The gate lives in the vault (proxy) storage, so read it through the proxy, not the router address.
         require(
             address(RoutedVault(payable(address(vault))).gate()) == address(0),
             "GATE_SET_ONLY_BY_TIMELOCK"
+        );
+    }
+
+    /// @dev The deployment key is throwaway: after deployment it must hold no role, admin, ownership or pending admin anywhere.
+    function _assertDeployerHoldsNothing(
+        address d,
+        address tl,
+        RamsesBoostedVault v,
+        RamsesLossReserve res,
+        RamsesOracleGuard g,
+        Peridottroller ctl,
+        RamsesBoostedDelegate sm,
+        RamsesBoostedDelegate um
+    ) internal view {
+        bytes32[5] memory roles = [
+            bytes32(0), CONFIG_ROLE, KEEPER_ROLE, GUARDIAN_ROLE, IN_KIND_OPERATOR_ROLE
+        ];
+        for (uint256 i; i < roles.length; i++) {
+            require(!v.hasRole(roles[i], d), "DEPLOYER_HAS_VAULT_ROLE");
+            require(!res.hasRole(roles[i], d) && !g.hasRole(roles[i], d), "DEPLOYER_HAS_ROLE");
+        }
+        require(
+            IProxyAdminOwner(_adminOf(address(v))).owner() == tl
+                && IProxyAdminOwner(_adminOf(address(res))).owner() == tl,
+            "PROXY_ADMIN_OWNER"
+        );
+        require(ctl.admin() == tl && ctl.pendingAdmin() == address(0), "CONTROLLER_ADMIN");
+        require(
+            sm.admin() == tl && sm.pendingAdmin() == address(0) && um.admin() == tl
+                && um.pendingAdmin() == address(0),
+            "MARKET_ADMIN"
         );
     }
 
@@ -470,6 +500,16 @@ contract DeployRamsesInKind is Script {
         require(v.hasRole(KEEPER_ROLE, address(v)), "SELF_KEEPER_ROLE");
         require(v.hasRole(GUARDIAN_ROLE, coverage_), "COVERAGE_GUARDIAN_ROLE");
         require(address(RoutedVault(payable(address(v))).gate()) == coverage_, "GATE");
+        _assertDeployerHoldsNothing(
+            vm.parseJsonAddress(j, ".sender"),
+            tl,
+            v,
+            RamsesLossReserve(vm.parseJsonAddress(j, ".reserve")),
+            RamsesOracleGuard(vm.parseJsonAddress(j, ".guard")),
+            ctl,
+            sm,
+            um
+        );
         require(
             r.implementation() == vm.parseJsonAddress(j, ".vaultImplementation"),
             "ROUTER_IMPLEMENTATION"
@@ -491,7 +531,7 @@ contract DeployRamsesInKind is Script {
             require(cf == 0, "COLLATERAL_FACTOR_NOT_ZERO");
         }
         console2.log(
-            "verified: proxy, router, roles, gate, limit 0, policy 2400/600, $1,000 cap, supply-only markets"
+            "verified: proxy, router, roles, gate, limit 0, policy 2400/600, $1,000 cap, supply-only, deployer holds nothing"
         );
     }
 }
