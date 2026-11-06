@@ -162,6 +162,19 @@ class Tests(unittest.TestCase):
         k.step(True)
         self.assertEqual(chain.sent, ['recenter', 'harvest'])
 
+    def test_rebalance_waits_out_the_window_after_a_recenter(self):
+        # A rebalance seconds after a recenter would hand the reward accrued between them to the Ramses treasury.
+        chain = FakeChain()
+        k = keeper(chain)
+        with mock.patch.object(rk.Keeper, 'rebalance_worth_it', return_value=(True, {})):
+            lines, _ = k.step(True)
+            self.assertEqual(chain.sent, ['recenter'])
+            self.assertIn({'function': 'rebalance', 'action': 'wait (anti-sybil window after the last position change)'}, lines)
+            chain.now += 121
+            chain.reverts['recenter'] = 'RecenterNotNeeded()'
+            k.step(True)
+        self.assertEqual(chain.sent[:2], ['recenter', 'rebalance'])
+
     def test_shortfall_above_ceiling_is_a_wait(self):
         chain = FakeChain(reverts={'recenter': 'RewardShortfallTooHigh(address,uint256,uint256)', 'rebalance': 'RecenterNotNeeded()',
                                    'harvest': 'RewardShortfallTooHigh(address,uint256,uint256)'})

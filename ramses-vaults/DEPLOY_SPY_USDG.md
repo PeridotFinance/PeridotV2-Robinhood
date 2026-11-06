@@ -165,8 +165,9 @@ How the contracts handle it:
 - **Above the ceiling,** which in practice means inside the 99 s window, a harvest or recentre reverts
   `RewardShortfallTooHigh` and is retried later. Exits are never blocked: they forfeit the claim (`ExitHarvestFailed`) and
   proceed.
-- **The keeper waits 120 s of block time** after any position change before it harvests or recentres. It treats
-  `RewardShortfallTooHigh` as a wait and `RewardClaimMismatch` as ATTENTION, and alerts on every `RewardShortfallBooked`.
+- **The keeper waits 120 s of block time** after any position change before it harvests, recentres or rebalances, so
+  neither mechanism normally fires. A `RewardShortfallBooked` alert then means something unexpected happened. The keeper
+  treats `RewardShortfallTooHigh` as a wait and `RewardClaimMismatch` as ATTENTION.
 
 ## 6. After a clean day of checkpoints
 
@@ -196,6 +197,14 @@ Full-stack rerun after the treasury-slice fix, fork at L2 107,567,951, 2026-11-0
   - +60 s: recenter refused by the ceiling (`RewardShortfallTooHigh`, a wait); harvest held.
   - +130 s: harvest sent. The treasury slice, 0.0000071 RAM, was booked and the keeper raised the `RewardShortfallBooked`
     alert. Recenter waited on its cooldown.
-  - +2 h: `RecenterNotNeeded`.
+  - +2 h: `RecenterNotNeeded`. No second harvest: that keeper version still timed the harvest interval by wall clock.
 - At launch size a rebalance (about $1.68 of gas at the rehearsal's gas cap) is not worth the matched value. The default
   keeper value multiple waits; the rehearsal lowered it on purpose.
+
+Rerun with the keeper also spacing the rebalance (fork at L2 107,573,092): the ceremony gave the same results.
+- **Keeper:**
+  - +0 s: recenter sent, rebalance held.
+  - +60 s: everything held.
+  - +150 s after the recenter: rebalance sent.
+  - +130 s after the rebalance, then 2 h later: harvests sent.
+- **Booked shortfall: 0 RAM, no alert.**

@@ -236,7 +236,11 @@ class Keeper:
                 waiting = waiting or name in DUST_REBALANCES
             else:
                 out.append({'function': 'checkpoint', 'simulation': cname, 'action': 'due (dry run)' if cname == 'due' else 'wait'})
-        if name == 'due':
+        if name == 'due' and self.chain_now() - self.state.get('lastModified', 0) < ANTI_SYBIL_WAIT:
+            # Two position changes under the gauge's threshold apart send the reward accrued between them to the Ramses
+            # treasury on the next claim (fork-measured). Spacing them out avoids that forfeiture entirely.
+            out.append({'function': 'rebalance', 'action': 'wait (anti-sybil window after the last position change)'})
+        elif name == 'due':
             worth, fields = self.rebalance_worth_it()
             recent = self.clock() - self.state.get('lastRebalance', 0) < REBALANCE_MIN_INTERVAL
             if worth and execute and not recent and not self.gas_ok():
@@ -253,14 +257,14 @@ class Keeper:
             out.append({'function': 'rebalance', 'simulation': name, 'action': 'wait' if waiting else 'ATTENTION'})
         if self.chain_now() - self.state.get('lastModified', 0) < ANTI_SYBIL_WAIT:
             out.append({'function': 'harvest', 'action': 'wait (anti-sybil window after the last position change)'})
-        elif self.clock() - self.state.get('lastHarvest', 0) >= HARVEST_INTERVAL:
+        elif self.chain_now() - self.state.get('lastHarvest', 0) >= HARVEST_INTERVAL:
             name, waiting = self.simulate('harvest')
             if name == 'due' and execute and not self.gas_ok():
                 out.append({'function': 'harvest', 'action': 'wait (gas price above cap)'})
             elif name == 'due' and execute:
                 res = self.send('harvest')
                 if res == 'sent':
-                    self.state['lastHarvest'] = int(self.clock())
+                    self.state['lastHarvest'] = self.chain_now()
                 out.append(dict(self.last_tx, function='harvest', action=res))
             else:
                 out.append({'function': 'harvest', 'simulation': name, 'action': 'due (dry run)' if name == 'due' else 'wait'})
