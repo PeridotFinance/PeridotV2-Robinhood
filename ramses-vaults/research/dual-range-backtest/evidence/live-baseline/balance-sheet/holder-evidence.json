@@ -1,0 +1,320 @@
+{
+ "pin": 105020681,
+ "targets": {
+  "0xdc48fd39733af117a4ffda35d7b325de9bdedfde": {
+   "code_bytes": 0,
+   "nonce_at_pin": 1,
+   "ethWei_at_pin": 587722453260695,
+   "USDG": [
+    {
+     "block": 104533156,
+     "tx": "0xf2a9cc8f0e868af28125c27ff28df6341d05fc99fe60501c3c0d6d5e2adbbb86",
+     "dir": "in",
+     "counterparty": "0x12c1e2c33f63f897e0e4ac1969c29493136f2481",
+     "counterpartyLabel": "unlabelled",
+     "value": 1948873
+    }
+   ],
+   "NVDA": [
+    {
+     "block": 104533184,
+     "tx": "0x17d99fd4def2cd224594178b748f1441362cf9cf6b0ca5d14fed9e95639c4524",
+     "dir": "in",
+     "counterparty": "0x12c1e2c33f63f897e0e4ac1969c29493136f2481",
+     "counterpartyLabel": "unlabelled",
+     "value": 14610000000000
+    }
+   ],
+   "pUSDG": [
+    {
+     "block": 104809648,
+     "tx": "0x152f5c7e4d62216f777ab4cabf5d1bdb56b10978e21d46b83c77e6048f56c8b9",
+     "dir": "in",
+     "counterparty": "0x12c1e2c33f63f897e0e4ac1969c29493136f2481",
+     "counterpartyLabel": "unlabelled",
+     "value": 15192876648
+    }
+   ],
+   "pNVDA": [],
+   "txSenders": {
+    "0x152f5c7e4d62216f777ab4cabf5d1bdb56b10978e21d46b83c77e6048f56c8b9": {
+     "from": "0x12c1e2c33f63f897e0e4ac1969c29493136f2481",
+     "to": "0x55aed0569c8f0d166d71face57b57c2f2624a563",
+     "fromLabel": "unlabelled"
+    },
+    "0x17d99fd4def2cd224594178b748f1441362cf9cf6b0ca5d14fed9e95639c4524": {
+     "from": "0x12c1e2c33f63f897e0e4ac1969c29493136f2481",
+     "to": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
+     "fromLabel": "unlabelled"
+    },
+    "0xf2a9cc8f0e868af28125c27ff28df6341d05fc99fe60501c3c0d6d5e2adbbb86": {
+     "from": "0x12c1e2c33f63f897e0e4ac1969c29493136f2481",
+     "to": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+     "fromLabel": "unlabelled"
+    }
+   },
+   "distinctTxSenders": [
+    "0x12c1e2c33f63f897e0e4ac1969c29493136f2481"
+   ],
+   "distinctTokenCounterparties": [
+    "0x12c1e2c33f63f897e0e4ac1969c29493136f2481"
+   ],
+   "directTokenLinkToKnown": []
+  },
+  "0x12c1e2c33f63f897e0e4ac1969c29493136f2481": {
+   "code_bytes": 0,
+   "nonce_at_pin": 15,
+   "ethWei_at_pin": 194267504000000,
+   "USDG": [
+    {
+     "block": 73301931,
+     "tx": "0xeb8d31f0b6c015f4963eac1c59121e6a800322d12e034d32db7419ce6d0627f2",
+     "dir": "in",
+     "counterparty": "0x0df73542cc68bdc01b361d231c60f726b0e0bc05",
+     "counterpartyLabel": "unlabelled",
+     "value": 4992840
+    },
+    {
+     "block": 77657502,
+     "tx": "0xadb542d2dfcd9d60c7889eb46889ed4426a9c439d798ecaa0294af09fb43f50b",
+     "dir": "out",
+     "counterparty": "0x55aed0569c8f0d166d71face57b57c2f2624a563",
+     "counterpartyLabel": "pUSDG",
+     "value": 49928
+    },
+    {
+     "block": 77657688,
+     "tx": "0xcd82a1064861a6662d4b9acef73db28a8ed66ae983201197368d131b94038c3e",
+     "dir": "in",
+     "counterparty": "0x55aed0569c8f0d166d71face57b57c2f2624a563",
+     "counterpartyLabel": "pUSDG",
+     "value": 5961
+    },
+    {
+     "block": 78360470,
+     "tx": "0x84c638f503f290eee1ce129e9babfa985f5e4aba0eb24941ade607c6cfa14272",
+     "dir": "out",
+     "counterparty": "0x55aed0569c8f0d166d71face57b57c2f2624a563",
+     "counterpartyLabel": "pUSDG",
+     "value": 3000000
+    },
+    {
+     "block": 104533156,
+     "tx": "0xf2a9cc8f0e868af28125c27ff28df6341d05fc99fe60501c3c0d6d5e2adbbb86",
+     "dir": "out",
+     "counterparty": "0xdc48fd39733af117a4ffda35d7b325de9bdedfde",
+     "counterpartyLabel": "unlabelled",
+     "value": 1948873
+    }
+   ],
+   "NVDA": [
+    {
+     "block": 77658102,
+     "tx": "0xbde10a2c6cb5dc6e391c3506eaba5818fdb29085dc71134815229e34caede47d",
+     "dir": "in",
+     "counterparty": "0xa155cccb986774ae818b3f10f07d01d1b7a47b26",
+     "counterpartyLabel": "pNVDA",
+     "value": 14610000000000
+    },
+    {
+     "block": 104533184,
+     "tx": "0x17d99fd4def2cd224594178b748f1441362cf9cf6b0ca5d14fed9e95639c4524",
+     "dir": "out",
+     "counterparty": "0xdc48fd39733af117a4ffda35d7b325de9bdedfde",
+     "counterpartyLabel": "unlabelled",
+     "value": 14610000000000
+    }
+   ],
+   "pUSDG": [
+    {
+     "block": 77657502,
+     "tx": "0xadb542d2dfcd9d60c7889eb46889ed4426a9c439d798ecaa0294af09fb43f50b",
+     "dir": "in",
+     "counterparty": "0x55aed0569c8f0d166d71face57b57c2f2624a563",
+     "counterpartyLabel": "pUSDG",
+     "value": 249637648
+    },
+    {
+     "block": 78360470,
+     "tx": "0x84c638f503f290eee1ce129e9babfa985f5e4aba0eb24941ade607c6cfa14272",
+     "dir": "in",
+     "counterparty": "0x55aed0569c8f0d166d71face57b57c2f2624a563",
+     "counterpartyLabel": "pUSDG",
+     "value": 14999858720
+    },
+    {
+     "block": 104809648,
+     "tx": "0x152f5c7e4d62216f777ab4cabf5d1bdb56b10978e21d46b83c77e6048f56c8b9",
+     "dir": "out",
+     "counterparty": "0xdc48fd39733af117a4ffda35d7b325de9bdedfde",
+     "counterpartyLabel": "unlabelled",
+     "value": 15192876648
+    }
+   ],
+   "pNVDA": [],
+   "txSenders": {
+    "0x152f5c7e4d62216f777ab4cabf5d1bdb56b10978e21d46b83c77e6048f56c8b9": {
+     "from": "0x12c1e2c33f63f897e0e4ac1969c29493136f2481",
+     "to": "0x55aed0569c8f0d166d71face57b57c2f2624a563",
+     "fromLabel": "unlabelled"
+    },
+    "0x17d99fd4def2cd224594178b748f1441362cf9cf6b0ca5d14fed9e95639c4524": {
+     "from": "0x12c1e2c33f63f897e0e4ac1969c29493136f2481",
+     "to": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
+     "fromLabel": "unlabelled"
+    },
+    "0x84c638f503f290eee1ce129e9babfa985f5e4aba0eb24941ade607c6cfa14272": {
+     "from": "0x12c1e2c33f63f897e0e4ac1969c29493136f2481",
+     "to": "0x55aed0569c8f0d166d71face57b57c2f2624a563",
+     "fromLabel": "unlabelled"
+    },
+    "0xadb542d2dfcd9d60c7889eb46889ed4426a9c439d798ecaa0294af09fb43f50b": {
+     "from": "0x12c1e2c33f63f897e0e4ac1969c29493136f2481",
+     "to": "0x55aed0569c8f0d166d71face57b57c2f2624a563",
+     "fromLabel": "unlabelled"
+    },
+    "0xbde10a2c6cb5dc6e391c3506eaba5818fdb29085dc71134815229e34caede47d": {
+     "from": "0x12c1e2c33f63f897e0e4ac1969c29493136f2481",
+     "to": "0xa155cccb986774ae818b3f10f07d01d1b7a47b26",
+     "fromLabel": "unlabelled"
+    },
+    "0xcd82a1064861a6662d4b9acef73db28a8ed66ae983201197368d131b94038c3e": {
+     "from": "0x12c1e2c33f63f897e0e4ac1969c29493136f2481",
+     "to": "0x55aed0569c8f0d166d71face57b57c2f2624a563",
+     "fromLabel": "unlabelled"
+    },
+    "0xeb8d31f0b6c015f4963eac1c59121e6a800322d12e034d32db7419ce6d0627f2": {
+     "from": "0xa4026a97d3bf3caed9489cfac61ac8863d2ddb83",
+     "to": "0x0df73542cc68bdc01b361d231c60f726b0e0bc05",
+     "fromLabel": "unlabelled"
+    },
+    "0xf2a9cc8f0e868af28125c27ff28df6341d05fc99fe60501c3c0d6d5e2adbbb86": {
+     "from": "0x12c1e2c33f63f897e0e4ac1969c29493136f2481",
+     "to": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+     "fromLabel": "unlabelled"
+    }
+   },
+   "distinctTxSenders": [
+    "0x12c1e2c33f63f897e0e4ac1969c29493136f2481",
+    "0xa4026a97d3bf3caed9489cfac61ac8863d2ddb83"
+   ],
+   "distinctTokenCounterparties": [
+    "0x0df73542cc68bdc01b361d231c60f726b0e0bc05",
+    "0x55aed0569c8f0d166d71face57b57c2f2624a563",
+    "0xa155cccb986774ae818b3f10f07d01d1b7a47b26",
+    "0xdc48fd39733af117a4ffda35d7b325de9bdedfde"
+   ],
+   "directTokenLinkToKnown": [
+    [
+     "0x55aed0569c8f0d166d71face57b57c2f2624a563",
+     "pUSDG"
+    ],
+    [
+     "0xa155cccb986774ae818b3f10f07d01d1b7a47b26",
+     "pNVDA"
+    ]
+   ]
+  },
+  "0x5085037684db1d4a59c6e8a3d22adddefc7a05bc": {
+   "code_bytes": 0,
+   "nonce_at_pin": 8,
+   "ethWei_at_pin": 592820066980192,
+   "USDG": [
+    {
+     "block": 83370544,
+     "tx": "0x12133dc2a99b97f2d4b507a4c3d83b582c417eca290ada217d9921506769c553",
+     "dir": "in",
+     "counterparty": "0x0df73542cc68bdc01b361d231c60f726b0e0bc05",
+     "counterpartyLabel": "unlabelled",
+     "value": 11535497
+    },
+    {
+     "block": 83370663,
+     "tx": "0x76575d6e92025d10e6f10c87cc010a49ad2d7929d08809b8113d7518fb7d91c0",
+     "dir": "out",
+     "counterparty": "0x55aed0569c8f0d166d71face57b57c2f2624a563",
+     "counterpartyLabel": "pUSDG",
+     "value": 11535497
+    }
+   ],
+   "NVDA": [],
+   "pUSDG": [
+    {
+     "block": 83370663,
+     "tx": "0x76575d6e92025d10e6f10c87cc010a49ad2d7929d08809b8113d7518fb7d91c0",
+     "dir": "in",
+     "counterparty": "0x55aed0569c8f0d166d71face57b57c2f2624a563",
+     "counterpartyLabel": "pUSDG",
+     "value": 57675744824
+    },
+    {
+     "block": 83371084,
+     "tx": "0x572a42d2ba3b7c636709e2e44b9517cb17f3e0ae4ac2465245453380bd99c2d4",
+     "dir": "out",
+     "counterparty": "0x04d4a5555b7a37017a67b4d21a1da5838de28b9e",
+     "counterpartyLabel": "margin vault (deployments/margin-mainnet-live/addresses.json)",
+     "value": 57675744824
+    }
+   ],
+   "pNVDA": [],
+   "txSenders": {
+    "0x12133dc2a99b97f2d4b507a4c3d83b582c417eca290ada217d9921506769c553": {
+     "from": "0xa4026a97d3bf3caed9489cfac61ac8863d2ddb83",
+     "to": "0x0df73542cc68bdc01b361d231c60f726b0e0bc05",
+     "fromLabel": "unlabelled"
+    },
+    "0x572a42d2ba3b7c636709e2e44b9517cb17f3e0ae4ac2465245453380bd99c2d4": {
+     "from": "0x5085037684db1d4a59c6e8a3d22adddefc7a05bc",
+     "to": "0x04d4a5555b7a37017a67b4d21a1da5838de28b9e",
+     "fromLabel": "unlabelled"
+    },
+    "0x76575d6e92025d10e6f10c87cc010a49ad2d7929d08809b8113d7518fb7d91c0": {
+     "from": "0x5085037684db1d4a59c6e8a3d22adddefc7a05bc",
+     "to": "0x55aed0569c8f0d166d71face57b57c2f2624a563",
+     "fromLabel": "unlabelled"
+    }
+   },
+   "distinctTxSenders": [
+    "0x5085037684db1d4a59c6e8a3d22adddefc7a05bc",
+    "0xa4026a97d3bf3caed9489cfac61ac8863d2ddb83"
+   ],
+   "distinctTokenCounterparties": [
+    "0x0df73542cc68bdc01b361d231c60f726b0e0bc05",
+    "0x55aed0569c8f0d166d71face57b57c2f2624a563"
+   ],
+   "directTokenLinkToKnown": [
+    [
+     "0x04d4a5555b7a37017a67b4d21a1da5838de28b9e",
+     "margin vault (deployments/margin-mainnet-live/addresses.json)"
+    ],
+    [
+     "0x55aed0569c8f0d166d71face57b57c2f2624a563",
+     "pUSDG"
+    ]
+   ]
+  }
+ },
+ "commonFunder": {
+  "address": "0x0df73542cc68bdc01b361d231c60f726b0e0bc05",
+  "code_bytes_latest": 163,
+  "nonce_latest": 1,
+  "links": {
+   "governor.USDG": {
+    "from_0df7": 1,
+    "to_0df7": 0
+   },
+   "governor.NVDA": {
+    "from_0df7": 0,
+    "to_0df7": 0
+   },
+   "keeper.USDG": {
+    "from_0df7": 0,
+    "to_0df7": 0
+   },
+   "keeper.NVDA": {
+    "from_0df7": 0,
+    "to_0df7": 0
+   }
+  }
+ }
+}

@@ -1,0 +1,116 @@
+{
+ "SPY": [
+  {
+   "side": "sell_stock_price_down",
+   "move_pct": 1.0,
+   "input_usd": 32881.50630624044,
+   "output_usd": 32748.726531
+  },
+  {
+   "side": "sell_stock_price_down",
+   "move_pct": 2.0,
+   "input_usd": 52839.39240935257,
+   "output_usd": 52413.834382
+  },
+  {
+   "side": "sell_stock_price_down",
+   "move_pct": 5.0,
+   "input_usd": 67146.23693008315,
+   "output_usd": 66323.500012
+  },
+  {
+   "side": "buy_stock_price_up",
+   "move_pct": 1.0,
+   "input_usd": 68411.290671,
+   "output_usd": 68132.55737314952
+  },
+  {
+   "side": "buy_stock_price_up",
+   "move_pct": 2.0,
+   "input_usd": 113574.550927,
+   "output_usd": 112658.44216790827
+  },
+  {
+   "side": "buy_stock_price_up",
+   "move_pct": 5.0,
+   "input_usd": 163230.084038,
+   "output_usd": 160875.96688157544
+  }
+ ],
+ "GLD": [
+  {
+   "side": "buy_stock_price_up",
+   "move_pct": 1.0,
+   "input_usd": 7760.929847,
+   "output_usd": 7711.530188527235
+  },
+  {
+   "side": "buy_stock_price_up",
+   "move_pct": 2.0,
+   "input_usd": 15508.519419,
+   "output_usd": 15332.715238039427
+  },
+  {
+   "side": "buy_stock_price_up",
+   "move_pct": 5.0,
+   "input_usd": 39679.063694,
+   "output_usd": 38621.890177121415
+  },
+  {
+   "side": "sell_stock_price_down",
+   "move_pct": 1.0,
+   "input_usd": 7668.074167762019,
+   "output_usd": 7640.4347
+  },
+  {
+   "side": "sell_stock_price_down",
+   "move_pct": 2.0,
+   "input_usd": 15235.210020254439,
+   "output_usd": 15106.217578
+  },
+  {
+   "side": "sell_stock_price_down",
+   "move_pct": 5.0,
+   "input_usd": 16007.616397107497,
+   "output_usd": 15864.102257
+  }
+ ],
+ "NVDA": [
+  {
+   "side": "buy_stock_price_up",
+   "move_pct": 1.0,
+   "input_usd": 2601.721913,
+   "output_usd": 2585.5971485174186
+  },
+  {
+   "side": "buy_stock_price_up",
+   "move_pct": 2.0,
+   "input_usd": 4604.806436,
+   "output_usd": 4554.7574837355505
+  },
+  {
+   "side": "buy_stock_price_up",
+   "move_pct": 5.0,
+   "input_usd": 11972.725703,
+   "output_usd": 11644.91905182006
+  },
+  {
+   "side": "sell_stock_price_down",
+   "move_pct": 1.0,
+   "input_usd": 3610.4418278484354,
+   "output_usd": 3599.55175
+  },
+  {
+   "side": "sell_stock_price_down",
+   "move_pct": 2.0,
+   "input_usd": 7172.605345604258,
+   "output_usd": 7116.001326
+  },
+  {
+   "side": "sell_stock_price_down",
+   "move_pct": 5.0,
+   "input_usd": 17581.338860772183,
+   "output_usd": 17194.497688
+  }
+ ]
+}

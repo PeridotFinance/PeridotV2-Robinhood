@@ -1,0 +1,67 @@
+{
+ "schema": "ramses-pool-inputs-1",
+ "pool": "0x9f301fa81ccdda903a3590e7b9abee12e035709e",
+ "pin": {
+  "l2Block": 104334544,
+  "hash": "0x064e26cab5ead34b868ecef0ea09190d44d77effa33ca91a947c9ac925ea25ae",
+  "timestamp": 1793634617,
+  "native": 26328099
+ },
+ "token0": "0x4e5195469a0360f5dfe811730c9ccacff0a0feee",
+ "token1": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+ "dec0": 18,
+ "dec1": 6,
+ "tickSpacing": 500,
+ "fee_ppm": 50000,
+ "slot0": {
+  "sqrtPriceX96": "16989040734908067219707",
+  "tick": -307121,
+  "rawWords": [
+   "16989040734908067219707",
+   "115792089237316195423570985008687907853269984665640564039457584007913129332815",
+   "0",
+   "1",
+   "1",
+   "50000",
+   "1"
+  ],
+  "feeProtocol": 50000
+ },
+ "liquidity": "88304945554977829",
+ "scan": {
+  "mode": "full",
+  "fromTick": -887272,
+  "toTick": 887272,
+  "wordLo": -7,
+  "wordHi": 6
+ },
+ "bitmap": {
+  "-3": "0x80000010400040180000000000000000000000000000000000000"
+ },
+ "ticks": {
+  "-308500": {
+   "liquidityGross": "37230250306267118",
+   "liquidityNet": "37230250306267118"
+  },
+  "-308000": {
+   "liquidityGross": "51074695248710711",
+   "liquidityNet": "51074695248710711"
+  },
+  "-303000": {
+   "liquidityGross": "85954976291267917",
+   "liquidityNet": "-16194414206153505"
+  },
+  "-295000": {
+   "liquidityGross": "37230250306267118",
+   "liquidityNet": "-37230250306267118"
+  },
+  "-292000": {
+   "liquidityGross": "109315702957020264",
+   "liquidityNet": "39555140871905852"
+  },
+  "-278500": {
+   "liquidityGross": "74435421914463058",
+   "liquidityNet": "-74435421914463058"
+  }
+ }
+}

@@ -1,0 +1,5 @@
+# Third-party vendor pages (Alpaca, Polygon, Finnhub, Pyth, Stork, Twelve Data and others) are kept locally for the record and are NOT committed:
+# their URLs, retrieval times, HTTP status, sha256 and byte lengths are in ../manifest.json. Only the Chainlink methodology page the task asked to save is committed.
+*
+!.gitignore
+!chainlink-robinhood-tokenized-equity.*

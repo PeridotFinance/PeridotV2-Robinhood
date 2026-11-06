@@ -1,0 +1,5 @@
+KILLED   consumed = gross - rem (precision loss)
+KILLED   zero-liquidity gap not crossed
+KILLED   price-limit vs capacity not distinguished
+KILLED   full scan reported as window
+all mutations killed

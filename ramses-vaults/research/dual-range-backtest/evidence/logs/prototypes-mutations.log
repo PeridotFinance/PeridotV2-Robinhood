@@ -1,0 +1,16 @@
+SURVIVED guard satisfied if EITHER token is covered
+KILLED   guard does not pause swaps (guardian cannot do that)
+KILLED   allowedAfter ignores the new exposure
+KILLED   enforce never pauses
+KILLED   debt check removed
+KILLED   first-mover mix (pays own token first)
+SURVIVED surplus check removed (usdg side)
+KILLED   stale price substituted
+KILLED   rounding against remaining holders
+KILLED   stock side payout not reducing assets
+8 of 10 killed
+
+RE-RUN after adding testBothTokensMustBeCoveredNotEither and testInKindRefusesWhenTheOtherSideHasNoSurplus (the two survivors above):
+KILLED   guard satisfied if EITHER token is covered
+KILLED   surplus check removed (usdg side)
+Final: 10 of 10 mutants killed (8 on the first pass, the 2 survivors reported above were killed by the added tests).

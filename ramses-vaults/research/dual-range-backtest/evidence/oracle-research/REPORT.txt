@@ -1,0 +1,53 @@
+# Independent oracle and stock-API research (Phase 0, read-only)
+
+Provenance: the evidence files in this directory (`manifest.json`, `SHA256SUMS`, `raw/`, `*.json`, `*.requests.json`, `fetch.py`, `rpc_lib.py`, `chain_reads.py`) were produced by a delegated research agent using read-only JSON-RPC against chain 4663 and public HTTP GETs; nothing was signed, no account or key was used. This report was written by the lead from that agent's hand-back. The lead independently re-checked two load-bearing facts (below, marked **re-checked**); everything else rests on the agent's saved requests/responses or, where stated, on documentation only.
+
+Evidence retention: the raw copies of third-party vendor pages (Alpaca, Polygon, Finnhub, Pyth, Stork, Twelve Data, others) stay on the local disk and are **not committed** (their copyright is the vendors'); `manifest.json` records each URL, retrieval time, HTTP status, sha256 and length so a reader can re-fetch and compare. The Chainlink methodology page that the task asked to save is committed under `raw/chainlink-robinhood-tokenized-equity.*`.
+
+## Verified conclusion (replaces "none found on Robinhood Chain")
+
+Independent oracle contracts exist on Robinhood Chain, but none holds a SPY or NVDA price and none is sponsored. Three separate statements are kept apart:
+
+| Option | Contract exists? | SPY/NVDA feed exists in it? | Feed stays fresh? | Verified by | Cost |
+| --- | --- | --- | --- | --- | --- |
+| Pyth Core `0x8250f4aF4B972684F7b336503E2D6dFeDeB1487a` (EIP-1967 proxy, implementation `0x66e9cba5...d0f7`) | **Yes** (re-checked: `eth_getCode` returns the 177-byte proxy) | **No**: the four equity ids revert `PriceFeedNotFound` (`0x14aebe68`); **re-checked** for the SPY id | n/a (never stored) | contract calls, full-chain log scan | on-chain fee 0; equity data via Hermes/Pro needs a paid plan |
+| Pyth Pro verifier `0xACeA761c27A909d4D3895128EBe6370FDE2dF481` (proxy, version 0.3.0) | Yes | n/a (stores nothing; every tx must carry a signed payload; Lazer ids SPY 1398, NVDA 1314) | n/a | calls + docs | paid subscription; not tested end to end |
+| Pyth sponsored / pushed feeds | n/a | not listed for Robinhood Chain (sponsored EVM list: Ethereum, HyperEVM, Monad, Optimism, Soneium) | n/a | docs + logs | no pusher observed |
+| Stork `0xacC0a0cF13571d30B4b8637996F5D6D774d4fd62` | Yes | **No** (all 6 ids revert, BTC/ETH controls included) | n/a | calls | not published |
+| Chainlink Data Streams verifier proxy `0xcE73c8ad08CBDEaCa6078BF0627C8fe0a9a536E7` | Yes (`VerifierProxy 2.0.0`) | not verified | n/a | `eth_getCode`, `typeAndVersion` | "self-serve" per Chainlink docs; same vendor as the primary feed, so not independent |
+| RedStone, API3, Chronicle, Switchboard, DIA, Supra | not checked | not checked | not checked | web search only (official pages 404/403/JS-only) | unknown: unverified, not "absent" |
+
+* Pyth Core history: 860 logs from block 0 to 104.9M scanned in full, no failed chunk; 849 `PriceFeedUpdate` events, all crypto/gold (BTC 830, ETH 8, SOL 2, PAXG 2, XAU 13, XAUT 1); zero equity ids ever stored. The control feed (BTC) was 466,619 s stale at the pin. 25 distinct senders in a 120-transaction sample: ad-hoc user pulls, not a pusher. The contract accepted XAU/PAXG/XAUT in September, so permissionless creation of new ids looks possible; that is inference, not tested (needs signed Hermes data, which needs a key).
+* Pyth feed ids (public symbols API): `Equity.US.SPY/USD` `19e09bb8...1cd5`, `Equity.US.NVDA/USD` `b1073854...a593` (exponent -5); 24/7 index variants `f32c3fbd...5461` (SPY), `a470c4ac...b852` (NVDA). Minimum publishers: SPY 1, NVDA 2 (thin).
+* Pyth sessions (docs): regular, pre, post and overnight Sun-Thu, closed Friday night to Saturday; the 24/7 index variants cover weekends. Confidence (docs): a 95% interval; value collateral at price minus conf and debt at price plus conf. Not exercised, because no equity price is on chain.
+* Pyth cost (pricing page retrieved 2026-11-03): Free "No Pyth API access"; Starter $500/month is crypto-only; Pro "Starting at $2,500/month" with all symbols. **The operator's statement is confirmed**, with the addition that the $500 tier does not cover equities. Hermes returns 401 without a key at both endpoints tried, so SPY/NVDA publish times and prices could not be read: a failed read, reported as such.
+* Pyth terms (updated 2026-11-02): data may go on chain only through Pyth contracts; redistributing data read from chain is barred. Re-publishing Pyth prices from our own publisher would breach that.
+* Fees: `getUpdateFee([])` = 0; Pro `verification_fee()` = 0 on chain although the docs say 1 wei (docs/chain disagree).
+
+## Token-versus-underlying units (documented, not decided)
+
+* Chainlink's Robinhood methodology page (saved: `raw/chainlink-robinhood-tokenized-equity.html`, sha256 `7000a430...`, plus `.txt` and `.md`; HTTP 200 now, so the earlier 404 is superseded) states the token price is the underlying equity price times `uiMultiplier`. The feed already includes it. **It must not be multiplied again.** The pool-basis statistics in the main README stay labelled as a consistency check, not as proof.
+* Live reads (agent, block `0x640f338`): SPY `uiMultiplier` = 1001717991187472003, `effectiveAt` in the past, `oraclePaused()` false, feed answer about $752.23; NVDA `uiMultiplier` = 1000775159164630595, none pending, `oraclePaused()` false.
+* A Pyth per-share price would need exactly one multiplication by `uiMultiplier()/1e18`, read on chain in the same block as the price use, with `newUIMultiplier()`/`effectiveAt()` compared to detect a staged change and `oraclePaused()` honoured. A split moves the per-share price and the multiplier at different moments; Chainlink freezes, a Pyth fallback has no equivalent.
+* New facts from the Chainlink page for our design: the overnight price is an exponential moving average rather than the latest observation (a fallback compared with the feed overnight will show a smoothing basis even if both are right); the shared tokenized-equity page says a feed can report a zero price with a fresh timestamp (value bounds are needed as well as an age check, which the prototype's `InvalidAnswer` provides); Robinhood's page describes `oraclePaused()` as advisory for its own contracts, whereas **our guard enforces it** (`StockOraclePaused` when `paused()` or `oraclePaused()` is true), so the flag is a real check for us but only if the issuer sets it, and the staleness bound remains the control for a silent feed; the feed holds its last value with no off-hours heartbeats. The 0.5% deviation figure is our measured value, not on the pages read (the feed table is JS-rendered and absent from the saved HTML).
+
+## Free stock APIs for a shadow monitor (documentation only, no sign-up)
+
+| | Alpaca Basic | Twelve Data Basic |
+| --- | --- | --- |
+| Real-time | IEX only free; consolidated SIP is $99/month | listed as real-time US equities/ETFs, latency not verified |
+| Limits | 200 historical calls/min, 30 websocket symbols, normally one stream connection; free historical excludes the latest 15 min | 8 credits/min, 800/day, 8 websocket trial credits |
+| Overnight / extended | feed URLs for Blue Ocean overnight exist; which a free key may open is not stated | not stated |
+| Timestamps | RFC-3339 with nanoseconds; not confirmed to be original exchange timestamps | not verified |
+| Publication rights | licence text not retrieved; a search snippet says data may not be passed on (secondary, unverified) | "internal non-display usage" only: not displayed, shared externally or used in production; redistribution needs an add-on |
+| Provider signatures | none documented | none documented |
+
+Finnhub and Polygon pages were JS-only: no claim. Neither vendor documents provider-signed payloads, so a contract could not verify their quotes: an API publisher would add trust in our own signer key (technically possible; it is not impossible, only unverifiable by the contract), and the free-tier terms probably bar publishing. A shadow monitor that only compares and alerts fits those terms, costs hosting but no gas, and cannot influence a contract. Only the Chainlink feed has issuer-pause semantics; any fallback must read the pause flags from the token. Original quote timestamps would have to be stored with each sample.
+
+## Rests on documentation or search only (not verified by a call)
+
+Pyth plan contents, terms and market hours; confidence guidance; the Pro 1-wei fee (contradicted on chain); the sponsored-feed list; Alpaca and Twelve Data limits and terms; every statement about Finnhub, Polygon, RedStone, API3, Chronicle, Switchboard, DIA and Supra; Data Streams "self-serve" and whether SPY/NVDA streams exist for chain 4663; Stork's registry ids (the keccak256(name) rule was checked, not whether Stork will push them).
+
+## Could not verify (failed reads, not skips)
+
+Hermes SPY/NVDA prices and publish times (401 without a key); whether Core would accept new equity ids; Pyth Pro end to end (needs a paid subscription; six unidentified Pro events with topic `0xaf73b0b2...` and an unidentified controller of the Pro owner address); feed cadence (only three on-chain samples plus the full log history, enough to say "never stored", not a cadence); whether a free-trial Hermes key serves equities; the price of "Pyth Indices". Three stray 404/guessed-URL records remain in `manifest.json` and `raw/` as failure evidence.

@@ -1,0 +1,29 @@
+KILLED   no post-check on allocation
+KILLED   deposit not gated
+KILLED   unpause not gated
+KILLED   operator check removed from exchange
+KILLED   operator check removed from checkpoint
+KILLED   reentrancy guard not set
+SURVIVED reentrancy guard not checked (self-exchange)
+KILLED   daily limit not enforced
+KILLED   limit set by anyone
+KILLED   calls not counted
+KILLED   deficit bound removed (usdg)
+KILLED   removal bound skipped, reading slot0
+KILLED   exchange 1% better for the exiter
+KILLED   debt check removed
+KILLED   redeemer reentrancy guard removed
+KILLED   bridge not repaid
+KILLED   first-mover: no pro-rata share of the deficit
+SURVIVED loss not recognized first
+KILLED   status claims covered on failure
+17 of 19 killed
+
+The 2 survivors above: tests tightened (exact guard error asserted; the checkpoint call asserted). Re-run:
+KILLED   reentrancy guard not checked (self-exchange)
+SURVIVED loss not recognized first
+1 of 2 killed
+
+That survivor: the market redeem checkpoints too, so a call-count test could not see the ORDER; replaced with an event-order test. Re-run:
+KILLED   loss not recognized first
+1 of 1 killed

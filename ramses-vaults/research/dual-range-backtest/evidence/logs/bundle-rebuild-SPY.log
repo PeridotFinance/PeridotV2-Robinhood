@@ -1,0 +1,27 @@
+  OK   committed input answer_updated.json
+  OK   committed input gauge_notify.json
+  SPY init: 1 logs (4s)
+  SPY swap: 655414 logs (261s)
+  SPY mint: 1942 logs (4s)
+  SPY burn: 2107 logs (4s)
+  SPY collect: 2028 logs (4s)
+  SPY feeadj: 503 logs (4s)
+  SPY setfee: 0 logs (4s)
+  SPY proto_a: 0 logs (4s)
+  SPY proto_b: 1 logs (4s)
+  SPY proto_c: 0 logs (4s)
+  SPY collectproto: 1149 logs (4s)
+  SPY flash: 1 logs (4s)
+  OK   burn: 2107 logs
+  OK   collect: 2028 logs
+  OK   collectproto: 1149 logs
+  OK   feeadj: 503 logs
+  OK   flash: 1 logs
+  OK   init: 1 logs
+  OK   mint: 1942 logs
+  OK   proto_a: 0 logs
+  OK   proto_b: 1 logs
+  OK   proto_c: 0 logs
+  OK   setfee: 0 logs
+  OK   swap: 655414 logs
+  OK   dataset columns: 655414 swaps

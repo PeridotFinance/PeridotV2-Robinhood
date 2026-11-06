@@ -1,0 +1,345 @@
+
+Robinhood Tokenized Equities | Chainlink Documentation
+Docs 
+Changelog
+Get Certified
+For AI agents: use 
+llms.txt
+ as the documentation index. Retrieve the smallest relevant
+        .md page first.
+Overview
+Available Robinhood tokenized equity feeds
+Total Return Value calculation
+How the multiplier works
+Corporate action handling and oracle pause
+Example scenarios
+Off-hours and session behavior
+Smart Value Recapture (SVR)
+On this page
+Data Feeds
+Quick Links
+Github
+Data Feeds
+Chainlink Data Feeds
+ Overview 
+ Getting Started 
+ Developer Responsibilities 
+ Feed Types 
+ Price Feeds 
+ Tokenized Equity Feeds 
+ Provider Catalog 
+ Ondo Finance 
+ Robinhood 
+ Coinbase 
+ SmartData 
+ Multiple-Variable Response (MVR) Feeds 
+ Smart Value Recapture (SVR) Feeds 
+ Searcher Onboarding: Ethereum Mainnet 
+ Searcher Onboarding: Atlas (Base, Arbitrum, BNB Chain, Monad) 
+ Rate and Volatility Feeds 
+ L2 Sequencer Uptime Feeds 
+ 24/7 Extended-Hours Data Feeds 
+ Self-Managed Feeds 
+ Flags Contract Registry 
+ Data Sources 
+ Release Notes 
+Feed Addresses
+ Price Feeds 
+ U.S. Government Macroeconomic Data Feeds 
+ SmartData Feeds 
+ Rate and Volatility Feeds 
+ Selecting Quality Data Feeds 
+ Deprecating Feeds 
+Ethereum and EVM Guides
+ Using Data Feeds 
+ Using MVR Feeds 
+ Using MVR Feeds on EVM Chains (Solidity) 
+ Using MVR Feeds with ethers.js (JS) 
+ Using MVR Feeds with Viem (TS) 
+ Getting Historical Data 
+ Using ENS with Data Feeds 
+Aptos Guides
+ Data Feeds on Aptos 
+Solana Guides
+ Data Feeds on Solana 
+ Using Data Feeds Offchain 
+ Using Data Feeds Onchain 
+Stellar Guides
+ Data Feeds on Stellar 
+ Using Data Feeds Offchain 
+ Using Data Feeds Onchain 
+Starknet Guides
+ Data Feeds on Starknet 
+ Starknet Foundry Guides 
+ Read Data from Chainlink Data Feeds (Offchain) 
+ Deploy and interact with a Consumer Contract (Onchain) 
+ Experiment on a Devnet 
+Tron Guides
+ Data Feeds on Tron 
+API Reference
+ Data Feeds API Reference 
+ MVR Feeds API Reference 
+Resources
+ Smart Contract Overview 
+ LINK Token Contracts 
+ Acquire testnet LINK 
+ Fund Your Contracts 
+ Starter Kits and Frameworks 
+ Bridges and Associated Risks 
+ Chainlink Oracle Platform 
+ Data Standard 
+ Interoperability Standard 
+ Compliance Standard 
+ Privacy Standard 
+ Chainlink Architecture 
+ Decentralized Data Model 
+ Offchain Reporting 
+ Getting Help 
+ Integrating EVM Networks 
+ Contributing to Chainlink 
+AI Agent & Skills
+ Chainlink Developer Agent Skills 
+Robinhood Tokenized Equities
+ note 
+Tokenized equity feeds present unique operational considerations, requiring careful integration on behalf of your
+protocol. Developers remain responsible for ensuring that protocol risk parameters are configured appropriately and
+that the operation and performance of Chainlink Tokenized Equity Feeds matches expectations. Please review the
+Selecting Quality Data Feeds
+ webpage and 
+Chainlink Terms of
+Service
+ for important information and disclosures. Contact Chainlink Labs at
+chainlink_data_feeds@smartcontract.com
+ to learn more about
+integrating Tokenized Equity feeds in your solution.
+Chainlink provides tokenized equity feeds for Robinhood tokenized stocks. Each Robinhood tokenized stock is represented by its own ERC-20 token contract, deployed on Robinhood Chain (one contract per ticker). The corresponding Chainlink feed reports the Total Return Value of the token by combining the underlying equity's market price with a multiplier read directly from the Robinhood token contract, rather than the raw equity price.
+These feeds use the standard Chainlink V3 aggregator interface (
+latestRoundData()
+), so any consumer reads the published price through the proxy in the same way as a crypto price feed. They are push-based oracles intended for compliance reference pricing, protocol integration, and similar use cases.
+Available Robinhood tokenized equity feeds
+The following table shows the available Robinhood tokenized equity feeds.
+Networks
+Robinhood Chain Mainnet
+More Details
+Total Return Value calculation
+Robinhood tokenized equity feeds calculate the token price using the following formula:
+Token Price = Underlying Equity Market Price × Multiplier
+Where:
+Underlying Equity Market Price
+: Sourced from Chainlink's 24/5 equity price feeds, which aggregate data across regular, pre-market, post-market, and overnight trading sessions.
+Multiplier
+: Read from the Robinhood token contract via the 
+uiMultiplier()
+ function. The multiplier accounts for dividend reinvestments and corporate action adjustments (see 
+Corporate action handling
+ below).
+This approach ensures the token price reflects the total return of the underlying equity, including dividend reinvestments and corporate action adjustments, rather than just the current market price per share.
+How the multiplier works
+The multiplier accounts for events that change the relationship between token quantity and underlying equity value:
+Event Type
+Multiplier Behavior
+Example
+Dividend reinvestment
+Small increase
+uiMultiplier
+: 1.000 → 1.008
+Stock split (10:1 example)
+Large increase
+uiMultiplier
+: 1.0 → 10.0
+Reverse split (1:10 example)
+Large decrease
+uiMultiplier
+: 10.0 → 1.0
+Spin-offs
+Adjustment to reflect new value
+Varies by event
+Robinhood updates the multiplier on the token contract through two paths:
+Immediate update
+: 
+updateMultiplier(uint256)
+ sets a new 
+uiMultiplier
+ effective immediately.
+Scheduled update
+: 
+updateMultiplier(uint256, uint256 effectiveAt)
+ stages the next multiplier. The staged value is exposed through 
+newUIMultiplier()
+ and the activation time through 
+effectiveAt()
+. The new value becomes the active 
+uiMultiplier
+ once the 
+effectiveAt
+ timestamp is reached.
+The 
+UIMultiplierUpdated
+ event (
+oldMultiplier
+, 
+newMultiplier
+, 
+effectiveAtTimestamp
+) is emitted whenever the multiplier changes or a new value is staged.
+Robinhood's on-chain token contract enforces two update paths:
+Small updates
+ (no price discontinuity): Applied immediately via automated processes. These handle routine dividend reinvestments.
+Large updates
+ (price discontinuity): Requires a scheduled pause window and manual confirmation before unpause. These handle major corporate actions like stock splits.
+Corporate action handling and oracle pause
+Corporate actions are coordinated by Robinhood as the asset issuer. Chainlink does not provide corporate-action calendar data or automated pause triggers; pause timing and multiplier updates are coordinated by Robinhood.
+The Robinhood token contract exposes a dedicated oracle pause flag, 
+oraclePaused()
+, that the feed honors:
+Normal mode
+ (
+oraclePaused() == false
+): The feed returns the current underlying equity market price multiplied by the current 
+uiMultiplier
+.
+Paused mode
+ (
+oraclePaused() == true
+): The feed stops publishing new prices and holds the last known good value. This prevents an inconsistent token price from being published while a corporate action is in progress and the underlying price and multiplier are temporarily out of sync.
+During a corporate action, the issuer-driven workflow keeps the token price continuous:
+Robinhood pauses the oracle (
+pauseOracle()
+), freezing the feed at the last known good value.
+The new multiplier is staged via 
+updateMultiplier(newMultiplier, effectiveAt)
+ (or applied at the scheduled time).
+After the corporate action takes effect and Robinhood confirms that both the underlying market price and the multiplier reflect the new values correctly, the oracle is unpaused (
+unpauseOracle()
+).
+The feed resumes publishing using the updated multiplier.
+For example, during a 10:1 stock split:
+Stage
+Stock Price
+uiMultiplier
+Token Price
+Before split
+$200
+1.0
+$200
+During pause
+Frozen
+Pending: 10.0
+$200 (frozen)
+After unpause
+$20
+10.0
+$200
+The token price remains continuous at $200 throughout the event, even though the underlying equity market price dropped from $200 to $20.
+Example scenarios
+Normal operation
+- Stock price: $200 → $201
+- uiMultiplier: 1.000 (unchanged)
+- Token price: $201
+Dividend reinvestment
+ (small multiplier drift)
+- Stock price: $200
+- uiMultiplier: 1.000 → 1.008
+- Token price: $201.60
+Stock split
+ (10:1, scheduled corporate action)
+1. Robinhood pauses the oracle and stages newUIMultiplier = 10 with an effectiveAt timestamp
+2. The feed freezes at the current token price while oraclePaused() is true
+3. Market reopens with the underlying stock price at $20 (post-split)
+4. Robinhood confirms alignment and calls unpauseOracle()
+5. uiMultiplier becomes 10.0, token price = $20 × 10 = $200 (continuous)
+Split with timing mismatch
+ (stock price updates before the multiplier)
+- Oracle paused with newUIMultiplier = 10 staged
+- Underlying stock price = $20, uiMultiplier still 1.0 (not yet effective)
+- Result: Feed remains frozen at the pre-pause price until Robinhood unpauses the oracle
+This fail-safe behavior prevents incorrect token prices from being published when the underlying stock price and the multiplier are temporarily out of sync.
+Off-hours and session behavior
+Robinhood tokenized equity feeds are configured as 24/5 tokenized equity feeds (regular, pre-market, post-market, and overnight sessions), where underlying liquidity and session data quality support it. Integrators should be aware of standard tokenized equity behavior:
+Off-hours / closed sessions
+: When underlying equity markets are closed (weekends, holidays, thin overnight windows), the feed may hold the last published price even though the contract remains callable via 
+latestRoundData()
+. These feeds do not have heartbeats during off-hours.
+Staleness checks
+: Integrators should read 
+updatedAt
+ and implement staleness bounds appropriate to their use case.
+See 
+Tokenized Equity Feeds
+ for the shared behavioral model across providers.
+Smart Value Recapture (SVR)
+Primary mint and redeem for Robinhood tokenized equities can be permissioned, but once the tokens are onchain, anyone can hold them and anyone can liquidate positions that use the feed.
+Robinhood feeds have SVR enabled even when the primary market is not public to all participants. The liquidator set includes teams that can also access primary mint and redeem when they need to. Permissioned mint and redeem concerns the primary market; tokens can still circulate onchain and positions that use the feed can still be liquidated outside that path.
+For Oracle Extractable Value (OEV) and how SVR relates to standard feeds, use 
+SVR Feeds
+—especially 
+Understanding MEV and OEV
+. To read answers from contracts, follow 
+Using Data Feeds
+ and point at the proxy address for your feed.
+What's next
+> Smart Value Recapture (SVR) Feeds
+> View Provider Catalog
+> Learn about tokenized equity feeds
+> Find Price Feed Addresses
+On this page
+Overview
+Available Robinhood tokenized equity feeds
+Total Return Value calculation
+How the multiplier works
+Corporate action handling and oracle pause
+Example scenarios
+Off-hours and session behavior
+Smart Value Recapture (SVR)
+More
+Complete Data Feeds docs (TXT)
+Edit this page
+Join our community
+Feedback
+Was this page helpful?
+Yes
+No
+Get the latest Chainlink content straight to your inbox.
+Email Address
+Developers
+ Developer Resources
+ Builder Quick Links
+ LINK Token Contracts
+ Data Feeds
+ Data Streams
+ VRF
+ CCIP
+Solutions
+ Overview
+ DeFi
+ Chainlink VRF
+Community
+ Chainlink Hackathon
+ Community overview
+ Events
+ Become an advocate
+ Code of conduct
+Chainlink
+ Ecosystem
+ Press
+ Blog
+ Team
+ Careers
+WE ARE HIRING!
+ Brand assets
+ FAQs
+Contact
+ Security
+ Support
+ Press inquiries
+Social
+ Twitter
+YouTube
+ Discord
+ Telegram
+ WeChat
+ Reddit
+Chainlink®
+  © 2026 Chainlink Foundation
+Privacy Policy
+Terms of Use

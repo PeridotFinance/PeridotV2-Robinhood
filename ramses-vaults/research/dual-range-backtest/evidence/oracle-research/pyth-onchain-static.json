@@ -1,0 +1,247 @@
+{
+ "chainId": "0x1237",
+ "pinnedBlock": {
+  "number": "0x640dc44",
+  "numberDec": 104913988,
+  "hash": "0xd6829879cd6cb8e85e002f0d223f99acda337c9213948d55ef4790fc25191ef1",
+  "timestamp": 1793694114,
+  "l1BlockNumber": "0x191cf73"
+ },
+ "contracts": {
+  "PythCore": {
+   "address": "0x8250f4aF4B972684F7b336503E2D6dFeDeB1487a",
+   "codeBytes": 177,
+   "codeSha256": "43a632eed320c4b283d47bbcd561b0f1481150cd005b613fecbb0cb08ac6228d",
+   "codeKeccak": "0x7e693eea60500e1d5c5984a4cc54ec0b371d9ad29e8bb09c543cb7be447963df",
+   "slots": {
+    "impl": "0x00000000000000000000000066e9cba5529824a03b5bc9931d9c63637101d0f7",
+    "admin": "0x0000000000000000000000000000000000000000000000000000000000000000",
+    "beacon": "0x0000000000000000000000000000000000000000000000000000000000000000"
+   },
+   "implementation": {
+    "address": "0x66e9cba5529824a03b5bc9931d9c63637101d0f7",
+    "codeBytes": 24498,
+    "codeSha256": "34c3c078bfccc34ebaca7b216d332617c2c3e0065219b84bb9fcd56064bc6ef2",
+    "codeKeccak": "0x6bfa2a72d71260d707b4bad3f9aeaa5b91d455f58290bd66b392d1e6324eb583"
+   }
+  },
+  "PythPro": {
+   "address": "0xACeA761c27A909d4D3895128EBe6370FDE2dF481",
+   "codeBytes": 183,
+   "codeSha256": "11810926084f01769b05bda1ac8d3b4b1d4558e0c24e274d8cf045b87becdf94",
+   "codeKeccak": "0xef41b6fae0a92ef125e99f23cab7dd4bbd4a29d9a16e6de418dd5851bb03b77e",
+   "slots": {
+    "impl": "0x000000000000000000000000a089a10d05ce37f4b99dc4f1824ba253434a779e",
+    "admin": "0x0000000000000000000000000000000000000000000000000000000000000000",
+    "beacon": "0x0000000000000000000000000000000000000000000000000000000000000000"
+   },
+   "implementation": {
+    "address": "0xa089a10d05ce37f4b99dc4f1824ba253434a779e",
+    "codeBytes": 8010,
+    "codeSha256": "aacaac5a886e652ec1e6c90fa6b9aae1aa128a4c697c050e5b712145f954b4ae",
+    "codeKeccak": "0x4cad77299428dce15441a9d0ca7ec9d9479942461c0cc25965821e3b0d5f933c"
+   }
+  }
+ },
+ "pythCoreFeeds": {
+  "Equity.US.SPY/USD": {
+   "feedId": "0x19e09bb805456ada3979a7d1cbb4b6d63babc3a0f8e8a9509f68afa5c4c11cd5",
+   "priceFeedExists": "0x0000000000000000000000000000000000000000000000000000000000000000",
+   "getPriceUnsafe_raw": {
+    "code": 3,
+    "message": "execution reverted",
+    "data": "0x14aebe68"
+   },
+   "getPriceNoOlderThan_60": {
+    "code": 3,
+    "message": "execution reverted",
+    "data": "0x14aebe68"
+   },
+   "getPriceNoOlderThan_43200": {
+    "code": 3,
+    "message": "execution reverted",
+    "data": "0x14aebe68"
+   },
+   "getEmaPriceUnsafe_raw": {
+    "code": 3,
+    "message": "execution reverted",
+    "data": "0x14aebe68"
+   },
+   "latestPriceInfoPublishTime": "0x0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "Equity.US.NVDA/USD": {
+   "feedId": "0xb1073854ed24cbc755dc527418f52b7d271f6cc967bbf8d8129112b18860a593",
+   "priceFeedExists": "0x0000000000000000000000000000000000000000000000000000000000000000",
+   "getPriceUnsafe_raw": {
+    "code": 3,
+    "message": "execution reverted",
+    "data": "0x14aebe68"
+   },
+   "getPriceNoOlderThan_60": {
+    "code": 3,
+    "message": "execution reverted",
+    "data": "0x14aebe68"
+   },
+   "getPriceNoOlderThan_43200": {
+    "code": 3,
+    "message": "execution reverted",
+    "data": "0x14aebe68"
+   },
+   "getEmaPriceUnsafe_raw": {
+    "code": 3,
+    "message": "execution reverted",
+    "data": "0x14aebe68"
+   },
+   "latestPriceInfoPublishTime": "0x0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "Equity.Index.SPY/USD(24/7)": {
+   "feedId": "0xf32c3fbdd20b846bb53395bf175c42955e00b1bffb5a778bb624982b318f5461",
+   "priceFeedExists": "0x0000000000000000000000000000000000000000000000000000000000000000",
+   "getPriceUnsafe_raw": {
+    "code": 3,
+    "message": "execution reverted",
+    "data": "0x14aebe68"
+   },
+   "getPriceNoOlderThan_60": {
+    "code": 3,
+    "message": "execution reverted",
+    "data": "0x14aebe68"
+   },
+   "getPriceNoOlderThan_43200": {
+    "code": 3,
+    "message": "execution reverted",
+    "data": "0x14aebe68"
+   },
+   "getEmaPriceUnsafe_raw": {
+    "code": 3,
+    "message": "execution reverted",
+    "data": "0x14aebe68"
+   },
+   "latestPriceInfoPublishTime": "0x0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "Equity.Index.NVDA/USD(24/7)": {
+   "feedId": "0xa470c4ac46f44b547b2cba52338f311fb642b79375ce5f0cfd5cb5b99227b852",
+   "priceFeedExists": "0x0000000000000000000000000000000000000000000000000000000000000000",
+   "getPriceUnsafe_raw": {
+    "code": 3,
+    "message": "execution reverted",
+    "data": "0x14aebe68"
+   },
+   "getPriceNoOlderThan_60": {
+    "code": 3,
+    "message": "execution reverted",
+    "data": "0x14aebe68"
+   },
+   "getPriceNoOlderThan_43200": {
+    "code": 3,
+    "message": "execution reverted",
+    "data": "0x14aebe68"
+   },
+   "getEmaPriceUnsafe_raw": {
+    "code": 3,
+    "message": "execution reverted",
+    "data": "0x14aebe68"
+   },
+   "latestPriceInfoPublishTime": "0x0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "Equity.US.NVDA/USD.EXT(deprecated)": {
+   "feedId": "0xe3d244e4ccf1a047bae83d54bf2327a7ce939a5acfe85727dc223c5cedffb5cc",
+   "priceFeedExists": "0x0000000000000000000000000000000000000000000000000000000000000000",
+   "getPriceUnsafe_raw": {
+    "code": 3,
+    "message": "execution reverted",
+    "data": "0x14aebe68"
+   },
+   "getPriceNoOlderThan_60": {
+    "code": 3,
+    "message": "execution reverted",
+    "data": "0x14aebe68"
+   },
+   "getPriceNoOlderThan_43200": {
+    "code": 3,
+    "message": "execution reverted",
+    "data": "0x14aebe68"
+   },
+   "getEmaPriceUnsafe_raw": {
+    "code": 3,
+    "message": "execution reverted",
+    "data": "0x14aebe68"
+   },
+   "latestPriceInfoPublishTime": "0x0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "Crypto.BTC/USD(control)": {
+   "feedId": "0xe62df6c8b4a85fe1a67db44dc12de5db330f7ac66b72dc658afedf0f4a415b43",
+   "priceFeedExists": "0x0000000000000000000000000000000000000000000000000000000000000001",
+   "getPriceUnsafe_raw": "0x0000000000000000000000000000000000000000000000000000076332ce8102000000000000000000000000000000000000000000000000000000011b5808b2fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff8000000000000000000000000000000000000000000000000000000006ae27aa8",
+   "getPriceUnsafe": {
+    "price": 8122635550978,
+    "conf": 4753721522,
+    "expo": -8,
+    "publishTime": 1793227432
+   },
+   "ageSecondsAtBlockTimestamp": 466682,
+   "getPriceNoOlderThan_60": {
+    "code": 3,
+    "message": "execution reverted",
+    "data": "0x19abf40e"
+   },
+   "getPriceNoOlderThan_43200": {
+    "code": 3,
+    "message": "execution reverted",
+    "data": "0x19abf40e"
+   },
+   "getEmaPriceUnsafe_raw": "0x00000000000000000000000000000000000000000000000000000762878a09800000000000000000000000000000000000000000000000000000000106337a89fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff8000000000000000000000000000000000000000000000000000000006ae27aa8",
+   "latestPriceInfoPublishTime": "0x000000000000000000000000000000000000000000000000000000006ae27aa8"
+  },
+  "Crypto.ETH/USD(control)": {
+   "feedId": "0xff61491a931112ddf1bd8147cd1b641375f79f5825126d665480874634fd0ace",
+   "priceFeedExists": "0x0000000000000000000000000000000000000000000000000000000000000001",
+   "getPriceUnsafe_raw": "0x00000000000000000000000000000000000000000000000000000036ea93294f000000000000000000000000000000000000000000000000000000000d629332fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff8000000000000000000000000000000000000000000000000000000006ae27aa8",
+   "getPriceUnsafe": {
+    "price": 235863746895,
+    "conf": 224564018,
+    "expo": -8,
+    "publishTime": 1793227432
+   },
+   "ageSecondsAtBlockTimestamp": 466682,
+   "getPriceNoOlderThan_60": {
+    "code": 3,
+    "message": "execution reverted",
+    "data": "0x19abf40e"
+   },
+   "getPriceNoOlderThan_43200": {
+    "code": 3,
+    "message": "execution reverted",
+    "data": "0x19abf40e"
+   },
+   "getEmaPriceUnsafe_raw": "0x00000000000000000000000000000000000000000000000000000036e8f450f0000000000000000000000000000000000000000000000000000000000bc23ac3fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff8000000000000000000000000000000000000000000000000000000006ae27aa8",
+   "latestPriceInfoPublishTime": "0x000000000000000000000000000000000000000000000000000000006ae27aa8"
+  }
+ },
+ "pythProProbe": {
+  "verification_fee()": "0x0000000000000000000000000000000000000000000000000000000000000000",
+  "version()": "0x00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000005302e332e30000000000000000000000000000000000000000000000000000000",
+  "owner()": "0x0000000000000000000000000708325268df9f66270f1401206434524814508b",
+  "UPGRADE_INTERFACE_VERSION()": "0x00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000005352e302e30000000000000000000000000000000000000000000000000000000",
+  "trustedSigners(uint256)": {
+   "code": 3,
+   "message": "execution reverted",
+   "data": "0x"
+  },
+  "getTrustedSigner(uint256)": {
+   "code": 3,
+   "message": "execution reverted",
+   "data": "0x"
+  }
+ },
+ "notes": [],
+ "pythCoreGlobals": {
+  "getValidTimePeriod()": "0x000000000000000000000000000000000000000000000000000000000000003c",
+  "singleUpdateFeeInWei()": "0x0000000000000000000000000000000000000000000000000000000000000000",
+  "owner()": "0x0000000000000000000000000000000000000000000000000000000000000000",
+  "chainId()": "0x000000000000000000000000000000000000000000000000000000000000eac5",
+  "pythUpgradableMagic()": "0x0000000000000000000000000000000000000000000000000000000097a6f304",
+  "governanceDataSource()": "0x00000000000000000000000000000000000000000000000000000000000000015635979a221c34931e32620b9293a463065555ea71fe97cd6237ade875b12e9e",
+  "getUpdateFee([])": "0x0000000000000000000000000000000000000000000000000000000000000000"
+ }
+}

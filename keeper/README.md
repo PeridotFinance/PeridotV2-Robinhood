@@ -28,6 +28,10 @@ python3 keeper/provision.py --enable                # uploads the signer, sets E
 python3 keeper/provision.py --disable               # back to monitor-only at any time
 ```
 
+**Do not run `--deploy` on an app that is already enabled.** From reading `provision.py` (not executed): it rebuilds the spec from `app.json` and keeps only `EXECUTE`, dropping both `KEYSTORE_*` secrets, so the worker would crash-loop at startup.
+
+**Gas is a known failure mode.** Below 0.0003 ETH the worker logs `awaiting_gas` and sends nothing, and the only configured alert is `DEPLOYMENT_FAILED`. That stopped it for 10.77 days (2026-10-22 to 2026-11-02); see `ramses-vaults/research/dual-range-backtest/evidence/README.md`, section 18. The live app is `peridot-range-keeper` ($5/month), separate from the $12/month margin keeper.
+
 `--enable` refuses unless the wallet already holds `KEEPER_ROLE`, is funded, and the preflight passes.
 
 ## Tests

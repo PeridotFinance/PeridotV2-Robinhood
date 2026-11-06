@@ -1,0 +1,136 @@
+{
+ "feed_pin_age_sec": 2233,
+ "latest_update": "2026-11-03T09:05:00Z",
+ "n_rounds": 1426,
+ "first_valid_update": "2026-06-22T01:05:44Z",
+ "windows": [
+  {
+   "window": "last_30d",
+   "from": "2026-10-04T09:42:13Z",
+   "to": "2026-11-03T09:42:13Z",
+   "seconds": 2592000,
+   "gt12h_seconds": 685606,
+   "gt12h_pct": 26.451,
+   "gt72h_seconds": 0,
+   "gt72h_pct": 0.0,
+   "longest_gap_h": 56.86,
+   "longest_gap_from": "2026-10-09T15:09:16Z",
+   "longest_gap_to": "2026-10-12T00:00:41Z",
+   "gaps_over_12h": 10,
+   "gaps_over_72h": 0,
+   "updates_in_window": 265
+  },
+  {
+   "window": "last_7d",
+   "from": "2026-10-27T09:42:13Z",
+   "to": "2026-11-03T09:42:13Z",
+   "seconds": 604800,
+   "gt12h_seconds": 152543,
+   "gt12h_pct": 25.222,
+   "gt72h_seconds": 0,
+   "gt72h_pct": 0.0,
+   "longest_gap_h": 52.97,
+   "longest_gap_from": "2026-10-30T20:02:00Z",
+   "longest_gap_to": "2026-11-02T01:00:25Z",
+   "gaps_over_12h": 3,
+   "gaps_over_72h": 0,
+   "updates_in_window": 68
+  },
+  {
+   "window": "since_feed_start",
+   "from": "2026-06-22T01:05:44Z",
+   "to": "2026-11-03T09:42:13Z",
+   "seconds": 11608589,
+   "gt12h_seconds": 3223525,
+   "gt12h_pct": 27.768,
+   "gt72h_seconds": 37205,
+   "gt72h_pct": 0.32,
+   "longest_gap_h": 78.24,
+   "longest_gap_from": "2026-09-04T17:46:24Z",
+   "longest_gap_to": "2026-09-08T00:00:54Z",
+   "gaps_over_12h": 39,
+   "gaps_over_72h": 2,
+   "updates_in_window": 1426
+  },
+  {
+   "window": "since_lending_markets_listed_2026-09-05",
+   "from": "2026-09-05T08:26:00Z",
+   "to": "2026-11-03T09:42:13Z",
+   "seconds": 5102173,
+   "gt12h_seconds": 1579556,
+   "gt12h_pct": 30.958,
+   "gt72h_seconds": 22470,
+   "gt72h_pct": 0.44,
+   "longest_gap_h": 78.24,
+   "longest_gap_from": "2026-09-04T17:46:24Z",
+   "longest_gap_to": "2026-09-08T00:00:54Z",
+   "gaps_over_12h": 24,
+   "gaps_over_72h": 1,
+   "updates_in_window": 433
+  }
+ ],
+ "gaps_over_72h_list": [
+  {
+   "hours": 76.09,
+   "from": "2026-07-02T19:55:07Z",
+   "to": "2026-07-06T00:00:42Z"
+  },
+  {
+   "hours": 78.24,
+   "from": "2026-09-04T17:46:24Z",
+   "to": "2026-09-08T00:00:54Z"
+  }
+ ],
+ "gaps_over_12h_last30d": [
+  {
+   "hours": 54.89,
+   "from": "2026-10-02T17:07:32Z",
+   "to": "2026-10-05T00:00:42Z"
+  },
+  {
+   "hours": 16.03,
+   "from": "2026-10-07T15:01:06Z",
+   "to": "2026-10-08T07:02:53Z"
+  },
+  {
+   "hours": 56.86,
+   "from": "2026-10-09T15:09:16Z",
+   "to": "2026-10-12T00:00:41Z"
+  },
+  {
+   "hours": 14.95,
+   "from": "2026-10-13T20:03:51Z",
+   "to": "2026-10-14T11:01:07Z"
+  },
+  {
+   "hours": 53.65,
+   "from": "2026-10-16T18:21:48Z",
+   "to": "2026-10-19T00:00:42Z"
+  },
+  {
+   "hours": 52.09,
+   "from": "2026-10-23T19:55:31Z",
+   "to": "2026-10-26T00:00:49Z"
+  },
+  {
+   "hours": 12.19,
+   "from": "2026-10-26T17:21:07Z",
+   "to": "2026-10-27T05:32:21Z"
+  },
+  {
+   "hours": 13.3,
+   "from": "2026-10-27T16:50:08Z",
+   "to": "2026-10-28T06:07:52Z"
+  },
+  {
+   "hours": 52.97,
+   "from": "2026-10-30T20:02:00Z",
+   "to": "2026-11-02T01:00:25Z"
+  },
+  {
+   "hours": 12.1,
+   "from": "2026-11-02T01:19:25Z",
+   "to": "2026-11-02T13:25:39Z"
+  }
+ ]
+}

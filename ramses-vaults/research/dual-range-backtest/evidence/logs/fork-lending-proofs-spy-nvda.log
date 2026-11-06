@@ -1,0 +1,75 @@
+pin 104938875 26333256 0x4cceaacd388ad05b1a787f45fc8673d12b355bf05be1c11ac0fa2398402c9b78
+rc=0
+No files changed, compilation skipped
+
+Ran 3 tests for ramses-vaults/test/fork/LendingForkProofs.t.sol:LendingForkProofsTest
+[PASS] testForkProofFundedLiquidationThenRedemptionUnwindsRealLp() (gas: 5015220)
+Logs:
+  redemption owed (stock wei): 648393141557212824
+  local cash (stock wei): 511397342859550953
+
+[PASS] testForkProofPersistentOneSidedStateAndReserveRecovery() (gas: 5078305)
+Logs:
+  USDG available to the pair after recentre and price return (raw): 0
+  reserve at start of the test (raw USDG): 0
+  reserve funding deposited (raw USDG): 60000000
+  redemption requested (raw USDG): 105020000
+  reserve funding CONSUMED (raw USDG): 5000000
+  reserve funding left (raw USDG): 55000000
+  bob shares burned (pToken raw): 550666792450
+  USDG market exchange rate before: 190714242151569
+  USDG market exchange rate after: 190714242151875
+  stock market exchange rate before: 190721127561586118393886969
+  stock market exchange rate after: 190721127561586118393886969
+  cumulative recognized loss before (USD 1e18): 16447762758526969480
+  cumulative recognized loss after (USD 1e18): 16447762758526969480
+
+[PASS] testForkProofReserveExhaustedWhatHappens() (gas: 5052433)
+Logs:
+  USDG available to the pair after recentre and price return (raw): 0
+  reserve available before (raw USDG): 1000000
+  exact-output redemption beyond what the pair can pay: REVERTED
+
+Suite result: ok. 3 passed; 0 failed; 0 skipped; finished in 37.93s (17.40s CPU time)
+
+Ran 3 tests for ramses-vaults/test/fork/LendingForkProofs.t.sol:SpyForkProofsTest
+[PASS] testForkProofFundedLiquidationThenRedemptionUnwindsRealLp() (gas: 5953307)
+Logs:
+  redemption owed (stock wei): 175433939390427784
+  local cash (stock wei): 152938099935721406
+
+[PASS] testForkProofPersistentOneSidedStateAndReserveRecovery() (gas: 5987628)
+Logs:
+  USDG available to the pair after recentre and price return (raw): 0
+  reserve at start of the test (raw USDG): 0
+  reserve funding deposited (raw USDG): 60000000
+  redemption requested (raw USDG): 105020000
+  reserve funding CONSUMED (raw USDG): 5000000
+  reserve funding left (raw USDG): 55000000
+  bob shares burned (pToken raw): 549542150854
+  USDG market exchange rate before: 191104540091981
+  USDG market exchange rate after: 191104540092230
+  stock market exchange rate before: 191108113902785679240676900
+  stock market exchange rate after: 191108113902785679240676900
+  cumulative recognized loss before (USD 1e18): 16478460023280347252
+  cumulative recognized loss after (USD 1e18): 16478460023280347252
+
+[PASS] testForkProofReserveExhaustedWhatHappens() (gas: 5962694)
+Logs:
+  USDG available to the pair after recentre and price return (raw): 0
+  reserve available before (raw USDG): 1000000
+  exact-output redemption beyond what the pair can pay: REVERTED
+
+Suite result: ok. 3 passed; 0 failed; 0 skipped; finished in 44.03s (33.49s CPU time)
+
+Ran 2 test suites in 81.98s (81.97s CPU time): 6 tests passed, 0 failed, 0 skipped (6 total tests)
+warning: invalid natspec tag '@member', custom tags must use format '@custom:name'
+    ╭▸ contracts/peridot-contracts-2-5/contracts/contracts/PTokenInterfaces.sol:112:5
+    │
+112 │ ┏     /**
+113 │ ┃      * @notice Container for borrow balance information
+114 │ ┃      * @member principal Total balance (with accrued interest), after applying the most recent balance-changing action
+115 │ ┃      * @member interestIndex Global borrowIndex as of the most recent balance-changing action
+116 │ ┃      */
+    ╰╴┗━━━━━━━┛
+

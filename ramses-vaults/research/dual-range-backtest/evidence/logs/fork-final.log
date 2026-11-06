@@ -1,0 +1,192 @@
+pin 104116096 26326238
+Compiling 1 files with Solc 0.8.26
+Solc 0.8.26 finished in 27.25s
+Compiler run successful!
+
+Ran 3 tests for ramses-vaults/test/fork/GroupFeeEntitlement.t.sol:GroupFeeEntitlementGLD
+[PASS] testFork_feeEntitlement() (gas: 2875007)
+Logs:
+  swap region lower initialized tick: 217532
+  swap region upper initialized tick: 217556
+  current tick: 217537
+  fee ppm in force: 150
+  slot0.feeProtocol ppm: 500000
+  gross fee token0 raw: 90000
+  gross fee token1 raw: 251925280171139
+  protocol delta token0 raw: 45000
+  protocol delta token1 raw: 125962640085570
+  our liquidity: 80507832282978730
+  active liquidity: 162089982085209123
+  collect token0 (both layers) raw: 22350
+  collect token1 (both layers) raw: 62563885636063
+  expected LP collect token0: 22350
+  expected LP collect token1: 62563885636061
+
+[PASS] testFork_gaugeRewardsThroughManager() (gas: 4229432)
+Logs:
+  swap region lower initialized tick: 217532
+  swap region upper initialized tick: 217556
+  current tick: 217537
+  reward token: 0x5fc5360D0400a0Fd4f2af552ADD042D716F1d168
+    earned core layer: 0
+    earned wide layer: 0
+  reward token: 0xC9a981FEE1F9DEc688bb123ccDeCc63D0deBFC4e
+    earned core layer: 0
+    earned wide layer: 0
+  reward token: 0x5173D45A1191eE33cBB7D8c7e65f21B04eD54802
+    earned core layer: 8886858884856894641
+    earned wide layer: 787468730303631999
+    paid by manager getReward: 0
+    paid by manager getReward: 0
+    paid by manager getReward: 9674327615160526640
+  rewardRate pool token0: 0
+  rewardRate pool token1: 0
+  rewardRate RAM: 5410486661706349
+
+[PASS] testFork_protocolShareDestination() (gas: 2829996)
+Logs:
+  swap region lower initialized tick: 217532
+  swap region upper initialized tick: 217556
+  current tick: 217537
+  feeCollector.treasury: 0x74F1e8Be68Ae7bf24Bc387Ee1a900d5bC23317a3
+  feeCollector.treasuryFees: 0
+  feeCollector.voter: 0x0000000000000000000000000000000000000000
+  pool protocolFees token0: 1420442
+  pool protocolFees token1: 4114490914836466
+  collectProtocolFees: permissionless call succeeded
+  pool protocolFees token0 after: 1
+  pool protocolFees token1 after: 1
+  treasury token0 delta: 1420441
+  treasury token1 delta: 4114490914836465
+  gauge token0 delta: 0
+  gauge token1 delta: 0
+  feeCollector token0 delta: 0
+  feeCollector token1 delta: 0
+
+Suite result: ok. 3 passed; 0 failed; 0 skipped; finished in 68.07s (61.61s CPU time)
+
+Ran 3 tests for ramses-vaults/test/fork/GroupFeeEntitlement.t.sol:GroupFeeEntitlementNVDA
+[PASS] testFork_feeEntitlement() (gas: 2874915)
+Logs:
+  swap region lower initialized tick: 222930
+  swap region upper initialized tick: 222970
+  current tick: 222950
+  fee ppm in force: 100
+  slot0.feeProtocol ppm: 500000
+  gross fee token0 raw: 180000
+  gross fee token1 raw: 865583997248483
+  protocol delta token0 raw: 90000
+  protocol delta token1 raw: 432791998624243
+  our liquidity: 105003423807464411
+  active liquidity: 155437504705734172
+  collect token0 (both layers) raw: 60797
+  collect token1 (both layers) raw: 292366000972895
+  expected LP collect token0: 60798
+  expected LP collect token1: 292366000972892
+
+[PASS] testFork_gaugeRewardsThroughManager() (gas: 4542288)
+Logs:
+  swap region lower initialized tick: 222930
+  swap region upper initialized tick: 222970
+  current tick: 222950
+  reward token: 0x5fc5360D0400a0Fd4f2af552ADD042D716F1d168
+    earned core layer: 0
+    earned wide layer: 0
+  reward token: 0xd0601CE157Db5bdC3162BbaC2a2C8aF5320D9EEC
+    earned core layer: 0
+    earned wide layer: 0
+  reward token: 0x5173D45A1191eE33cBB7D8c7e65f21B04eD54802
+    earned core layer: 28700443762655182629
+    earned wide layer: 2554073679840289501
+    paid by manager getReward: 0
+    paid by manager getReward: 0
+    paid by manager getReward: 31254517442495472130
+  rewardRate pool token0: 0
+  rewardRate pool token1: 0
+  rewardRate RAM: 12851761362433862
+
+[PASS] testFork_protocolShareDestination() (gas: 2829904)
+Logs:
+  swap region lower initialized tick: 222930
+  swap region upper initialized tick: 222970
+  current tick: 222950
+  feeCollector.treasury: 0x74F1e8Be68Ae7bf24Bc387Ee1a900d5bC23317a3
+  feeCollector.treasuryFees: 0
+  feeCollector.voter: 0x0000000000000000000000000000000000000000
+  pool protocolFees token0: 648889
+  pool protocolFees token1: 3277736088091288
+  collectProtocolFees: permissionless call succeeded
+  pool protocolFees token0 after: 1
+  pool protocolFees token1 after: 1
+  treasury token0 delta: 648888
+  treasury token1 delta: 3277736088091287
+  gauge token0 delta: 0
+  gauge token1 delta: 0
+  feeCollector token0 delta: 0
+  feeCollector token1 delta: 0
+
+Suite result: ok. 3 passed; 0 failed; 0 skipped; finished in 44.51s (40.74s CPU time)
+
+Ran 3 tests for ramses-vaults/test/fork/GroupFeeEntitlement.t.sol:GroupFeeEntitlementSPY
+[PASS] testFork_feeEntitlement() (gas: 2854254)
+Logs:
+  swap region lower initialized tick: -209986
+  swap region upper initialized tick: -209979
+  current tick: -209982
+  fee ppm in force: 100
+  slot0.feeProtocol ppm: 500000
+  gross fee token0 raw: 788954490907722
+  gross fee token1 raw: 600000
+  protocol delta token0 raw: 394477245453864
+  protocol delta token1 raw: 300000
+  our liquidity: 55028728964513611
+  active liquidity: 2099553206079195015
+  collect token0 (both layers) raw: 10339143280529
+  collect token1 (both layers) raw: 7862
+  expected LP collect token0: 10339143280529
+  expected LP collect token1: 7862
+
+[PASS] testFork_gaugeRewardsThroughManager() (gas: 4551681)
+Logs:
+  swap region lower initialized tick: -209986
+  swap region upper initialized tick: -209979
+  current tick: -209982
+  reward token: 0x117cc2133c37B721F49dE2A7a74833232B3B4C0C
+    earned core layer: 0
+    earned wide layer: 0
+  reward token: 0x5fc5360D0400a0Fd4f2af552ADD042D716F1d168
+    earned core layer: 0
+    earned wide layer: 0
+  reward token: 0x5173D45A1191eE33cBB7D8c7e65f21B04eD54802
+    earned core layer: 3746902267433335373
+    earned wide layer: 332783064802908859
+    paid by manager getReward: 0
+    paid by manager getReward: 0
+    paid by manager getReward: 4079685332236244232
+  rewardRate pool token0: 0
+  rewardRate pool token1: 0
+  rewardRate RAM: 43237598999396796
+
+[PASS] testFork_protocolShareDestination() (gas: 2808754)
+Logs:
+  swap region lower initialized tick: -209986
+  swap region upper initialized tick: -209979
+  current tick: -209982
+  feeCollector.treasury: 0x74F1e8Be68Ae7bf24Bc387Ee1a900d5bC23317a3
+  feeCollector.treasuryFees: 0
+  feeCollector.voter: 0x0000000000000000000000000000000000000000
+  pool protocolFees token0: 15054009885525268
+  pool protocolFees token1: 11088842
+  collectProtocolFees: permissionless call succeeded
+  pool protocolFees token0 after: 1
+  pool protocolFees token1 after: 1
+  treasury token0 delta: 15054009885525267
+  treasury token1 delta: 11088841
+  gauge token0 delta: 0
+  gauge token1 delta: 0
+  feeCollector token0 delta: 0
+  feeCollector token1 delta: 0
+
+Suite result: ok. 3 passed; 0 failed; 0 skipped; finished in 41.30s (39.48s CPU time)
+
+Ran 3 test suites in 153.90s (153.88s CPU time): 9 tests passed, 0 failed, 0 skipped (9 total tests)

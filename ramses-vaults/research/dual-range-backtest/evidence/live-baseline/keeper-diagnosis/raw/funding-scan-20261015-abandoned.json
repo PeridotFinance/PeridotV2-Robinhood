@@ -1,0 +1,7 @@
+{
+ "window": "2026-10-15T11:54:00Z..12:22:30Z",
+ "result": "abandoned, not completed",
+ "reason": "public RPC throttled to about 25 blocks per 45s (429s, shared with other jobs); no partial results persisted",
+ "knownBound": "balance already 2000000000000000 wei at first logged heartbeat 2026-10-15T12:22:29Z",
+ "candidates": "governor nonces 313-315 (10-13T13:17:33..10-15T11:54:51) or 317 (10-15T11:54:51..10-18T11:04:38) carry no scanned logs; a different sender is not excluded"
+}

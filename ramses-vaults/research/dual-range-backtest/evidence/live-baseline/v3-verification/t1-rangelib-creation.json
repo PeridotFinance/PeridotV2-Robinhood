@@ -1,0 +1,29 @@
+{
+ "txsFromGovernor": [
+  {
+   "block": 83608423,
+   "tx": "0x1b787c97936e49382fddf6e46dcd1a893bfdf4f554be6f8b5ec96ae3ca8211ae",
+   "nonce": 297,
+   "to": "0x4e59b44847b379578588920ca78fbf26c0b4956c",
+   "contractAddress": null,
+   "status": "0x1",
+   "inputBytes": 10494,
+   "timestamp": 1791492649
+  }
+ ],
+ "creation": {
+  "tx": "0x1b787c97936e49382fddf6e46dcd1a893bfdf4f554be6f8b5ec96ae3ca8211ae",
+  "block": 83608423,
+  "nonce": 297,
+  "to": "0x4e59b44847b379578588920ca78fbf26c0b4956c",
+  "kind": "CREATE2 via deterministic deployer (forge library default)",
+  "status": "0x1",
+  "salt": "0x0000000000000000000000000000000000000000000000000000000000000000",
+  "bodyBytes": 10462,
+  "compiledBytes": 10462,
+  "creationExact": true,
+  "initcodeHash": "0xe15826d1b471087be2f43fe2fb4f7d69beee5fb9f14d0a8e76853b298b7a83cf",
+  "derivedAddress": "0x7c585bab533229ace7d53ad093561001d320b7d9",
+  "derivedMatchesRangeLib": true
+ }
+}

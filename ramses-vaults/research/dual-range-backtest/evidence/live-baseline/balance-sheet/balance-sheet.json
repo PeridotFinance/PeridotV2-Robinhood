@@ -1,0 +1,4744 @@
+{
+ "pin": {
+  "l2": 105020681,
+  "hash": "0x516dd567b9e3eda8d24cc744a2d336376d10171f7d019a70b2fa46e0590cbd57",
+  "timestamp": 1793705105,
+  "timestampUtc": "2026-11-03T11:25:05Z",
+  "native_l1BlockNumber": 26333958,
+  "baseFeePerGas": 20000000,
+  "headAtStart": 105020683,
+  "hashRecheckedEqual": true,
+  "headAtEnd": 105025229
+ },
+ "prices": {
+  "oracle_USD": 205.55021071,
+  "pool_spot_USDG_per_NVDA": 205.0839227109813,
+  "usdg_USD": 1.0,
+  "spot_vs_oracle_bps": -22.684870884249754,
+  "referenceSqrtPriceX96": 5526123934046763732199276057460736,
+  "pool": {
+   "sqrtPriceX96": 5532402588750500525598005347757846,
+   "tick": 223087,
+   "protocolFee": 2048500,
+   "lpFee": 3000,
+   "liquidity": 287275930345331696,
+   "tickSpacing": 60,
+   "fee": 3000,
+   "currency0": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "currency1": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec"
+  },
+  "feed": {
+   "answer": 20555021071,
+   "updatedAt": 1793700241,
+   "ageSec": 4864
+  },
+  "lending_oracle_pNVDA": 205550210710000000000,
+  "lending_oracle_pUSDG": 1000000000000000000000000000000,
+  "guard": {
+   "validatePool_ok": true,
+   "validateRemoval_ok": true,
+   "maxDev": 300,
+   "maxRemDev": 600
+  }
+ },
+ "position": {
+  "tokenId": 4148743,
+  "isExpected": true,
+  "ownerOf": "0xada73211711e4790bc83b5d6b39f47fe04d276f3",
+  "pm_liquidity": 3903485249564,
+  "adapter_liquidity": 3903485249564,
+  "storage_liquidity": 3903485249564,
+  "tickLower": 220800,
+  "tickUpper": 225660,
+  "ranged": true,
+  "amountsSpot": {
+   "tokenId": 4148743,
+   "liquidity": 3903485249564,
+   "stock": 29453644875567432,
+   "usdg": 6747517
+  },
+  "amountsRef": {
+   "tokenId": 4148743,
+   "liquidity": 3903485249564,
+   "stock": 29144302398784260,
+   "usdg": 6811031
+  },
+  "price_range": [
+   158.56257981359192,
+   257.7847778315631
+  ],
+  "inRange": true
+ },
+ "ledger": {
+  "stockPrincipal": 21137498421961568,
+  "usdgPrincipal": 14423005,
+  "stockIdle": 29621285384682670,
+  "usdgIdle": 67,
+  "cumulativeLossUSDG": 546235985148367630,
+  "lastCheckpoint": 1793704032
+ },
+ "vault_balance_vs_ledger": {
+  "NVDA_balance_minus_ledgerIdle": 0,
+  "USDG_balance_minus_ledgerIdle": 0
+ },
+ "markets": {
+  "pNVDA": {
+   "totalSupply": 172300825,
+   "exchangeRateStored": 198853441482981842948227322,
+   "exchangeRateCurrent": 198853549701149625952168249,
+   "totalBorrows": 14615404196690,
+   "totalBorrowsCurrent": 14636122062899,
+   "totalReserves": 547680177,
+   "getCash": 34247997165090482,
+   "reserveFactorMantissa": 100000000000000000,
+   "accrualBlockNumber": 26148189,
+   "vaultAccountedAssets": 21137498421961568,
+   "vaultLiquidAssets": 29621285384682670,
+   "vaultWithdrawableAssets": 21137498421961568,
+   "totalManagedAssets": 34247997165090482,
+   "cumulativeVaultLoss": 0,
+   "vaultBufferMantissa": 500000000000000000,
+   "vaultPaused": 0,
+   "borrowRatePerBlock": 7630639747,
+   "supplyRatePerBlock": 2929502,
+   "local": 13110498743128914,
+   "interest": 20717866209,
+   "reservesCurrent": 2619466797,
+   "claimStored": 34262612021606994,
+   "claimCurrent": 34262630667686583,
+   "netStored": 34262612021606995,
+   "netCurrent": 34262630667686584,
+   "identityResidualStored": 1,
+   "identityResidualCurrent": 1,
+   "principalEqualsAccounted": true
+  },
+  "pUSDG": {
+   "totalSupply": 147628790621,
+   "exchangeRateStored": 197643141810371,
+   "exchangeRateCurrent": 197673515289563,
+   "totalBorrows": 1936152,
+   "totalBorrowsCurrent": 1941134,
+   "totalReserves": 41,
+   "getCash": 12818769,
+   "reserveFactorMantissa": 100000000000000000,
+   "accrualBlockNumber": 26148189,
+   "vaultAccountedAssets": 14423005,
+   "vaultLiquidAssets": 67,
+   "vaultWithdrawableAssets": 67,
+   "totalManagedAssets": 27241707,
+   "cumulativeVaultLoss": 0,
+   "vaultBufferMantissa": 500000000000000000,
+   "vaultPaused": 0,
+   "borrowRatePerBlock": 13851842094,
+   "supplyRatePerBlock": 1635888912,
+   "local": 12818702,
+   "interest": 4982,
+   "reservesCurrent": 539,
+   "claimStored": 29177817,
+   "claimCurrent": 29182301,
+   "netStored": 29177818,
+   "netCurrent": 29182302,
+   "identityResidualStored": 1,
+   "identityResidualCurrent": 1,
+   "principalEqualsAccounted": true
+  }
+ },
+ "fees": {
+  "analytic_from_PoolManager_storage": {
+   "NVDA_raw": 0,
+   "USDG_raw": 0
+  },
+  "sim_adapter_collectFees_from_vault_eth_call": {
+   "NVDA_raw": 0,
+   "USDG_raw": 0
+  },
+  "sim_vault_collectFees_from_keeper_eth_simulateV1": {
+   "NVDA_raw": 0,
+   "USDG_raw": 0
+  },
+  "agree": true,
+  "reserveFeeBps": 2000,
+  "toReserve": {
+   "NVDA_raw": 0,
+   "USDG_raw": 0
+  },
+  "note": "On collection net fees raise idle AND principal equally on each side, so they cannot reduce a native shortage."
+ },
+ "balance_sheet": {
+  "assets": [
+   {
+    "line": "pNVDA market local cash",
+    "NVDA_raw": 13110498743128914,
+    "USDG_raw": 0,
+    "NVDA": 0.013110498743128914,
+    "USDG": 0.0,
+    "USD_at_oracle": 2.6948657791633384,
+    "NVDA_raw_spotview": 13110498743128914,
+    "USDG_raw_spotview": 0,
+    "USD_at_spot": 2.6887525109382677,
+    "note": ""
+   },
+   {
+    "line": "pUSDG market local cash",
+    "NVDA_raw": 0,
+    "USDG_raw": 12818702,
+    "NVDA": 0.0,
+    "USDG": 12.818702,
+    "USD_at_oracle": 12.818702,
+    "NVDA_raw_spotview": 0,
+    "USDG_raw_spotview": 12818702,
+    "USD_at_spot": 12.818702,
+    "note": ""
+   },
+   {
+    "line": "pNVDA borrows (current, simulated accrual)",
+    "NVDA_raw": 14636122062899,
+    "USDG_raw": 0,
+    "NVDA": 1.4636122062899e-05,
+    "USDG": 0.0,
+    "USD_at_oracle": 0.003008457974006169,
+    "NVDA_raw_spotview": 14636122062899,
+    "USDG_raw_spotview": 0,
+    "USD_at_spot": 0.003001633325936067,
+    "note": ""
+   },
+   {
+    "line": "pUSDG borrows (current, simulated accrual)",
+    "NVDA_raw": 0,
+    "USDG_raw": 1941134,
+    "NVDA": 0.0,
+    "USDG": 1.941134,
+    "USD_at_oracle": 1.941134,
+    "NVDA_raw_spotview": 0,
+    "USDG_raw_spotview": 1941134,
+    "USD_at_spot": 1.941134,
+    "note": ""
+   },
+   {
+    "line": "vault idle (ledger)",
+    "NVDA_raw": 29621285384682670,
+    "USDG_raw": 67,
+    "NVDA": 0.02962128538468267,
+    "USDG": 6.7e-05,
+    "USD_at_oracle": 6.088728452322565,
+    "NVDA_raw_spotview": 29621285384682670,
+    "USDG_raw_spotview": 67,
+    "USD_at_spot": 6.07491640243218,
+    "note": ""
+   },
+   {
+    "line": "LP position (oracle ref / pool spot amounts)",
+    "NVDA_raw": 29144302398784260,
+    "USDG_raw": 6811031,
+    "NVDA": 0.02914430239878426,
+    "USDG": 6.811031,
+    "USD_at_oracle": 12.801648499066062,
+    "NVDA_raw_spotview": 29453644875567432,
+    "USDG_raw_spotview": 6747517,
+    "USD_at_spot": 12.787986029217564,
+    "note": ""
+   },
+   {
+    "line": "uncollected fees, gross (simulated collect, equals storage calc)",
+    "NVDA_raw": 0,
+    "USDG_raw": 0,
+    "NVDA": 0.0,
+    "USDG": 0.0,
+    "USD_at_oracle": 0.0,
+    "NVDA_raw_spotview": 0,
+    "USDG_raw_spotview": 0,
+    "USD_at_spot": 0.0,
+    "note": "20% would go to the loss reserve on collection"
+   }
+  ],
+  "claims": [
+   {
+    "line": "pNVDA suppliers: totalSupply x exchangeRateCurrent",
+    "NVDA_raw": 34262630667686583,
+    "USDG_raw": 0,
+    "NVDA": 0.03426263066768658,
+    "USDG": 0.0,
+    "USD_at_oracle": 7.042690953221885,
+    "NVDA_raw_spotview": 34262630667686583,
+    "USDG_raw_spotview": 0,
+    "USD_at_spot": 7.026714699726733,
+    "note": "at stored rate 34262612021606994"
+   },
+   {
+    "line": "pUSDG suppliers: totalSupply x exchangeRateCurrent",
+    "NVDA_raw": 0,
+    "USDG_raw": 29182301,
+    "NVDA": 0.0,
+    "USDG": 29.182301,
+    "USD_at_oracle": 29.182301,
+    "NVDA_raw_spotview": 0,
+    "USDG_raw_spotview": 29182301,
+    "USD_at_spot": 29.182301,
+    "note": "at stored rate 29177817"
+   },
+   {
+    "line": "pNVDA market reserves (current)",
+    "NVDA_raw": 2619466797,
+    "USDG_raw": 0,
+    "NVDA": 2.619466797e-09,
+    "USDG": 0.0,
+    "USD_at_oracle": 5.384319520711988e-07,
+    "NVDA_raw_spotview": 2619466797,
+    "USDG_raw_spotview": 0,
+    "USD_at_spot": 5.372105261399298e-07,
+    "note": ""
+   },
+   {
+    "line": "pUSDG market reserves (current)",
+    "NVDA_raw": 0,
+    "USDG_raw": 539,
+    "NVDA": 0.0,
+    "USDG": 0.000539,
+    "USD_at_oracle": 0.000539,
+    "NVDA_raw_spotview": 0,
+    "USDG_raw_spotview": 539,
+    "USD_at_spot": 0.000539,
+    "note": ""
+   }
+  ],
+  "eliminated_principal_memo": [
+   {
+    "line": "MEMO, ELIMINATED: vault principal, stock (asset of pNVDA, liability of vault)",
+    "NVDA_raw": 21137498421961568,
+    "USDG_raw": 0,
+    "NVDA": 0.021137498421961567,
+    "USDG": 0.0,
+    "USD_at_oracle": 4.344817254516492,
+    "NVDA_raw_spotview": 21137498421961568,
+    "USDG_raw_spotview": 0,
+    "USD_at_spot": 4.334961092673056,
+    "note": ""
+   },
+   {
+    "line": "MEMO, ELIMINATED: vault principal, USDG (asset of pUSDG, liability of vault)",
+    "NVDA_raw": 0,
+    "USDG_raw": 14423005,
+    "NVDA": 0.0,
+    "USDG": 14.423005,
+    "USD_at_oracle": 14.423005,
+    "NVDA_raw_spotview": 0,
+    "USDG_raw_spotview": 14423005,
+    "USD_at_spot": 14.423005,
+    "note": ""
+   }
+  ],
+  "loss_reserve_contingent": [
+   {
+    "line": "loss reserve available (contingent, capped)",
+    "NVDA_raw": 286619044744969,
+    "USDG_raw": 17301,
+    "NVDA": 0.000286619044744969,
+    "USDG": 0.017301,
+    "USD_at_oracle": 0.07621560504082729,
+    "NVDA_raw_spotview": 286619044744969,
+    "USDG_raw_spotview": 17301,
+    "USD_at_spot": 0.07608195801997251,
+    "note": ""
+   }
+  ],
+  "stray_or_out_of_perimeter_balances_raw": {
+   "adapter": {
+    "NVDA": 0,
+    "USDG": 0
+   },
+   "guard": {
+    "NVDA": 0,
+    "USDG": 0
+   },
+   "settlementLib": {
+    "NVDA": 0,
+    "USDG": 0
+   },
+   "timelock": {
+    "NVDA": 0,
+    "USDG": 0
+   },
+   "marginVault": {
+    "NVDA": 0,
+    "USDG": 0
+   },
+   "insurance": {
+    "NVDA": 0,
+    "USDG": 0
+   },
+   "flashVault": {
+    "NVDA": 25000858740850569,
+    "USDG": 5222116
+   },
+   "feeDistributor": {
+    "NVDA": 0,
+    "USDG": 0
+   },
+   "swapModule": {
+    "NVDA": 0,
+    "USDG": 0
+   },
+   "executor": {
+    "NVDA": 0,
+    "USDG": 0
+   },
+   "liquidator": {
+    "NVDA": 0,
+    "USDG": 0
+   },
+   "riskEngine": {
+    "NVDA": 0,
+    "USDG": 0
+   },
+   "governor": {
+    "NVDA": 80669558621950353,
+    "USDG": 1043
+   },
+   "keeper": {
+    "NVDA": 0,
+    "USDG": 0
+   }
+  }
+ },
+ "reconciliation": {
+  "claims_total": {
+   "NVDA_raw": 34262633287153380,
+   "USDG_raw": 29182840,
+   "USD_oracle": 36.22553149165383,
+   "USD_spot": 36.209555236937256
+  },
+  "assets_total_oracleRefView": {
+   "NVDA_raw": 71890722648658743,
+   "USDG_raw": 21570934,
+   "USD_oracle": 36.34808718852597
+  },
+  "assets_total_spotView": {
+   "NVDA_raw": 72200065125441915,
+   "USDG_raw": 21507420,
+   "USD_spot": 36.314492575913945
+  },
+  "residual_incl_fees_oracleRef": {
+   "NVDA_raw": 37628089361505363,
+   "USDG_raw": -7611906,
+   "USD": 0.1225556968721353
+  },
+  "residual_incl_fees_spot": {
+   "NVDA_raw": 37937431838288535,
+   "USDG_raw": -7675420,
+   "USD": 0.10493733897668811
+  },
+  "residual_excl_fees_oracleRef": {
+   "NVDA_raw": 37628089361505363,
+   "USDG_raw": -7611906,
+   "USD": 0.12255569687213619
+  },
+  "residual_excl_fees_spot": {
+   "NVDA_raw": 37937431838288535,
+   "USDG_raw": -7675420,
+   "USD": 0.10493733897668811
+  },
+  "market_identity": {
+   "pNVDA": {
+    "identityResidualStored_raw": 1,
+    "identityResidualCurrent_raw": 1,
+    "principalEqualsAccounted": true
+   },
+   "pUSDG": {
+    "identityResidualStored_raw": 1,
+    "identityResidualCurrent_raw": 1,
+    "principalEqualsAccounted": true
+   }
+  },
+  "elimination_statement": "Market assets = local cash + vault principal + borrows - market reserves = supplier claims. Principal is an intra-system claim: replacing it with what the vault actually holds (idle + LP + fees) gives the consolidated residual, which is exactly (vault assets - principal) per token.",
+  "vault_assets_minus_principal_excl_fees_oracleRef": {
+   "NVDA_raw": 37628089361505362,
+   "USDG_raw": -7611907
+  },
+  "residual_incl_reserve_oracleRef_USD": 0.1987713019129626,
+  "residual_incl_reserve_spot_USD": 0.18101929699666064
+ },
+ "B": {
+  "1_realised": {
+   "cumulativeLossUSDG_1e18": 546235985148367630,
+   "USD": 0.5462359851483676,
+   "pNVDA.cumulativeVaultLoss_raw": 0,
+   "pUSDG.cumulativeVaultLoss_raw": 0,
+   "note": "already written into principals and exchange rates"
+  },
+  "2_marked": {
+   "benchmark_USD_oracle": 18.767822254516492,
+   "gross_at_oracle_ref_USD": 18.890376951388628,
+   "gross_minus_benchmark_excl_fees_USD": 0.12255469687213605,
+   "uncollected_fees_USD_oracle": 0.0,
+   "at_spot": {
+    "benchmark": 18.757966092673055,
+    "gross": 18.862902431649744,
+    "gross_minus_benchmark": 0.10493633897668886
+   },
+   "sim_checkpoint": {
+    "status": 1,
+    "pnlUSDG_ret": 0,
+    "event_stockAssets": 58765587783466930,
+    "event_usdgAssets": 6811098,
+    "event_benchmark": 18767822254516492793,
+    "event_pnl": 0,
+    "event_stockPrincipal": 21137498421961568,
+    "event_usdgPrincipal": 14423005,
+    "gasUsed": 271261
+   }
+  },
+  "3_withdrawal_liquidity": {
+   "vault.withdrawableAssets": {
+    "NVDA_raw": 21137498421961568,
+    "USDG_raw": 67
+   },
+   "vault.liquidAssets": {
+    "NVDA_raw": 29621285384682670,
+    "USDG_raw": 67
+   },
+   "market.getCash": {
+    "pNVDA_raw": 34247997165090482,
+    "pUSDG_raw": 12818769
+   },
+   "market.local": {
+    "pNVDA_raw": 13110498743128914,
+    "pUSDG_raw": 12818702
+   },
+   "singleHolderMax_sim": {
+    "pUSDG.0x04d4a5555b7a37017a67b4d21a1da5838de28b9e": {
+     "shares": 94060779824,
+     "claimAtERcurrent": 18593324,
+     "maxRedeemUnderlyingFound": 18593323,
+     "fullClaimTried": 18593323,
+     "lastRevert": null
+    },
+    "pUSDG.0x12c1e2c33f63f897e0e4ac1969c29493136f2481": {
+     "shares": 56619720,
+     "claimAtERcurrent": 11192,
+     "maxRedeemUnderlyingFound": 0,
+     "fullClaimTried": 11191,
+     "lastRevert": {
+      "message": "execution reverted",
+      "code": 3,
+      "data": "0xb7abef560000000000000000000000000000000000000000000000000000000000000004"
+     }
+    },
+    "pUSDG.0x17c72b8f171999c4d8863a3517d1c5d9cbfbb068": {
+     "shares": 4999956251,
+     "claimAtERcurrent": 988358,
+     "maxRedeemUnderlyingFound": 988357,
+     "fullClaimTried": 988357,
+     "lastRevert": null
+    },
+    "pUSDG.0x94696d767e65a75581145646960fa0ec886ce5d2": {
+     "shares": 33318558178,
+     "claimAtERcurrent": 6586196,
+     "maxRedeemUnderlyingFound": 6586195,
+     "fullClaimTried": 6586195,
+     "lastRevert": null
+    },
+    "pUSDG.0xdc48fd39733af117a4ffda35d7b325de9bdedfde": {
+     "shares": 15192876648,
+     "claimAtERcurrent": 3003229,
+     "maxRedeemUnderlyingFound": 3003228,
+     "fullClaimTried": 3003228,
+     "lastRevert": null
+    },
+    "pNVDA.0x4a0e01f9d41414f8e15eee188d7b184fc5a97571": {
+     "shares": 41142162,
+     "claimAtERcurrent": 8181264956079749,
+     "maxRedeemUnderlyingFound": 0,
+     "fullClaimTried": 8181256774814793,
+     "lastRevert": {
+      "message": "execution reverted",
+      "code": 3,
+      "data": "0xb7abef560000000000000000000000000000000000000000000000000000000000000004"
+     }
+    },
+    "pNVDA.0x7f082ffd0ee3460aee9a22d8fe0e9d33efcd4945": {
+     "shares": 31158663,
+     "claimAtERcurrent": 6196010741491871,
+     "maxRedeemUnderlyingFound": 0,
+     "fullClaimTried": 6196004545481130,
+     "lastRevert": {
+      "message": "execution reverted",
+      "code": 3,
+      "data": "0xb7abef560000000000000000000000000000000000000000000000000000000000000004"
+     }
+    },
+    "pNVDA.0x94696d767e65a75581145646960fa0ec886ce5d2": {
+     "shares": 100000000,
+     "claimAtERcurrent": 19885354970114962,
+     "maxRedeemUnderlyingFound": 19885335084759992,
+     "fullClaimTried": 19885335084759992,
+     "lastRevert": null
+    }
+   },
+   "bankrun.USDGfirst": {
+    "USDG_out_raw": 19565792,
+    "NVDA_out_raw": 19885335084759992,
+    "rows": [
+     {
+      "market": "pUSDG",
+      "holder": "0x04d4a5555b7a37017a67b4d21a1da5838de28b9e",
+      "claim": 18593324,
+      "redeemed": 18593323,
+      "capHint": 19583587,
+      "lastRevert": null
+     },
+     {
+      "market": "pUSDG",
+      "holder": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+      "claim": 6586196,
+      "redeemed": 972469,
+      "capHint": 990264,
+      "lastRevert": {
+       "message": "execution reverted",
+       "code": 3,
+       "data": "0x91240a1b"
+      }
+     },
+     {
+      "market": "pUSDG",
+      "holder": "0xdc48fd39733af117a4ffda35d7b325de9bdedfde",
+      "claim": 3003229,
+      "redeemed": 0,
+      "capHint": 17795,
+      "lastRevert": {
+       "message": "execution reverted",
+       "code": 3,
+       "data": "0x91240a1b"
+      }
+     },
+     {
+      "market": "pUSDG",
+      "holder": "0x17c72b8f171999c4d8863a3517d1c5d9cbfbb068",
+      "claim": 988358,
+      "redeemed": 0,
+      "capHint": 17795,
+      "lastRevert": {
+       "message": "execution reverted",
+       "code": 3,
+       "data": "0x91240a1b"
+      }
+     },
+     {
+      "market": "pUSDG",
+      "holder": "0x12c1e2c33f63f897e0e4ac1969c29493136f2481",
+      "claim": 11192,
+      "redeemed": 0,
+      "capHint": 17795,
+      "lastRevert": {
+       "message": "execution reverted",
+       "code": 3,
+       "data": "0x91240a1b"
+      }
+     },
+     {
+      "market": "pNVDA",
+      "holder": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+      "claim": 19885354970114962,
+      "redeemed": 19885335084759992,
+      "capHint": 72472048048123985,
+      "lastRevert": null
+     },
+     {
+      "market": "pNVDA",
+      "holder": "0x4a0e01f9d41414f8e15eee188d7b184fc5a97571",
+      "claim": 8181264956079749,
+      "redeemed": 0,
+      "capHint": 52586712963363993,
+      "lastRevert": {
+       "message": "execution reverted",
+       "code": 3,
+       "data": "0xb7abef560000000000000000000000000000000000000000000000000000000000000004"
+      }
+     },
+     {
+      "market": "pNVDA",
+      "holder": "0x7f082ffd0ee3460aee9a22d8fe0e9d33efcd4945",
+      "claim": 6196010741491871,
+      "redeemed": 0,
+      "capHint": 52586712963363993,
+      "lastRevert": {
+       "message": "execution reverted",
+       "code": 3,
+       "data": "0xb7abef560000000000000000000000000000000000000000000000000000000000000004"
+      }
+     }
+    ],
+    "final": {
+     "ledger": [
+      14362662080330490,
+      7675915,
+      52300093918619024,
+      494,
+      546235985148367630,
+      1793704032
+     ],
+     "position": [
+      4148743,
+      0,
+      0,
+      0
+     ],
+     "ticks": [
+      220800,
+      225660,
+      1
+     ],
+     "pUSDG.cash": [
+      0
+     ],
+     "pNVDA.cash": [
+      0
+     ],
+     "pUSDG.ts": [
+      48648449368
+     ],
+     "pNVDA.ts": [
+      72300925
+     ],
+     "pUSDG.er": [
+      197673515290408
+     ],
+     "pNVDA.er": [
+      198853549701149632594603734
+     ],
+     "reserve.USDG": [
+      17301
+     ],
+     "reserve.NVDA": [
+      286619044744969
+     ],
+     "reserve.daily": [
+      20712,
+      3524061514747287
+     ],
+     "v.USDG": [
+      494
+     ],
+     "v.NVDA": [
+      52300093918619024
+     ],
+     "wd.USDG": [
+      494
+     ],
+     "wd.NVDA": [
+      14362662080330490
+     ]
+    }
+   },
+   "bankrun.NVDAfirst": {
+    "USDG_out_raw": 19565792,
+    "NVDA_out_raw": 19885335084759992,
+    "rows": [
+     {
+      "market": "pNVDA",
+      "holder": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+      "claim": 19885354970114962,
+      "redeemed": 19885335084759992,
+      "capHint": 72472048048123985,
+      "lastRevert": null
+     },
+     {
+      "market": "pNVDA",
+      "holder": "0x4a0e01f9d41414f8e15eee188d7b184fc5a97571",
+      "claim": 8181264956079749,
+      "redeemed": 0,
+      "capHint": 52586712963363993,
+      "lastRevert": {
+       "message": "execution reverted",
+       "code": 3,
+       "data": "0xb7abef560000000000000000000000000000000000000000000000000000000000000004"
+      }
+     },
+     {
+      "market": "pNVDA",
+      "holder": "0x7f082ffd0ee3460aee9a22d8fe0e9d33efcd4945",
+      "claim": 6196010741491871,
+      "redeemed": 0,
+      "capHint": 52586712963363993,
+      "lastRevert": {
+       "message": "execution reverted",
+       "code": 3,
+       "data": "0xb7abef560000000000000000000000000000000000000000000000000000000000000004"
+      }
+     },
+     {
+      "market": "pUSDG",
+      "holder": "0x04d4a5555b7a37017a67b4d21a1da5838de28b9e",
+      "claim": 18593324,
+      "redeemed": 18593323,
+      "capHint": 19583587,
+      "lastRevert": null
+     },
+     {
+      "market": "pUSDG",
+      "holder": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+      "claim": 6586196,
+      "redeemed": 972469,
+      "capHint": 990264,
+      "lastRevert": {
+       "message": "execution reverted",
+       "code": 3,
+       "data": "0x91240a1b"
+      }
+     },
+     {
+      "market": "pUSDG",
+      "holder": "0xdc48fd39733af117a4ffda35d7b325de9bdedfde",
+      "claim": 3003229,
+      "redeemed": 0,
+      "capHint": 17795,
+      "lastRevert": {
+       "message": "execution reverted",
+       "code": 3,
+       "data": "0x91240a1b"
+      }
+     },
+     {
+      "market": "pUSDG",
+      "holder": "0x17c72b8f171999c4d8863a3517d1c5d9cbfbb068",
+      "claim": 988358,
+      "redeemed": 0,
+      "capHint": 17795,
+      "lastRevert": {
+       "message": "execution reverted",
+       "code": 3,
+       "data": "0x91240a1b"
+      }
+     },
+     {
+      "market": "pUSDG",
+      "holder": "0x12c1e2c33f63f897e0e4ac1969c29493136f2481",
+      "claim": 11192,
+      "redeemed": 0,
+      "capHint": 17795,
+      "lastRevert": {
+       "message": "execution reverted",
+       "code": 3,
+       "data": "0x91240a1b"
+      }
+     }
+    ],
+    "final": {
+     "ledger": [
+      14362662080330490,
+      7675915,
+      52300093918619024,
+      494,
+      546235985148367630,
+      1793704032
+     ],
+     "position": [
+      4148743,
+      0,
+      0,
+      0
+     ],
+     "ticks": [
+      220800,
+      225660,
+      1
+     ],
+     "pUSDG.cash": [
+      0
+     ],
+     "pNVDA.cash": [
+      0
+     ],
+     "pUSDG.ts": [
+      48648449368
+     ],
+     "pNVDA.ts": [
+      72300925
+     ],
+     "pUSDG.er": [
+      197673515290408
+     ],
+     "pNVDA.er": [
+      198853549701149632594603734
+     ],
+     "reserve.USDG": [
+      17301
+     ],
+     "reserve.NVDA": [
+      286619044744969
+     ],
+     "reserve.daily": [
+      20712,
+      3524061514747287
+     ],
+     "v.USDG": [
+      494
+     ],
+     "v.NVDA": [
+      52300093918619024
+     ],
+     "wd.USDG": [
+      494
+     ],
+     "wd.NVDA": [
+      14362662080330490
+     ]
+    }
+   }
+  },
+  "4_solvency": {
+   "oracle": {
+    "assets_incl_fees": 36.34808718852597,
+    "claims": 36.22553149165383,
+    "surplus": 0.12255569687214063
+   },
+   "spot": {
+    "assets_incl_fees": 36.314492575913945,
+    "claims": 36.209555236937256,
+    "surplus": 0.10493733897668989
+   }
+  }
+ },
+ "C": {
+  "oracle_ref": {
+   "USDG_shortage_raw": 7611907,
+   "NVDA_surplus_raw": 37628089361505362,
+   "NVDA_surplus_USD": 7.7344616968721365,
+   "NVDA_needed_to_equal_shortage_at_oracle_raw": 37031861819588400,
+   "remainder_USD_surplus_minus_shortage": 0.12255469687213605,
+   "remainder_NVDA_raw": 596227541916962
+  },
+  "pool_spot": {
+   "USDG_shortage_raw": 7675421,
+   "NVDA_surplus_raw": 37937431838288534,
+   "NVDA_surplus_USD": 7.780357338976688,
+   "remainder_USD": 0.10493633897668797
+  },
+  "value_dependence": {
+   "NVDA_backing_USD": 14.777153188525972,
+   "USDG_backing_USD": 21.570934,
+   "NVDA_share_of_total_backing": 0.40654555250408575,
+   "USDG_claims_USD": 29.182301,
+   "share_of_USDG_claims_backed_by_USDG_or_USDG_debt": 0.7391786548977067,
+   "share_of_USDG_claims_relying_on_NVDA_value": 0.26083984946903266
+  },
+  "sensitivity": [
+   {
+    "scenario": "-30%",
+    "price": 143.885147497,
+    "LP_NVDA": 0.06687141371804695,
+    "LP_USDG": 0.0,
+    "vault_NVDA": 0.09649269910272962,
+    "vault_USDG": 6.7e-05,
+    "USDG_shortage": 14.422938,
+    "NVDA_surplus": 0.07535520068076805,
+    "NVDA_surplus_USD": 10.842494164618346,
+    "benchmark": 17.464377078161544,
+    "gross": 13.88393324277989,
+    "gross_minus_benchmark": -3.5804438353816543,
+    "vault_would_recognise_loss_USD": 3.5804438353816543,
+    "pro_rata_factor": 0.7949858835870621,
+    "stockPrincipal_after": 0.01680401285980325,
+    "usdgPrincipal_after": 11.466085373905615,
+    "USDG_shortage_after_loss": 11.466018373905616,
+    "NVDA_share_of_vault_value": 0.999995174278151
+   },
+   {
+    "scenario": "-20%",
+    "price": 164.440168568,
+    "LP_NVDA": 0.06128095684744699,
+    "LP_USDG": 0.902716,
+    "vault_NVDA": 0.09090224223212966,
+    "vault_USDG": 0.902783,
+    "USDG_shortage": 13.520222,
+    "NVDA_surplus": 0.06976474381016809,
+    "NVDA_surplus_USD": 11.472126232247374,
+    "benchmark": 17.898858803613194,
+    "gross": 15.850763035860568,
+    "gross_minus_benchmark": -2.048095767752626,
+    "vault_would_recognise_loss_USD": 2.048095767752626,
+    "pro_rata_factor": 0.8855739469077669,
+    "stockPrincipal_after": 0.0187188179052932,
+    "usdgPrincipal_after": 12.772637464120457,
+    "USDG_shortage_after_loss": 11.869854464120458,
+    "NVDA_share_of_vault_value": 0.9430448239016914
+   },
+   {
+    "scenario": "-10%",
+    "price": 184.995189639,
+    "LP_NVDA": 0.043871871253602424,
+    "LP_USDG": 3.939125,
+    "vault_NVDA": 0.0734931566382851,
+    "vault_USDG": 3.939192,
+    "USDG_shortage": 10.483813,
+    "NVDA_surplus": 0.05235565821632353,
+    "NVDA_surplus_USD": 9.685544920403439,
+    "benchmark": 18.33334052906484,
+    "gross": 17.53507244946828,
+    "gross_minus_benchmark": -0.7982680795965607,
+    "vault_would_recognise_loss_USD": 0.7982680795965607,
+    "pro_rata_factor": 0.9564581218392239,
+    "stockPrincipal_after": 0.02021713204104892,
+    "usdgPrincipal_after": 13.795000273577735,
+    "USDG_shortage_after_loss": 9.855808273577734,
+    "NVDA_share_of_vault_value": 0.7753535372407631
+   },
+   {
+    "scenario": "-5%",
+    "price": 195.2727001745,
+    "LP_NVDA": 0.03621732715163995,
+    "LP_USDG": 5.393982,
+    "vault_NVDA": 0.06583861253632262,
+    "vault_USDG": 5.394049,
+    "USDG_shortage": 9.028956,
+    "NVDA_surplus": 0.044701114114361055,
+    "NVDA_surplus_USD": 8.728907253919736,
+    "benchmark": 18.55058139179067,
+    "gross": 18.250532645710404,
+    "gross_minus_benchmark": -0.30004874608026455,
+    "vault_would_recognise_loss_USD": 0.30004874608026455,
+    "pro_rata_factor": 0.9838253723835821,
+    "stockPrincipal_after": 0.02079560725624372,
+    "usdgPrincipal_after": 14.189718265015268,
+    "USDG_shortage_after_loss": 8.795669265015267,
+    "NVDA_share_of_vault_value": 0.7044442973412167
+   },
+   {
+    "scenario": "0% (recomputed)",
+    "price": 205.55021071,
+    "LP_NVDA": 0.02914430239878426,
+    "LP_USDG": 6.811031,
+    "vault_NVDA": 0.05876558778346693,
+    "vault_USDG": 6.811098,
+    "USDG_shortage": 7.611907,
+    "NVDA_surplus": 0.037628089361505364,
+    "NVDA_surplus_USD": 7.7344616968721365,
+    "benchmark": 18.767822254516492,
+    "gross": 18.890376951388628,
+    "gross_minus_benchmark": 0.12255469687213605,
+    "vault_would_recognise_loss_USD": 0,
+    "pro_rata_factor": 1,
+    "stockPrincipal_after": 0.021137498421961567,
+    "usdgPrincipal_after": 14.423005,
+    "USDG_shortage_after_loss": 7.611907,
+    "NVDA_share_of_vault_value": 0.6394408635927555
+   },
+   {
+    "scenario": "+5%",
+    "price": 215.8277212455,
+    "LP_NVDA": 0.02258270911456461,
+    "LP_USDG": 8.193075,
+    "vault_NVDA": 0.05220399449924728,
+    "vault_USDG": 8.193142,
+    "USDG_shortage": 6.229863,
+    "NVDA_surplus": 0.03106649607728571,
+    "NVDA_surplus_USD": 6.7050110554428395,
+    "benchmark": 18.985063117242316,
+    "gross": 19.460211172685156,
+    "gross_minus_benchmark": 0.47514805544284044,
+    "vault_would_recognise_loss_USD": 0,
+    "pro_rata_factor": 1,
+    "stockPrincipal_after": 0.021137498421961567,
+    "usdgPrincipal_after": 14.423005,
+    "USDG_shortage_after_loss": 6.229863,
+    "NVDA_share_of_vault_value": 0.57897979999826
+   },
+   {
+    "scenario": "+10%",
+    "price": 226.105231781,
+    "LP_NVDA": 0.016473742806675143,
+    "LP_USDG": 9.542586,
+    "vault_NVDA": 0.046095028191357815,
+    "vault_USDG": 9.542653,
+    "USDG_shortage": 4.880352,
+    "NVDA_surplus": 0.024957529769396247,
+    "NVDA_surplus_USD": 5.6430280531905455,
+    "benchmark": 19.202303979968143,
+    "gross": 19.96498003315869,
+    "gross_minus_benchmark": 0.7626760531905461,
+    "vault_would_recognise_loss_USD": 0,
+    "pro_rata_factor": 1,
+    "stockPrincipal_after": 0.021137498421961567,
+    "usdgPrincipal_after": 14.423005,
+    "USDG_shortage_after_loss": 4.880352,
+    "NVDA_share_of_vault_value": 0.522030426068488
+   },
+   {
+    "scenario": "+20%",
+    "price": 246.660252852,
+    "LP_NVDA": 0.00542200959835831,
+    "LP_USDG": 12.152555,
+    "vault_NVDA": 0.03504329498304098,
+    "vault_USDG": 12.152622,
+    "USDG_shortage": 2.270383,
+    "NVDA_surplus": 0.013905796561079412,
+    "NVDA_surplus_USD": 3.43000729586432,
+    "benchmark": 19.63678570541979,
+    "gross": 20.79641000128411,
+    "gross_minus_benchmark": 1.1596242958643188,
+    "vault_would_recognise_loss_USD": 0,
+    "pro_rata_factor": 1,
+    "stockPrincipal_after": 0.021137498421961567,
+    "usdgPrincipal_after": 14.423005,
+    "USDG_shortage_after_loss": 2.270383,
+    "NVDA_share_of_vault_value": 0.4156384684063445
+   },
+   {
+    "scenario": "+26%",
+    "price": 258.9932654946,
+    "LP_NVDA": 0.0,
+    "LP_USDG": 13.519775,
+    "vault_NVDA": 0.02962128538468267,
+    "vault_USDG": 13.519842,
+    "USDG_shortage": 0.903163,
+    "NVDA_surplus": 0.008483786962721103,
+    "NVDA_surplus_USD": 2.197243689235653,
+    "benchmark": 19.897474740690782,
+    "gross": 21.19155542992643,
+    "gross_minus_benchmark": 1.2940806892356491,
+    "vault_would_recognise_loss_USD": 0,
+    "pro_rata_factor": 1,
+    "stockPrincipal_after": 0.021137498421961567,
+    "usdgPrincipal_after": 14.423005,
+    "USDG_shortage_after_loss": 0.903163,
+    "NVDA_share_of_vault_value": 0.36201747697540604
+   },
+   {
+    "scenario": "+50%",
+    "price": 308.325316065,
+    "LP_NVDA": 0.0,
+    "LP_USDG": 13.519775,
+    "vault_NVDA": 0.02962128538468267,
+    "vault_USDG": 13.519842,
+    "USDG_shortage": 0.903163,
+    "NVDA_surplus": 0.008483786962721103,
+    "NVDA_surplus_USD": 2.61576629670911,
+    "benchmark": 20.94023088177474,
+    "gross": 22.65283417848385,
+    "gross_minus_benchmark": 1.712603296709112,
+    "vault_would_recognise_loss_USD": 0,
+    "pro_rata_factor": 1,
+    "stockPrincipal_after": 0.021137498421961567,
+    "usdgPrincipal_after": 14.423005,
+    "USDG_shortage_after_loss": 0.903163,
+    "NVDA_share_of_vault_value": 0.4031721640887903
+   }
+  ],
+  "break_even_price_gross_equals_benchmark": {
+   "price": 202.38221571901744,
+   "pct_from_oracle": -1.5412268272748775,
+   "model_check_gm_at_oracle": 0.12255487414392618
+  }
+ },
+ "D": {
+  "i_wait": {
+   "USDG_in_position_at_ref": 6811031,
+   "USDG_max_in_position_at_tickLower": 13519775,
+   "tickLower": 220800,
+   "tickLower_price": 257.7847778315631,
+   "USDG_principal_minus_idle": 14422938,
+   "reachable_in_current_range": false,
+   "gap_at_tickLower_raw": 903163,
+   "pct_tickLower_vs_oracle": 25.412071795566348,
+   "model_with_recenters": {
+    "covering_tick": 220944,
+    "covering_price": 254.09945926621765,
+    "pct_from_oracle": 23.619167496117655,
+    "recenters_assumed": 3,
+    "recenters": [
+     {
+      "tick": 222614,
+      "price": 215.0206589673887,
+      "L": 4790318734524,
+      "LP_USDG": 8.085819,
+      "LP_NVDA": 0.03714198231183743,
+      "idle_NVDA": 0.015560195120511643,
+      "idle_USDG": 2e-06
+     },
+     {
+      "tick": 222014,
+      "price": 228.31610905014338,
+      "L": 5650661193282,
+      "LP_USDG": 9.828496,
+      "LP_NVDA": 0.04251789479226834,
+      "idle_NVDA": 0.000529865699691301,
+      "idle_USDG": 0.396442
+     },
+     {
+      "tick": 221414,
+      "price": 242.43366150088414,
+      "L": 4327849127564,
+      "LP_USDG": 7.756898,
+      "LP_NVDA": 0.03160213427920035,
+      "idle_NVDA": 0.000393833653444476,
+      "idle_USDG": 5.068185
+     }
+    ]
+   }
+  },
+  "ii_swap": {
+   "swapsPaused_at_pin": true,
+   "maxSettlementSwapUSDG": 25.0,
+   "maxSwapSlippageBps": 100,
+   "lpFee_pips": 3000,
+   "protocolFee_oneForZero_pips": 500,
+   "effective_swap_fee_pips": 3499,
+   "local_quote_for_shortage": {
+    "NVDA_in_raw": 37246453133792821,
+    "USDG_out_raw": 7611907,
+    "post_sqrt": 5532412825050497014398101705850123,
+    "crossings": 0,
+    "avg_price": 204.365955938336,
+    "impact_excl_fee_bps": 0.03700493339753308
+   },
+   "local_quote_cost_USD_vs_oracle": 0.04410928985125384,
+   "local_quote_cost_bps": 57.9477519250493,
+   "oracle_floor_price_with_slippage": 203.49470860289998,
+   "sim": {
+    "status": 1,
+    "error": null,
+    "gas": 786522,
+    "swap_event": [
+     37633017843938495,
+     7690907
+    ],
+    "post": {
+     "ledger": [
+      21137498421961568,
+      0,
+      21441912416311607,
+      32787,
+      546235985148367630,
+      1793704032
+     ],
+     "position": [
+      4148743,
+      0,
+      0,
+      0
+     ],
+     "ticks": [
+      220800,
+      225660,
+      1
+     ],
+     "pUSDG.cash": [
+      27241707
+     ],
+     "pNVDA.cash": [
+      13110498743128914
+     ],
+     "pUSDG.ts": [
+      147628790621
+     ],
+     "pNVDA.ts": [
+      172300825
+     ],
+     "pUSDG.er": [
+      197643141810371
+     ],
+     "pNVDA.er": [
+      198853441482981842948227322
+     ],
+     "reserve.USDG": [
+      0
+     ],
+     "reserve.NVDA": [
+      286619044744969
+     ],
+     "reserve.daily": [
+      20760,
+      17301000000000000
+     ],
+     "v.USDG": [
+      32787
+     ],
+     "v.NVDA": [
+      21441912416311607
+     ],
+     "wd.USDG": [
+      0
+     ],
+     "wd.NVDA": [
+      21137498421961568
+     ]
+    },
+    "withdrawal": [
+     14423005,
+     14423005,
+     0
+    ],
+    "reserveCovered": [
+     17301,
+     17301,
+     17301000000000000,
+     7658120000000000000
+    ]
+   },
+   "gas": {
+    "gas": 786522,
+    "ETH": 1.573044e-05,
+    "USD": 0.03563892401328986
+   },
+   "sim_swap_cost_USD_vs_oracle": 0.04456774747474679,
+   "sim_swap_cost_bps": 57.94862358203812,
+   "sim_effective_price": 204.36593822726778,
+   "NVDA_surplus_after_sim_raw": 304413994350039,
+   "USDG_side_after": {
+    "principal": 0,
+    "idle": 32787
+   },
+   "principals_scaled": false,
+   "cumulativeLossUSDG_after": 546235985148367630,
+   "bankrun": {
+    "rows": [
+     {
+      "market": "pUSDG",
+      "holder": "0x04d4a5555b7a37017a67b4d21a1da5838de28b9e",
+      "claim": 18593324,
+      "redeemed": 18593323,
+      "capHint": 19583587,
+      "lastRevert": null
+     },
+     {
+      "market": "pUSDG",
+      "holder": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+      "claim": 6586196,
+      "redeemed": 6586195,
+      "capHint": 990264,
+      "lastRevert": null
+     },
+     {
+      "market": "pUSDG",
+      "holder": "0xdc48fd39733af117a4ffda35d7b325de9bdedfde",
+      "claim": 3003229,
+      "redeemed": 2062099,
+      "capHint": 23961,
+      "lastRevert": {
+       "message": "execution reverted",
+       "code": 3,
+       "data": "0x91240a1b"
+      }
+     },
+     {
+      "market": "pUSDG",
+      "holder": "0x17c72b8f171999c4d8863a3517d1c5d9cbfbb068",
+      "claim": 988358,
+      "redeemed": 0,
+      "capHint": 8723,
+      "lastRevert": {
+       "message": "execution reverted",
+       "code": 3,
+       "data": "0x91240a1b"
+      }
+     },
+     {
+      "market": "pUSDG",
+      "holder": "0x12c1e2c33f63f897e0e4ac1969c29493136f2481",
+      "claim": 11192,
+      "redeemed": 0,
+      "capHint": 8723,
+      "lastRevert": {
+       "message": "execution reverted",
+       "code": 3,
+       "data": "0x91240a1b"
+      }
+     },
+     {
+      "market": "pNVDA",
+      "holder": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+      "claim": 19885354970114962,
+      "redeemed": 19885335084759992,
+      "capHint": 34957220009537789,
+      "lastRevert": null
+     },
+     {
+      "market": "pNVDA",
+      "holder": "0x4a0e01f9d41414f8e15eee188d7b184fc5a97571",
+      "claim": 8181264956079749,
+      "redeemed": 0,
+      "capHint": 15071884924777797,
+      "lastRevert": {
+       "message": "execution reverted",
+       "code": 3,
+       "data": "0xb7abef560000000000000000000000000000000000000000000000000000000000000004"
+      }
+     },
+     {
+      "market": "pNVDA",
+      "holder": "0x7f082ffd0ee3460aee9a22d8fe0e9d33efcd4945",
+      "claim": 6196010741491871,
+      "redeemed": 0,
+      "capHint": 15071884924777797,
+      "lastRevert": {
+       "message": "execution reverted",
+       "code": 3,
+       "data": "0xb7abef560000000000000000000000000000000000000000000000000000000000000004"
+      }
+     }
+    ],
+    "final": {
+     "ledger": [
+      14362662080330490,
+      90,
+      14785265880032828,
+      8723,
+      546235985148367630,
+      1793704032
+     ],
+     "position": [
+      4148743,
+      0,
+      0,
+      0
+     ],
+     "ticks": [
+      220800,
+      225660,
+      1
+     ],
+     "pUSDG.cash": [
+      0
+     ],
+     "pNVDA.cash": [
+      0
+     ],
+     "pUSDG.ts": [
+      9817627804
+     ],
+     "pNVDA.ts": [
+      72300925
+     ],
+     "pUSDG.er": [
+      197673515307771
+     ],
+     "pNVDA.er": [
+      198853549701149632594603734
+     ],
+     "reserve.USDG": [
+      0
+     ],
+     "reserve.NVDA": [
+      286619044744969
+     ],
+     "reserve.daily": [
+      20760,
+      17301000000000000
+     ],
+     "v.USDG": [
+      8723
+     ],
+     "v.NVDA": [
+      14785265880032828
+     ],
+     "wd.USDG": [
+      90
+     ],
+     "wd.NVDA": [
+      14362662080330490
+     ]
+    },
+    "USDG_out_raw": 27241617,
+    "NVDA_out_raw": 19885335084759992
+   },
+   "sync_path": {
+    "status": [
+     1
+    ],
+    "gas": 823572,
+    "covers": [
+     [
+      17301,
+      17301,
+      17301000000000000,
+      7658120000000000000
+     ]
+    ],
+    "vaultWithdrawals": [
+     [
+      14423005,
+      14423005,
+      0
+     ]
+    ],
+    "checkpoints": [],
+    "reverts": [],
+    "post": {
+     "ledger": [
+      21137498421961568,
+      0,
+      21441912416311607,
+      32787,
+      546235985148367630,
+      1793704032
+     ],
+     "position": [
+      4148743,
+      0,
+      0,
+      0
+     ],
+     "ticks": [
+      220800,
+      225660,
+      1
+     ],
+     "pUSDG.cash": [
+      27241707
+     ],
+     "pNVDA.cash": [
+      13110498743128914
+     ],
+     "pUSDG.ts": [
+      147628790621
+     ],
+     "pNVDA.ts": [
+      172300825
+     ],
+     "pUSDG.er": [
+      197643141810371
+     ],
+     "pNVDA.er": [
+      198853441482981842948227322
+     ],
+     "reserve.USDG": [
+      0
+     ],
+     "reserve.NVDA": [
+      286619044744969
+     ],
+     "reserve.daily": [
+      20760,
+      17301000000000000
+     ],
+     "v.USDG": [
+      32787
+     ],
+     "v.NVDA": [
+      21441912416311607
+     ],
+     "wd.USDG": [
+      0
+     ],
+     "wd.NVDA": [
+      21137498421961568
+     ]
+    }
+   }
+  },
+  "iii_reserve": {
+   "limits": {
+    "maxUsePerTx_USD": 10.0,
+    "dailyCap_USD": 25.0,
+    "maxCoverageBps": 5000,
+    "paused": 0,
+    "dailyUsage": {
+     "day": 20712,
+     "used_USD": 0.003524061514747287,
+     "pinDay": 20760
+    }
+   },
+   "balances": {
+    "NVDA": {
+     "available": 286619044744969,
+     "accounted": 286619044744969,
+     "balance": 286619044744969
+    },
+    "USDG": {
+     "available": 17301,
+     "accounted": 17301,
+     "balance": 17301
+    }
+   },
+   "existing_available_USDG_raw": 17301,
+   "sim_params": {
+    "shortage": 7611907,
+    "deposit": 8611907
+   },
+   "sim_firstWithdraw": {
+    "steps": [
+     {
+      "label": "approve",
+      "status": 1,
+      "gasUsed": 57976,
+      "logs": []
+     },
+     {
+      "label": "reserve.deposit",
+      "status": 1,
+      "gasUsed": 86373,
+      "logs": [
+       [
+        "ReserveFunded",
+        [
+         8611907
+        ]
+       ]
+      ]
+     },
+     {
+      "label": "withdraw.1",
+      "status": 1,
+      "gasUsed": 575509,
+      "logs": [
+       [
+        "FeesProcessed",
+        [
+         0,
+         0,
+         0,
+         0
+        ]
+       ],
+       [
+        "ReserveCovered",
+        [
+         7675421,
+         3837710,
+         3837710000000000000,
+         3837711000000000000
+        ]
+       ],
+       [
+        "Withdrawal",
+        [
+         14423005,
+         10585294,
+         0
+        ]
+       ]
+      ]
+     }
+    ],
+    "post": {
+     "ledger": [
+      21137498421961568,
+      3837711,
+      59074930260250102,
+      0,
+      546235985148367630,
+      1793704032
+     ],
+     "position": [
+      4148743,
+      0,
+      0,
+      0
+     ],
+     "ticks": [
+      220800,
+      225660,
+      1
+     ],
+     "pUSDG.cash": [
+      23403996
+     ],
+     "pNVDA.cash": [
+      13110498743128914
+     ],
+     "pUSDG.ts": [
+      147628790621
+     ],
+     "pNVDA.ts": [
+      172300825
+     ],
+     "pUSDG.er": [
+      197643141810371
+     ],
+     "pNVDA.er": [
+      198853441482981842948227322
+     ],
+     "reserve.USDG": [
+      4791498
+     ],
+     "reserve.NVDA": [
+      286619044744969
+     ],
+     "reserve.daily": [
+      20760,
+      3837710000000000000
+     ],
+     "v.USDG": [
+      0
+     ],
+     "v.NVDA": [
+      59074930260250102
+     ],
+     "wd.USDG": [
+      0
+     ],
+     "wd.NVDA": [
+      21137498421961568
+     ]
+    }
+   },
+   "sim_sequentialFullSide": [
+    {
+     "i": 1,
+     "requested": 14423005,
+     "status": 1,
+     "gas": 575509,
+     "usdgPrincipalAfter": 3837711,
+     "usdgIdleAfter": 0,
+     "stockPrincipalAfter": 21137498421961568,
+     "stockIdleAfter": 59074930260250102,
+     "cumLoss": 546235985148367630,
+     "reserveAvail": 4791498,
+     "daily": [
+      20760,
+      3837710000000000000
+     ],
+     "covered": [
+      7675421,
+      3837710,
+      3837710000000000000,
+      3837711000000000000
+     ],
+     "withdrawal": [
+      14423005,
+      10585294,
+      0
+     ],
+     "pUSDGcash": 23403996,
+     "liquidity": 0
+    },
+    {
+     "i": 2,
+     "requested": 3837711,
+     "status": 1,
+     "gas": 302502,
+     "usdgPrincipalAfter": 1918856,
+     "usdgIdleAfter": 0,
+     "stockPrincipalAfter": 21137498421961568,
+     "stockIdleAfter": 59074930260250102,
+     "cumLoss": 546235985148367630,
+     "reserveAvail": 2872643,
+     "daily": [
+      20760,
+      5756565000000000000
+     ],
+     "covered": [
+      3837711,
+      1918855,
+      1918855000000000000,
+      1918856000000000000
+     ],
+     "withdrawal": [
+      3837711,
+      1918855,
+      0
+     ],
+     "pUSDGcash": 25322851,
+     "liquidity": 0
+    },
+    {
+     "i": 3,
+     "requested": 1918856,
+     "status": 1,
+     "gas": 302502,
+     "usdgPrincipalAfter": 959428,
+     "usdgIdleAfter": 0,
+     "stockPrincipalAfter": 21137498421961568,
+     "stockIdleAfter": 59074930260250102,
+     "cumLoss": 546235985148367630,
+     "reserveAvail": 1913215,
+     "daily": [
+      20760,
+      6715993000000000000
+     ],
+     "covered": [
+      1918856,
+      959428,
+      959428000000000000,
+      959428000000000000
+     ],
+     "withdrawal": [
+      1918856,
+      959428,
+      0
+     ],
+     "pUSDGcash": 26282279,
+     "liquidity": 0
+    },
+    {
+     "i": 4,
+     "requested": 959428,
+     "status": 1,
+     "gas": 302502,
+     "usdgPrincipalAfter": 479714,
+     "usdgIdleAfter": 0,
+     "stockPrincipalAfter": 21137498421961568,
+     "stockIdleAfter": 59074930260250102,
+     "cumLoss": 546235985148367630,
+     "reserveAvail": 1433501,
+     "daily": [
+      20760,
+      7195707000000000000
+     ],
+     "covered": [
+      959428,
+      479714,
+      479714000000000000,
+      479714000000000000
+     ],
+     "withdrawal": [
+      959428,
+      479714,
+      0
+     ],
+     "pUSDGcash": 26761993,
+     "liquidity": 0
+    },
+    {
+     "i": 5,
+     "requested": 479714,
+     "status": 1,
+     "gas": 302502,
+     "usdgPrincipalAfter": 239857,
+     "usdgIdleAfter": 0,
+     "stockPrincipalAfter": 21137498421961568,
+     "stockIdleAfter": 59074930260250102,
+     "cumLoss": 546235985148367630,
+     "reserveAvail": 1193644,
+     "daily": [
+      20760,
+      7435564000000000000
+     ],
+     "covered": [
+      479714,
+      239857,
+      239857000000000000,
+      239857000000000000
+     ],
+     "withdrawal": [
+      479714,
+      239857,
+      0
+     ],
+     "pUSDGcash": 27001850,
+     "liquidity": 0
+    },
+    {
+     "i": 6,
+     "requested": 239857,
+     "status": 1,
+     "gas": 302502,
+     "usdgPrincipalAfter": 119929,
+     "usdgIdleAfter": 0,
+     "stockPrincipalAfter": 21137498421961568,
+     "stockIdleAfter": 59074930260250102,
+     "cumLoss": 546235985148367630,
+     "reserveAvail": 1073716,
+     "daily": [
+      20760,
+      7555492000000000000
+     ],
+     "covered": [
+      239857,
+      119928,
+      119928000000000000,
+      119929000000000000
+     ],
+     "withdrawal": [
+      239857,
+      119928,
+      0
+     ],
+     "pUSDGcash": 27121778,
+     "liquidity": 0
+    }
+   ],
+   "bankrun": {
+    "rows": [
+     {
+      "market": "pUSDG",
+      "holder": "0x04d4a5555b7a37017a67b4d21a1da5838de28b9e",
+      "claim": 18593324,
+      "redeemed": 18593323,
+      "capHint": 28195494,
+      "lastRevert": null
+     },
+     {
+      "market": "pUSDG",
+      "holder": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+      "claim": 6586196,
+      "redeemed": 972861,
+      "capHint": 9602171,
+      "lastRevert": {
+       "message": "execution reverted",
+       "code": 3,
+       "data": "0x91240a1b"
+      }
+     },
+     {
+      "market": "pUSDG",
+      "holder": "0xdc48fd39733af117a4ffda35d7b325de9bdedfde",
+      "claim": 3003229,
+      "redeemed": 0,
+      "capHint": 8629310,
+      "lastRevert": {
+       "message": "execution reverted",
+       "code": 3,
+       "data": "0x91240a1b"
+      }
+     },
+     {
+      "market": "pUSDG",
+      "holder": "0x17c72b8f171999c4d8863a3517d1c5d9cbfbb068",
+      "claim": 988358,
+      "redeemed": 0,
+      "capHint": 8629310,
+      "lastRevert": {
+       "message": "execution reverted",
+       "code": 3,
+       "data": "0x91240a1b"
+      }
+     },
+     {
+      "market": "pUSDG",
+      "holder": "0x12c1e2c33f63f897e0e4ac1969c29493136f2481",
+      "claim": 11192,
+      "redeemed": 0,
+      "capHint": 8629310,
+      "lastRevert": {
+       "message": "execution reverted",
+       "code": 3,
+       "data": "0x91240a1b"
+      }
+     },
+     {
+      "market": "pNVDA",
+      "holder": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+      "claim": 19885354970114962,
+      "redeemed": 19885335084759992,
+      "capHint": 72472048048123985,
+      "lastRevert": null
+     },
+     {
+      "market": "pNVDA",
+      "holder": "0x4a0e01f9d41414f8e15eee188d7b184fc5a97571",
+      "claim": 8181264956079749,
+      "redeemed": 0,
+      "capHint": 52586712963363993,
+      "lastRevert": {
+       "message": "execution reverted",
+       "code": 3,
+       "data": "0xb7abef560000000000000000000000000000000000000000000000000000000000000004"
+      }
+     },
+     {
+      "market": "pNVDA",
+      "holder": "0x7f082ffd0ee3460aee9a22d8fe0e9d33efcd4945",
+      "claim": 6196010741491871,
+      "redeemed": 0,
+      "capHint": 52586712963363993,
+      "lastRevert": {
+       "message": "execution reverted",
+       "code": 3,
+       "data": "0xb7abef560000000000000000000000000000000000000000000000000000000000000004"
+      }
+     }
+    ],
+    "final": {
+     "ledger": [
+      14362662080330490,
+      7675523,
+      52300093918619024,
+      102,
+      546235985148367630,
+      1793704032
+     ],
+     "position": [
+      4148743,
+      0,
+      0,
+      0
+     ],
+     "ticks": [
+      220800,
+      225660,
+      1
+     ],
+     "pUSDG.cash": [
+      0
+     ],
+     "pNVDA.cash": [
+      0
+     ],
+     "pUSDG.ts": [
+      48646466300
+     ],
+     "pNVDA.ts": [
+      72300925
+     ],
+     "pUSDG.er": [
+      197673515290873
+     ],
+     "pNVDA.er": [
+      198853549701149632594603734
+     ],
+     "reserve.USDG": [
+      8629208
+     ],
+     "reserve.NVDA": [
+      286619044744969
+     ],
+     "reserve.daily": [
+      20712,
+      3524061514747287
+     ],
+     "v.USDG": [
+      102
+     ],
+     "v.NVDA": [
+      52300093918619024
+     ],
+     "wd.USDG": [
+      102
+     ],
+     "wd.NVDA": [
+      14362662080330490
+     ]
+    },
+    "USDG_out_raw": 19566184,
+    "NVDA_out_raw": 19885335084759992
+   },
+   "analytic_geometric": {
+    "first_six_covers_raw": [
+     3805953,
+     1902977,
+     951488,
+     475744,
+     237872,
+     118936
+    ],
+    "covers_until_zero": 24,
+    "covers_until_below_1cent": 10,
+    "total_paid_raw": 7611907,
+    "days_needed": 1
+   },
+   "sync_path": {
+    "route.reserve.sync.1": {
+     "status": [
+      1,
+      1,
+      1
+     ],
+     "gas": 612559,
+     "covers": [
+      [
+       7675421,
+       3837710,
+       3837710000000000000,
+       3837711000000000000
+      ]
+     ],
+     "vaultWithdrawals": [
+      [
+       14423005,
+       10585294,
+       0
+      ]
+     ],
+     "checkpoints": [],
+     "reverts": [],
+     "post": {
+      "ledger": [
+       21137498421961568,
+       3837711,
+       59074930260250102,
+       0,
+       546235985148367630,
+       1793704032
+      ],
+      "position": [
+       4148743,
+       0,
+       0,
+       0
+      ],
+      "ticks": [
+       220800,
+       225660,
+       1
+      ],
+      "pUSDG.cash": [
+       23403996
+      ],
+      "pNVDA.cash": [
+       13110498743128914
+      ],
+      "pUSDG.ts": [
+       147628790621
+      ],
+      "pNVDA.ts": [
+       172300825
+      ],
+      "pUSDG.er": [
+       197643141810371
+      ],
+      "pNVDA.er": [
+       198853441482981842948227322
+      ],
+      "reserve.USDG": [
+       4791498
+      ],
+      "reserve.NVDA": [
+       286619044744969
+      ],
+      "reserve.daily": [
+       20760,
+       3837710000000000000
+      ],
+      "v.USDG": [
+       0
+      ],
+      "v.NVDA": [
+       59074930260250102
+      ],
+      "wd.USDG": [
+       0
+      ],
+      "wd.NVDA": [
+       21137498421961568
+      ]
+     }
+    },
+    "route.reserve.sync.2": {
+     "status": [
+      1,
+      1,
+      1,
+      1
+     ],
+     "gas": 952111,
+     "covers": [
+      [
+       7675421,
+       3837710,
+       3837710000000000000,
+       3837711000000000000
+      ],
+      [
+       3837711,
+       1918855,
+       1918855000000000000,
+       1918856000000000000
+      ]
+     ],
+     "vaultWithdrawals": [
+      [
+       14423005,
+       10585294,
+       0
+      ],
+      [
+       3837711,
+       1918855,
+       0
+      ]
+     ],
+     "checkpoints": [],
+     "reverts": [],
+     "post": {
+      "ledger": [
+       21137498421961568,
+       1918856,
+       59074930260250102,
+       0,
+       546235985148367630,
+       1793704032
+      ],
+      "position": [
+       4148743,
+       0,
+       0,
+       0
+      ],
+      "ticks": [
+       220800,
+       225660,
+       1
+      ],
+      "pUSDG.cash": [
+       25322851
+      ],
+      "pNVDA.cash": [
+       13110498743128914
+      ],
+      "pUSDG.ts": [
+       147628790621
+      ],
+      "pNVDA.ts": [
+       172300825
+      ],
+      "pUSDG.er": [
+       197643141810371
+      ],
+      "pNVDA.er": [
+       198853441482981842948227322
+      ],
+      "reserve.USDG": [
+       2872643
+      ],
+      "reserve.NVDA": [
+       286619044744969
+      ],
+      "reserve.daily": [
+       20760,
+       5756565000000000000
+      ],
+      "v.USDG": [
+       0
+      ],
+      "v.NVDA": [
+       59074930260250102
+      ],
+      "wd.USDG": [
+       0
+      ],
+      "wd.NVDA": [
+       21137498421961568
+      ]
+     }
+    },
+    "route.reserve.sync.4": {
+     "status": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ],
+     "gas": 1631215,
+     "covers": [
+      [
+       7675421,
+       3837710,
+       3837710000000000000,
+       3837711000000000000
+      ],
+      [
+       3837711,
+       1918855,
+       1918855000000000000,
+       1918856000000000000
+      ],
+      [
+       1918856,
+       959428,
+       959428000000000000,
+       959428000000000000
+      ],
+      [
+       959428,
+       479714,
+       479714000000000000,
+       479714000000000000
+      ]
+     ],
+     "vaultWithdrawals": [
+      [
+       14423005,
+       10585294,
+       0
+      ],
+      [
+       3837711,
+       1918855,
+       0
+      ],
+      [
+       1918856,
+       959428,
+       0
+      ],
+      [
+       959428,
+       479714,
+       0
+      ]
+     ],
+     "checkpoints": [],
+     "reverts": [],
+     "post": {
+      "ledger": [
+       21137498421961568,
+       479714,
+       59074930260250102,
+       0,
+       546235985148367630,
+       1793704032
+      ],
+      "position": [
+       4148743,
+       0,
+       0,
+       0
+      ],
+      "ticks": [
+       220800,
+       225660,
+       1
+      ],
+      "pUSDG.cash": [
+       26761993
+      ],
+      "pNVDA.cash": [
+       13110498743128914
+      ],
+      "pUSDG.ts": [
+       147628790621
+      ],
+      "pNVDA.ts": [
+       172300825
+      ],
+      "pUSDG.er": [
+       197643141810371
+      ],
+      "pNVDA.er": [
+       198853441482981842948227322
+      ],
+      "reserve.USDG": [
+       1433501
+      ],
+      "reserve.NVDA": [
+       286619044744969
+      ],
+      "reserve.daily": [
+       20760,
+       7195707000000000000
+      ],
+      "v.USDG": [
+       0
+      ],
+      "v.NVDA": [
+       59074930260250102
+      ],
+      "wd.USDG": [
+       0
+      ],
+      "wd.NVDA": [
+       21137498421961568
+      ]
+     }
+    },
+    "route.reserve.sync.10": {
+     "status": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ],
+     "gas": 3668527,
+     "covers": [
+      [
+       7675421,
+       3837710,
+       3837710000000000000,
+       3837711000000000000
+      ],
+      [
+       3837711,
+       1918855,
+       1918855000000000000,
+       1918856000000000000
+      ],
+      [
+       1918856,
+       959428,
+       959428000000000000,
+       959428000000000000
+      ],
+      [
+       959428,
+       479714,
+       479714000000000000,
+       479714000000000000
+      ],
+      [
+       479714,
+       239857,
+       239857000000000000,
+       239857000000000000
+      ],
+      [
+       239857,
+       119928,
+       119928000000000000,
+       119929000000000000
+      ],
+      [
+       119929,
+       59964,
+       59964000000000000,
+       59965000000000000
+      ],
+      [
+       59965,
+       29982,
+       29982000000000000,
+       29983000000000000
+      ],
+      [
+       29983,
+       14991,
+       14991000000000000,
+       14992000000000000
+      ],
+      [
+       14992,
+       7496,
+       7496000000000000,
+       7496000000000000
+      ]
+     ],
+     "vaultWithdrawals": [
+      [
+       14423005,
+       10585294,
+       0
+      ],
+      [
+       3837711,
+       1918855,
+       0
+      ],
+      [
+       1918856,
+       959428,
+       0
+      ],
+      [
+       959428,
+       479714,
+       0
+      ],
+      [
+       479714,
+       239857,
+       0
+      ],
+      [
+       239857,
+       119928,
+       0
+      ],
+      [
+       119929,
+       59964,
+       0
+      ],
+      [
+       59965,
+       29982,
+       0
+      ],
+      [
+       29983,
+       14991,
+       0
+      ],
+      [
+       14992,
+       7496,
+       0
+      ]
+     ],
+     "checkpoints": [],
+     "reverts": [],
+     "post": {
+      "ledger": [
+       21137498421961568,
+       7496,
+       59074930260250102,
+       0,
+       546235985148367630,
+       1793704032
+      ],
+      "position": [
+       4148743,
+       0,
+       0,
+       0
+      ],
+      "ticks": [
+       220800,
+       225660,
+       1
+      ],
+      "pUSDG.cash": [
+       27234211
+      ],
+      "pNVDA.cash": [
+       13110498743128914
+      ],
+      "pUSDG.ts": [
+       147628790621
+      ],
+      "pNVDA.ts": [
+       172300825
+      ],
+      "pUSDG.er": [
+       197643141810371
+      ],
+      "pNVDA.er": [
+       198853441482981842948227322
+      ],
+      "reserve.USDG": [
+       961283
+      ],
+      "reserve.NVDA": [
+       286619044744969
+      ],
+      "reserve.daily": [
+       20760,
+       7667925000000000000
+      ],
+      "v.USDG": [
+       0
+      ],
+      "v.NVDA": [
+       59074930260250102
+      ],
+      "wd.USDG": [
+       0
+      ],
+      "wd.NVDA": [
+       21137498421961568
+      ]
+     }
+    },
+    "route.reserve.sync.24": {
+     "status": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ],
+     "gas": 8375821,
+     "covers": [
+      [
+       7675421,
+       3837710,
+       3837710000000000000,
+       3837711000000000000
+      ],
+      [
+       3837711,
+       1918855,
+       1918855000000000000,
+       1918856000000000000
+      ],
+      [
+       1918856,
+       959428,
+       959428000000000000,
+       959428000000000000
+      ],
+      [
+       959428,
+       479714,
+       479714000000000000,
+       479714000000000000
+      ],
+      [
+       479714,
+       239857,
+       239857000000000000,
+       239857000000000000
+      ],
+      [
+       239857,
+       119928,
+       119928000000000000,
+       119929000000000000
+      ],
+      [
+       119929,
+       59964,
+       59964000000000000,
+       59965000000000000
+      ],
+      [
+       59965,
+       29982,
+       29982000000000000,
+       29983000000000000
+      ],
+      [
+       29983,
+       14991,
+       14991000000000000,
+       14992000000000000
+      ],
+      [
+       14992,
+       7496,
+       7496000000000000,
+       7496000000000000
+      ],
+      [
+       7496,
+       3748,
+       3748000000000000,
+       3748000000000000
+      ],
+      [
+       3748,
+       1874,
+       1874000000000000,
+       1874000000000000
+      ],
+      [
+       1874,
+       937,
+       937000000000000,
+       937000000000000
+      ],
+      [
+       937,
+       468,
+       468000000000000,
+       469000000000000
+      ],
+      [
+       469,
+       234,
+       234000000000000,
+       235000000000000
+      ],
+      [
+       235,
+       117,
+       117000000000000,
+       118000000000000
+      ],
+      [
+       118,
+       59,
+       59000000000000,
+       59000000000000
+      ],
+      [
+       59,
+       29,
+       29000000000000,
+       30000000000000
+      ],
+      [
+       30,
+       15,
+       15000000000000,
+       15000000000000
+      ],
+      [
+       15,
+       7,
+       7000000000000,
+       8000000000000
+      ],
+      [
+       8,
+       4,
+       4000000000000,
+       4000000000000
+      ],
+      [
+       4,
+       2,
+       2000000000000,
+       2000000000000
+      ],
+      [
+       2,
+       1,
+       1000000000000,
+       1000000000000
+      ]
+     ],
+     "vaultWithdrawals": [
+      [
+       14423005,
+       10585294,
+       0
+      ],
+      [
+       3837711,
+       1918855,
+       0
+      ],
+      [
+       1918856,
+       959428,
+       0
+      ],
+      [
+       959428,
+       479714,
+       0
+      ],
+      [
+       479714,
+       239857,
+       0
+      ],
+      [
+       239857,
+       119928,
+       0
+      ],
+      [
+       119929,
+       59964,
+       0
+      ],
+      [
+       59965,
+       29982,
+       0
+      ],
+      [
+       29983,
+       14991,
+       0
+      ],
+      [
+       14992,
+       7496,
+       0
+      ],
+      [
+       7496,
+       3748,
+       0
+      ],
+      [
+       3748,
+       1874,
+       0
+      ],
+      [
+       1874,
+       937,
+       0
+      ],
+      [
+       937,
+       468,
+       0
+      ],
+      [
+       469,
+       234,
+       0
+      ],
+      [
+       235,
+       117,
+       0
+      ],
+      [
+       118,
+       59,
+       0
+      ],
+      [
+       59,
+       29,
+       0
+      ],
+      [
+       30,
+       15,
+       0
+      ],
+      [
+       15,
+       7,
+       0
+      ],
+      [
+       8,
+       4,
+       0
+      ],
+      [
+       4,
+       2,
+       0
+      ],
+      [
+       2,
+       1,
+       0
+      ],
+      [
+       1,
+       0,
+       0
+      ]
+     ],
+     "checkpoints": [],
+     "reverts": [],
+     "post": {
+      "ledger": [
+       21137498421961568,
+       1,
+       59074930260250102,
+       0,
+       546235985148367630,
+       1793704032
+      ],
+      "position": [
+       4148743,
+       0,
+       0,
+       0
+      ],
+      "ticks": [
+       220800,
+       225660,
+       1
+      ],
+      "pUSDG.cash": [
+       27241706
+      ],
+      "pNVDA.cash": [
+       13110498743128914
+      ],
+      "pUSDG.ts": [
+       147628790621
+      ],
+      "pNVDA.ts": [
+       172300825
+      ],
+      "pUSDG.er": [
+       197643141810371
+      ],
+      "pNVDA.er": [
+       198853441482981842948227322
+      ],
+      "reserve.USDG": [
+       953788
+      ],
+      "reserve.NVDA": [
+       286619044744969
+      ],
+      "reserve.daily": [
+       20760,
+       7675420000000000000
+      ],
+      "v.USDG": [
+       0
+      ],
+      "v.NVDA": [
+       59074930260250102
+      ],
+      "wd.USDG": [
+       0
+      ],
+      "wd.NVDA": [
+       21137498421961568
+      ]
+     }
+    },
+    "route.reserve.sync.redeemShares.noFundingNoSync": {
+     "status": [
+      1,
+      0,
+      0,
+      0
+     ],
+     "gas": 0,
+     "covers": [],
+     "vaultWithdrawals": [
+      [
+       5774622,
+       5774622,
+       0
+      ]
+     ],
+     "checkpoints": [],
+     "reverts": [
+      [
+       "pUSDG.0x94696d767e65a75581145646960fa0ec886ce5d2",
+       "0x91240a1b"
+      ],
+      [
+       "pUSDG.0xdc48fd39733af117a4ffda35d7b325de9bdedfde",
+       "0x91240a1b"
+      ],
+      [
+       "pUSDG.0x17c72b8f171999c4d8863a3517d1c5d9cbfbb068",
+       "0x91240a1b"
+      ]
+     ],
+     "post": {
+      "ledger": [
+       21137498421961568,
+       8648383,
+       55331980539422711,
+       115492,
+       546235985148367630,
+       1793704032
+      ],
+      "position": [
+       4148743,
+       496052325165,
+       3742949720827390,
+       857470
+      ],
+      "ticks": [
+       220800,
+       225660,
+       1
+      ],
+      "pUSDG.cash": [
+       0
+      ],
+      "pNVDA.cash": [
+       13110498743128914
+      ],
+      "pUSDG.ts": [
+       53568010797
+      ],
+      "pNVDA.ts": [
+       172300825
+      ],
+      "pUSDG.er": [
+       197673533932923
+      ],
+      "pNVDA.er": [
+       198853441482981842948227322
+      ],
+      "reserve.USDG": [
+       17301
+      ],
+      "reserve.NVDA": [
+       286619044744969
+      ],
+      "reserve.daily": [
+       20712,
+       3524061514747287
+      ],
+      "v.USDG": [
+       115492
+      ],
+      "v.NVDA": [
+       55331980539422711
+      ],
+      "wd.USDG": [
+       115492
+      ],
+      "wd.NVDA": [
+       21137498421961568
+      ]
+     }
+    },
+    "route.reserve.sync.redeemShares.funded_sync4": {
+     "status": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      0,
+      1
+     ],
+     "gas": 1631215,
+     "covers": [
+      [
+       7675421,
+       3837710,
+       3837710000000000000,
+       3837711000000000000
+      ],
+      [
+       3837711,
+       1918855,
+       1918855000000000000,
+       1918856000000000000
+      ],
+      [
+       1918856,
+       959428,
+       959428000000000000,
+       959428000000000000
+      ],
+      [
+       959428,
+       479714,
+       479714000000000000,
+       479714000000000000
+      ]
+     ],
+     "vaultWithdrawals": [
+      [
+       14423005,
+       10585294,
+       0
+      ],
+      [
+       3837711,
+       1918855,
+       0
+      ],
+      [
+       1918856,
+       959428,
+       0
+      ],
+      [
+       959428,
+       479714,
+       0
+      ],
+      [
+       2261471,
+       2261471,
+       0
+      ],
+      [
+       988325,
+       988325,
+       0
+      ]
+     ],
+     "checkpoints": [],
+     "reverts": [
+      [
+       "pUSDG.0xdc48fd39733af117a4ffda35d7b325de9bdedfde",
+       "0x91240a1b"
+      ]
+     ],
+     "post": {
+      "ledger": [
+       21137498421961568,
+       1074708,
+       59074930260250102,
+       594994,
+       546235985148367630,
+       1793704032
+      ],
+      "position": [
+       4148743,
+       0,
+       0,
+       0
+      ],
+      "ticks": [
+       220800,
+       225660,
+       1
+      ],
+      "pUSDG.cash": [
+       0
+      ],
+      "pNVDA.cash": [
+       13110498743128914
+      ],
+      "pUSDG.ts": [
+       15249496368
+      ],
+      "pNVDA.ts": [
+       172300825
+      ],
+      "pUSDG.er": [
+       197666986978359
+      ],
+      "pNVDA.er": [
+       198853441482981842948227322
+      ],
+      "reserve.USDG": [
+       1433501
+      ],
+      "reserve.NVDA": [
+       286619044744969
+      ],
+      "reserve.daily": [
+       20760,
+       7195707000000000000
+      ],
+      "v.USDG": [
+       594994
+      ],
+      "v.NVDA": [
+       59074930260250102
+      ],
+      "wd.USDG": [
+       594994
+      ],
+      "wd.NVDA": [
+       21137498421961568
+      ]
+     }
+    },
+    "route.reserve.sync.redeemShares.funded_sync10": {
+     "status": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      0,
+      1
+     ],
+     "gas": 3668527,
+     "covers": [
+      [
+       7675421,
+       3837710,
+       3837710000000000000,
+       3837711000000000000
+      ],
+      [
+       3837711,
+       1918855,
+       1918855000000000000,
+       1918856000000000000
+      ],
+      [
+       1918856,
+       959428,
+       959428000000000000,
+       959428000000000000
+      ],
+      [
+       959428,
+       479714,
+       479714000000000000,
+       479714000000000000
+      ],
+      [
+       479714,
+       239857,
+       239857000000000000,
+       239857000000000000
+      ],
+      [
+       239857,
+       119928,
+       119928000000000000,
+       119929000000000000
+      ],
+      [
+       119929,
+       59964,
+       59964000000000000,
+       59965000000000000
+      ],
+      [
+       59965,
+       29982,
+       29982000000000000,
+       29983000000000000
+      ],
+      [
+       29983,
+       14991,
+       14991000000000000,
+       14992000000000000
+      ],
+      [
+       14992,
+       7496,
+       7496000000000000,
+       7496000000000000
+      ]
+     ],
+     "vaultWithdrawals": [
+      [
+       14423005,
+       10585294,
+       0
+      ],
+      [
+       3837711,
+       1918855,
+       0
+      ],
+      [
+       1918856,
+       959428,
+       0
+      ],
+      [
+       959428,
+       479714,
+       0
+      ],
+      [
+       479714,
+       239857,
+       0
+      ],
+      [
+       239857,
+       119928,
+       0
+      ],
+      [
+       119929,
+       59964,
+       0
+      ],
+      [
+       59965,
+       29982,
+       0
+      ],
+      [
+       29983,
+       14991,
+       0
+      ],
+      [
+       14992,
+       7496,
+       0
+      ],
+      [
+       2261462,
+       2261462,
+       0
+      ],
+      [
+       988325,
+       988325,
+       0
+      ]
+     ],
+     "checkpoints": [],
+     "reverts": [
+      [
+       "pUSDG.0xdc48fd39733af117a4ffda35d7b325de9bdedfde",
+       "0x91240a1b"
+      ]
+     ],
+     "post": {
+      "ledger": [
+       21137498421961568,
+       1074722,
+       59074930260250102,
+       1067226,
+       546235985148367630,
+       1793704032
+      ],
+      "position": [
+       4148743,
+       0,
+       0,
+       0
+      ],
+      "ticks": [
+       220800,
+       225660,
+       1
+      ],
+      "pUSDG.cash": [
+       0
+      ],
+      "pNVDA.cash": [
+       13110498743128914
+      ],
+      "pUSDG.ts": [
+       15249496368
+      ],
+      "pNVDA.ts": [
+       172300825
+      ],
+      "pUSDG.er": [
+       197666790250551
+      ],
+      "pNVDA.er": [
+       198853441482981842948227322
+      ],
+      "reserve.USDG": [
+       961283
+      ],
+      "reserve.NVDA": [
+       286619044744969
+      ],
+      "reserve.daily": [
+       20760,
+       7667925000000000000
+      ],
+      "v.USDG": [
+       1067226
+      ],
+      "v.NVDA": [
+       59074930260250102
+      ],
+      "wd.USDG": [
+       1067226
+      ],
+      "wd.NVDA": [
+       21137498421961568
+      ]
+     }
+    },
+    "route.reserve.sync24.thenCheckpoint": {
+     "status": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ],
+     "gas": 8375821,
+     "covers": [
+      [
+       7675421,
+       3837710,
+       3837710000000000000,
+       3837711000000000000
+      ],
+      [
+       3837711,
+       1918855,
+       1918855000000000000,
+       1918856000000000000
+      ],
+      [
+       1918856,
+       959428,
+       959428000000000000,
+       959428000000000000
+      ],
+      [
+       959428,
+       479714,
+       479714000000000000,
+       479714000000000000
+      ],
+      [
+       479714,
+       239857,
+       239857000000000000,
+       239857000000000000
+      ],
+      [
+       239857,
+       119928,
+       119928000000000000,
+       119929000000000000
+      ],
+      [
+       119929,
+       59964,
+       59964000000000000,
+       59965000000000000
+      ],
+      [
+       59965,
+       29982,
+       29982000000000000,
+       29983000000000000
+      ],
+      [
+       29983,
+       14991,
+       14991000000000000,
+       14992000000000000
+      ],
+      [
+       14992,
+       7496,
+       7496000000000000,
+       7496000000000000
+      ],
+      [
+       7496,
+       3748,
+       3748000000000000,
+       3748000000000000
+      ],
+      [
+       3748,
+       1874,
+       1874000000000000,
+       1874000000000000
+      ],
+      [
+       1874,
+       937,
+       937000000000000,
+       937000000000000
+      ],
+      [
+       937,
+       468,
+       468000000000000,
+       469000000000000
+      ],
+      [
+       469,
+       234,
+       234000000000000,
+       235000000000000
+      ],
+      [
+       235,
+       117,
+       117000000000000,
+       118000000000000
+      ],
+      [
+       118,
+       59,
+       59000000000000,
+       59000000000000
+      ],
+      [
+       59,
+       29,
+       29000000000000,
+       30000000000000
+      ],
+      [
+       30,
+       15,
+       15000000000000,
+       15000000000000
+      ],
+      [
+       15,
+       7,
+       7000000000000,
+       8000000000000
+      ],
+      [
+       8,
+       4,
+       4000000000000,
+       4000000000000
+      ],
+      [
+       4,
+       2,
+       2000000000000,
+       2000000000000
+      ],
+      [
+       2,
+       1,
+       1000000000000,
+       1000000000000
+      ]
+     ],
+     "vaultWithdrawals": [
+      [
+       14423005,
+       10585294,
+       0
+      ],
+      [
+       3837711,
+       1918855,
+       0
+      ],
+      [
+       1918856,
+       959428,
+       0
+      ],
+      [
+       959428,
+       479714,
+       0
+      ],
+      [
+       479714,
+       239857,
+       0
+      ],
+      [
+       239857,
+       119928,
+       0
+      ],
+      [
+       119929,
+       59964,
+       0
+      ],
+      [
+       59965,
+       29982,
+       0
+      ],
+      [
+       29983,
+       14991,
+       0
+      ],
+      [
+       14992,
+       7496,
+       0
+      ],
+      [
+       7496,
+       3748,
+       0
+      ],
+      [
+       3748,
+       1874,
+       0
+      ],
+      [
+       1874,
+       937,
+       0
+      ],
+      [
+       937,
+       468,
+       0
+      ],
+      [
+       469,
+       234,
+       0
+      ],
+      [
+       235,
+       117,
+       0
+      ],
+      [
+       118,
+       59,
+       0
+      ],
+      [
+       59,
+       29,
+       0
+      ],
+      [
+       30,
+       15,
+       0
+      ],
+      [
+       15,
+       7,
+       0
+      ],
+      [
+       8,
+       4,
+       0
+      ],
+      [
+       4,
+       2,
+       0
+      ],
+      [
+       2,
+       1,
+       0
+      ],
+      [
+       1,
+       0,
+       0
+      ]
+     ],
+     "checkpoints": [
+      [
+       59074930260250102,
+       0,
+       4344818254516492793,
+       0,
+       21137498421961568,
+       1
+      ]
+     ],
+     "reverts": [],
+     "post": {
+      "ledger": [
+       21137498421961568,
+       1,
+       59074930260250102,
+       0,
+       546235985148367630,
+       1793705117
+      ],
+      "position": [
+       4148743,
+       0,
+       0,
+       0
+      ],
+      "ticks": [
+       220800,
+       225660,
+       1
+      ],
+      "pUSDG.cash": [
+       27241706
+      ],
+      "pNVDA.cash": [
+       13110498743128914
+      ],
+      "pUSDG.ts": [
+       147628790621
+      ],
+      "pNVDA.ts": [
+       172300825
+      ],
+      "pUSDG.er": [
+       197643141810371
+      ],
+      "pNVDA.er": [
+       198853441482981842948227322
+      ],
+      "reserve.USDG": [
+       953788
+      ],
+      "reserve.NVDA": [
+       286619044744969
+      ],
+      "reserve.daily": [
+       20760,
+       7675420000000000000
+      ],
+      "v.USDG": [
+       0
+      ],
+      "v.NVDA": [
+       59074930260250102
+      ],
+      "wd.USDG": [
+       0
+      ],
+      "wd.NVDA": [
+       21137498421961568
+      ]
+     }
+    }
+   },
+   "sync_noFunding": {
+    "status": [
+     1
+    ],
+    "gas": 598159,
+    "covers": [
+     [
+      17301,
+      17301,
+      17301000000000000,
+      7658120000000000000
+     ]
+    ],
+    "vaultWithdrawals": [
+     [
+      14423005,
+      6764885,
+      0
+     ]
+    ],
+    "checkpoints": [],
+    "reverts": [],
+    "post": {
+     "ledger": [
+      21137498421961568,
+      7658120,
+      59074930260250102,
+      0,
+      546235985148367630,
+      1793704032
+     ],
+     "position": [
+      4148743,
+      0,
+      0,
+      0
+     ],
+     "ticks": [
+      220800,
+      225660,
+      1
+     ],
+     "pUSDG.cash": [
+      19583587
+     ],
+     "pNVDA.cash": [
+      13110498743128914
+     ],
+     "pUSDG.ts": [
+      147628790621
+     ],
+     "pNVDA.ts": [
+      172300825
+     ],
+     "pUSDG.er": [
+      197643141810371
+     ],
+     "pNVDA.er": [
+      198853441482981842948227322
+     ],
+     "reserve.USDG": [
+      0
+     ],
+     "reserve.NVDA": [
+      286619044744969
+     ],
+     "reserve.daily": [
+      20760,
+      17301000000000000
+     ],
+     "v.USDG": [
+      0
+     ],
+     "v.NVDA": [
+      59074930260250102
+     ],
+     "wd.USDG": [
+      0
+     ],
+     "wd.NVDA": [
+      21137498421961568
+     ]
+    }
+   }
+  },
+  "iv_recenter": {
+   "asIs": {
+    "status": 0,
+    "revert": "0x5a310b4f"
+   },
+   "rebalance_after_checkpoint": {
+    "status": 0,
+    "revert": "0x3746993d"
+   },
+   "forced_by_centre_override": {
+    "status": 1,
+    "revert": null,
+    "gas": 1138497,
+    "events": [
+     [
+      "FeesProcessed",
+      [
+       0,
+       0,
+       0,
+       0
+      ]
+     ],
+     [
+      "PairCheckpoint",
+      [
+       58765587783466930,
+       6811098,
+       18767822254516492793,
+       0,
+       21137498421961568,
+       14423005
+      ]
+     ],
+     [
+      "Recentered",
+      [
+       220800,
+       225660,
+       220620,
+       225480,
+       4050967827530,
+       223064
+      ]
+     ],
+     [
+      "FeesProcessed",
+      [
+       0,
+       0,
+       0,
+       0
+      ]
+     ],
+     [
+      "PairCheckpoint",
+      [
+       58753900118973906,
+       6813496,
+       18767822254516492793,
+       0,
+       21137498421961568,
+       14423005
+      ]
+     ]
+    ],
+    "post_ledger": [
+     21137498421961568,
+     14423005,
+     26247992371489832,
+     206272,
+     546235985148367630,
+     1793705117
+    ],
+    "post_position": [
+     4156865,
+     4050967827530,
+     32826937888760269,
+     6541311
+    ],
+    "post_ticks": [
+     220620,
+     225480,
+     1
+    ],
+    "gasCost": {
+     "gas": 1138497,
+     "ETH": 2.276994e-05,
+     "USD": 0.051587632732915875
+    },
+    "USDG_shortage_before_raw_at_event": 7611907,
+    "USDG_shortage_after_raw_at_event": 7609509,
+    "stockAssets_before_after": [
+     58765587783466930,
+     58753900118973906
+    ],
+    "usdgAssets_before_after": [
+     6811098,
+     6813496
+    ],
+    "value_change_USD_at_oracle": -4.401899250439101e-06
+   }
+  },
+  "v_emergency": {
+   "full": {
+    "status": 1,
+    "gas": 388978,
+    "events": [
+     [
+      "EmergencyLiquidityDecreased",
+      [
+       3903485249564,
+       29453644875567432,
+       6747517
+      ]
+     ],
+     [
+      "PairPauseUpdated",
+      [
+       1,
+       1,
+       1
+      ]
+     ]
+    ],
+    "post": {
+     "ledger": [
+      21137498421961568,
+      14423005,
+      59074930260250102,
+      6747584,
+      546235985148367630,
+      1793704032
+     ],
+     "position": [
+      4148743,
+      0,
+      0,
+      0
+     ],
+     "ticks": [
+      220800,
+      225660,
+      1
+     ],
+     "pUSDG.cash": [
+      12818702
+     ],
+     "pNVDA.cash": [
+      13110498743128914
+     ],
+     "pUSDG.ts": [
+      147628790621
+     ],
+     "pNVDA.ts": [
+      172300825
+     ],
+     "pUSDG.er": [
+      197643141810371
+     ],
+     "pNVDA.er": [
+      198853441482981842948227322
+     ],
+     "reserve.USDG": [
+      17301
+     ],
+     "reserve.NVDA": [
+      286619044744969
+     ],
+     "reserve.daily": [
+      20712,
+      3524061514747287
+     ],
+     "v.USDG": [
+      6747584
+     ],
+     "v.NVDA": [
+      59074930260250102
+     ],
+     "wd.USDG": [
+      0
+     ],
+     "wd.NVDA": [
+      0
+     ]
+    },
+    "gasCost": {
+     "gas": 388978,
+     "ETH": 7.77956e-06,
+     "USD": 0.017625390497457746
+    }
+   },
+   "partial50": {
+    "status": 1,
+    "post_ledger": [
+     21137498421961568,
+     14423005,
+     44348107822466386,
+     3373825,
+     546235985148367630,
+     1793704032
+    ],
+    "post_position": [
+     4148743,
+     1951742624782,
+     14726822437783716,
+     3373758
+    ]
+   },
+   "bankrun": {
+    "rows": [
+     {
+      "market": "pUSDG",
+      "holder": "0x04d4a5555b7a37017a67b4d21a1da5838de28b9e",
+      "claim": 18593324,
+      "redeemed": 12818399,
+      "capHint": 19583587,
+      "lastRevert": {
+       "message": "execution reverted",
+       "code": 3,
+       "data": "0x91240a1b"
+      }
+     },
+     {
+      "market": "pUSDG",
+      "holder": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+      "claim": 6586196,
+      "redeemed": 0,
+      "capHint": 6765188,
+      "lastRevert": {
+       "message": "execution reverted",
+       "code": 3,
+       "data": "0x91240a1b"
+      }
+     },
+     {
+      "market": "pUSDG",
+      "holder": "0xdc48fd39733af117a4ffda35d7b325de9bdedfde",
+      "claim": 3003229,
+      "redeemed": 0,
+      "capHint": 6765188,
+      "lastRevert": {
+       "message": "execution reverted",
+       "code": 3,
+       "data": "0x91240a1b"
+      }
+     },
+     {
+      "market": "pUSDG",
+      "holder": "0x17c72b8f171999c4d8863a3517d1c5d9cbfbb068",
+      "claim": 988358,
+      "redeemed": 0,
+      "capHint": 6765188,
+      "lastRevert": {
+       "message": "execution reverted",
+       "code": 3,
+       "data": "0x91240a1b"
+      }
+     },
+     {
+      "market": "pUSDG",
+      "holder": "0x12c1e2c33f63f897e0e4ac1969c29493136f2481",
+      "claim": 11192,
+      "redeemed": 0,
+      "capHint": 6765188,
+      "lastRevert": {
+       "message": "execution reverted",
+       "code": 3,
+       "data": "0x91240a1b"
+      }
+     },
+     {
+      "market": "pNVDA",
+      "holder": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+      "claim": 19885354970114962,
+      "redeemed": 13110170252565614,
+      "capHint": 72472048048123985,
+      "lastRevert": {
+       "message": "execution reverted",
+       "code": 3,
+       "data": "0x91240a1b"
+      }
+     },
+     {
+      "market": "pNVDA",
+      "holder": "0x4a0e01f9d41414f8e15eee188d7b184fc5a97571",
+      "claim": 8181264956079749,
+      "redeemed": 0,
+      "capHint": 59361877795558371,
+      "lastRevert": {
+       "message": "execution reverted",
+       "code": 3,
+       "data": "0x91240a1b"
+      }
+     },
+     {
+      "market": "pNVDA",
+      "holder": "0x7f082ffd0ee3460aee9a22d8fe0e9d33efcd4945",
+      "claim": 6196010741491871,
+      "redeemed": 0,
+      "capHint": 59361877795558371,
+      "lastRevert": {
+       "message": "execution reverted",
+       "code": 3,
+       "data": "0x91240a1b"
+      }
+     }
+    ],
+    "final": {
+     "ledger": [
+      21137498421961568,
+      14423005,
+      59074930260250102,
+      6747584,
+      546235985148367630,
+      1793704032
+     ],
+     "position": [
+      4148743,
+      0,
+      0,
+      0
+     ],
+     "ticks": [
+      220800,
+      225660,
+      1
+     ],
+     "pUSDG.cash": [
+      303
+     ],
+     "pNVDA.cash": [
+      328490563300
+     ],
+     "pUSDG.ts": [
+      82782475821
+     ],
+     "pNVDA.ts": [
+      106372053
+     ],
+     "pUSDG.er": [
+      197673515290646
+     ],
+     "pNVDA.er": [
+      198853551270339541157488048
+     ],
+     "reserve.USDG": [
+      17301
+     ],
+     "reserve.NVDA": [
+      286619044744969
+     ],
+     "reserve.daily": [
+      20712,
+      3524061514747287
+     ],
+     "v.USDG": [
+      6747584
+     ],
+     "v.NVDA": [
+      59074930260250102
+     ],
+     "wd.USDG": [
+      0
+     ],
+     "wd.NVDA": [
+      0
+     ]
+    }
+   }
+  },
+  "vi_inkind": {
+   "USDG_side_cash_USDG": 6811098,
+   "USDG_side_inKind_NVDA_raw_at_oracle": 37031861819588400,
+   "NVDA_left_over_raw": 596227541916962,
+   "NVDA_left_over_USD": 0.1225546968721369,
+   "per_USDG_of_vault_claim": {
+    "USDG": 0.47223848289590137,
+    "USD_of_NVDA": 0.5277615171040986
+   },
+   "exists_on_chain": false
+  },
+  "ethUsd": 2265.60248876,
+  "baseFeeWei": 20000000,
+  "roles": {
+   "v.hasRole.KEEPER_ROLE.keeper": true,
+   "v.hasRole.KEEPER_ROLE.governor": true,
+   "v.hasRole.KEEPER_ROLE.timelock": false,
+   "v.hasRole.GUARDIAN_ROLE.keeper": false,
+   "v.hasRole.GUARDIAN_ROLE.governor": true,
+   "v.hasRole.GUARDIAN_ROLE.timelock": false,
+   "v.hasRole.CONFIG_ROLE.keeper": false,
+   "v.hasRole.CONFIG_ROLE.governor": false,
+   "v.hasRole.CONFIG_ROLE.timelock": true
+  }
+ },
+ "E": {
+  "holders": {
+   "pNVDA": {
+    "rows": [
+     {
+      "holder": "0x4a0e01f9d41414f8e15eee188d7b184fc5a97571",
+      "shares": 41142162,
+      "sharesFromLogsEqual": true,
+      "claim_raw": 8181264956079749,
+      "claim_tokens": 0.008181264956079749,
+      "claim_USD_oracle": 1.6816607355965312,
+      "code_bytes": 45,
+      "nonce": 1,
+      "debt_NVDA_current": 0,
+      "debt_USDG_current": 962593,
+      "singleHolderMax": {
+       "shares": 41142162,
+       "claimAtERcurrent": 8181264956079749,
+       "maxRedeemUnderlyingFound": 0,
+       "fullClaimTried": 8181256774814793,
+       "lastRevert": {
+        "message": "execution reverted",
+        "code": 3,
+        "data": "0xb7abef560000000000000000000000000000000000000000000000000000000000000004"
+       }
+      }
+     },
+     {
+      "holder": "0x7f082ffd0ee3460aee9a22d8fe0e9d33efcd4945",
+      "shares": 31158663,
+      "sharesFromLogsEqual": true,
+      "claim_raw": 6196010741491871,
+      "claim_tokens": 0.006196010741491871,
+      "claim_USD_oracle": 1.2735913134750771,
+      "code_bytes": 45,
+      "nonce": 1,
+      "debt_NVDA_current": 0,
+      "debt_USDG_current": 972561,
+      "singleHolderMax": {
+       "shares": 31158663,
+       "claimAtERcurrent": 6196010741491871,
+       "maxRedeemUnderlyingFound": 0,
+       "fullClaimTried": 6196004545481130,
+       "lastRevert": {
+        "message": "execution reverted",
+        "code": 3,
+        "data": "0xb7abef560000000000000000000000000000000000000000000000000000000000000004"
+       }
+      }
+     },
+     {
+      "holder": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+      "shares": 100000000,
+      "sharesFromLogsEqual": true,
+      "claim_raw": 19885354970114962,
+      "claim_tokens": 0.01988535497011496,
+      "claim_USD_oracle": 4.087438904150276,
+      "code_bytes": 0,
+      "nonce": 322,
+      "debt_NVDA_current": 0,
+      "debt_USDG_current": 0,
+      "singleHolderMax": {
+       "shares": 100000000,
+       "claimAtERcurrent": 19885354970114962,
+       "maxRedeemUnderlyingFound": 19885335084759992,
+       "fullClaimTried": 19885335084759992,
+       "lastRevert": null
+      }
+     },
+     {
+      "holder": "0xa155cccb986774ae818b3f10f07d01d1b7a47b26",
+      "shares": 0,
+      "sharesFromLogsEqual": false,
+      "claim_raw": 0,
+      "claim_tokens": 0.0,
+      "claim_USD_oracle": 0.0,
+      "code_bytes": 6266,
+      "nonce": 1,
+      "debt_NVDA_current": 0,
+      "debt_USDG_current": 0,
+      "singleHolderMax": null
+     }
+    ],
+    "sumShares": 172300825,
+    "totalSupply": 172300825,
+    "sumEqualsSupply": true
+   },
+   "pUSDG": {
+    "rows": [
+     {
+      "holder": "0x04d4a5555b7a37017a67b4d21a1da5838de28b9e",
+      "shares": 94060779824,
+      "sharesFromLogsEqual": true,
+      "claim_raw": 18593324,
+      "claim_tokens": 18.593324,
+      "claim_USD_oracle": 18.593324,
+      "code_bytes": 784,
+      "nonce": 2,
+      "debt_NVDA_current": 0,
+      "debt_USDG_current": 0,
+      "singleHolderMax": {
+       "shares": 94060779824,
+       "claimAtERcurrent": 18593324,
+       "maxRedeemUnderlyingFound": 18593323,
+       "fullClaimTried": 18593323,
+       "lastRevert": null
+      }
+     },
+     {
+      "holder": "0x12c1e2c33f63f897e0e4ac1969c29493136f2481",
+      "shares": 56619720,
+      "sharesFromLogsEqual": true,
+      "claim_raw": 11192,
+      "claim_tokens": 0.011192,
+      "claim_USD_oracle": 0.011192,
+      "code_bytes": 0,
+      "nonce": 15,
+      "debt_NVDA_current": 14636122062899,
+      "debt_USDG_current": 5979,
+      "singleHolderMax": {
+       "shares": 56619720,
+       "claimAtERcurrent": 11192,
+       "maxRedeemUnderlyingFound": 0,
+       "fullClaimTried": 11191,
+       "lastRevert": {
+        "message": "execution reverted",
+        "code": 3,
+        "data": "0xb7abef560000000000000000000000000000000000000000000000000000000000000004"
+       }
+      }
+     },
+     {
+      "holder": "0x17c72b8f171999c4d8863a3517d1c5d9cbfbb068",
+      "shares": 4999956251,
+      "sharesFromLogsEqual": true,
+      "claim_raw": 988358,
+      "claim_tokens": 0.988358,
+      "claim_USD_oracle": 0.988358,
+      "code_bytes": 784,
+      "nonce": 2,
+      "debt_NVDA_current": 0,
+      "debt_USDG_current": 0,
+      "singleHolderMax": {
+       "shares": 4999956251,
+       "claimAtERcurrent": 988358,
+       "maxRedeemUnderlyingFound": 988357,
+       "fullClaimTried": 988357,
+       "lastRevert": null
+      }
+     },
+     {
+      "holder": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+      "shares": 33318558178,
+      "sharesFromLogsEqual": true,
+      "claim_raw": 6586196,
+      "claim_tokens": 6.586196,
+      "claim_USD_oracle": 6.586196,
+      "code_bytes": 0,
+      "nonce": 322,
+      "debt_NVDA_current": 0,
+      "debt_USDG_current": 0,
+      "singleHolderMax": {
+       "shares": 33318558178,
+       "claimAtERcurrent": 6586196,
+       "maxRedeemUnderlyingFound": 6586195,
+       "fullClaimTried": 6586195,
+       "lastRevert": null
+      }
+     },
+     {
+      "holder": "0xdc48fd39733af117a4ffda35d7b325de9bdedfde",
+      "shares": 15192876648,
+      "sharesFromLogsEqual": true,
+      "claim_raw": 3003229,
+      "claim_tokens": 3.003229,
+      "claim_USD_oracle": 3.003229,
+      "code_bytes": 0,
+      "nonce": 1,
+      "debt_NVDA_current": 0,
+      "debt_USDG_current": 0,
+      "singleHolderMax": {
+       "shares": 15192876648,
+       "claimAtERcurrent": 3003229,
+       "maxRedeemUnderlyingFound": 3003228,
+       "fullClaimTried": 3003228,
+       "lastRevert": null
+      }
+     },
+     {
+      "holder": "0x55aed0569c8f0d166d71face57b57c2f2624a563",
+      "shares": 0,
+      "sharesFromLogsEqual": false,
+      "claim_raw": 0,
+      "claim_tokens": 0.0,
+      "claim_USD_oracle": 0.0,
+      "code_bytes": null,
+      "nonce": null,
+      "debt_NVDA_current": null,
+      "debt_USDG_current": null,
+      "singleHolderMax": null
+     }
+    ],
+    "sumShares": 147628790621,
+    "totalSupply": 147628790621,
+    "sumEqualsSupply": true
+   }
+  },
+  "accounts": {
+   "0x04d4a5555b7a37017a67b4d21a1da5838de28b9e": {
+    "debt_NVDA_stored": 0,
+    "debt_NVDA_current": 0,
+    "debt_USDG_stored": 0,
+    "debt_USDG_current": 0,
+    "controller_liquidity": [
+     0,
+     0,
+     0
+    ],
+    "riskEngine": null,
+    "metrics": null,
+    "mv_free": 0,
+    "mv_locked": 0,
+    "code_bytes": 784,
+    "nonce": 2
+   },
+   "0x062a4ed42f2b8204eac6ccf24f46c9fd1535d932": {
+    "debt_NVDA_stored": 0,
+    "debt_NVDA_current": 0,
+    "debt_USDG_stored": 0,
+    "debt_USDG_current": 0,
+    "controller_liquidity": [
+     0,
+     0,
+     0
+    ],
+    "riskEngine": {
+     "positionId": 5,
+     "owner": "0x5085037684db1d4a59c6e8a3d22adddefc7a05bc",
+     "side": 0,
+     "status": 5
+    },
+    "metrics": {
+     "gross": 0.0,
+     "debt": 0.0,
+     "equity": 0.0,
+     "healthBps": 115792089237316195423570985008687907853269984665640564039457584007913129639935,
+     "leverageX100": 115792089237316195423570985008687907853269984665640564039457584007913129639935
+    },
+    "mv_free": 0,
+    "mv_locked": 0,
+    "code_bytes": 45,
+    "nonce": 1
+   },
+   "0x12c1e2c33f63f897e0e4ac1969c29493136f2481": {
+    "debt_NVDA_stored": 14615404196690,
+    "debt_NVDA_current": 14636122062899,
+    "debt_USDG_stored": 5963,
+    "debt_USDG_current": 5979,
+    "controller_liquidity": [
+     0,
+     0,
+     14799932862694
+    ],
+    "riskEngine": null,
+    "metrics": null,
+    "mv_free": 0,
+    "mv_locked": 0,
+    "code_bytes": 0,
+    "nonce": 15
+   },
+   "0x17c72b8f171999c4d8863a3517d1c5d9cbfbb068": {
+    "debt_NVDA_stored": 0,
+    "debt_NVDA_current": 0,
+    "debt_USDG_stored": 0,
+    "debt_USDG_current": 0,
+    "controller_liquidity": [
+     0,
+     0,
+     0
+    ],
+    "riskEngine": null,
+    "metrics": null,
+    "mv_free": 0,
+    "mv_locked": 0,
+    "code_bytes": 784,
+    "nonce": 2
+   },
+   "0x28c2b8b6a2b1844803132263dc1b538aa51e5f75": {
+    "debt_NVDA_stored": 0,
+    "debt_NVDA_current": 0,
+    "debt_USDG_stored": 0,
+    "debt_USDG_current": 0,
+    "controller_liquidity": [
+     0,
+     0,
+     0
+    ],
+    "riskEngine": null,
+    "metrics": null,
+    "mv_free": 0,
+    "mv_locked": 0,
+    "code_bytes": 0,
+    "nonce": 7
+   },
+   "0x4a0e01f9d41414f8e15eee188d7b184fc5a97571": {
+    "debt_NVDA_stored": 0,
+    "debt_NVDA_current": 0,
+    "debt_USDG_stored": 960123,
+    "debt_USDG_current": 962593,
+    "controller_liquidity": [
+     0,
+     0,
+     960123000000000000
+    ],
+    "riskEngine": {
+     "positionId": 4,
+     "owner": "0x5085037684db1d4a59c6e8a3d22adddefc7a05bc",
+     "side": 0,
+     "status": 2
+    },
+    "metrics": {
+     "gross": 1.681659820419287,
+     "debt": 0.960123,
+     "equity": 0.721536820419287,
+     "healthBps": 42906,
+     "leverageX100": 233
+    },
+    "mv_free": 0,
+    "mv_locked": 0,
+    "code_bytes": 45,
+    "nonce": 1
+   },
+   "0x4fe6a2daff417572675a5173a25d167dff02981d": {
+    "debt_NVDA_stored": 0,
+    "debt_NVDA_current": 0,
+    "debt_USDG_stored": 0,
+    "debt_USDG_current": 0,
+    "controller_liquidity": [
+     0,
+     0,
+     0
+    ],
+    "riskEngine": {
+     "positionId": 2,
+     "owner": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+     "side": 1,
+     "status": 5
+    },
+    "metrics": {
+     "gross": 0.0,
+     "debt": 0.0,
+     "equity": 0.0,
+     "healthBps": 115792089237316195423570985008687907853269984665640564039457584007913129639935,
+     "leverageX100": 115792089237316195423570985008687907853269984665640564039457584007913129639935
+    },
+    "mv_free": 0,
+    "mv_locked": 0,
+    "code_bytes": 45,
+    "nonce": 1
+   },
+   "0x5085037684db1d4a59c6e8a3d22adddefc7a05bc": {
+    "debt_NVDA_stored": 0,
+    "debt_NVDA_current": 0,
+    "debt_USDG_stored": 0,
+    "debt_USDG_current": 0,
+    "controller_liquidity": [
+     0,
+     0,
+     0
+    ],
+    "riskEngine": null,
+    "metrics": null,
+    "mv_free": 52710824457,
+    "mv_locked": 4899852163,
+    "code_bytes": 0,
+    "nonce": 8
+   },
+   "0x7f082ffd0ee3460aee9a22d8fe0e9d33efcd4945": {
+    "debt_NVDA_stored": 0,
+    "debt_NVDA_current": 0,
+    "debt_USDG_stored": 970065,
+    "debt_USDG_current": 972561,
+    "controller_liquidity": [
+     0,
+     0,
+     970065000000000000
+    ],
+    "riskEngine": {
+     "positionId": 3,
+     "owner": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+     "side": 0,
+     "status": 2
+    },
+    "metrics": {
+     "gross": 1.2735906203734524,
+     "debt": 0.970065,
+     "equity": 0.30352562037345243,
+     "healthBps": 23832,
+     "leverageX100": 419
+    },
+    "mv_free": 0,
+    "mv_locked": 0,
+    "code_bytes": 45,
+    "nonce": 1
+   },
+   "0x94696d767e65a75581145646960fa0ec886ce5d2": {
+    "debt_NVDA_stored": 0,
+    "debt_NVDA_current": 0,
+    "debt_USDG_stored": 0,
+    "debt_USDG_current": 0,
+    "controller_liquidity": [
+     0,
+     5268147615113213670,
+     0
+    ],
+    "riskEngine": null,
+    "metrics": null,
+    "mv_free": 41349955367,
+    "mv_locked": 2499976447,
+    "code_bytes": 0,
+    "nonce": 322
+   },
+   "0xa155cccb986774ae818b3f10f07d01d1b7a47b26": {
+    "debt_NVDA_stored": 0,
+    "debt_NVDA_current": 0,
+    "debt_USDG_stored": 0,
+    "debt_USDG_current": 0,
+    "controller_liquidity": [
+     0,
+     0,
+     0
+    ],
+    "riskEngine": null,
+    "metrics": null,
+    "mv_free": 0,
+    "mv_locked": 0,
+    "code_bytes": 6266,
+    "nonce": 1
+   },
+   "0xa1a7a0f0c270fd9229ff7a2e6a67b0c2eb67d45b": {
+    "debt_NVDA_stored": 0,
+    "debt_NVDA_current": 0,
+    "debt_USDG_stored": 0,
+    "debt_USDG_current": 0,
+    "controller_liquidity": [
+     0,
+     0,
+     0
+    ],
+    "riskEngine": {
+     "positionId": 1,
+     "owner": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+     "side": 0,
+     "status": 5
+    },
+    "metrics": {
+     "gross": 0.0,
+     "debt": 0.0,
+     "equity": 0.0,
+     "healthBps": 115792089237316195423570985008687907853269984665640564039457584007913129639935,
+     "leverageX100": 115792089237316195423570985008687907853269984665640564039457584007913129639935
+    },
+    "mv_free": 0,
+    "mv_locked": 0,
+    "code_bytes": 45,
+    "nonce": 1
+   },
+   "0xdc48fd39733af117a4ffda35d7b325de9bdedfde": {
+    "debt_NVDA_stored": 0,
+    "debt_NVDA_current": 0,
+    "debt_USDG_stored": 0,
+    "debt_USDG_current": 0,
+    "controller_liquidity": [
+     0,
+     0,
+     0
+    ],
+    "riskEngine": null,
+    "metrics": null,
+    "mv_free": 0,
+    "mv_locked": 0,
+    "code_bytes": 0,
+    "nonce": 1
+   },
+   "0xdd9f436c6f11cc1ca7e4c5a738256444b660a5bc": {
+    "debt_NVDA_stored": 0,
+    "debt_NVDA_current": 0,
+    "debt_USDG_stored": 0,
+    "debt_USDG_current": 0,
+    "controller_liquidity": [
+     0,
+     0,
+     0
+    ],
+    "riskEngine": null,
+    "metrics": null,
+    "mv_free": 0,
+    "mv_locked": 0,
+    "code_bytes": 8062,
+    "nonce": 1
+   }
+  },
+  "debt_sum": {
+   "NVDA_current": 14636122062899,
+   "USDG_current": 1941133,
+   "NVDA_stored": 14615404196690,
+   "USDG_stored": 1936151,
+   "vs_totalBorrowsCurrent": {
+    "NVDA_residual": 0,
+    "USDG_residual": 1
+   }
+  },
+  "marginVault": {
+   "totalFree_pUSDG": 94060779824,
+   "totalLocked_pUSDG": 7399828610,
+   "balance_pUSDG": 94060779824,
+   "users": {
+    "0x5085037684db1d4a59c6e8a3d22adddefc7a05bc": {
+     "free": 52710824457,
+     "locked": 4899852163
+    },
+    "0x94696d767e65a75581145646960fa0ec886ce5d2": {
+     "free": 41349955367,
+     "locked": 2499976447
+    }
+   },
+   "locks": {
+    "1": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "2": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "3": [
+     847281747888270366942346908342717872638559839698,
+     725224414244882752254439086112444448320950978885,
+     489162694012430380559888238609099784326253684067,
+     2499976447
+    ],
+    "4": [
+     459685562444084629304129575529327725427272844732,
+     422777699598239455001256324809172264585735533937,
+     489162694012430380559888238609099784326253684067,
+     4899852163
+    ],
+    "5": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "6": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "7": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  "evidenceFile": "holder-evidence.json"
+ }
+}

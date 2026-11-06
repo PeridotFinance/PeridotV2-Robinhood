@@ -1,0 +1,31 @@
+KILLED   required small inputs taken from the manifest
+KILLED   required event streams taken from the manifest
+KILLED   stream signature/topic not checked
+KILLED   pool address not checked
+KILLED   non-canonical small-input path accepted
+KILLED   rebuild ignores the manifest structure
+KILLED   verify ignores the manifest structure
+KILLED   raw stream missing tolerated
+KILLED   missing manifest stream tolerated in raw check
+KILLED   small input not listed tolerated
+KILLED   duplicate rows tolerated
+KILLED   missing rows tolerated
+KILLED   unexpected rows tolerated
+KILLED   requested amount not compared
+KILLED   lower bound accepts less output
+KILLED   price after swap not compared
+KILLED   snapshot sha not checked
+KILLED   snapshot pin not checked
+KILLED   snapshot file name not checked
+KILLED   forge log hash not checked
+KILLED   stored rows not compared with the log
+KILLED   row count not checked
+KILLED   off-grid header anchors used for timestamps
+KILLED   fetch lines only counted, not named
+KILLED   hash lines only counted, not named
+KILLED   small inputs only counted, not named
+KILLED   duplicate dataset line accepted
+KILLED   cache-assisted second pass accepted as cold
+KILLED   a traceback in the log accepted
+KILLED   a FAIL line in the log accepted
+all mutations killed

@@ -1,0 +1,65 @@
+{
+ "byType": {
+  "checkpoint": {
+   "n": 97,
+   "gasMedian": 497982,
+   "gasMin": 355447,
+   "gasMax": 551276,
+   "eth": 0.000941373467724,
+   "usd": 2.2568887775440514,
+   "usdAvg": 0.023266894613856202
+  },
+  "rebalance": {
+   "n": 79,
+   "gasMedian": 721241,
+   "gasMin": 711961,
+   "gasMax": 970826,
+   "eth": 0.001217756833462,
+   "usd": 2.915992559871891,
+   "usdAvg": 0.03691129822622648
+  },
+  "recenter": {
+   "n": 2,
+   "gasMedian": 1318119.5,
+   "gasMin": 1317333,
+   "gasMax": 1318906,
+   "eth": 5.2972652532e-05,
+   "usd": 0.1230104442534175,
+   "usdAvg": 0.06150522212670875
+  }
+ },
+ "windows": {
+  "2026-10-19_to_22": {
+   "first": "2026-10-19T00:05:40Z",
+   "last": "2026-10-22T16:29:58Z",
+   "days": 3.684,
+   "txs": 138,
+   "txPerDay": 37.5,
+   "usdPerDay": 1.132,
+   "ethPerDay": 0.00046539388538023867
+  },
+  "2026-11-02_to_03": {
+   "first": "2026-11-02T11:03:08Z",
+   "last": "2026-11-03T10:05:31Z",
+   "days": 0.96,
+   "txs": 40,
+   "txPerDay": 41.7,
+   "usdPerDay": 1.172,
+   "ethPerDay": 0.0005185533200859771
+  }
+ },
+ "patternsFromChainAndLogs": {
+  "checkpoint+rebalance pairs": 56,
+  "solo checkpoint then dust wait": 41,
+  "solo rebalance": 23,
+  "recenter": 2
+ },
+ "rebalanceDeployedUsdTotal": 0.10356292730222787,
+ "rebalanceDeployedUsdMedian": 0.0003759566506856131,
+ "rebalancesWhereDeployedLessThanGas": 78,
+ "rebalanceCount": 79,
+ "feesCollectedInKeeperTxsUsd": 0.18548359525782226,
+ "keeperGasUsdTotal": 5.2958917816693605,
+ "keeperFeeWeiTotal": 2212102953718000,
+ "note": "Both running windows are weekdays only; feed-stale hours send nothing (balance flat in logs)."
+}

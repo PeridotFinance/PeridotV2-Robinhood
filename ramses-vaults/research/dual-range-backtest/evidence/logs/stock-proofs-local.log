@@ -1,0 +1,38 @@
+No files changed, compilation skipped
+112 │ ┏     /**
+113 │ ┃      * @notice Container for borrow balance information
+114 │ ┃      * @member principal Total balance (with accrued interest), after applying the most recent balance-changing action
+115 │ ┃      * @member interestIndex Global borrowIndex as of the most recent balance-changing action
+116 │ ┃      */
+Warning: the following cheatcode(s) are deprecated and will be removed in future versions:
+  snapshot(): replaced by `snapshotState`
+  revertTo(uint256): replaced by `revertToState`
+Ran 7 tests for ramses-vaults/test/StockProofs.t.sol:StockProofsTest
+[PASS] testFundedLiquidationThenCollateralRedemptionNeedsLpUnwind() (gas: 3670629)
+Logs:
+  seized pTokens: 7939406292
+[PASS] testOneSidedRecoveryByEnablingTheBoundedSettlementSwapRealizesALoss() (gas: 2535247)
+Logs:
+  cumulative loss before (USD wad): 389677355900
+  cumulative loss after (USD wad): 16434246148109802835
+  pUSDG rate before: 190640563887222
+  pUSDG rate after: 190640275945081
+[PASS] testOneSidedRecoveryByRecentringAloneDoesNotCreateTheMissingToken() (gas: 2543107)
+[PASS] testOneSidedRedemptionRevertsAtomicallyThenSucceedsWhenThePriceReturns() (gas: 2804515)
+[PASS] testOneSidedStatePersistsAfterRecentreAndPriceReturnReserveFundingRecovers() (gas: 3006039)
+[PASS] testStaleFeedBlocksLiquidationOfAnUnderwaterAccountButNotRepayment() (gas: 3369640)
+[PASS] testStaleFeedOperationMatrixWithFreshControlsAndSpecificReasons() (gas: 7127100)
+Logs:
+  STALE,lending: supply (mint),stale=BLOCKED,fresh=ALLOWED,reason=0x4e93360c00000000000000000000000000000000000000000000000000000000
+  STALE,lending: redeem within local cash,stale=ALLOWED,fresh=ALLOWED,reason=0x0000000000000000000000000000000000000000000000000000000000000000
+  STALE,lending: redeem beyond local cash (needs LP unwind),stale=BLOCKED,fresh=ALLOWED,reason=0x91240a1b00000000000000000000000000000000000000000000000000000000
+  STALE,lending: borrow,stale=BLOCKED,fresh=ALLOWED,reason=0x4e93360c00000000000000000000000000000000000000000000000000000000
+  STALE,lending: repay,stale=ALLOWED,fresh=ALLOWED,reason=0x0000000000000000000000000000000000000000000000000000000000000000
+  STALE,lending: redeem collateral while in debt,stale=BLOCKED,fresh=ALLOWED,reason=0x4e93360c00000000000000000000000000000000000000000000000000000000
+  STALE,vault: checkpoint,stale=BLOCKED,fresh=ALLOWED,reason=0x4e93360c00000000000000000000000000000000000000000000000000000000
+  STALE,vault: rebalance,stale=BLOCKED,fresh=ALLOWED,reason=0x4e93360c00000000000000000000000000000000000000000000000000000000
+  STALE,vault: recenter,stale=BLOCKED,fresh=ALLOWED,reason=0x4e93360c00000000000000000000000000000000000000000000000000000000
+  STALE,vault: collectFees,stale=ALLOWED,fresh=ALLOWED,reason=0x0000000000000000000000000000000000000000000000000000000000000000
+  STALE,vault: emergencyDecrease (guardian),stale=BLOCKED,fresh=ALLOWED,reason=0x4e93360c00000000000000000000000000000000000000000000000000000000
+Suite result: ok. 7 passed; 0 failed; 0 skipped; finished in 39.04ms (35.00ms CPU time)
+Ran 1 test suite in 41.38ms (39.04ms CPU time): 7 tests passed, 0 failed, 0 skipped (7 total tests)

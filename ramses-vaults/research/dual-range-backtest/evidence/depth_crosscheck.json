@@ -1,0 +1,18 @@
+{
+ "SPY": {
+  "ticks_checked": 81,
+  "mismatches": [],
+  "n_mismatch": 0,
+  "active_liquidity_from_logs": 372049300931919618,
+  "active_liquidity_pool": 372049300931919618,
+  "extended_events": 0
+ },
+ "GLD": {
+  "ticks_checked": 11,
+  "mismatches": [],
+  "n_mismatch": 0,
+  "active_liquidity_from_logs": 81582149802230393,
+  "active_liquidity_pool": 81582149802230393,
+  "extended_events": 0
+ }
+}

@@ -1,0 +1,793 @@
+{
+ "since_market_open (pToken seed mint 2026-09-05)": {
+  "window": "since_market_open (pToken seed mint 2026-09-05)",
+  "from": "2026-09-05T08:26:09Z",
+  "to": "2026-11-03T09:42:13Z",
+  "days": 59.053,
+  "pNVDA_raw_NVDA_wei": {
+   "supplier_interest": 23523609802,
+   "reserve_factor_share": 2613734419,
+   "LP_net_fees_credited": 412640354268413,
+   "LP_loss_scaledown": -610270182010897,
+   "pnl_NAV_ex_flows": -197606304132682,
+   "unreconciled_residual": 0
+  },
+  "pUSDG_raw_USDG_micro": {
+   "supplier_interest": 4853,
+   "reserve_factor_share": 537,
+   "LP_net_fees_credited": 68940,
+   "LP_loss_scaledown": -418176,
+   "pnl_NAV_ex_flows": -344383,
+   "unreconciled_residual": 0
+  },
+  "USD": {
+   "supplier_borrow_interest_pNVDA": 4.811129019241958e-06,
+   "supplier_borrow_interest_pUSDG": 0.004853,
+   "LP_net_fees_(event-time price)": 0.15670501960959538,
+   "LP_gross_fees": 0.19583927451198066,
+   "LP_reserve_cut": 0.039134254902385285,
+   "strategy_loss_(event-time)": -0.5462359851483676,
+   "gross_fees_stock_side_USD": 0.10970627451198074,
+   "gross_fees_usdg_side_USD": 0.086133,
+   "reserve_cut_stock_USD": 0.02194125490238532,
+   "reserve_cut_usdg_USD": 0.017193000000000003,
+   "net_fees_stock_USD": 0.08776501960959543,
+   "net_fees_usdg_USD": 0.06894,
+   "loss_stock_side_USD": 0.12807178770677596,
+   "loss_usdg_side_USD": 0.41817599999999994,
+   "NAV_pnl_ex_flows_(end price)": -0.38479811622578725,
+   "combined_supplier_result(interest+net fees-loss)": -0.38467315440975297,
+   "protocol_paid_ongoing_operating": -5.84812244114471,
+   "protocol_paid_one_off_admin": -3.3962184792829335,
+   "combined_supplier_result_less_ongoing_operating_cost": -6.232795595554463
+  },
+  "ER": {
+   "pNVDA_stored_growth_pct": -0.573292341325482,
+   "pNVDA_accrued_growth_pct": -0.5732383819547548,
+   "pNVDA_accrued_ann_simple_pct": -3.5431329948087025,
+   "pNVDA_accrued_ann_compound_pct": -3.4909377484015347,
+   "pNVDA_USD_growth_pct": -11.677394245076789,
+   "pUSDG_stored_growth_pct": -1.1799125452919945,
+   "pUSDG_accrued_growth_pct": -1.1647664481755027,
+   "pUSDG_accrued_ann_simple_pct": -7.1993128228850845,
+   "pUSDG_accrued_ann_compound_pct": -6.985583485372171
+  },
+  "utilisation_pct": {
+   "pNVDA": 0.025274555263026965,
+   "pUSDG": 3.395535027740573
+  },
+  "avg_realised_borrow_APR_pct": {
+   "pNVDA": 2.014978549758644,
+   "pUSDG": 2.7327045099965046
+  },
+  "pair_avg_principal_USD": 9.835178936808855,
+  "protocol_paid_costs": {
+   "by_class": {
+    "governor:LP-operations(ongoing, pre-keeper)": {
+     "txs": 13,
+     "ETH": 0.00024282982446800002,
+     "USD": 0.6038064438949573
+    },
+    "governor:contract-creation(one-off)": {
+     "txs": 0,
+     "ETH": 0,
+     "USD": 0
+    },
+    "governor:other admin/config/own-supply-borrow-tests(one-off)": {
+     "txs": 81,
+     "ETH": 0.0007996437024740001,
+     "USD": 2.0867131590566963
+    },
+    "governor:timelock schedule/execute(one-off admin/upgrade)": {
+     "txs": 28,
+     "ETH": 0.0005319304386279999,
+     "USD": 1.3095053202262374
+    },
+    "keeper:checkpoint(+collect fees)": {
+     "txs": 96,
+     "ETH": 0.000932758544092,
+     "USD": 2.2374689188172723
+    },
+    "keeper:rebalance": {
+     "txs": 78,
+     "ETH": 0.0012034920106300004,
+     "USD": 2.8838366341790618
+    },
+    "keeper:recenter": {
+     "txs": 2,
+     "ETH": 5.2972652532e-05,
+     "USD": 0.1230104442534175
+    },
+    "third-party/test-wallet": {
+     "txs": 16,
+     "ETH": 0.00026972412854,
+     "USD": 0.6896947455892961
+    }
+   },
+   "ongoing_operating_USD(keeper+governor LP ops)": 5.84812244114471,
+   "keeper_USD": 5.244315997249752,
+   "governor_LP_ops_USD": 0.6038064438949573,
+   "one_off_governor_admin_USD(lower bound)": 3.3962184792829335,
+   "third_party_wallets_USD(NOT protocol-paid; excluded)": 0.6896947455892961,
+   "protocol_paid_total_USD": 9.244340920427643
+  }
+ },
+ "since_pair_first_LP (2026-09-15)": {
+  "window": "since_pair_first_LP (2026-09-15)",
+  "from": "2026-09-15T15:42:27Z",
+  "to": "2026-11-03T09:42:13Z",
+  "days": 48.75,
+  "pNVDA_raw_NVDA_wei": {
+   "supplier_interest": 23523609802,
+   "reserve_factor_share": 2613734419,
+   "LP_net_fees_credited": 412640354268413,
+   "LP_loss_scaledown": -610270182010897,
+   "pnl_NAV_ex_flows": -197606304132682,
+   "unreconciled_residual": 0
+  },
+  "pUSDG_raw_USDG_micro": {
+   "supplier_interest": 4853,
+   "reserve_factor_share": 537,
+   "LP_net_fees_credited": 68940,
+   "LP_loss_scaledown": -418176,
+   "pnl_NAV_ex_flows": -344383,
+   "unreconciled_residual": 0
+  },
+  "USD": {
+   "supplier_borrow_interest_pNVDA": 4.811129019241958e-06,
+   "supplier_borrow_interest_pUSDG": 0.004853,
+   "LP_net_fees_(event-time price)": 0.15670501960959538,
+   "LP_gross_fees": 0.19583927451198066,
+   "LP_reserve_cut": 0.039134254902385285,
+   "strategy_loss_(event-time)": -0.5462359851483676,
+   "gross_fees_stock_side_USD": 0.10970627451198074,
+   "gross_fees_usdg_side_USD": 0.086133,
+   "reserve_cut_stock_USD": 0.02194125490238532,
+   "reserve_cut_usdg_USD": 0.017193000000000003,
+   "net_fees_stock_USD": 0.08776501960959543,
+   "net_fees_usdg_USD": 0.06894,
+   "loss_stock_side_USD": 0.12807178770677596,
+   "loss_usdg_side_USD": 0.41817599999999994,
+   "NAV_pnl_ex_flows_(end price)": -0.38479811622578725,
+   "combined_supplier_result(interest+net fees-loss)": -0.38467315440975297,
+   "protocol_paid_ongoing_operating": -5.84812244114471,
+   "protocol_paid_one_off_admin": -1.795012985049638,
+   "combined_supplier_result_less_ongoing_operating_cost": -6.232795595554463
+  },
+  "ER": {
+   "pNVDA_stored_growth_pct": -0.573292341325482,
+   "pNVDA_accrued_growth_pct": -0.5732383819547548,
+   "pNVDA_accrued_ann_simple_pct": -4.291952920386048,
+   "pNVDA_accrued_ann_compound_pct": -4.21298154796056,
+   "pNVDA_USD_growth_pct": -4.045652785527687,
+   "pUSDG_stored_growth_pct": -1.1799125452919945,
+   "pUSDG_accrued_growth_pct": -1.1647664481755027,
+   "pUSDG_accrued_ann_simple_pct": -8.720844444796981,
+   "pUSDG_accrued_ann_compound_pct": -8.398295863941618
+  },
+  "utilisation_pct": {
+   "pNVDA": 0.030616181055451445,
+   "pUSDG": 4.113161007486006
+  },
+  "avg_realised_borrow_APR_pct": {
+   "pNVDA": 2.014978549758644,
+   "pUSDG": 2.7327045099965046
+  },
+  "pair_avg_principal_USD": 11.913785065986549,
+  "protocol_paid_costs": {
+   "by_class": {
+    "governor:LP-operations(ongoing, pre-keeper)": {
+     "txs": 13,
+     "ETH": 0.00024282982446800002,
+     "USD": 0.6038064438949573
+    },
+    "governor:contract-creation(one-off)": {
+     "txs": 0,
+     "ETH": 0,
+     "USD": 0
+    },
+    "governor:other admin/config/own-supply-borrow-tests(one-off)": {
+     "txs": 70,
+     "ETH": 0.0006647498322759999,
+     "USD": 1.7537257195759275
+    },
+    "governor:timelock schedule/execute(one-off admin/upgrade)": {
+     "txs": 10,
+     "ETH": 1.634899457e-05,
+     "USD": 0.04128726547371044
+    },
+    "keeper:checkpoint(+collect fees)": {
+     "txs": 96,
+     "ETH": 0.000932758544092,
+     "USD": 2.2374689188172723
+    },
+    "keeper:rebalance": {
+     "txs": 78,
+     "ETH": 0.0012034920106300004,
+     "USD": 2.8838366341790618
+    },
+    "keeper:recenter": {
+     "txs": 2,
+     "ETH": 5.2972652532e-05,
+     "USD": 0.1230104442534175
+    },
+    "third-party/test-wallet": {
+     "txs": 16,
+     "ETH": 0.00026972412854,
+     "USD": 0.6896947455892961
+    }
+   },
+   "ongoing_operating_USD(keeper+governor LP ops)": 5.84812244114471,
+   "keeper_USD": 5.244315997249752,
+   "governor_LP_ops_USD": 0.6038064438949573,
+   "one_off_governor_admin_USD(lower bound)": 1.795012985049638,
+   "third_party_wallets_USD(NOT protocol-paid; excluded)": 0.6896947455892961,
+   "protocol_paid_total_USD": 7.643135426194348
+  }
+ },
+ "since_current_scale (first >$19 deposits 2026-10-08)": {
+  "window": "since_current_scale (first >$19 deposits 2026-10-08)",
+  "from": "2026-10-08T14:05:26Z",
+  "to": "2026-11-03T09:42:13Z",
+  "days": 25.817,
+  "pNVDA_raw_NVDA_wei": {
+   "supplier_interest": 18599132952,
+   "reserve_factor_share": 2066570326,
+   "LP_net_fees_credited": 412510037900588,
+   "LP_loss_scaledown": -610229534683536,
+   "pnl_NAV_ex_flows": -197700897649996,
+   "unreconciled_residual": 0
+  },
+  "pUSDG_raw_USDG_micro": {
+   "supplier_interest": 4472,
+   "reserve_factor_share": 496,
+   "LP_net_fees_credited": 68896,
+   "LP_loss_scaledown": -418167,
+   "pnl_NAV_ex_flows": -344799,
+   "unreconciled_residual": 0
+  },
+  "USD": {
+   "supplier_borrow_interest_pNVDA": 3.803958194821724e-06,
+   "supplier_borrow_interest_pUSDG": 0.004472,
+   "LP_net_fees_(event-time price)": 0.1566332576611163,
+   "LP_gross_fees": 0.19574957207638186,
+   "LP_reserve_cut": 0.03911631441526557,
+   "strategy_loss_(event-time)": -0.5462191963062735,
+   "gross_fees_stock_side_USD": 0.10967157207638197,
+   "gross_fees_usdg_side_USD": 0.086078,
+   "reserve_cut_stock_USD": 0.021934314415265607,
+   "reserve_cut_usdg_USD": 0.017182000000000006,
+   "net_fees_stock_USD": 0.08773725766111636,
+   "net_fees_usdg_USD": 0.068896,
+   "loss_stock_side_USD": 0.12806312840306117,
+   "loss_usdg_side_USD": 0.4181669999999999,
+   "NAV_pnl_ex_flows_(end price)": -0.385233462815023,
+   "combined_supplier_result(interest+net fees-loss)": -0.3851101346869623,
+   "protocol_paid_ongoing_operating": -5.532508754680467,
+   "protocol_paid_one_off_admin": -0.02678387736835363,
+   "combined_supplier_result_less_ongoing_operating_cost": -5.9176188893674295
+  },
+  "ER": {
+   "pNVDA_stored_growth_pct": -0.5737431753884081,
+   "pNVDA_accrued_growth_pct": -0.5737050108244435,
+   "pNVDA_accrued_ann_simple_pct": -8.11095868584634,
+   "pNVDA_accrued_ann_compound_pct": -7.812270084690198,
+   "pNVDA_USD_growth_pct": -13.322911614540423,
+   "pUSDG_stored_growth_pct": -1.182894025581771,
+   "pUSDG_accrued_growth_pct": -1.167748385435019,
+   "pUSDG_accrued_ann_simple_pct": -16.509458225083467,
+   "pUSDG_accrued_ann_compound_pct": -15.300975164324138
+  },
+  "utilisation_pct": {
+   "pNVDA": 0.0424357048361106,
+   "pUSDG": 6.575794881180885
+  },
+  "avg_realised_borrow_APR_pct": {
+   "pNVDA": 2.010166149923684,
+   "pUSDG": 0.0
+  },
+  "pair_avg_principal_USD": 19.37228301074371,
+  "protocol_paid_costs": {
+   "by_class": {
+    "governor:LP-operations(ongoing, pre-keeper)": {
+     "txs": 7,
+     "ETH": 0.000115169549206,
+     "USD": 0.2881927574307151
+    },
+    "governor:contract-creation(one-off)": {
+     "txs": 0,
+     "ETH": 0,
+     "USD": 0
+    },
+    "governor:other admin/config/own-supply-borrow-tests(one-off)": {
+     "txs": 0,
+     "ETH": 0,
+     "USD": 0
+    },
+    "governor:timelock schedule/execute(one-off admin/upgrade)": {
+     "txs": 6,
+     "ETH": 1.0973161908e-05,
+     "USD": 0.02678387736835363
+    },
+    "keeper:checkpoint(+collect fees)": {
+     "txs": 96,
+     "ETH": 0.000932758544092,
+     "USD": 2.2374689188172723
+    },
+    "keeper:rebalance": {
+     "txs": 78,
+     "ETH": 0.0012034920106300004,
+     "USD": 2.8838366341790618
+    },
+    "keeper:recenter": {
+     "txs": 2,
+     "ETH": 5.2972652532e-05,
+     "USD": 0.1230104442534175
+    },
+    "third-party/test-wallet": {
+     "txs": 7,
+     "ETH": 0.000190404584624,
+     "USD": 0.4777583623413277
+    }
+   },
+   "ongoing_operating_USD(keeper+governor LP ops)": 5.532508754680467,
+   "keeper_USD": 5.244315997249752,
+   "governor_LP_ops_USD": 0.2881927574307151,
+   "one_off_governor_admin_USD(lower bound)": 0.02678387736835363,
+   "third_party_wallets_USD(NOT protocol-paid; excluded)": 0.4777583623413277,
+   "protocol_paid_total_USD": 5.559292632048821
+  }
+ },
+ "since_ranged_v3 (first recenter 2026-10-09)": {
+  "window": "since_ranged_v3 (first recenter 2026-10-09)",
+  "from": "2026-10-09T11:06:06Z",
+  "to": "2026-11-03T09:42:13Z",
+  "days": 24.942,
+  "pNVDA_raw_NVDA_wei": {
+   "supplier_interest": 17967067774,
+   "reserve_factor_share": 1996340863,
+   "LP_net_fees_credited": 411572627032184,
+   "LP_loss_scaledown": -610229534683536,
+   "pnl_NAV_ex_flows": -198638940583578,
+   "unreconciled_residual": 0
+  },
+  "pUSDG_raw_USDG_micro": {
+   "supplier_interest": 4350,
+   "reserve_factor_share": 483,
+   "LP_net_fees_credited": 68751,
+   "LP_loss_scaledown": -418167,
+   "pnl_NAV_ex_flows": -345066,
+   "unreconciled_residual": 0
+  },
+  "USD": {
+   "supplier_borrow_interest_pNVDA": 3.674686065861755e-06,
+   "supplier_borrow_interest_pUSDG": 0.00435,
+   "LP_net_fees_(event-time price)": 0.15626840513540668,
+   "LP_gross_fees": 0.1952937564192451,
+   "LP_reserve_cut": 0.03902535128383841,
+   "strategy_loss_(event-time)": -0.5462191963062735,
+   "gross_fees_stock_side_USD": 0.10939675641924522,
+   "gross_fees_usdg_side_USD": 0.08589700000000002,
+   "reserve_cut_stock_USD": 0.02187935128383844,
+   "reserve_cut_usdg_USD": 0.017146000000000005,
+   "net_fees_stock_USD": 0.08751740513540678,
+   "net_fees_usdg_USD": 0.068751,
+   "loss_stock_side_USD": 0.12806312840306117,
+   "loss_usdg_side_USD": 0.4181669999999999,
+   "NAV_pnl_ex_flows_(end price)": -0.385692314559591,
+   "combined_supplier_result(interest+net fees-loss)": -0.3855971164848009,
+   "protocol_paid_ongoing_operating": -5.465310434379854,
+   "protocol_paid_one_off_admin": -0.014340798846026591,
+   "combined_supplier_result_less_ongoing_operating_cost": -5.8509075508646555
+  },
+  "ER": {
+   "pNVDA_stored_growth_pct": -0.5764643607530595,
+   "pNVDA_accrued_growth_pct": -0.5764122132633998,
+   "pNVDA_accrued_ann_simple_pct": -8.435273281435203,
+   "pNVDA_accrued_ann_compound_pct": -8.111727913909627,
+   "pNVDA_USD_growth_pct": -13.297625270790569,
+   "pUSDG_stored_growth_pct": -1.1833861012213398,
+   "pUSDG_accrued_growth_pct": -1.168648891835311,
+   "pUSDG_accrued_ann_simple_pct": -17.102123351735024,
+   "pUSDG_accrued_ann_compound_pct": -15.804474456320861
+  },
+  "utilisation_pct": {
+   "pNVDA": 0.042435902945501015,
+   "pUSDG": 6.576552019895593
+  },
+  "avg_realised_borrow_APR_pct": {
+   "pNVDA": null,
+   "pUSDG": null
+  },
+  "pair_avg_principal_USD": 19.35826386267945,
+  "protocol_paid_costs": {
+   "by_class": {
+    "governor:LP-operations(ongoing, pre-keeper)": {
+     "txs": 6,
+     "ETH": 8.823708639399999e-05,
+     "USD": 0.2209944371301023
+    },
+    "governor:contract-creation(one-off)": {
+     "txs": 0,
+     "ETH": 0,
+     "USD": 0
+    },
+    "governor:other admin/config/own-supply-borrow-tests(one-off)": {
+     "txs": 0,
+     "ETH": 0,
+     "USD": 0
+    },
+    "governor:timelock schedule/execute(one-off admin/upgrade)": {
+     "txs": 4,
+     "ETH": 5.967594784e-06,
+     "USD": 0.014340798846026591
+    },
+    "keeper:checkpoint(+collect fees)": {
+     "txs": 96,
+     "ETH": 0.000932758544092,
+     "USD": 2.2374689188172723
+    },
+    "keeper:rebalance": {
+     "txs": 78,
+     "ETH": 0.0012034920106300004,
+     "USD": 2.8838366341790618
+    },
+    "keeper:recenter": {
+     "txs": 2,
+     "ETH": 5.2972652532e-05,
+     "USD": 0.1230104442534175
+    },
+    "third-party/test-wallet": {
+     "txs": 1,
+     "ETH": 6.241872e-06,
+     "USD": 0.01406980124236797
+    }
+   },
+   "ongoing_operating_USD(keeper+governor LP ops)": 5.465310434379854,
+   "keeper_USD": 5.244315997249752,
+   "governor_LP_ops_USD": 0.2209944371301023,
+   "one_off_governor_admin_USD(lower bound)": 0.014340798846026591,
+   "third_party_wallets_USD(NOT protocol-paid; excluded)": 0.01406980124236797,
+   "protocol_paid_total_USD": 5.479651233225881
+  }
+ },
+ "last_30d": {
+  "window": "last_30d",
+  "from": "2026-10-04T09:42:13Z",
+  "to": "2026-11-03T09:42:13Z",
+  "days": 30.0,
+  "pNVDA_raw_NVDA_wei": {
+   "supplier_interest": 21615567443,
+   "reserve_factor_share": 2401729714,
+   "LP_net_fees_credited": 412510037900588,
+   "LP_loss_scaledown": -610229534683536,
+   "pnl_NAV_ex_flows": -197697881215505,
+   "unreconciled_residual": 0
+  },
+  "pUSDG_raw_USDG_micro": {
+   "supplier_interest": 4748,
+   "reserve_factor_share": 526,
+   "LP_net_fees_credited": 68896,
+   "LP_loss_scaledown": -418167,
+   "pnl_NAV_ex_flows": -344523,
+   "unreconciled_residual": 0
+  },
+  "USD": {
+   "supplier_borrow_interest_pNVDA": 4.420889679251405e-06,
+   "supplier_borrow_interest_pUSDG": 0.004748,
+   "LP_net_fees_(event-time price)": 0.1566332576611163,
+   "LP_gross_fees": 0.19574957207638186,
+   "LP_reserve_cut": 0.03911631441526557,
+   "strategy_loss_(event-time)": -0.5462191963062735,
+   "gross_fees_stock_side_USD": 0.10967157207638197,
+   "gross_fees_usdg_side_USD": 0.086078,
+   "reserve_cut_stock_USD": 0.021934314415265607,
+   "reserve_cut_usdg_USD": 0.017182000000000006,
+   "net_fees_stock_USD": 0.08773725766111636,
+   "net_fees_usdg_USD": 0.068896,
+   "loss_stock_side_USD": 0.12806312840306117,
+   "loss_usdg_side_USD": 0.4181669999999999,
+   "NAV_pnl_ex_flows_(end price)": -0.3849568458835386,
+   "combined_supplier_result(interest+net fees-loss)": -0.3848335177554779,
+   "protocol_paid_ongoing_operating": -5.57584122948816,
+   "protocol_paid_one_off_admin": -0.033104800523299484,
+   "combined_supplier_result_less_ongoing_operating_cost": -5.960674747243638
+  },
+  "ER": {
+   "pNVDA_stored_growth_pct": -0.5737431753884081,
+   "pNVDA_accrued_growth_pct": -0.5736935776668672,
+   "pNVDA_accrued_ann_simple_pct": -6.979938528280218,
+   "pNVDA_accrued_ann_compound_pct": -6.760652661252619,
+   "pNVDA_USD_growth_pct": -13.466991210027501,
+   "pUSDG_stored_growth_pct": -1.1812074989930088,
+   "pUSDG_accrued_growth_pct": -1.1663114979793998,
+   "pUSDG_accrued_ann_simple_pct": -14.19012322541603,
+   "pUSDG_accrued_ann_compound_pct": -13.301640890418687
+  },
+  "utilisation_pct": {
+   "pNVDA": 0.04428489865231138,
+   "pUSDG": 6.375534234564974
+  },
+  "avg_realised_borrow_APR_pct": {
+   "pNVDA": 2.010166149923684,
+   "pUSDG": 2.719080424073871
+  },
+  "pair_avg_principal_USD": 17.33239369847335,
+  "protocol_paid_costs": {
+   "by_class": {
+    "governor:LP-operations(ongoing, pre-keeper)": {
+     "txs": 9,
+     "ETH": 0.00013117298518999998,
+     "USD": 0.33152523223840713
+    },
+    "governor:contract-creation(one-off)": {
+     "txs": 0,
+     "ETH": 0,
+     "USD": 0
+    },
+    "governor:other admin/config/own-supply-borrow-tests(one-off)": {
+     "txs": 0,
+     "ETH": 0,
+     "USD": 0
+    },
+    "governor:timelock schedule/execute(one-off admin/upgrade)": {
+     "txs": 8,
+     "ETH": 1.330057139e-05,
+     "USD": 0.033104800523299484
+    },
+    "keeper:checkpoint(+collect fees)": {
+     "txs": 96,
+     "ETH": 0.000932758544092,
+     "USD": 2.2374689188172723
+    },
+    "keeper:rebalance": {
+     "txs": 78,
+     "ETH": 0.0012034920106300004,
+     "USD": 2.8838366341790618
+    },
+    "keeper:recenter": {
+     "txs": 2,
+     "ETH": 5.2972652532e-05,
+     "USD": 0.1230104442534175
+    },
+    "third-party/test-wallet": {
+     "txs": 8,
+     "ETH": 0.000199638984252,
+     "USD": 0.5010089184126987
+    }
+   },
+   "ongoing_operating_USD(keeper+governor LP ops)": 5.57584122948816,
+   "keeper_USD": 5.244315997249752,
+   "governor_LP_ops_USD": 0.33152523223840713,
+   "one_off_governor_admin_USD(lower bound)": 0.033104800523299484,
+   "third_party_wallets_USD(NOT protocol-paid; excluded)": 0.5010089184126987,
+   "protocol_paid_total_USD": 5.6089460300114595
+  }
+ },
+ "last_7d": {
+  "window": "last_7d",
+  "from": "2026-10-27T09:42:13Z",
+  "to": "2026-11-03T09:42:13Z",
+  "days": 7.0,
+  "pNVDA_raw_NVDA_wei": {
+   "supplier_interest": 5042367882,
+   "reserve_factor_share": 560263098,
+   "LP_net_fees_credited": 200730678796994,
+   "LP_loss_scaledown": -380478736254548,
+   "pnl_NAV_ex_flows": -179743015089672,
+   "unreconciled_residual": 0
+  },
+  "pUSDG_raw_USDG_micro": {
+   "supplier_interest": 1835,
+   "reserve_factor_share": 204,
+   "LP_net_fees_credited": 33824,
+   "LP_loss_scaledown": -259812,
+   "pnl_NAV_ex_flows": -224153,
+   "unreconciled_residual": 0
+  },
+  "USD": {
+   "supplier_borrow_interest_pNVDA": 1.0312823009299043e-06,
+   "supplier_borrow_interest_pUSDG": 0.001835,
+   "LP_net_fees_(event-time price)": 0.07538787779162823,
+   "LP_gross_fees": 0.09422684723953374,
+   "LP_reserve_cut": 0.018838969447905515,
+   "strategy_loss_(event-time)": -0.337996414288983,
+   "gross_fees_stock_side_USD": 0.05195484723953375,
+   "gross_fees_usdg_side_USD": 0.042272000000000004,
+   "reserve_cut_stock_USD": 0.010390969447905515,
+   "reserve_cut_usdg_USD": 0.008448,
+   "net_fees_stock_USD": 0.041563877791628234,
+   "net_fees_usdg_USD": 0.03382400000000001,
+   "loss_stock_side_USD": 0.07818736662537173,
+   "loss_usdg_side_USD": 0.259812,
+   "NAV_pnl_ex_flows_(end price)": -0.26091465534043345,
+   "combined_supplier_result(interest+net fees-loss)": -0.26077250521505385,
+   "protocol_paid_ongoing_operating": -1.073666493253259,
+   "protocol_paid_one_off_admin": 0,
+   "combined_supplier_result_less_ongoing_operating_cost": -1.3344389984683127
+  },
+  "ER": {
+   "pNVDA_stored_growth_pct": -0.5218808483890114,
+   "pNVDA_accrued_growth_pct": -0.5218660030286815,
+   "pNVDA_accrued_ann_simple_pct": -27.21158444363839,
+   "pNVDA_accrued_ann_compound_pct": -23.877657061217437,
+   "pNVDA_USD_growth_pct": -5.639846314923281,
+   "pUSDG_stored_growth_pct": -0.7685786199727374,
+   "pUSDG_accrued_growth_pct": -0.7622694752313475,
+   "pUSDG_accrued_ann_simple_pct": -39.746908351348836,
+   "pUSDG_accrued_ann_compound_pct": -32.90037420962718
+  },
+  "utilisation_pct": {
+   "pNVDA": 0.04245324794427145,
+   "pUSDG": 6.59007758884199
+  },
+  "avg_realised_borrow_APR_pct": {
+   "pNVDA": null,
+   "pUSDG": null
+  },
+  "pair_avg_principal_USD": 19.18809560228302,
+  "protocol_paid_costs": {
+   "by_class": {
+    "governor:LP-operations(ongoing, pre-keeper)": {
+     "txs": 0,
+     "ETH": 0,
+     "USD": 0
+    },
+    "governor:contract-creation(one-off)": {
+     "txs": 0,
+     "ETH": 0,
+     "USD": 0
+    },
+    "governor:other admin/config/own-supply-borrow-tests(one-off)": {
+     "txs": 0,
+     "ETH": 0,
+     "USD": 0
+    },
+    "governor:timelock schedule/execute(one-off admin/upgrade)": {
+     "txs": 0,
+     "ETH": 0,
+     "USD": 0
+    },
+    "keeper:checkpoint(+collect fees)": {
+     "txs": 20,
+     "ETH": 0.000188405663094,
+     "USD": 0.426130308908673
+    },
+    "keeper:rebalance": {
+     "txs": 17,
+     "ETH": 0.000260104614634,
+     "USD": 0.5882832008502787
+    },
+    "keeper:recenter": {
+     "txs": 1,
+     "ETH": 2.6415161316e-05,
+     "USD": 0.059252983494307236
+    },
+    "third-party/test-wallet": {
+     "txs": 1,
+     "ETH": 6.241872e-06,
+     "USD": 0.01406980124236797
+    }
+   },
+   "ongoing_operating_USD(keeper+governor LP ops)": 1.073666493253259,
+   "keeper_USD": 1.073666493253259,
+   "governor_LP_ops_USD": 0,
+   "one_off_governor_admin_USD(lower bound)": 0,
+   "third_party_wallets_USD(NOT protocol-paid; excluded)": 0.01406980124236797,
+   "protocol_paid_total_USD": 1.073666493253259
+  }
+ },
+ "last_24h": {
+  "window": "last_24h",
+  "from": "2026-11-02T09:42:13Z",
+  "to": "2026-11-03T09:42:13Z",
+  "days": 1.0,
+  "pNVDA_raw_NVDA_wei": {
+   "supplier_interest": 720584472,
+   "reserve_factor_share": 80064941,
+   "LP_net_fees_credited": 200730678796994,
+   "LP_loss_scaledown": -380478736254548,
+   "pnl_NAV_ex_flows": -179747336873082,
+   "unreconciled_residual": 0
+  },
+  "pUSDG_raw_USDG_micro": {
+   "supplier_interest": 995,
+   "reserve_factor_share": 110,
+   "LP_net_fees_credited": 33824,
+   "LP_loss_scaledown": -259812,
+   "pnl_NAV_ex_flows": -224993,
+   "unreconciled_residual": 0
+  },
+  "USD": {
+   "supplier_borrow_interest_pNVDA": 1.4737639729764565e-07,
+   "supplier_borrow_interest_pUSDG": 0.000995,
+   "LP_net_fees_(event-time price)": 0.07538787779162823,
+   "LP_gross_fees": 0.09422684723953374,
+   "LP_reserve_cut": 0.018838969447905515,
+   "strategy_loss_(event-time)": -0.337996414288983,
+   "gross_fees_stock_side_USD": 0.05195484723953375,
+   "gross_fees_usdg_side_USD": 0.042272000000000004,
+   "reserve_cut_stock_USD": 0.010390969447905515,
+   "reserve_cut_usdg_USD": 0.008448,
+   "net_fees_stock_USD": 0.041563877791628234,
+   "net_fees_usdg_USD": 0.03382400000000001,
+   "loss_stock_side_USD": 0.07818736662537173,
+   "loss_usdg_side_USD": 0.259812,
+   "NAV_pnl_ex_flows_(end price)": -0.2617555392463371,
+   "combined_supplier_result(interest+net fees-loss)": -0.2616133891209575,
+   "protocol_paid_ongoing_operating": -1.073666493253259,
+   "protocol_paid_one_off_admin": 0,
+   "combined_supplier_result_less_ongoing_operating_cost": -1.3352798823742165
+  },
+  "ER": {
+   "pNVDA_stored_growth_pct": -0.5218808483890114,
+   "pNVDA_accrued_growth_pct": -0.5218784854132075,
+   "pNVDA_accrued_ann_simple_pct": -190.48564717582073,
+   "pNVDA_accrued_ann_compound_pct": -85.18965630700264,
+   "pNVDA_USD_growth_pct": -1.8973530876646105,
+   "pUSDG_stored_growth_pct": -0.7685786199727374,
+   "pUSDG_accrued_growth_pct": -0.7651041789762503,
+   "pUSDG_accrued_ann_simple_pct": -279.2630253263314,
+   "pUSDG_accrued_ann_compound_pct": -93.93944208727936
+  },
+  "utilisation_pct": {
+   "pNVDA": 0.04256638326526433,
+   "pUSDG": 6.621763039285722
+  },
+  "avg_realised_borrow_APR_pct": {
+   "pNVDA": null,
+   "pUSDG": null
+  },
+  "pair_avg_principal_USD": 18.837389325540745,
+  "protocol_paid_costs": {
+   "by_class": {
+    "governor:LP-operations(ongoing, pre-keeper)": {
+     "txs": 0,
+     "ETH": 0,
+     "USD": 0
+    },
+    "governor:contract-creation(one-off)": {
+     "txs": 0,
+     "ETH": 0,
+     "USD": 0
+    },
+    "governor:other admin/config/own-supply-borrow-tests(one-off)": {
+     "txs": 0,
+     "ETH": 0,
+     "USD": 0
+    },
+    "governor:timelock schedule/execute(one-off admin/upgrade)": {
+     "txs": 0,
+     "ETH": 0,
+     "USD": 0
+    },
+    "keeper:checkpoint(+collect fees)": {
+     "txs": 20,
+     "ETH": 0.000188405663094,
+     "USD": 0.426130308908673
+    },
+    "keeper:rebalance": {
+     "txs": 17,
+     "ETH": 0.000260104614634,
+     "USD": 0.5882832008502787
+    },
+    "keeper:recenter": {
+     "txs": 1,
+     "ETH": 2.6415161316e-05,
+     "USD": 0.059252983494307236
+    },
+    "third-party/test-wallet": {
+     "txs": 1,
+     "ETH": 6.241872e-06,
+     "USD": 0.01406980124236797
+    }
+   },
+   "ongoing_operating_USD(keeper+governor LP ops)": 1.073666493253259,
+   "keeper_USD": 1.073666493253259,
+   "governor_LP_ops_USD": 0,
+   "one_off_governor_admin_USD(lower bound)": 0,
+   "third_party_wallets_USD(NOT protocol-paid; excluded)": 0.01406980124236797,
+   "protocol_paid_total_USD": 1.073666493253259
+  }
+ }
+}

@@ -1,0 +1,1106 @@
+{
+ "pin": {
+  "l2": 104960794,
+  "hash": "0x93a7902a1157a63fa58e4f59a9ee8b36a9d2205f96b1a7d4ce2d351db6b71772",
+  "timestamp": 1793698933,
+  "timestampUtc": "2026-11-03T09:42:13Z",
+  "l1BlockNumber_native": 26333444,
+  "headAtStart": 104960796
+ },
+ "windows": {
+  "since_market_open (pToken seed mint 2026-09-05)": {
+   "from": "2026-09-05T08:26:09Z",
+   "to": "2026-11-03T09:42:13Z",
+   "days": 59.053,
+   "markets": {
+    "pNVDA": {
+     "er_stored": {
+      "start": 200000000000000000000000000,
+      "end": 198853415317349043453506389,
+      "growth_pct": -0.573292341325482,
+      "annualised_simple_pct": -3.5434665126484375,
+      "annualised_compound_pct": -3.491261478634544
+     },
+     "er_accrued": {
+      "start": 200000000000000000000000000,
+      "end": 198853523236090494633441250,
+      "growth_pct": -0.5732383819547548,
+      "annualised_simple_pct": -3.5431329948087025,
+      "annualised_compound_pct": -3.4909377484015347
+     },
+     "decomposition_raw_underlying": {
+      "deltaNAV_accrued": 14262626107735062,
+      "externalSupplyFlows(mint-redeem)": 14460232411867744,
+      "pnl_NAV_ex_flows": -197606304132682,
+      "interest_generated_total(incl unaccrued)": 26137344221,
+      "AccrueInterest_events_interest_sum": 5476801794,
+      "reserve_factor_share": 2613734419,
+      "supplier_interest": 23523609802,
+      "LP_net_fees_credited": 412640354268413,
+      "LP_loss_scaledown": -610270182010897,
+      "sum_explained": -197606304132682,
+      "unreconciled_residual": 0
+     },
+     "avg_NAV_underlying": null,
+     "underlying_decimals": 18,
+     "supply_start_end": [
+      100000000,
+      172300825
+     ],
+     "NAV_start_end_raw": [
+      20000000000000000,
+      34262626107735062
+     ],
+     "avg_realised_borrow_rate_per_block_x1e18": 7667346079.751308,
+     "avg_realised_borrow_APR_pct(x2628000 blocks)": 2.014978549758644,
+     "time_weighted_utilisation_B_over_NAV_pct": 0.025274555263026965,
+     "time_weighted_avg_NAV_raw": 2.720391381032787e+16,
+     "USD": {
+      "nvda_price_start": 230.23665,
+      "nvda_price_end": 204.5234154,
+      "er_accrued_times_price_growth_pct": -11.677394245076789,
+      "price_effect_pct": -11.16817613529384
+     },
+     "APR_components_pct_of_avg_NAV": {
+      "supplier_borrow_interest": 0.0005344717677431106,
+      "LP_net_fees": 9.375458164980751,
+      "LP_loss_scaledown": -13.865736837402501,
+      "total_ex_flows": -4.489744200654009,
+      "note": "pnl / time-weighted average NAV, linearly annualised; NAV = cash+borrows-reserves (full vault principal counted)"
+     }
+    },
+    "pUSDG": {
+     "er_stored": {
+      "start": 200000000000000,
+      "end": 197640174909416,
+      "growth_pct": -1.1799125452919945,
+      "annualised_simple_pct": -7.292929437064026,
+      "annualised_compound_pct": -7.073651661261337
+     },
+     "er_accrued": {
+      "start": 200000000000000,
+      "end": 197670467103649,
+      "growth_pct": -1.1647664481755027,
+      "annualised_simple_pct": -7.1993128228850845,
+      "annualised_compound_pct": -6.985583485372171
+     },
+     "decomposition_raw_underlying": {
+      "deltaNAV_accrued": 25181852,
+      "externalSupplyFlows(mint-redeem)": 25526235,
+      "pnl_NAV_ex_flows": -344383,
+      "interest_generated_total(incl unaccrued)": 5390,
+      "AccrueInterest_events_interest_sum": 422,
+      "reserve_factor_share": 537,
+      "supplier_interest": 4853,
+      "LP_net_fees_credited": 68940,
+      "LP_loss_scaledown": -418176,
+      "sum_explained": -344383,
+      "unreconciled_residual": 0
+     },
+     "avg_NAV_underlying": null,
+     "underlying_decimals": 6,
+     "supply_start_end": [
+      20000000000,
+      147628790621
+     ],
+     "NAV_start_end_raw": [
+      4000000,
+      29181852
+     ],
+     "avg_realised_borrow_rate_per_block_x1e18": 10398418987.81014,
+     "avg_realised_borrow_APR_pct(x2628000 blocks)": 2.7327045099965046,
+     "time_weighted_utilisation_B_over_NAV_pct": 3.395535027740573,
+     "time_weighted_avg_NAV_raw": 16556968.10352764,
+     "APR_components_pct_of_avg_NAV": {
+      "supplier_borrow_interest": 0.18116807593305986,
+      "LP_net_fees": 2.5736095517875843,
+      "LP_loss_scaledown": -15.610991411783068,
+      "total_ex_flows": -12.856213784062428,
+      "note": "pnl / time-weighted average NAV, linearly annualised; NAV = cash+borrows-reserves (full vault principal counted)"
+     }
+    }
+   },
+   "pair": {
+    "feesProcessed_events": 272,
+    "grossFees_NVDA_raw": 515800442835454,
+    "grossFees_USDG_raw": 86133,
+    "reserveCut_NVDA_raw": 103160088567041,
+    "reserveCut_USDG_raw": 17193,
+    "netFeesToPrincipal_NVDA_raw": 412640354268413,
+    "netFeesToPrincipal_USDG_raw": 68940,
+    "grossFees_USD_at_event_price": 0.19583927451198066,
+    "reserveCut_USD": 0.039134254902385285,
+    "netFees_USD": 0.15670501960959538,
+    "checkpoints": 190,
+    "lossEvents": 19,
+    "strategyLoss_USD(sum of negative pnl)": 0.5462359851483676,
+    "principalScaleDown_NVDA_raw": 610270182010897,
+    "principalScaleDown_USDG_raw": 418176,
+    "recenters": 4,
+    "rebalances": 82,
+    "deposits": [
+     [
+      "2026-09-15T15:42:27Z",
+      "NVDA",
+      10000000000000000
+     ],
+     [
+      "2026-09-15T15:42:41Z",
+      "USDG",
+      2000000
+     ],
+     [
+      "2026-09-26T00:15:32Z",
+      "NVDA",
+      11458012994567666
+     ],
+     [
+      "2026-10-08T14:05:26Z",
+      "USDG",
+      12771803
+     ],
+     [
+      "2026-10-08T14:07:51Z",
+      "NVDA",
+      5748211192983450
+     ],
+     [
+      "2026-10-08T14:09:17Z",
+      "NVDA",
+      4112357382880716
+     ]
+    ],
+    "withdrawals": [
+     [
+      "2026-09-16T11:58:10Z",
+      "NVDA",
+      10000000000000000,
+      9983457829087898,
+      0
+     ]
+    ],
+    "timeWeightedPrincipal_USD": 9.835178936808855,
+    "netFees_APR_on_avg_principal_pct": 9.84810873840685,
+    "grossFees_APR_on_avg_principal_pct": 12.307496437890746,
+    "netFees_minus_loss_APR_pct": -24.480028241338765,
+    "loss_APR_pct": 34.328136979745615,
+    "supplier_borrow_interest_USD(price at window end)": 0.0048578111290192415,
+    "reserve_factor_share_USD": 0.0005375345698903224,
+    "NAV_pnl_ex_flows_USD(price at end)": -0.38479811622578725
+   }
+  },
+  "since_pair_first_LP (2026-09-15)": {
+   "from": "2026-09-15T15:42:27Z",
+   "to": "2026-11-03T09:42:13Z",
+   "days": 48.75,
+   "markets": {
+    "pNVDA": {
+     "er_stored": {
+      "start": 200000000000000000000000000,
+      "end": 198853415317349043453506389,
+      "growth_pct": -0.573292341325482,
+      "annualised_simple_pct": -4.292356925222544,
+      "annualised_compound_pct": -4.213370762594293
+     },
+     "er_accrued": {
+      "start": 200000000000000000000000000,
+      "end": 198853523236090494633441250,
+      "growth_pct": -0.5732383819547548,
+      "annualised_simple_pct": -4.291952920386048,
+      "annualised_compound_pct": -4.21298154796056
+     },
+     "decomposition_raw_underlying": {
+      "deltaNAV_accrued": 14262626107735062,
+      "externalSupplyFlows(mint-redeem)": 14460232411867744,
+      "pnl_NAV_ex_flows": -197606304132682,
+      "interest_generated_total(incl unaccrued)": 26137344221,
+      "AccrueInterest_events_interest_sum": 5476801794,
+      "reserve_factor_share": 2613734419,
+      "supplier_interest": 23523609802,
+      "LP_net_fees_credited": 412640354268413,
+      "LP_loss_scaledown": -610270182010897,
+      "sum_explained": -197606304132682,
+      "unreconciled_residual": 0
+     },
+     "avg_NAV_underlying": null,
+     "underlying_decimals": 18,
+     "supply_start_end": [
+      100000000,
+      172300825
+     ],
+     "NAV_start_end_raw": [
+      20000000000000000,
+      34262626107735062
+     ],
+     "avg_realised_borrow_rate_per_block_x1e18": 7667346079.751308,
+     "avg_realised_borrow_APR_pct(x2628000 blocks)": 2.014978549758644,
+     "time_weighted_utilisation_B_over_NAV_pct": 0.030616181055451445,
+     "time_weighted_avg_NAV_raw": 2.872641782336354e+16,
+     "USD": {
+      "nvda_price_start": 211.92474816,
+      "nvda_price_end": 204.5234154,
+      "er_accrued_times_price_growth_pct": -4.045652785527687,
+      "price_effect_pct": -3.4924343778915845
+     },
+     "APR_components_pct_of_avg_NAV": {
+      "supplier_borrow_interest": 0.000613115339584753,
+      "LP_net_fees": 10.754987566242528,
+      "LP_loss_scaledown": -15.905977570255743,
+      "total_ex_flows": -5.150376888673632,
+      "note": "pnl / time-weighted average NAV, linearly annualised; NAV = cash+borrows-reserves (full vault principal counted)"
+     }
+    },
+    "pUSDG": {
+     "er_stored": {
+      "start": 200000000000000,
+      "end": 197640174909416,
+      "growth_pct": -1.1799125452919945,
+      "annualised_simple_pct": -8.834246369367879,
+      "annualised_compound_pct": -8.503345927169281
+     },
+     "er_accrued": {
+      "start": 200000000000000,
+      "end": 197670467103649,
+      "growth_pct": -1.1647664481755027,
+      "annualised_simple_pct": -8.720844444796981,
+      "annualised_compound_pct": -8.398295863941618
+     },
+     "decomposition_raw_underlying": {
+      "deltaNAV_accrued": 25181852,
+      "externalSupplyFlows(mint-redeem)": 25526235,
+      "pnl_NAV_ex_flows": -344383,
+      "interest_generated_total(incl unaccrued)": 5390,
+      "AccrueInterest_events_interest_sum": 422,
+      "reserve_factor_share": 537,
+      "supplier_interest": 4853,
+      "LP_net_fees_credited": 68940,
+      "LP_loss_scaledown": -418176,
+      "sum_explained": -344383,
+      "unreconciled_residual": 0
+     },
+     "avg_NAV_underlying": null,
+     "underlying_decimals": 6,
+     "supply_start_end": [
+      20000000000,
+      147628790621
+     ],
+     "NAV_start_end_raw": [
+      4000000,
+      29181852
+     ],
+     "avg_realised_borrow_rate_per_block_x1e18": 10398418987.81014,
+     "avg_realised_borrow_APR_pct(x2628000 blocks)": 2.7327045099965046,
+     "time_weighted_utilisation_B_over_NAV_pct": 4.113161007486006,
+     "time_weighted_avg_NAV_raw": 19210808.062269676,
+     "APR_components_pct_of_avg_NAV": {
+      "supplier_borrow_interest": 0.18914041880200347,
+      "LP_net_fees": 2.686861832311996,
+      "LP_loss_scaledown": -16.297956681011044,
+      "total_ex_flows": -13.421954429897045,
+      "note": "pnl / time-weighted average NAV, linearly annualised; NAV = cash+borrows-reserves (full vault principal counted)"
+     }
+    }
+   },
+   "pair": {
+    "feesProcessed_events": 272,
+    "grossFees_NVDA_raw": 515800442835454,
+    "grossFees_USDG_raw": 86133,
+    "reserveCut_NVDA_raw": 103160088567041,
+    "reserveCut_USDG_raw": 17193,
+    "netFeesToPrincipal_NVDA_raw": 412640354268413,
+    "netFeesToPrincipal_USDG_raw": 68940,
+    "grossFees_USD_at_event_price": 0.19583927451198066,
+    "reserveCut_USD": 0.039134254902385285,
+    "netFees_USD": 0.15670501960959538,
+    "checkpoints": 190,
+    "lossEvents": 19,
+    "strategyLoss_USD(sum of negative pnl)": 0.5462359851483676,
+    "principalScaleDown_NVDA_raw": 610270182010897,
+    "principalScaleDown_USDG_raw": 418176,
+    "recenters": 4,
+    "rebalances": 82,
+    "deposits": [
+     [
+      "2026-09-15T15:42:41Z",
+      "USDG",
+      2000000
+     ],
+     [
+      "2026-09-26T00:15:32Z",
+      "NVDA",
+      11458012994567666
+     ],
+     [
+      "2026-10-08T14:05:26Z",
+      "USDG",
+      12771803
+     ],
+     [
+      "2026-10-08T14:07:51Z",
+      "NVDA",
+      5748211192983450
+     ],
+     [
+      "2026-10-08T14:09:17Z",
+      "NVDA",
+      4112357382880716
+     ]
+    ],
+    "withdrawals": [
+     [
+      "2026-09-16T11:58:10Z",
+      "NVDA",
+      10000000000000000,
+      9983457829087898,
+      0
+     ]
+    ],
+    "timeWeightedPrincipal_USD": 11.913785065986549,
+    "netFees_APR_on_avg_principal_pct": 9.84810873840685,
+    "grossFees_APR_on_avg_principal_pct": 12.307496437890746,
+    "netFees_minus_loss_APR_pct": -24.480028241338765,
+    "loss_APR_pct": 34.328136979745615,
+    "supplier_borrow_interest_USD(price at window end)": 0.0048578111290192415,
+    "reserve_factor_share_USD": 0.0005375345698903224,
+    "NAV_pnl_ex_flows_USD(price at end)": -0.38479811622578725
+   }
+  },
+  "since_current_scale (first >$19 deposits 2026-10-08)": {
+   "from": "2026-10-08T14:05:26Z",
+   "to": "2026-11-03T09:42:13Z",
+   "days": 25.817,
+   "markets": {
+    "pNVDA": {
+     "er_stored": {
+      "start": 200000906871237693235711010,
+      "end": 198853415317349043453506389,
+      "growth_pct": -0.5737431753884081,
+      "annualised_simple_pct": -8.111498250946418,
+      "annualised_compound_pct": -7.812770366394373
+     },
+     "er_accrued": {
+      "start": 200000938642780050296792061,
+      "end": 198853523236090494633441250,
+      "growth_pct": -0.5737050108244435,
+      "annualised_simple_pct": -8.11095868584634,
+      "annualised_compound_pct": -7.812270084690198
+     },
+     "decomposition_raw_underlying": {
+      "deltaNAV_accrued": 8030770396602996,
+      "externalSupplyFlows(mint-redeem)": 8228471294252992,
+      "pnl_NAV_ex_flows": -197700897649996,
+      "interest_generated_total(incl unaccrued)": 20665703278,
+      "AccrueInterest_events_interest_sum": 4635286425,
+      "reserve_factor_share": 2066570326,
+      "supplier_interest": 18599132952,
+      "LP_net_fees_credited": 412510037900588,
+      "LP_loss_scaledown": -610229534683536,
+      "sum_explained": -197700897649996,
+      "unreconciled_residual": 0
+     },
+     "avg_NAV_underlying": null,
+     "underlying_decimals": 18,
+     "supply_start_end": [
+      131158663,
+      172300825
+     ],
+     "NAV_start_end_raw": [
+      26231855711132066,
+      34262626107735062
+     ],
+     "avg_realised_borrow_rate_per_block_x1e18": 7649034056.026196,
+     "avg_realised_borrow_APR_pct(x2628000 blocks)": 2.010166149923684,
+     "time_weighted_utilisation_B_over_NAV_pct": 0.0424357048361106,
+     "time_weighted_avg_NAV_raw": 3.4441531595419704e+16,
+     "USD": {
+      "nvda_price_start": 234.60646649,
+      "nvda_price_end": 204.5234154,
+      "er_accrued_times_price_growth_pct": -13.322911614540423,
+      "price_effect_pct": -12.82277148625921
+     },
+     "APR_components_pct_of_avg_NAV": {
+      "supplier_borrow_interest": 0.0007634731864757635,
+      "LP_net_fees": 16.933066390889678,
+      "LP_loss_scaledown": -25.04922614020904,
+      "total_ex_flows": -8.115396276132886,
+      "note": "pnl / time-weighted average NAV, linearly annualised; NAV = cash+borrows-reserves (full vault principal counted)"
+     }
+    },
+    "pUSDG": {
+     "er_stored": {
+      "start": 200006034340432,
+      "end": 197640174909416,
+      "growth_pct": -1.182894025581771,
+      "annualised_simple_pct": -16.723585100713272,
+      "annualised_compound_pct": -15.484296817166976
+     },
+     "er_accrued": {
+      "start": 200006034340432,
+      "end": 197670467103649,
+      "growth_pct": -1.167748385435019,
+      "annualised_simple_pct": -16.509458225083467,
+      "annualised_compound_pct": -15.300975164324138
+     },
+     "decomposition_raw_underlying": {
+      "deltaNAV_accrued": -1337811,
+      "externalSupplyFlows(mint-redeem)": -993012,
+      "pnl_NAV_ex_flows": -344799,
+      "interest_generated_total(incl unaccrued)": 4968,
+      "AccrueInterest_events_interest_sum": 0,
+      "reserve_factor_share": 496,
+      "supplier_interest": 4472,
+      "LP_net_fees_credited": 68896,
+      "LP_loss_scaledown": -418167,
+      "sum_explained": -344799,
+      "unreconciled_residual": 0
+     },
+     "avg_NAV_underlying": null,
+     "underlying_decimals": 6,
+     "supply_start_end": [
+      152593710988,
+      147628790621
+     ],
+     "NAV_start_end_raw": [
+      30519663,
+      29181852
+     ],
+     "avg_realised_borrow_rate_per_block_x1e18": 0.0,
+     "avg_realised_borrow_APR_pct(x2628000 blocks)": 0.0,
+     "time_weighted_utilisation_B_over_NAV_pct": 6.575794881180885,
+     "time_weighted_avg_NAV_raw": 29443330.634155635,
+     "APR_components_pct_of_avg_NAV": {
+      "supplier_borrow_interest": 0.2147328089260785,
+      "LP_net_fees": 3.3081913246357564,
+      "LP_loss_scaledown": -20.079198235731546,
+      "total_ex_flows": -16.55627410216971,
+      "note": "pnl / time-weighted average NAV, linearly annualised; NAV = cash+borrows-reserves (full vault principal counted)"
+     }
+    }
+   },
+   "pair": {
+    "feesProcessed_events": 267,
+    "grossFees_NVDA_raw": 515637547375673,
+    "grossFees_USDG_raw": 86078,
+    "reserveCut_NVDA_raw": 103127509475085,
+    "reserveCut_USDG_raw": 17182,
+    "netFeesToPrincipal_NVDA_raw": 412510037900588,
+    "netFeesToPrincipal_USDG_raw": 68896,
+    "grossFees_USD_at_event_price": 0.19574957207638186,
+    "reserveCut_USD": 0.03911631441526557,
+    "netFees_USD": 0.1566332576611163,
+    "checkpoints": 187,
+    "lossEvents": 18,
+    "strategyLoss_USD(sum of negative pnl)": 0.5462191963062735,
+    "principalScaleDown_NVDA_raw": 610229534683536,
+    "principalScaleDown_USDG_raw": 418167,
+    "recenters": 4,
+    "rebalances": 80,
+    "deposits": [
+     [
+      "2026-10-08T14:07:51Z",
+      "NVDA",
+      5748211192983450
+     ],
+     [
+      "2026-10-08T14:09:17Z",
+      "NVDA",
+      4112357382880716
+     ]
+    ],
+    "withdrawals": [],
+    "timeWeightedPrincipal_USD": 19.37228301074371,
+    "netFees_APR_on_avg_principal_pct": 11.431065719880818,
+    "grossFees_APR_on_avg_principal_pct": 14.285766997739916,
+    "netFees_minus_loss_APR_pct": -28.43190861693855,
+    "loss_APR_pct": 39.86297433681936,
+    "supplier_borrow_interest_USD(price at window end)": 0.004475803958194822,
+    "reserve_factor_share_USD": 0.0004964226620212378,
+    "NAV_pnl_ex_flows_USD(price at end)": -0.385233462815023
+   }
+  },
+  "since_ranged_v3 (first recenter 2026-10-09)": {
+   "from": "2026-10-09T11:06:06Z",
+   "to": "2026-11-03T09:42:13Z",
+   "days": 24.942,
+   "markets": {
+    "pNVDA": {
+     "er_stored": {
+      "start": 200006380822020028052680537,
+      "end": 198853415317349043453506389,
+      "growth_pct": -0.5764643607530595,
+      "annualised_simple_pct": -8.436036412951328,
+      "annualised_compound_pct": -8.112433205151138
+     },
+     "er_accrued": {
+      "start": 200006384463444327675157678,
+      "end": 198853523236090494633441250,
+      "growth_pct": -0.5764122132633998,
+      "annualised_simple_pct": -8.435273281435203,
+      "annualised_compound_pct": -8.111727913909627
+     },
+     "decomposition_raw_underlying": {
+      "deltaNAV_accrued": -198638940583578,
+      "externalSupplyFlows(mint-redeem)": 0,
+      "pnl_NAV_ex_flows": -198638940583578,
+      "interest_generated_total(incl unaccrued)": 19963408637,
+      "AccrueInterest_events_interest_sum": 0,
+      "reserve_factor_share": 1996340863,
+      "supplier_interest": 17967067774,
+      "LP_net_fees_credited": 411572627032184,
+      "LP_loss_scaledown": -610229534683536,
+      "sum_explained": -198638940583578,
+      "unreconciled_residual": 0
+     },
+     "avg_NAV_underlying": null,
+     "underlying_decimals": 18,
+     "supply_start_end": [
+      172300825,
+      172300825
+     ],
+     "NAV_start_end_raw": [
+      34461265048318640,
+      34262626107735062
+     ],
+     "avg_realised_borrow_rate_per_block_x1e18": null,
+     "avg_realised_borrow_APR_pct(x2628000 blocks)": null,
+     "time_weighted_utilisation_B_over_NAV_pct": 0.042435902945501015,
+     "time_weighted_avg_NAV_raw": 3.4441154554401772e+16,
+     "USD": {
+      "nvda_price_start": 234.53165855,
+      "nvda_price_end": 204.5234154,
+      "er_accrued_times_price_growth_pct": -13.297625270790569,
+      "price_effect_pct": -12.794964797301567
+     },
+     "APR_components_pct_of_avg_NAV": {
+      "supplier_borrow_interest": 0.000763423434686488,
+      "LP_net_fees": 17.48778334362011,
+      "LP_loss_scaledown": -25.928745478958444,
+      "total_ex_flows": -8.440198711903648,
+      "note": "pnl / time-weighted average NAV, linearly annualised; NAV = cash+borrows-reserves (full vault principal counted)"
+     }
+    },
+    "pUSDG": {
+     "er_stored": {
+      "start": 200007030307541,
+      "end": 197640174909416,
+      "growth_pct": -1.1833861012213398,
+      "annualised_simple_pct": -17.31778913000346,
+      "annualised_compound_pct": -15.988015881351537
+     },
+     "er_accrued": {
+      "start": 200007856704611,
+      "end": 197670467103649,
+      "growth_pct": -1.168648891835311,
+      "annualised_simple_pct": -17.102123351735024,
+      "annualised_compound_pct": -15.804474456320861
+     },
+     "decomposition_raw_underlying": {
+      "deltaNAV_accrued": -345066,
+      "externalSupplyFlows(mint-redeem)": 0,
+      "pnl_NAV_ex_flows": -345066,
+      "interest_generated_total(incl unaccrued)": 4833,
+      "AccrueInterest_events_interest_sum": 0,
+      "reserve_factor_share": 483,
+      "supplier_interest": 4350,
+      "LP_net_fees_credited": 68751,
+      "LP_loss_scaledown": -418167,
+      "sum_explained": -345066,
+      "unreconciled_residual": 0
+     },
+     "avg_NAV_underlying": null,
+     "underlying_decimals": 6,
+     "supply_start_end": [
+      147628790621,
+      147628790621
+     ],
+     "NAV_start_end_raw": [
+      29526918,
+      29181852
+     ],
+     "avg_realised_borrow_rate_per_block_x1e18": null,
+     "avg_realised_borrow_APR_pct(x2628000 blocks)": null,
+     "time_weighted_utilisation_B_over_NAV_pct": 6.576552019895593,
+     "time_weighted_avg_NAV_raw": 29440370.58774914,
+     "APR_components_pct_of_avg_NAV": {
+      "supplier_borrow_interest": 0.21622801796258626,
+      "LP_net_fees": 3.4174465432059233,
+      "LP_loss_scaledown": -20.786073928128918,
+      "total_ex_flows": -17.152399366960406,
+      "note": "pnl / time-weighted average NAV, linearly annualised; NAV = cash+borrows-reserves (full vault principal counted)"
+     }
+    }
+   },
+   "pair": {
+    "feesProcessed_events": 265,
+    "grossFees_NVDA_raw": 514465783790169,
+    "grossFees_USDG_raw": 85897,
+    "reserveCut_NVDA_raw": 102893156757985,
+    "reserveCut_USDG_raw": 17146,
+    "netFeesToPrincipal_NVDA_raw": 411572627032184,
+    "netFeesToPrincipal_USDG_raw": 68751,
+    "grossFees_USD_at_event_price": 0.1952937564192451,
+    "reserveCut_USD": 0.03902535128383841,
+    "netFees_USD": 0.15626840513540668,
+    "checkpoints": 185,
+    "lossEvents": 18,
+    "strategyLoss_USD(sum of negative pnl)": 0.5462191963062735,
+    "principalScaleDown_NVDA_raw": 610229534683536,
+    "principalScaleDown_USDG_raw": 418167,
+    "recenters": 3,
+    "rebalances": 80,
+    "deposits": [],
+    "withdrawals": [],
+    "timeWeightedPrincipal_USD": 19.35826386267945,
+    "netFees_APR_on_avg_principal_pct": 11.813287064938223,
+    "grossFees_APR_on_avg_principal_pct": 14.763452692638632,
+    "netFees_minus_loss_APR_pct": -29.478771689706587,
+    "loss_APR_pct": 41.29205875464481,
+    "supplier_borrow_interest_USD(price at window end)": 0.004353674686065861,
+    "reserve_factor_share_USD": 0.00048340829845160333,
+    "NAV_pnl_ex_flows_USD(price at end)": -0.385692314559591
+   }
+  },
+  "last_30d": {
+   "from": "2026-10-04T09:42:13Z",
+   "to": "2026-11-03T09:42:13Z",
+   "days": 30.0,
+   "markets": {
+    "pNVDA": {
+     "er_stored": {
+      "start": 200000906871237693235711010,
+      "end": 198853415317349043453506389,
+      "growth_pct": -0.5737431753884081,
+      "annualised_simple_pct": -6.980541967225632,
+      "annualised_compound_pct": -6.761218548679682
+     },
+     "er_accrued": {
+      "start": 200000915644417441187243575,
+      "end": 198853523236090494633441250,
+      "growth_pct": -0.5736935776668672,
+      "annualised_simple_pct": -6.979938528280218,
+      "annualised_compound_pct": -6.760652661252619
+     },
+     "decomposition_raw_underlying": {
+      "deltaNAV_accrued": 8030773413037487,
+      "externalSupplyFlows(mint-redeem)": 8228471294252992,
+      "pnl_NAV_ex_flows": -197697881215505,
+      "interest_generated_total(incl unaccrued)": 24017297157,
+      "AccrueInterest_events_interest_sum": 4635286425,
+      "reserve_factor_share": 2401729714,
+      "supplier_interest": 21615567443,
+      "LP_net_fees_credited": 412510037900588,
+      "LP_loss_scaledown": -610229534683536,
+      "sum_explained": -197697881215505,
+      "unreconciled_residual": 0
+     },
+     "avg_NAV_underlying": null,
+     "underlying_decimals": 18,
+     "supply_start_end": [
+      131158663,
+      172300825
+     ],
+     "NAV_start_end_raw": [
+      26231852694697575,
+      34262626107735062
+     ],
+     "avg_realised_borrow_rate_per_block_x1e18": 7649034056.026196,
+     "avg_realised_borrow_APR_pct(x2628000 blocks)": 2.010166149923684,
+     "time_weighted_utilisation_B_over_NAV_pct": 0.04428489865231138,
+     "time_weighted_avg_NAV_raw": 3.329688618538273e+16,
+     "USD": {
+      "nvda_price_start": 234.99711907,
+      "nvda_price_end": 204.5234154,
+      "er_accrued_times_price_growth_pct": -13.466991210027501,
+      "price_effect_pct": -12.967692451124313
+     },
+     "APR_components_pct_of_avg_NAV": {
+      "supplier_borrow_interest": 0.0007898318251911652,
+      "LP_net_fees": 15.073097525839406,
+      "LP_loss_scaledown": -22.297758707266183,
+      "total_ex_flows": -7.223871349601584,
+      "note": "pnl / time-weighted average NAV, linearly annualised; NAV = cash+borrows-reserves (full vault principal counted)"
+     }
+    },
+    "pUSDG": {
+     "er_stored": {
+      "start": 200002620865259,
+      "end": 197640174909416,
+      "growth_pct": -1.1812074989930088,
+      "annualised_simple_pct": -14.371357904414939,
+      "annualised_compound_pct": -13.460488889193146
+     },
+     "er_accrued": {
+      "start": 200003126565096,
+      "end": 197670467103649,
+      "growth_pct": -1.1663114979793998,
+      "annualised_simple_pct": -14.19012322541603,
+      "annualised_compound_pct": -13.301640890418687
+     },
+     "decomposition_raw_underlying": {
+      "deltaNAV_accrued": 10197962,
+      "externalSupplyFlows(mint-redeem)": 10542485,
+      "pnl_NAV_ex_flows": -344523,
+      "interest_generated_total(incl unaccrued)": 5274,
+      "AccrueInterest_events_interest_sum": 359,
+      "reserve_factor_share": 526,
+      "supplier_interest": 4748,
+      "LP_net_fees_credited": 68896,
+      "LP_loss_scaledown": -418167,
+      "sum_explained": -344523,
+      "unreconciled_residual": 0
+     },
+     "avg_NAV_underlying": null,
+     "underlying_decimals": 6,
+     "supply_start_end": [
+      94917966164,
+      147628790621
+     ],
+     "NAV_start_end_raw": [
+      18983890,
+      29181852
+     ],
+     "avg_realised_borrow_rate_per_block_x1e18": 10346576956.141062,
+     "avg_realised_borrow_APR_pct(x2628000 blocks)": 2.719080424073871,
+     "time_weighted_utilisation_B_over_NAV_pct": 6.375534234564974,
+     "time_weighted_avg_NAV_raw": 27985002.711330246,
+     "APR_components_pct_of_avg_NAV": {
+      "supplier_borrow_interest": 0.2064224682384796,
+      "LP_net_fees": 2.995299572821881,
+      "LP_loss_scaledown": -18.18008935886274,
+      "total_ex_flows": -14.978367317802382,
+      "note": "pnl / time-weighted average NAV, linearly annualised; NAV = cash+borrows-reserves (full vault principal counted)"
+     }
+    }
+   },
+   "pair": {
+    "feesProcessed_events": 269,
+    "grossFees_NVDA_raw": 515637547375673,
+    "grossFees_USDG_raw": 86078,
+    "reserveCut_NVDA_raw": 103127509475085,
+    "reserveCut_USDG_raw": 17182,
+    "netFeesToPrincipal_NVDA_raw": 412510037900588,
+    "netFeesToPrincipal_USDG_raw": 68896,
+    "grossFees_USD_at_event_price": 0.19574957207638186,
+    "reserveCut_USD": 0.03911631441526557,
+    "netFees_USD": 0.1566332576611163,
+    "checkpoints": 188,
+    "lossEvents": 18,
+    "strategyLoss_USD(sum of negative pnl)": 0.5462191963062735,
+    "principalScaleDown_NVDA_raw": 610229534683536,
+    "principalScaleDown_USDG_raw": 418167,
+    "recenters": 4,
+    "rebalances": 81,
+    "deposits": [
+     [
+      "2026-10-08T14:05:26Z",
+      "USDG",
+      12771803
+     ],
+     [
+      "2026-10-08T14:07:51Z",
+      "NVDA",
+      5748211192983450
+     ],
+     [
+      "2026-10-08T14:09:17Z",
+      "NVDA",
+      4112357382880716
+     ]
+    ],
+    "withdrawals": [],
+    "timeWeightedPrincipal_USD": 17.33239369847335,
+    "netFees_APR_on_avg_principal_pct": 10.995045854772908,
+    "grossFees_APR_on_avg_principal_pct": 13.74085908171907,
+    "netFees_minus_loss_APR_pct": -27.34741857342866,
+    "loss_APR_pct": 38.342464428201566,
+    "supplier_borrow_interest_USD(price at window end)": 0.004752420889679251,
+    "reserve_factor_share_USD": 0.0005264912099639749,
+    "NAV_pnl_ex_flows_USD(price at end)": -0.3849568458835386
+   }
+  },
+  "last_7d": {
+   "from": "2026-10-27T09:42:13Z",
+   "to": "2026-11-03T09:42:13Z",
+   "days": 7.0,
+   "markets": {
+    "pNVDA": {
+     "er_stored": {
+      "start": 199896637585481270910919898,
+      "end": 198853415317349043453506389,
+      "growth_pct": -0.5218808483890114,
+      "annualised_simple_pct": -27.212358523141308,
+      "annualised_compound_pct": -23.878249397624995
+     },
+     "er_accrued": {
+      "start": 199896716239314199453194724,
+      "end": 198853523236090494633441250,
+      "growth_pct": -0.5218660030286815,
+      "annualised_simple_pct": -27.21158444363839,
+      "annualised_compound_pct": -23.877657061217437
+     },
+     "decomposition_raw_underlying": {
+      "deltaNAV_accrued": -179743015089672,
+      "externalSupplyFlows(mint-redeem)": 0,
+      "pnl_NAV_ex_flows": -179743015089672,
+      "interest_generated_total(incl unaccrued)": 5602630980,
+      "AccrueInterest_events_interest_sum": 0,
+      "reserve_factor_share": 560263098,
+      "supplier_interest": 5042367882,
+      "LP_net_fees_credited": 200730678796994,
+      "LP_loss_scaledown": -380478736254548,
+      "sum_explained": -179743015089672,
+      "unreconciled_residual": 0
+     },
+     "avg_NAV_underlying": null,
+     "underlying_decimals": 18,
+     "supply_start_end": [
+      172300825,
+      172300825
+     ],
+     "NAV_start_end_raw": [
+      34442369122824734,
+      34262626107735062
+     ],
+     "avg_realised_borrow_rate_per_block_x1e18": null,
+     "avg_realised_borrow_APR_pct(x2628000 blocks)": null,
+     "time_weighted_utilisation_B_over_NAV_pct": 0.04245324794427145,
+     "time_weighted_avg_NAV_raw": 3.4427127601180164e+16,
+     "USD": {
+      "nvda_price_start": 215.61651744,
+      "nvda_price_end": 204.5234154,
+      "er_accrued_times_price_growth_pct": -5.639846314923281,
+      "price_effect_pct": -5.144829427590992
+     },
+     "APR_components_pct_of_avg_NAV": {
+      "supplier_borrow_interest": 0.0007637101508400141,
+      "LP_net_fees": 30.402394384890837,
+      "LP_loss_scaledown": -57.62678960685535,
+      "total_ex_flows": -27.223631511813664,
+      "note": "pnl / time-weighted average NAV, linearly annualised; NAV = cash+borrows-reserves (full vault principal counted)"
+     }
+    },
+    "pUSDG": {
+     "er_stored": {
+      "start": 199170960327689,
+      "end": 197640174909416,
+      "growth_pct": -0.7685786199727374,
+      "annualised_simple_pct": -40.07588518429274,
+      "annualised_compound_pct": -33.12245076888524
+     },
+     "er_accrued": {
+      "start": 199188822697142,
+      "end": 197670467103649,
+      "growth_pct": -0.7622694752313475,
+      "annualised_simple_pct": -39.746908351348836,
+      "annualised_compound_pct": -32.90037420962718
+     },
+     "decomposition_raw_underlying": {
+      "deltaNAV_accrued": -224153,
+      "externalSupplyFlows(mint-redeem)": 0,
+      "pnl_NAV_ex_flows": -224153,
+      "interest_generated_total(incl unaccrued)": 2039,
+      "AccrueInterest_events_interest_sum": 0,
+      "reserve_factor_share": 204,
+      "supplier_interest": 1835,
+      "LP_net_fees_credited": 33824,
+      "LP_loss_scaledown": -259812,
+      "sum_explained": -224153,
+      "unreconciled_residual": 0
+     },
+     "avg_NAV_underlying": null,
+     "underlying_decimals": 6,
+     "supply_start_end": [
+      147628790621,
+      147628790621
+     ],
+     "NAV_start_end_raw": [
+      29406005,
+      29181852
+     ],
+     "avg_realised_borrow_rate_per_block_x1e18": null,
+     "avg_realised_borrow_APR_pct(x2628000 blocks)": null,
+     "time_weighted_utilisation_B_over_NAV_pct": 6.59007758884199,
+     "time_weighted_avg_NAV_raw": 29379944.958039023,
+     "APR_components_pct_of_avg_NAV": {
+      "supplier_borrow_interest": 0.32567162053502097,
+      "LP_net_fees": 6.00300648118613,
+      "LP_loss_scaledown": -46.11084200242227,
+      "total_ex_flows": -39.782163900701114,
+      "note": "pnl / time-weighted average NAV, linearly annualised; NAV = cash+borrows-reserves (full vault principal counted)"
+     }
+    }
+   },
+   "pair": {
+    "feesProcessed_events": 56,
+    "grossFees_NVDA_raw": 250913348496235,
+    "grossFees_USDG_raw": 42272,
+    "reserveCut_NVDA_raw": 50182669699241,
+    "reserveCut_USDG_raw": 8448,
+    "netFeesToPrincipal_NVDA_raw": 200730678796994,
+    "netFeesToPrincipal_USDG_raw": 33824,
+    "grossFees_USD_at_event_price": 0.09422684723953374,
+    "reserveCut_USD": 0.018838969447905515,
+    "netFees_USD": 0.07538787779162823,
+    "checkpoints": 39,
+    "lossEvents": 6,
+    "strategyLoss_USD(sum of negative pnl)": 0.337996414288983,
+    "principalScaleDown_NVDA_raw": 380478736254548,
+    "principalScaleDown_USDG_raw": 259812,
+    "recenters": 1,
+    "rebalances": 17,
+    "deposits": [],
+    "withdrawals": [],
+    "timeWeightedPrincipal_USD": 19.18809560228302,
+    "netFees_APR_on_avg_principal_pct": 20.48634436407715,
+    "grossFees_APR_on_avg_principal_pct": 25.605756488143857,
+    "netFees_minus_loss_APR_pct": -71.36278496260532,
+    "loss_APR_pct": 91.84912932668246,
+    "supplier_borrow_interest_USD(price at window end)": 0.00183603128230093,
+    "reserve_factor_share_USD": 0.00020411458692232555,
+    "NAV_pnl_ex_flows_USD(price at end)": -0.26091465534043345
+   }
+  },
+  "last_24h": {
+   "from": "2026-11-02T09:42:13Z",
+   "to": "2026-11-03T09:42:13Z",
+   "days": 1.0,
+   "markets": {
+    "pNVDA": {
+     "er_stored": {
+      "start": 199896637585481270910919898,
+      "end": 198853415317349043453506389,
+      "growth_pct": -0.5218808483890114,
+      "annualised_simple_pct": -190.48650966198917,
+      "annualised_compound_pct": -85.1897847137434
+     },
+     "er_accrued": {
+      "start": 199896741322092590096420025,
+      "end": 198853523236090494633441250,
+      "growth_pct": -0.5218784854132075,
+      "annualised_simple_pct": -190.48564717582073,
+      "annualised_compound_pct": -85.18965630700264
+     },
+     "decomposition_raw_underlying": {
+      "deltaNAV_accrued": -179747336873082,
+      "externalSupplyFlows(mint-redeem)": 0,
+      "pnl_NAV_ex_flows": -179747336873082,
+      "interest_generated_total(incl unaccrued)": 800649413,
+      "AccrueInterest_events_interest_sum": 0,
+      "reserve_factor_share": 80064941,
+      "supplier_interest": 720584472,
+      "LP_net_fees_credited": 200730678796994,
+      "LP_loss_scaledown": -380478736254548,
+      "sum_explained": -179747336873082,
+      "unreconciled_residual": 0
+     },
+     "avg_NAV_underlying": null,
+     "underlying_decimals": 18,
+     "supply_start_end": [
+      172300825,
+      172300825
+     ],
+     "NAV_start_end_raw": [
+      34442373444608144,
+      34262626107735062
+     ],
+     "avg_realised_borrow_rate_per_block_x1e18": null,
+     "avg_realised_borrow_APR_pct(x2628000 blocks)": null,
+     "time_weighted_utilisation_B_over_NAV_pct": 0.04256638326526433,
+     "time_weighted_avg_NAV_raw": 3.4335759784034572e+16,
+     "USD": {
+      "nvda_price_start": 207.39099107,
+      "nvda_price_end": 204.5234154,
+      "er_accrued_times_price_growth_pct": -1.8973530876646105,
+      "price_effect_pct": -1.382690566839584
+     },
+     "APR_components_pct_of_avg_NAV": {
+      "supplier_borrow_interest": 0.0007660041133043335,
+      "LP_net_fees": 213.38306832799523,
+      "LP_loss_scaledown": -404.4609456916225,
+      "total_ex_flows": -191.07711135951388,
+      "note": "pnl / time-weighted average NAV, linearly annualised; NAV = cash+borrows-reserves (full vault principal counted)"
+     }
+    },
+    "pUSDG": {
+     "er_stored": {
+      "start": 199170960327689,
+      "end": 197640174909416,
+      "growth_pct": -0.7685786199727374,
+      "annualised_simple_pct": -280.53119629004914,
+      "annualised_compound_pct": -94.01640145169767
+     },
+     "er_accrued": {
+      "start": 199194512644181,
+      "end": 197670467103649,
+      "growth_pct": -0.7651041789762503,
+      "annualised_simple_pct": -279.2630253263314,
+      "annualised_compound_pct": -93.93944208727936
+     },
+     "decomposition_raw_underlying": {
+      "deltaNAV_accrued": -224993,
+      "externalSupplyFlows(mint-redeem)": 0,
+      "pnl_NAV_ex_flows": -224993,
+      "interest_generated_total(incl unaccrued)": 1105,
+      "AccrueInterest_events_interest_sum": 0,
+      "reserve_factor_share": 110,
+      "supplier_interest": 995,
+      "LP_net_fees_credited": 33824,
+      "LP_loss_scaledown": -259812,
+      "sum_explained": -224993,
+      "unreconciled_residual": 0
+     },
+     "avg_NAV_underlying": null,
+     "underlying_decimals": 6,
+     "supply_start_end": [
+      147628790621,
+      147628790621
+     ],
+     "NAV_start_end_raw": [
+      29406845,
+      29181852
+     ],
+     "avg_realised_borrow_rate_per_block_x1e18": null,
+     "avg_realised_borrow_APR_pct(x2628000 blocks)": null,
+     "time_weighted_utilisation_B_over_NAV_pct": 6.621763039285722,
+     "time_weighted_avg_NAV_raw": 29239406.70627315,
+     "APR_components_pct_of_avg_NAV": {
+      "supplier_borrow_interest": 1.2420737658882897,
+      "LP_net_fees": 42.22301814814624,
+      "LP_loss_scaledown": -324.3273057919279,
+      "total_ex_flows": -280.8622138778934,
+      "note": "pnl / time-weighted average NAV, linearly annualised; NAV = cash+borrows-reserves (full vault principal counted)"
+     }
+    }
+   },
+   "pair": {
+    "feesProcessed_events": 56,
+    "grossFees_NVDA_raw": 250913348496235,
+    "grossFees_USDG_raw": 42272,
+    "reserveCut_NVDA_raw": 50182669699241,
+    "reserveCut_USDG_raw": 8448,
+    "netFeesToPrincipal_NVDA_raw": 200730678796994,
+    "netFeesToPrincipal_USDG_raw": 33824,
+    "grossFees_USD_at_event_price": 0.09422684723953374,
+    "reserveCut_USD": 0.018838969447905515,
+    "netFees_USD": 0.07538787779162823,
+    "checkpoints": 39,
+    "lossEvents": 6,
+    "strategyLoss_USD(sum of negative pnl)": 0.337996414288983,
+    "principalScaleDown_NVDA_raw": 380478736254548,
+    "principalScaleDown_USDG_raw": 259812,
+    "recenters": 1,
+    "rebalances": 17,
+    "deposits": [],
+    "withdrawals": [],
+    "timeWeightedPrincipal_USD": 18.837389325540745,
+    "netFees_APR_on_avg_principal_pct": 146.07425115239218,
+    "grossFees_APR_on_avg_principal_pct": 182.57731285405995,
+    "netFees_minus_loss_APR_pct": -508.83970259919755,
+    "loss_APR_pct": 654.9139537515897,
+    "supplier_borrow_interest_USD(price at window end)": 0.0009951473763972977,
+    "reserve_factor_share_USD": 0.00011001637515518712,
+    "NAV_pnl_ex_flows_USD(price at end)": -0.2617555392463371
+   }
+  }
+ }
+}

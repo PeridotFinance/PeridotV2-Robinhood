@@ -1,0 +1,472 @@
+{
+ "ethUsd_at_pin": 2254.21136116,
+ "note": "txs are only those emitting a log from the scanned contracts (vault, adapter, guard, reserve, pTokens, controller, timelock, price oracle, feed). keeper nonce 176 == 176 captured => keeper list complete; governor nonce 322 vs captured below => governor list is a partial lower bound.",
+ "byClass": {
+  "governor:LP-operations(ongoing, pre-keeper)": {
+   "label": "governor:LP-operations(ongoing, pre-keeper)",
+   "txs": 26,
+   "gas": 14482460,
+   "l1GasPart": 24219,
+   "ETH": 0.00141441434966,
+   "USD": 3.3853463257840093,
+   "avgUSD_per_tx": 0.13020562791476958
+  },
+  "governor:contract-creation(one-off)": {
+   "label": "governor:contract-creation(one-off)",
+   "txs": 7,
+   "gas": 7747392,
+   "l1GasPart": 1262,
+   "ETH": 0.00162218469921,
+   "USD": 3.9002153632435186,
+   "avgUSD_per_tx": 0.5571736233205027
+  },
+  "governor:other admin/config/own-supply-borrow-tests(one-off)": {
+   "label": "governor:other admin/config/own-supply-borrow-tests(one-off)",
+   "txs": 107,
+   "gas": 28585472,
+   "l1GasPart": 50890,
+   "ETH": 0.0021064186574100002,
+   "USD": 5.255812968436856,
+   "avgUSD_per_tx": 0.04911974736856874
+  },
+  "governor:timelock schedule/execute(one-off admin/upgrade)": {
+   "label": "governor:timelock schedule/execute(one-off admin/upgrade)",
+   "txs": 62,
+   "gas": 5147643,
+   "l1GasPart": 2503,
+   "ETH": 0.0011980557752620002,
+   "USD": 2.8919930459043086,
+   "avgUSD_per_tx": 0.04664504912748885
+  },
+  "keeper:checkpoint(+collect fees)": {
+   "label": "keeper:checkpoint(+collect fees)",
+   "txs": 96,
+   "gas": 46023149,
+   "l1GasPart": 17961,
+   "ETH": 0.000932758544092,
+   "USD": 2.2374689188172723,
+   "avgUSD_per_tx": 0.023306967904346585
+  },
+  "keeper:rebalance": {
+   "label": "keeper:rebalance",
+   "txs": 78,
+   "gas": 59406022,
+   "l1GasPart": 22986,
+   "ETH": 0.0012034920106300004,
+   "USD": 2.8838366341790618,
+   "avgUSD_per_tx": 0.0369722645407572
+  },
+  "keeper:recenter": {
+   "label": "keeper:recenter",
+   "txs": 2,
+   "gas": 2636239,
+   "l1GasPart": 888,
+   "ETH": 5.2972652532e-05,
+   "USD": 0.1230104442534175,
+   "avgUSD_per_tx": 0.06150522212670875
+  },
+  "third-party/test-wallet": {
+   "label": "third-party/test-wallet",
+   "txs": 18,
+   "gas": 15281587,
+   "l1GasPart": 171724,
+   "ETH": 0.00058469042854,
+   "USD": 1.236254952415806,
+   "avgUSD_per_tx": 0.06868083068976699
+  }
+ },
+ "windows": {
+  "all_time": {
+   "from_ts": 0,
+   "classes": {
+    "governor:LP-operations(ongoing, pre-keeper)": {
+     "label": "governor:LP-operations(ongoing, pre-keeper)",
+     "txs": 26,
+     "gas": 14482460,
+     "l1GasPart": 24219,
+     "ETH": 0.00141441434966,
+     "USD": 3.3853463257840093,
+     "avgUSD_per_tx": 0.13020562791476958
+    },
+    "governor:contract-creation(one-off)": {
+     "label": "governor:contract-creation(one-off)",
+     "txs": 7,
+     "gas": 7747392,
+     "l1GasPart": 1262,
+     "ETH": 0.00162218469921,
+     "USD": 3.9002153632435186,
+     "avgUSD_per_tx": 0.5571736233205027
+    },
+    "governor:other admin/config/own-supply-borrow-tests(one-off)": {
+     "label": "governor:other admin/config/own-supply-borrow-tests(one-off)",
+     "txs": 107,
+     "gas": 28585472,
+     "l1GasPart": 50890,
+     "ETH": 0.0021064186574100002,
+     "USD": 5.255812968436856,
+     "avgUSD_per_tx": 0.04911974736856874
+    },
+    "governor:timelock schedule/execute(one-off admin/upgrade)": {
+     "label": "governor:timelock schedule/execute(one-off admin/upgrade)",
+     "txs": 62,
+     "gas": 5147643,
+     "l1GasPart": 2503,
+     "ETH": 0.0011980557752620002,
+     "USD": 2.8919930459043086,
+     "avgUSD_per_tx": 0.04664504912748885
+    },
+    "keeper:checkpoint(+collect fees)": {
+     "label": "keeper:checkpoint(+collect fees)",
+     "txs": 96,
+     "gas": 46023149,
+     "l1GasPart": 17961,
+     "ETH": 0.000932758544092,
+     "USD": 2.2374689188172723,
+     "avgUSD_per_tx": 0.023306967904346585
+    },
+    "keeper:rebalance": {
+     "label": "keeper:rebalance",
+     "txs": 78,
+     "gas": 59406022,
+     "l1GasPart": 22986,
+     "ETH": 0.0012034920106300004,
+     "USD": 2.8838366341790618,
+     "avgUSD_per_tx": 0.0369722645407572
+    },
+    "keeper:recenter": {
+     "label": "keeper:recenter",
+     "txs": 2,
+     "gas": 2636239,
+     "l1GasPart": 888,
+     "ETH": 5.2972652532e-05,
+     "USD": 0.1230104442534175,
+     "avgUSD_per_tx": 0.06150522212670875
+    },
+    "third-party/test-wallet": {
+     "label": "third-party/test-wallet",
+     "txs": 18,
+     "gas": 15281587,
+     "l1GasPart": 171724,
+     "ETH": 0.00058469042854,
+     "USD": 1.236254952415806,
+     "avgUSD_per_tx": 0.06868083068976699
+    }
+   }
+  },
+  "since_2026-10-09_ranged": {
+   "from_ts": 1791500000,
+   "classes": {
+    "governor:LP-operations(ongoing, pre-keeper)": {
+     "label": "governor:LP-operations(ongoing, pre-keeper)",
+     "txs": 7,
+     "gas": 5685473,
+     "l1GasPart": 19582,
+     "ETH": 0.000115169549206,
+     "USD": 0.2881927574307151,
+     "avgUSD_per_tx": 0.04117039391867359
+    },
+    "governor:timelock schedule/execute(one-off admin/upgrade)": {
+     "label": "governor:timelock schedule/execute(one-off admin/upgrade)",
+     "txs": 5,
+     "gas": 456875,
+     "l1GasPart": 1027,
+     "ETH": 9.214219584e-06,
+     "USD": 0.02244134779059271,
+     "avgUSD_per_tx": 0.004488269558118542
+    },
+    "keeper:checkpoint(+collect fees)": {
+     "label": "keeper:checkpoint(+collect fees)",
+     "txs": 96,
+     "gas": 46023149,
+     "l1GasPart": 17961,
+     "ETH": 0.000932758544092,
+     "USD": 2.2374689188172723,
+     "avgUSD_per_tx": 0.023306967904346585
+    },
+    "keeper:rebalance": {
+     "label": "keeper:rebalance",
+     "txs": 78,
+     "gas": 59406022,
+     "l1GasPart": 22986,
+     "ETH": 0.0012034920106300004,
+     "USD": 2.8838366341790618,
+     "avgUSD_per_tx": 0.0369722645407572
+    },
+    "keeper:recenter": {
+     "label": "keeper:recenter",
+     "txs": 2,
+     "gas": 2636239,
+     "l1GasPart": 888,
+     "ETH": 5.2972652532e-05,
+     "USD": 0.1230104442534175,
+     "avgUSD_per_tx": 0.06150522212670875
+    },
+    "third-party/test-wallet": {
+     "label": "third-party/test-wallet",
+     "txs": 1,
+     "gas": 312000,
+     "l1GasPart": 182,
+     "ETH": 6.241872e-06,
+     "USD": 0.01406980124236797,
+     "avgUSD_per_tx": 0.01406980124236797
+    }
+   }
+  },
+  "last_30d": {
+   "from_ts": 1791106933,
+   "classes": {
+    "governor:LP-operations(ongoing, pre-keeper)": {
+     "label": "governor:LP-operations(ongoing, pre-keeper)",
+     "txs": 9,
+     "gas": 6467605,
+     "l1GasPart": 19582,
+     "ETH": 0.00013117298518999998,
+     "USD": 0.33152523223840713,
+     "avgUSD_per_tx": 0.03683613691537857
+    },
+    "governor:timelock schedule/execute(one-off admin/upgrade)": {
+     "label": "governor:timelock schedule/execute(one-off admin/upgrade)",
+     "txs": 8,
+     "gas": 649177,
+     "l1GasPart": 1027,
+     "ETH": 1.330057139e-05,
+     "USD": 0.033104800523299484,
+     "avgUSD_per_tx": 0.0041381000654124355
+    },
+    "keeper:checkpoint(+collect fees)": {
+     "label": "keeper:checkpoint(+collect fees)",
+     "txs": 96,
+     "gas": 46023149,
+     "l1GasPart": 17961,
+     "ETH": 0.000932758544092,
+     "USD": 2.2374689188172723,
+     "avgUSD_per_tx": 0.023306967904346585
+    },
+    "keeper:rebalance": {
+     "label": "keeper:rebalance",
+     "txs": 78,
+     "gas": 59406022,
+     "l1GasPart": 22986,
+     "ETH": 0.0012034920106300004,
+     "USD": 2.8838366341790618,
+     "avgUSD_per_tx": 0.0369722645407572
+    },
+    "keeper:recenter": {
+     "label": "keeper:recenter",
+     "txs": 2,
+     "gas": 2636239,
+     "l1GasPart": 888,
+     "ETH": 5.2972652532e-05,
+     "USD": 0.1230104442534175,
+     "avgUSD_per_tx": 0.06150522212670875
+    },
+    "third-party/test-wallet": {
+     "label": "third-party/test-wallet",
+     "txs": 8,
+     "gas": 9269404,
+     "l1GasPart": 67583,
+     "ETH": 0.000199638984252,
+     "USD": 0.5010089184126987,
+     "avgUSD_per_tx": 0.06262611480158733
+    }
+   }
+  },
+  "last_7d": {
+   "from_ts": 1793094133,
+   "classes": {
+    "keeper:checkpoint(+collect fees)": {
+     "label": "keeper:checkpoint(+collect fees)",
+     "txs": 20,
+     "gas": 9381008,
+     "l1GasPart": 7002,
+     "ETH": 0.000188405663094,
+     "USD": 0.426130308908673,
+     "avgUSD_per_tx": 0.02130651544543365
+    },
+    "keeper:rebalance": {
+     "label": "keeper:rebalance",
+     "txs": 17,
+     "gas": 12929460,
+     "l1GasPart": 8985,
+     "ETH": 0.000260104614634,
+     "USD": 0.5882832008502787,
+     "avgUSD_per_tx": 0.03460489416766346
+    },
+    "keeper:recenter": {
+     "label": "keeper:recenter",
+     "txs": 1,
+     "gas": 1317333,
+     "l1GasPart": 888,
+     "ETH": 2.6415161316e-05,
+     "USD": 0.059252983494307236,
+     "avgUSD_per_tx": 0.059252983494307236
+    },
+    "third-party/test-wallet": {
+     "label": "third-party/test-wallet",
+     "txs": 1,
+     "gas": 312000,
+     "l1GasPart": 182,
+     "ETH": 6.241872e-06,
+     "USD": 0.01406980124236797,
+     "avgUSD_per_tx": 0.01406980124236797
+    }
+   }
+  },
+  "last_24h": {
+   "from_ts": 1793612533,
+   "classes": {
+    "keeper:checkpoint(+collect fees)": {
+     "label": "keeper:checkpoint(+collect fees)",
+     "txs": 20,
+     "gas": 9381008,
+     "l1GasPart": 7002,
+     "ETH": 0.000188405663094,
+     "USD": 0.426130308908673,
+     "avgUSD_per_tx": 0.02130651544543365
+    },
+    "keeper:rebalance": {
+     "label": "keeper:rebalance",
+     "txs": 17,
+     "gas": 12929460,
+     "l1GasPart": 8985,
+     "ETH": 0.000260104614634,
+     "USD": 0.5882832008502787,
+     "avgUSD_per_tx": 0.03460489416766346
+    },
+    "keeper:recenter": {
+     "label": "keeper:recenter",
+     "txs": 1,
+     "gas": 1317333,
+     "l1GasPart": 888,
+     "ETH": 2.6415161316e-05,
+     "USD": 0.059252983494307236,
+     "avgUSD_per_tx": 0.059252983494307236
+    },
+    "third-party/test-wallet": {
+     "label": "third-party/test-wallet",
+     "txs": 1,
+     "gas": 312000,
+     "l1GasPart": 182,
+     "ETH": 6.241872e-06,
+     "USD": 0.01406980124236797,
+     "avgUSD_per_tx": 0.01406980124236797
+    }
+   }
+  }
+ },
+ "governorByTarget": {
+  "0x6148183676e304dbe63a85c350c208da3ceac39c": {
+   "label": "0x6148183676e304dbe63a85c350c208da3ceac39c",
+   "txs": 34,
+   "gas": 2078159,
+   "l1GasPart": 23073,
+   "ETH": 0.00020121241963000003,
+   "USD": 0.5032778304453311,
+   "avgUSD_per_tx": 0.014802289130745034
+  },
+  "0x55aed0569c8f0d166d71face57b57c2f2624a563": {
+   "label": "0x55aed0569c8f0d166d71face57b57c2f2624a563",
+   "txs": 29,
+   "gas": 5364450,
+   "l1GasPart": 13442,
+   "ETH": 0.000237063872388,
+   "USD": 0.6136515839242787,
+   "avgUSD_per_tx": 0.021160399445664783
+  },
+  "0x6797fb8ce049b42c5bc2b42bf76c6d15c7b12498": {
+   "label": "0x6797fb8ce049b42c5bc2b42bf76c6d15c7b12498",
+   "txs": 62,
+   "gas": 5147643,
+   "l1GasPart": 2503,
+   "ETH": 0.0011980557752620002,
+   "USD": 2.8919930459043086,
+   "avgUSD_per_tx": 0.04664504912748885
+  },
+  "0x280825b2d856706ff7e0d6351ccb2e935e1a9a2f": {
+   "label": "0x280825b2d856706ff7e0d6351ccb2e935e1a9a2f",
+   "txs": 39,
+   "gas": 15726194,
+   "l1GasPart": 24975,
+   "ETH": 0.0019705321612480003,
+   "USD": 4.71386138273029,
+   "avgUSD_per_tx": 0.12086824058282794
+  },
+  "0xdd9f436c6f11cc1ca7e4c5a738256444b660a5bc": {
+   "label": "0xdd9f436c6f11cc1ca7e4c5a738256444b660a5bc",
+   "txs": 1,
+   "gas": 1143416,
+   "l1GasPart": 0,
+   "ETH": 0.000461978940144,
+   "USD": 1.134260811180338,
+   "avgUSD_per_tx": 1.134260811180338
+  },
+  "0x04d4a5555b7a37017a67b4d21a1da5838de28b9e": {
+   "label": "0x04d4a5555b7a37017a67b4d21a1da5838de28b9e",
+   "txs": 6,
+   "gas": 1412304,
+   "l1GasPart": 220,
+   "ETH": 3.434456101e-05,
+   "USD": 0.09184955118811791,
+   "avgUSD_per_tx": 0.015308258531352986
+  },
+  "0xa155cccb986774ae818b3f10f07d01d1b7a47b26": {
+   "label": "0xa155cccb986774ae818b3f10f07d01d1b7a47b26",
+   "txs": 14,
+   "gas": 3520812,
+   "l1GasPart": 13399,
+   "ETH": 0.00021136187401599998,
+   "USD": 0.5225739406399535,
+   "avgUSD_per_tx": 0.03732671004571097
+  },
+  "null": {
+   "label": null,
+   "txs": 7,
+   "gas": 7747392,
+   "l1GasPart": 1262,
+   "ETH": 0.00162218469921,
+   "USD": 3.9002153632435186,
+   "avgUSD_per_tx": 0.5571736233205027
+  },
+  "0x7c4c7431aa8e5165fb82815dfff1a9fb9871b276": {
+   "label": "0x7c4c7431aa8e5165fb82815dfff1a9fb9871b276",
+   "txs": 1,
+   "gas": 53204,
+   "l1GasPart": 0,
+   "ETH": 2.1303839272e-05,
+   "USD": 0.05230565273469446,
+   "avgUSD_per_tx": 0.05230565273469446
+  },
+  "0x6a45ae86bd992d250580d08d340a06a04d478977": {
+   "label": "0x6a45ae86bd992d250580d08d340a06a04d478977",
+   "txs": 5,
+   "gas": 13475761,
+   "l1GasPart": 0,
+   "ETH": 0.000316960164822,
+   "USD": 0.8474261032769836,
+   "avgUSD_per_tx": 0.16948522065539673
+  },
+  "0x266f014d1325774f1190f963df4369e07dda1d33": {
+   "label": "0x266f014d1325774f1190f963df4369e07dda1d33",
+   "txs": 3,
+   "gas": 144390,
+   "l1GasPart": 0,
+   "ETH": 5.833846926e-05,
+   "USD": 0.1432338873396288,
+   "avgUSD_per_tx": 0.0477446291132096
+  },
+  "0x806b182b050f7ecf908758dd6bbf91db8b2212af": {
+   "label": "0x806b182b050f7ecf908758dd6bbf91db8b2212af",
+   "txs": 1,
+   "gas": 149242,
+   "l1GasPart": 0,
+   "ETH": 7.73670528e-06,
+   "USD": 0.018718550761247517,
+   "avgUSD_per_tx": 0.018718550761247517
+  }
+ },
+ "keeper": {
+  "first": "2026-10-19T00:05:40Z",
+  "last": "2026-11-03T09:03:49Z",
+  "txs": 176
+ }
+}

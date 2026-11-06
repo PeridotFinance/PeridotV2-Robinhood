@@ -71,6 +71,11 @@ abstract contract LendingFixture is Test {
         return false;
     }
 
+    /// @dev Override to wrap the unmodified vault code (test/prototypes/RoutedVault.sol).
+    function _newVault() internal virtual returns (RamsesBoostedVault) {
+        return new RamsesBoostedVault();
+    }
+
     function setUp() public virtual {
         vm.warp(100 weeks + 1 days);
         PausableTokenDouble si = new PausableTokenDouble("NVDA", 18);
@@ -115,7 +120,7 @@ abstract contract LendingFixture is Test {
                 true
             )
         );
-        vault = new RamsesBoostedVault();
+        vault = _newVault();
         reserve = new RamsesLossReserve();
         adapter = new RamsesVaultAdapter(address(vault), IRamsesNfp(address(manager)), guard);
         reserve.initialize(address(this), address(vault));

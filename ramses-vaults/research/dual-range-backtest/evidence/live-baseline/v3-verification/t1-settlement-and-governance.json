@@ -1,0 +1,208 @@
+{
+ "pin": {
+  "l2": 104995850,
+  "hash": "0xed95f867af7e77319c177b2ed12a1907d16024799be92e8618ac9a8287ace240",
+  "timestamp": 1793702538
+ },
+ "SettlementLib": {
+  "address": "0x813AbFeC0DE50f8674798CbaB72Ed7b5D8CcB9cB",
+  "onchainBytes": 4730,
+  "compiledBytes": 4730,
+  "onchainCodehash": "0x2db5ef48328c828e38fe4e523a7191c4321f0eb501641c65380313097826724d",
+  "masked": [
+   {
+    "kind": "immutable",
+    "what": "library self address astId library_deploy_address",
+    "start": 40,
+    "length": 32,
+    "onchain": "0x000000000000000000000000813abfec0de50f8674798cbab72ed7b5d8ccb9cb",
+    "compiled": "0x0000000000000000000000000000000000000000000000000000000000000000"
+   }
+  ],
+  "metadataLen": 53,
+  "exactAfterMaskingImmutable": true,
+  "bodyEqualExclMetadata": true,
+  "metadataEqual": true,
+  "artifact": "snapshot/artifacts/vault/SettlementLib.json",
+  "rawMetadataSettings": {
+   "enabled": true,
+   "runs": 200
+  },
+  "vault_v3_rebuild_bytes": 4694
+ },
+ "rangePolicy": {
+  "enabled": 1,
+  "halfWidthTicks": 2400,
+  "triggerTicks": 600,
+  "minInterval": 3600,
+  "maxPerDay": 4,
+  "maxLossBps": 10,
+  "maxRangedValueUsd": 50000000000000000000
+ },
+ "pairConfigRawWords": [
+  1189613467694738019150202360368048557920044818156,
+  546752078524806549824452760637979359403954000232,
+  921060917630743658930433200499520319542052289318,
+  489162694012430380559888238609099784326253684067,
+  1000000000000000000000,
+  25000000000000000000,
+  3600,
+  0,
+  300,
+  2000,
+  100,
+  200,
+  18,
+  6,
+  0,
+  1,
+  0,
+  1
+ ],
+ "timelock": {
+  "address": "0x6797FB8Ce049B42C5BC2b42Bf76c6d15C7B12498",
+  "minDelay": 3600,
+  "roles": {
+   "PROPOSER_ROLE": {
+    "id": "0xb09aa5aeb3702cfd50b6b62bc4532604938f21248a27a1d5ca736082b6819cc1",
+    "holders": {
+     "governor": true,
+     "timelockSelf": false,
+     "marginKeeperWallet": false,
+     "rangeKeeperWallet": false,
+     "zeroAddress(openRole)": false
+    }
+   },
+   "EXECUTOR_ROLE": {
+    "id": "0xd8aa0f3194971a2a116679f7c2090f6939c8d4e01a2a8d7e41d55e5351469e63",
+    "holders": {
+     "governor": true,
+     "timelockSelf": false,
+     "marginKeeperWallet": false,
+     "rangeKeeperWallet": false,
+     "zeroAddress(openRole)": false
+    }
+   },
+   "CANCELLER_ROLE": {
+    "id": "0xfd643c72710c63c0180259aba6b2d05451e3591a24e58b62239378085726f783",
+    "holders": {
+     "governor": true,
+     "timelockSelf": false,
+     "marginKeeperWallet": false,
+     "rangeKeeperWallet": false,
+     "zeroAddress(openRole)": false
+    }
+   },
+   "DEFAULT_ADMIN_ROLE": {
+    "id": "0x0000000000000000000000000000000000000000000000000000000000000000",
+    "holders": {
+     "governor": false,
+     "timelockSelf": true,
+     "marginKeeperWallet": false,
+     "rangeKeeperWallet": false,
+     "zeroAddress(openRole)": false
+    }
+   }
+  }
+ },
+ "vaultRoles": {
+  "DEFAULT_ADMIN_ROLE": {
+   "id": "0x0000000000000000000000000000000000000000000000000000000000000000",
+   "governor": false,
+   "timelock": true,
+   "rangeKeeperWallet": false
+  },
+  "CONFIG_ROLE": {
+   "id": "0x82db594318110a04b6349ce48645aa69f0892751bc893d15e61d9e2b9c4630f5",
+   "governor": false,
+   "timelock": true,
+   "rangeKeeperWallet": false
+  },
+  "KEEPER_ROLE": {
+   "id": "0xfc8737ab85eb45125971625a9ebdb75cc78e01d5c1fa80c4c6e5203f47bc4fab",
+   "governor": true,
+   "timelock": false,
+   "rangeKeeperWallet": true
+  },
+  "GUARDIAN_ROLE": {
+   "id": "0x55435dd261a4b9b3364963f7738a7a662ad9c84396d64be3365284bb7f0a5041",
+   "governor": true,
+   "timelock": false,
+   "rangeKeeperWallet": false
+  }
+ },
+ "roleEventsFromRawLogs": [
+  {
+   "file": "logs-vault.json",
+   "block": 20533890,
+   "role": "0x0000000000000000000000000000000000000000000000000000000000000000",
+   "account": "0x6797fb8ce049b42c5bc2b42bf76c6d15c7b12498",
+   "sender": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+   "tx": "0x41741cee9377837c8e2932cb537e6774cb14440fddff184aad40c0891cda6ea5"
+  },
+  {
+   "file": "logs-vault.json",
+   "block": 20533890,
+   "role": "0x82db594318110a04b6349ce48645aa69f0892751bc893d15e61d9e2b9c4630f5",
+   "account": "0x6797fb8ce049b42c5bc2b42bf76c6d15c7b12498",
+   "sender": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+   "tx": "0x41741cee9377837c8e2932cb537e6774cb14440fddff184aad40c0891cda6ea5"
+  },
+  {
+   "file": "logs-vault.json",
+   "block": 20533890,
+   "role": "0xfc8737ab85eb45125971625a9ebdb75cc78e01d5c1fa80c4c6e5203f47bc4fab",
+   "account": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+   "sender": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+   "tx": "0x41741cee9377837c8e2932cb537e6774cb14440fddff184aad40c0891cda6ea5"
+  },
+  {
+   "file": "logs-vault.json",
+   "block": 20533890,
+   "role": "0x55435dd261a4b9b3364963f7738a7a662ad9c84396d64be3365284bb7f0a5041",
+   "account": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+   "sender": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+   "tx": "0x41741cee9377837c8e2932cb537e6774cb14440fddff184aad40c0891cda6ea5"
+  },
+  {
+   "file": "logs-vault.json",
+   "block": 91720406,
+   "role": "0xfc8737ab85eb45125971625a9ebdb75cc78e01d5c1fa80c4c6e5203f47bc4fab",
+   "account": "0x978e2adf18da8b846552932c0ab2b1193da1fac4",
+   "sender": "0x6797fb8ce049b42c5bc2b42bf76c6d15c7b12498",
+   "tx": "0x26317ad73690db1ecfc294772ec5c66615330b87341e438f92528d64d803b05c"
+  },
+  {
+   "file": "logs-timelock.json",
+   "block": 20522621,
+   "role": "0x0000000000000000000000000000000000000000000000000000000000000000",
+   "account": "0x6797fb8ce049b42c5bc2b42bf76c6d15c7b12498",
+   "sender": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+   "tx": "0xde41c4cbbe75dab83836d3824ea90c1c90100734547ca7aef8b551eb685c5236"
+  },
+  {
+   "file": "logs-timelock.json",
+   "block": 20522621,
+   "role": "0xb09aa5aeb3702cfd50b6b62bc4532604938f21248a27a1d5ca736082b6819cc1",
+   "account": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+   "sender": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+   "tx": "0xde41c4cbbe75dab83836d3824ea90c1c90100734547ca7aef8b551eb685c5236"
+  },
+  {
+   "file": "logs-timelock.json",
+   "block": 20522621,
+   "role": "0xfd643c72710c63c0180259aba6b2d05451e3591a24e58b62239378085726f783",
+   "account": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+   "sender": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+   "tx": "0xde41c4cbbe75dab83836d3824ea90c1c90100734547ca7aef8b551eb685c5236"
+  },
+  {
+   "file": "logs-timelock.json",
+   "block": 20522621,
+   "role": "0xd8aa0f3194971a2a116679f7c2090f6939c8d4e01a2a8d7e41d55e5351469e63",
+   "account": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+   "sender": "0x94696d767e65a75581145646960fa0ec886ce5d2",
+   "tx": "0xde41c4cbbe75dab83836d3824ea90c1c90100734547ca7aef8b551eb685c5236"
+  }
+ ]
+}

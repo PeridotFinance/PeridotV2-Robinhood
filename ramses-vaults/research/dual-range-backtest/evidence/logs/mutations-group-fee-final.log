@@ -1,0 +1,7 @@
+KILLED   protocol share expectation | expected protocol share token0
+KILLED   LP share must exclude protocol | expected LP collect token0
+KILLED   fees must be generated | expected no fees generated
+KILLED   out-of-range layer earns nothing | expected out-of-range layer
+KILLED   manager must pay the wide layer | expected manager pays what the gauge says is earned
+KILLED   treasury receives the protocol share | expected treasury token0
+all mutations killed

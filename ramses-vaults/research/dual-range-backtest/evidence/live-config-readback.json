@@ -1,0 +1,50 @@
+{
+ "schema": "ramses-live-config-readback-2",
+ "kind": "LIVE_UNISWAP_NVDA_USDG_VAULT_READBACK",
+ "isRamsesConfiguration": false,
+ "readOnly": true,
+ "generated": "2026-11-02T15:43:13Z",
+ "vault": "0x280825b2d856706Ff7E0d6351CcB2e935E1a9A2f",
+ "pairLabel": "NVDA/USDG",
+ "pairId": "0xe2050352f4346597cc69d2776d99ae60c9440dfc28f9406ce66be0bbe3fb6b06",
+ "block": {
+  "l2": 104330355,
+  "hash": "0x48deb4d76a2fd3d1e2119ba614fd010169be3ac94c84de994d240920cf96332a",
+  "native": 26328065
+ },
+ "pairConfig": {
+  "stockToken": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
+  "usdg": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+  "stockAccount": "0xa155cccb986774ae818b3f10f07d01d1b7a47b26",
+  "usdgAccount": "0x55aed0569c8f0d166d71face57b57c2f2624a563",
+  "maxPairValueUSDG": 1000000000000000000000,
+  "maxSettlementSwapUSDG": 25000000000000000000,
+  "maxCheckpointAge": 3600,
+  "deprecatedMinDeadlineDelay": 0,
+  "maxDeadlineDelay": 300,
+  "reserveFeeBps": 2000,
+  "maxSwapSlippageBps": 100,
+  "withdrawOverUnwindBps": 200,
+  "stockDecimals": 18,
+  "usdgDecimals": 6,
+  "allocationPaused": false,
+  "swapsPaused": true,
+  "emergencyMode": false,
+  "exists": true
+ },
+ "rangePolicy": {
+  "enabled": true,
+  "halfWidthTicks": 2400,
+  "triggerTicks": 600,
+  "minIntervalSeconds": 3600,
+  "maxPerDay": 4,
+  "maxLossBps": 10,
+  "maxRangedValueUsdE18": 50000000000000000000
+ },
+ "readable": {
+  "pairCapUsd": 1000.0,
+  "rangedCapUsd": 50.0,
+  "settlementSwapCapUsd": 25.0,
+  "reserveCutPct": 20.0
+ }
+}

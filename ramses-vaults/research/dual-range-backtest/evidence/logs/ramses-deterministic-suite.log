@@ -1,0 +1,722 @@
+No files changed, compilation skipped
+warning: invalid natspec tag '@member', custom tags must use format '@custom:name'
+    ╭▸ contracts/peridot-contracts-2-5/contracts/contracts/PTokenInterfaces.sol:112:5
+    │
+112 │ ┏     /**
+113 │ ┃      * @notice Container for borrow balance information
+114 │ ┃      * @member principal Total balance (with accrued interest), after applying the most recent balance-changing action
+115 │ ┃      * @member interestIndex Global borrowIndex as of the most recent balance-changing action
+116 │ ┃      */
+    ╰╴┗━━━━━━━┛
+
+
+Ran 36 tests for ramses-vaults/test/Adapter.t.sol:AdapterStock0Test
+[PASS] testFuzz_outOfRangeBothSides(int16,bool) (runs: 256, μ: 787175, ~: 785027)
+[PASS] testFuzz_removalBand(uint16) (runs: 256, μ: 671129, ~: 660195)
+[PASS] testFuzz_roundTrip(uint96,uint64,int16) (runs: 256, μ: 824482, ~: 826362)
+[PASS] test_allocationManipulationRejected() (gas: 72897)
+[PASS] test_badRangeAndExpiredDeadline() (gas: 64399)
+[PASS] test_feeSplitAndNoDoubleCollection() (gas: 631572)
+[PASS] test_forfeitureDoesNotBypassExitChecks() (gas: 1103419)
+[PASS] test_forfeitureFlagAndSelfCallAccess() (gas: 86350)
+[PASS] test_forfeitureMismatchRollsBackAllRewards() (gas: 1283445)
+[PASS] test_forfeitureRevertingHarvestExitsAndBurns() (gas: 804737)
+[PASS] test_forfeitureStillClaimsHealthyRewards() (gas: 1072108)
+[PASS] test_fullRangeRoundTrip() (gas: 813084)
+[PASS] test_increaseDoesNotRetroactivelyEarn() (gas: 611687)
+[PASS] test_invalidReferenceRejectedEvenWhenEmpty() (gas: 46979)
+[PASS] test_inverseRemovalBandFarEndpoint() (gas: 657211)
+[PASS] test_newRewardTokenAndRemovedHistoricalToken() (gas: 1508272)
+[PASS] test_onlyVault() (gas: 12644)
+[PASS] test_outOfRangeEarnsNoRewards() (gas: 591126)
+[PASS] test_pendingRewardsRemainAccessibleWhenGaugeFails() (gas: 1051669)
+[PASS] test_periodBoundaryDoesNotAwardPreMintTime() (gas: 890396)
+[PASS] test_rangeLocksUntilNftBurned() (gas: 851863)
+[PASS] test_reentrantHarvestCannotEnterVaultActions() (gas: 1023356)
+[PASS] test_referenceCannotBeCallerChosen() (gas: 417876)
+[PASS] test_removalOutsideBandRejectedEvenIfBothMinimumsZero() (gas: 433921)
+[PASS] test_rewardsSeparateAndHarvestBeforeDecreaseAndBurn() (gas: 1035387)
+[PASS] test_roundTripAndApprovals() (gas: 1028177)
+[PASS] test_silentBurnRejected() (gas: 814060)
+[PASS] test_silentRewardSlashingRevertsAtomically() (gas: 804572)
+[PASS] test_spotCannotMoveReferenceValuation() (gas: 426338)
+[PASS] test_staleOracleBlocksAddAndRemovalButNotHarvest() (gas: 822160)
+[PASS] test_taxedCollectRejected() (gas: 703791)
+[PASS] test_taxedManagerPaymentRejected() (gas: 488401)
+[PASS] test_taxedRefundRejected() (gas: 445375)
+[PASS] test_taxedVaultPullRejected() (gas: 160680)
+[PASS] test_wrongCollectReturnRejected() (gas: 455921)
+[PASS] test_wrongManagerReturnRejected() (gas: 452098)
+Suite result: ok. 36 passed; 0 failed; 0 skipped; finished in 444.95ms (427.64ms CPU time)
+
+Ran 36 tests for ramses-vaults/test/Adapter.t.sol:AdapterUsdg0Test
+[PASS] testFuzz_outOfRangeBothSides(int16,bool) (runs: 256, μ: 787437, ~: 789512)
+[PASS] testFuzz_removalBand(uint16) (runs: 256, μ: 671214, ~: 660495)
+[PASS] testFuzz_roundTrip(uint96,uint64,int16) (runs: 256, μ: 824658, ~: 826621)
+[PASS] test_allocationManipulationRejected() (gas: 72923)
+[PASS] test_badRangeAndExpiredDeadline() (gas: 64414)
+[PASS] test_feeSplitAndNoDoubleCollection() (gas: 631798)
+[PASS] test_forfeitureDoesNotBypassExitChecks() (gas: 1105143)
+[PASS] test_forfeitureFlagAndSelfCallAccess() (gas: 86350)
+[PASS] test_forfeitureMismatchRollsBackAllRewards() (gas: 1283829)
+[PASS] test_forfeitureRevertingHarvestExitsAndBurns() (gas: 805196)
+[PASS] test_forfeitureStillClaimsHealthyRewards() (gas: 1072386)
+[PASS] test_fullRangeRoundTrip() (gas: 813155)
+[PASS] test_increaseDoesNotRetroactivelyEarn() (gas: 612060)
+[PASS] test_invalidReferenceRejectedEvenWhenEmpty() (gas: 46985)
+[PASS] test_inverseRemovalBandFarEndpoint() (gas: 657537)
+[PASS] test_newRewardTokenAndRemovedHistoricalToken() (gas: 1508492)
+[PASS] test_onlyVault() (gas: 12645)
+[PASS] test_outOfRangeEarnsNoRewards() (gas: 583490)
+[PASS] test_pendingRewardsRemainAccessibleWhenGaugeFails() (gas: 1051964)
+[PASS] test_periodBoundaryDoesNotAwardPreMintTime() (gas: 890561)
+[PASS] test_rangeLocksUntilNftBurned() (gas: 852151)
+[PASS] test_reentrantHarvestCannotEnterVaultActions() (gas: 1023754)
+[PASS] test_referenceCannotBeCallerChosen() (gas: 418106)
+[PASS] test_removalOutsideBandRejectedEvenIfBothMinimumsZero() (gas: 434234)
+[PASS] test_rewardsSeparateAndHarvestBeforeDecreaseAndBurn() (gas: 1035662)
+[PASS] test_roundTripAndApprovals() (gas: 1028662)
+[PASS] test_silentBurnRejected() (gas: 814357)
+[PASS] test_silentRewardSlashingRevertsAtomically() (gas: 804932)
+[PASS] test_spotCannotMoveReferenceValuation() (gas: 426615)
+[PASS] test_staleOracleBlocksAddAndRemovalButNotHarvest() (gas: 822348)
+[PASS] test_taxedCollectRejected() (gas: 705213)
+[PASS] test_taxedManagerPaymentRejected() (gas: 489734)
+[PASS] test_taxedRefundRejected() (gas: 446661)
+[PASS] test_taxedVaultPullRejected() (gas: 197676)
+[PASS] test_wrongCollectReturnRejected() (gas: 456146)
+[PASS] test_wrongManagerReturnRejected() (gas: 452328)
+Suite result: ok. 36 passed; 0 failed; 0 skipped; finished in 426.56ms (425.67ms CPU time)
+
+Ran 2 tests for ramses-vaults/test/AdapterInvariant.t.sol:AdapterStock0Invariant
+[PASS] invariant_nativePrincipalConservedWithinRounding() (runs: 64, calls: 2048, reverts: 0)
+
+╭------------------------+------------+-------+---------+----------╮
+| Contract               | Selector   | Calls | Reverts | Discards |
++==================================================================+
+| AdapterStock0Invariant | actAdd     | 526   | 0       | 0        |
+|------------------------+------------+-------+---------+----------|
+| AdapterStock0Invariant | actHarvest | 544   | 0       | 0        |
+|------------------------+------------+-------+---------+----------|
+| AdapterStock0Invariant | actRemove  | 518   | 0       | 0        |
+|------------------------+------------+-------+---------+----------|
+| AdapterStock0Invariant | actTime    | 460   | 0       | 0        |
+╰------------------------+------------+-------+---------+----------╯
+
+[PASS] invariant_rewardsAreBackedAndSeparated() (runs: 64, calls: 2048, reverts: 0)
+
+╭------------------------+------------+-------+---------+----------╮
+| Contract               | Selector   | Calls | Reverts | Discards |
++==================================================================+
+| AdapterStock0Invariant | actAdd     | 526   | 0       | 0        |
+|------------------------+------------+-------+---------+----------|
+| AdapterStock0Invariant | actHarvest | 544   | 0       | 0        |
+|------------------------+------------+-------+---------+----------|
+| AdapterStock0Invariant | actRemove  | 518   | 0       | 0        |
+|------------------------+------------+-------+---------+----------|
+| AdapterStock0Invariant | actTime    | 460   | 0       | 0        |
+╰------------------------+------------+-------+---------+----------╯
+
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 1.89s (1.88s CPU time)
+
+Ran 2 tests for ramses-vaults/test/AdapterInvariant.t.sol:AdapterUsdg0Invariant
+[PASS] invariant_nativePrincipalConservedWithinRounding() (runs: 64, calls: 2048, reverts: 0)
+
+╭-----------------------+------------+-------+---------+----------╮
+| Contract              | Selector   | Calls | Reverts | Discards |
++=================================================================+
+| AdapterUsdg0Invariant | actAdd     | 526   | 0       | 0        |
+|-----------------------+------------+-------+---------+----------|
+| AdapterUsdg0Invariant | actHarvest | 544   | 0       | 0        |
+|-----------------------+------------+-------+---------+----------|
+| AdapterUsdg0Invariant | actRemove  | 518   | 0       | 0        |
+|-----------------------+------------+-------+---------+----------|
+| AdapterUsdg0Invariant | actTime    | 460   | 0       | 0        |
+╰-----------------------+------------+-------+---------+----------╯
+
+[PASS] invariant_rewardsAreBackedAndSeparated() (runs: 64, calls: 2048, reverts: 0)
+
+╭-----------------------+------------+-------+---------+----------╮
+| Contract              | Selector   | Calls | Reverts | Discards |
++=================================================================+
+| AdapterUsdg0Invariant | actAdd     | 526   | 0       | 0        |
+|-----------------------+------------+-------+---------+----------|
+| AdapterUsdg0Invariant | actHarvest | 544   | 0       | 0        |
+|-----------------------+------------+-------+---------+----------|
+| AdapterUsdg0Invariant | actRemove  | 518   | 0       | 0        |
+|-----------------------+------------+-------+---------+----------|
+| AdapterUsdg0Invariant | actTime    | 460   | 0       | 0        |
+╰-----------------------+------------+-------+---------+----------╯
+
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 1.87s (1.87s CPU time)
+
+Ran 19 tests for ramses-vaults/test/fallback/AnchoredFallbackOracle.t.sol:AnchoredFallbackHoldToken0Test
+[PASS] testAMissedPokeMeansNoFallback() (gas: 173579)
+[PASS] testAnchorRecordsOriginalTimestampAndPoolTwapAtThatTime() (gas: 230958)
+[PASS] testDeviationBoundIsEnforcedBothWays() (gas: 445529)
+[PASS] testDurationBoundsDifferByClosure() (gas: 227523)
+[PASS] testFallbackIsAnchorTimesTheRelativePoolMove() (gas: 274226)
+[PASS] testFallbackNeverReanchorsFromItself() (gas: 263665)
+[PASS] testFreshFeedIsTheOnlySourceAndTheMultiplierIsNotAppliedAgain() (gas: 52974)
+[PASS] testGuardianCanOnlyDisableTheFallback() (gas: 189659)
+[PASS] testInvalidFeedAnswersFailClosed() (gas: 42209)
+[PASS] testIssuerPausesBlockEverythingEvenWithAFreshFeed() (gas: 211099)
+[PASS] testLiquidationIsOffByDefaultAndWhenEnabledNeverPricesBelowTheAnchor() (gas: 1847674)
+[PASS] testMultiplierChangeAfterTheAnchorHaltsTheFallback() (gas: 192433)
+[PASS] testNewBorrowingAndAllocationNeverUseTheFallback() (gas: 170347)
+[PASS] testPokeAfterTheMaximumDelayIsRefused() (gas: 184573)
+[PASS] testPokeRefusesStaleAnswerAndDuplicates() (gas: 165026)
+[PASS] testPokeRefusesWhenThePoolDoesNotTrackTheFeed() (gas: 144926)
+[PASS] testPokeRevertsWhenThePoolHistoryIsTooShort() (gas: 1863225)
+[PASS] testShortSpikeBarelyMovesTheWindowAverage() (gas: 412919)
+[PASS] testWithoutAMoveTheFallbackEqualsTheAnchor() (gas: 201934)
+Suite result: ok. 19 passed; 0 failed; 0 skipped; finished in 2.21ms (1.79ms CPU time)
+
+Ran 19 tests for ramses-vaults/test/fallback/AnchoredFallbackOracle.t.sol:AnchoredFallbackHoldToken1Test
+[PASS] testAMissedPokeMeansNoFallback() (gas: 173465)
+[PASS] testAnchorRecordsOriginalTimestampAndPoolTwapAtThatTime() (gas: 230864)
+[PASS] testDeviationBoundIsEnforcedBothWays() (gas: 445505)
+[PASS] testDurationBoundsDifferByClosure() (gas: 227422)
+[PASS] testFallbackIsAnchorTimesTheRelativePoolMove() (gas: 274158)
+[PASS] testFallbackNeverReanchorsFromItself() (gas: 263585)
+[PASS] testFreshFeedIsTheOnlySourceAndTheMultiplierIsNotAppliedAgain() (gas: 52974)
+[PASS] testGuardianCanOnlyDisableTheFallback() (gas: 189558)
+[PASS] testInvalidFeedAnswersFailClosed() (gas: 42209)
+[PASS] testIssuerPausesBlockEverythingEvenWithAFreshFeed() (gas: 210985)
+[PASS] testLiquidationIsOffByDefaultAndWhenEnabledNeverPricesBelowTheAnchor() (gas: 1847486)
+[PASS] testMultiplierChangeAfterTheAnchorHaltsTheFallback() (gas: 192332)
+[PASS] testNewBorrowingAndAllocationNeverUseTheFallback() (gas: 170233)
+[PASS] testPokeAfterTheMaximumDelayIsRefused() (gas: 184459)
+[PASS] testPokeRefusesStaleAnswerAndDuplicates() (gas: 164912)
+[PASS] testPokeRefusesWhenThePoolDoesNotTrackTheFeed() (gas: 144815)
+[PASS] testPokeRevertsWhenThePoolHistoryIsTooShort() (gas: 1863228)
+[PASS] testShortSpikeBarelyMovesTheWindowAverage() (gas: 412876)
+[PASS] testWithoutAMoveTheFallbackEqualsTheAnchor() (gas: 201833)
+Suite result: ok. 19 passed; 0 failed; 0 skipped; finished in 1.94ms (1.57ms CPU time)
+
+Ran 19 tests for ramses-vaults/test/fallback/AnchoredFallbackOracle.t.sol:AnchoredFallbackStockToken0Test
+[PASS] testAMissedPokeMeansNoFallback() (gas: 173579)
+[PASS] testAnchorRecordsOriginalTimestampAndPoolTwapAtThatTime() (gas: 230972)
+[PASS] testDeviationBoundIsEnforcedBothWays() (gas: 445697)
+[PASS] testDurationBoundsDifferByClosure() (gas: 227691)
+[PASS] testFallbackIsAnchorTimesTheRelativePoolMove() (gas: 274589)
+[PASS] testFallbackNeverReanchorsFromItself() (gas: 263833)
+[PASS] testFreshFeedIsTheOnlySourceAndTheMultiplierIsNotAppliedAgain() (gas: 52974)
+[PASS] testGuardianCanOnlyDisableTheFallback() (gas: 189827)
+[PASS] testInvalidFeedAnswersFailClosed() (gas: 42209)
+[PASS] testIssuerPausesBlockEverythingEvenWithAFreshFeed() (gas: 211099)
+[PASS] testLiquidationIsOffByDefaultAndWhenEnabledNeverPricesBelowTheAnchor() (gas: 1848037)
+[PASS] testMultiplierChangeAfterTheAnchorHaltsTheFallback() (gas: 192601)
+[PASS] testNewBorrowingAndAllocationNeverUseTheFallback() (gas: 170347)
+[PASS] testPokeAfterTheMaximumDelayIsRefused() (gas: 184573)
+[PASS] testPokeRefusesStaleAnswerAndDuplicates() (gas: 165026)
+[PASS] testPokeRefusesWhenThePoolDoesNotTrackTheFeed() (gas: 144926)
+[PASS] testPokeRevertsWhenThePoolHistoryIsTooShort() (gas: 1863224)
+[PASS] testShortSpikeBarelyMovesTheWindowAverage() (gas: 413087)
+[PASS] testWithoutAMoveTheFallbackEqualsTheAnchor() (gas: 202102)
+Suite result: ok. 19 passed; 0 failed; 0 skipped; finished in 2.07ms (1.66ms CPU time)
+
+Ran 19 tests for ramses-vaults/test/fallback/AnchoredFallbackOracle.t.sol:AnchoredFallbackStockToken1Test
+[PASS] testAMissedPokeMeansNoFallback() (gas: 173485)
+[PASS] testAnchorRecordsOriginalTimestampAndPoolTwapAtThatTime() (gas: 230882)
+[PASS] testDeviationBoundIsEnforcedBothWays() (gas: 445690)
+[PASS] testDurationBoundsDifferByClosure() (gas: 227620)
+[PASS] testFallbackIsAnchorTimesTheRelativePoolMove() (gas: 274511)
+[PASS] testFallbackNeverReanchorsFromItself() (gas: 263756)
+[PASS] testFreshFeedIsTheOnlySourceAndTheMultiplierIsNotAppliedAgain() (gas: 52979)
+[PASS] testGuardianCanOnlyDisableTheFallback() (gas: 189767)
+[PASS] testInvalidFeedAnswersFailClosed() (gas: 42216)
+[PASS] testIssuerPausesBlockEverythingEvenWithAFreshFeed() (gas: 211041)
+[PASS] testLiquidationIsOffByDefaultAndWhenEnabledNeverPricesBelowTheAnchor() (gas: 1847867)
+[PASS] testMultiplierChangeAfterTheAnchorHaltsTheFallback() (gas: 192515)
+[PASS] testNewBorrowingAndAllocationNeverUseTheFallback() (gas: 170243)
+[PASS] testPokeAfterTheMaximumDelayIsRefused() (gas: 184500)
+[PASS] testPokeRefusesStaleAnswerAndDuplicates() (gas: 164946)
+[PASS] testPokeRefusesWhenThePoolDoesNotTrackTheFeed() (gas: 144867)
+[PASS] testPokeRevertsWhenThePoolHistoryIsTooShort() (gas: 1863239)
+[PASS] testShortSpikeBarelyMovesTheWindowAverage() (gas: 413015)
+[PASS] testWithoutAMoveTheFallbackEqualsTheAnchor() (gas: 202023)
+Suite result: ok. 19 passed; 0 failed; 0 skipped; finished in 2.02ms (1.66ms CPU time)
+
+Ran 6 tests for ramses-vaults/test/fallback/FallbackEconomics.t.sol:FallbackEconomicsStockFirstAnchoredTest
+[PASS] testExitAtTheStaleEstimateShiftsTheLossToRemainingSuppliers() (gas: 4797863)
+[PASS] testFlooringAtTheAnchorProtectsStockCollateralFromADownwardPushButNotStockDebtFromAnUpwardOne() (gas: 6426847)
+[PASS] testRepeatedExitAndRefillAcrossGapsAccumulates() (gas: 7483364)
+[PASS] testStationaryPoolHidesAnyRealGapFromTheMoveLimit() (gas: 1839634)
+[PASS] testStockCollateralRedemptionAtTheStalePriceLeavesTheAccountUnderwater() (gas: 3939502)
+[PASS] testUsdgCollateralRedemptionAtTheStalePriceLeavesTheAccountUnderwater() (gas: 4013998)
+Suite result: ok. 6 passed; 0 failed; 0 skipped; finished in 39.16ms (36.07ms CPU time)
+
+Ran 6 tests for ramses-vaults/test/fallback/FallbackEconomics.t.sol:FallbackEconomicsStockFirstHoldTest
+[PASS] testExitAtTheStaleEstimateShiftsTheLossToRemainingSuppliers() (gas: 4796855)
+[PASS] testFlooringAtTheAnchorProtectsStockCollateralFromADownwardPushButNotStockDebtFromAnUpwardOne() (gas: 6422242)
+[PASS] testRepeatedExitAndRefillAcrossGapsAccumulates() (gas: 7478660)
+[PASS] testStationaryPoolHidesAnyRealGapFromTheMoveLimit() (gas: 1839298)
+[PASS] testStockCollateralRedemptionAtTheStalePriceLeavesTheAccountUnderwater() (gas: 3936814)
+[PASS] testUsdgCollateralRedemptionAtTheStalePriceLeavesTheAccountUnderwater() (gas: 4011310)
+Suite result: ok. 6 passed; 0 failed; 0 skipped; finished in 32.66ms (29.62ms CPU time)
+
+Ran 6 tests for ramses-vaults/test/fallback/FallbackEconomics.t.sol:FallbackEconomicsStockSecondAnchoredTest
+[PASS] testExitAtTheStaleEstimateShiftsTheLossToRemainingSuppliers() (gas: 4799495)
+[PASS] testFlooringAtTheAnchorProtectsStockCollateralFromADownwardPushButNotStockDebtFromAnUpwardOne() (gas: 6429557)
+[PASS] testRepeatedExitAndRefillAcrossGapsAccumulates() (gas: 7489081)
+[PASS] testStationaryPoolHidesAnyRealGapFromTheMoveLimit() (gas: 1839817)
+[PASS] testStockCollateralRedemptionAtTheStalePriceLeavesTheAccountUnderwater() (gas: 3941871)
+[PASS] testUsdgCollateralRedemptionAtTheStalePriceLeavesTheAccountUnderwater() (gas: 4016362)
+Suite result: ok. 6 passed; 0 failed; 0 skipped; finished in 32.33ms (29.43ms CPU time)
+
+Ran 6 tests for ramses-vaults/test/fallback/FallbackEconomics.t.sol:FallbackEconomicsStockSecondHoldTest
+[PASS] testExitAtTheStaleEstimateShiftsTheLossToRemainingSuppliers() (gas: 4798487)
+[PASS] testFlooringAtTheAnchorProtectsStockCollateralFromADownwardPushButNotStockDebtFromAnUpwardOne() (gas: 6424963)
+[PASS] testRepeatedExitAndRefillAcrossGapsAccumulates() (gas: 7484377)
+[PASS] testStationaryPoolHidesAnyRealGapFromTheMoveLimit() (gas: 1839481)
+[PASS] testStockCollateralRedemptionAtTheStalePriceLeavesTheAccountUnderwater() (gas: 3939183)
+[PASS] testUsdgCollateralRedemptionAtTheStalePriceLeavesTheAccountUnderwater() (gas: 4013674)
+Suite result: ok. 6 passed; 0 failed; 0 skipped; finished in 33.49ms (30.72ms CPU time)
+
+Ran 14 tests for ramses-vaults/test/prototypes/InKindIntegration.t.sol:InKindLocalTest
+[PASS] testAFailedReserveReadFailsClosedForAllocationOnly() (gas: 2933718)
+[PASS] testAStalePriceCannotAdmitNewExposureAndAFailedMonitorIsNotAPause() (gas: 1900730)
+[PASS] testAtomicCheckBlocksNewExposureWhenCoverageIsShort() (gas: 3594485)
+[PASS] testDebtFreeMixedRedemptionPaysTheFullValueWhereThePlainRedeemReverts() (gas: 4705581)
+[PASS] testExchangeCannotExceedTheDeficitOrBeCalledByAnyoneElse() (gas: 3554703)
+[PASS] testExchangeItselfEnforcesTheRemovalBoundAndFreshness() (gas: 3794085)
+[PASS] testExitOrderDoesNotChangeTheMixAndRemainingHoldersKeepTheirValue() (gas: 7374803)
+[PASS] testIndebtedAccountsAreRefusedAndKeepTheCollateralCheck() (gas: 4688515)
+[PASS] testLedgerSlotMatchesTheVaultGetter() (gas: 2812439)
+[PASS] testPoolBeyondTheRemovalBoundRefusesTheExchange() (gas: 3548878)
+[PASS] testRebalanceThatAddsLiquidityIsBlockedWhileShortAndAdmittedWhenCovered() (gas: 4272337)
+[PASS] testResumePathNeedsTheAdminAndPassesTheSameCheck() (gas: 2869441)
+[PASS] testRiskReducingOperationsStayAvailableWhileShort() (gas: 4684277)
+[PASS] testStaleFeedRefusesTheInKindExitAndWithinCashStillWorks() (gas: 3664716)
+Suite result: ok. 14 passed; 0 failed; 0 skipped; finished in 56.48ms (53.66ms CPU time)
+
+Ran 28 tests for ramses-vaults/test/Lending.t.sol:LendingTest
+[PASS] testAllocationPausedSwallowKeepsCashAndNoApproval() (gas: 304932)
+[PASS] testBorrowRepayAccrueInterestAndCaps() (gas: 1434433)
+[PASS] testBorrowUsesWithdrawableNotCustody() (gas: 1685486)
+[PASS] testBufferBothSidesAndRamsesLP() (gas: 1378287)
+[PASS] testCompositionSurplusCannotInflateMarketRates() (gas: 1749268)
+[PASS] testDirectVaultDonationsIgnoredAndMarketDonationBacked() (gas: 697466)
+[PASS] testDollarCollateralStockBorrowAndRepay() (gas: 2590453)
+[PASS] testEmergencyExitWithMarketsHoldingClaims() (gas: 1850042)
+[PASS] testFeesAndRewardsLiftRatesButRamDoesNot() (gas: 3047501)
+[PASS] testFreshMarketRequiresTimelockSeed() (gas: 2042773)
+[PASS] testFreshnessBorrowRedeemCollateralButRepayAllowed() (gas: 1531985)
+[PASS] testFuzzBufferAndIdleSupplierRoundTrip(uint256) (runs: 256, μ: 528848, ~: 544759)
+[PASS] testLendingSourceItselfFailsClosedForBothMarkets() (gas: 94290)
+[PASS] testLiquidationUsingDecimalCorrectOracle() (gas: 1811156)
+[PASS] testLossPreviewAndCheckpointBeforeCashExit() (gas: 2002211)
+[PASS] testManualRebalanceCheckpointsBeforeDeposit() (gas: 1631994)
+[PASS] testOddRawUnitRoundsBufferUp() (gas: 295770)
+[PASS] testOperatorSyncDoesNotReportSilentWithdrawSuccess() (gas: 1906433)
+[PASS] testOracleDecimalsAndIsolation() (gas: 120089)
+[PASS] testPartialEmergencyDoesNotBrickLocalCash() (gas: 2595612)
+[PASS] testProtocolReserveDonationCannotIncreaseLPExposure() (gas: 1610074)
+[PASS] testRoleBufferFloorAndPauseGates() (gas: 645239)
+[PASS] testSeedMakesDonationAttackCostlyAndZeroSharesRevert() (gas: 752982)
+[PASS] testStaleCashOnlyExitRollbackAndRefresh() (gas: 2173845)
+[PASS] testSupplyCapIncludesPendingInterest() (gas: 1397439)
+[PASS] testUnknownCheckpointFailureCannotMasqueradeAsStale() (gas: 1373515)
+[PASS] testUnknownOracleFailureDoesNotBecomeZeroAssets() (gas: 1435433)
+[PASS] testZeroCollateralLaunchDisablesBorrow() (gas: 764626)
+Suite result: ok. 28 passed; 0 failed; 0 skipped; finished in 230.66ms (227.96ms CPU time)
+
+Ran 7 tests for ramses-vaults/test/LossReserve.t.sol:RamsesLossReserveTest
+[PASS] testConfiguredReserveTokensCannotChangeButLimitsCan() (gas: 659663)
+[PASS] testCoverageEnforcesPerEventAndDailyCaps() (gas: 120547)
+[PASS] testDailyUsageRoundsCoverageValueUp() (gas: 124719)
+[PASS] testFeeOnTransferDepositIsRejectedWithoutAccountingDrift() (gas: 109992)
+[PASS] testFeeOnTransferFromReserveToVaultRevertsWithoutAccountingDrift() (gas: 164057)
+[PASS] testOnlyUnaccountedSurplusCanBeSwept() (gas: 78829)
+[PASS] testPausedReserveCannotCoverButCanBeGovernanceWithdrawn() (gas: 98069)
+Suite result: ok. 7 passed; 0 failed; 0 skipped; finished in 3.19ms (345.17µs CPU time)
+
+Ran 4 tests for ramses-vaults/test/MultiPair.t.sol:MultiPairTest
+[PASS] testGuardIdentityCannotChangeToAnotherValidPair() (gas: 56383)
+[PASS] testMultiPairAccountingRewardsAndEmergencyIsolation() (gas: 3686928)
+[PASS] testRegisterDuplicatePoolOrMismatchedFeedFails() (gas: 502503)
+[PASS] testSharedUsdgAggregateCapAcrossPairs() (gas: 370234)
+Suite result: ok. 4 passed; 0 failed; 0 skipped; finished in 5.50ms (3.09ms CPU time)
+
+Ran 2 tests for ramses-vaults/test/OriginalDelegateCompatibility.t.sol:OriginalDelegateCompatibilityTest
+[PASS] testUnchangedDelegateInterfaceBufferAndSilentAllocationFailure() (gas: 1440684)
+[PASS] testUnchangedDelegateLetsCashExitPrecedeUncheckpointedLoss() (gas: 1425762)
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 4.61ms (2.23ms CPU time)
+
+Ran 6 tests for ramses-vaults/test/Phase2.t.sol:GuardReverseOrderTest
+[PASS] testConfigurationIdentityDecimalsAndRole() (gas: 91450)
+[PASS] testFuzzOraclePriceAndBothDirectionGate(uint32,int16) (runs: 256, μ: 69023, ~: 78164)
+[PASS] testOracleReferenceAndFixedUsdg() (gas: 58802)
+[PASS] testPausedDisabledInvalidFutureIncompleteRevert() (gas: 141958)
+[PASS] testTokenOraclePauseBlocksAllocationAndRemoval() (gas: 75302)
+[PASS] testTwelveHourBoundaryAndWeekendFreshFivePercent() (gas: 158420)
+Suite result: ok. 6 passed; 0 failed; 0 skipped; finished in 46.96ms (45.67ms CPU time)
+
+Ran 6 tests for ramses-vaults/test/Phase2.t.sol:GuardTest
+[PASS] testConfigurationIdentityDecimalsAndRole() (gas: 91476)
+[PASS] testFuzzOraclePriceAndBothDirectionGate(uint32,int16) (runs: 256, μ: 69218, ~: 78421)
+[PASS] testOracleReferenceAndFixedUsdg() (gas: 58853)
+[PASS] testPausedDisabledInvalidFutureIncompleteRevert() (gas: 142087)
+[PASS] testTokenOraclePauseBlocksAllocationAndRemoval() (gas: 75360)
+[PASS] testTwelveHourBoundaryAndWeekendFreshFivePercent() (gas: 158916)
+Suite result: ok. 6 passed; 0 failed; 0 skipped; finished in 46.01ms (44.68ms CPU time)
+
+Ran 28 tests for ramses-vaults/test/Phase2.t.sol:Phase2Test
+[PASS] testActiveSwapRejectsCallbackFromWrongCaller() (gas: 408473)
+[PASS] testCooldownAndClearCannotResetHistory() (gas: 2384193)
+[PASS] testDefaultPolicyAndCaps() (gas: 45652)
+[PASS] testDirectSwapCallbackRejected() (gas: 11570)
+[PASS] testDustFinishesIdle() (gas: 669787)
+[PASS] testEmergencyCollectsFeesWithReserveCut() (gas: 1782706)
+[PASS] testEmergencyPendingRewardsCanBeClaimedWithStaleFeedAndBrokenGauge() (gas: 2047435)
+[PASS] testFaithfulPoolCheckpointSharesLossProRata() (gas: 1142624)
+[PASS] testFaithfulPoolFeesCreditNativeClaimsWithReserveCut() (gas: 1481897)
+[PASS] testForfeitureOnlyConfigAndStillOracleGated() (gas: 2261912)
+[PASS] testHarvestCapStopsRecenterBeforeOldNftBurn() (gas: 1950015)
+[PASS] testKeeperCannotForwardOrConfigureAndGuardianOnlyPauses() (gas: 62560)
+[PASS] testMintRecenterBothDirectionsAndEmergency() (gas: 3671012)
+[PASS] testNativeRewardReserveTransferTaxRollsBackEverything() (gas: 1924404)
+[PASS] testNativeRewardsReserveCutRamZeroNavAndExplicitForward() (gas: 2064355)
+[PASS] testOneSidedInventoryFinishesIdle() (gas: 533302)
+[PASS] testOutOfRangePositionRecentersToOneSidedIdleThenSettles() (gas: 2169945)
+[PASS] testPairCapAndDeadline() (gas: 241849)
+[PASS] testRecenterAlsoEnforcesSeparateDeployLossPolicy() (gas: 1869869)
+[PASS] testRecenterHarvestsOldNftBeforeBurn() (gas: 2766740)
+[PASS] testRollingBudgetAndNotNeeded() (gas: 6119908)
+[PASS] testSettlementAdapterOnlyVault() (gas: 13981)
+[PASS] testSettlementSwapBothDirectionsExactDeltasAndMinimum() (gas: 652398)
+[PASS] testStaleWeekendAtFivePercentBlocksEveryLpExit() (gas: 1115581)
+[PASS] testToxicPendingRamCannotBrickPrincipalSettlement() (gas: 2199486)
+[PASS] testVaultInitializationCannotBeStolenOrRepeated() (gas: 9415251)
+[PASS] testVaultReentrancyFromAuthorizedKeeperCallbackRollsBack() (gas: 1618138)
+[PASS] testWithdrawalSettlementMinimumAndAtomicity() (gas: 1679136)
+Suite result: ok. 28 passed; 0 failed; 0 skipped; finished in 35.26ms (33.41ms CPU time)
+
+Ran 10 tests for ramses-vaults/test/RangeLibDeploy.t.sol:RamsesRangeLibDeployTest
+[PASS] testAdapterRefusalLeavesAssetsIdleAndApprovalsRevokedWhenSoft() (gas: 267136)
+[PASS] testCapLimitsEachSide() (gas: 312016)
+[PASS] testDeploysMatchedValueAndBooksUsage() (gas: 282832)
+[PASS] testDustFinishesIdleOnlyWhenAllowed() (gas: 218803)
+[PASS] testFuzzIdleNeverIncreasesAndNeverExceedsCap(uint96,uint96,uint96) (runs: 256, μ: 197074, ~: 177568)
+[PASS] testLossBoundDisabledAtOrAboveTenThousand() (gas: 293353)
+[PASS] testLossBoundRejectsOverpricedLiquidity() (gas: 496840)
+[PASS] testNothingIdleFinishesOnlyWhenAllowed() (gas: 113113)
+[PASS] testReportedUsageMustMatchBalanceDelta() (gas: 369589)
+[PASS] testUnexpectedAdapterFailureBubblesEvenWhenSoft() (gas: 244547)
+Suite result: ok. 10 passed; 0 failed; 0 skipped; finished in 23.58ms (23.24ms CPU time)
+
+Ran 1 test for ramses-vaults/test/RangeLibDeploy.t.sol:RecenterLossBoundTest
+[PASS] testOuterRecenterLossBoundRejectsLostPrincipal() (gas: 2020721)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 403.17µs (147.04µs CPU time)
+
+Ran 14 tests for ramses-vaults/test/prototypes/ReserveProtocol.t.sol:ReserveProtocolTest
+[PASS] testBothTokensMustBeCoveredNotEither() (gas: 1751625)
+[PASS] testCoverageGuardLeavesAdequatelyProtectedPairsAlone() (gas: 1891329)
+[PASS] testCoverageGuardNeverPausesOnAStalePriceItRevertsInstead() (gas: 1370641)
+[PASS] testDepletedReserveIsNotNeededAndNotTouched() (gas: 2176780)
+[PASS] testDepletedReserveRestrictsNewRiskOnlyAndTheGuardCanNeverUnpause() (gas: 2267713)
+[PASS] testFuzzConservationAndRemainingHoldersAreNotCharged(uint256,uint256,uint256,uint256,uint256) (runs: 256, μ: 779042, ~: 779876)
+[PASS] testFuzzStockSideMirror(uint256,uint256,uint256,uint256,uint256) (runs: 256, μ: 777889, ~: 778283)
+[PASS] testFuzzTheMixDoesNotDependOnTheOrderOfExits(uint256,uint256,uint256,uint256,uint256) (runs: 256, μ: 1455604, ~: 1455876)
+[PASS] testInKindModelMatchesTheRealLedgerAfterARecognizedLoss() (gas: 2164293)
+[PASS] testInKindRefusesStaleOraclesAndAccountsWithDebt() (gas: 3060763)
+[PASS] testInKindRefusesWhenTheOtherSideHasNoSurplus() (gas: 1501432)
+[PASS] testNoDeficitMeansNoMixing() (gas: 762253)
+[PASS] testOneSidedInventoryPaysEntirelyInTheOtherToken() (gas: 722986)
+[PASS] testSeedRetainedEarningsAndStrayTransfersAreDistinguishable() (gas: 2089346)
+Suite result: ok. 14 passed; 0 failed; 0 skipped; finished in 250.31ms (247.24ms CPU time)
+
+Warning: the following cheatcode(s) are deprecated and will be removed in future versions:
+  revertTo(uint256): replaced by `revertToState`
+  snapshot(): replaced by `snapshotState`
+Ran 7 tests for ramses-vaults/test/StockProofs.t.sol:StockProofsTest
+[PASS] testFundedLiquidationThenCollateralRedemptionNeedsLpUnwind() (gas: 3670629)
+[PASS] testOneSidedRecoveryByEnablingTheBoundedSettlementSwapRealizesALoss() (gas: 2535247)
+[PASS] testOneSidedRecoveryByRecentringAloneDoesNotCreateTheMissingToken() (gas: 2543107)
+[PASS] testOneSidedRedemptionRevertsAtomicallyThenSucceedsWhenThePriceReturns() (gas: 2804515)
+[PASS] testOneSidedStatePersistsAfterRecentreAndPriceReturnReserveFundingRecovers() (gas: 3006039)
+[PASS] testStaleFeedBlocksLiquidationOfAnUnderwaterAccountButNotRepayment() (gas: 3369640)
+[PASS] testStaleFeedOperationMatrixWithFreshControlsAndSpecificReasons() (gas: 7127100)
+Suite result: ok. 7 passed; 0 failed; 0 skipped; finished in 32.03ms (29.04ms CPU time)
+
+Ran 5 tests for ramses-vaults/test/VaultIntegrationInvariant.t.sol:VaultIntegrationInvariant
+[PASS] invariantAggregateEqualsPairClaim() (runs: 64, calls: 2048, reverts: 0)
+
+╭--------------------+------------+-------+---------+----------╮
+| Contract           | Selector   | Calls | Reverts | Discards |
++==============================================================+
+| RamsesVaultHandler | checkpoint | 411   | 0       | 0        |
+|--------------------+------------+-------+---------+----------|
+| RamsesVaultHandler | deposit    | 429   | 0       | 0        |
+|--------------------+------------+-------+---------+----------|
+| RamsesVaultHandler | harvest    | 429   | 0       | 0        |
+|--------------------+------------+-------+---------+----------|
+| RamsesVaultHandler | rebalance  | 393   | 0       | 0        |
+|--------------------+------------+-------+---------+----------|
+| RamsesVaultHandler | withdraw   | 386   | 0       | 0        |
+╰--------------------+------------+-------+---------+----------╯
+
+[PASS] invariantIdleAndRamNeverExceedCustody() (runs: 64, calls: 2048, reverts: 0)
+
+╭--------------------+------------+-------+---------+----------╮
+| Contract           | Selector   | Calls | Reverts | Discards |
++==============================================================+
+| RamsesVaultHandler | checkpoint | 411   | 0       | 0        |
+|--------------------+------------+-------+---------+----------|
+| RamsesVaultHandler | deposit    | 429   | 0       | 0        |
+|--------------------+------------+-------+---------+----------|
+| RamsesVaultHandler | harvest    | 429   | 0       | 0        |
+|--------------------+------------+-------+---------+----------|
+| RamsesVaultHandler | rebalance  | 393   | 0       | 0        |
+|--------------------+------------+-------+---------+----------|
+| RamsesVaultHandler | withdraw   | 386   | 0       | 0        |
+╰--------------------+------------+-------+---------+----------╯
+
+[PASS] invariantNoStandingAdapterOrManagerApprovals() (runs: 64, calls: 2048, reverts: 0)
+
+╭--------------------+------------+-------+---------+----------╮
+| Contract           | Selector   | Calls | Reverts | Discards |
++==============================================================+
+| RamsesVaultHandler | checkpoint | 411   | 0       | 0        |
+|--------------------+------------+-------+---------+----------|
+| RamsesVaultHandler | deposit    | 429   | 0       | 0        |
+|--------------------+------------+-------+---------+----------|
+| RamsesVaultHandler | harvest    | 429   | 0       | 0        |
+|--------------------+------------+-------+---------+----------|
+| RamsesVaultHandler | rebalance  | 393   | 0       | 0        |
+|--------------------+------------+-------+---------+----------|
+| RamsesVaultHandler | withdraw   | 386   | 0       | 0        |
+╰--------------------+------------+-------+---------+----------╯
+
+[PASS] invariantOracleValueCoversClaimsWithinRounding() (runs: 64, calls: 2048, reverts: 0)
+
+╭--------------------+------------+-------+---------+----------╮
+| Contract           | Selector   | Calls | Reverts | Discards |
++==============================================================+
+| RamsesVaultHandler | checkpoint | 411   | 0       | 0        |
+|--------------------+------------+-------+---------+----------|
+| RamsesVaultHandler | deposit    | 429   | 0       | 0        |
+|--------------------+------------+-------+---------+----------|
+| RamsesVaultHandler | harvest    | 429   | 0       | 0        |
+|--------------------+------------+-------+---------+----------|
+| RamsesVaultHandler | rebalance  | 393   | 0       | 0        |
+|--------------------+------------+-------+---------+----------|
+| RamsesVaultHandler | withdraw   | 386   | 0       | 0        |
+╰--------------------+------------+-------+---------+----------╯
+
+[PASS] invariantPositionCustodyAndForfeiture() (runs: 64, calls: 2048, reverts: 0)
+
+╭--------------------+------------+-------+---------+----------╮
+| Contract           | Selector   | Calls | Reverts | Discards |
++==============================================================+
+| RamsesVaultHandler | checkpoint | 411   | 0       | 0        |
+|--------------------+------------+-------+---------+----------|
+| RamsesVaultHandler | deposit    | 429   | 0       | 0        |
+|--------------------+------------+-------+---------+----------|
+| RamsesVaultHandler | harvest    | 429   | 0       | 0        |
+|--------------------+------------+-------+---------+----------|
+| RamsesVaultHandler | rebalance  | 393   | 0       | 0        |
+|--------------------+------------+-------+---------+----------|
+| RamsesVaultHandler | withdraw   | 386   | 0       | 0        |
+╰--------------------+------------+-------+---------+----------╯
+
+Suite result: ok. 5 passed; 0 failed; 0 skipped; finished in 6.14s (6.14s CPU time)
+
+Ran 41 tests for ramses-vaults/test/VaultV3Compatibility.t.sol:RobinhoodBoostedVaultV3CompatibilityTest
+[PASS] testAggregateUsdgCapFailsClosedAcrossDeposits() (gas: 168053)
+[PASS] testAllocationCapIncludesUnrecognizedCompositionSurplus() (gas: 563053)
+[PASS] testCheckpointSharesLossAtEqualPercentage() (gas: 508940)
+[PASS] testCheckpointUsesCheckedSignedPnlConversion() (gas: 518769)
+[PASS] testConfiguredPairValueCapStillFailsClosed() (gas: 176781)
+[PASS] testCurrentTimestampDeadlineIsAcceptedForLPWithdrawal() (gas: 621707)
+[PASS] testDepositsRemainSeparatelyAttributed() (gas: 260796)
+[PASS] testDeprecatedMinimumDeadlineSlotMustRemainZero() (gas: 35890)
+[PASS] testEmergencyDecreaseRecognizesLossAndRetainsGuardForNativeDeficit() (gas: 706772)
+[PASS] testExitsStillFailClosedBeyondTheRemovalBound() (gas: 515065)
+[PASS] testExitsToleratePoolDeviationThatBlocksAllocation() (gas: 577928)
+[PASS] testFeeOnTransferFromVaultToReserveRevertsWithoutLedgerDrift() (gas: 633423)
+[PASS] testFeeOnTransferToWithdrawalReceiverRevertsWithoutLedgerDrift() (gas: 244987)
+[PASS] testFeesAreSplitInKindBeforeClaimsIncrease() (gas: 730796)
+[PASS] testFuzzRebalanceNeverConsumesUnmatchedStock(uint96,uint64) (runs: 256, μ: 497384, ~: 497566)
+[PASS] testGuardianCanPauseButCannotUnpause() (gas: 43671)
+[PASS] testIdleWithdrawalDoesNotNeedOracle() (gas: 318259)
+[PASS] testIdleWithdrawalRecognizesSharedLossWhileLiquidityRemains() (gas: 563974)
+[PASS] testIdleWithdrawalWithOpenLiquidityFailsClosedOnOracleError() (gas: 523047)
+[PASS] testManipulatedGuardianExitFailsClosedWithoutEnteringEmergencyMode() (gas: 484387)
+[PASS] testManipulatedLPBackedWithdrawalFailsClosed() (gas: 479746)
+[PASS] testPartialEmergencyDecreaseBlocksIdleWithdrawalUntilFullyExited() (gas: 602801)
+[PASS] testRebalanceAutoPausesAllocationWhenExistingPairExceedsCap() (gas: 394051)
+[PASS] testRebalanceDeploysOnlyMatchedOracleValue() (gas: 510332)
+[PASS] testRegistrationRequiresRemovalToleranceToCoverHalfTheRemovalDeviation() (gas: 363934)
+[PASS] testRemovalToleranceCheckRoundsTheHalfUp() (gas: 364652)
+[PASS] testReserveReportCannotOvercreditObservedVaultBalance() (gas: 671262)
+[PASS] testSettlementSlippageCannotExceedFivePercent() (gas: 35700)
+[PASS] testSideAccountLookupSupportsBoostedPTokenValidation() (gas: 32541)
+[PASS] testSingleSidedPositionCanSettleUsingCounterPrincipal() (gas: 701753)
+[PASS] testSkewedPoolCannotManufactureLossAtCheckpoint() (gas: 563440)
+[PASS] testSkewedPoolCannotMaskRealLossAtCheckpoint() (gas: 575035)
+[PASS] testStaleCheckpointIsRefreshedInsideLPWithdrawal() (gas: 645632)
+[PASS] testWithdrawableAssetsIsZeroInEmergencyModeWithOpenLiquidity() (gas: 507243)
+[PASS] testWithdrawableAssetsNeverExceedsRemainingPrincipal() (gas: 561055)
+[PASS] testWithdrawableAssetsRejectsUnsupportedToken() (gas: 253777)
+[PASS] testWithdrawableAssetsReportsIdleWhenNoLiquidityIsOpen() (gas: 285488)
+[PASS] testWithdrawableAssetsTracksOracleHealthWhileLiquidityIsOpen() (gas: 517568)
+[PASS] testWithdrawalReportsLossAppliedToRemainingClaim() (gas: 656834)
+[PASS] testWithdrawalUnwindsOnlyNeededSlice() (gas: 625574)
+[PASS] testZeroAggregateCapDisablesLimitAfterPrincipalExists() (gas: 177853)
+Suite result: ok. 41 passed; 0 failed; 0 skipped; finished in 81.71ms (80.46ms CPU time)
+
+Ran 3 tests for ramses-vaults/test/VaultV3Invariant.t.sol:VaultV3AccountingInvariant
+[PASS] invariantAggregateUsdgMatchesSinglePairClaim() (runs: 64, calls: 2048, reverts: 0)
+
+╭----------------+---------------+-------+---------+----------╮
+| Contract       | Selector      | Calls | Reverts | Discards |
++=============================================================+
+| VaultV3Handler | checkpoint    | 312   | 0       | 0        |
+|----------------+---------------+-------+---------+----------|
+| VaultV3Handler | depositStock  | 374   | 0       | 0        |
+|----------------+---------------+-------+---------+----------|
+| VaultV3Handler | depositUsdg   | 349   | 0       | 0        |
+|----------------+---------------+-------+---------+----------|
+| VaultV3Handler | rebalance     | 336   | 0       | 0        |
+|----------------+---------------+-------+---------+----------|
+| VaultV3Handler | withdrawStock | 344   | 0       | 0        |
+|----------------+---------------+-------+---------+----------|
+| VaultV3Handler | withdrawUsdg  | 333   | 0       | 0        |
+╰----------------+---------------+-------+---------+----------╯
+
+[PASS] invariantCustodyCoversCachedClaims() (runs: 64, calls: 2048, reverts: 0)
+
+╭----------------+---------------+-------+---------+----------╮
+| Contract       | Selector      | Calls | Reverts | Discards |
++=============================================================+
+| VaultV3Handler | checkpoint    | 312   | 0       | 0        |
+|----------------+---------------+-------+---------+----------|
+| VaultV3Handler | depositStock  | 374   | 0       | 0        |
+|----------------+---------------+-------+---------+----------|
+| VaultV3Handler | depositUsdg   | 349   | 0       | 0        |
+|----------------+---------------+-------+---------+----------|
+| VaultV3Handler | rebalance     | 336   | 0       | 0        |
+|----------------+---------------+-------+---------+----------|
+| VaultV3Handler | withdrawStock | 344   | 0       | 0        |
+|----------------+---------------+-------+---------+----------|
+| VaultV3Handler | withdrawUsdg  | 333   | 0       | 0        |
+╰----------------+---------------+-------+---------+----------╯
+
+[PASS] invariantIdleNeverExceedsVaultCustody() (runs: 64, calls: 2048, reverts: 0)
+
+╭----------------+---------------+-------+---------+----------╮
+| Contract       | Selector      | Calls | Reverts | Discards |
++=============================================================+
+| VaultV3Handler | checkpoint    | 312   | 0       | 0        |
+|----------------+---------------+-------+---------+----------|
+| VaultV3Handler | depositStock  | 374   | 0       | 0        |
+|----------------+---------------+-------+---------+----------|
+| VaultV3Handler | depositUsdg   | 349   | 0       | 0        |
+|----------------+---------------+-------+---------+----------|
+| VaultV3Handler | rebalance     | 336   | 0       | 0        |
+|----------------+---------------+-------+---------+----------|
+| VaultV3Handler | withdrawStock | 344   | 0       | 0        |
+|----------------+---------------+-------+---------+----------|
+| VaultV3Handler | withdrawUsdg  | 333   | 0       | 0        |
+╰----------------+---------------+-------+---------+----------╯
+
+Suite result: ok. 3 passed; 0 failed; 0 skipped; finished in 1.07s (1.07s CPU time)
+
+Ran 45 tests for ramses-vaults/test/VaultV3PostExit.t.sol:VaultV3PostExitTest
+[PASS] testAggregateUsdgCapFailsClosedAcrossDeposits() (gas: 168097)
+[PASS] testAllocationCapIncludesUnrecognizedCompositionSurplus() (gas: 563097)
+[PASS] testCheckpointSharesLossAtEqualPercentage() (gas: 508962)
+[PASS] testCheckpointUsesCheckedSignedPnlConversion() (gas: 518835)
+[PASS] testClosedCompositionCannotExitAheadOfUnavailableOracle() (gas: 615701)
+[PASS] testClosedCompositionRemainsBlockedDuringEmergency() (gas: 600314)
+[PASS] testClosedPositionCompositionSharesPriceLossBeforeExit() (gas: 674254)
+[PASS] testConfiguredPairValueCapStillFailsClosed() (gas: 176847)
+[PASS] testCurrentTimestampDeadlineIsAcceptedForLPWithdrawal() (gas: 621751)
+[PASS] testDepositsRemainSeparatelyAttributed() (gas: 260796)
+[PASS] testDeprecatedMinimumDeadlineSlotMustRemainZero() (gas: 35956)
+[PASS] testEmergencyDecreaseRecognizesLossAndRetainsGuardForNativeDeficit() (gas: 706836)
+[PASS] testExitsStillFailClosedBeyondTheRemovalBound() (gas: 515065)
+[PASS] testExitsToleratePoolDeviationThatBlocksAllocation() (gas: 577994)
+[PASS] testFeeOnTransferFromVaultToReserveRevertsWithoutLedgerDrift() (gas: 633489)
+[PASS] testFeeOnTransferToWithdrawalReceiverRevertsWithoutLedgerDrift() (gas: 244987)
+[PASS] testFeesAreSplitInKindBeforeClaimsIncrease() (gas: 730831)
+[PASS] testFuzzClosedCompositionRecognizesSharedDeficit(uint96) (runs: 256, μ: 675237, ~: 675267)
+[PASS] testFuzzRebalanceNeverConsumesUnmatchedStock(uint96,uint64) (runs: 256, μ: 497493, ~: 497671)
+[PASS] testGuardianCanPauseButCannotUnpause() (gas: 43737)
+[PASS] testIdleWithdrawalDoesNotNeedOracle() (gas: 318259)
+[PASS] testIdleWithdrawalRecognizesSharedLossWhileLiquidityRemains() (gas: 564040)
+[PASS] testIdleWithdrawalWithOpenLiquidityFailsClosedOnOracleError() (gas: 523091)
+[PASS] testManipulatedGuardianExitFailsClosedWithoutEnteringEmergencyMode() (gas: 484440)
+[PASS] testManipulatedLPBackedWithdrawalFailsClosed() (gas: 479799)
+[PASS] testPartialEmergencyDecreaseBlocksIdleWithdrawalUntilFullyExited() (gas: 602845)
+[PASS] testRebalanceAutoPausesAllocationWhenExistingPairExceedsCap() (gas: 394117)
+[PASS] testRebalanceDeploysOnlyMatchedOracleValue() (gas: 510332)
+[PASS] testRegistrationRequiresRemovalToleranceToCoverHalfTheRemovalDeviation() (gas: 363934)
+[PASS] testRemovalToleranceCheckRoundsTheHalfUp() (gas: 364718)
+[PASS] testReserveReportCannotOvercreditObservedVaultBalance() (gas: 671315)
+[PASS] testSettlementSlippageCannotExceedFivePercent() (gas: 35700)
+[PASS] testSideAccountLookupSupportsBoostedPTokenValidation() (gas: 32607)
+[PASS] testSingleSidedPositionCanSettleUsingCounterPrincipal() (gas: 701753)
+[PASS] testSkewedPoolCannotManufactureLossAtCheckpoint() (gas: 563506)
+[PASS] testSkewedPoolCannotMaskRealLossAtCheckpoint() (gas: 575079)
+[PASS] testStaleCheckpointIsRefreshedInsideLPWithdrawal() (gas: 645696)
+[PASS] testWithdrawableAssetsIsZeroInEmergencyModeWithOpenLiquidity() (gas: 507309)
+[PASS] testWithdrawableAssetsNeverExceedsRemainingPrincipal() (gas: 561055)
+[PASS] testWithdrawableAssetsRejectsUnsupportedToken() (gas: 253777)
+[PASS] testWithdrawableAssetsReportsIdleWhenNoLiquidityIsOpen() (gas: 285532)
+[PASS] testWithdrawableAssetsTracksOracleHealthWhileLiquidityIsOpen() (gas: 517612)
+[PASS] testWithdrawalReportsLossAppliedToRemainingClaim() (gas: 656834)
+[PASS] testWithdrawalUnwindsOnlyNeededSlice() (gas: 625574)
+[PASS] testZeroAggregateCapDisablesLimitAfterPrincipalExists() (gas: 177897)
+Suite result: ok. 45 passed; 0 failed; 0 skipped; finished in 192.69ms (191.59ms CPU time)
+
+Ran 44 tests for ramses-vaults/test/VaultV3Recovery.t.sol:VaultV3RecoveryTest
+[PASS] testAggregateUsdgCapFailsClosedAcrossDeposits() (gas: 168075)
+[PASS] testAllocationCapIncludesUnrecognizedCompositionSurplus() (gas: 563075)
+[PASS] testBoundedSettlementThenCheckpointRecoversAllSurplus() (gas: 807119)
+[PASS] testCheckpointSharesLossAtEqualPercentage() (gas: 508962)
+[PASS] testCheckpointUsesCheckedSignedPnlConversion() (gas: 518813)
+[PASS] testCompositionDoesNotWriteOffSolventClaimsWhenSwapsPaused() (gas: 681015)
+[PASS] testConfiguredPairValueCapStillFailsClosed() (gas: 176825)
+[PASS] testCurrentTimestampDeadlineIsAcceptedForLPWithdrawal() (gas: 621729)
+[PASS] testDepositsRemainSeparatelyAttributed() (gas: 260818)
+[PASS] testDeprecatedMinimumDeadlineSlotMustRemainZero() (gas: 35934)
+[PASS] testEmergencyDecreaseRecognizesLossAndRetainsGuardForNativeDeficit() (gas: 706854)
+[PASS] testExitsStillFailClosedBeyondTheRemovalBound() (gas: 515087)
+[PASS] testExitsToleratePoolDeviationThatBlocksAllocation() (gas: 577972)
+[PASS] testFeeOnTransferFromVaultToReserveRevertsWithoutLedgerDrift() (gas: 633467)
+[PASS] testFeeOnTransferToWithdrawalReceiverRevertsWithoutLedgerDrift() (gas: 244987)
+[PASS] testFeesAreSplitInKindBeforeClaimsIncrease() (gas: 730813)
+[PASS] testFuzzRebalanceNeverConsumesUnmatchedStock(uint96,uint64) (runs: 256, μ: 497400, ~: 497588)
+[PASS] testGuardianCanPauseButCannotUnpause() (gas: 43715)
+[PASS] testIdleWithdrawalDoesNotNeedOracle() (gas: 318259)
+[PASS] testIdleWithdrawalRecognizesSharedLossWhileLiquidityRemains() (gas: 564040)
+[PASS] testIdleWithdrawalWithOpenLiquidityFailsClosedOnOracleError() (gas: 523069)
+[PASS] testManipulatedGuardianExitFailsClosedWithoutEnteringEmergencyMode() (gas: 484421)
+[PASS] testManipulatedLPBackedWithdrawalFailsClosed() (gas: 479764)
+[PASS] testPartialEmergencyDecreaseBlocksIdleWithdrawalUntilFullyExited() (gas: 602823)
+[PASS] testRebalanceAutoPausesAllocationWhenExistingPairExceedsCap() (gas: 394095)
+[PASS] testRebalanceDeploysOnlyMatchedOracleValue() (gas: 510354)
+[PASS] testRegistrationRequiresRemovalToleranceToCoverHalfTheRemovalDeviation() (gas: 363956)
+[PASS] testRemovalToleranceCheckRoundsTheHalfUp() (gas: 364696)
+[PASS] testReserveReportCannotOvercreditObservedVaultBalance() (gas: 671297)
+[PASS] testSettlementSlippageCannotExceedFivePercent() (gas: 35700)
+[PASS] testSideAccountLookupSupportsBoostedPTokenValidation() (gas: 32585)
+[PASS] testSingleSidedPositionCanSettleUsingCounterPrincipal() (gas: 701771)
+[PASS] testSkewedPoolCannotManufactureLossAtCheckpoint() (gas: 563506)
+[PASS] testSkewedPoolCannotMaskRealLossAtCheckpoint() (gas: 575057)
+[PASS] testStaleCheckpointIsRefreshedInsideLPWithdrawal() (gas: 645698)
+[PASS] testUncheckpointedSurplusIsRecoverableButStillOracleGated() (gas: 745196)
+[PASS] testWithdrawableAssetsIsZeroInEmergencyModeWithOpenLiquidity() (gas: 507287)
+[PASS] testWithdrawableAssetsNeverExceedsRemainingPrincipal() (gas: 561077)
+[PASS] testWithdrawableAssetsRejectsUnsupportedToken() (gas: 253777)
+[PASS] testWithdrawableAssetsReportsIdleWhenNoLiquidityIsOpen() (gas: 285510)
+[PASS] testWithdrawableAssetsTracksOracleHealthWhileLiquidityIsOpen() (gas: 517590)
+[PASS] testWithdrawalReportsLossAppliedToRemainingClaim() (gas: 656834)
+[PASS] testWithdrawalUnwindsOnlyNeededSlice() (gas: 625574)
+[PASS] testZeroAggregateCapDisablesLimitAfterPrincipalExists() (gas: 177875)
+Suite result: ok. 44 passed; 0 failed; 0 skipped; finished in 83.37ms (82.30ms CPU time)
+
+Ran 29 test suites in 13.11s (13.09s CPU time): 441 tests passed, 0 failed, 0 skipped (441 total tests)

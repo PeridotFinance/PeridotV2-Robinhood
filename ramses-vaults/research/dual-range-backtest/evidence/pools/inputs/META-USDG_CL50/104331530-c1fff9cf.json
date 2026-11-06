@@ -1,0 +1,166 @@
+{
+ "schema": "ramses-pool-inputs-1",
+ "pool": "0x960f79d8dfec7f2f0c1b24cdac6bb9df1371c6e2",
+ "pin": {
+  "l2Block": 104331530,
+  "hash": "0xc1fff9cf95541967466d264062c2510c040ec0c76882103fc65d2eb1c8f9a32e",
+  "timestamp": 1793634307,
+  "native": 26328075
+ },
+ "token0": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+ "token1": "0xc0d6457c16cc70d6790dd43521c899c87ce02f35",
+ "dec0": 6,
+ "dec1": 18,
+ "tickSpacing": 50,
+ "fee_ppm": 150,
+ "slot0": {
+  "sqrtPriceX96": "3183312733212617227099998832146724",
+  "tick": 212032,
+  "rawWords": [
+   "3183312733212617227099998832146724",
+   "212032",
+   "23",
+   "121",
+   "121",
+   "500000",
+   "1"
+  ],
+  "feeProtocol": 500000
+ },
+ "liquidity": "11763304438456318",
+ "scan": {
+  "mode": "full",
+  "fromTick": -887272,
+  "toTick": 887272,
+  "wordLo": -70,
+  "wordHi": 69
+ },
+ "bitmap": {
+  "-70": "0x80000000000000000000000000000000000000000000",
+  "15": "0x400000000000000000000000000000000000000000000000",
+  "16": "0x8400043402864810060916a80a0000100001000000000000",
+  "69": "0x200000000000000000000"
+ },
+ "ticks": {
+  "-887250": {
+   "liquidityGross": "13569177042",
+   "liquidityNet": "13569177042"
+  },
+  "201500": {
+   "liquidityGross": "3884255592217",
+   "liquidityNet": "3884255592217"
+  },
+  "207200": {
+   "liquidityGross": "9407979737987125",
+   "liquidityNet": "9407979737987125"
+  },
+  "208200": {
+   "liquidityGross": "823377947941268",
+   "liquidityNet": "823377947941268"
+  },
+  "209250": {
+   "liquidityGross": "251928073389306",
+   "liquidityNet": "251928073389306"
+  },
+  "209350": {
+   "liquidityGross": "2161396282267043",
+   "liquidityNet": "2161396282267043"
+  },
+  "209750": {
+   "liquidityGross": "56083254144584335",
+   "liquidityNet": "56083254144584335"
+  },
+  "209850": {
+   "liquidityGross": "361081864908750",
+   "liquidityNet": "361081864908750"
+  },
+  "209950": {
+   "liquidityGross": "11567750587081279",
+   "liquidityNet": "11567750587081279"
+  },
+  "210050": {
+   "liquidityGross": "767898768909085",
+   "liquidityNet": "767898768909085"
+  },
+  "210100": {
+   "liquidityGross": "291127514378264",
+   "liquidityNet": "291127514378264"
+  },
+  "210200": {
+   "liquidityGross": "11567750587081279",
+   "liquidityNet": "-11567750587081279"
+  },
+  "210400": {
+   "liquidityGross": "55716479200376044",
+   "liquidityNet": "-55716479200376044"
+  },
+  "210550": {
+   "liquidityGross": "767898768909085",
+   "liquidityNet": "-767898768909085"
+  },
+  "210850": {
+   "liquidityGross": "2161396282267043",
+   "liquidityNet": "-2161396282267043"
+  },
+  "210900": {
+   "liquidityGross": "514271113843224",
+   "liquidityNet": "514271113843224"
+  },
+  "211400": {
+   "liquidityGross": "1431381202195244",
+   "liquidityNet": "-215374693687292"
+  },
+  "211750": {
+   "liquidityGross": "806318328519",
+   "liquidityNet": "806318328519"
+  },
+  "211900": {
+   "liquidityGross": "42566207610396",
+   "liquidityNet": "-42566207610396"
+  },
+  "212050": {
+   "liquidityGross": "30487602307",
+   "liquidityNet": "30487602307"
+  },
+  "212100": {
+   "liquidityGross": "30487602307",
+   "liquidityNet": "-30487602307"
+  },
+  "212350": {
+   "liquidityGross": "9407979737987125",
+   "liquidityNet": "-9407979737987125"
+  },
+  "212450": {
+   "liquidityGross": "361888183237269",
+   "liquidityNet": "-361888183237269"
+  },
+  "212900": {
+   "liquidityGross": "1059213683778670",
+   "liquidityNet": "-1059213683778670"
+  },
+  "213000": {
+   "liquidityGross": "20494476708134",
+   "liquidityNet": "-20494476708134"
+  },
+  "213050": {
+   "liquidityGross": "251928073389306",
+   "liquidityNet": "-251928073389306"
+  },
+  "213300": {
+   "liquidityGross": "291127514378264",
+   "liquidityNet": "-291127514378264"
+  },
+  "214100": {
+   "liquidityGross": "366774944208291",
+   "liquidityNet": "-366774944208291"
+  },
+  "214350": {
+   "liquidityGross": "3884255592217",
+   "liquidityNet": "-3884255592217"
+  },
+  "887250": {
+   "liquidityGross": "13569177042",
+   "liquidityNet": "-13569177042"
+  }
+ }
+}

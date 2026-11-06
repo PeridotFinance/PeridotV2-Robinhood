@@ -1,0 +1,87 @@
+{
+ "head": 104066217,
+ "SPY": {
+  "code_len": 9571,
+  "description": "RHSPY / USD",
+  "decimals": 8,
+  "version": 6,
+  "latest": {
+   "roundId": 18446744073709551809,
+   "answer": 75985496611,
+   "startedAt": 1793581238,
+   "updatedAt": 1793581251,
+   "answeredInRound": 18446744073709551809,
+   "updatedAtIso": "2026-11-02 01:00:51Z"
+  },
+  "aggregator": "0x78bcb218fa04b9b3a278ebc865ed320bf8defbac",
+  "aggregator_code_len": 23186,
+  "minAnswer()": 1,
+  "maxAnswer()": 95780971304118053647396689196894323976171195136475135,
+  "latestAnswer()": 75985496611,
+  "typeAndVersion()": "DualAggregator 1.0.0",
+  "owner()": "0xee27d5ae494300902d90454e8630a3f1c68c9c52"
+ },
+ "GLD": {
+  "code_len": 9571,
+  "description": "GLD / USD",
+  "decimals": 8,
+  "version": 6,
+  "latest": {
+   "roundId": 18446744073709551727,
+   "answer": 35738982967,
+   "startedAt": 1793581615,
+   "updatedAt": 1793581627,
+   "answeredInRound": 18446744073709551727,
+   "updatedAtIso": "2026-11-02 01:07:07Z"
+  },
+  "aggregator": "0xea3f8e77a98d7877b6f8164569a8e82454cccdb8",
+  "aggregator_code_len": 22337,
+  "minAnswer()": 1,
+  "maxAnswer()": 95780971304118053647396689196894323976171195136475135,
+  "latestAnswer()": 35738982967,
+  "typeAndVersion()": "AccessControlledOCR2Aggregator 1.0.0",
+  "owner()": "0xee27d5ae494300902d90454e8630a3f1c68c9c52"
+ },
+ "NVDA": {
+  "code_len": 9571,
+  "description": "RHNVDA / USD",
+  "decimals": 8,
+  "version": 6,
+  "latest": {
+   "roundId": 18446744073709553024,
+   "answer": 20739099107,
+   "startedAt": 1793582353,
+   "updatedAt": 1793582365,
+   "answeredInRound": 18446744073709553024,
+   "updatedAtIso": "2026-11-02 01:19:25Z"
+  },
+  "aggregator": "0xc9d16e4f2569b9e3ea0468fd85844953713dc2a2",
+  "aggregator_code_len": 23186,
+  "minAnswer()": 1,
+  "maxAnswer()": 95780971304118053647396689196894323976171195136475135,
+  "latestAnswer()": 20739099107,
+  "typeAndVersion()": "DualAggregator 1.0.0",
+  "owner()": "0xee27d5ae494300902d90454e8630a3f1c68c9c52"
+ },
+ "USDG": {
+  "code_len": 9571,
+  "description": "USDG / USD",
+  "decimals": 8,
+  "version": 6,
+  "latest": {
+   "roundId": 18446744073709551766,
+   "answer": 99978256,
+   "startedAt": 1793548135,
+   "updatedAt": 1793548147,
+   "answeredInRound": 18446744073709551766,
+   "updatedAtIso": "2026-11-01 15:49:07Z"
+  },
+  "aggregator": "0x8beee3503f6860d5dac4ce26b5eee92982951c2e",
+  "aggregator_code_len": 23186,
+  "minAnswer()": 1,
+  "maxAnswer()": 95780971304118053647396689196894323976171195136475135,
+  "latestAnswer()": 99978256,
+  "typeAndVersion()": "DualAggregator 1.0.0",
+  "owner()": "0xee27d5ae494300902d90454e8630a3f1c68c9c52"
+ }
+}

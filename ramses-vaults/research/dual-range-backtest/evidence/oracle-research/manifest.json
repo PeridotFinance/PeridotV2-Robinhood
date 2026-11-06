@@ -1,0 +1,461 @@
+[
+ {
+  "name": "pyth-contract-addresses.html",
+  "url": "https://docs.pyth.network/pro/contract-addresses",
+  "retrievedUtc": "2026-11-03T08:05:42+00:00",
+  "httpStatus": 200,
+  "bytes": 541750,
+  "sha256": "6c796506d72b5d6f42c7aa48cc2132da9bf9e2ecec61c86c42fdf57fc11b56f1",
+  "error": null
+ },
+ {
+  "name": "chainlink-robinhood-tokenized-equity.html",
+  "url": "https://docs.chain.link/data-feeds/tokenized-equity-feeds/robinhood",
+  "retrievedUtc": "2026-11-03T08:07:42+00:00",
+  "httpStatus": 200,
+  "bytes": 361899,
+  "sha256": "7000a4305da611a40c407f228a335383ce69feab17b009f0765183bc770f2db9",
+  "error": null
+ },
+ {
+  "name": "pyth-products.html",
+  "url": "https://app.pyth.com/products",
+  "retrievedUtc": "2026-11-03T08:07:43+00:00",
+  "httpStatus": 200,
+  "bytes": 113363,
+  "sha256": "dba0a8ee48e0ee60422d671a71f317bc21372869226c9f29f9f05a943213f36f",
+  "error": null
+ },
+ {
+  "name": "pyth-llms-price-feeds.txt",
+  "url": "https://docs.pyth.network/llms-price-feeds.txt",
+  "retrievedUtc": "2026-11-03T08:08:30+00:00",
+  "httpStatus": 200,
+  "bytes": 3299,
+  "sha256": "865643a60b2e8605b4e1f17eb363622c643c80e49abaa4d84e1c2ef524697f83",
+  "error": null
+ },
+ {
+  "name": "pyth-llms-core.txt",
+  "url": "https://docs.pyth.network/llms-price-feeds-core.txt",
+  "retrievedUtc": "2026-11-03T08:08:31+00:00",
+  "httpStatus": 200,
+  "bytes": 8943,
+  "sha256": "23379f65f17960a3cfd1c9c56b5d9b22c7d0647ede6a98f9e14d3d3f28f0b80c",
+  "error": null
+ },
+ {
+  "name": "pyth-llms-pro.txt",
+  "url": "https://docs.pyth.network/llms-price-feeds-pro.txt",
+  "retrievedUtc": "2026-11-03T08:08:33+00:00",
+  "httpStatus": 200,
+  "bytes": 11021,
+  "sha256": "c0ef97223da4394c7a4ea34851eb7d83ff9b1b02f73c453bbef552f40962311c",
+  "error": null
+ },
+ {
+  "name": "pyth-use-prices-on-blockchains.md",
+  "url": "https://docs.pyth.network/pro/how-to-guides/use-prices-on-blockchains.mdx",
+  "retrievedUtc": "2026-11-03T08:08:34+00:00",
+  "httpStatus": 404,
+  "bytes": 14,
+  "sha256": "a469ab4ca4e55bf547566e9ebfa1b809c933207e9d558156bc0c4252b17533fe",
+  "error": "HTTP Error 404: Not Found"
+ },
+ {
+  "name": "pyth-on-chain-fees.md",
+  "url": "https://docs.pyth.network/pro/on-chain-fees.mdx",
+  "retrievedUtc": "2026-11-03T08:08:36+00:00",
+  "httpStatus": 200,
+  "bytes": 1169,
+  "sha256": "44c44436db418cd10d6fd51259c1adffe9d848524df95276ced704892246fe40",
+  "error": null
+ },
+ {
+  "name": "pyth-sponsored-feeds.md",
+  "url": "https://docs.pyth.network/pro/sponsored-feeds.mdx",
+  "retrievedUtc": "2026-11-03T08:08:37+00:00",
+  "httpStatus": 200,
+  "bytes": 5665,
+  "sha256": "f413c2489c417804dec0d9dc99254b9a5cfb9b7deb957de513aa52744008a027",
+  "error": null
+ },
+ {
+  "name": "pyth-use-prices-on-blockchain.md",
+  "url": "https://docs.pyth.network/pro/use-prices-on-blockchain.mdx",
+  "retrievedUtc": "2026-11-03T08:08:51+00:00",
+  "httpStatus": 200,
+  "bytes": 4297,
+  "sha256": "d01937ea48c7c0aa4b6e5202665cc6d0a31a171a069e871eae5ecc2ab96f3de8",
+  "error": null
+ },
+ {
+  "name": "pyth-core-upgrade.md",
+  "url": "https://docs.pyth.network/pro/pyth-core-upgrade.mdx",
+  "retrievedUtc": "2026-11-03T08:08:52+00:00",
+  "httpStatus": 200,
+  "bytes": 6635,
+  "sha256": "e0c334a45d411ec86c2d2f276ecf4e95f5e1167c4e206e5f673e079f9f34c486",
+  "error": null
+ },
+ {
+  "name": "pyth-best-practices.md",
+  "url": "https://docs.pyth.network/pro/best-practices.mdx",
+  "retrievedUtc": "2026-11-03T08:08:54+00:00",
+  "httpStatus": 200,
+  "bytes": 13480,
+  "sha256": "b4f79dda5baf240248a62cba010924a150546e1962bd9a1904932270e158e9c6",
+  "error": null
+ },
+ {
+  "name": "pyth-price-feed-ids.md",
+  "url": "https://docs.pyth.network/pro/price-feed-ids.mdx",
+  "retrievedUtc": "2026-11-03T08:08:55+00:00",
+  "httpStatus": 200,
+  "bytes": 2158,
+  "sha256": "8e5baf591ef49cd2aae6e1394810f6b1e1f272606c3b09c2c63b324f07eb9a4f",
+  "error": null
+ },
+ {
+  "name": "pyth-market-hours.md",
+  "url": "https://docs.pyth.network/pro/market-hours.mdx",
+  "retrievedUtc": "2026-11-03T08:08:57+00:00",
+  "httpStatus": 200,
+  "bytes": 11982,
+  "sha256": "1f7a8a70403221ec5faa9cb50dcc782d6ca741a8f320610d37c9c80e566e00e4",
+  "error": null
+ },
+ {
+  "name": "pyth-corporate-actions.md",
+  "url": "https://docs.pyth.network/pro/corporate-actions.mdx",
+  "retrievedUtc": "2026-11-03T08:08:58+00:00",
+  "httpStatus": 200,
+  "bytes": 17238,
+  "sha256": "515dbf12723a1ec57bf2592709ab890fedb6231f100ced6725c903101b2a2143",
+  "error": null
+ },
+ {
+  "name": "pyth-symbology.md",
+  "url": "https://docs.pyth.network/pro/symbology.mdx",
+  "retrievedUtc": "2026-11-03T08:09:00+00:00",
+  "httpStatus": 404,
+  "bytes": 14,
+  "sha256": "a469ab4ca4e55bf547566e9ebfa1b809c933207e9d558156bc0c4252b17533fe",
+  "error": "HTTP Error 404: Not Found"
+ },
+ {
+  "name": "pyth-acquire-api-key.md",
+  "url": "https://docs.pyth.network/pro/acquire-api-key.mdx",
+  "retrievedUtc": "2026-11-03T08:09:01+00:00",
+  "httpStatus": 200,
+  "bytes": 2458,
+  "sha256": "a7c33a2c44b5caedb7fd457035c2fd3858502b1b15f1c9d4fc0e521c7cc6f28d",
+  "error": null
+ },
+ {
+  "name": "pyth-symbols.json",
+  "url": "https://pyth.dourolabs.app/v1/symbols",
+  "retrievedUtc": "2026-11-03T08:11:13+00:00",
+  "httpStatus": 200,
+  "bytes": 5317404,
+  "sha256": "3cf0635d4ddb59c3ada3d711d9c727ac2ecf8053c7daeb487b5e2df57a06c551",
+  "error": null
+ },
+ {
+  "name": "pyth-symbology-reference.md",
+  "url": "https://docs.pyth.network/pro/symbology-reference.mdx",
+  "retrievedUtc": "2026-11-03T08:11:14+00:00",
+  "httpStatus": 200,
+  "bytes": 25322,
+  "sha256": "b3377d833799a319c7ae688257ecc4367ec36cd91504a9f0c5b27582a0dad27e",
+  "error": null
+ },
+ {
+  "name": "pyth-evm-guide.md",
+  "url": "https://docs.pyth.network/pro/use-prices-on-blockchain/evm.mdx",
+  "retrievedUtc": "2026-11-03T08:11:16+00:00",
+  "httpStatus": 200,
+  "bytes": 12886,
+  "sha256": "59ca33bf6fb72337d7f6fa69195f8f73906231384f62054c3d7c0a36cfaeda3d",
+  "error": null
+ },
+ {
+  "name": "pyth-how-lazer-works.md",
+  "url": "https://docs.pyth.network/pro/how-lazer-works.mdx",
+  "retrievedUtc": "2026-11-03T08:11:17+00:00",
+  "httpStatus": 200,
+  "bytes": 8087,
+  "sha256": "77e7df83d963f4dd9acfa126269e9f67cd24174fc3c380a241e94cdbfc46487b",
+  "error": null
+ },
+ {
+  "name": "pyth-hermes-probe-latest.txt",
+  "url": "https://hermes.pyth.network/v2/updates/price/latest?ids[]=0xe62df6c8b4a85fe1a67db44dc12de5db330f7ac66b72dc658afedf0f4a415b43",
+  "retrievedUtc": "2026-11-03T08:13:19+00:00",
+  "httpStatus": 401,
+  "bytes": 12,
+  "sha256": "e9d83f01c9aff03af6380e341aad90a5547d378ef54582383c6c9a35c53181af",
+  "error": "HTTP Error 401: Unauthorized"
+ },
+ {
+  "name": "pyth-hermes-probe-feeds.txt",
+  "url": "https://hermes.pyth.network/v2/price_feeds?query=SPY&asset_type=equity",
+  "retrievedUtc": "2026-11-03T08:15:20+00:00",
+  "httpStatus": 200,
+  "bytes": 2685,
+  "sha256": "37c353f98bebe573f4bd8808b2abcb088db4f397bc2a03ef0629f1683475a1d1",
+  "error": null
+ },
+ {
+  "name": "pyth-hermes-nvda-feeds.txt",
+  "url": "https://hermes.pyth.network/v2/price_feeds?query=NVDA&asset_type=equity",
+  "retrievedUtc": "2026-11-03T08:20:23+00:00",
+  "httpStatus": 200,
+  "bytes": 1078,
+  "sha256": "8b9cbcd279a3b8b3264d353158abb7a296b58a780638175ff36cdc0ae3d366e5",
+  "error": null
+ },
+ {
+  "name": "chainlink-robinhood-tokenized-equity.md",
+  "url": "https://docs.chain.link/data-feeds/tokenized-equity-feeds/robinhood.md",
+  "retrievedUtc": "2026-11-03T08:25:22+00:00",
+  "httpStatus": 200,
+  "bytes": 9189,
+  "sha256": "6a392307d90440982d4eef4f52f0327b635be1417786b7b052c96ef5f4fec70b",
+  "error": null
+ },
+ {
+  "name": "chainlink-tokenized-equity-feeds.md",
+  "url": "https://docs.chain.link/data-feeds/tokenized-equity-feeds.md",
+  "retrievedUtc": "2026-11-03T08:25:24+00:00",
+  "httpStatus": 200,
+  "bytes": 21877,
+  "sha256": "fb63e5169f89fc484b11e4b8ca7e327a8d1f2d2c5af76363c517d59c662f98db",
+  "error": null
+ },
+ {
+  "name": "chainlink-llms.txt",
+  "url": "https://docs.chain.link/llms.txt",
+  "retrievedUtc": "2026-11-03T08:25:25+00:00",
+  "httpStatus": 200,
+  "bytes": 11068,
+  "sha256": "b9c915b3787147a5d3db3ccd0c713a8bedd969a1a163bb8dcdaae61ce737cb47",
+  "error": null
+ },
+ {
+  "name": "pyth-subscription-terms.pdf",
+  "url": "https://www.dourolabs.xyz/Subscription-Terms.pdf",
+  "retrievedUtc": "2026-11-03T08:25:44+00:00",
+  "httpStatus": 200,
+  "bytes": 424274,
+  "sha256": "bb07803889337220e3bde00d6ac39d07b5933315404139d755b7680c0cb112c2",
+  "error": null
+ },
+ {
+  "name": "robinhood-docs-oracles.html",
+  "url": "https://docs.robinhood.com/chain/oracles-and-price-feeds",
+  "retrievedUtc": "2026-11-03T08:28:31+00:00",
+  "httpStatus": 200,
+  "bytes": 48636,
+  "sha256": "ce91057c258e2efc1323b461f5c567d5d300e8243c3ef36be13be8c8794e1798",
+  "error": null
+ },
+ {
+  "name": "robinhood-docs-data-streams.html",
+  "url": "https://docs.robinhood.com/chain/data-streams",
+  "retrievedUtc": "2026-11-03T08:28:33+00:00",
+  "httpStatus": 200,
+  "bytes": 26485,
+  "sha256": "c2f5ef2f3b8bf565187d97045ea267ae09ff79d92975843ca77e6465a0ed1b52",
+  "error": null
+ },
+ {
+  "name": "chainlink-data-streams-supported-networks.md",
+  "url": "https://docs.chain.link/data-streams/supported-networks.md",
+  "retrievedUtc": "2026-11-03T08:28:35+00:00",
+  "httpStatus": 200,
+  "bytes": 1389,
+  "sha256": "9688d1efdaf7d2525dbb78357ffa7626e5361fc731a4f9d27497590906ca6a27",
+  "error": null
+ },
+ {
+  "name": "chainlink-data-streams-llms.txt",
+  "url": "https://docs.chain.link/data-streams/llms.txt",
+  "retrievedUtc": "2026-11-03T08:29:07+00:00",
+  "httpStatus": 200,
+  "bytes": 2643,
+  "sha256": "f6f551809e92bf6a38bd52bce658ad8c116a1033cf7d5c713e2dd93ec4372cfb",
+  "error": null
+ },
+ {
+  "name": "chainlink-streams-rwa.md",
+  "url": "https://docs.chain.link/data-streams/rwa-streams.md",
+  "retrievedUtc": "2026-11-03T08:29:23+00:00",
+  "httpStatus": 200,
+  "bytes": 279,
+  "sha256": "7b09f06a43d15d370442272eae2e8545dbbfbd3b719ea6d1bbc2ed0961a299dc",
+  "error": null
+ },
+ {
+  "name": "chainlink-streams-tokenized.md",
+  "url": "https://docs.chain.link/data-streams/tokenized-asset-streams.md",
+  "retrievedUtc": "2026-11-03T08:29:24+00:00",
+  "httpStatus": 200,
+  "bytes": 867,
+  "sha256": "387a1de9fabe622f72787dd83f42222bf20a743d30905e13f7bd446099a4fd63",
+  "error": null
+ },
+ {
+  "name": "stork-evm-addresses.html",
+  "url": "https://docs.stork.network/resources/contract-addresses/evm",
+  "retrievedUtc": "2026-11-03T08:29:49+00:00",
+  "httpStatus": 200,
+  "bytes": 780454,
+  "sha256": "b9aa678d946e8f06e6b2228a21e589ef09c8c5c1a4334230e221e5bf247376b2",
+  "error": null
+ },
+ {
+  "name": "stork-asset-id-registry.html",
+  "url": "https://docs.stork.network/resources/asset-id-registry",
+  "retrievedUtc": "2026-11-03T08:30:35+00:00",
+  "httpStatus": 200,
+  "bytes": 2085001,
+  "sha256": "99c5d7aa4d5bf5c4f0e2e4057a3d2dbcb39691bb5adb50de8235cdc3bf288266",
+  "error": null
+ },
+ {
+  "name": "stork-pushed-assets.html",
+  "url": "https://docs.stork.network/resources/stork-pushed-assets",
+  "retrievedUtc": "2026-11-03T08:30:37+00:00",
+  "httpStatus": 200,
+  "bytes": 1354336,
+  "sha256": "713cccd46edc32c8cc473a2bed220e5872a84b8e06f5943d3337effe6bc1cf51",
+  "error": null
+ },
+ {
+  "name": "stork-24-7-price-feeds.html",
+  "url": "https://docs.stork.network/resources/24-7-price-feeds",
+  "retrievedUtc": "2026-11-03T08:30:38+00:00",
+  "httpStatus": 200,
+  "bytes": 598970,
+  "sha256": "d427b393f1cb39d2ef5df44669b676cfe211266f8f437e1a94cc45db7aa94bfb",
+  "error": null
+ },
+ {
+  "name": "pyth-dourolabs-hermes-probe.txt",
+  "url": "https://pyth.dourolabs.app/hermes/v2/updates/price/latest?ids[]=19e09bb805456ada3979a7d1cbb4b6d63babc3a0f8e8a9509f68afa5c4c11cd5",
+  "retrievedUtc": "2026-11-03T08:32:30+00:00",
+  "httpStatus": 401,
+  "bytes": 12,
+  "sha256": "e9d83f01c9aff03af6380e341aad90a5547d378ef54582383c6c9a35c53181af",
+  "error": "HTTP Error 401: Unauthorized"
+ },
+ {
+  "name": "pyth-benchmarks-spy-probe.json",
+  "url": "https://benchmarks.pyth.network/v1/shims/tradingview/history?symbol=Equity.US.SPY/USD&resolution=60&from=1793500000&to=1793690000",
+  "retrievedUtc": "2026-11-03T08:32:32+00:00",
+  "httpStatus": 404,
+  "bytes": 0,
+  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "error": "HTTP Error 404: Not Found"
+ },
+ {
+  "name": "alpaca-about-market-data.html",
+  "url": "https://docs.alpaca.markets/docs/about-market-data-api",
+  "retrievedUtc": "2026-11-03T08:32:42+00:00",
+  "httpStatus": 200,
+  "bytes": 479241,
+  "sha256": "6762e8e29bf9f535833eca977c244c50e28cb9abd620bd0442c4bce1ba380ae9",
+  "error": null
+ },
+ {
+  "name": "alpaca-data-pricing.html",
+  "url": "https://alpaca.markets/data",
+  "retrievedUtc": "2026-11-03T08:32:44+00:00",
+  "httpStatus": 200,
+  "bytes": 92663,
+  "sha256": "bfd8e1b949b157b9eefc2d2652250393881e7dd5d7e5c1f33b97095f47242b15",
+  "error": null
+ },
+ {
+  "name": "alpaca-realtime-stock-data.html",
+  "url": "https://docs.alpaca.markets/docs/real-time-stock-pricing-data",
+  "retrievedUtc": "2026-11-03T08:32:47+00:00",
+  "httpStatus": 200,
+  "bytes": 580123,
+  "sha256": "2ea82d427242f53af4ea821942349d1ac8c67175bd8c438cc02b9055beb0021f",
+  "error": null
+ },
+ {
+  "name": "alpaca-websocket-limits.html",
+  "url": "https://docs.alpaca.markets/docs/streaming-market-data",
+  "retrievedUtc": "2026-11-03T08:32:50+00:00",
+  "httpStatus": 200,
+  "bytes": 513688,
+  "sha256": "5bc9d138d498b1ad75d2680c9ff7ed3870d2d88d3ff9d21c684bab5c2ed2ddf0",
+  "error": null
+ },
+ {
+  "name": "twelvedata-pricing.html",
+  "url": "https://twelvedata.com/pricing",
+  "retrievedUtc": "2026-11-03T08:32:52+00:00",
+  "httpStatus": 200,
+  "bytes": 679089,
+  "sha256": "2fc5b17c4311c066f9929282055188b764c21c53b3184599b814eeb6bfdb41ea",
+  "error": null
+ },
+ {
+  "name": "twelvedata-terms.html",
+  "url": "https://twelvedata.com/terms",
+  "retrievedUtc": "2026-11-03T08:32:54+00:00",
+  "httpStatus": 200,
+  "bytes": 176383,
+  "sha256": "789517e3034bed414bf69a8b7edc6b60172dd049e5044a3141c9c2ff80525e72",
+  "error": null
+ },
+ {
+  "name": "finnhub-pricing.html",
+  "url": "https://finnhub.io/pricing",
+  "retrievedUtc": "2026-11-03T08:32:56+00:00",
+  "httpStatus": 200,
+  "bytes": 10685,
+  "sha256": "5b0aea9a2a35b712a35e298ae5063ec70b94f8fcaf94421edb5f74e2af7fa34c",
+  "error": null
+ },
+ {
+  "name": "polygon-pricing.html",
+  "url": "https://polygon.io/pricing",
+  "retrievedUtc": "2026-11-03T08:32:59+00:00",
+  "httpStatus": 200,
+  "bytes": 252987,
+  "sha256": "acd5853a2bf1d45da17570ecb2a91eb200fd62946b3675d337689a5cffff2be5",
+  "error": null
+ },
+ {
+  "name": "alpaca-market-data-faq.md",
+  "url": "https://docs.alpaca.markets/docs/market-data-faq.md",
+  "retrievedUtc": "2026-11-03T08:33:30+00:00",
+  "httpStatus": 200,
+  "bytes": 34729,
+  "sha256": "b6d9225409d2211b60cfeed72e8716fc1e05f2d7593ffed6dc120a0b5ebaef13",
+  "error": null
+ },
+ {
+  "name": "alpaca-historical-stock-data.md",
+  "url": "https://docs.alpaca.markets/docs/historical-stock-data-1.md",
+  "retrievedUtc": "2026-11-03T08:33:32+00:00",
+  "httpStatus": 200,
+  "bytes": 2765,
+  "sha256": "f5c481f99797985246a69fc2938871ee2e2820b8ff106b20b1e0493d7a985fad",
+  "error": null
+ },
+ {
+  "name": "alpaca-support-redistribute.html",
+  "url": "https://alpaca.markets/support/redistribute-alpaca-api",
+  "retrievedUtc": "2026-11-03T08:34:09+00:00",
+  "httpStatus": 200,
+  "bytes": 310509,
+  "sha256": "b46789a6380971dae8502b8a7041beef37c36448965c84fdafd9096aca824da4",
+  "error": null
+ }
+]

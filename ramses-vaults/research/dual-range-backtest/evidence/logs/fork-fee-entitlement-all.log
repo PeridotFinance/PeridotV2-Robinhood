@@ -1,0 +1,164 @@
+Compiling 1 files with Solc 0.8.26
+Solc 0.8.26 finished in 8.86s
+Compiler run successful!
+
+Ran 3 tests for ramses-vaults/test/fork/GroupFeeEntitlement.t.sol:GroupFeeEntitlementGLD
+[PASS] testFork_feeEntitlement() (gas: 2504965)
+Logs:
+  fee ppm in force: 150
+  slot0.feeProtocol ppm: 500000
+  gross fee token0 raw: 45000
+  gross fee token1 raw: 126094741233387
+  protocol delta token0 raw: 22500
+  protocol delta token1 raw: 63047370616694
+  our liquidity: 80189648223983289
+  active liquidity: 161771798026213682
+  collect token0 (both layers) raw: 11153
+  collect token1 (both layers) raw: 31252335282696
+  expected LP collect token0: 11153
+  expected LP collect token1: 31252335282695
+
+[PASS] testFork_gaugeRewardsThroughManager() (gas: 3859146)
+Logs:
+  reward token: 0x5fc5360D0400a0Fd4f2af552ADD042D716F1d168
+    earned core layer: 0
+    earned wide layer: 0
+  reward token: 0xC9a981FEE1F9DEc688bb123ccDeCc63D0deBFC4e
+    earned core layer: 0
+    earned wide layer: 0
+  reward token: 0x5173D45A1191eE33cBB7D8c7e65f21B04eD54802
+    earned core layer: 8866383047929102239
+    earned wide layer: 788662508212485908
+    paid by manager getReward: 0
+    paid by manager getReward: 0
+    paid by manager getReward: 9655045556141588147
+  rewardRate pool token0: 0
+  rewardRate pool token1: 0
+  rewardRate RAM: 5410486661706349
+
+[PASS] testFork_protocolShareDestination() (gas: 2459952)
+Logs:
+  feeCollector.treasury: 0x74F1e8Be68Ae7bf24Bc387Ee1a900d5bC23317a3
+  feeCollector.treasuryFees: 0
+  feeCollector.voter: 0x0000000000000000000000000000000000000000
+  pool protocolFees token0: 1138285
+  pool protocolFees token1: 3494752533226063
+  collectProtocolFees: permissionless call succeeded
+  pool protocolFees token0 after: 1
+  pool protocolFees token1 after: 1
+  treasury token0 delta: 1138284
+  treasury token1 delta: 3494752533226062
+  gauge token0 delta: 0
+  gauge token1 delta: 0
+  feeCollector token0 delta: 0
+  feeCollector token1 delta: 0
+
+Suite result: ok. 3 passed; 0 failed; 0 skipped; finished in 60.34s (49.51s CPU time)
+
+Ran 3 tests for ramses-vaults/test/fork/GroupFeeEntitlement.t.sol:GroupFeeEntitlementNVDA
+[PASS] testFork_feeEntitlement() (gas: 2500341)
+Logs:
+  fee ppm in force: 100
+  slot0.feeProtocol ppm: 500000
+  gross fee token0 raw: 90000
+  gross fee token1 raw: 433832396286688
+  protocol delta token0 raw: 45000
+  protocol delta token1 raw: 216916198143345
+  our liquidity: 101318796669081088
+  active liquidity: 151667301619007454
+  collect token0 (both layers) raw: 30061
+  collect token1 (both layers) raw: 144907227459773
+  expected LP collect token0: 30061
+  expected LP collect token1: 144907227459772
+
+[PASS] testFork_gaugeRewardsThroughManager() (gas: 4167716)
+Logs:
+  reward token: 0x5fc5360D0400a0Fd4f2af552ADD042D716F1d168
+    earned core layer: 0
+    earned wide layer: 0
+  reward token: 0xd0601CE157Db5bdC3162BbaC2a2C8aF5320D9EEC
+    earned core layer: 0
+    earned wide layer: 0
+  reward token: 0x5173D45A1191eE33cBB7D8c7e65f21B04eD54802
+    earned core layer: 28308075649367340919
+    earned wide layer: 2599377286846093879
+    paid by manager getReward: 0
+    paid by manager getReward: 0
+    paid by manager getReward: 30907452936213434798
+  rewardRate pool token0: 0
+  rewardRate pool token1: 0
+  rewardRate RAM: 12851761362433862
+
+[PASS] testFork_protocolShareDestination() (gas: 2455328)
+Logs:
+  feeCollector.treasury: 0x74F1e8Be68Ae7bf24Bc387Ee1a900d5bC23317a3
+  feeCollector.treasuryFees: 0
+  feeCollector.voter: 0x0000000000000000000000000000000000000000
+  pool protocolFees token0: 407355
+  pool protocolFees token1: 2344537335761144
+  collectProtocolFees: permissionless call succeeded
+  pool protocolFees token0 after: 1
+  pool protocolFees token1 after: 1
+  treasury token0 delta: 407354
+  treasury token1 delta: 2344537335761143
+  gauge token0 delta: 0
+  gauge token1 delta: 0
+  feeCollector token0 delta: 0
+  feeCollector token1 delta: 0
+
+Suite result: ok. 3 passed; 0 failed; 0 skipped; finished in 41.24s (39.54s CPU time)
+
+Ran 3 tests for ramses-vaults/test/fork/GroupFeeEntitlement.t.sol:GroupFeeEntitlementSPY
+[PASS] testFork_feeEntitlement() (gas: 2490014)
+Logs:
+  fee ppm in force: 100
+  slot0.feeProtocol ppm: 500000
+  gross fee token0 raw: 394748168780679
+  gross fee token1 raw: 300000
+  protocol delta token0 raw: 197374084390341
+  protocol delta token1 raw: 150000
+  our liquidity: 55163131130296170
+  active liquidity: 427212432062215788
+  collect token0 (both layers) raw: 25485617182041
+  collect token1 (both layers) raw: 19368
+  expected LP collect token0: 25485617182041
+  expected LP collect token1: 19368
+
+[PASS] testFork_gaugeRewardsThroughManager() (gas: 4187453)
+Logs:
+  reward token: 0x117cc2133c37B721F49dE2A7a74833232B3B4C0C
+    earned core layer: 0
+    earned wide layer: 0
+  reward token: 0x5fc5360D0400a0Fd4f2af552ADD042D716F1d168
+    earned core layer: 0
+    earned wide layer: 0
+  reward token: 0x5173D45A1191eE33cBB7D8c7e65f21B04eD54802
+    earned core layer: 18461882996778138945
+    earned wide layer: 1636869267191410066
+    paid by manager getReward: 0
+    paid by manager getReward: 0
+    paid by manager getReward: 20098752263969549011
+  rewardRate pool token0: 0
+  rewardRate pool token1: 0
+  rewardRate RAM: 43237598999396796
+
+[PASS] testFork_protocolShareDestination() (gas: 2444512)
+Logs:
+  feeCollector.treasury: 0x74F1e8Be68Ae7bf24Bc387Ee1a900d5bC23317a3
+  feeCollector.treasuryFees: 0
+  feeCollector.voter: 0x0000000000000000000000000000000000000000
+  pool protocolFees token0: 10232191554280824
+  pool protocolFees token1: 6554541
+  collectProtocolFees: permissionless call succeeded
+  pool protocolFees token0 after: 1
+  pool protocolFees token1 after: 1
+  treasury token0 delta: 10232191554280823
+  treasury token1 delta: 6554540
+  gauge token0 delta: 0
+  gauge token1 delta: 0
+  feeCollector token0 delta: 0
+  feeCollector token1 delta: 0
+
+Suite result: ok. 3 passed; 0 failed; 0 skipped; finished in 40.07s (37.19s CPU time)
+
+Ran 3 test suites in 141.69s (141.65s CPU time): 9 tests passed, 0 failed, 0 skipped (9 total tests)

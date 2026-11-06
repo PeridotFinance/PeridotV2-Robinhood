@@ -1,0 +1,47 @@
+pin 104415388 26328780 0x6ca6636cb38060f7982147b9d466ef8c13167cced556df905642af005641b5cf
+rc=0
+Compiling 1 files with Solc 0.8.26
+Solc 0.8.26 finished in 4.72s
+Compiler run successful with warnings:
+Warning (8760): This declaration has the same name as another declaration.
+   --> ramses-vaults/src/RamsesOracleGuard.sol:194:30:
+    |
+194 |     ) internal view returns (uint160 referenceSqrtPriceX96) {
+    |                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Note: The other declaration is here:
+   --> ramses-vaults/src/RamsesOracleGuard.sol:131:5:
+    |
+131 |     function referenceSqrtPriceX96(bytes32 id, bool allocating)
+    |     ^ (Relevant source part starts here and spans across multiple lines).
+
+
+Ran 3 tests for ramses-vaults/test/fork/StockMultiplierFork.t.sol:StockMultiplierFork
+[PASS] testFork_guardFailsClosedOutsideItsBoundsAndNeverRelaxes() (gas: 523723)
+Logs:
+  GUARD,-600,0,0
+  GUARD,-400,0,0
+  GUARD,-200,0,1
+  GUARD,-100,1,1
+  GUARD,-33,1,1
+  GUARD,0,1,1
+  GUARD,17,1,1
+  GUARD,33,1,1
+  GUARD,100,1,1
+  GUARD,200,0,1
+  GUARD,400,0,0
+
+[PASS] testFork_multiplierIsMetadataBalancesAndTransfersUnchanged() (gas: 114087)
+Logs:
+  uiMultiplier (1e18): 1001717991187472003
+  uiMultiplier storage slot: 0x395525728d1d6f4af44d273368682dd92b28e7464d750ef3212d3cb7f5959d01
+  RESULT,multiplier is metadata: raw balances, supply, pool price and transfers unchanged
+
+[PASS] testFork_realFeedAgeAtThePin() (gas: 58973)
+Logs:
+  feed answer (8 decimals): 75985819080
+  feed age at the pin, seconds: 2041
+  REALFEED,fresh=1
+
+Suite result: ok. 3 passed; 0 failed; 0 skipped; finished in 5.35s (1.86s CPU time)
+
+Ran 1 test suite in 5.39s (5.35s CPU time): 3 tests passed, 0 failed, 0 skipped (3 total tests)
