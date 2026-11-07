@@ -1,0 +1,17 @@
+Anvil fork rehearsal of remediation/tools/switch_nvda_feed.sh (REHEARSE=1, Ledger unlocked), 2026-11-07 ~12:30 UTC.
+
+MAX_STALENESS=43200 (fork L2 108397024)
+ prereq    tx 0x3b5e9168f565d45ade40541673b4cc0fcbd54d56ffdc6f158c0573802d047661 status 0x1
+ schedule  tx 0xdd7d76208d8e938d104ecb6b7f77c348135c6004ff6c05d7eb8ad3a564b1d985 status 0x1 (operation 0x76e6e5a4...4bd5)
+ early execute: STOPPED: operation not ready
+ execute   tx 0x38ee19537c422403a6409dadb8c5824b9c886a13cd4b8ec181f0ff0a3eab0a8d status 0x1
+ verified: guard and lending read the 24/7 feed; margin oracle 0 (24/7 age 52834 s, bound 43200); pNVDA priced
+
+MAX_STALENESS=90000 (fork L2 108397408)
+ prereq    tx 0xa5ad83685940a5bd9e979604614fe70248d9c2de8c3ae764063e2a6114ce8b3a status 0x1
+ schedule  tx 0xb0a868a07fe7956b2484d3a065fecc3ba9e72cecc888a276e6fbd1e7e2ea50b1 status 0x1 (operation 0xc80053cf...5831)
+ early execute: STOPPED: operation not ready
+ execute   tx 0x03d6fd902f98db93f33f262a335b46ad0a3f2f32a66e3b5e295e873281db61b4 status 0x1
+ verified: guard and lending read the 24/7 feed; margin oracle 188213682550000000000 (24/7 age 52874 s, bound 90000); pNVDA priced
+(An earlier run of the 90000 variant stopped in the script's own verify: bash 64-bit overflow on the 1e18-scaled price;
+fixed by computing in python. The on-chain state of that run was already correct.)
