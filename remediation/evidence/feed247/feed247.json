@@ -1,0 +1,89 @@
+{
+ "readAt": "Sat 11-07 12:01:11 UTC",
+ "feed247": "0x321A36e441DfBadA01Aa6f9884F14a344E133D1F",
+ "feed245": "0x379EC4f7C378F34a1B47E4F3cbeBCbAC3E8E9F15",
+ "poolId": "0x3bb34a44f1b2b5f32c034c38a53065a521a47b199700fa9bd19d60985ff24bf1",
+ "feed247FirstAnswer": "Fri 11-06 20:21:23 UTC",
+ "rounds247": 4,
+ "rounds245InWindow": 210,
+ "swapsInWindow": 7152,
+ "answers247": [
+  {
+   "utc": "Fri 11-06 20:21:23 UTC",
+   "answer247": 188.126465,
+   "answer245": 188.12871674,
+   "gapTo245Pct": -0.001,
+   "pool": 188.4281,
+   "gapToPoolPct": -0.16
+  },
+  {
+   "utc": "Fri 11-06 20:51:09 UTC",
+   "answer247": 187.140101,
+   "answer245": 187.09991988,
+   "gapTo245Pct": 0.021,
+   "pool": 187.8935,
+   "gapToPoolPct": -0.401
+  },
+  {
+   "utc": "Fri 11-06 20:51:39 UTC",
+   "answer247": 187.27155282,
+   "answer245": 187.09991988,
+   "gapTo245Pct": 0.092,
+   "pool": 187.6894,
+   "gapToPoolPct": -0.223
+  },
+  {
+   "utc": "Fri 11-06 22:30:41 UTC",
+   "answer247": 188.21368255,
+   "answer245": 188.24025313,
+   "gapTo245Pct": -0.014,
+   "pool": 187.3114,
+   "gapToPoolPct": 0.482
+  }
+ ],
+ "longestIntervalBetween247AnswersS": 48630,
+ "currentAge247S": 48630,
+ "ever247OlderThanHeartbeat": false,
+ "ever247OlderThan12h": true,
+ "sessionOpens": [],
+ "weekends": [
+  {
+   "from": "Sat 10-31 00:00:00 UTC",
+   "to": "Mon 11-02 01:00:00 UTC",
+   "complete": true,
+   "swaps": 370,
+   "feed247Existed": false,
+   "pool_vs_247_absPct": null,
+   "pool_vs_245_absPct": {
+    "median": 0.444,
+    "p90": 0.945,
+    "max": 1.026
+   },
+   "feed245UpdatesInWeekend": 0,
+   "feed247UpdatesInWeekend": 0
+  },
+  {
+   "from": "Sat 11-07 01:00:00 UTC",
+   "to": "Sat 11-07 12:01:11 UTC",
+   "complete": false,
+   "swaps": 31,
+   "feed247Existed": true,
+   "pool_vs_247_absPct": {
+    "median": 0.06,
+    "p90": 0.174,
+    "max": 0.177
+   },
+   "pool_vs_245_absPct": {
+    "median": 0.064,
+    "p90": 0.188,
+    "max": 0.191
+   },
+   "feed245UpdatesInWeekend": 0,
+   "feed247UpdatesInWeekend": 0
+  }
+ ],
+ "tokenFlagsNow": {
+  "paused()": "false",
+  "oraclePaused()": "false"
+ }
+}
