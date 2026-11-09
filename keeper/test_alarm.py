@@ -18,7 +18,7 @@ LOW_LINE = a.GAS_FLOOR_WEI + a.LOW_RUNWAY_DAYS * a.BURN_WEI_PER_ACTIVE_DAY
 
 
 def observed(**changes):
-    base = dict(wall=NOW, now=NOW, margin_balance_wei=a.MARGIN_GAS_FLOOR_WEI, head_lag=5, balance_wei=GOOD_BALANCE, nonce=180, last_checkpoint=NOW - 600,
+    base = dict(wall=NOW, now=NOW, feed247_updated_at=NOW - 600, margin_balance_wei=a.MARGIN_GAS_FLOOR_WEI, head_lag=5, balance_wei=GOOD_BALANCE, nonce=180, last_checkpoint=NOW - 600,
                 feed_updated_at=NOW - 3000, feed_fresh_for=90_000, allocation_paused=False, emergency_mode=False,
                 checkpoint_simulation='would succeed', process={'configured': False})
     base.update(changes)
@@ -115,6 +115,15 @@ class ClassifyTests(unittest.TestCase):
         self.assertState('PROCESS_DOWN', True, process=up(phase='NONE'))
         self.assertState('PROCESS_DOWN', True, process=up(last_heartbeat=NOW - a.HEARTBEAT_MAX_AGE - 1))
         self.assertState('PROCESS_DOWN', True, process=up(last_heartbeat=None))
+
+    def test_feed_247_late_pages_thirty_minutes_after_a_missed_heartbeat(self):
+        ok = a.classify(observed(feed247_updated_at=NOW - a.FEED_247_LATE_AFTER))
+        self.assertNotEqual(ok['state'], 'FEED_247_LATE')
+        late = a.classify(observed(feed247_updated_at=NOW - a.FEED_247_LATE_AFTER - 1))
+        self.assertEqual((late['state'], late['page']), ('FEED_247_LATE', True))
+        self.assertEqual(a.classify(observed(feed247_updated_at=None))['state'], 'FEED_247_LATE')
+        # independent of the pair being paused (a paused vault must not mask it), and of the 24/5 feed's age
+        self.assertEqual(a.classify(observed(feed247_updated_at=NOW - 90_000, allocation_paused=True))['state'], 'FEED_247_LATE')
 
     def test_heartbeat_boundary(self):
         self.assertState('HEALTHY', False, process=up(last_heartbeat=NOW - a.HEARTBEAT_MAX_AGE))
