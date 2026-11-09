@@ -153,3 +153,33 @@ NATIVE=$(cast rpc eth_getBlockByNumber $(cast to-hex $PIN) false --rpc-url $R | 
 ROBINHOOD_RPC_URL=$R REMEDIATION_FORK_BLOCK=$PIN REMEDIATION_NATIVE_BLOCK=$NATIVE FOUNDRY_PROFILE=ramses \
   forge test --match-path ramses-vaults/test/fork/SequentialRecoveryLedger.t.sol -vv
 ```
+
+## Executed 2026-11-09
+
+The operator ran the session on mainnet. The Ledger `0x064eFE76812F5f18Bd1aA9708739Fb33C810B2dD` signed every
+transaction. All four receipts have status 1, come from the Ledger and go to the expected contract. Their calldata
+matches what the script builds.
+
+- schedule: `0xc4554d9601b72887a09e60689df7f20fc1863aa3ac77517bb4cf1f540524cdab`, block 110,042,085, 57,570 gas.
+  Operation id `0x2e7e247f...2e16`, now done.
+- execute: `0x80cdc6dc059868c0db155c09f601bc59f5982a0a5da06e223de88a1104135f6c`, block 110,130,085, 57,064 gas.
+  Flags 100. 9,038 s after schedule.
+- gonogo: GO. Returned 13,354,320 raw (13.354320 USDG). Realised loss 0.037702 USDG.
+- sync: `0x81447d271f919cc8fddfd4dd785680cc9695fa2adbd1fba350cf56ff4380d517`, block 110,130,582, 1,029,233 gas.
+  Its own repeat go/no-go said GO: returned 13.367662 USDG, loss 0.024360 USDG. The receipt has `VaultWithdrawal`
+  with exactly those numbers and no `VaultWithdrawalFailed`. Booked loss: 0.031621 USD
+  (`cumulativeLossUSDG` 1,899,904,027,997,893,012 to 1,931,524,549,719,213,950).
+- close: `0x1fc6bc0c94f65395159f02774bb45cb8baaf29db2a148122b8ae089cd3bb03e0`, block 110,130,757, 39,820 gas.
+  Flags 110.
+
+End state, read at L2 110,132,798 (the operator read 110,131,630 with the same pUSDG values):
+
+- flags 110, `usdgPrincipal` 0, `stockPrincipal` 19,752,436,359,047,005, liquidity 0, position NFT 4238052 empty.
+- pUSDG: cash 26.165909 USDG, borrows 0.968775 USDG, reserves 579 raw. Claims are about 27.134105 USDG. They now
+  equal cash plus the 0.969 USDG still lent to the open margin position, less reserves.
+- pNVDA: claims exceed cash plus borrows less reserves by 0.000550 NVDA (about 0.096 USD). That equals vault
+  `stockPrincipal` minus `stockIdle`. The vault holds 0.096123 USDG idle. pNVDA was not synced in this session.
+
+Allocation stays paused (flags 110). The operator decided not to reopen it, so PR 22 stays unexecuted.
+
+Evidence: `remediation/evidence/recovery-executed-2026-11-09.json` and its `.sha256`.

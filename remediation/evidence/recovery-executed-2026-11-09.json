@@ -1,0 +1,324 @@
+{
+  "title": "Sequential USDG-shortage recovery, executed on Robinhood Chain mainnet 2026-11-09",
+  "chainId": 4663,
+  "rpc": "https://rpc.mainnet.chain.robinhood.com",
+  "signer": "0x064eFE76812F5f18Bd1aA9708739Fb33C810B2dD",
+  "script": "remediation/tools/recovery_session.sh",
+  "pairId": "0xe2050352f4346597cc69d2776d99ae60c9440dfc28f9406ce66be0bbe3fb6b06",
+  "contracts": {
+    "vault": "0x280825b2d856706Ff7E0d6351CcB2e935E1a9A2f",
+    "adapter": "0xadA73211711e4790bc83B5d6B39f47fE04D276f3",
+    "timelock": "0x6797FB8Ce049B42C5BC2b42Bf76c6d15C7B12498",
+    "lossReserve": "0x806b182B050f7EcF908758dD6bBF91DB8B2212aF",
+    "pUSDG": "0x55aEd0569c8f0D166D71facE57B57C2f2624a563",
+    "pNVDA": "0xa155ccCB986774AE818b3F10F07d01D1b7A47b26",
+    "USDG": "0x5fc5360D0400a0Fd4f2af552ADD042D716F1d168",
+    "NVDA": "0xd0601CE157Db5bdC3162BbaC2a2C8aF5320D9EEC",
+    "nvdaFeed": "0x379EC4f7C378F34a1B47E4F3cbeBCbAC3E8E9F15"
+  },
+  "method": "Receipts and transaction inputs read with cast after the session. State read at the latest block, pinned. No historical eth_call: the public RPC prunes history. Calldata compared byte for byte with what the script builds (salt keccak256('peridot-recovery-2026-11-sequential-1'), predecessor zero, delay 3600). No transaction sent by the assistant.",
+  "timelockOperation": {
+    "id": "0x2e7e247f4b224d9498c59f74432e353954b86025867bcb49e4254c3f477f2e16",
+    "target": "vault",
+    "call": "setPairPause(pair,true,false,false)",
+    "calldata": "0x07e1385ee2050352f4346597cc69d2776d99ae60c9440dfc28f9406ce66be0bbe3fb6b06000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "hashOperationMatchesScript": true,
+    "getTimestampNow": "1 (done)",
+    "delaySeconds": 3600,
+    "scheduleToExecuteSeconds": 9038
+  },
+  "transactions": [
+    {
+      "step": "schedule",
+      "hash": "0xc4554d9601b72887a09e60689df7f20fc1863aa3ac77517bb4cf1f540524cdab",
+      "foundBy": "the only CallScheduled log for the operation id on the timelock in blocks 109000000 to 110130085",
+      "status": "0x1",
+      "from": "0x064eFE76812F5f18Bd1aA9708739Fb33C810B2dD",
+      "to": "timelock",
+      "nonce": 21,
+      "block": 110042085,
+      "timestamp": 1794225794,
+      "gasUsed": 57570,
+      "calldataMatchesScript": true,
+      "events": [
+        {
+          "address": "timelock",
+          "topic0": "0x4cf4410cc57040e44862ef0f45f3dd5a5e02db8eb8add648d4b0e236f1d07dca",
+          "name": "CallScheduled",
+          "topic1": "operation id",
+          "topic2": "index 0",
+          "delayInData": 3600
+        },
+        {
+          "address": "timelock",
+          "topic0": "0x20fda5fd27a1ea7bf5b9567f143ac5470bb059374a27e8f67cb44f946f6d0387",
+          "name": "CallSalt",
+          "topic1": "operation id"
+        }
+      ]
+    },
+    {
+      "step": "execute",
+      "hash": "0x80cdc6dc059868c0db155c09f601bc59f5982a0a5da06e223de88a1104135f6c",
+      "status": "0x1",
+      "from": "0x064eFE76812F5f18Bd1aA9708739Fb33C810B2dD",
+      "to": "timelock",
+      "nonce": 22,
+      "block": 110130085,
+      "timestamp": 1794234832,
+      "gasUsed": 57064,
+      "calldataMatchesScript": true,
+      "events": [
+        {
+          "address": "vault",
+          "topic0": "0xb3dddec534cefc5dcda93a29766bdf71d0e21cd3b94540948fc508833ef69f30",
+          "name": "PairPauseUpdated",
+          "decoded": {
+            "allocationPaused": true,
+            "swapsPaused": false,
+            "emergencyMode": false
+          }
+        },
+        {
+          "address": "timelock",
+          "topic0": "0xc2617efa69bab66782fa219543714338489c4e9e178271560a91b82c3f612b58",
+          "name": "CallExecuted",
+          "topic1": "operation id",
+          "topic2": "index 0"
+        }
+      ],
+      "operatorReportedAfter": {
+        "flags": "100",
+        "usdgPrincipal": "13392022",
+        "liquidity": "2219690406849",
+        "cumulativeLossUSDG": "1899904027997893012"
+      }
+    },
+    {
+      "step": "gonogo",
+      "readOnly": true,
+      "operatorReported": {
+        "result": "GO",
+        "returned": "13354320",
+        "realizedLoss": "37702",
+        "realizedLossUSDG": "0.037702",
+        "goLimitUSDG": "0.50"
+      }
+    },
+    {
+      "step": "sync",
+      "hash": "0x81447d271f919cc8fddfd4dd785680cc9695fa2adbd1fba350cf56ff4380d517",
+      "status": "0x1",
+      "from": "0x064eFE76812F5f18Bd1aA9708739Fb33C810B2dD",
+      "to": "pUSDG",
+      "nonce": 23,
+      "block": 110130582,
+      "timestamp": 1794234882,
+      "gasLimit": 3000000,
+      "gasUsed": 1029233,
+      "calldata": "syncVault(type(uint256).max)",
+      "calldataMatchesScript": true,
+      "operatorReportedRepeatGoNoGo": {
+        "result": "GO",
+        "returned": "13367662",
+        "realizedLoss": "24360"
+      },
+      "vaultWithdrawalEventPresent": true,
+      "vaultWithdrawalFailedEventPresent": false,
+      "decodedEvents": {
+        "FeesProcessed (vault, 0xba110988)": {
+          "stockFees": "8726833360730",
+          "usdgFees": "968",
+          "stockReserved": "1745366672146",
+          "usdgReserved": "193"
+        },
+        "ReserveFunded (reserve, 0x9e6b3ab0), NVDA": "1745366672146",
+        "ReserveFunded (reserve, 0x9e6b3ab0), USDG": "193",
+        "LiquidityDecreased (adapter, 0x1484e6ab)": {
+          "tokenId": "4238052",
+          "liquidityRemoved": "2219690406849",
+          "stockReceived": "20685849181823486",
+          "usdgReceived": "3096437"
+        },
+        "ReserveCovered (reserve, 0x52ea4f92), USDG": {
+          "requested": "25305",
+          "covered": "25305",
+          "coveredValueUSDG": "25305000000000000",
+          "postCoverageDeficitUSDG": "10267386000000000000"
+        },
+        "SettlementSwap (adapter and vault, 0x6d1c0154), tokenIn NVDA": {
+          "amountIn": "59382081458909899",
+          "amountOut": "10339149"
+        },
+        "PairCheckpoint (vault, 0x89435eb9)": {
+          "stockAssets": "19202066847681856",
+          "usdgAssets": "13463785",
+          "benchmarkUSDG": "16849051813721267211",
+          "pnlUSDG": "-31620521721320938",
+          "stockAccountedAssets": "19752436359047005",
+          "usdgAccountedAssets": "13367662"
+        },
+        "Withdrawal (vault, 0x0d0f2e0a), USDG to pUSDG": {
+          "requested": "13392022",
+          "returned": "13367662",
+          "realizedLoss": "24360"
+        },
+        "VaultWithdrawal (pUSDG, 0xc1559fa2)": {
+          "requested": "13392022",
+          "returned": "13367662",
+          "realizedLoss": "24360"
+        }
+      },
+      "eventTopic0InOrder": [
+        "0xf208f491 PoolManager ModifyLiquidity",
+        "0xddf252ad Transfer",
+        "0x37e7f0db NVDA token event (not decoded)",
+        "0x4257047a FeesCollected (adapter)",
+        "0x8c5be1e5 Approval",
+        "0x9e6b3ab0 ReserveFunded (x2)",
+        "0xba110988 FeesProcessed",
+        "0xf208f491 ModifyLiquidity",
+        "0x1484e6ab LiquidityDecreased",
+        "0x52ea4f92 ReserveCovered",
+        "0xda9fa7c1 Permit2 Approval",
+        "0x40e9cecb PoolManager Swap",
+        "0x6d1c0154 SettlementSwap (adapter, then vault)",
+        "0x89435eb9 PairCheckpoint",
+        "0x0d0f2e0a Withdrawal",
+        "0xc1559fa2 VaultWithdrawal"
+      ],
+      "operatorReportedAfter": {
+        "usdgPrincipal": "0",
+        "liquidity": "0",
+        "cumulativeLossUSDG": "1931524549719213950",
+        "lossBookedUSD": "0.031621"
+      },
+      "lossCheck": "1931524549719213950 - 1899904027997893012 = 31620521721320938, equal in size to PairCheckpoint pnlUSDG"
+    },
+    {
+      "step": "close",
+      "hash": "0x1fc6bc0c94f65395159f02774bb45cb8baaf29db2a148122b8ae089cd3bb03e0",
+      "status": "0x1",
+      "from": "0x064eFE76812F5f18Bd1aA9708739Fb33C810B2dD",
+      "to": "vault",
+      "nonce": 24,
+      "block": 110130757,
+      "timestamp": 1794234900,
+      "gasUsed": 39820,
+      "calldata": "setPairPause(pair,true,true,false)",
+      "calldataMatchesScript": true,
+      "events": [
+        {
+          "address": "vault",
+          "topic0": "0xb3dddec534cefc5dcda93a29766bdf71d0e21cd3b94540948fc508833ef69f30",
+          "name": "PairPauseUpdated",
+          "decoded": {
+            "allocationPaused": true,
+            "swapsPaused": true,
+            "emergencyMode": false
+          }
+        }
+      ]
+    }
+  ],
+  "operatorStateAfterClose": {
+    "flags": "110",
+    "usdgPrincipal": "0",
+    "stockPrincipal": "19752436359047005",
+    "liquidity": "0",
+    "cumulativeLossUSDG": "1931524549719213950"
+  },
+  "operatorPostStateRead": {
+    "block": 110131630,
+    "pUSDG": {
+      "cash": "26165909",
+      "totalBorrows": "968775",
+      "totalSupply": "142575522327",
+      "exchangeRateStored": "190313909127875"
+    },
+    "adapterTokenId": "4238052",
+    "adapterLiquidity": "0"
+  },
+  "currentState": {
+    "block": 110132798,
+    "timestamp": 1794235109,
+    "note": "Read by the assistant, later than the operator's read at 110131630. All pUSDG values equal the operator's.",
+    "vault": {
+      "flags_allocationPaused_swapsPaused_emergencyMode": "110",
+      "pairConfigRawWords": [
+        "1189613467694738019150202360368048557920044818156",
+        "546752078524806549824452760637979359403954000232",
+        "921060917630743658930433200499520319542052289318",
+        "489162694012430380559888238609099784326253684067",
+        "1000000000000000000000",
+        "25000000000000000000",
+        "3600",
+        "0",
+        "300",
+        "2000",
+        "100",
+        "200",
+        "18",
+        "6",
+        "1",
+        "1",
+        "0",
+        "1"
+      ],
+      "pairConfigNote": "Only words 14, 15 and 16 are named (the three flags, as the script reads them). The rest stay raw.",
+      "ledger": {
+        "stockPrincipal": "19752436359047005",
+        "usdgPrincipal": "0",
+        "stockIdle": "19202066847681856",
+        "usdgIdle": "96123",
+        "cumulativeLossUSDG": "1931524549719213950",
+        "lastCheckpoint": "1794234882"
+      },
+      "nvdaBalance": "19202066847681856",
+      "usdgBalance": "96123",
+      "idleEqualsCustody": true
+    },
+    "adapterPositionState": {
+      "tokenId": "4238052",
+      "liquidity": "0",
+      "field3": "0",
+      "field4": "0"
+    },
+    "lossReserve": {
+      "nvdaBalance": "340503236225664",
+      "usdgBalance": "0"
+    },
+    "pUSDG": {
+      "getCash": "26165909",
+      "totalBorrows": "968775",
+      "totalReserves": "579",
+      "totalSupply": "142575522327",
+      "exchangeRateStored": "190313909127875",
+      "claims": "27134104.99 raw (27.134105 USDG)",
+      "cashPlusBorrowsMinusReserves": "27134105",
+      "holds": true,
+      "note": "Claims equal cash plus the 0.968775 USDG lent to the open margin position, less 579 raw reserves."
+    },
+    "pNVDA": {
+      "getCash": "32312565590810770",
+      "walletNVDA": "13110498743128914",
+      "totalBorrows": "14615404196690",
+      "totalReserves": "547680177",
+      "totalSupply": "172300825",
+      "exchangeRateStored": "190814814489091575736796385",
+      "claims": "32877549958692432",
+      "cashPlusBorrowsMinusReserves": "32327180447327283",
+      "holds": false,
+      "gap": "550369511365149",
+      "observation": "getCash equals the pToken's own NVDA plus vault stockIdle. Claims equal own NVDA plus vault stockPrincipal plus borrows less reserves. The gap equals stockPrincipal minus stockIdle (550369511365149 raw, 0.000550 NVDA). At the feed price 174.65027690 that is about 0.0961 USD. The vault holds 96123 raw USDG idle (0.096123 USDG) with usdgPrincipal 0. pNVDA.syncVault was not part of this session."
+    },
+    "nvdaFeed": {
+      "answer": "17465027690",
+      "decimals": 8,
+      "updatedAt": 1794234794
+    }
+  },
+  "decisions": {
+    "allocation": "Stays paused (flags 110). The operator decided not to reopen it. PR 22 (ops/reopen-allocation) stays unexecuted."
+  }
+}
