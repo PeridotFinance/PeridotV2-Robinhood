@@ -26,6 +26,10 @@ MARGIN_KEEPER = '0x1976117e9EA3FEC9fb82aBef12fcB95fFc9A3cf7'  # liquidations; ro
 VAULT = '0x280825b2d856706Ff7E0d6351CcB2e935E1a9A2f'
 PAIR = '0xe2050352f4346597cc69d2776d99ae60c9440dfc28f9406ce66be0bbe3fb6b06'
 FEED = '0x379EC4f7C378F34a1B47E4F3cbeBCbAC3E8E9F15'
+# Chainlink "Robinhood NVDA (24/7)": 0.5% deviation, 86,400 s heartbeat. Separate check (operator 2026-11-09): the guard's
+# bound after the switch is 90,000 s, so page 30 min after a missed heartbeat, before the guard starts refusing.
+FEED_247 = '0x321A36e441DfBadA01Aa6f9884F14a344E133D1F'
+FEED_247_LATE_AFTER = 86_400 + 1_800
 APP_ID = '6dc249f8-8e9d-43d0-9ba1-fcbaaa6b5e9c'
 ASSIGNEE = 'joshschcom'
 ISSUE_TITLE = 'Keeper alarm: the range keeper needs attention'
@@ -45,7 +49,7 @@ SEND_FAILURES_PER_HOUR = 3
 LOG_LINES = 400
 FEED_ROUNDS_MAX = 64
 
-PAGES = {'GAS_CRITICAL', 'GAS_LOW', 'MARGIN_GAS_CRITICAL', 'STALLED', 'FAILED_SENDS', 'PROCESS_DOWN', 'RPC_FAILURE', 'DRILL'}
+PAGES = {'GAS_CRITICAL', 'GAS_LOW', 'MARGIN_GAS_CRITICAL', 'FEED_247_LATE', 'STALLED', 'FAILED_SENDS', 'PROCESS_DOWN', 'RPC_FAILURE', 'DRILL'}
 REQUIRED = ('now', 'head_lag', 'balance_wei', 'nonce', 'last_checkpoint', 'feed_updated_at', 'feed_fresh_for',
             'allocation_paused', 'emergency_mode', 'margin_balance_wei')
 
@@ -112,6 +116,12 @@ def classify(o, burn_wei_per_day=BURN_WEI_PER_ACTIVE_DAY, low_days=LOW_RUNWAY_DA
         # Its worker keeps monitoring but cannot liquidate; nothing else on chain would show it.
         return _result('MARGIN_GAS_CRITICAL', 'Margin keeper ' + MARGIN_KEEPER + ' is below one liquidation of gas, '
                        'so unhealthy positions would not be liquidated', status, **fields)
+    feed247 = o.get('feed247_updated_at')
+    if feed247 is None or o['now'] - feed247 > FEED_247_LATE_AFTER:
+        detail = 'could not be read' if feed247 is None else 'is ' + str(o['now'] - feed247) + ' s old'
+        return _result('FEED_247_LATE', 'The Robinhood NVDA (24/7) feed ' + FEED_247 + ' ' + detail + ': past its 86,400 s '
+                       'heartbeat by more than 30 min. With the 90,000 s guard bound, margin prices, liquidations and '
+                       'range finalisation stop at 25 h', status, **fields)
     if o['allocation_paused'] or o['emergency_mode']:
         return _result('EXPECTED_PAUSED', 'Pair is paused, so the worker cannot send. A dead process is invisible '
                        'from chain reads during this; ' + why, status, **fields)
@@ -223,6 +233,7 @@ def read_chain(wall, post=curl_post, sleep=time.sleep):
             except Reverted:  # first round of this aggregator phase
                 break
         return updates
+    o['feed247_updated_at'] = attempt(lambda: words(call(FEED_247, '0xfeaf968c'))[3])
     updates = attempt(rounds)
     if updates:
         o['feed_updated_at'] = updates[0]
