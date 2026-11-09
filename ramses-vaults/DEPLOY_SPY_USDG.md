@@ -1,31 +1,34 @@
 # SPY/USDG supply-only range vault: mainnet ceremony
 
-Window: **15 to 17 November, US market hours** (Mon to Fri 14:30 to 21:00 UTC), with the RHSPY answer under 12 h old at
+Window: run in any **US market-hours window**, Mon to Fri 14:30 to 21:00 UTC, with the RHSPY answer under 12 h old at
 execute. Nothing below is sent by the assistant.
 
 **Signers:**
 - A throwaway deployment key sends the 27 contract-creation transactions, with gas only.
-- The Ledger `0x064eFE76812F5f18Bd1aA9708739Fb33C810B2dD` signs 4: the two seed transfers, the schedule and the execute.
+- The Ledger `0x064eFE76812F5f18Bd1aA9708739Fb33C810B2dD` signs 8:
+  - 4 for the ceremony: the two seed transfers, the schedule and the execute;
+  - 4 for the reserve (section 5b).
 
 **Seeds:**
-- 0.1 SPY and 75 USDG, held by the timelock `0x6797FB8Ce049B42C5BC2b42Bf76c6d15C7B12498` before the execute.
-- SPY must exceed 0.02, the market's minimum first deposit.
+- **0.021 SPY and 10 USDG**, held by the timelock `0x6797FB8Ce049B42C5BC2b42Bf76c6d15C7B12498` before the execute.
+- DeployRamsesInKind requires the SPY seed to be strictly above 0.02 SPY, the market's minimum first deposit. 0.02
+  exactly is refused.
 
 **Caps:** $1,000 on the pair.
 
-## 0. Monday 10 November, during market hours, before the recovery session
+## 0. Before the ceremony: buy SPY and move the seeds
 
-The Ledger needs about **170 USDG** on Robinhood Chain first:
-- 82.1 to buy SPY;
-- 75 for the USDG seed;
-- 11.1 for the reserve;
-- gas.
+The Ledger needs about **27.65 USDG** on Robinhood Chain first, plus gas in ETH:
+- 16.45 to buy SPY;
+- 10 for the USDG seed;
+- 1.2 for the reserve.
 
-1. Buy **0.11 SPY**: `python3 deployments/spy-seed-buy/spy_seed_buy.py plan` from the parent workspace. It rehearses the
-   swap on a fork and prints fresh Ledger commands: approve, Permit2, swap. It spends about 82.1 USDG at about $737.
-2. **Ledger:** `SPY.transfer(timelock, 100000000000000000)` (0.1 SPY seed).
-3. **Ledger:** `USDG.transfer(timelock, 75000000)` (75 USDG seed).
-4. **Keep on the Ledger** for the reserve: about 0.011 SPY and 11.1 USDG. The reserve accepts deposits only after the
+1. Buy **0.022 SPY** for about 16.45 USDG: `python3 deployments/spy-seed-buy/spy_seed_buy.py plan` from the parent
+   workspace. It rehearses the swap on a fork and prints fresh Ledger commands: approve, Permit2, swap. Fork rehearsal
+   2026-11-09: 16.447309 USDG bought 0.022209 SPY. The swap enforces a minimum of 0.022 SPY.
+2. **Ledger:** `SPY.transfer(timelock, 21000000000000000)` (0.021 SPY seed).
+3. **Ledger:** `USDG.transfer(timelock, 10000000)` (10 USDG seed).
+4. **Keep on the Ledger** for the reserve: 0.001 SPY and 1.2 USDG. The reserve accepts deposits only after the
    ceremony configures it (section 5b).
 5. **Keeper:** create the Ramses keeper wallet (`RAMSES_KEEPER`). It must differ from the deployer and the timelock and
    hold no timelock role.
@@ -43,7 +46,7 @@ cast wallet new .ramses-deployer keystore            # git-ignored folder; note 
 export RAMSES_PUBLIC_SENDER=$DEPLOYER RAMSES_TIMELOCK=0x6797FB8Ce049B42C5BC2b42Bf76c6d15C7B12498 RAMSES_KEEPER=<keeper>
 export RAMSES_JOURNAL=ramses-vaults/deployments/spy-usdg-mainnet.json
 export RAMSES_STOCK_SUPPLY_CAP=1500000000000000000 RAMSES_USDG_SUPPLY_CAP=1000000000
-export RAMSES_STOCK_SEED=100000000000000000 RAMSES_USDG_SEED=75000000
+export RAMSES_STOCK_SEED=21000000000000000 RAMSES_USDG_SEED=10000000
 FOUNDRY_PROFILE=ramses forge script ramses-vaults/script/DeployRamsesInKind.s.sol:DeployRamsesInKind \
   --rpc-url https://rpc.mainnet.chain.robinhood.com --sender $DEPLOYER --keystore .ramses-deployer/keystore --broadcast --slow
 ```
@@ -73,7 +76,7 @@ cast send 0x6797FB8Ce049B42C5BC2b42Bf76c6d15C7B12498 $(jq -r .scheduleCalldata $
 cast send 0x6797FB8Ce049B42C5BC2b42Bf76c6d15C7B12498 $(jq -r .executeCalldata $J) --ledger --from 0x064eFE76812F5f18Bd1aA9708739Fb33C810B2dD --gas-limit 25000000 --rpc-url https://rpc.mainnet.chain.robinhood.com
 ```
 
-Rehearsal: schedule 322,117 gas; execute 3,082,214 gas. Check the receipt status, then verify state; never rely on the
+Rehearsal (39-action batch, measured twice): schedule 335,794 gas; execute 3,131,038 gas. Check the receipt status, then verify state; never rely on the
 receipt alone.
 
 ## 4. Verify
@@ -105,15 +108,23 @@ Rehearsal: swept to 0 wei. The deployer never held a role, so retiring it change
 
 The router's coverage gate refuses every `recenter` and `rebalance` (`CoverageInsufficient`) unless the reserve holds at
 least 10 % of the ranged exposure in USDG and 5 % in SPY. With an empty reserve the keeper waits forever (rehearsed).
-**Launch: seed-sized, 11.1 USDG and 0.0076 SPY**, which covers the seeds' exposure of about $111. The full-cap amount, 100 USDG and
-0.068 SPY, follows when the cap is used. `deposit` is open to anyone; here the Ledger, 4 signatures:
+**Launch: 1.2 USDG and 0.001 SPY.** Why not the 1 USDG and 0.0005 SPY first proposed:
+- The anvil ceremony rehearsal on 2026-11-09 measured a ranged exposure of $9.97 from these seeds (0.006734 SPY and
+  5.0 USDG).
+- The gate then needs at least $0.997 in USDG (10 %) and $0.499 in SPY (5 %).
+- 0.0005 SPY ($0.37) fails, and recenter would be refused with `CoverageInsufficient`. USDG at exactly 1.0 would pass
+  with only 0.3 % margin.
+- With 1.2 USDG and 0.001 SPY ($0.74), coverage passes with $2.03 of headroom.
+
+The reserve must be topped up before the exposure grows beyond the headroom. The keeper waits on `CoverageInsufficient`
+until it is. `deposit` is open to anyone; here the Ledger, 4 signatures:
 
 ```sh
 RES=$(jq -r .reserve $J); PAIR=$(jq -r .pair $J); L=0x064eFE76812F5f18Bd1aA9708739Fb33C810B2dD; R=https://rpc.mainnet.chain.robinhood.com
-cast send 0x5fc5360D0400a0Fd4f2af552ADD042D716F1d168 'approve(address,uint256)' $RES 11100000 --ledger --from $L --rpc-url $R
-cast send $RES 'deposit(bytes32,address,uint256)' $PAIR 0x5fc5360D0400a0Fd4f2af552ADD042D716F1d168 11100000 --ledger --from $L --rpc-url $R
-cast send 0x117cc2133c37B721F49dE2A7a74833232B3B4C0C 'approve(address,uint256)' $RES 7600000000000000 --ledger --from $L --rpc-url $R
-cast send $RES 'deposit(bytes32,address,uint256)' $PAIR 0x117cc2133c37B721F49dE2A7a74833232B3B4C0C 7600000000000000 --ledger --from $L --rpc-url $R
+cast send 0x5fc5360D0400a0Fd4f2af552ADD042D716F1d168 'approve(address,uint256)' $RES 1200000 --ledger --from $L --rpc-url $R
+cast send $RES 'deposit(bytes32,address,uint256)' $PAIR 0x5fc5360D0400a0Fd4f2af552ADD042D716F1d168 1200000 --ledger --from $L --rpc-url $R
+cast send 0x117cc2133c37B721F49dE2A7a74833232B3B4C0C 'approve(address,uint256)' $RES 1000000000000000 --ledger --from $L --rpc-url $R
+cast send $RES 'deposit(bytes32,address,uint256)' $PAIR 0x117cc2133c37B721F49dE2A7a74833232B3B4C0C 1000000000000000 --ledger --from $L --rpc-url $R
 cast call $(jq -r .coverageGuard $J) 'headroomUsd()(uint256)' --rpc-url $R   # USD of exposure the reserve now covers
 ```
 
@@ -163,8 +174,14 @@ How the contracts handle it:
     in proportion.
   - Every occurrence emits `RewardShortfallBooked`; alert on it.
 - **Above the ceiling,** which in practice means inside the 99 s window, a harvest or recentre reverts
-  `RewardShortfallTooHigh` and is retried later. Exits are never blocked: they forfeit the claim (`ExitHarvestFailed`) and
+  `RewardShortfallTooHigh` and is retried later.
+  - For the window, the retry claims in full from 100 s, so the ceiling prevents that loss.
+  - A treasury slice is different. It is decided when the second change happens, and the next claim only reveals it.
+    Refusing just waits until later accrual dilutes it below 20 %. What avoids the slice is the keeper's spacing
+    (below). Exits are never blocked: they forfeit the claim (`ExitHarvestFailed`) and
   proceed.
+- **Once the in-kind limit is raised,** each holder exit is a position change. Two exits under 99 s apart forfeit the
+  segment between them: expected, small, booked and alerted.
 - **The keeper waits 120 s of block time** after any position change before it harvests, recentres or rebalances, so
   neither mechanism normally fires. A `RewardShortfallBooked` alert then means something unexpected happened. The keeper
   treats `RewardShortfallTooHigh` as a wait and `RewardClaimMismatch` as ATTENTION.
@@ -208,3 +225,17 @@ Rerun with the keeper also spacing the rebalance (fork at L2 107,573,092): the c
   - +150 s after the recenter: rebalance sent.
   - +130 s after the rebalance, then 2 h later: harvests sent.
 - **Booked shortfall: 0 RAM, no alert.**
+
+Anvil ceremony rehearsal with the smaller amounts, 2026-11-09 (seeds 0.021 SPY and 10 USDG, reserve 1.2 USDG and 0.001 SPY):
+- **Ledger, all succeeded:**
+  - seed transfers: SPY 75,642 gas, USDG 65,366 gas;
+  - schedule: 335,770 gas;
+  - execute: 3,131,014 gas.
+- `verify` passed.
+- The reserve deposits succeeded. Coverage was OK, with $12.00 of headroom before the keeper ran.
+- **Keeper:**
+  - recenter sent (1,565,929 gas);
+  - rebalance waited on `InsufficientLiquidity`, because nothing was left to pair;
+  - after 150 s, harvest sent (1,298,911 gas);
+  - RAM shortfall booked: 0.
+- After the keeper: exposure $9.97, headroom $2.03.
