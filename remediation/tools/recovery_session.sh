@@ -13,6 +13,7 @@
 # Run execute, gonogo, sync and close back to back: between execute and close the settlement swap is public.
 # Optional: LEDGER_HD=<derivation path>. RH_RPC overrides the RPC.
 set -uo pipefail
+MAX_GO_LOSS=500000  # 0.50 USDG (6 decimals): the most realised loss the go/no-go accepts (operator 2026-11-09)
 
 R=${RH_RPC:-https://rpc.mainnet.chain.robinhood.com}
 L=0x064eFE76812F5f18Bd1aA9708739Fb33C810B2dD
@@ -116,17 +117,28 @@ case "${1:-}" in
     out=$(cast call "$PU" 'syncVault(uint256)(uint256,uint256)' "$MAX" --from "$L" --gas-limit $SYNC_GAS --rpc-url "$R" 2>&1) || die "NO-GO: eth_call reverted: ${out:0:120}"
     returned=$(sed -n 1p <<<"$out" | cut -d' ' -f1); realized=$(sed -n 2p <<<"$out" | cut -d' ' -f1)
     echo "eth_call syncVault from Ledger: returned=$returned realizedLoss=$realized (usdgPrincipal now $up, liquidity $liq)"
-    if [[ "$returned" == "$up" && "$returned" != 0 && "$realized" == 0 ]]; then
-      echo "GO: the full USDG claim comes back with no loss. Expected after sync: liquidity 0, usdgPrincipal under 0.01 USDG, cumulativeLossUSDG $loss unchanged, flags 100."
+    lossusd=$(python3 -c "import sys;print('%.6f' % (int(sys.argv[1])/1e6))" "$realized")
+    echo "realised loss if signed now: $lossusd USDG (GO limit $(python3 -c "print('%.2f' % ($MAX_GO_LOSS/1e6))") USDG)"
+    # GO (operator 2026-11-09): the claim is fully accounted for (returned + loss = usdgPrincipal), something comes back,
+    # and the realised loss is at most MAX_GO_LOSS. Zero is no longer achievable; cents must not abort the session.
+    if [[ "$returned" != 0 && $(( returned + realized )) -eq $up && $realized -le $MAX_GO_LOSS ]]; then
+      echo "GO: $returned USDG raw back, realised loss $lossusd USDG. Expected after sync: liquidity 0, usdgPrincipal under 0.01 USDG, cumulativeLossUSDG up by at most the limit, flags 100."
     else
-      echo "NO-GO: a silent settlement failure or a loss. Close the window now: bash recovery_session.sh close"
+      if [[ "$returned" == 0 ]]; then why="a silent settlement failure (nothing comes back)"
+      elif (( realized > MAX_GO_LOSS )); then why="a realised loss of $lossusd USDG, above the limit"
+      else why="the claim is not fully accounted for (returned + loss != usdgPrincipal)"; fi
+      echo "NO-GO: $why. Close the window now: bash recovery_session.sh close"
       exit 1
     fi
     [[ "$1" == gonogo ]] && exit 0
     ledger_send "$PU" 'syncVault(uint256)' "$MAX" --gas-limit $SYNC_GAS
     read -r flags up2 _ liq2 loss2 _ < <(snapshot)
     echo "after sync: flags=$flags usdgPrincipal=$up2 liquidity=$liq2 cumulativeLossUSDG=$loss2"
-    [[ "$liq2" == 0 && "$loss2" == "$loss" && $up2 -lt 10000 ]] || die "settlement did not complete as expected; close the window now and do not retry blindly"
+    booked=$(python3 -c "import sys;print(int(sys.argv[2])-int(sys.argv[1]))" "$loss" "$loss2")
+    echo "loss booked by the sync: $(python3 -c "import sys;print('%.6f' % (int(sys.argv[1])/1e18))" "$booked") USD"
+    python3 -c "import sys;b=int(sys.argv[1]);m=int(sys.argv[2]);sys.exit(0 if 0<=b<=m*10**12 else 1)" "$booked" "$MAX_GO_LOSS" \
+      || die "loss booked by the sync is outside 0..limit; close the window now and do not retry blindly"
+    [[ "$liq2" == 0 && $up2 -lt 10000 ]] || die "settlement did not complete as expected; close the window now and do not retry blindly"
     echo "PASS: settled; now close"
     ;;
   close)

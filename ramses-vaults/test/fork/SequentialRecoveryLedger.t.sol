@@ -148,6 +148,13 @@ contract SequentialRecoveryLedgerForkTest is Test {
         T.execute(address(V), 0, data, bytes32(0), SALT);
     }
 
+    uint256 constant MAX_GO_LOSS = 500_000; // 0.50 USDG: recovery_session.sh MAX_GO_LOSS (operator 2026-11-09)
+
+    /// @dev recovery_session.sh's GO rule: something comes back, the claim is fully accounted for, the loss is bounded.
+    function _go(uint256 returned, uint256 loss, uint256 usdgPrincipal) internal pure returns (bool) {
+        return returned != 0 && returned + loss == usdgPrincipal && loss <= MAX_GO_LOSS;
+    }
+
     /// @dev The go/no-go read: an eth_call of step 2 from the Ledger, then the state it would leave. Reverted afterwards.
     function _goNoGo()
         internal
@@ -198,6 +205,8 @@ contract SequentialRecoveryLedgerForkTest is Test {
         emit log_named_uint("GONOGO cumulativeLoss after", lossAfter);
         assertEq(liqAfter, 0, "go: the position is fully unwound");
         assertGt(ret, 0, "go: assets came back");
+        assertTrue(_go(ret, loss, V.ledger(PAIR).usdgPrincipal), "GO under the 0.50 USDG rule");
+        assertLe(lossAfter - l0.cumulativeLossUSDG, MAX_GO_LOSS * 1e12, "booked loss within the limit");
 
         vm.prank(LEDGER);
         (uint256 ret2, uint256 loss2) = PU.syncVault{ gas: SYNC_GAS }(type(uint256).max);
@@ -302,8 +311,12 @@ contract SequentialRecoveryLedgerForkTest is Test {
         for (uint256 i; i < bps.length; i++) {
             _stamp(answer0 * (10_000 + bps[i]) / 10_000);
             (uint256 ret, uint256 loss, uint128 liq, uint256 lossAfter) = _goNoGo();
+            bool go = _go(ret, loss, V.ledger(PAIR).usdgPrincipal);
+            if (bps[i] <= 50) assertTrue(go, "GO from -300 to +50 bp: loss under 0.50 USDG");
+            if (bps[i] >= 100) assertFalse(go, "NO-GO on the silent failure above +100 bp");
             emit log_string(string.concat(
-                    "GRID,bps=",
+                    go ? "GRID,GO," : "GRID,NO-GO,",
+                    "bps=",
                     vm.toString(int256(bps[i])),
                     ",returned=",
                     vm.toString(ret),

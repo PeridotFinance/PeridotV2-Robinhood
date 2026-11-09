@@ -1,0 +1,27 @@
+pin 109896890 26375953 (2026-11-09, GO rule: realised loss <= 0.50 USDG)
+[PASS] testAbortAfterScheduleByCancel() (gas: 224071)
+  STATE,abort-cancelled,flags=010,usdgPrincipal=13449637,stockPrincipal=19859843988374664,liquidity=2219690406849,cumulativeLossUSDG=1824722085173445060,usdgIdle=0,stockIdle=57880329297295766,cashPU=12798247,claimPU=27216336
+[PASS] testAbortInsideTheWindowByGuardian() (gas: 284355)
+  STATE,abort-window-closed,flags=110,usdgPrincipal=13449637,stockPrincipal=19859843988374664,liquidity=2219690406849,cumulativeLossUSDG=1824722085173445060,usdgIdle=0,stockIdle=57880329297295766,cashPU=12798247,claimPU=27216336
+[PASS] testGoNoGoAcrossOracleMoves() (gas: 6181823)
+  GRID,GO,bps=-300,returned=13199596,loss=250041,liquidityAfter=0,cumulativeLossAfter=2137925729641329444
+  GRID,GO,bps=-100,returned=13367830,loss=81807,liquidityAfter=0,cumulativeLossAfter=1927619589221452688
+  GRID,GO,bps=-50,returned=13408923,loss=40714,liquidityAfter=0,cumulativeLossAfter=1875984738598421934
+  GRID,GO,bps=0,returned=13429010,loss=20627,liquidityAfter=0,cumulativeLossAfter=1850719779035220902
+  GRID,GO,bps=50,returned=13429124,loss=20513,liquidityAfter=0,cumulativeLossAfter=1850603840649182057
+  GRID,NO-GO,bps=100,returned=0,loss=0,liquidityAfter=2219690406849,cumulativeLossAfter=1824722085173445060
+  GRID,NO-GO,bps=300,returned=0,loss=0,liquidityAfter=2219690406849,cumulativeLossAfter=1824722085173445060
+[PASS] testPreconditionsForTheLedgerPath() (gas: 77436)
+[PASS] testSequentialPathFromTheLedger() (gas: 2063261)
+  STATE,0-start,flags=010,usdgPrincipal=13449637,stockPrincipal=19859843988374664,liquidity=2219690406849,cumulativeLossUSDG=1824722085173445060,usdgIdle=0,stockIdle=57880329297295766,cashPU=12798247,claimPU=27216336
+  STATE,1a-scheduled,flags=010,usdgPrincipal=13449637,stockPrincipal=19859843988374664,liquidity=2219690406849,cumulativeLossUSDG=1824722085173445060,usdgIdle=0,stockIdle=57880329297295766,cashPU=12798247,claimPU=27216336
+  STATE,1b-executed-window-open,flags=100,usdgPrincipal=13449637,stockPrincipal=19859843988374664,liquidity=2219690406849,cumulativeLossUSDG=1824722085173445060,usdgIdle=0,stockIdle=57880329297295766,cashPU=12798247,claimPU=27216336
+  GONOGO returned (USDG raw): 13429010
+  GONOGO realizedLoss (USDG raw): 20627
+  GONOGO liquidity after: 0
+  GONOGO cumulativeLoss after: 1850719779035220902
+  STATE,2-synced,flags=100,usdgPrincipal=0,stockPrincipal=19829387260986775,liquidity=0,cumulativeLossUSDG=1850719779035220902,usdgIdle=73180,stockIdle=19414461284440110,cashPU=26227257,claimPU=27195709
+  STATE,3-closed,flags=110,usdgPrincipal=0,stockPrincipal=19829387260986775,liquidity=0,cumulativeLossUSDG=1850719779035220902,usdgIdle=73180,stockIdle=19414461284440110,cashPU=26227257,claimPU=27195709
+[PASS] testSilentFailureIsVisibleInTheGoNoGo() (gas: 724223)
+[PASS] testStaleFeedAtStepTwo() (gas: 269772)
+Suite result: ok. 7 passed; 0 failed; 0 skipped; finished in 16.48s (55.93s CPU time)
