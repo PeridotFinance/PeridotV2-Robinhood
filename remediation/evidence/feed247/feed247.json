@@ -1,12 +1,12 @@
 {
- "readAt": "Sat 11-07 12:01:11 UTC",
+ "readAt": "Mon 11-09 07:39:08 UTC",
  "feed247": "0x321A36e441DfBadA01Aa6f9884F14a344E133D1F",
  "feed245": "0x379EC4f7C378F34a1B47E4F3cbeBCbAC3E8E9F15",
  "poolId": "0x3bb34a44f1b2b5f32c034c38a53065a521a47b199700fa9bd19d60985ff24bf1",
  "feed247FirstAnswer": "Fri 11-06 20:21:23 UTC",
- "rounds247": 4,
- "rounds245InWindow": 210,
- "swapsInWindow": 7152,
+ "rounds247": 23,
+ "rounds245InWindow": 224,
+ "swapsInWindow": 8384,
  "answers247": [
   {
    "utc": "Fri 11-06 20:21:23 UTC",
@@ -29,8 +29,8 @@
    "answer247": 187.27155282,
    "answer245": 187.09991988,
    "gapTo245Pct": 0.092,
-   "pool": 187.6894,
-   "gapToPoolPct": -0.223
+   "pool": 187.8935,
+   "gapToPoolPct": -0.331
   },
   {
    "utc": "Fri 11-06 22:30:41 UTC",
@@ -39,24 +39,190 @@
    "gapTo245Pct": -0.014,
    "pool": 187.3114,
    "gapToPoolPct": 0.482
+  },
+  {
+   "utc": "Sat 11-07 22:31:07 UTC",
+   "answer247": 187.28715935,
+   "answer245": 188.24025313,
+   "gapTo245Pct": -0.506,
+   "pool": 187.581,
+   "gapToPoolPct": -0.157
+  },
+  {
+   "utc": "Sun 11-08 20:41:02 UTC",
+   "answer247": 186.33679607,
+   "answer245": 188.24025313,
+   "gapTo245Pct": -1.011,
+   "pool": 182.6021,
+   "gapToPoolPct": 2.045
+  },
+  {
+   "utc": "Sun 11-08 20:58:32 UTC",
+   "answer247": 185.40234178,
+   "answer245": 188.24025313,
+   "gapTo245Pct": -1.508,
+   "pool": 183.484,
+   "gapToPoolPct": 1.046
+  },
+  {
+   "utc": "Sun 11-08 21:36:33 UTC",
+   "answer247": 184.46784421,
+   "answer245": 188.24025313,
+   "gapTo245Pct": -2.004,
+   "pool": 183.5631,
+   "gapToPoolPct": 0.493
+  },
+  {
+   "utc": "Sun 11-08 22:20:33 UTC",
+   "answer247": 183.54523673,
+   "answer245": 188.24025313,
+   "gapTo245Pct": -2.494,
+   "pool": 183.1309,
+   "gapToPoolPct": 0.226
+  },
+  {
+   "utc": "Sun 11-08 23:44:05 UTC",
+   "answer247": 182.61586773,
+   "answer245": 188.24025313,
+   "gapTo245Pct": -2.988,
+   "pool": 181.2361,
+   "gapToPoolPct": 0.761
+  },
+  {
+   "utc": "Mon 11-09 00:09:35 UTC",
+   "answer247": 181.6974462,
+   "answer245": 188.24025313,
+   "gapTo245Pct": -3.476,
+   "pool": 179.5901,
+   "gapToPoolPct": 1.173
+  },
+  {
+   "utc": "Mon 11-09 01:02:06 UTC",
+   "answer247": 180.64003493,
+   "answer245": 181.91341498,
+   "gapTo245Pct": -0.7,
+   "pool": 180.4159,
+   "gapToPoolPct": 0.124
+  },
+  {
+   "utc": "Mon 11-09 01:04:06 UTC",
+   "answer247": 181.90527283,
+   "answer245": 181.95730162,
+   "gapTo245Pct": -0.029,
+   "pool": 182.4225,
+   "gapToPoolPct": -0.284
+  },
+  {
+   "utc": "Mon 11-09 01:11:07 UTC",
+   "answer247": 180.96979139,
+   "answer245": 181.01599103,
+   "gapTo245Pct": -0.026,
+   "pool": 181.3629,
+   "gapToPoolPct": -0.217
+  },
+  {
+   "utc": "Mon 11-09 01:15:07 UTC",
+   "answer247": 179.87580491,
+   "answer245": 179.94873356,
+   "gapTo245Pct": -0.041,
+   "pool": 179.5026,
+   "gapToPoolPct": 0.208
+  },
+  {
+   "utc": "Mon 11-09 01:30:07 UTC",
+   "answer247": 178.96332899,
+   "answer245": 179.03256607,
+   "gapTo245Pct": -0.039,
+   "pool": 179.2584,
+   "gapToPoolPct": -0.165
+  },
+  {
+   "utc": "Mon 11-09 01:40:07 UTC",
+   "answer247": 179.95763793,
+   "answer245": 179.03256607,
+   "gapTo245Pct": 0.517,
+   "pool": 179.656,
+   "gapToPoolPct": 0.168
+  },
+  {
+   "utc": "Mon 11-09 01:50:07 UTC",
+   "answer247": 180.87293939,
+   "answer245": 180.01125835,
+   "gapTo245Pct": 0.479,
+   "pool": 180.3204,
+   "gapToPoolPct": 0.306
+  },
+  {
+   "utc": "Mon 11-09 03:48:39 UTC",
+   "answer247": 179.96525697,
+   "answer245": 180.02828904,
+   "gapTo245Pct": -0.035,
+   "pool": 180.4864,
+   "gapToPoolPct": -0.289
+  },
+  {
+   "utc": "Mon 11-09 04:23:10 UTC",
+   "answer247": 179.04975608,
+   "answer245": 179.12132359,
+   "gapTo245Pct": -0.04,
+   "pool": 179.4654,
+   "gapToPoolPct": -0.232
+  },
+  {
+   "utc": "Mon 11-09 06:20:42 UTC",
+   "answer247": 178.12339098,
+   "answer245": 178.17331515,
+   "gapTo245Pct": -0.028,
+   "pool": 178.4647,
+   "gapToPoolPct": -0.191
+  },
+  {
+   "utc": "Mon 11-09 06:36:42 UTC",
+   "answer247": 177.19098119,
+   "answer245": 177.25660356,
+   "gapTo245Pct": -0.037,
+   "pool": 177.057,
+   "gapToPoolPct": 0.076
+  },
+  {
+   "utc": "Mon 11-09 06:41:13 UTC",
+   "answer247": 176.21063357,
+   "answer245": 176.36673622,
+   "gapTo245Pct": -0.089,
+   "pool": 176.4423,
+   "gapToPoolPct": -0.131
   }
  ],
- "longestIntervalBetween247AnswersS": 48630,
- "currentAge247S": 48630,
- "ever247OlderThanHeartbeat": false,
+ "longestIntervalBetween247AnswersS": 86426,
+ "currentAge247S": 3475,
+ "ever247OlderThanHeartbeat": true,
  "ever247OlderThan12h": true,
- "sessionOpens": [],
+ "sessionOpens": [
+  {
+   "open": "overnight open (Sun 20:00 ET)",
+   "utc": "Mon 11-09 01:00:00 UTC",
+   "inForce247": 181.6974462,
+   "inForce245": 188.24025313,
+   "ageAtOpen247S": 3025,
+   "ageAtOpen245S": 181766,
+   "gapPct": -3.476,
+   "first247After": "Mon 11-09 01:02:06 UTC",
+   "first245After": "Mon 11-09 01:00:30 UTC",
+   "first247AfterAnswer": 180.64003493,
+   "first245AfterAnswer": 183.19311441
+  }
+ ],
  "weekends": [
   {
    "from": "Sat 10-31 00:00:00 UTC",
    "to": "Mon 11-02 01:00:00 UTC",
    "complete": true,
-   "swaps": 370,
+   "swaps": 378,
    "feed247Existed": false,
    "pool_vs_247_absPct": null,
    "pool_vs_245_absPct": {
-    "median": 0.444,
-    "p90": 0.945,
+    "median": 0.443,
+    "p90": 0.944,
     "max": 1.026
    },
    "feed245UpdatesInWeekend": 0,
@@ -64,22 +230,22 @@
   },
   {
    "from": "Sat 11-07 01:00:00 UTC",
-   "to": "Sat 11-07 12:01:11 UTC",
-   "complete": false,
-   "swaps": 31,
+   "to": "Mon 11-09 01:00:00 UTC",
+   "complete": true,
+   "swaps": 835,
    "feed247Existed": true,
    "pool_vs_247_absPct": {
-    "median": 0.06,
-    "p90": 0.174,
-    "max": 0.177
+    "median": 0.802,
+    "p90": 2.155,
+    "max": 3.236
    },
    "pool_vs_245_absPct": {
-    "median": 0.064,
-    "p90": 0.188,
-    "max": 0.191
+    "median": 2.964,
+    "p90": 3.889,
+    "max": 5.078
    },
    "feed245UpdatesInWeekend": 0,
-   "feed247UpdatesInWeekend": 0
+   "feed247UpdatesInWeekend": 7
   }
  ],
  "tokenFlagsNow": {

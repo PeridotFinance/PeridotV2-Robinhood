@@ -10,9 +10,9 @@
 #   bash switch_nvda_feed.sh verify      read-only: the read-backs
 #   bash switch_nvda_feed.sh cancel      before execute
 #
-# MAX_STALENESS (seconds) is the guard's bound after the switch. Default 43200 keeps today's 12 h policy; 90000 is the
-# 24/7 feed's 86,400 s heartbeat plus one hour (see NVDA_247_FEED.md: a quiet weekend keeps the 24/7 answer older than
-# 12 h for long stretches). The choice is part of the scheduled operation, so decide before `schedule`.
+# MAX_STALENESS (seconds) is the guard's bound after the switch. Operator decision 2026-11-09: 90000, the 24/7 feed's
+# 86,400 s heartbeat plus one hour, with a separate alarm on the feed's age (keeper/alarm.py FEED_247_LATE). 43200 (the
+# old 12 h policy) is still accepted for a deliberate rollback. Scheduled in the 15 to 17 Nov ceremony.
 # Optional: LEDGER_HD, RH_RPC, REHEARSE=1 (local fork, accounts unlocked).
 set -uo pipefail
 
@@ -29,7 +29,7 @@ NVDA=0xd0601CE157Db5bdC3162BbaC2a2C8aF5320D9EEC
 F5=0x379EC4f7C378F34a1B47E4F3cbeBCbAC3E8E9F15
 F7=0x321A36e441DfBadA01Aa6f9884F14a344E133D1F
 PAIR=0xe2050352f4346597cc69d2776d99ae60c9440dfc28f9406ce66be0bbe3fb6b06
-MAX_STALENESS=${MAX_STALENESS:-43200}
+MAX_STALENESS=${MAX_STALENESS:-90000}
 SALT=$(cast keccak "peridot-nvda-247-feed-switch-v1-$MAX_STALENESS")
 ZERO32=0x0000000000000000000000000000000000000000000000000000000000000000
 CFG_T='(address,address,address,address,address,bytes32,uint64,uint64,uint16,uint8,uint8,uint8,uint8,bool,bool,uint16)'

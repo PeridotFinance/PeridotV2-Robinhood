@@ -1,5 +1,31 @@
 # Chainlink "Robinhood NVDA (24/7)": behaviour, and the prepared oracle-source switch
 
+> **Operator decisions, 2026-11-09:**
+> - The switch uses **M = 90,000 s**, with a separate alarm check on the 24/7 feed's age.
+> - The timelock becomes lending-oracle admin.
+> - The switch goes into the **15 to 17 Nov ceremony**, together with the executor upgrade.
+>
+> The script now defaults to 90,000.
+
+## 0. The weekend and the overnight open, measured 2026-11-09 07:39 UTC (`feed247-2026-11-09-0738.json`)
+
+- **23 answers since launch.** Saturday 22:31:07 was the heartbeat answer, 86,426 s after Friday's: 26 s over the
+  nominal 24 h, inside the 90,000 s bound with 3,574 s to spare.
+- **Sunday from 20:41 UTC:** the 24/7 feed walked down in 0.5% steps, from 186.34 to 181.70 by 00:09, while the 24/5 feed
+  stayed frozen at Friday's 188.24.
+- **This weekend against the Uniswap pool (835 swaps):**
+  - pool vs 24/7: median 0.80%, p90 2.16%, max 3.24%;
+  - pool vs the frozen 24/5: median 2.96%, p90 3.89%, max 5.08%.
+  - On Sunday evening the pool moved first: 182.60 against a 24/7 answer of 186.34 at 20:41, a 2.05% gap.
+  - So a 24/7-priced weekend is not a pool-matched weekend. The swap module's 1% deviation check would have refused
+    liquidation swaps during those gaps (fail closed).
+- **Overnight open, Sunday 20:00 ET (Mon 01:00 UTC):**
+  - In force at the open: 24/7 181.70 (3,025 s old) and 24/5 188.24 (181,766 s old). Gap −3.48%.
+  - First answers after the open: 24/5 at 01:00:30 (183.19), 24/7 at 01:02:06 (180.64).
+  - From 01:04 the two feeds agree within 0.03% to 0.09%, apart from two 24/5 lags of about 0.5% at 01:40 and 01:50.
+- **Never paused** (token flags false), and never older than 90,000 s.
+
+
 Read 2026-11-07 about 12:00 UTC. Read-only analysis plus a prepared switch; **nothing is sent.**
 - **Evidence:** `remediation/evidence/feed247/`. `feed247.py` is rerunnable and writes `feed247.json`.
 - **Switch:** `remediation/tools/switch_nvda_feed.sh`. Fork test: `ramses-vaults/test/fork/Nvda247FeedSwitch.t.sol`.
@@ -82,7 +108,7 @@ Both must therefore change in one transaction; a split would zero every margin p
   refused, execute, verify.
 - **Mainnet `preflight`:** GO, operation `0x76e6e5a4...4bd5` for M = 43,200.
 
-**Timing: not before Monday's recovery session.** The vault guard is also the Uniswap NVDA vault's guard, and the
+**Timing: the 15 to 17 Nov ceremony (operator, 2026-11-09), so after Monday's recovery session.** The vault guard is also the Uniswap NVDA vault's guard, and the
 recovery session (PR 20) is written for the 24/5 feed (US session, NVDA answer ≤ 1 h). Switching first would change that
 session's preconditions.
 
