@@ -21,6 +21,7 @@ import sys
 import tempfile
 import time
 from pathlib import Path
+from urllib.parse import urlsplit
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import ramses_keeper as rk  # noqa: E402
@@ -107,7 +108,7 @@ def main():
     execute = os.environ.get('EXECUTE', 'false') == 'true'
     interval = max(60, int(os.environ.get('INTERVAL_SECONDS', '300')))
     rpc = os.environ.get('RPC_URL', RPC)
-    if rpc != RPC and not rpc.startswith(('http://127.0.0.1', 'http://localhost')):
+    if rpc != RPC and not (urlsplit(rpc).scheme == 'http' and urlsplit(rpc).hostname in ('127.0.0.1', 'localhost')):
         raise RuntimeError('RPC_URL may only override to a local rehearsal node')
     rk.MAX_GAS_PRICE_WEI = min(int(os.environ.get('MAX_GAS_PRICE_WEI', '100000000')), 2_000_000_000)
     journal = configured_journal(os.environ)

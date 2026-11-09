@@ -30,8 +30,40 @@ The Ledger needs about **27.65 USDG** on Robinhood Chain first, plus gas in ETH:
 3. **Ledger:** `USDG.transfer(timelock, 10000000)` (10 USDG seed).
 4. **Keep on the Ledger** for the reserve: 0.001 SPY and 1.2 USDG. The reserve accepts deposits only after the
    ceremony configures it (section 5b).
-5. **Keeper:** create the Ramses keeper wallet (`RAMSES_KEEPER`). It must differ from the deployer and the timelock and
-   hold no timelock role.
+5. **Keeper:** the wallet and host already exist; see "Keeper host (before the ceremony)" below. `RAMSES_KEEPER` for
+   the deploy is `0x9eaF3552449c26b95a55CcDc363258345DEA031E`.
+
+## Keeper host (before the ceremony)
+
+**Wallet** `0x9eaF3552449c26b95a55CcDc363258345DEA031E`:
+- Created by `keeper/create_wallet.py`. Public record: `keeper/wallet.json`.
+- Credentials are in the main checkout's `.ramses-keeper-signer/`, owner-only. They are never printed or committed.
+- Holds only `KEEPER_ROLE` on the vault plus gas. It differs from the deployer and the timelock and holds no timelock role.
+
+**App** `peridot-ramses-keeper`, id `c83f52ec-73b2-460a-acf5-b71e145752e2` (`keeper/app.json`):
+- DigitalOcean context `peridot-keeper-database2`, region `fra`, branch `feat/ramses-inkind-production`.
+- Created monitor-only: `EXECUTE=false`, no secrets, no vault. Until the vault exists it logs `awaiting_vault`
+  heartbeats; until the role is granted it logs `awaiting_role`. Neither counts as an error.
+- Its own app and wallet. `provision.py` never touches the range keeper, the margin keeper or the Stellar apps.
+
+**Order of steps** (all from `ramses-vaults/keeper/`):
+1. Deploy (section 2) with `RAMSES_KEEPER=0x9eaF3552449c26b95a55CcDc363258345DEA031E`.
+2. After the deploy: `python3 provision.py set-vault <journal>`. It refuses a journal whose `keeper` differs from
+   `wallet.json` or whose `chainId` is not 4663. It sets the non-secret vault, pair and router addresses and
+   force-rebuilds.
+3. After the execute and verify (sections 3 and 4), the operator:
+   - funds the wallet with 0.003 ETH;
+   - runs `python3 provision.py enable`.
+   `enable` refuses unless the wallet holds `KEEPER_ROLE`, holds no admin, config, guardian or in-kind role, has at
+   least 0.0003 ETH, and the local keystore derives to `wallet.json`'s address. It then uploads the keystore and password
+   as encrypted run-time secrets, sets `EXECUTE=true` and force-rebuilds.
+4. `python3 provision.py status`: active and in-progress deployment plus the last worker log lines.
+5. `python3 provision.py disable` at any time: `EXECUTE=false`, signer secrets removed, force-rebuild.
+
+**Worker state is ephemeral.** A restart or rebuild forgets `lastRebalance` and `lastHarvest`, so the keeper may try
+again sooner than its own intervals. The contract still enforces cooldowns, budget and loss bounds.
+- It also forgets `lastModified`, the anti-sybil hold. A rebuild normally takes longer than the 120 s hold. Any claim
+  inside the window is bounded by the shortfall ceiling and raises `RewardShortfallBooked`.
 
 ## 1. Throwaway deployer (gas only)
 
