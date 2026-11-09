@@ -1,13 +1,14 @@
 # USDG-shortage recovery: sequential path, Ledger session runbook
 
-Prepared 2026-11-06. **Nothing has been sent.** The operator schedules the session; the user signs every transaction
+Prepared 2026-11-06, updated 2026-11-09. **Nothing has been sent.** The operator schedules the session; the user signs every transaction
 on the Ledger `0x064eFE76812F5f18Bd1aA9708739Fb33C810B2dD`.
 
 ## What it does
 
-The pair's USDG side is short: `usdgPrincipal` is 13.611598 USDG against 4.407614 USDG in the LP and 0.000071 idle,
-while the NVDA side holds a surplus. Unwinding the LP with the settlement swap enabled sells the NVDA surplus for
-USDG, returns the full USDG claim to pUSDG, and leaves the pair paused with no liquidity.
+The pair's USDG side is short: at L2 109,891,406 `usdgPrincipal` is 13,449,637 raw (13.449637 USDG) and
+`cumulativeLossUSDG` is 1.8247 USD, while the NVDA side holds a surplus. The session's own preflight is authoritative
+for the starting numbers. Unwinding the LP with the settlement swap enabled sells the NVDA surplus for USDG, returns
+the USDG claim to pUSDG less a realised loss of at most 0.50 USDG, and leaves the pair paused with no liquidity.
 
 | Step | Signer and call | Effect |
 | --- | --- | --- |
@@ -61,37 +62,57 @@ cast call 0x55aEd0569c8f0D166D71facE57B57C2f2624a563 'syncVault(uint256)(uint256
   --rpc-url https://rpc.mainnet.chain.robinhood.com
 ```
 
-**GO** only if `returned` equals the current `ledger.usdgPrincipal` and `realizedLoss` is 0. Expected end state after
-step 2: `positionState.liquidity` 0, `usdgPrincipal` below 0.01 USDG (fees credited during the call), `cumulativeLossUSDG`
-unchanged, flags 100.
+**GO** only if all three hold:
 
-**NO-GO** in every other case. A failed settlement does not revert: `syncVault` succeeds, returns 0 and leaves the
-position open, and the receipt proves nothing. Measured cases that come back NO-GO:
+- something comes back: `returned` is not 0;
+- the claim is fully accounted for: `returned + realizedLoss` equals the current `ledger.usdgPrincipal`;
+- the loss is bounded: `realizedLoss` is at most `MAX_GO_LOSS` = 500,000 raw, which is 0.50 USDG.
+
+The script prints the realised loss in USDG. Zero loss is no longer achievable: keeper checkpoints booked another $0.22
+since 5 Nov, and cents must not abort the session (operator, 2026-11-09).
+
+Expected end state after step 2: `positionState.liquidity` 0, `usdgPrincipal` below 0.01 USDG (fees credited during the
+call), `cumulativeLossUSDG` rises by at most 0.50 USD, flags 100. Today's rehearsal booked 0.025998 USD.
+
+**NO-GO** in every other case. The script prints the reason: a silent failure (nothing comes back), a loss above the
+limit, or a claim not accounted for. A failed settlement does not revert: `syncVault` succeeds, returns 0 and leaves the
+position open, and the receipt proves nothing.
+
+Measured on a fork at L2 109,896,890 (2026-11-09):
+
+| oracle move | verdict | returned (USDG raw) | loss (USDG raw) |
+| --- | --- | --- | --- |
+| -300 bp | GO | 13,199,596 | 250,041 |
+| -100 bp | GO | 13,367,830 | 81,807 |
+| -50 bp | GO | 13,408,923 | 40,714 |
+| 0 | GO | 13,429,010 | 20,627 |
+| +50 bp | GO | 13,429,124 | 20,513 |
+| +100 bp | NO-GO (silent failure; position untouched) | 0 | 0 |
+| +300 bp | NO-GO (silent failure; position untouched) | 0 | 0 |
+
+At +100 bp and above the oracle floor refuses the swap. Other measured cases that come back NO-GO:
 
 | Condition over the delay | eth_call result |
 | --- | --- |
-| oracle -300, -100, -50, 0, +50 bp | GO: returned 13,611,598, loss 0 |
-| oracle +100, +300 bp | NO-GO: returned 0, position untouched (the oracle floor refuses the swap) |
 | feed answer older than 12 h | NO-GO: nothing unwound |
 | gas limit 600,000 | NO-GO: nothing unwound |
 
 ## Post-state after each step
 
-Values from the fork rehearsal at L2 block 107,464,088 (native 26,354,835). Live values move with fees and the feed;
+Values from the fork rehearsal at L2 block 109,896,890 (native 26,375,953). Live values move with fees and the feed;
 the checks are the rules on the right, not the exact numbers.
 
 | After | flags (alloc, swap, emerg) | `usdgPrincipal` | `liquidity` | `cumulativeLossUSDG` | rule |
 | --- | --- | --- | --- | --- | --- |
-| start | 010 | 13,611,598 | 2,983,211,041,752 | 1.606780967761417357 | position open |
-| 1a | 010 | 13,611,598 | 2,983,211,041,752 | unchanged | operation pending |
-| 1b | **100** | 13,611,598 | 2,983,211,041,752 | unchanged | window open, nothing moved yet |
-| 2 | 100 | **848** | **0** | unchanged | fully unwound, no loss |
-| 3 | **110** | 848 | 0 | unchanged | window closed |
+| start | 010 | 13,449,637 | 2,219,690,406,849 | 1.824722085173445060 | position open |
+| 1a | 010 | 13,449,637 | 2,219,690,406,849 | unchanged | operation pending |
+| 1b | **100** | 13,449,637 | 2,219,690,406,849 | unchanged | window open, nothing moved yet |
+| 2 | 100 | **0** | **0** | 1.850719779035220902 | fully unwound; loss rises by at most 0.50 USD |
+| 3 | **110** | 0 | 0 | as after 2 | window closed |
 
-After step 2 at the pin: pUSDG cash rose from 12.798247 to 26.409845 USDG against claims of 27.378943; the difference
-is lent to the two open margin positions and returns when they repay. The swap sold 0.049437 NVDA for 9.266458 USDG,
-about 7 bp under the oracle; the pair's value at the oracle moved by about -$0.007, and no loss was booked. Gas for
-step 2 was 1,016,384 in the script rehearsal.
+After step 2 at the pin: pUSDG cash rose from 12.798247 to 26.227257 USDG against claims of 27.195709; the difference
+is lent to the open margin position and returns when it repays. The sync realised 0.020627 USDG and booked 0.025998 USD
+of loss. Gas for step 2 was 887,664 in the script rehearsal.
 
 ## Abort at each point
 
@@ -108,11 +129,21 @@ step 2 was 1,016,384 in the script rehearsal.
 
 - `ramses-vaults/test/fork/SequentialRecoveryLedger.t.sol`: 7 fork tests against the deployed contracts with the
   Ledger as signer, all passing: preconditions, the full path, cancel, guardian close inside the window, silent
-  low-gas failure, stale feed, and the oracle grid. Log with the pin on its first line:
-  `ramses-vaults/research/dual-range-backtest/evidence/logs/sequential-recovery-ledger-fork.log`.
+  low-gas failure, stale feed, and the oracle grid. 7/7 pass at L2 109,896,890 on 2026-11-09. Log with the pin on its
+  first line: `ramses-vaults/research/dual-range-backtest/evidence/logs/sequential-recovery-ledger-fork-2026-11-09.log`.
 - The session script itself was rehearsed end to end on a local fork with the Ledger account unlocked: all four
   signatures, the early-execute refusal, the go/no-go and every post-state check. The market interest clock was aligned
   to the fork block, as in earlier rehearsals; the session-hours and feed-age gates are skipped only under `REHEARSE=1`.
+
+### Rehearsal 2026-11-09
+
+Anvil run of the session script at L2 109,898,090:
+
+- schedule: 57,570 gas;
+- execute: 57,064 gas, flags 100;
+- gonogo: GO, "realised loss if signed now: 0.020627 USDG (GO limit 0.50 USDG)";
+- sync: 887,664 gas; after it `usdgPrincipal` 0, liquidity 0, loss booked 0.025998 USD;
+- close: 39,820 gas, flags 110.
 
 Run the fork tests again at a new pin on the day:
 
