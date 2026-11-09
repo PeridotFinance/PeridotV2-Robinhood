@@ -131,10 +131,18 @@ quarter of the time, every weekend (gaps of about 52 h or more), and right now. 
 refuse then.
 - *M = 43,200:* refusals shrink to quiet stretches longer than 12 h.
 - *M = 90,000:* refusals happen only on a feed outage beyond 25 h or an issuer pause.
-- **Either way, liquidations become possible on weekends** at the 24/7 price, executed through the Uniswap pool. The swap
-  module's 1% oracle-deviation check still applies; this weekend the pool has stayed within 0.18% of the 24/7 answer.
+- **Either way, the margin price is available on weekends,** but liquidations still execute through the Uniswap pool. The
+  swap module's 1% oracle-deviation check still applies, and sells are refused while the gap exceeds 1%. Over the weekend
+  of 7 to 8 November the pool against the 24/7 feed was median 0.80%, p90 2.16% and max 3.24%.
 - **New exposure:** a thin weekend market can now liquidate positions the 24/5 feed would have held until Monday. Weekend
   stock gaps are then realised at weekend prices, not deferred to the open.
+
+**Weekend exits stay blocked when pool and feed disagree (operator, 2026-11-09).** After the switch, margin liquidations
+and stop-losses that sell into the Uniswap NVDA/USDG pool remain blocked by the swap module's 1% oracle-deviation check
+whenever the pool and the 24/7 feed disagree by more than 1%. Over the weekend of 7 to 8 November, the pool against the
+24/7 feed was median 0.80%, p90 2.16% and max 3.24%. On Sunday evening the pool moved first: 182.60 against 186.34 at
+20:41 UTC. So the switch fixes valuation and triggers, not weekend exits. The funded in-kind route is the answer to
+weekend exits. It stays on the December list.
 
 **Range-order finalisation (prototype on PR 7).** `finalize` and placement need the margin oracle's price, and the pool
 within the pair's 1% of it.
