@@ -118,7 +118,8 @@ case "${1:-}" in
     want=$(python3 -c "import sys;a,g,b=map(int,sys.argv[1:]);print(a*10**10 if g<=b else 0)" $(answer $F7) $g $MAX_STALENESS)
     [[ "$m" == "$want" ]] || die "margin oracle $m, expected $want (24/7 age $g s, bound $MAX_STALENESS)"
     [[ "$(call $GUARDED_SOURCE 'assetPrices(address)(uint256)' $NVDA | cut -d' ' -f1)" == "$m" ]] || die "guarded source"
-    (( $(call $LENDING_ADAPTER 'getUnderlyingPrice(address)(uint256)' $PNVDA | cut -d' ' -f1) > 0 )) || die "pNVDA lending price 0"
+    lp=$(call $LENDING_ADAPTER 'getUnderlyingPrice(address)(uint256)' $PNVDA | cut -d' ' -f1)
+    python3 -c "import sys;sys.exit(0 if int(sys.argv[1] or 0)>0 else 1)" "$lp" || die "pNVDA lending price 0"  # 1e20-scale: not bash arithmetic
     echo "verified: guard and lending read the 24/7 feed; margin oracle $m (24/7 age $g s, bound $MAX_STALENESS); pNVDA priced" ;;
   cancel) send $T 'cancel(bytes32)' "$(op_id)" ;;
   *) sed -n 2,16p "$0"; exit 2 ;;
