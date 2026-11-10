@@ -48,7 +48,8 @@ DOCS = {
     "BribeFactory": "0xfE842861b9F79Bb77CCb6043731D433D63B365dF",
     "Minter": "0xAcc34Ad51457930989fB5050C2Dce6339F06479B",
     "AlgebraPoolApiStorage": "0xa90BC0E1D28151206530dABa53A5b8d28332cb7f",
-    "AlgebraPool_impl": "0xA02Ec3Ba8d17887567672b2CDCAF525534636Ea0",
+    # the docs table labels this "AlgebraPool"; on chain it is the WAVAX/USDC tick-spacing-1 pool of the v1 deployer
+    "docs_AlgebraPool_row": "0xA02Ec3Ba8d17887567672b2CDCAF525534636Ea0",
     "poolDeployer": "0x9B2441037E286d5Bf9456a3BE7b5273fe28DbA1e",
     "AlgebraFactory": "0x512eb749541B7cf294be882D636218c84a5e9E5F",
     "vaultFactory": "0xdC0b5db6f5f957AD0aC5e0Af8A2C084077D079B3",
@@ -76,6 +77,46 @@ DOCS = {
     "cpd_v2_ts100": "0x5ef3876cA93b93c9BcfD637783Ed99412b1efF43",
     "cpd_v2_ts200": "0x0AFf494476Dc74CF7BB5Dd005c2B1fE7Be76efA2",
 }
+
+# ---- dataset pool and its satellites (found and verified on chain by bh_00_state.py; see data/blackhole/state_at_end.json)
+POOL = "0x41100C6D2c6920B10d12Cd8D59c8A9AA2eF56fC7"            # AlgebraPool (Integral core 1.2), WAVAX/USDC, tick spacing 200
+POOL_CREATED = 65228165                                       # CustomPool event of the AlgebraFactory
+POOL_DEPLOYER = DOCS["cpd_v1_ts200"]
+POOL_PLUGIN = "0xdB2093a4DF635dcE499A0db0BBA9ABe39dB6594A"
+POOL_VAULT = "0xA35df874df4b412F845c1236C8Cca0FFcdb08c8B"     # AlgebraCommunityVault of the pool
+GAUGE = "0x3ADE52f9779c07471F4B6d5997444C3c2124C1c0"          # GaugeCL
+INTERNAL_BRIBE = "0x89Ac76981DE552E27083a53CDCc2359c9438E5cf"
+EXTERNAL_BRIBE = "0x01601580eAAecF7D7F0042e3DDDE6e204BF6Fe88"
+BLACK = DOCS["BLACK"]
+BLACK_PAIR = "0x0D9Fd6dd9b1FF55fB0A9bB0e5f1B6a2D65b741A3"      # vAMM-USDC/BLACK (classic pair), token0 USDC, token1 BLACK
+PHARAOH_QUOTER = "0xB7297301b7CC659BB96D51754643A0Df6eEA2138"  # Pharaoh QuoterV2 (same deployer EOA as the factory / NFPM)
+OTHER_POOLS = {
+    "v1_ts1": "0xA02Ec3Ba8d17887567672b2CDCAF525534636Ea0",
+    "v1_ts50": "0x668Aa7AEfa8512416Fc6244afBE5129200277A69",
+    "v2_ts1": "0x7789fA308147Eae364e3BCfa35351F2b9E0bd012",
+}
+
+# ---- event signatures (from the verified sources on Routescan; every topic is checked against a real log) ----
+EV_POOL = ["Initialize(uint160,int24)", "Mint(address,address,int24,int24,uint128,uint256,uint256)",
+           "Collect(address,address,int24,int24,uint128,uint128)", "Burn(address,int24,int24,uint128,uint256,uint256)",
+           "BurnFee(address,uint24)", "Swap(address,address,int256,int256,uint160,uint128,int24)",
+           "SwapFee(address,uint24,uint24)", "Flash(address,address,uint256,uint256,uint256,uint256)",
+           "ExcessTokens(uint256,uint256)", "CommunityFee(uint16)", "TickSpacing(int24)", "Plugin(address)",
+           "PluginConfig(uint8)", "Fee(uint16)", "CommunityVault(address)", "Skim(address,uint256,uint256)"]
+EV_PRE = ["Initialize(uint160,int24)", "Mint(address,address,int24,int24,uint128,uint256,uint256)",
+          "Burn(address,int24,int24,uint128,uint256,uint256)", "CommunityFee(uint16)", "TickSpacing(int24)",
+          "Plugin(address)", "PluginConfig(uint8)", "Fee(uint16)", "CommunityVault(address)"]
+TRANSFER = "Transfer(address,address,uint256)"
+
+# The pre-window pull of the pool (creation..START-1, Mint/Burn/config events only) is cut into consecutive segments
+# so that several processes can fetch at once; each segment is its own cache directory with its own ledger and the
+# build step asserts that the segments tile [POOL_CREATED, START-1] without gap or overlap.
+PRE_SEGMENTS = [("bh_pool_pre", POOL_CREATED, 67178164)]
+_a, _n = 67178165, 6
+_step = (START - _a) // _n + 1
+for _k in range(_n):
+    PRE_SEGMENTS.append((f"bh_pool_pre_{_k + 1}", _a + _k * _step, min(_a + (_k + 1) * _step - 1, START - 1)))
+assert PRE_SEGMENTS[-1][2] == START - 1 and all(x[2] + 1 == y[1] for x, y in zip(PRE_SEGMENTS, PRE_SEGMENTS[1:]))
 
 # ---- keccak256 (pure Python, FIPS-202 permutation with the original Keccak padding 0x01) ----
 _RC = [0x0000000000000001, 0x0000000000008082, 0x800000000000808A, 0x8000000080008000, 0x000000000000808B,

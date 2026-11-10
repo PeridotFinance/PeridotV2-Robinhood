@@ -9,15 +9,20 @@ STEPS=${*:-gate q1 q2 q3 q6 q4 q5 charts}
 # Position simulations on the v4 NVDA pool start on 16 July 2026: in its first two weeks the pool held so little liquidity
 # (about $2,000 moved the price 1 percent) that a $1,000 position would have been 1 percent of it and a hedge trade would have moved the price.
 V4N="--from-ts 1784160000"
+V3N="--from-ts 1785801600"   # 2026-08-04 00:00 UTC
+V3CELLS="600:300,1200:300,1200:600,2400:300,2400:600,2400:1200,4800:300,4800:600,4800:1200"
 from_of() { [ "$1" = v4_nvda ] && echo "$V4N"; }
 for step in $STEPS; do case $step in
 gate) $PY gate1_reproduce_live.py > $L/gate1.txt 2>&1 ;;
 q1) for v in v4_nvda v4_spy ramses_nvda ramses_spy univ3_nvda univ3_spy univ3_nvda_005 univ3_spy_005; do
+      [ -f "../data/robinhood/${v}_swaps.csv.gz" ] || { echo "skip q1 $v: table not present (see data/.gitignore)"; continue; }
       s=${v#*_}; s=${s%%_*}; $PY q1_fee_vs_lvr.py $v --ref external/${s}_1m.csv.gz > $L/q1_$v.txt 2>&1; done
-    $PY q1b_rewards_vs_loss.py > $L/q1b_rewards_vs_loss.txt 2>&1
-    $PY q1_fee_vs_lvr.py pharaoh_wavax --ref external/avaxusdt_1m.csv.gz > $L/q1_pharaoh_wavax.txt 2>&1 ;;
+    $PY q1_fee_vs_lvr.py pharaoh_wavax --ref external/avaxusdt_1m.csv.gz > $L/q1_pharaoh_wavax.txt 2>&1
+    $PY q1b_rewards_vs_loss.py > $L/q1b_rewards_vs_loss.txt 2>&1 ;;
 q2) for v in v4_nvda ramses_nvda ramses_spy v4_spy pharaoh_wavax; do $PY q2_geometry.py $v --procs $PROCS $(from_of $v) > $L/q2_$v.txt 2>&1; done
-    for v in v4_nvda ramses_nvda; do $PY q2_geometry.py $v --capital 10000 --procs $PROCS $(from_of $v) > $L/q2_${v}_10000.txt 2>&1; done ;;
+    for v in v4_nvda ramses_nvda; do $PY q2_geometry.py $v --capital 10000 --procs $PROCS $(from_of $v) > $L/q2_${v}_10000.txt 2>&1; done
+    # Uniswap V3 0.05% NVDA: nine cells, two workers (the table is 3.6 million swaps), from the Ramses NVDA start date
+    [ -f ../data/robinhood/univ3_nvda_005_swaps.csv.gz ] && $PY q2_geometry.py univ3_nvda_005 --procs 2 $V3N --cells $V3CELLS > $L/q2_univ3_nvda_005.txt 2>&1 ;;
 q3) for v in ramses_nvda ramses_spy pharaoh_wavax v4_nvda; do
       $PY q3_bands.py $v $(from_of $v) > $L/q3_$v.txt 2>&1
       $PY q3_bands.py $v --notional 10000 $(from_of $v) > $L/q3_${v}_10000.txt 2>&1
@@ -27,7 +32,12 @@ q3) for v in ramses_nvda ramses_spy pharaoh_wavax v4_nvda; do
     # presets scaled to SPY's volatility (about a third of NVDA's): 30 / 60 / 100 ticks away, 50 ticks wide
     $PY q3_bands.py ramses_spy --dist-ticks 30,60,100 --width-ticks 50 --tag _fit > $L/q3_ramses_spy_fit.txt 2>&1 ;;
 q6) for v in v4_nvda ramses_nvda ramses_spy pharaoh_wavax; do $PY q6_session.py $v --procs $PROCS $(from_of $v) > $L/q6_$v.txt 2>&1; done ;;
-q4) for v in v4_nvda ramses_nvda pharaoh_wavax; do $PY q4_hedged.py $v $(from_of $v) > $L/q4_$v.txt 2>&1; done ;;
+q4) for v in v4_nvda ramses_nvda pharaoh_wavax; do $PY q4_hedged.py $v $(from_of $v) > $L/q4_$v.txt 2>&1; done
+    if [ -f ../data/robinhood/univ3_nvda_005_swaps.csv.gz ]; then
+      $PY q4_hedged.py univ3_nvda_005 $V3N > $L/q4_univ3_nvda_005.txt 2>&1
+      $PY q4_hedged.py v4_nvda $V3N --hedge-venue univ3_nvda_005 --tag _via_v3 > $L/q4_v4_nvda_via_v3.txt 2>&1
+    fi
+    $PY q4_hedged.py v4_nvda $V3N --tag _from_aug4 --no-windows > $L/q4_v4_nvda_from_aug4.txt 2>&1 ;;
 q5) for v in ramses_nvda ramses_spy pharaoh_wavax; do $PY q5_reward_timing.py $v > $L/q5_$v.txt 2>&1; done ;;
 charts) $PY charts_q1.py > $L/charts.txt 2>&1; $PY charts_rest.py >> $L/charts.txt 2>&1
     $PY tables_q1.py > ../out/tables_q1.md; $PY tables_q2.py > ../out/tables_q2.md; $PY tables_q3.py > ../out/tables_q3.md; $PY tables_q456.py > ../out/tables_q456.md ;;

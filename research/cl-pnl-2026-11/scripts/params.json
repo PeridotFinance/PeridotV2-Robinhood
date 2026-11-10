@@ -75,6 +75,15 @@
    "gas_usd_per_adjustment": 0.05,
    "flash_fee": 0.0,
    "_note": "NOT AVAILABLE TODAY: WAVAX borrowing is paused and no short pair exists [6B]; shown only to size the economics"
+  },
+  "univ3_nvda_005": {
+   "hedge_venue": "univ3_nvda_005",
+   "borrow_apr": 0.12,
+   "quote_supply_apr": 0.0018,
+   "margin_fraction": 0.5,
+   "gas_usd_per_adjustment": 0.1,
+   "flash_fee": 0.0005,
+   "_note": "hypothetical route: the margin executor swaps on the v4 0.30% pool today; here the short is executed on the Uniswap V3 0.05% pool"
   }
  },
  "rewards": {

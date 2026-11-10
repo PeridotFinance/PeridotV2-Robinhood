@@ -275,6 +275,56 @@ Cells positive over the full window and in every rolling window: none.
 
 Cells positive over the full window and in every rolling window: none.
 
+### Uniswap V3 NVDA/USDG, $1,000, 2026-08-04 to 2026-11-10 (98 days), 11 rolling 30-day windows
+
+
+**Full window: net return against holding**
+
+| Half-width \\ trigger | 100 | 200 | 300 | 450 | 600 | 900 | 1200 |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| ±600 | n/a | n/a | +8.63% | n/a | n/a | n/a | n/a |
+| ±900 | n/a | n/a | n/a | n/a | n/a | n/a | n/a |
+| ±1,200 | n/a | n/a | +6.42% | n/a | +6.42% | n/a | n/a |
+| ±1,800 | n/a | n/a | n/a | n/a | n/a | n/a | n/a |
+| ±2,400 | n/a | n/a | +2.39% | n/a | +2.31% | n/a | +3.54% |
+| ±3,600 | n/a | n/a | n/a | n/a | n/a | n/a | n/a |
+| ±4,800 | n/a | n/a | +0.90% | n/a | +0.98% | n/a | +1.25% |
+
+**Rolling 30 days: worst window / windows above holding**
+
+| Half-width \\ trigger | 100 | 200 | 300 | 450 | 600 | 900 | 1200 |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| ±600 | n/a | n/a | -8.43% / 7 of 11 | n/a | n/a | n/a | n/a |
+| ±900 | n/a | n/a | n/a | n/a | n/a | n/a | n/a |
+| ±1,200 | n/a | n/a | -6.19% / 8 of 11 | n/a | -6.39% / 6 of 11 | n/a | n/a |
+| ±1,800 | n/a | n/a | n/a | n/a | n/a | n/a | n/a |
+| ±2,400 | n/a | n/a | -3.85% / 9 of 11 | n/a | -3.83% / 9 of 11 | n/a | -4.08% / 9 of 11 |
+| ±3,600 | n/a | n/a | n/a | n/a | n/a | n/a | n/a |
+| ±4,800 | n/a | n/a | -2.25% / 9 of 11 | n/a | -2.18% / 9 of 11 | n/a | -2.23% / 9 of 11 |
+
+**Full window: fee ÷ LVR (position level, fees after the 20% reserve cut)**
+
+| Half-width \\ trigger | 100 | 200 | 300 | 450 | 600 | 900 | 1200 |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| ±600 | n/a | n/a | 1.14 | n/a | n/a | n/a | n/a |
+| ±900 | n/a | n/a | n/a | n/a | n/a | n/a | n/a |
+| ±1,200 | n/a | n/a | 1.00 | n/a | 1.00 | n/a | n/a |
+| ±1,800 | n/a | n/a | n/a | n/a | n/a | n/a | n/a |
+| ±2,400 | n/a | n/a | 1.02 | n/a | 1.02 | n/a | 1.08 |
+| ±3,600 | n/a | n/a | n/a | n/a | n/a | n/a | n/a |
+| ±4,800 | n/a | n/a | 1.07 | n/a | 1.07 | n/a | 1.09 |
+
+| Cell | Full window | Fees | LVR | Recentres | Capital deployed | Worst 30 d | Median 30 d | Best 30 d |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| ±600 / 300 | +8.63% | $16.06 | $14.03 | 32 | 9% | -8.43% | +0.64% | +2.90% |
+| ±1,200 / 300 | +6.42% | $35.19 | $35.12 | 32 | 42% | -6.19% | +0.52% | +2.19% |
+| ±2,400 / 600 | +2.31% | $26.17 | $25.59 | 10 | 70% | -3.83% | +0.40% | +1.44% |
+| ±4,800 / 1200 | +1.25% | $16.87 | $15.41 | 3 | 86% | -2.23% | +0.22% | +0.76% |
+
+Only 9 cells were run on this pool (n/a above = not run or not allowed by the contract).
+
+Cells positive over the full window and in every rolling window: none.
+
 ### Uniswap v4 NVDA/USDG, $10,000, 2026-07-16 to 2026-11-10 (117 days), 14 rolling 30-day windows
 
 

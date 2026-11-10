@@ -150,8 +150,9 @@ def main():
     ap.add_argument("--tag", default="")
     a = ap.parse_args()
     v = VENUES[a.venue]
-    par = PARAMS["hedge"][a.venue]
+    par = dict(PARAMS["hedge"][a.venue])
     hv_key = a.hedge_venue or par.get("hedge_venue", a.venue)
+    par["hedge_venue"] = hv_key
     from rewards import load_rewards
     ram_rate, price, rewards = load_rewards(a.venue)
     ds = X.load_dataset(a.venue, ram_rate=ram_rate)

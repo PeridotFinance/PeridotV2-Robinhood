@@ -72,6 +72,7 @@ def main():
     ap.add_argument("--from-ts", type=float)
     ap.add_argument("--tag", default="")
     ap.add_argument("--no-reserve", action="store_true")
+    ap.add_argument("--cells", default=None, help="subset of cells as half:trigger,half:trigger (default: the whole feasible surface)")
     ap.add_argument("--sample-s", type=float, default=3600.0, help="sampling of the delta-matched benchmark (LVR decomposition only)")
     a = ap.parse_args()
     extra = {"reserve_bps": 0} if a.no_reserve else {}
@@ -87,6 +88,10 @@ def main():
     if t1 - WINDOW_S > t0 and (not windows[1:] or t1 - WINDOW_S - (s - STEP_S) > 86400):
         windows.append((t1 - WINDOW_S, t1, "30d@" + iso(t1 - WINDOW_S)[:10]))   # the latest 30 days, whatever the step
     cells = [(h, t) for h, t in itertools.product(HALVES, TRIGGERS) if feasible(h, t, SPACING[a.venue])]
+    if a.cells:
+        want = [tuple(int(x) for x in c.split(":")) for c in a.cells.split(",")]
+        cells = [c for c in cells if c in want]
+    del ds          # the workers load their own copy; a large table should not be held three times
     jobs = [(h, t, w0, w1, lab) for (h, t) in cells for (w0, w1, lab) in windows]
     tic = time.time()
     with mp.Pool(a.procs, initializer=_init, initargs=(a.venue, a.capital, a.max_per_day, extra)) as pool:
@@ -94,6 +99,7 @@ def main():
     res = {"venue": a.venue, "label": VENUES[a.venue].label, "capital_usd": a.capital, "max_per_day": a.max_per_day, "spacing": SPACING[a.venue],
            "data_window": [iso(t0), iso(t1)], "days": (t1 - t0) / 86400, "windows": [w[2] for w in windows],
            "infeasible_cells": [(h, t) for h, t in itertools.product(HALVES, TRIGGERS) if not feasible(h, t, SPACING[a.venue])],
+           "cells_run": cells,
            "reserve_cut": not a.no_reserve, "rows": rows, "seconds": time.time() - tic}
     p = dump(res, f"q2_{a.venue}_{int(a.capital)}_mpd{a.max_per_day}{a.tag}.json")
     # console summary: full window, and worst / best / share-positive over the rolling windows

@@ -16,8 +16,8 @@ def jl(name):
     return json.loads(p.read_text()) if p.exists() else None
 
 
-def q4(venue, half=2400, trig=600):
-    o = jl(f"q4_{venue}_h{half}_t{trig}.json")
+def q4(venue, half=2400, trig=600, tag=""):
+    o = jl(f"q4_{venue}_h{half}_t{trig}{tag}.json")
     if not o:
         return
     par = o["params"]
@@ -101,8 +101,10 @@ def q6(venue, capital=1000):
 if __name__ == "__main__":
     which = sys.argv[1] if len(sys.argv) > 1 else "all"
     if which in ("q4", "all"):
-        for v in ("v4_nvda", "ramses_nvda", "pharaoh_wavax"):
+        for v in ("v4_nvda", "ramses_nvda", "pharaoh_wavax", "univ3_nvda_005"):
             q4(v)
+        q4("v4_nvda", tag="_via_v3")
+        q4("v4_nvda", tag="_from_aug4")
     if which in ("q5", "all"):
         for v in ("ramses_nvda", "ramses_spy", "pharaoh_wavax"):
             q5(v)

@@ -11,7 +11,7 @@ Everything below is rebuilt from the tables in `data/` by `scripts/run_all.sh`.
 | --- | --- | --- |
 | 1 | Fee versus LVR by regime | Fee income covers arbitrage loss only where the LP keeps the fee: about 1.9 times the loss on the Uniswap v4 0.30% NVDA pool over 130 days, 0.8 on Ramses NVDA where half the fee goes to the protocol, and zero on Pharaoh WAVAX/USDC where all of it does. On every stock pool the ratio is lowest in regular hours and highest at the weekend, and it falls as volatility rises. In the latest 30 days it is about 1.0 on v4 and 0.3 on Ramses. |
 | 2 | Range geometry | No half-width and trigger is positive against holding in every rolling 30-day window on NVDA (either venue), on Ramses SPY or on WAVAX. Only the Uniswap v4 0.30% SPY pool has such cells (32 of 39), and in the latest 30 days its result is between −0.09% and +0.11%. The trigger barely matters; width trades the average against the worst window. |
-| 3 | One-sided bands | The fee is decorative where the product ships: zero on Pharaoh, 10 to 19 bp per $1,000 order on Ramses NVDA. What separates a band from a limit order is that it is not final: in 6% to 16% of orders the limit would have filled and the band did not, at a mean cost of 3% to 7% of the order in those cases. On SPY the shipped presets filled in 0 of 302 seven-day orders. |
+| 3 | One-sided bands | The fee is decorative where the product ships: zero on Pharaoh, 10 to 19 bp per $1,000 order on Ramses NVDA. What separates a band from a limit order is that it is not final: in 6% to 16% of seven-day orders on NVDA and WAVAX the limit would have filled and the band did not; valued when the order expired, those orders were 2% to 9% of the order behind (1% to 4% for two-day orders). On SPY the shipped presets filled in 0 of 302 seven-day orders. |
 | 4 | Hedged mode at scale | Not positive after costs at $1,000 or $10,000 on any venue, with or without rewards, and not openable today. On the v4 route it is +1.2% to +1.9% before hedge costs over 117 days and −1.4% to −3.1% after them. |
 | 5 | Reward timing | Nothing has been lost because nothing has been earned. Under the gauge's rule the three policies differ by less than 0.03% of rewards at pilot activity; a visible loss needs frequent liquidity changes and dense claims together: up to 2.75% with an hourly rebalance and thousands of settlements a day. |
 | 6 | Session-aware allocation | Wider ranges over the weekend beat the better fixed range in 0 of 14, 0 of 11 and 0 of 9 rolling windows (v4 NVDA, Ramses NVDA, Ramses SPY). The reverse plan is ahead in a third to a half of windows, which is not a result. Fixed width stands. |
@@ -309,13 +309,16 @@ the Ramses pool and thirty times the v4 0.30% pool. The same measurement on the 
   above 1.
 - **LP fee income per day in the last two weeks:** $1,135 on V3 NVDA 0.05%, against $427 on v4 NVDA 0.30%, $31 on
   Ramses NVDA and $71 on Ramses SPY.
+- **Correction to section 4.8 as accepted.** Its third row calls the v4 0.30% pool "the only venue where fees have
+  covered the loss". With V3 measured that is no longer true: the V3 0.05% NVDA pool has done so too (87% of 30-day
+  windows), on thirty times the volume. The row's decision is unchanged; its reason is not exclusive to v4.
 - The 0.05% NVDA swap table is 142 MB and is not in the repository; `scripts/pull/rh_05c_univ3_005.py` rebuilds it and
   its checksum is in `data/robinhood/SHA256SUMS`. The position engine has not been run on the V3 pools.
 
 ## 5. Question 2: range geometry
 
-**Verdict.** No geometry is positive against holding in every rolling 30-day window on NVDA (either venue), on Ramses
-SPY or on WAVAX. On the Uniswap v4 0.30% SPY pool 32 of 39 cells are, and in the latest 30 days they sit between
+**Verdict.** No geometry is positive against holding in every rolling 30-day window on NVDA (Uniswap v4 0.30%, Uniswap
+V3 0.05% or Ramses), on Ramses SPY or on WAVAX. On the Uniswap v4 0.30% SPY pool 32 of 39 cells are, and in the latest 30 days they sit between
 −0.09% and +0.11%. Across the whole surface the trigger changes little; the half-width decides how large the swings
 are in both directions.
 
@@ -331,6 +334,9 @@ are in both directions.
 - The v4 NVDA position runs start on 16 July. In its first two weeks that pool held so little liquidity (about $2,000
   moved the price 1%) that a $1,000 position would have been 1% of it; including them turns +2.5% into +11.9% for the
   live policy and is not representative.
+- The sweeps use a 150 bp pool-versus-feed gate before a recentre; the live vault's is 300 bp. It makes no difference
+  to the result: the gate blocked no recentre of the ±2,400 / 600 cell on any stock pool (3 on Pharaoh), and 34 and 42
+  evaluations in total across all 39 full-window cells on the two NVDA pools.
 - The full surfaces, 39 cells per pool, are in `out/tables_q2.md`.
 
 ### 5.2 Result by pool ($1,000; net of protocol share, reserve cut and recentre gas; rewards excluded)
@@ -339,6 +345,7 @@ are in both directions.
 | --- | --- | --- | --- | --- | --- | --- |
 | Uniswap v4 NVDA 0.30% (16 Jul to 10 Nov) | −1.09% to +5.91% | −8.32% to −2.18% | 9 to 11 of 14 | none | −8.32% to −2.18% | 1.77 to 2.76 |
 | Uniswap v4 SPY 0.30% (14 Jul to 10 Nov) | +0.88% to +6.93% | −0.09% to +0.11% | 10 to 14 of 14 | 32 (every cell with a trigger of 200 or more) | −0.09% to +0.11% | 6.75 to 7.15 |
+| Uniswap V3 NVDA 0.05% (4 Aug to 10 Nov; 9 cells) | +0.90% to +8.63% | −8.43% to −2.18% | 6 to 9 of 11 | none | −8.43% to −2.18% | 1.00 to 1.14 |
 | Ramses NVDA (4 Aug to 10 Nov) | −0.94% to +8.05% | −8.83% to −2.46% | 2 to 8 of 11 | none | −8.83% to −2.46% | 0.36 to 0.75 |
 | Ramses SPY (19 Aug to 10 Nov) | +0.01% to +1.57% | −0.84% to −0.11% | 3 to 7 of 9 | none | −0.43% to −0.03% | 1.27 to 1.52 |
 | Pharaoh WAVAX (1 Aug to 10 Nov) | −14.47% to −0.36% | −24.08% to −10.37% | 0 to 6 of 12 | none | −7.56% to +8.17% | no fee |
@@ -351,6 +358,10 @@ Four cells per pool, from narrow to wide:
 | v4 NVDA | ±1,200 / 300 | +1.55% | $85.28 | $41.76 | 41 | 70% | −6.10% | +1.27% | +5.23% | none paid |
 | v4 NVDA | ±2,400 / 600 (live policy) | +2.52% | $53.94 | $30.27 | 15 | 86% | −3.86% | +0.81% | +2.90% | none paid |
 | v4 NVDA | ±4,800 / 1,200 | +2.48% | $33.45 | $18.47 | 3 | 94% | −2.26% | +0.54% | +1.56% | none paid |
+| V3 NVDA 0.05% | ±600 / 300 | +8.63% | $16.06 | $14.03 | 32 | 9% | −8.43% | +0.64% | +2.90% | none paid |
+| V3 NVDA 0.05% | ±1,200 / 300 | +6.42% | $35.19 | $35.12 | 32 | 42% | −6.19% | +0.52% | +2.19% | none paid |
+| V3 NVDA 0.05% | ±2,400 / 600 | +2.31% | $26.17 | $25.59 | 10 | 70% | −3.83% | +0.40% | +1.44% | none paid |
+| V3 NVDA 0.05% | ±4,800 / 1,200 | +1.25% | $16.87 | $15.41 | 3 | 86% | −2.23% | +0.22% | +0.76% | none paid |
 | v4 SPY | ±600 / 300 | +6.93% | $66.62 | $9.31 | 6 | 67% | +0.04% | +0.94% | +4.78% | none paid |
 | v4 SPY | ±1,200 / 300 | +3.88% | $38.28 | $5.56 | 6 | 81% | +0.06% | +0.50% | +2.57% | none paid |
 | v4 SPY | ±2,400 / 600 | +2.16% | $21.71 | $3.20 | 0 | 96% | +0.05% | +0.26% | +1.36% | none paid |
@@ -378,11 +389,15 @@ Four cells per pool, from narrow to wide:
 - **Every pool is decaying in time.** The best windows are the earliest and the worst is the latest on NVDA and on
   Ramses SPY (chart). The latest 30 days hold both the sample's highest volatility and its lowest fee income.
 - **Position-level fee ÷ LVR on the 0.30% pools is overstated** (1.8 to 2.8 on v4 NVDA) because the benchmark trades at
-  the pool's own slow price. The hedged run in section 7, which has to live with real price moves between hedges,
-  puts the same position's edge at +1.2% to +1.9% of equity over 117 days: fees about 1.4 to 1.8 times the true loss,
-  in line with the +24 hour column of section 4.5.
-- **Size.** At $10,000 the v4 NVDA surface is within 0.2 points of the $1,000 one from 16 July on (our share of the
-  pool stays under 3%). On Ramses NVDA fee ÷ LVR falls from 0.36 to 0.75 down to 0.29 to 0.65.
+  the pool's own slow price. On the V3 0.05% pool, which tracks the market, the same ratio is 1.00 to 1.14. The hedged
+  runs in section 7, which have to live with real price moves between hedges, put the v4 position's edge at +1.2% to
+  +1.9% of equity from 16 July and at −0.2% to +0.5% from 4 August: fees about equal to the true loss once the July
+  weeks are left out.
+- **The Uniswap V3 0.05% NVDA pool was run on nine cells** (half-widths 600 to 4,800 with triggers 300, 600 and 1,200),
+  from 4 August. It has the best fee-to-loss ratio of any NVDA venue with real flow and it still has no cell that
+  survives the latest 30 days.
+- **Size.** At $10,000 the v4 NVDA surface differs from the $1,000 one by 0.04 points at the median cell and window and
+  1.2 points at most (our share of the pool stays under 3% from 16 July on). On Ramses NVDA fee ÷ LVR falls from 0.36 to 0.75 down to 0.29 to 0.65.
 - **Rewards.** With RAM valued if sold, no Ramses NVDA cell becomes positive in every window (4 to 8 of 11). With PHAR
   valued if sold, Pharaoh's best full-window cell is +3.07% and its windows above holding are 1 to 7 of 12.
 
@@ -396,7 +411,7 @@ pair, $50 ranged) no geometry on any pool pays for its keeper.
 
 | Lever | Decision | Parameters |
 | --- | --- | --- |
-| Re-open symmetric LP on NVDA/USDG, any venue, any geometry | **Reject.** No cell survives the latest 30 days (−2.2% to −8.8%). | none |
+| Re-open symmetric LP on NVDA/USDG on any of the three venues, any geometry | **Reject.** No cell survives the latest 30 days (−2.2% to −8.8%), including on Uniswap V3 0.05%. | none |
 | Symmetric LP on WAVAX/USDC (Pharaoh) | **Reject.** No swap fee; negative in the full window in every cell. | none |
 | Symmetric LP on SPY/USDG, Uniswap v4 0.30% | **Test live at pilot size, and only if a SPY market is opened** (none exists on the live controller). It is the one pool with cells positive in every window, at a margin that has shrunk to about zero; at $1,000 it cannot cover $51 a year of keeper cost. | half-width 1,200, trigger 300, max 4 a day, cooldown 3,600 s, loss bound 10 bp; stop if two consecutive 30-day windows end below holding |
 | Tight triggers | **Reject.** No benefit anywhere on the surface. | keep trigger at half the half-width or 600, whichever is smaller |
@@ -406,8 +421,10 @@ pair, $50 ranged) no geometry on any pool pays for its keeper.
 
 **Verdict.** On the venues the product targets the fee is decorative: nothing on Pharaoh, 10 to 19 bp per $1,000 order on
 Ramses NVDA. The real difference from a limit order is that a band is not final until it is fully crossed and closed.
-In 6% to 16% of orders on NVDA and WAVAX a limit at the band's average price would have filled and the band did not, and
-those orders ended 3% to 7% of the order behind. On SPY the shipped presets filled in 0 of 302 seven-day orders.
+In 6% to 16% of seven-day orders on NVDA and WAVAX a limit at the band's average price would have filled and the band did
+not. Valued when the order expired, those orders were 2% to 9% of the order behind after seven days and 1% to 4% behind
+after two; the frequency is the robust number, the size depends on how long the user is left holding. On SPY the shipped
+presets filled in 0 of 302 seven-day orders.
 
 ![Take-profit band against a limit order](charts/q3_bands.png)
 
@@ -455,8 +472,11 @@ Buy bands give the same picture (`out/tables_q3.md`): on Ramses NVDA 55%, 35% an
   - **A 0.30% Uniswap pool:** material. A filled band keeps 67 to 134 bp and the 1% band beats the limit in 70% of
     orders. The prototype does not target this venue.
 - **The cost of not being final.** When the limit would have filled and the band did not, the band holder still has
-  the stock after it turned back: on average −490 bp (Ramses NVDA, 1%), −312 bp (3%), −635 bp and −669 bp (Pharaoh).
-  This is a property of the 2% width, not of the keeper: finalize was blocked by the feed conditions in only 0.3% to
+  the stock after it turned back. How much that costs depends on when it is valued. At the end of a seven-day order:
+  −490, −312 and −189 bp on Ramses NVDA (1%, 3%, 5% away) and −635, −668 and −860 bp on Pharaoh. At the end of a
+  two-day order: −134 to −257 bp and −330 to −393 bp, with the limit-only share at 19%, 3% and 2% on Ramses NVDA and 13%,
+  9% and 7% on Pharaoh. The share of orders is the stable figure.
+  It is a property of the 2% width, not of the keeper: finalize was blocked by the feed conditions in only 0.3% to
   3% of orders on NVDA and WAVAX.
 - **Rewards are the only income on Pharaoh:** 23 to 49 bp of PHAR per order if sold (about 107 PHAR on a 1% band),
   which goes whole to the order owner in the prototype. On Ramses NVDA, 1 to 10 bp of RAM.
@@ -484,10 +504,11 @@ Buy bands give the same picture (`out/tables_q3.md`): on Ramses NVDA 55%, 35% an
 
 ## 7. Question 4: hedged mode at scale
 
-**Verdict.** Hedged LP is not positive after costs at $1,000 or at $10,000, on any venue, with or without rewards, and
-it cannot be opened today. On the route that exists (Uniswap v4 NVDA, short through the margin market) it earns +1.2% to
-+1.9% of equity before hedge costs over 117 days and −1.4% to −3.1% after them; it is above zero in at most 1 of 13
-rolling 30-day windows.
+**Verdict.** Hedged LP is not positive after costs at $1,000 or at $10,000, on any of the five venue and route
+combinations tested, with or without rewards, and it cannot be opened today. On the route that exists (Uniswap v4 NVDA,
+short through the margin market) it earns +1.2% to +1.9% of equity before hedge costs over 117 days and −1.4% to −3.1%
+after them; it is above zero in at most 1 of 13 rolling 30-day windows. Routing the hedge through the Uniswap V3 0.05%
+pool cuts swap costs to a quarter and still ends at −1.3% to −2.5% over 98 days.
 
 ![Hedged range position before and after costs](charts/q4_hedged.png)
 
@@ -520,10 +541,15 @@ rolling 30-day windows.
 | | $1,000 | 10% | −2.96% | −4.32% | −5.10% | −1.09% | 0.14% | 0.68% | 0.97% | 0.08% | 10 | +0.53% | −2.43% |
 | | $10,000 | 5% | −10.64% | −4.42% | −5.10% | −1.76% | 0.24% | 7.64% | 0.97% | 0.03% | 39 | +0.51% | −10.13% |
 | | $10,000 | 10% | −9.12% | −4.42% | −5.10% | −1.21% | 0.14% | 6.79% | 0.97% | 0.01% | 10 | +0.51% | −8.61% |
+| v4 NVDA, hedge on v4, same window as the two rows below (4 Aug to 10 Nov) | $1,000 | 5% | −1.95% | −2.68% | −4.67% | +0.12% | 0.87% | 0.02% | 0.95% | 0.23% | 29 | none paid | −1.95% |
+| v4 NVDA, hedge routed through Uniswap V3 0.05% (4 Aug to 10 Nov; route not built) | $1,000 | 5% | −1.65% | −2.68% | −4.67% | −0.24% | 0.22% | 0.01% | 0.95% | 0.23% | 29 | none paid | −1.65% |
+| | $10,000 | 5% | −1.48% | −2.65% | −4.67% | −0.21% | 0.22% | 0.08% | 0.95% | 0.02% | 29 | none paid | −1.48% |
+| Uniswap V3 NVDA 0.05%, hedge on the same pool (4 Aug to 10 Nov; neither leg built) | $1,000 | 5% | −1.69% | −2.91% | −4.75% | −0.21% | 0.23% | 0.01% | 0.96% | 0.28% | 35 | none paid | −1.69% |
+| | $10,000 | 5% | −1.47% | −2.87% | −4.75% | −0.17% | 0.23% | 0.08% | 0.96% | 0.03% | 35 | none paid | −1.47% |
 | Pharaoh WAVAX, hedge on Pharaoh (1 Aug to 10 Nov; not available) | $1,000 | 5% | −4.05% | +6.38% | +12.61% | −3.24% | 0.22% | 0.00% | 0.46% | 0.13% | 33 | +2.17% | −1.89% |
 | | $10,000 | 5% | −3.74% | +6.58% | +12.61% | −3.03% | 0.22% | 0.02% | 0.46% | 0.01% | 33 | +2.16% | −1.58% |
 
-Percentages are of starting equity. All 18 rows are in `out/tables_q456.md`.
+Percentages are of starting equity. Every size and threshold of every run is in `out/tables_q456.md`.
 
 ### 7.3 Rolling 30-day windows
 
@@ -531,6 +557,8 @@ Percentages are of starting equity. All 18 rows are in `out/tables_q456.md`.
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | v4 NVDA | $1,000 | 5% | −1.12% | −0.76% | +0.44% | 1 of 13 | none paid |
 | v4 NVDA | $10,000 | 5% | −1.25% | −0.72% | +0.37% | 1 of 13 | none paid |
+| v4 NVDA, hedge through V3 0.05% | $1,000 | 5% | −1.05% | −0.52% | −0.28% | 0 of 10 | none paid |
+| V3 NVDA 0.05%, hedge on the same pool | $1,000 | 5% | −1.03% | −0.68% | −0.17% | 0 of 10 | none paid |
 | Ramses NVDA | $1,000 | 5% | −4.20% | −1.02% | −0.75% | 0 of 10 | 0 of 10 |
 | Ramses NVDA | $10,000 | 5% | −20.71% | −2.22% | −0.69% | 0 of 10 | 0 of 10 |
 | Pharaoh WAVAX | $1,000 | 5% | −4.92% | −2.66% | −1.59% | 0 of 11 | 0 of 11 |
@@ -538,9 +566,13 @@ Percentages are of starting equity. All 18 rows are in `out/tables_q456.md`.
 
 ### 7.4 What it says
 
-- **Hedging removes the direction and leaves fee minus loss.** That remainder is positive only on v4 (+1.2% to +1.9%
-  over 117 days, about 4% to 6% a year on equity), negative on Ramses NVDA (−1.1% to −1.6%) and on Pharaoh (−3%), which
-  is section 4 again at position level.
+- **Hedging removes the direction and leaves fee minus loss.** That remainder is positive only on v4 from 16 July
+  (+1.2% to +1.9% over 117 days), and most of it was earned in the July weeks: from 4 August it is +0.1% to +0.5% when
+  the hedge trades on v4 and −0.1% to −0.2% when it trades on V3 0.05%, where prices are current. It is −0.2% to 0.0% for
+  a V3 0.05% position, −1.1% to −1.6% on Ramses NVDA and −3% on Pharaoh. This is section 4 again at position level.
+- **The cheaper route does not rescue it.** Through V3 0.05% the swap cost of the hedge falls from 0.87% of equity to
+  0.22% over 98 days, and the result is still −1.5% to −1.7% because borrow interest at 12% (0.95%) is now the largest
+  line. With the borrow at today's 2.0% it would be about −0.9% to −0.7%.
 - **On v4 the costs are larger than the edge.** At the 5% threshold: 1.04% of swap fees (0.40% per adjustment including
   the flash vault), 1.65% of borrow interest and 0.32% of gas against 1.67%. With the borrow at today's 2.0% instead of
   12% the result would be between −0.3% and 0.0% over the 117 days: break-even at best.
@@ -548,7 +580,7 @@ Percentages are of starting equity. All 18 rows are in `out/tables_q456.md`.
   The spread between thresholds (0.6 to 1.7 points) is smaller than the costs.
 - **Size is capped by depth, not by caps alone.** On Ramses NVDA price impact goes from 0.76% of equity at $1,000 to
   7.6% at $10,000: that pool's liquidity fell to about $2,200 per 1% in late October. On v4 it goes from 0.04% to 0.44%.
-- **Rewards do not rescue it.** RAM if sold adds 0.5% on Ramses NVDA; PHAR if sold adds 2.2% on Pharaoh. Neither turns a
+- **Rewards do not rescue it either.** RAM if sold adds 0.5% on Ramses NVDA; PHAR if sold adds 2.2% on Pharaoh. Neither turns a
   single 30-day window positive.
 - **It cannot be opened.** Robinhood: per-position caps of $2 of position and $1 of debt, 0.032 NVDA lendable, 0.025
   NVDA in the flash vault, no SPY market. Avalanche: WAVAX borrowing is paused and no short pair exists. The margin
@@ -560,9 +592,9 @@ Percentages are of starting equity. All 18 rows are in `out/tables_q456.md`.
 
 | Lever | Decision | Parameters |
 | --- | --- | --- |
-| Hedged LP as a D order | **Reject** on every current venue and at both sizes. | none |
+| Hedged LP as a D order | **Reject** on every venue and route tested (v4, V3 0.05%, Ramses, Pharaoh) and at both sizes. | none |
 | Raising margin caps for a hedged pilot | **Reject.** The caps are not what stops it; the economics are. | leave `maxPositionValueUsd` $2 and `maxDebtValueUsd` $1 |
-| If it is revisited | Only on a pool where fee ÷ loss is above about 1.5 after the hedge's own trading cost, with a borrow rate under 5%. Today that would be the Uniswap V3 0.05% NVDA pool, which has not been run through the engine. | threshold 5% of LP value; margin half the short |
+| If it is revisited | Only when a pool's hedged result before costs exceeds borrow interest plus about 0.3% of swap cost per quarter. No NVDA pool has met that since 4 August. | threshold 5% to 10% of LP value; margin half the short; hedge routed through the lowest-fee deep pool |
 
 ## 8. Question 5: reward timing
 
@@ -601,6 +633,18 @@ that RAM came in one week. A Peridot vault cannot sell or distribute RAM or PHAR
 are worth nothing until a mechanism exists.
 
 ### 8.3 Share of rewards lost, by policy (Ramses NVDA gauge; the SPY gauge is within 0.01 point of it)
+
+The policies and the two activity inputs, as modelled here (the brief names the policies; these definitions are mine):
+
+- **Current rules:** the keeper sends no harvest, recentre or rebalance within 120 seconds of the position's last
+  liquidity change, and harvests every 6 hours (`ramses_keeper.py`).
+- **Claim only at a recentre:** no separate harvest; rewards are claimed only by the recentre's own liquidity change.
+- **Settle before admit:** current rules, plus one claim immediately before every deposit or withdrawal is admitted, so
+  that a new share never dilutes rewards already earned. A settlement is a claim with no liquidity change.
+- **User-driven unwind:** a withdrawal or liquidation that removes liquidity from the position at a time the keeper
+  does not choose. It is a liquidity change, so it claims and restarts the 99-second clock.
+- **Hourly rebalance:** the keeper redeploys idle inventory every hour (a liquidity change), as the v4 keeper did before
+  its value gate.
 
 | Policy | Keeper also rebalances hourly | User-driven unwinds a day | Settlements a day | Reward lost |
 | --- | --- | --- | --- | --- |

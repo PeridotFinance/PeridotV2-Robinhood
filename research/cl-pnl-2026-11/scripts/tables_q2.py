@@ -56,12 +56,15 @@ def summary(venue, capital=1000, mpd=4):
         med = xs[len(xs) // 2] if xs else float("nan")
         print(f"| ±{h:,} / {t} | {f['excess_mark_pct']:+.2f}% | ${f['fees_usd']:,.2f} | ${f['lvr_usd']:,.2f} | {f['recenters_core']} | {100 * f['deployed_frac_avg']:.0f}% | "
               f"{(xs[0] if xs else float('nan')):+.2f}% | {med:+.2f}% | {(xs[-1] if xs else float('nan')):+.2f}% |" + (f" {f['reward_pct_if_sold']:+.2f}% |" if rw else ""))
+    run = sum(1 for h in HALVES for t in TRIGGERS if cell(o["rows"], h, t)[0] is not None)
+    if run < 39:
+        print(f"\nOnly {run} cells were run on this pool (n/a above = not run or not allowed by the contract).")
     any_all = [(h, t) for h in HALVES for t in TRIGGERS if (lambda fw: fw[0] is not None and fw[1] and all(x["excess_mark_pct"] > 0 for x in fw[1]) and fw[0]["excess_mark_pct"] > 0)(cell(o["rows"], h, t))]
     print(f"\nCells positive over the full window and in every rolling window: {any_all if any_all else 'none'}.")
 
 
 if __name__ == "__main__":
-    for v in (sys.argv[1:] or ["v4_nvda", "v4_spy", "ramses_nvda", "ramses_spy", "pharaoh_wavax"]):
+    for v in (sys.argv[1:] or ["v4_nvda", "v4_spy", "ramses_nvda", "ramses_spy", "pharaoh_wavax", "univ3_nvda_005"]):
         summary(v)
     for v in ("v4_nvda", "ramses_nvda"):
         summary(v, 10000)
