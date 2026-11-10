@@ -1,0 +1,54 @@
+Ramses SPY/USDG (CL1, dynamic fee): RAM timing loss, threshold 99 s, range +/-2400/600, 2026-09-30 23:21 .. 2026-11-10 09:49, 0 recentres
+  $ 1,000: 37.93 RAM accrued = $1.33 if sold (0.13% of start); LP fees $0.84, LVR $1.87
+  $10,000: 377.61 RAM accrued = $13.25 if sold (0.13% of start); LP fees $8.39, LVR $18.66
+policy                 hourly rebal unwinds/d  admits/d  lost % (mean)  max of trials
+current                       False         0         0         0.0000         0.0000
+current                       False         1         0         0.0000         0.0000
+current                       False        10         0         0.0071         0.0146
+current                       False       100         0         0.6098         0.7243
+current                        True         0         0         0.0000         0.0000
+current                        True         1         0         0.0021         0.0072
+current                        True        10         0         0.0200         0.0324
+current                        True       100         0         0.7656         0.8482
+claim_at_recentre             False         0         0         0.0000         0.0000
+claim_at_recentre             False         1         0         0.0000         0.0008
+claim_at_recentre             False        10         0         0.0070         0.0150
+claim_at_recentre             False       100         0         0.5977         0.6647
+claim_at_recentre              True         0         0         0.0000         0.0000
+claim_at_recentre              True         1         0         0.0017         0.0065
+claim_at_recentre              True        10         0         0.0244         0.0381
+claim_at_recentre              True       100         0         0.7384         0.8379
+settle_before_admit           False         0        10         0.0000         0.0000
+settle_before_admit           False         0       100         0.0003         0.0028
+settle_before_admit           False         0      1000         0.0009         0.0028
+settle_before_admit           False         0     10000         0.0026         0.0028
+settle_before_admit           False         1        10         0.0011         0.0050
+settle_before_admit           False         1       100         0.0068         0.0161
+settle_before_admit           False         1      1000         0.0481         0.0674
+settle_before_admit           False         1     10000         0.1138         0.1549
+settle_before_admit           False        10        10         0.0135         0.0240
+settle_before_admit           False        10       100         0.0690         0.0836
+settle_before_admit           False        10      1000         0.4601         0.5463
+settle_before_admit           False        10     10000         1.0489         1.1560
+settle_before_admit           False       100        10         0.6672         0.7545
+settle_before_admit           False       100       100         1.1632         1.2975
+settle_before_admit           False       100      1000         4.7384         4.9654
+settle_before_admit           False       100     10000         9.9180        10.1987
+settle_before_admit            True         0        10         0.0157         0.0259
+settle_before_admit            True         0       100         0.1546         0.1991
+settle_before_admit            True         0      1000         1.1170         1.1738
+settle_before_admit            True         0     10000         2.5121         2.5239
+settle_before_admit            True         1        10         0.0179         0.0319
+settle_before_admit            True         1       100         0.1629         0.1915
+settle_before_admit            True         1      1000         1.1545         1.2268
+settle_before_admit            True         1     10000         2.6109         2.6428
+settle_before_admit            True        10        10         0.0443         0.0614
+settle_before_admit            True        10       100         0.2321         0.2747
+settle_before_admit            True        10      1000         1.5698         1.6683
+settle_before_admit            True        10     10000         3.5240         3.6571
+settle_before_admit            True       100        10         0.8344         0.9178
+settle_before_admit            True       100       100         1.4559         1.5965
+settle_before_admit            True       100      1000         5.8589         5.9923
+settle_before_admit            True       100     10000        12.2880        12.5290
+unspaced                       True         0         0         0.0000         0.0000
+wrote /Users/joshua/Peridot/wt-cl-research/research/cl-pnl-2026-11/out/q5_ramses_spy.json

@@ -88,6 +88,96 @@ def chart_q3_bands():
     return save(f, "q3_bands.png")
 
 
+# ------------------------------------------------------------------------------------------------ Q4
+def chart_q4_hedged():
+    venues = [v for v in ("v4_nvda", "ramses_nvda", "pharaoh_wavax") if jload(f"q4_{v}_h2400_t600.json")]
+    if not venues:
+        return
+    f, ax = fig(8.4, 3.9)
+    groups, pre, post, rew = [], [], [], []
+    for v in venues:
+        o = jload(f"q4_{v}_h2400_t600.json")
+        for size in (1000, 10000):
+            r = next(x for x in o["rows"] if x.get("window") == "full" and x["size"] == size and abs(x["threshold"] - 0.05) < 1e-9)
+            groups.append(f"{short(v).split('/')[0]}\n${size:,}")
+            pre.append(r["hedged_before_hedge_costs_pct"]); post.append(r["return_pct"]["hedged"])
+            rew.append(np.nan if r["hedged_plus_rewards_pct"] is None else r["hedged_plus_rewards_pct"])
+    x = np.arange(len(groups))
+    b1 = ax.bar(x - 0.27, pre, 0.25, color="#9ec3ee", label="before hedge costs")
+    b2 = ax.bar(x, post, 0.25, color=C_HEDGED, label="after swap fees, price impact, interest and gas")
+    b3 = ax.bar(x + 0.27, rew, 0.25, color=C_REWARD, label="after costs, plus rewards if sold")
+    for bars in (b1, b2, b3):
+        for b in bars:
+            h = b.get_height()
+            if h == h:
+                ax.annotate(f"{h:+.1f}%", (b.get_x() + b.get_width() / 2, h), xytext=(0, 3 if h >= 0 else -10), textcoords="offset points", ha="center", fontsize=7.5, color=INK)
+    zero_line(ax)
+    ax.set_xticks(x); ax.set_xticklabels(groups, fontsize=8)
+    ax.set_ylabel("return on starting equity (LP capital + margin)")
+    ax.yaxis.set_major_formatter(lambda val, _: "0%" if val == 0 else f"{val:+.0f}%")
+    ax.set_title("Hedged range position, whole window: negative after costs at both sizes")
+    ax.legend(loc="lower left", fontsize=7.5)
+    note(f, "±2,400 / 600 range with its stock delta shorted, re-hedged when drift exceeds 5% of LP value, borrow at 12% a year. Windows: v4 NVDA 16 Jul to 10 Nov, Ramses NVDA 4 Aug to 10 Nov, Pharaoh 1 Aug to 10 Nov. Uniswap pays no rewards. None of these hedges can be opened today.")
+    return save(f, "q4_hedged.png")
+
+
+# ------------------------------------------------------------------------------------------------ Q5
+def chart_q5_timing():
+    o = jload("q5_ramses_nvda.json")
+    if not o:
+        return
+    f, ax = fig(7.6, 3.5)
+    rows = o["loss_share"]["settle_before_admit"]
+    for hourly, col, lab in ((True, C_LOSS, "settle before admit, keeper also rebalances hourly"), (False, C_FEE, "settle before admit, keeper only recentres")):
+        pts = sorted((r["admits_per_day"], r["lost_pct_mean"]) for r in rows if r["hourly_rebalance"] == hourly and r["unwinds_per_day"] == 0)
+        ax.plot([p[0] for p in pts], [p[1] for p in pts], marker="o", markersize=5, color=col, label=lab)
+        ax.annotate(f"{pts[-1][1]:.2f}%", (pts[-1][0], pts[-1][1]), xytext=(6, -3), textcoords="offset points", fontsize=8, color=INK)
+    cur = next(r for r in o["loss_share"]["current"] if not r["hourly_rebalance"] and r["unwinds_per_day"] == 0)
+    ax.axhline(cur["lost_pct_mean"], color=INK2, linewidth=1.0, linestyle=(0, (4, 3)))
+    ax.annotate("current keeper rules, and claim only at a recentre: 0%", (10, cur["lost_pct_mean"]), xytext=(0, 5), textcoords="offset points", fontsize=8, color=INK2)
+    ax.set_xscale("log")
+    ax.set_xlim(8, 30000)
+    ax.set_xlabel("deposits and withdrawals settled per day")
+    ax.set_ylabel("share of RAM lost to the 99-second rule")
+    ax.yaxis.set_major_formatter(lambda val, _: f"{val:.1f}%")
+    ax.set_title("RAM lost to the gauge's 99-second rule, by policy and user activity")
+    ax.legend(loc="upper left", fontsize=7.5)
+    note(f, "Simulated on the engine's recentre timeline, 30 Sep to 10 Nov; no position of ours has earned RAM on mainnet. The ceiling with an hourly rebalance is 99 s of every hour, 2.75%.")
+    return save(f, "q5_reward_timing.png")
+
+
+# ------------------------------------------------------------------------------------------------ Q6
+def chart_q6_session():
+    venues = [v for v in ("v4_nvda", "ramses_nvda", "ramses_spy") if jload(f"q6_{v}_1000.json")]
+    if not venues:
+        return
+    plans = (("weekend_wide", "wide over\nthe weekend"), ("weekend_narrow", "narrow over\nthe weekend"), ("hours_wide", "wide in\nregular hours"))
+    f, axes = fig(2.9 * len(venues) + 0.4, 3.8, ncols=len(venues))
+    for ax, v in zip(np.atleast_1d(axes), venues):
+        o = jload(f"q6_{v}_1000.json")
+        n, w = [1200, 300], [2400, 600]
+        wins = [x for x in o["windows"] if x != "full"]
+        get = lambda plan, win: next((r["excess_mark_pct"] for r in o["rows"] if r["narrow"] == n and r["wide"] == w and r["plan"] == plan and r["window"] == win and "error" not in r), None)
+        for k, (plan, lab) in enumerate(plans):
+            d = [get(plan, wn) - max(get("fixed_narrow", wn), get("fixed_wide", wn)) for wn in wins
+                 if None not in (get(plan, wn), get("fixed_narrow", wn), get("fixed_wide", wn))]
+            jitter = (np.arange(len(d)) - (len(d) - 1) / 2) * (0.5 / max(len(d), 1))
+            ax.plot(k + jitter, d, linestyle="none", marker="o", markersize=5, markerfacecolor=SURFACE, markeredgecolor=BLUE, markeredgewidth=1.3, zorder=3)
+            ax.hlines(np.median(d), k - 0.32, k + 0.32, color=ORANGE, linewidth=2.2, zorder=4)
+            ax.annotate(f"{sum(x > 0 for x in d)} of {len(d)}", (k, ax.get_ylim()[1]), xytext=(0, 0), textcoords="offset points", fontsize=1, color=SURFACE)
+            ax.text(k, 0.97, f"{sum(x > 0 for x in d)} of {len(d)}\nahead", transform=ax.get_xaxis_transform(), ha="center", va="top", fontsize=7.5, color=INK2)
+        zero_line(ax)
+        ax.set_xticks(range(len(plans))); ax.set_xticklabels([p[1] for p in plans], fontsize=8)
+        ax.set_xlim(-0.6, len(plans) - 0.4)
+        ax.set_title(short(v), fontsize=9.5)
+        ax.yaxis.set_major_formatter(lambda val, _: "0" if val == 0 else f"{val:+.1f}")
+        lo, hi = ax.get_ylim(); ax.set_ylim(lo, hi + 0.3 * (hi - lo))
+    np.atleast_1d(axes)[0].set_ylabel("plan minus the better fixed range,\npoints of return per 30-day window")
+    f.suptitle("Session-aware width minus the better fixed range (dot = one 30-day window, bar = median)", x=0.01, ha="left", fontsize=10.5, fontweight="bold")
+    note(f, "$1,000 position; narrow = ±1,200 / 300, wide = ±2,400 / 600. Above zero the plan beat both fixed ranges in that window. Each panel has its own scale.")
+    return save(f, "q6_session.png")
+
+
 if __name__ == "__main__":
     for fn in [v for k, v in sorted(globals().items()) if k.startswith("chart_q")]:
         try:

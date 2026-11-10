@@ -1,0 +1,18 @@
+
+=== Uniswap V3 NVDA/USDG (0.30%)  2026-07-12 15:48 .. 2026-11-10 09:47  (120.7 d, 26,682 swaps, sigma 26%)
+bucket              days     vol $/d LPfee bp   LP fee $    loss0 $   loss1m $   loss1h $ fee/L1m fee/L1h refFee% refL1h%  fcLVR%  Ptrade
+TOTAL              120.8      40,459    25.45     12,308      2,245      4,875     13,573    2.52    0.91    19.8    13.8     7.5  0.0024
+regular             23.0      99,975    25.40      5,774        793      2,340      7,667    2.47    0.75    50.6    43.0    21.0  0.0051
+extended            33.7      37,006    25.62      3,157      1,007      1,854      3,845    1.70    0.82    20.3    13.0     7.3  0.0024
+overnight           29.0      23,766    25.67      1,750        182        394      1,262    4.45    1.39    11.2     6.6     3.8  0.0018
+weekend             35.0      18,500    25.09      1,627        264        287        799    5.66    2.04     6.0     1.4     1.6  0.0012
+vol Q1              30.7       2,837    25.00        218         26         15         42   14.19    5.24     1.3     0.2     0.1  0.0004
+vol Q2              31.4      29,235    25.99      2,384        227        327      1,011    7.30    2.36     5.3     2.6     0.8  0.0011
+vol Q3              28.5      46,602    25.21      3,349        464        824      2,918    4.07    1.15    15.2     7.7     3.3  0.0022
+vol Q4              30.2      84,582    25.40      6,357      1,529      3,709      9,603    1.71    0.66    57.9    45.0    24.8  0.0057
+external-reference loss: {'total': {'loss_usd': 1251.1797378529996, 'lp_fee_usd_on_scored': 972.8923931146107, 'fee_over_loss': 0.7775800420042571, 'scored_swaps': 4203}} gap {'swaps': 4203, 'median_abs': 34.10711627024221, 'p95_abs': 56.17216494759362, 'mean': 13.136207784294738}
+   regular {'loss_usd': 743.3071521594862, 'lp_fee_usd_on_scored': 573.4900486072706, 'fee_over_loss': 0.7715384507483131, 'scored_swaps': 2524}
+   extended {'loss_usd': 506.99656109098163, 'lp_fee_usd_on_scored': 398.3399304898407, 'fee_over_loss': 0.7856856654661958, 'scored_swaps': 1673}
+   overnight {'loss_usd': 0.5580576043300551, 'lp_fee_usd_on_scored': 0.6106957524997557, 'fee_over_loss': 1.0943238614818132, 'scored_swaps': 4}
+   weekend {'loss_usd': 0.31796699820150565, 'lp_fee_usd_on_scored': 0.45171826499981926, 'fee_over_loss': 1.4206451221505423, 'scored_swaps': 2}
+wrote /Users/joshua/Peridot/wt-cl-research/research/cl-pnl-2026-11/out/q1_univ3_nvda.json

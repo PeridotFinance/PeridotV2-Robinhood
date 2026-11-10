@@ -1,0 +1,438 @@
+{
+ "venue": "pharaoh_wavax",
+ "label": "Pharaoh WAVAX/USDC (CL10, dynamic fee)",
+ "token": "PHAR",
+ "threshold_s": 111.0,
+ "policy_range": [
+  2400,
+  600
+ ],
+ "sizes": {
+  "1000": {
+   "days": 101.38299768518519,
+   "reward_tokens": 902.2946252721262,
+   "reward_usd_if_sold": 27.055571732876782,
+   "reward_pct_of_start_if_sold": 2.705557173287678,
+   "recentres": 45,
+   "in_range": 1.0,
+   "lp_fees_usd": 0.0,
+   "lvr_usd": 37.111445298078095
+  },
+  "10000": {
+   "days": 101.38299768518519,
+   "reward_tokens": 8984.867217007175,
+   "reward_usd_if_sold": 269.42647358555615,
+   "reward_pct_of_start_if_sold": 2.694264735855562,
+   "recentres": 45,
+   "in_range": 1.0,
+   "lp_fees_usd": 0.0,
+   "lvr_usd": 371.1144529807639
+  }
+ },
+ "loss_share": {
+  "current": [
+   {
+    "policy": "current",
+    "hourly_rebalance": false,
+    "unwinds_per_day": 0.0,
+    "admits_per_day": 0.0,
+    "lost_pct_mean": 0.0,
+    "lost_pct_max": 0.0
+   },
+   {
+    "policy": "current",
+    "hourly_rebalance": false,
+    "unwinds_per_day": 1.0,
+    "admits_per_day": 0.0,
+    "lost_pct_mean": 9.101343943263926e-05,
+    "lost_pct_max": 0.0012071855406047853
+   },
+   {
+    "policy": "current",
+    "hourly_rebalance": false,
+    "unwinds_per_day": 10.0,
+    "admits_per_day": 0.0,
+    "lost_pct_mean": 0.008612795451891728,
+    "lost_pct_max": 0.013636853818187246
+   },
+   {
+    "policy": "current",
+    "hourly_rebalance": false,
+    "unwinds_per_day": 100.0,
+    "admits_per_day": 0.0,
+    "lost_pct_mean": 0.7647867985115074,
+    "lost_pct_max": 0.8218159114823025
+   },
+   {
+    "policy": "current",
+    "hourly_rebalance": true,
+    "unwinds_per_day": 0.0,
+    "admits_per_day": 0.0,
+    "lost_pct_mean": 0.0,
+    "lost_pct_max": 0.0
+   },
+   {
+    "policy": "current",
+    "hourly_rebalance": true,
+    "unwinds_per_day": 1.0,
+    "admits_per_day": 0.0,
+    "lost_pct_mean": 0.0021108897349483005,
+    "lost_pct_max": 0.006677376533645371
+   },
+   {
+    "policy": "current",
+    "hourly_rebalance": true,
+    "unwinds_per_day": 10.0,
+    "admits_per_day": 0.0,
+    "lost_pct_mean": 0.027147858456062907,
+    "lost_pct_max": 0.03616811009370189
+   },
+   {
+    "policy": "current",
+    "hourly_rebalance": true,
+    "unwinds_per_day": 100.0,
+    "admits_per_day": 0.0,
+    "lost_pct_mean": 0.9523100452581368,
+    "lost_pct_max": 1.0183924033269327
+   }
+  ],
+  "claim_at_recentre": [
+   {
+    "policy": "claim_at_recentre",
+    "hourly_rebalance": false,
+    "unwinds_per_day": 0.0,
+    "admits_per_day": 0.0,
+    "lost_pct_mean": 0.0,
+    "lost_pct_max": 0.0
+   },
+   {
+    "policy": "claim_at_recentre",
+    "hourly_rebalance": false,
+    "unwinds_per_day": 1.0,
+    "admits_per_day": 0.0,
+    "lost_pct_mean": 5.399664957465969e-05,
+    "lost_pct_max": 0.0008810778108815331
+   },
+   {
+    "policy": "claim_at_recentre",
+    "hourly_rebalance": false,
+    "unwinds_per_day": 10.0,
+    "admits_per_day": 0.0,
+    "lost_pct_mean": 0.009324381823398684,
+    "lost_pct_max": 0.01788959977615176
+   },
+   {
+    "policy": "claim_at_recentre",
+    "hourly_rebalance": false,
+    "unwinds_per_day": 100.0,
+    "admits_per_day": 0.0,
+    "lost_pct_mean": 0.7598489698018488,
+    "lost_pct_max": 0.813634712308132
+   },
+   {
+    "policy": "claim_at_recentre",
+    "hourly_rebalance": true,
+    "unwinds_per_day": 0.0,
+    "admits_per_day": 0.0,
+    "lost_pct_mean": 0.0,
+    "lost_pct_max": 0.0
+   },
+   {
+    "policy": "claim_at_recentre",
+    "hourly_rebalance": true,
+    "unwinds_per_day": 1.0,
+    "admits_per_day": 0.0,
+    "lost_pct_mean": 0.00218911110959965,
+    "lost_pct_max": 0.0056185309937542924
+   },
+   {
+    "policy": "claim_at_recentre",
+    "hourly_rebalance": true,
+    "unwinds_per_day": 10.0,
+    "admits_per_day": 0.0,
+    "lost_pct_mean": 0.0289823090415813,
+    "lost_pct_max": 0.039176502590969144
+   },
+   {
+    "policy": "claim_at_recentre",
+    "hourly_rebalance": true,
+    "unwinds_per_day": 100.0,
+    "admits_per_day": 0.0,
+    "lost_pct_mean": 0.9563758918640394,
+    "lost_pct_max": 1.020117908078589
+   }
+  ],
+  "settle_before_admit": [
+   {
+    "policy": "settle_before_admit",
+    "hourly_rebalance": false,
+    "unwinds_per_day": 0.0,
+    "admits_per_day": 10.0,
+    "lost_pct_mean": 0.0003622577363717502,
+    "lost_pct_max": 0.0019152607028202402
+   },
+   {
+    "policy": "settle_before_admit",
+    "hourly_rebalance": false,
+    "unwinds_per_day": 0.0,
+    "admits_per_day": 100.0,
+    "lost_pct_mean": 0.0037635366966262684,
+    "lost_pct_max": 0.008702916700635043
+   },
+   {
+    "policy": "settle_before_admit",
+    "hourly_rebalance": false,
+    "unwinds_per_day": 0.0,
+    "admits_per_day": 1000.0,
+    "lost_pct_mean": 0.02605928360589154,
+    "lost_pct_max": 0.032951020153613335
+   },
+   {
+    "policy": "settle_before_admit",
+    "hourly_rebalance": false,
+    "unwinds_per_day": 0.0,
+    "admits_per_day": 10000.0,
+    "lost_pct_mean": 0.053813634889072245,
+    "lost_pct_max": 0.05514652766219269
+   },
+   {
+    "policy": "settle_before_admit",
+    "hourly_rebalance": false,
+    "unwinds_per_day": 1.0,
+    "admits_per_day": 10.0,
+    "lost_pct_mean": 0.0013793068326954506,
+    "lost_pct_max": 0.004227643369510868
+   },
+   {
+    "policy": "settle_before_admit",
+    "hourly_rebalance": false,
+    "unwinds_per_day": 1.0,
+    "admits_per_day": 100.0,
+    "lost_pct_mean": 0.011502961999804995,
+    "lost_pct_max": 0.02010127188463029
+   },
+   {
+    "policy": "settle_before_admit",
+    "hourly_rebalance": false,
+    "unwinds_per_day": 1.0,
+    "admits_per_day": 1000.0,
+    "lost_pct_mean": 0.08180413461172935,
+    "lost_pct_max": 0.10342661157180094
+   },
+   {
+    "policy": "settle_before_admit",
+    "hourly_rebalance": false,
+    "unwinds_per_day": 1.0,
+    "admits_per_day": 10000.0,
+    "lost_pct_mean": 0.16981924095191897,
+    "lost_pct_max": 0.19749434477450137
+   },
+   {
+    "policy": "settle_before_admit",
+    "hourly_rebalance": false,
+    "unwinds_per_day": 10.0,
+    "admits_per_day": 10.0,
+    "lost_pct_mean": 0.017030898438131707,
+    "lost_pct_max": 0.031288088602654626
+   },
+   {
+    "policy": "settle_before_admit",
+    "hourly_rebalance": false,
+    "unwinds_per_day": 10.0,
+    "admits_per_day": 100.0,
+    "lost_pct_mean": 0.09300724450542361,
+    "lost_pct_max": 0.1112367922396862
+   },
+   {
+    "policy": "settle_before_admit",
+    "hourly_rebalance": false,
+    "unwinds_per_day": 10.0,
+    "admits_per_day": 1000.0,
+    "lost_pct_mean": 0.5821872574474554,
+    "lost_pct_max": 0.6389335443193516
+   },
+   {
+    "policy": "settle_before_admit",
+    "hourly_rebalance": false,
+    "unwinds_per_day": 10.0,
+    "admits_per_day": 10000.0,
+    "lost_pct_mean": 1.225288430580463,
+    "lost_pct_max": 1.3049232555502273
+   },
+   {
+    "policy": "settle_before_admit",
+    "hourly_rebalance": false,
+    "unwinds_per_day": 100.0,
+    "admits_per_day": 10.0,
+    "lost_pct_mean": 0.8349517236309592,
+    "lost_pct_max": 0.8973508591850523
+   },
+   {
+    "policy": "settle_before_admit",
+    "hourly_rebalance": false,
+    "unwinds_per_day": 100.0,
+    "admits_per_day": 100.0,
+    "lost_pct_mean": 1.4657086888657482,
+    "lost_pct_max": 1.5369027869557417
+   },
+   {
+    "policy": "settle_before_admit",
+    "hourly_rebalance": false,
+    "unwinds_per_day": 100.0,
+    "admits_per_day": 1000.0,
+    "lost_pct_mean": 5.724534703251331,
+    "lost_pct_max": 5.871644574012456
+   },
+   {
+    "policy": "settle_before_admit",
+    "hourly_rebalance": false,
+    "unwinds_per_day": 100.0,
+    "admits_per_day": 10000.0,
+    "lost_pct_mean": 11.23369907599464,
+    "lost_pct_max": 11.446802271315875
+   },
+   {
+    "policy": "settle_before_admit",
+    "hourly_rebalance": true,
+    "unwinds_per_day": 0.0,
+    "admits_per_day": 10.0,
+    "lost_pct_mean": 0.019777037291057807,
+    "lost_pct_max": 0.026942829271049826
+   },
+   {
+    "policy": "settle_before_admit",
+    "hourly_rebalance": true,
+    "unwinds_per_day": 0.0,
+    "admits_per_day": 100.0,
+    "lost_pct_mean": 0.19440852744587014,
+    "lost_pct_max": 0.2329714837953985
+   },
+   {
+    "policy": "settle_before_admit",
+    "hourly_rebalance": true,
+    "unwinds_per_day": 0.0,
+    "admits_per_day": 1000.0,
+    "lost_pct_mean": 1.3740810009724282,
+    "lost_pct_max": 1.4207423288022933
+   },
+   {
+    "policy": "settle_before_admit",
+    "hourly_rebalance": true,
+    "unwinds_per_day": 0.0,
+    "admits_per_day": 10000.0,
+    "lost_pct_mean": 2.895682426159998,
+    "lost_pct_max": 2.9056848980908936
+   },
+   {
+    "policy": "settle_before_admit",
+    "hourly_rebalance": true,
+    "unwinds_per_day": 1.0,
+    "admits_per_day": 10.0,
+    "lost_pct_mean": 0.021858513496960476,
+    "lost_pct_max": 0.03713811117440271
+   },
+   {
+    "policy": "settle_before_admit",
+    "hourly_rebalance": true,
+    "unwinds_per_day": 1.0,
+    "admits_per_day": 100.0,
+    "lost_pct_mean": 0.2034530766544574,
+    "lost_pct_max": 0.22534144150365207
+   },
+   {
+    "policy": "settle_before_admit",
+    "hourly_rebalance": true,
+    "unwinds_per_day": 1.0,
+    "admits_per_day": 1000.0,
+    "lost_pct_mean": 1.434743501081217,
+    "lost_pct_max": 1.483688976209112
+   },
+   {
+    "policy": "settle_before_admit",
+    "hourly_rebalance": true,
+    "unwinds_per_day": 1.0,
+    "admits_per_day": 10000.0,
+    "lost_pct_mean": 3.0128382976625097,
+    "lost_pct_max": 3.036229346301079
+   },
+   {
+    "policy": "settle_before_admit",
+    "hourly_rebalance": true,
+    "unwinds_per_day": 10.0,
+    "admits_per_day": 10.0,
+    "lost_pct_mean": 0.057768392228184376,
+    "lost_pct_max": 0.077773258048809
+   },
+   {
+    "policy": "settle_before_admit",
+    "hourly_rebalance": true,
+    "unwinds_per_day": 10.0,
+    "admits_per_day": 100.0,
+    "lost_pct_mean": 0.298735385194386,
+    "lost_pct_max": 0.3148804276652743
+   },
+   {
+    "policy": "settle_before_admit",
+    "hourly_rebalance": true,
+    "unwinds_per_day": 10.0,
+    "admits_per_day": 1000.0,
+    "lost_pct_mean": 1.9352412836953359,
+    "lost_pct_max": 1.9881543225274905
+   },
+   {
+    "policy": "settle_before_admit",
+    "hourly_rebalance": true,
+    "unwinds_per_day": 10.0,
+    "admits_per_day": 10000.0,
+    "lost_pct_mean": 4.0569239728343405,
+    "lost_pct_max": 4.138760634821991
+   },
+   {
+    "policy": "settle_before_admit",
+    "hourly_rebalance": true,
+    "unwinds_per_day": 100.0,
+    "admits_per_day": 10.0,
+    "lost_pct_mean": 1.0372831222188679,
+    "lost_pct_max": 1.0894252940117497
+   },
+   {
+    "policy": "settle_before_admit",
+    "hourly_rebalance": true,
+    "unwinds_per_day": 100.0,
+    "admits_per_day": 100.0,
+    "lost_pct_mean": 1.7927888041491098,
+    "lost_pct_max": 1.8751172183291962
+   },
+   {
+    "policy": "settle_before_admit",
+    "hourly_rebalance": true,
+    "unwinds_per_day": 100.0,
+    "admits_per_day": 1000.0,
+    "lost_pct_mean": 7.089382193411865,
+    "lost_pct_max": 7.225398495577408
+   },
+   {
+    "policy": "settle_before_admit",
+    "hourly_rebalance": true,
+    "unwinds_per_day": 100.0,
+    "admits_per_day": 10000.0,
+    "lost_pct_mean": 13.873560343191235,
+    "lost_pct_max": 14.041360565285304
+   }
+  ],
+  "unspaced": [
+   {
+    "policy": "unspaced",
+    "hourly_rebalance": true,
+    "unwinds_per_day": 0.0,
+    "admits_per_day": 0.0,
+    "lost_pct_mean": 0.005148700991872701,
+    "lost_pct_max": 0.005148700991872701
+   }
+  ]
+ },
+ "window": [
+  "2026-08-01 00:00",
+  "2026-11-10 09:11"
+ ]
+}

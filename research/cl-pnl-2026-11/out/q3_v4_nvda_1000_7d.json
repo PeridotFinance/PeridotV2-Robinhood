@@ -1,0 +1,1360 @@
+{
+ "venue": "v4_nvda",
+ "label": "Uniswap v4 NVDA/USDG (0.30%)",
+ "window": [
+  "2026-07-16 00:00",
+  "2026-11-10 09:47"
+ ],
+ "notional_usd": 1000.0,
+ "horizon_days": 7.0,
+ "width_ticks": 200,
+ "dist_ticks": [
+  100,
+  300,
+  490
+ ],
+ "venue_params": {
+  "poll_s": 30,
+  "user_fee_share": 0.7,
+  "oracle_gate_bps": 100,
+  "max_oracle_age_s": 43200,
+  "forfeit_window_s": 0,
+  "_note": "hypothetical venue for the band: the prototype targets the Ramses pools [5]; shown to isolate the effect of a 0.30% fee tier"
+ },
+ "gates": true,
+ "starts": 442,
+ "results": {
+  "sell_100": {
+   "orders": 442,
+   "fill_prob": 0.5180995475113123,
+   "touch_prob": 0.7714932126696833,
+   "limit_fill_prob": 0.6063348416289592,
+   "edge_touch_prob": 0.5316742081447964,
+   "finalize_blocked_prob": 0.011312217194570135,
+   "limit_filled_band_not": 0.08823529411764706,
+   "fees_bps_mean": 85.67379209130108,
+   "reward_bps_if_sold_mean": 0.0,
+   "reward_tokens_mean": 0.0,
+   "diff_vs_limit_bps": {
+    "mean": 42.154237437451336,
+    "median": 34.70070637541937,
+    "p05": -162.4744510006846,
+    "p95": 276.2963296969761,
+    "share_better": 0.7036199095022625,
+    "share_worse": 0.06787330316742081
+   },
+   "diff_vs_edge_limit_bps": {
+    "mean": 18.96595265693167,
+    "median": 0.0,
+    "p05": -75.69079285741049,
+    "p95": 223.95303661070034,
+    "share_better": 0.39819004524886875,
+    "share_worse": 0.3733031674208145
+   },
+   "inventory_diff_bps_mean": -43.51955465384978,
+   "when_filled": {
+    "orders": 229,
+    "fees_bps_mean": 133.91765476104192,
+    "fees_bps_median": 70.39911686040298,
+    "reward_bps_if_sold_mean": 0.0,
+    "active_hours_median": 20.880916666587193,
+    "hours_to_close_median": 66.425,
+    "diff_bps_mean": 133.9176547610342
+   },
+   "limit_filled_band_not_detail": {
+    "orders": 39,
+    "diff_bps_mean": -376.08444771459455,
+    "diff_bps_median": -352.26825645948566,
+    "fees_bps_mean": 115.44637959298855
+   },
+   "by_start_session": {
+    "regular": {
+     "orders": 77,
+     "fill_prob": 0.5064935064935064,
+     "touch_prob": 0.7532467532467533,
+     "limit_fill_prob": 0.5714285714285714,
+     "edge_touch_prob": 0.5064935064935064,
+     "finalize_blocked_prob": 0.012987012987012988,
+     "limit_filled_band_not": 0.06493506493506493,
+     "fees_bps_mean": 70.60332240705799,
+     "reward_bps_if_sold_mean": 0.0,
+     "reward_tokens_mean": 0.0,
+     "diff_vs_limit_bps": {
+      "mean": 45.39587817108733,
+      "median": 44.09706163833221,
+      "p05": -0.1966242404655529,
+      "p95": 193.07799890030273,
+      "share_better": 0.7012987012987013,
+      "share_worse": 0.05194805194805195
+     },
+     "diff_vs_edge_limit_bps": {
+      "mean": 17.713328270798797,
+      "median": 0.0,
+      "p05": -67.70722738181166,
+      "p95": 149.70311106525173,
+      "share_better": 0.38961038961038963,
+      "share_worse": 0.36363636363636365
+     },
+     "inventory_diff_bps_mean": -25.207444235970648,
+     "when_filled": {
+      "orders": 39,
+      "fees_bps_mean": 106.19611402065301,
+      "fees_bps_median": 78.37823277869907,
+      "reward_bps_if_sold_mean": 0.0,
+      "active_hours_median": 20.828749999933773,
+      "hours_to_close_median": 67.7,
+      "diff_bps_mean": 106.19611402063846
+     },
+     "limit_filled_band_not_detail": {
+      "orders": 5,
+      "diff_bps_mean": -254.05304476992592,
+      "diff_bps_median": -47.37020653865556,
+      "fees_bps_mean": 132.3944217451495
+     }
+    },
+    "extended": {
+     "orders": 77,
+     "fill_prob": 0.4675324675324675,
+     "touch_prob": 0.7402597402597403,
+     "limit_fill_prob": 0.6103896103896104,
+     "edge_touch_prob": 0.4675324675324675,
+     "finalize_blocked_prob": 0.0,
+     "limit_filled_band_not": 0.14285714285714285,
+     "fees_bps_mean": 90.17686926584398,
+     "reward_bps_if_sold_mean": 0.0,
+     "reward_tokens_mean": 0.0,
+     "diff_vs_limit_bps": {
+      "mean": 36.588980432513594,
+      "median": 34.705579323683644,
+      "p05": -376.0763715331741,
+      "p95": 301.70491936329506,
+      "share_better": 0.6623376623376623,
+      "share_worse": 0.07792207792207792
+     },
+     "diff_vs_edge_limit_bps": {
+      "mean": 40.93495975191402,
+      "median": 0.0,
+      "p05": -73.908724613854,
+      "p95": 312.9684942062077,
+      "share_better": 0.44155844155844154,
+      "share_worse": 0.2987012987012987
+     },
+     "inventory_diff_bps_mean": -53.58788883333048,
+     "when_filled": {
+      "orders": 36,
+      "fees_bps_mean": 141.0485758243418,
+      "fees_bps_median": 79.55638617148875,
+      "reward_bps_if_sold_mean": 0.0,
+      "active_hours_median": 19.113638888862397,
+      "hours_to_close_median": 67.13333333333333,
+      "diff_bps_mean": 141.04857582434485
+     },
+     "limit_filled_band_not_detail": {
+      "orders": 11,
+      "diff_bps_mean": -248.47875199448606,
+      "diff_bps_median": -18.68114561978018,
+      "fees_bps_mean": 125.19497947499785
+     }
+    },
+    "overnight": {
+     "orders": 158,
+     "fill_prob": 0.4873417721518987,
+     "touch_prob": 0.7784810126582279,
+     "limit_fill_prob": 0.5949367088607594,
+     "edge_touch_prob": 0.4936708860759494,
+     "finalize_blocked_prob": 0.02531645569620253,
+     "limit_filled_band_not": 0.10759493670886076,
+     "fees_bps_mean": 78.54660568028721,
+     "reward_bps_if_sold_mean": 0.0,
+     "reward_tokens_mean": 0.0,
+     "diff_vs_limit_bps": {
+      "mean": 28.337876938628153,
+      "median": 31.858278501714498,
+      "p05": -353.9374271741272,
+      "p95": 255.2268933624957,
+      "share_better": 0.6835443037974683,
+      "share_worse": 0.0949367088607595
+     },
+     "diff_vs_edge_limit_bps": {
+      "mean": 27.69614137824421,
+      "median": 0.0,
+      "p05": -69.78047945462112,
+      "p95": 172.96901117634354,
+      "share_better": 0.45569620253164556,
+      "share_worse": 0.3227848101265823
+     },
+     "inventory_diff_bps_mean": -50.20872874165903,
+     "when_filled": {
+      "orders": 77,
+      "fees_bps_mean": 129.65571580065705,
+      "fees_bps_median": 79.08556601390836,
+      "reward_bps_if_sold_mean": 0.0,
+      "active_hours_median": 20.626305555568802,
+      "hours_to_close_median": 54.80833333333333,
+      "diff_bps_mean": 129.65571580064983
+     },
+     "limit_filled_band_not_detail": {
+      "orders": 17,
+      "diff_bps_mean": -375.16030383988243,
+      "diff_bps_median": -352.26825645948566,
+      "fees_bps_mean": 91.05465996140664
+     }
+    },
+    "weekend": {
+     "orders": 130,
+     "fill_prob": 0.5923076923076923,
+     "touch_prob": 0.7923076923076923,
+     "limit_fill_prob": 0.6384615384615384,
+     "edge_touch_prob": 0.6307692307692307,
+     "finalize_blocked_prob": 0.0,
+     "limit_filled_band_not": 0.046153846153846156,
+     "fees_bps_mean": 100.5952126773558,
+     "reward_bps_if_sold_mean": 0.0,
+     "reward_tokens_mean": 0.0,
+     "diff_vs_limit_bps": {
+      "mean": 60.32272521979207,
+      "median": 34.63461172293137,
+      "p05": 0.0,
+      "p95": 789.7550249294317,
+      "share_better": 0.7538461538461538,
+      "share_worse": 0.038461538461538464
+     },
+     "diff_vs_edge_limit_bps": {
+      "mean": -3.91505723959748,
+      "median": 0.0,
+      "p05": -80.04080734192502,
+      "p95": 687.228340109658,
+      "share_better": 0.3076923076923077,
+      "share_worse": 0.4846153846153846
+     },
+     "inventory_diff_bps_mean": -40.27248745756378,
+     "when_filled": {
+      "orders": 77,
+      "fees_bps_mean": 148.88643697592514,
+      "fees_bps_median": 52.30950877058639,
+      "reward_bps_if_sold_mean": 0.0,
+      "active_hours_median": 23.32355555554231,
+      "hours_to_close_median": 71.89166666666667,
+      "diff_bps_mean": 148.88643697591536
+     },
+     "limit_filled_band_not_detail": {
+      "orders": 6,
+      "diff_bps_mean": -714.3394666337016,
+      "diff_bps_median": -865.8702765004011,
+      "fees_bps_mean": 152.56045030531916
+     }
+    }
+   }
+  },
+  "sell_300": {
+   "orders": 442,
+   "fill_prob": 0.27601809954751133,
+   "touch_prob": 0.5316742081447964,
+   "limit_fill_prob": 0.3665158371040724,
+   "edge_touch_prob": 0.27601809954751133,
+   "finalize_blocked_prob": 0.0022624434389140274,
+   "limit_filled_band_not": 0.09049773755656108,
+   "fees_bps_mean": 38.52507173535488,
+   "reward_bps_if_sold_mean": 0.0,
+   "reward_tokens_mean": 0.0,
+   "diff_vs_limit_bps": {
+    "mean": -3.5725455151940615,
+    "median": 0.0,
+    "p05": -119.62768914942536,
+    "p95": 126.21894201311692,
+    "share_better": 0.46153846153846156,
+    "share_worse": 0.07013574660633484
+   },
+   "diff_vs_edge_limit_bps": {
+    "mean": 9.068984325757086,
+    "median": 0.0,
+    "p05": -75.41253989592938,
+    "p95": 84.22752239634733,
+    "share_better": 0.3393665158371041,
+    "share_worse": 0.19230769230769232
+   },
+   "inventory_diff_bps_mean": -42.09761725054897,
+   "when_filled": {
+    "orders": 122,
+    "fees_bps_mean": 80.41127677625096,
+    "fees_bps_median": 79.2919204920992,
+    "reward_bps_if_sold_mean": 0.0,
+    "active_hours_median": 13.432236111064752,
+    "hours_to_close_median": 104.83333333333333,
+    "diff_bps_mean": 80.41127677624101
+   },
+   "limit_filled_band_not_detail": {
+    "orders": 40,
+    "diff_bps_mean": -340.7817470833059,
+    "diff_bps_median": -167.4521830329661,
+    "fees_bps_mean": 123.38295936229092
+   },
+   "by_start_session": {
+    "regular": {
+     "orders": 77,
+     "fill_prob": 0.2857142857142857,
+     "touch_prob": 0.5064935064935064,
+     "limit_fill_prob": 0.37662337662337664,
+     "edge_touch_prob": 0.2857142857142857,
+     "finalize_blocked_prob": 0.012987012987012988,
+     "limit_filled_band_not": 0.09090909090909091,
+     "fees_bps_mean": 41.50746069952786,
+     "reward_bps_if_sold_mean": 0.0,
+     "reward_tokens_mean": 0.0,
+     "diff_vs_limit_bps": {
+      "mean": 10.34500835663873,
+      "median": 0.0,
+      "p05": -59.36871240191065,
+      "p95": 145.9652691037369,
+      "share_better": 0.42857142857142855,
+      "share_worse": 0.07792207792207792
+     },
+     "diff_vs_edge_limit_bps": {
+      "mean": 11.36862753737261,
+      "median": 0.0,
+      "p05": -62.71189953533258,
+      "p95": 79.34488809418808,
+      "share_better": 0.2987012987012987,
+      "share_worse": 0.2077922077922078
+     },
+     "inventory_diff_bps_mean": -31.16245234288926,
+     "when_filled": {
+      "orders": 22,
+      "fees_bps_mean": 88.71869810500385,
+      "fees_bps_median": 82.22139234841167,
+      "reward_bps_if_sold_mean": 0.0,
+      "active_hours_median": 14.232097222175863,
+      "hours_to_close_median": 116.3875,
+      "diff_bps_mean": 88.71869810502113
+     },
+     "limit_filled_band_not_detail": {
+      "orders": 7,
+      "diff_bps_mean": -204.1259483839664,
+      "diff_bps_median": -101.42623549267228,
+      "fees_bps_mean": 137.06921721515505
+     }
+    },
+    "extended": {
+     "orders": 77,
+     "fill_prob": 0.2597402597402597,
+     "touch_prob": 0.4675324675324675,
+     "limit_fill_prob": 0.35064935064935066,
+     "edge_touch_prob": 0.2597402597402597,
+     "finalize_blocked_prob": 0.0,
+     "limit_filled_band_not": 0.09090909090909091,
+     "fees_bps_mean": 36.36494579965139,
+     "reward_bps_if_sold_mean": 0.0,
+     "reward_tokens_mean": 0.0,
+     "diff_vs_limit_bps": {
+      "mean": 7.512330567394922,
+      "median": 0.0,
+      "p05": -16.144247045041517,
+      "p95": 126.1880078217811,
+      "share_better": 0.4155844155844156,
+      "share_worse": 0.05194805194805195
+     },
+     "diff_vs_edge_limit_bps": {
+      "mean": 8.160300037977201,
+      "median": 0.0,
+      "p05": -72.9896989034155,
+      "p95": 101.73220386121791,
+      "share_better": 0.2597402597402597,
+      "share_worse": 0.2077922077922078
+     },
+     "inventory_diff_bps_mean": -28.852615232256458,
+     "when_filled": {
+      "orders": 20,
+      "fees_bps_mean": 76.11873688915612,
+      "fees_bps_median": 55.137725870603255,
+      "reward_bps_if_sold_mean": 0.0,
+      "active_hours_median": 18.95647222224209,
+      "hours_to_close_median": 108.8375,
+      "diff_bps_mean": 76.11873688914989
+     },
+     "limit_filled_band_not_detail": {
+      "orders": 7,
+      "diff_bps_mean": -193.48853493228668,
+      "diff_bps_median": -80.72123522520769,
+      "fees_bps_mean": 123.85668279261479
+     }
+    },
+    "overnight": {
+     "orders": 158,
+     "fill_prob": 0.25949367088607594,
+     "touch_prob": 0.4936708860759494,
+     "limit_fill_prob": 0.37341772151898733,
+     "edge_touch_prob": 0.25949367088607594,
+     "finalize_blocked_prob": 0.0,
+     "limit_filled_band_not": 0.11392405063291139,
+     "fees_bps_mean": 44.64896760453384,
+     "reward_bps_if_sold_mean": 0.0,
+     "reward_tokens_mean": 0.0,
+     "diff_vs_limit_bps": {
+      "mean": -7.807698421536647,
+      "median": 0.0,
+      "p05": -138.35163374161218,
+      "p95": 134.34851318130222,
+      "share_better": 0.41139240506329117,
+      "share_worse": 0.08227848101265822
+     },
+     "diff_vs_edge_limit_bps": {
+      "mean": 16.4981432467754,
+      "median": 0.0,
+      "p05": -64.27588096067905,
+      "p95": 147.73235476459848,
+      "share_better": 0.3227848101265823,
+      "share_worse": 0.17088607594936708
+     },
+     "inventory_diff_bps_mean": -52.4566660260705,
+     "when_filled": {
+      "orders": 41,
+      "fees_bps_mean": 87.10956762042514,
+      "fees_bps_median": 80.12461037435666,
+      "reward_bps_if_sold_mean": 0.0,
+      "active_hours_median": 16.457611111071376,
+      "hours_to_close_median": 92.04166666666667,
+      "diff_bps_mean": 87.10956762039947
+     },
+     "limit_filled_band_not_detail": {
+      "orders": 18,
+      "diff_bps_mean": -314.99549701733247,
+      "diff_bps_median": -123.31585110235778,
+      "fees_bps_mean": 143.8362910503811
+     }
+    },
+    "weekend": {
+     "orders": 130,
+     "fill_prob": 0.3,
+     "touch_prob": 0.6307692307692307,
+     "limit_fill_prob": 0.36153846153846153,
+     "edge_touch_prob": 0.3,
+     "finalize_blocked_prob": 0.0,
+     "limit_filled_band_not": 0.06153846153846154,
+     "fees_bps_mean": 30.59515019287468,
+     "reward_bps_if_sold_mean": 0.0,
+     "reward_tokens_mean": 0.0,
+     "diff_vs_limit_bps": {
+      "mean": -13.234337417412112,
+      "median": 13.520587605579522,
+      "p05": -292.89217163254915,
+      "p95": 120.14914892441504,
+      "share_better": 0.5692307692307692,
+      "share_worse": 0.06153846153846154
+     },
+     "diff_vs_edge_limit_bps": {
+      "mean": -0.7841768023678154,
+      "median": 0.0,
+      "p05": -76.06267260754544,
+      "p95": 48.481442638786255,
+      "share_better": 0.4307692307692308,
+      "share_worse": 0.2
+     },
+     "inventory_diff_bps_mean": -43.82948761028682,
+     "when_filled": {
+      "orders": 39,
+      "fees_bps_mean": 70.88454867107633,
+      "fees_bps_median": 42.7483130800003,
+      "reward_bps_if_sold_mean": 0.0,
+      "active_hours_median": 12.104777777724795,
+      "hours_to_close_median": 110.275,
+      "diff_bps_mean": 70.88454867106567
+     },
+     "limit_filled_band_not_detail": {
+      "orders": 8,
+      "diff_bps_mean": -647.2561942258098,
+      "diff_bps_median": -401.8309070281083,
+      "fees_bps_mean": 64.97297944129855
+     }
+    }
+   }
+  },
+  "sell_490": {
+   "orders": 442,
+   "fill_prob": 0.12217194570135746,
+   "touch_prob": 0.2850678733031674,
+   "limit_fill_prob": 0.18778280542986425,
+   "edge_touch_prob": 0.12217194570135746,
+   "finalize_blocked_prob": 0.0022624434389140274,
+   "limit_filled_band_not": 0.06561085972850679,
+   "fees_bps_mean": 22.213667290927276,
+   "reward_bps_if_sold_mean": 0.0,
+   "reward_tokens_mean": 0.0,
+   "diff_vs_limit_bps": {
+    "mean": 7.437853537101878,
+    "median": 0.0,
+    "p05": 0.0,
+    "p95": 106.85630328897922,
+    "share_better": 0.2420814479638009,
+    "share_worse": 0.042986425339366516
+   },
+   "diff_vs_edge_limit_bps": {
+    "mean": 8.92412477963337,
+    "median": 0.0,
+    "p05": -57.14711187977491,
+    "p95": 128.0999887751721,
+    "share_better": 0.18778280542986425,
+    "share_worse": 0.09728506787330317
+   },
+   "inventory_diff_bps_mean": -14.775813753825409,
+   "when_filled": {
+    "orders": 54,
+    "fees_bps_mean": 67.33213544023762,
+    "fees_bps_median": 54.203935022772136,
+    "reward_bps_if_sold_mean": 0.0,
+    "active_hours_median": 10.368638888829285,
+    "hours_to_close_median": 93.24583333333334,
+    "diff_bps_mean": 67.33213544023194
+   },
+   "limit_filled_band_not_detail": {
+    "orders": 29,
+    "diff_bps_mean": -100.57437572932967,
+    "diff_bps_median": -52.73786848084001,
+    "fees_bps_mean": 124.23469158879622
+   },
+   "by_start_session": {
+    "regular": {
+     "orders": 77,
+     "fill_prob": 0.15584415584415584,
+     "touch_prob": 0.3116883116883117,
+     "limit_fill_prob": 0.22077922077922077,
+     "edge_touch_prob": 0.15584415584415584,
+     "finalize_blocked_prob": 0.0,
+     "limit_filled_band_not": 0.06493506493506493,
+     "fees_bps_mean": 21.76056166140394,
+     "reward_bps_if_sold_mean": 0.0,
+     "reward_tokens_mean": 0.0,
+     "diff_vs_limit_bps": {
+      "mean": 7.873807270580118,
+      "median": 0.0,
+      "p05": -10.466068395267472,
+      "p95": 112.46885069038314,
+      "share_better": 0.2597402597402597,
+      "share_worse": 0.05194805194805195
+     },
+     "diff_vs_edge_limit_bps": {
+      "mean": 4.512407886623397,
+      "median": 0.0,
+      "p05": -59.60037118811533,
+      "p95": 87.32633319209154,
+      "share_better": 0.2077922077922078,
+      "share_worse": 0.1038961038961039
+     },
+     "inventory_diff_bps_mean": -13.886754390823787,
+     "when_filled": {
+      "orders": 12,
+      "fees_bps_mean": 73.4240764201357,
+      "fees_bps_median": 54.63467386263758,
+      "reward_bps_if_sold_mean": 0.0,
+      "active_hours_median": 16.011638888849152,
+      "hours_to_close_median": 96.225,
+      "diff_bps_mean": 73.42407642014034
+     },
+     "limit_filled_band_not_detail": {
+      "orders": 5,
+      "diff_bps_mean": -88.98203383875125,
+      "diff_bps_median": -52.73786848084001,
+      "fees_bps_mean": 123.94665555278759
+     }
+    },
+    "extended": {
+     "orders": 77,
+     "fill_prob": 0.15584415584415584,
+     "touch_prob": 0.2597402597402597,
+     "limit_fill_prob": 0.19480519480519481,
+     "edge_touch_prob": 0.15584415584415584,
+     "finalize_blocked_prob": 0.012987012987012988,
+     "limit_filled_band_not": 0.03896103896103896,
+     "fees_bps_mean": 20.4348116901753,
+     "reward_bps_if_sold_mean": 0.0,
+     "reward_tokens_mean": 0.0,
+     "diff_vs_limit_bps": {
+      "mean": 11.8498035957981,
+      "median": 0.0,
+      "p05": 0.0,
+      "p95": 106.83072708268173,
+      "share_better": 0.23376623376623376,
+      "share_worse": 0.025974025974025976
+     },
+     "diff_vs_edge_limit_bps": {
+      "mean": 3.430037350485986,
+      "median": 0.0,
+      "p05": -59.30978365399232,
+      "p95": 49.012525743411715,
+      "share_better": 0.14285714285714285,
+      "share_worse": 0.11688311688311688
+     },
+     "inventory_diff_bps_mean": -8.585008094377262,
+     "when_filled": {
+      "orders": 12,
+      "fees_bps_mean": 73.09139339751555,
+      "fees_bps_median": 51.81395441474731,
+      "reward_bps_if_sold_mean": 0.0,
+      "active_hours_median": 16.000736111137602,
+      "hours_to_close_median": 100.60416666666667,
+      "diff_bps_mean": 73.09139339750591
+     },
+     "limit_filled_band_not_detail": {
+      "orders": 3,
+      "diff_bps_mean": -81.58587815442161,
+      "diff_bps_median": -171.33663717272384,
+      "fees_bps_mean": 136.89548235965594
+     }
+    },
+    "overnight": {
+     "orders": 158,
+     "fill_prob": 0.13291139240506328,
+     "touch_prob": 0.26582278481012656,
+     "limit_fill_prob": 0.17721518987341772,
+     "edge_touch_prob": 0.13291139240506328,
+     "finalize_blocked_prob": 0.0,
+     "limit_filled_band_not": 0.04430379746835443,
+     "fees_bps_mean": 18.139687438354436,
+     "reward_bps_if_sold_mean": 0.0,
+     "reward_tokens_mean": 0.0,
+     "diff_vs_limit_bps": {
+      "mean": 10.63631705008299,
+      "median": 0.0,
+      "p05": 0.0,
+      "p95": 86.0600260713808,
+      "share_better": 0.23417721518987342,
+      "share_worse": 0.03164556962025317
+     },
+     "diff_vs_edge_limit_bps": {
+      "mean": 3.8698130873903387,
+      "median": 0.0,
+      "p05": -59.15102561107857,
+      "p95": 63.92164319201477,
+      "share_better": 0.1518987341772152,
+      "share_worse": 0.11392405063291139
+     },
+     "inventory_diff_bps_mean": -7.503370388271452,
+     "when_filled": {
+      "orders": 21,
+      "fees_bps_mean": 60.64766918191111,
+      "fees_bps_median": 48.20821386667203,
+      "reward_bps_if_sold_mean": 0.0,
+      "active_hours_median": 12.850444444417953,
+      "hours_to_close_median": 107.55,
+      "diff_bps_mean": 60.647669181898564
+     },
+     "limit_filled_band_not_detail": {
+      "orders": 7,
+      "diff_bps_mean": -52.8455535963144,
+      "diff_bps_median": -50.65775913599055,
+      "fees_bps_mean": 116.34358600972148
+     }
+    },
+    "weekend": {
+     "orders": 130,
+     "fill_prob": 0.06923076923076923,
+     "touch_prob": 0.3076923076923077,
+     "limit_fill_prob": 0.17692307692307693,
+     "edge_touch_prob": 0.06923076923076923,
+     "finalize_blocked_prob": 0.0,
+     "limit_filled_band_not": 0.1076923076923077,
+     "fees_bps_mean": 28.487127532755796,
+     "reward_bps_if_sold_mean": 0.0,
+     "reward_tokens_mean": 0.0,
+     "diff_vs_limit_bps": {
+      "mean": 0.6790394828830393,
+      "median": 0.0,
+      "p05": -49.74218767427793,
+      "p95": 95.98264825590438,
+      "share_better": 0.24615384615384617,
+      "share_worse": 0.06153846153846154
+     },
+     "diff_vs_edge_limit_bps": {
+      "mean": 20.934341550252718,
+      "median": 0.0,
+      "p05": -42.297213341538175,
+      "p95": 159.13280277373275,
+      "share_better": 0.24615384615384617,
+      "share_worse": 0.06153846153846154
+     },
+     "inventory_diff_bps_mean": -27.808088049872765,
+     "when_filled": {
+      "orders": 9,
+      "fees_bps_mean": 67.12762479343145,
+      "fees_bps_median": 64.2311994372136,
+      "reward_bps_if_sold_mean": 0.0,
+      "active_hours_median": 9.187611111137603,
+      "hours_to_close_median": 74.05,
+      "diff_bps_mean": 67.12762479343331
+     },
+     "limit_filled_band_not_detail": {
+      "orders": 14,
+      "diff_bps_mean": -132.64787266566705,
+      "diff_bps_median": -46.87822015432516,
+      "fees_bps_mean": 125.57008779743816
+     }
+    }
+   }
+  },
+  "buy_100": {
+   "orders": 442,
+   "fill_prob": 0.5203619909502263,
+   "touch_prob": 0.746606334841629,
+   "limit_fill_prob": 0.6221719457013575,
+   "edge_touch_prob": 0.5248868778280543,
+   "finalize_blocked_prob": 0.020361990950226245,
+   "limit_filled_band_not": 0.10180995475113122,
+   "fees_bps_mean": 45.112903978834936,
+   "reward_bps_if_sold_mean": 0.0,
+   "reward_tokens_mean": 0.0,
+   "diff_vs_limit_bps": {
+    "mean": 17.83654128117628,
+    "median": 27.91816072933102,
+    "p05": -89.51784018810119,
+    "p95": 122.02759532160132,
+    "share_better": 0.6832579185520362,
+    "share_worse": 0.06334841628959276
+   },
+   "diff_vs_edge_limit_bps": {
+    "mean": -9.596152813097117,
+    "median": 0.0,
+    "p05": -76.27827664872848,
+    "p95": 102.82881678825787,
+    "share_better": 0.2873303167420814,
+    "share_worse": 0.4592760180995475
+   },
+   "inventory_diff_bps_mean": -27.27636269765867,
+   "when_filled": {
+    "orders": 230,
+    "fees_bps_mean": 60.01602388387416,
+    "fees_bps_median": 50.60901502919099,
+    "reward_bps_if_sold_mean": 0.0,
+    "active_hours_median": 17.07195833328697,
+    "hours_to_close_median": 61.97083333333333,
+    "diff_bps_mean": 60.01602388387922
+   },
+   "limit_filled_band_not_detail": {
+    "orders": 45,
+    "diff_bps_mean": -155.84767599784675,
+    "diff_bps_median": -91.62291769757189,
+    "fees_bps_mean": 108.86779834770158
+   },
+   "by_start_session": {
+    "regular": {
+     "orders": 77,
+     "fill_prob": 0.5324675324675324,
+     "touch_prob": 0.7272727272727273,
+     "limit_fill_prob": 0.6233766233766234,
+     "edge_touch_prob": 0.5324675324675324,
+     "finalize_blocked_prob": 0.012987012987012988,
+     "limit_filled_band_not": 0.09090909090909091,
+     "fees_bps_mean": 43.636862570677856,
+     "reward_bps_if_sold_mean": 0.0,
+     "reward_tokens_mean": 0.0,
+     "diff_vs_limit_bps": {
+      "mean": 25.79864797462823,
+      "median": 28.79030198827081,
+      "p05": -25.86725302826104,
+      "p95": 124.98172609574091,
+      "share_better": 0.6753246753246753,
+      "share_worse": 0.05194805194805195
+     },
+     "diff_vs_edge_limit_bps": {
+      "mean": -10.669820375200725,
+      "median": 0.0,
+      "p05": -74.32525469549182,
+      "p95": 99.2280575523387,
+      "share_better": 0.2857142857142857,
+      "share_worse": 0.44155844155844154
+     },
+     "inventory_diff_bps_mean": -17.8382145960496,
+     "when_filled": {
+      "orders": 41,
+      "fees_bps_mean": 60.603466513985836,
+      "fees_bps_median": 49.13978325624519,
+      "reward_bps_if_sold_mean": 0.0,
+      "active_hours_median": 16.40172222216924,
+      "hours_to_close_median": 67.34166666666667,
+      "diff_bps_mean": 60.60346651399147
+     },
+     "limit_filled_band_not_detail": {
+      "orders": 7,
+      "diff_bps_mean": -99.56942851891134,
+      "diff_bps_median": -129.33626514130083,
+      "fees_bps_mean": 96.65093203766752
+     }
+    },
+    "extended": {
+     "orders": 77,
+     "fill_prob": 0.4805194805194805,
+     "touch_prob": 0.7662337662337663,
+     "limit_fill_prob": 0.6363636363636364,
+     "edge_touch_prob": 0.4805194805194805,
+     "finalize_blocked_prob": 0.0,
+     "limit_filled_band_not": 0.15584415584415584,
+     "fees_bps_mean": 57.91151100130025,
+     "reward_bps_if_sold_mean": 0.0,
+     "reward_tokens_mean": 0.0,
+     "diff_vs_limit_bps": {
+      "mean": 27.179846265398826,
+      "median": 27.94784146971324,
+      "p05": -111.69192986891287,
+      "p95": 161.2103795791977,
+      "share_better": 0.6753246753246753,
+      "share_worse": 0.09090909090909091
+     },
+     "diff_vs_edge_limit_bps": {
+      "mean": 6.885793104996218,
+      "median": 0.0,
+      "p05": -75.33665391073646,
+      "p95": 144.73978571424573,
+      "share_better": 0.37662337662337664,
+      "share_worse": 0.38961038961038963
+     },
+     "inventory_diff_bps_mean": -30.731664735901436,
+     "when_filled": {
+      "orders": 37,
+      "fees_bps_mean": 68.19974700675435,
+      "fees_bps_median": 50.61358914560217,
+      "reward_bps_if_sold_mean": 0.0,
+      "active_hours_median": 20.22577777776453,
+      "hours_to_close_median": 55.15833333333333,
+      "diff_bps_mean": 68.1997470067689
+     },
+     "limit_filled_band_not_detail": {
+      "orders": 12,
+      "diff_bps_mean": -72.62175391651833,
+      "diff_bps_median": -4.467212625862661,
+      "fees_bps_mean": 123.19438363228421
+     }
+    },
+    "overnight": {
+     "orders": 158,
+     "fill_prob": 0.5253164556962026,
+     "touch_prob": 0.7531645569620253,
+     "limit_fill_prob": 0.6518987341772152,
+     "edge_touch_prob": 0.5379746835443038,
+     "finalize_blocked_prob": 0.05063291139240506,
+     "limit_filled_band_not": 0.12658227848101267,
+     "fees_bps_mean": 48.87967629018091,
+     "reward_bps_if_sold_mean": 0.0,
+     "reward_tokens_mean": 0.0,
+     "diff_vs_limit_bps": {
+      "mean": 8.055186076235985,
+      "median": 28.37243483901034,
+      "p05": -102.97047162845537,
+      "p95": 125.8092204350309,
+      "share_better": 0.6772151898734177,
+      "share_worse": 0.0759493670886076
+     },
+     "diff_vs_edge_limit_bps": {
+      "mean": -8.855063718455416,
+      "median": 0.0,
+      "p05": -75.98071472911812,
+      "p95": 98.11221590052259,
+      "share_better": 0.310126582278481,
+      "share_worse": 0.4430379746835443
+     },
+     "inventory_diff_bps_mean": -40.82449021394494,
+     "when_filled": {
+      "orders": 83,
+      "fees_bps_mean": 65.7012231744758,
+      "fees_bps_median": 50.456127853614255,
+      "reward_bps_if_sold_mean": 0.0,
+      "active_hours_median": 17.132361111044883,
+      "hours_to_close_median": 55.35,
+      "diff_bps_mean": 65.70122317448565
+     },
+     "limit_filled_band_not_detail": {
+      "orders": 20,
+      "diff_bps_mean": -219.3347228606438,
+      "diff_bps_median": -42.5845407020995,
+      "fees_bps_mean": 102.24661975940205
+     }
+    },
+    "weekend": {
+     "orders": 130,
+     "fill_prob": 0.5307692307692308,
+     "touch_prob": 0.7384615384615385,
+     "limit_fill_prob": 0.5769230769230769,
+     "edge_touch_prob": 0.5307692307692308,
+     "finalize_blocked_prob": 0.0,
+     "limit_filled_band_not": 0.046153846153846156,
+     "fees_bps_mean": 33.828384151954936,
+     "reward_bps_if_sold_mean": 0.0,
+     "reward_tokens_mean": 0.0,
+     "diff_vs_limit_bps": {
+      "mean": 19.47452145963497,
+      "median": 22.051422493613018,
+      "p05": -1.1368683772161603e-12,
+      "p95": 71.15941483676897,
+      "share_better": 0.7,
+      "share_worse": 0.038461538461538464
+     },
+     "diff_vs_edge_limit_bps": {
+      "mean": -19.623302892824785,
+      "median": -22.953196167105148,
+      "p05": -76.59547196006969,
+      "p95": 26.761426537391106,
+      "share_better": 0.2076923076923077,
+      "share_worse": 0.5307692307692308
+     },
+     "inventory_diff_bps_mean": -14.353862692319991,
+     "when_filled": {
+      "orders": 69,
+      "fees_bps_mean": 48.439872514293256,
+      "fees_bps_median": 57.484266817693374,
+      "reward_bps_if_sold_mean": 0.0,
+      "active_hours_median": 17.011555555529064,
+      "hours_to_close_median": 75.83333333333333,
+      "diff_bps_mean": 48.43987251428716
+     },
+     "limit_filled_band_not_detail": {
+      "orders": 6,
+      "diff_bps_mean": -176.33398600993814,
+      "diff_bps_median": -114.58707192686859,
+      "fees_bps_mean": 116.53823376790768
+     }
+    }
+   }
+  },
+  "buy_300": {
+   "orders": 442,
+   "fill_prob": 0.32805429864253394,
+   "touch_prob": 0.5248868778280543,
+   "limit_fill_prob": 0.4434389140271493,
+   "edge_touch_prob": 0.334841628959276,
+   "finalize_blocked_prob": 0.013574660633484163,
+   "limit_filled_band_not": 0.11538461538461539,
+   "fees_bps_mean": 34.81908453150436,
+   "reward_bps_if_sold_mean": 0.0,
+   "reward_tokens_mean": 0.0,
+   "diff_vs_limit_bps": {
+    "mean": -1.7828065430640723,
+    "median": 0.0,
+    "p05": -212.4597506960026,
+    "p95": 133.51173957182908,
+    "share_better": 0.45248868778280543,
+    "share_worse": 0.07239819004524888
+   },
+   "diff_vs_edge_limit_bps": {
+    "mean": 0.28789571309527306,
+    "median": 0.0,
+    "p05": -71.62502683286391,
+    "p95": 100.36379395172906,
+    "share_better": 0.248868778280543,
+    "share_worse": 0.27601809954751133
+   },
+   "inventory_diff_bps_mean": -36.60189107456844,
+   "when_filled": {
+    "orders": 145,
+    "fees_bps_mean": 58.63153601334421,
+    "fees_bps_median": 34.765433798344034,
+    "reward_bps_if_sold_mean": 0.0,
+    "active_hours_median": 10.933416666653422,
+    "hours_to_close_median": 103.59166666666667,
+    "diff_bps_mean": 58.63153601334288
+   },
+   "limit_filled_band_not_detail": {
+    "orders": 51,
+    "diff_bps_mean": -205.75703855484448,
+    "diff_bps_median": -141.77846407921493,
+    "fees_bps_mean": 111.13096644066303
+   },
+   "by_start_session": {
+    "regular": {
+     "orders": 77,
+     "fill_prob": 0.33766233766233766,
+     "touch_prob": 0.5324675324675324,
+     "limit_fill_prob": 0.4805194805194805,
+     "edge_touch_prob": 0.33766233766233766,
+     "finalize_blocked_prob": 0.012987012987012988,
+     "limit_filled_band_not": 0.14285714285714285,
+     "fees_bps_mean": 33.81077982941111,
+     "reward_bps_if_sold_mean": 0.0,
+     "reward_tokens_mean": 0.0,
+     "diff_vs_limit_bps": {
+      "mean": -30.10781078605134,
+      "median": 0.0,
+      "p05": -386.70195160681396,
+      "p95": 133.08324658703464,
+      "share_better": 0.42857142857142855,
+      "share_worse": 0.1038961038961039
+     },
+     "diff_vs_edge_limit_bps": {
+      "mean": -0.19465324008018275,
+      "median": 0.0,
+      "p05": -72.16714201563605,
+      "p95": 101.63355327867977,
+      "share_better": 0.2597402597402597,
+      "share_worse": 0.2727272727272727
+     },
+     "inventory_diff_bps_mean": -63.91859061546248,
+     "when_filled": {
+      "orders": 26,
+      "fees_bps_mean": 55.69537649066817,
+      "fees_bps_median": 33.25989858666985,
+      "reward_bps_if_sold_mean": 0.0,
+      "active_hours_median": 13.068388888902135,
+      "hours_to_close_median": 118.04166666666666,
+      "diff_bps_mean": 55.69537649066009
+     },
+     "limit_filled_band_not_detail": {
+      "orders": 11,
+      "diff_bps_mean": -352.36936395078504,
+      "diff_bps_median": -329.7972542141565,
+      "fees_bps_mean": 95.06077035743283
+     }
+    },
+    "extended": {
+     "orders": 77,
+     "fill_prob": 0.35064935064935066,
+     "touch_prob": 0.4805194805194805,
+     "limit_fill_prob": 0.4155844155844156,
+     "edge_touch_prob": 0.36363636363636365,
+     "finalize_blocked_prob": 0.012987012987012988,
+     "limit_filled_band_not": 0.06493506493506493,
+     "fees_bps_mean": 36.58062531519335,
+     "reward_bps_if_sold_mean": 0.0,
+     "reward_tokens_mean": 0.0,
+     "diff_vs_limit_bps": {
+      "mean": 15.987175547824492,
+      "median": 0.0,
+      "p05": -21.062709760150227,
+      "p95": 147.2840463950579,
+      "share_better": 0.42857142857142855,
+      "share_worse": 0.05194805194805195
+     },
+     "diff_vs_edge_limit_bps": {
+      "mean": 0.09183788384410202,
+      "median": 0.0,
+      "p05": -71.3624743321775,
+      "p95": 89.51321848375333,
+      "share_better": 0.2077922077922078,
+      "share_worse": 0.2727272727272727
+     },
+     "inventory_diff_bps_mean": -20.593449767368828,
+     "when_filled": {
+      "orders": 27,
+      "fees_bps_mean": 66.29533963311258,
+      "fees_bps_median": 41.097631888020494,
+      "reward_bps_if_sold_mean": 0.0,
+      "active_hours_median": 13.138694444497427,
+      "hours_to_close_median": 107.9,
+      "diff_bps_mean": 66.29533963311309
+     },
+     "limit_filled_band_not_detail": {
+      "orders": 5,
+      "diff_bps_mean": -129.78952683945818,
+      "diff_bps_median": -225.65120154987312,
+      "fees_bps_mean": 187.34959957802488
+     }
+    },
+    "overnight": {
+     "orders": 158,
+     "fill_prob": 0.34177215189873417,
+     "touch_prob": 0.5379746835443038,
+     "limit_fill_prob": 0.4240506329113924,
+     "edge_touch_prob": 0.35443037974683544,
+     "finalize_blocked_prob": 0.02531645569620253,
+     "limit_filled_band_not": 0.08227848101265822,
+     "fees_bps_mean": 38.988793119826795,
+     "reward_bps_if_sold_mean": 0.0,
+     "reward_tokens_mean": 0.0,
+     "diff_vs_limit_bps": {
+      "mean": 9.352951044564163,
+      "median": 5.684341886080801e-13,
+      "p05": -50.515166331309786,
+      "p95": 140.47989845184225,
+      "share_better": 0.47468354430379744,
+      "share_worse": 0.06329113924050633
+     },
+     "diff_vs_edge_limit_bps": {
+      "mean": 2.438443673721845,
+      "median": 0.0,
+      "p05": -71.6908275597545,
+      "p95": 94.99472878300351,
+      "share_better": 0.25316455696202533,
+      "share_worse": 0.2848101265822785
+     },
+     "inventory_diff_bps_mean": -29.63584207526265,
+     "when_filled": {
+      "orders": 54,
+      "fees_bps_mean": 68.56204963898706,
+      "fees_bps_median": 48.342900499886554,
+      "reward_bps_if_sold_mean": 0.0,
+      "active_hours_median": 15.583374999960263,
+      "hours_to_close_median": 103.6875,
+      "diff_bps_mean": 68.56204963899226
+     },
+     "limit_filled_band_not_detail": {
+      "orders": 13,
+      "diff_bps_mean": -219.08377236040585,
+      "diff_bps_median": -160.99683085148513,
+      "fees_bps_mean": 139.81741592448725
+     }
+    },
+    "weekend": {
+     "orders": 130,
+     "fill_prob": 0.2923076923076923,
+     "touch_prob": 0.5307692307692308,
+     "limit_fill_prob": 0.46153846153846156,
+     "edge_touch_prob": 0.2923076923076923,
+     "finalize_blocked_prob": 0.0,
+     "limit_filled_band_not": 0.16923076923076924,
+     "fees_bps_mean": 29.305137337367295,
+     "reward_bps_if_sold_mean": 0.0,
+     "reward_tokens_mean": 0.0,
+     "diff_vs_limit_bps": {
+      "mean": -9.065214182553772,
+      "median": 0.0,
+      "p05": -437.26440652259856,
+      "p95": 117.82700921256809,
+      "share_better": 0.45384615384615384,
+      "share_worse": 0.07692307692307693
+     },
+     "diff_vs_edge_limit_bps": {
+      "mean": -1.9239031756135578,
+      "median": 0.0,
+      "p05": -70.4200192527723,
+      "p95": 100.3280729275013,
+      "share_better": 0.26153846153846155,
+      "share_worse": 0.2692307692307692
+     },
+     "inventory_diff_bps_mean": -38.37035151992107,
+     "when_filled": {
+      "orders": 38,
+      "fees_bps_mean": 41.08337059416305,
+      "fees_bps_median": 30.214976107059137,
+      "reward_bps_if_sold_mean": 0.0,
+      "active_hours_median": 7.691027777791024,
+      "hours_to_close_median": 97.125,
+      "diff_bps_mean": 41.0833705941558
+     },
+     "limit_filled_band_not_detail": {
+      "orders": 22,
+      "diff_bps_mean": -141.8413312707211,
+      "diff_bps_median": 8.252855113201463,
+      "fees_bps_mean": 84.89256407425431
+     }
+    }
+   }
+  },
+  "buy_490": {
+   "orders": 442,
+   "fill_prob": 0.18778280542986425,
+   "touch_prob": 0.34615384615384615,
+   "limit_fill_prob": 0.248868778280543,
+   "edge_touch_prob": 0.19909502262443438,
+   "finalize_blocked_prob": 0.027149321266968326,
+   "limit_filled_band_not": 0.06108597285067873,
+   "fees_bps_mean": 24.685209451129335,
+   "reward_bps_if_sold_mean": 0.0,
+   "reward_tokens_mean": 0.0,
+   "diff_vs_limit_bps": {
+    "mean": 15.568739760920641,
+    "median": 0.0,
+    "p05": -1.1368683772161603e-12,
+    "p95": 169.02865085145115,
+    "share_better": 0.31221719457013575,
+    "share_worse": 0.033936651583710405
+   },
+   "diff_vs_edge_limit_bps": {
+    "mean": 3.1693538672204045,
+    "median": 0.0,
+    "p05": -70.2084658834317,
+    "p95": 86.86790445969858,
+    "share_better": 0.20588235294117646,
+    "share_worse": 0.14027149321266968
+   },
+   "inventory_diff_bps_mean": -9.116469690208698,
+   "when_filled": {
+    "orders": 83,
+    "fees_bps_mean": 84.98165574988352,
+    "fees_bps_median": 41.03396301946123,
+    "reward_bps_if_sold_mean": 0.0,
+    "active_hours_median": 11.099888888862399,
+    "hours_to_close_median": 109.925,
+    "diff_bps_mean": 84.98165574989007
+   },
+   "limit_filled_band_not_detail": {
+    "orders": 27,
+    "diff_bps_mean": -43.149913043101456,
+    "diff_bps_median": -3.178246184083946,
+    "fees_bps_mean": 105.04632030937138
+   },
+   "by_start_session": {
+    "regular": {
+     "orders": 77,
+     "fill_prob": 0.19480519480519481,
+     "touch_prob": 0.33766233766233766,
+     "limit_fill_prob": 0.24675324675324675,
+     "edge_touch_prob": 0.2077922077922078,
+     "finalize_blocked_prob": 0.012987012987012988,
+     "limit_filled_band_not": 0.05194805194805195,
+     "fees_bps_mean": 19.416930551947914,
+     "reward_bps_if_sold_mean": 0.0,
+     "reward_tokens_mean": 0.0,
+     "diff_vs_limit_bps": {
+      "mean": 10.777473241602404,
+      "median": 0.0,
+      "p05": -6.441905916152555,
+      "p95": 72.28160506273188,
+      "share_better": 0.2857142857142857,
+      "share_worse": 0.05194805194805195
+     },
+     "diff_vs_edge_limit_bps": {
+      "mean": -3.1896154279154594,
+      "median": 0.0,
+      "p05": -72.33323232187557,
+      "p95": 71.74568661334753,
+      "share_better": 0.16883116883116883,
+      "share_worse": 0.16883116883116883
+     },
+     "inventory_diff_bps_mean": -8.639457310345524,
+     "when_filled": {
+      "orders": 15,
+      "fees_bps_mean": 65.57735918000783,
+      "fees_bps_median": 40.275347446552864,
+      "reward_bps_if_sold_mean": 0.0,
+      "active_hours_median": 12.068472222222223,
+      "hours_to_close_median": 138.525,
+      "diff_bps_mean": 65.57735918003111
+     },
+     "limit_filled_band_not_detail": {
+      "orders": 4,
+      "diff_bps_mean": -71.36300540969586,
+      "diff_bps_median": -57.59111338896105,
+      "fees_bps_mean": 92.92776466394021
+     }
+    },
+    "extended": {
+     "orders": 77,
+     "fill_prob": 0.15584415584415584,
+     "touch_prob": 0.36363636363636365,
+     "limit_fill_prob": 0.22077922077922077,
+     "edge_touch_prob": 0.16883116883116883,
+     "finalize_blocked_prob": 0.025974025974025976,
+     "limit_filled_band_not": 0.06493506493506493,
+     "fees_bps_mean": 23.67627865476249,
+     "reward_bps_if_sold_mean": 0.0,
+     "reward_tokens_mean": 0.0,
+     "diff_vs_limit_bps": {
+      "mean": 13.188865677482418,
+      "median": 0.0,
+      "p05": -1.1368683772161603e-12,
+      "p95": 102.64326221259229,
+      "share_better": 0.3246753246753247,
+      "share_worse": 0.03896103896103896
+     },
+     "diff_vs_edge_limit_bps": {
+      "mean": 5.7842794630558085,
+      "median": 0.0,
+      "p05": -67.98540702299964,
+      "p95": 84.56686592980647,
+      "share_better": 0.24675324675324675,
+      "share_worse": 0.11688311688311688
+     },
+     "inventory_diff_bps_mean": -10.487412977280044,
+     "when_filled": {
+      "orders": 12,
+      "fees_bps_mean": 84.50788053618193,
+      "fees_bps_median": 47.35382244149042,
+      "reward_bps_if_sold_mean": 0.0,
+      "active_hours_median": 11.152124999993378,
+      "hours_to_close_median": 115.80416666666666,
+      "diff_bps_mean": 84.50788053620556
+     },
+     "limit_filled_band_not_detail": {
+      "orders": 5,
+      "diff_bps_mean": -51.88747973810382,
+      "diff_bps_median": -16.772280386370543,
+      "fees_bps_mean": 109.2800504588738
+     }
+    },
+    "overnight": {
+     "orders": 158,
+     "fill_prob": 0.189873417721519,
+     "touch_prob": 0.37341772151898733,
+     "limit_fill_prob": 0.2721518987341772,
+     "edge_touch_prob": 0.1962025316455696,
+     "finalize_blocked_prob": 0.03164556962025317,
+     "limit_filled_band_not": 0.08227848101265822,
+     "fees_bps_mean": 24.545289962220252,
+     "reward_bps_if_sold_mean": 0.0,
+     "reward_tokens_mean": 0.0,
+     "diff_vs_limit_bps": {
+      "mean": 9.434184983432983,
+      "median": 0.0,
+      "p05": -0.406041413812828,
+      "p95": 162.22499222920857,
+      "share_better": 0.3227848101265823,
+      "share_worse": 0.05063291139240506
+     },
+     "diff_vs_edge_limit_bps": {
+      "mean": 1.9317412421129,
+      "median": 0.0,
+      "p05": -66.54166318208695,
+      "p95": 75.40008922569238,
+      "share_better": 0.22151898734177214,
+      "share_worse": 0.1518987341772152
+     },
+     "inventory_diff_bps_mean": -15.111104978787258,
+     "when_filled": {
+      "orders": 30,
+      "fees_bps_mean": 80.85209467412032,
+      "fees_bps_median": 45.0527291441934,
+      "reward_bps_if_sold_mean": 0.0,
+      "active_hours_median": 12.488458333313465,
+      "hours_to_close_median": 118.16666666666666,
+      "diff_bps_mean": 80.85209467412096
+     },
+     "limit_filled_band_not_detail": {
+      "orders": 13,
+      "diff_bps_mean": -94.20215546692178,
+      "diff_bps_median": -3.178246184083946,
+      "fees_bps_mean": 88.24948253317487
+     }
+    },
+    "weekend": {
+     "orders": 130,
+     "fill_prob": 0.2,
+     "touch_prob": 0.3076923076923077,
+     "limit_fill_prob": 0.23846153846153847,
+     "edge_touch_prob": 0.2153846153846154,
+     "finalize_blocked_prob": 0.03076923076923077,
+     "limit_filled_band_not": 0.038461538461538464,
+     "fees_bps_mean": 28.5733050342436,
+     "reward_bps_if_sold_mean": 0.0,
+     "reward_tokens_mean": 0.0,
+     "diff_vs_limit_bps": {
+      "mean": 27.272105001346,
+      "median": 0.0,
+      "p05": 0.0,
+      "p95": 185.01985733764423,
+      "share_better": 0.3076923076923077,
+      "share_worse": 0.0
+     },
+     "diff_vs_edge_limit_bps": {
+      "mean": 6.8911550950136435,
+      "median": 0.0,
+      "p05": -77.56780765768292,
+      "p95": 107.92969814831461,
+      "share_better": 0.18461538461538463,
+      "share_worse": 0.12307692307692308
+     },
+     "inventory_diff_bps_mean": -1.301200032897607,
+     "when_filled": {
+      "orders": 26,
+      "fees_bps_mean": 101.15998588009315,
+      "fees_bps_median": 38.92883890196395,
+      "reward_bps_if_sold_mean": 0.0,
+      "active_hours_median": 9.937958333359823,
+      "hours_to_close_median": 106.21666666666667,
+      "diff_bps_mean": 101.15998588008898
+     },
+     "limit_filled_band_not_detail": {
+      "orders": 5,
+      "diff_bps_mean": 120.89395784710928,
+      "diff_bps_median": 107.47326648545595,
+      "fees_bps_mean": 154.17921289432482
+     }
+    }
+   }
+  }
+ }
+}

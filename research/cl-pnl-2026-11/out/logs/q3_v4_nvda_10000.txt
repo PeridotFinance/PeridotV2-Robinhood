@@ -1,0 +1,9 @@
+Uniswap v4 NVDA/USDG (0.30%)  ['2026-07-16 00:00', '2026-11-10 09:47']  442 start times, horizon 7 d, notional $10,000, gates on
+side  dist  fill% touch% limit% lim-only% blocked%  fee bp fee|fill  rew bp  diff bp  median     p05     p95  vsEdge h to fill
+sell   100   51.8   77.1   60.6       8.8      1.1   76.74   119.91    0.00     33.2    31.4  -172.9   249.0    10.0      66.4
+sell   300   27.6   53.2   36.7       9.0      0.2   34.77    72.17    0.00     -7.3     0.0  -126.0   113.8     5.3     104.8
+sell   490   12.2   28.5   18.8       6.6      0.2   20.13    61.25    0.00      5.4     0.0    -0.0    94.1     6.8      93.2
+buy    100   52.0   74.7   62.2      10.2      2.0   39.87    53.09    0.00     12.6    24.5  -107.2   104.5   -14.8      62.0
+buy    300   32.8   52.5   44.3      11.5      1.4   30.60    51.72    0.00     -6.0     0.0  -244.3   124.7    -3.9     103.6
+buy    490   18.8   34.6   24.9       6.1      2.7   21.54    74.40    0.00     12.4     0.0    -0.0   151.8     0.0     109.9
+wrote /Users/joshua/Peridot/wt-cl-research/research/cl-pnl-2026-11/out/q3_v4_nvda_10000_7d.json

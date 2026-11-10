@@ -1,0 +1,3391 @@
+{
+ "venue": "ramses_nvda",
+ "label": "Ramses NVDA/USDG (CL10, dynamic fee)",
+ "hedge_venue": "ramses_nvda",
+ "policy": [
+  2400,
+  600,
+  4
+ ],
+ "params": {
+  "hedge_venue": "ramses_nvda",
+  "borrow_apr": 0.12,
+  "quote_supply_apr": 0.0018,
+  "margin_fraction": 0.5,
+  "gas_usd_per_adjustment": 0.1,
+  "flash_fee": 0.0005,
+  "_note": "hypothetical route: the same short executed on the Ramses pool at its fee in force"
+ },
+ "data_window": [
+  "2026-08-04 11:08",
+  "2026-11-10 09:49"
+ ],
+ "rows": [
+  {
+   "threshold": 0.02,
+   "start_equity": 1250.0,
+   "margin_posted": 249.99999999999997,
+   "days": 97.94444444444444,
+   "end": {
+    "hedged": 1193.3581003315908,
+    "unhedged_lp_plus_cash": 1195.9888611248703,
+    "hold_plus_cash": 1186.2416930359102
+   },
+   "return_pct": {
+    "hedged": -4.531351973472741,
+    "unhedged": -4.320891110010383,
+    "hold": -5.100664557127188
+   },
+   "hedged_vs_hold_pct": 0.5693125836544459,
+   "hedged_vs_cash_pct": -4.531351973472741,
+   "hedge_leg": {
+    "total": -2.630760793279677,
+    "price_and_rebalance": 39.331194675755135,
+    "swap_fee": 4.544628858133766,
+    "impact": 9.547692150015454,
+    "gas": 15.69999999999996,
+    "borrow_interest": 12.451818543391044,
+    "supply_interest": 0.28218408250541194,
+    "adjustments": 157,
+    "traded_usd": 4754.294125841048
+   },
+   "costs_pct_of_start": 3.356956437522785,
+   "hedged_before_hedge_costs_pct": -1.1743955359499523,
+   "lp": {
+    "fees_usd": 13.269060028008878,
+    "lvr_usd": 24.613585837413368,
+    "fee_over_lvr": 0.5390949581933535,
+    "recenters": 8,
+    "deployed_frac_avg": 0.7135866367632351,
+    "gas_usd": 0.5304000000000001
+   },
+   "samples_wanting_adjust_but_blocked": 541,
+   "worst_margin_ratio": 0.38855966010776116,
+   "max_short_usd": 654.3645013417262,
+   "worst_drawdown_pct": -3.8612928449268558,
+   "reward_tokens": 169.7021425118228,
+   "window": "full",
+   "size": 1000,
+   "rewards": {
+    "tokens": 169.7021425118228,
+    "usd_if_sold": 6.573201164969901
+   },
+   "hedged_plus_rewards_pct": -4.0054958802751495
+  },
+  {
+   "threshold": 0.05,
+   "start_equity": 1250.0,
+   "margin_posted": 249.99999999999997,
+   "days": 97.94444444444444,
+   "end": {
+    "hedged": 1200.9592385473197,
+    "unhedged_lp_plus_cash": 1195.9888611248703,
+    "hold_plus_cash": 1186.2416930359102
+   },
+   "return_pct": {
+    "hedged": -3.9232609162144216,
+    "unhedged": -4.320891110010383,
+    "hold": -5.100664557127188
+   },
+   "hedged_vs_hold_pct": 1.177403640912762,
+   "hedged_vs_cash_pct": -3.9232609162144216,
+   "hedge_leg": {
+    "total": 4.970377422449388,
+    "price_and_rebalance": 33.48688597275286,
+    "swap_fee": 2.9964160047865755,
+    "impact": 9.561384126648374,
+    "gas": 3.900000000000002,
+    "borrow_interest": 12.34096519628449,
+    "supply_interest": 0.282256777415969,
+    "adjustments": 39,
+    "traded_usd": 3146.1708876614366
+   },
+   "costs_pct_of_start": 2.2813206840242777,
+   "hedged_before_hedge_costs_pct": -1.6419402321901362,
+   "lp": {
+    "fees_usd": 13.269060028008878,
+    "lvr_usd": 24.613585837413368,
+    "fee_over_lvr": 0.5390949581933535,
+    "recenters": 8,
+    "deployed_frac_avg": 0.7135866367632351,
+    "gas_usd": 0.5304000000000001
+   },
+   "samples_wanting_adjust_but_blocked": 221,
+   "worst_margin_ratio": 0.38105777376756095,
+   "max_short_usd": 654.3645013417262,
+   "worst_drawdown_pct": -3.2523314594656516,
+   "reward_tokens": 169.7021425118228,
+   "window": "full",
+   "size": 1000,
+   "rewards": {
+    "tokens": 169.7021425118228,
+    "usd_if_sold": 6.573201164969901
+   },
+   "hedged_plus_rewards_pct": -3.3974048230168297
+  },
+  {
+   "threshold": 0.1,
+   "start_equity": 1250.0,
+   "margin_posted": 249.99999999999997,
+   "days": 97.94444444444444,
+   "end": {
+    "hedged": 1213.053359756976,
+    "unhedged_lp_plus_cash": 1195.9888611248703,
+    "hold_plus_cash": 1186.2416930359102
+   },
+   "return_pct": {
+    "hedged": -2.955731219441915,
+    "unhedged": -4.320891110010383,
+    "hold": -5.100664557127188
+   },
+   "hedged_vs_hold_pct": 2.14493333768527,
+   "hedged_vs_cash_pct": -2.955731219441915,
+   "hedge_leg": {
+    "total": 17.064498632105625,
+    "price_and_rebalance": 40.38545875231364,
+    "swap_fee": 1.7306716925521335,
+    "impact": 8.493650172236334,
+    "gas": 0.9999999999999999,
+    "borrow_interest": 12.381612812935039,
+    "supply_interest": 0.284974557515492,
+    "adjustments": 10,
+    "traded_usd": 1984.3965591521
+   },
+   "costs_pct_of_start": 1.8656768096166412,
+   "hedged_before_hedge_costs_pct": -1.0900544098252793,
+   "lp": {
+    "fees_usd": 13.269060028008878,
+    "lvr_usd": 24.613585837413368,
+    "fee_over_lvr": 0.5390949581933535,
+    "recenters": 8,
+    "deployed_frac_avg": 0.7135866367632351,
+    "gas_usd": 0.5304000000000001
+   },
+   "samples_wanting_adjust_but_blocked": 0,
+   "worst_margin_ratio": 0.3909137922884105,
+   "max_short_usd": 654.3645013417262,
+   "worst_drawdown_pct": -2.2790425811241244,
+   "reward_tokens": 169.7021425118228,
+   "window": "full",
+   "size": 1000,
+   "rewards": {
+    "tokens": 169.7021425118228,
+    "usd_if_sold": 6.573201164969901
+   },
+   "hedged_plus_rewards_pct": -2.429875126244323
+  },
+  {
+   "threshold": 0.02,
+   "start_equity": 12500.0,
+   "margin_posted": 2500.0,
+   "days": 97.94444444444444,
+   "end": {
+    "hedged": 11201.127943183415,
+    "unhedged_lp_plus_cash": 11946.982744363195,
+    "hold_plus_cash": 11862.4169303591
+   },
+   "return_pct": {
+    "hedged": -10.390976454532675,
+    "unhedged": -4.424138045094439,
+    "hold": -5.1006645571272
+   },
+   "hedged_vs_hold_pct": -5.2903118974054815,
+   "hedged_vs_cash_pct": -10.390976454532675,
+   "hedge_leg": {
+    "total": -745.8548011797784,
+    "price_and_rebalance": 391.08549505747715,
+    "swap_fee": 45.38616423879883,
+    "impact": 954.0686373669294,
+    "gas": 15.69999999999996,
+    "borrow_interest": 124.27758088513376,
+    "supply_interest": 2.492086253606411,
+    "adjustments": 157,
+    "traded_usd": 47476.16362295227
+   },
+   "costs_pct_of_start": 9.095522369898044,
+   "hedged_before_hedge_costs_pct": -1.2954540846346354,
+   "lp": {
+    "fees_usd": 112.3684944425277,
+    "lvr_usd": 245.8656272435237,
+    "fee_over_lvr": 0.4570321427290426,
+    "recenters": 8,
+    "deployed_frac_avg": 0.7136192015138993,
+    "gas_usd": 0.5304000000000001
+   },
+   "samples_wanting_adjust_but_blocked": 541,
+   "worst_margin_ratio": 0.27521218321387697,
+   "max_short_usd": 6528.807361686914,
+   "worst_drawdown_pct": -5.065221662514596,
+   "reward_tokens": 1627.182563861909,
+   "window": "full",
+   "size": 10000,
+   "rewards": {
+    "tokens": 1627.182563861909,
+    "usd_if_sold": 63.48693202596895
+   },
+   "hedged_plus_rewards_pct": -9.883080998324923
+  },
+  {
+   "threshold": 0.05,
+   "start_equity": 12500.0,
+   "margin_posted": 2500.0,
+   "days": 97.94444444444444,
+   "end": {
+    "hedged": 11169.93257508433,
+    "unhedged_lp_plus_cash": 11946.982744363195,
+    "hold_plus_cash": 11862.4169303591
+   },
+   "return_pct": {
+    "hedged": -10.640539399325355,
+    "unhedged": -4.424138045094439,
+    "hold": -5.1006645571272
+   },
+   "hedged_vs_hold_pct": -5.5398748421981585,
+   "hedged_vs_cash_pct": -10.640539399325355,
+   "hedge_leg": {
+    "total": -777.0501692788639,
+    "price_and_rebalance": 332.714589375968,
+    "swap_fee": 29.929109210317968,
+    "impact": 955.2302280119688,
+    "gas": 3.900000000000002,
+    "borrow_interest": 123.17821155737303,
+    "supply_interest": 2.4727901248278865,
+    "adjustments": 39,
+    "traded_usd": 31421.28457843301
+   },
+   "costs_pct_of_start": 8.878118069238656,
+   "hedged_before_hedge_costs_pct": -1.7624213300866978,
+   "lp": {
+    "fees_usd": 112.3684944425277,
+    "lvr_usd": 245.8656272435237,
+    "fee_over_lvr": 0.4570321427290426,
+    "recenters": 8,
+    "deployed_frac_avg": 0.7136192015138993,
+    "gas_usd": 0.5304000000000001
+   },
+   "samples_wanting_adjust_but_blocked": 221,
+   "worst_margin_ratio": 0.25692846827002835,
+   "max_short_usd": 6528.807361686914,
+   "worst_drawdown_pct": -5.330565420178046,
+   "reward_tokens": 1627.182563861909,
+   "window": "full",
+   "size": 10000,
+   "rewards": {
+    "tokens": 1627.182563861909,
+    "usd_if_sold": 63.48693202596895
+   },
+   "hedged_plus_rewards_pct": -10.132643943117603
+  },
+  {
+   "threshold": 0.1,
+   "start_equity": 12500.0,
+   "margin_posted": 2500.0,
+   "days": 97.94444444444444,
+   "end": {
+    "hedged": 11360.380829515012,
+    "unhedged_lp_plus_cash": 11946.982744363195,
+    "hold_plus_cash": 11862.4169303591
+   },
+   "return_pct": {
+    "hedged": -9.11695336387991,
+    "unhedged": -4.424138045094439,
+    "hold": -5.1006645571272
+   },
+   "hedged_vs_hold_pct": -4.016288806752709,
+   "hedged_vs_cash_pct": -9.11695336387991,
+   "hedge_leg": {
+    "total": -586.6019148481819,
+    "price_and_rebalance": 401.37930821091936,
+    "swap_fee": 17.270861707700345,
+    "impact": 848.7098040808091,
+    "gas": 0.9999999999999999,
+    "borrow_interest": 123.53330605464716,
+    "supply_interest": 2.5327487840553635,
+    "adjustments": 10,
+    "traded_usd": 19822.150969979753
+   },
+   "costs_pct_of_start": 7.9038497844728095,
+   "hedged_before_hedge_costs_pct": -1.2131035794070921,
+   "lp": {
+    "fees_usd": 112.3684944425277,
+    "lvr_usd": 245.8656272435237,
+    "fee_over_lvr": 0.4570321427290426,
+    "recenters": 8,
+    "deployed_frac_avg": 0.7136192015138993,
+    "gas_usd": 0.5304000000000001
+   },
+   "samples_wanting_adjust_but_blocked": 0,
+   "worst_margin_ratio": 0.2661806982195958,
+   "max_short_usd": 6528.807361686914,
+   "worst_drawdown_pct": -3.718215829585525,
+   "reward_tokens": 1627.182563861909,
+   "window": "full",
+   "size": 10000,
+   "rewards": {
+    "tokens": 1627.182563861909,
+    "usd_if_sold": 63.48693202596895
+   },
+   "hedged_plus_rewards_pct": -8.609057907672158
+  },
+  {
+   "threshold": 0.02,
+   "start_equity": 1250.0,
+   "margin_posted": 249.99999999999997,
+   "days": 29.99652777777778,
+   "end": {
+    "hedged": 1223.4243190630332,
+    "unhedged_lp_plus_cash": 1285.8036747294943,
+    "hold_plus_cash": 1288.624386397568
+   },
+   "return_pct": {
+    "hedged": -2.1260544749573507,
+    "unhedged": 2.8642939783595445,
+    "hold": 3.089950911805439
+   },
+   "hedged_vs_hold_pct": -5.216005386762791,
+   "hedged_vs_cash_pct": -2.1260544749573507,
+   "hedge_leg": {
+    "total": -62.37935566646118,
+    "price_and_rebalance": -38.734323362672264,
+    "swap_fee": 1.9508312975064495,
+    "impact": 13.049914840381156,
+    "gas": 4.799999999999999,
+    "borrow_interest": 3.9345832665144886,
+    "supply_interest": 0.09029710061317614,
+    "adjustments": 48,
+    "traded_usd": 1950.8312975064491
+   },
+   "costs_pct_of_start": 1.8916025843031132,
+   "hedged_before_hedge_costs_pct": -0.2344518906542362,
+   "lp": {
+    "fees_usd": 4.425442844402179,
+    "lvr_usd": 8.426298830964836,
+    "fee_over_lvr": 0.5251941490776031,
+    "recenters": 3,
+    "deployed_frac_avg": 0.7690085706174546,
+    "gas_usd": 0.1989
+   },
+   "samples_wanting_adjust_but_blocked": 188,
+   "worst_margin_ratio": 0.4760537689492806,
+   "max_short_usd": 499.99999999999994,
+   "worst_drawdown_pct": -1.5627845097266446,
+   "reward_tokens": 0.0,
+   "window": "30d@2026-08-04",
+   "size": 1000,
+   "rewards": {
+    "tokens": 0.0,
+    "usd_if_sold": 0.0
+   },
+   "hedged_plus_rewards_pct": -2.1260544749573507
+  },
+  {
+   "threshold": 0.05,
+   "start_equity": 1250.0,
+   "margin_posted": 249.99999999999997,
+   "days": 29.99652777777778,
+   "end": {
+    "hedged": 1226.5998634750133,
+    "unhedged_lp_plus_cash": 1285.8036747294943,
+    "hold_plus_cash": 1288.624386397568
+   },
+   "return_pct": {
+    "hedged": -1.8720109219989345,
+    "unhedged": 2.8642939783595445,
+    "hold": 3.089950911805439
+   },
+   "hedged_vs_hold_pct": -4.96196183380438,
+   "hedged_vs_cash_pct": -1.8720109219989345,
+   "hedge_leg": {
+    "total": -59.203811254480996,
+    "price_and_rebalance": -39.50183536680393,
+    "swap_fee": 1.390432479980546,
+    "impact": 13.387513583890684,
+    "gas": 1.0999999999999999,
+    "borrow_interest": 3.9142052091482173,
+    "supply_interest": 0.0901753853423841,
+    "adjustments": 11,
+    "traded_usd": 1390.4324799805458
+   },
+   "costs_pct_of_start": 1.576158071014165,
+   "hedged_before_hedge_costs_pct": -0.2958528509847747,
+   "lp": {
+    "fees_usd": 4.425442844402179,
+    "lvr_usd": 8.426298830964836,
+    "fee_over_lvr": 0.5251941490776031,
+    "recenters": 3,
+    "deployed_frac_avg": 0.7690085706174546,
+    "gas_usd": 0.1989
+   },
+   "samples_wanting_adjust_but_blocked": 0,
+   "worst_margin_ratio": 0.4587441484127184,
+   "max_short_usd": 499.99999999999994,
+   "worst_drawdown_pct": -1.3100438132588432,
+   "reward_tokens": 0.0,
+   "window": "30d@2026-08-04",
+   "size": 1000,
+   "rewards": {
+    "tokens": 0.0,
+    "usd_if_sold": 0.0
+   },
+   "hedged_plus_rewards_pct": -1.8720109219989345
+  },
+  {
+   "threshold": 0.1,
+   "start_equity": 1250.0,
+   "margin_posted": 249.99999999999997,
+   "days": 29.99652777777778,
+   "end": {
+    "hedged": 1232.3842122171056,
+    "unhedged_lp_plus_cash": 1285.8036747294943,
+    "hold_plus_cash": 1288.624386397568
+   },
+   "return_pct": {
+    "hedged": -1.4092630226315461,
+    "unhedged": 2.8642939783595445,
+    "hold": 3.089950911805439
+   },
+   "hedged_vs_hold_pct": -4.499213934436994,
+   "hedged_vs_cash_pct": -1.4092630226315461,
+   "hedge_leg": {
+    "total": -53.41946251238872,
+    "price_and_rebalance": -36.844861594116374,
+    "swap_fee": 1.0408524637045762,
+    "impact": 11.217818132375463,
+    "gas": 0.4,
+    "borrow_interest": 4.007602110459985,
+    "supply_interest": 0.09167178826767912,
+    "adjustments": 4,
+    "traded_usd": 1040.8524637045762
+   },
+   "costs_pct_of_start": 1.3259680734617876,
+   "hedged_before_hedge_costs_pct": -0.08329494916975819,
+   "lp": {
+    "fees_usd": 4.425442844402179,
+    "lvr_usd": 8.426298830964836,
+    "fee_over_lvr": 0.5251941490776031,
+    "recenters": 3,
+    "deployed_frac_avg": 0.7690085706174546,
+    "gas_usd": 0.1989
+   },
+   "samples_wanting_adjust_but_blocked": 0,
+   "worst_margin_ratio": 0.4274110650960035,
+   "max_short_usd": 499.99999999999994,
+   "worst_drawdown_pct": -0.8445414256498696,
+   "reward_tokens": 0.0,
+   "window": "30d@2026-08-04",
+   "size": 1000,
+   "rewards": {
+    "tokens": 0.0,
+    "usd_if_sold": 0.0
+   },
+   "hedged_plus_rewards_pct": -1.4092630226315461
+  },
+  {
+   "threshold": 0.02,
+   "start_equity": 12500.0,
+   "margin_posted": 2500.0,
+   "days": 29.99652777777778,
+   "end": {
+    "hedged": 11093.935464672146,
+    "unhedged_lp_plus_cash": 12847.242574136413,
+    "hold_plus_cash": 12886.243863975682
+   },
+   "return_pct": {
+    "hedged": -11.248516282622834,
+    "unhedged": 2.7779405930913104,
+    "hold": 3.0899509118054613
+   },
+   "hedged_vs_hold_pct": -14.33846719442829,
+   "hedged_vs_cash_pct": -11.248516282622834,
+   "hedge_leg": {
+    "total": -1753.3071094642678,
+    "price_and_rebalance": -387.19052069846884,
+    "swap_fee": 19.497992564660393,
+    "impact": 1303.3016549536705,
+    "gas": 4.799999999999999,
+    "borrow_interest": 39.326200795537325,
+    "supply_interest": 0.8092595480692076,
+    "adjustments": 48,
+    "traded_usd": 19497.992564660395
+   },
+   "costs_pct_of_start": 10.928932710126391,
+   "hedged_before_hedge_costs_pct": -0.31958357249644176,
+   "lp": {
+    "fees_usd": 31.817373899058754,
+    "lvr_usd": 84.2497993241713,
+    "fee_over_lvr": 0.3776551891433448,
+    "recenters": 3,
+    "deployed_frac_avg": 0.7690749864832753,
+    "gas_usd": 0.1989
+   },
+   "samples_wanting_adjust_but_blocked": 188,
+   "worst_margin_ratio": 0.323193270910181,
+   "max_short_usd": 5000.0,
+   "worst_drawdown_pct": -6.09989127836994,
+   "reward_tokens": 0.0,
+   "window": "30d@2026-08-04",
+   "size": 10000,
+   "rewards": {
+    "tokens": 0.0,
+    "usd_if_sold": 0.0
+   },
+   "hedged_plus_rewards_pct": -11.248516282622834
+  },
+  {
+   "threshold": 0.05,
+   "start_equity": 12500.0,
+   "margin_posted": 2500.0,
+   "days": 29.99652777777778,
+   "end": {
+    "hedged": 11062.268544466824,
+    "unhedged_lp_plus_cash": 12847.242574136413,
+    "hold_plus_cash": 12886.243863975682
+   },
+   "return_pct": {
+    "hedged": -11.501851644265404,
+    "unhedged": 2.7779405930913104,
+    "hold": 3.0899509118054613
+   },
+   "hedged_vs_hold_pct": -14.591802556070862,
+   "hedged_vs_cash_pct": -11.501851644265404,
+   "hedge_leg": {
+    "total": -1784.97402966959,
+    "price_and_rebalance": -394.82559275298445,
+    "swap_fee": 13.896756581035477,
+    "impact": 1336.8305218395785,
+    "gas": 1.0999999999999999,
+    "borrow_interest": 39.12753113549133,
+    "supply_interest": 0.8063726394998035,
+    "adjustments": 11,
+    "traded_usd": 13896.756581035479
+   },
+   "costs_pct_of_start": 11.121187495332844,
+   "hedged_before_hedge_costs_pct": -0.3806641489325557,
+   "lp": {
+    "fees_usd": 31.817373899058754,
+    "lvr_usd": 84.2497993241713,
+    "fee_over_lvr": 0.3776551891433448,
+    "recenters": 3,
+    "deployed_frac_avg": 0.7690749864832753,
+    "gas_usd": 0.1989
+   },
+   "samples_wanting_adjust_but_blocked": 0,
+   "worst_margin_ratio": 0.298971108286408,
+   "max_short_usd": 5000.0,
+   "worst_drawdown_pct": -6.369213703128517,
+   "reward_tokens": 0.0,
+   "window": "30d@2026-08-04",
+   "size": 10000,
+   "rewards": {
+    "tokens": 0.0,
+    "usd_if_sold": 0.0
+   },
+   "hedged_plus_rewards_pct": -11.501851644265404
+  },
+  {
+   "threshold": 0.1,
+   "start_equity": 12500.0,
+   "margin_posted": 2500.0,
+   "days": 29.99652777777778,
+   "end": {
+    "hedged": 11307.514663083397,
+    "unhedged_lp_plus_cash": 12847.242574136413,
+    "hold_plus_cash": 12886.243863975682
+   },
+   "return_pct": {
+    "hedged": -9.539882695332825,
+    "unhedged": 2.7779405930913104,
+    "hold": 3.0899509118054613
+   },
+   "hedged_vs_hold_pct": -12.629833607138279,
+   "hedged_vs_cash_pct": -9.539882695332825,
+   "hedge_leg": {
+    "total": -1539.7279110530158,
+    "price_and_rebalance": -368.4806359514173,
+    "swap_fee": 10.408546676537881,
+    "impact": 1121.1959069104028,
+    "gas": 0.4,
+    "borrow_interest": 40.06604058647214,
+    "supply_interest": 0.8232190718143891,
+    "adjustments": 4,
+    "traded_usd": 10408.54667653788
+   },
+   "costs_pct_of_start": 9.369978200812788,
+   "hedged_before_hedge_costs_pct": -0.16990449452004394,
+   "lp": {
+    "fees_usd": 31.817373899058754,
+    "lvr_usd": 84.2497993241713,
+    "fee_over_lvr": 0.3776551891433448,
+    "recenters": 3,
+    "deployed_frac_avg": 0.7690749864832753,
+    "gas_usd": 0.1989
+   },
+   "samples_wanting_adjust_but_blocked": 0,
+   "worst_margin_ratio": 0.3077295311657512,
+   "max_short_usd": 5000.0,
+   "worst_drawdown_pct": -4.292941173732556,
+   "reward_tokens": 0.0,
+   "window": "30d@2026-08-04",
+   "size": 10000,
+   "rewards": {
+    "tokens": 0.0,
+    "usd_if_sold": 0.0
+   },
+   "hedged_plus_rewards_pct": -9.539882695332825
+  },
+  {
+   "threshold": 0.02,
+   "start_equity": 1250.0,
+   "margin_posted": 250.0,
+   "days": 29.993055555555557,
+   "end": {
+    "hedged": 1232.2891438751753,
+    "unhedged_lp_plus_cash": 1264.6869742029048,
+    "hold_plus_cash": 1256.3890254437106
+   },
+   "return_pct": {
+    "hedged": -1.4168684899859674,
+    "unhedged": 1.1749579362323903,
+    "hold": 0.511122035496836
+   },
+   "hedged_vs_hold_pct": -1.9279905254828191,
+   "hedged_vs_cash_pct": -1.4168684899859674,
+   "hedge_leg": {
+    "total": -32.39783032772948,
+    "price_and_rebalance": -16.55299874436745,
+    "swap_fee": 2.311571011697215,
+    "impact": 2.277015149548772,
+    "gas": 6.399999999999993,
+    "borrow_interest": 4.965201053343821,
+    "supply_interest": 0.10895563122777294,
+    "adjustments": 64,
+    "traded_usd": 2450.834316100357
+   },
+   "costs_pct_of_start": 1.2675865266689623,
+   "hedged_before_hedge_costs_pct": -0.14928196331700747,
+   "lp": {
+    "fees_usd": 7.026474354915491,
+    "lvr_usd": 7.314420142603836,
+    "fee_over_lvr": 0.9606331353580353,
+    "recenters": 3,
+    "deployed_frac_avg": 0.9343221522603693,
+    "gas_usd": 0.1989
+   },
+   "samples_wanting_adjust_but_blocked": 140,
+   "worst_margin_ratio": 0.4141573670332929,
+   "max_short_usd": 602.649351433449,
+   "worst_drawdown_pct": -1.356314461245356,
+   "reward_tokens": 0.0,
+   "window": "30d@2026-08-11",
+   "size": 1000,
+   "rewards": {
+    "tokens": 0.0,
+    "usd_if_sold": 0.0
+   },
+   "hedged_plus_rewards_pct": -1.4168684899859674
+  },
+  {
+   "threshold": 0.05,
+   "start_equity": 1250.0,
+   "margin_posted": 250.0,
+   "days": 29.993055555555557,
+   "end": {
+    "hedged": 1236.451844879449,
+    "unhedged_lp_plus_cash": 1264.6869742029048,
+    "hold_plus_cash": 1256.3890254437106
+   },
+   "return_pct": {
+    "hedged": -1.0838524096440816,
+    "unhedged": 1.1749579362323903,
+    "hold": 0.511122035496836
+   },
+   "hedged_vs_hold_pct": -1.5949744451409242,
+   "hedged_vs_cash_pct": -1.0838524096440816,
+   "hedge_leg": {
+    "total": -28.235129323455908,
+    "price_and_rebalance": -17.711080376205004,
+    "swap_fee": 1.6184841383137805,
+    "impact": 2.4292398166020988,
+    "gas": 1.6000000000000003,
+    "borrow_interest": 4.985891621916793,
+    "supply_interest": 0.10956662958176974,
+    "adjustments": 16,
+    "traded_usd": 1759.0502677393338
+   },
+   "costs_pct_of_start": 0.8419239157800723,
+   "hedged_before_hedge_costs_pct": -0.24192849386399756,
+   "lp": {
+    "fees_usd": 7.026474354915491,
+    "lvr_usd": 7.314420142603836,
+    "fee_over_lvr": 0.9606331353580353,
+    "recenters": 3,
+    "deployed_frac_avg": 0.9343221522603693,
+    "gas_usd": 0.1989
+   },
+   "samples_wanting_adjust_but_blocked": 39,
+   "worst_margin_ratio": 0.3995139090532586,
+   "max_short_usd": 602.649351433449,
+   "worst_drawdown_pct": -1.0230751357546253,
+   "reward_tokens": 0.0,
+   "window": "30d@2026-08-11",
+   "size": 1000,
+   "rewards": {
+    "tokens": 0.0,
+    "usd_if_sold": 0.0
+   },
+   "hedged_plus_rewards_pct": -1.0838524096440816
+  },
+  {
+   "threshold": 0.1,
+   "start_equity": 1250.0,
+   "margin_posted": 250.0,
+   "days": 29.993055555555557,
+   "end": {
+    "hedged": 1244.4813470517947,
+    "unhedged_lp_plus_cash": 1264.6869742029048,
+    "hold_plus_cash": 1256.3890254437106
+   },
+   "return_pct": {
+    "hedged": -0.44149223585642217,
+    "unhedged": 1.1749579362323903,
+    "hold": 0.511122035496836
+   },
+   "hedged_vs_hold_pct": -0.9526142713532681,
+   "hedged_vs_cash_pct": -0.44149223585642217,
+   "hedge_leg": {
+    "total": -20.205627151110093,
+    "price_and_rebalance": -12.950027979732742,
+    "swap_fee": 1.0907957346349355,
+    "impact": 0.7681564322908927,
+    "gas": 0.4,
+    "borrow_interest": 5.108522085394577,
+    "supply_interest": 0.11187508094305569,
+    "adjustments": 4,
+    "traded_usd": 1219.4232616934528
+   },
+   "costs_pct_of_start": 0.580447933710188,
+   "hedged_before_hedge_costs_pct": 0.1389556978537621,
+   "lp": {
+    "fees_usd": 7.026474354915491,
+    "lvr_usd": 7.314420142603836,
+    "fee_over_lvr": 0.9606331353580353,
+    "recenters": 3,
+    "deployed_frac_avg": 0.9343221522603693,
+    "gas_usd": 0.1989
+   },
+   "samples_wanting_adjust_but_blocked": 0,
+   "worst_margin_ratio": 0.3815258650045259,
+   "max_short_usd": 602.649351433449,
+   "worst_drawdown_pct": -0.5661699286861777,
+   "reward_tokens": 0.0,
+   "window": "30d@2026-08-11",
+   "size": 1000,
+   "rewards": {
+    "tokens": 0.0,
+    "usd_if_sold": 0.0
+   },
+   "hedged_plus_rewards_pct": -0.44149223585642217
+  },
+  {
+   "threshold": 0.02,
+   "start_equity": 12500.0,
+   "margin_posted": 2500.0,
+   "days": 29.993055555555557,
+   "end": {
+    "hedged": 12157.157122376426,
+    "unhedged_lp_plus_cash": 12628.226675955688,
+    "hold_plus_cash": 12563.890254437105
+   },
+   "return_pct": {
+    "hedged": -2.7427430209885917,
+    "unhedged": 1.0258134076454928,
+    "hold": 0.511122035496836
+   },
+   "hedged_vs_hold_pct": -3.2538650564854326,
+   "hedged_vs_cash_pct": -2.7427430209885917,
+   "hedge_leg": {
+    "total": -471.0695535792629,
+    "price_and_rebalance": -165.5511671278341,
+    "swap_fee": 23.100884232089037,
+    "impact": 227.47907545036725,
+    "gas": 6.399999999999993,
+    "borrow_interest": 49.617840909563235,
+    "supply_interest": 1.0794141405907758,
+    "adjustments": 64,
+    "traded_usd": 24490.485341199314
+   },
+   "costs_pct_of_start": 2.4441470916114305,
+   "hedged_before_hedge_costs_pct": -0.29859592937715934,
+   "lp": {
+    "fees_usd": 49.77933237920771,
+    "lvr_usd": 73.13463054708002,
+    "fee_over_lvr": 0.6806533649905093,
+    "recenters": 3,
+    "deployed_frac_avg": 0.9345506991566573,
+    "gas_usd": 0.1989
+   },
+   "samples_wanting_adjust_but_blocked": 140,
+   "worst_margin_ratio": 0.38943412996676907,
+   "max_short_usd": 6024.805875822933,
+   "worst_drawdown_pct": -2.5614640896771124,
+   "reward_tokens": 0.0,
+   "window": "30d@2026-08-11",
+   "size": 10000,
+   "rewards": {
+    "tokens": 0.0,
+    "usd_if_sold": 0.0
+   },
+   "hedged_plus_rewards_pct": -2.7427430209885917
+  },
+  {
+   "threshold": 0.05,
+   "start_equity": 12500.0,
+   "margin_posted": 2500.0,
+   "days": 29.993055555555557,
+   "end": {
+    "hedged": 12141.592828745126,
+    "unhedged_lp_plus_cash": 12628.226675955688,
+    "hold_plus_cash": 12563.890254437105
+   },
+   "return_pct": {
+    "hedged": -2.867257370038989,
+    "unhedged": 1.0258134076454928,
+    "hold": 0.511122035496836
+   },
+   "hedged_vs_hold_pct": -3.3783794055358305,
+   "hedged_vs_cash_pct": -2.867257370038989,
+   "hedge_leg": {
+    "total": -486.6338472105617,
+    "price_and_rebalance": -177.15927165540324,
+    "swap_fee": 16.176672880754207,
+    "impact": 242.95205994852114,
+    "gas": 1.6000000000000003,
+    "borrow_interest": 49.82656112410056,
+    "supply_interest": 1.080718398217499,
+    "adjustments": 16,
+    "traded_usd": 17579.213817496726
+   },
+   "costs_pct_of_start": 2.475796604441268,
+   "hedged_before_hedge_costs_pct": -0.39146076559773063,
+   "lp": {
+    "fees_usd": 49.77933237920771,
+    "lvr_usd": 73.13463054708002,
+    "fee_over_lvr": 0.6806533649905093,
+    "recenters": 3,
+    "deployed_frac_avg": 0.9345506991566573,
+    "gas_usd": 0.1989
+   },
+   "samples_wanting_adjust_but_blocked": 39,
+   "worst_margin_ratio": 0.3675260963496137,
+   "max_short_usd": 6024.805875822933,
+   "worst_drawdown_pct": -2.6862176004351146,
+   "reward_tokens": 0.0,
+   "window": "30d@2026-08-11",
+   "size": 10000,
+   "rewards": {
+    "tokens": 0.0,
+    "usd_if_sold": 0.0
+   },
+   "hedged_plus_rewards_pct": -2.867257370038989
+  },
+  {
+   "threshold": 0.1,
+   "start_equity": 12500.0,
+   "margin_posted": 2500.0,
+   "days": 29.993055555555557,
+   "end": {
+    "hedged": 12360.64780389937,
+    "unhedged_lp_plus_cash": 12628.226675955688,
+    "hold_plus_cash": 12563.890254437105
+   },
+   "return_pct": {
+    "hedged": -1.1148175688050377,
+    "unhedged": 1.0258134076454928,
+    "hold": 0.511122035496836
+   },
+   "hedged_vs_hold_pct": -1.6259396043018788,
+   "hedged_vs_cash_pct": -1.1148175688050377,
+   "hedge_leg": {
+    "total": -267.57887205631687,
+    "price_and_rebalance": -129.45651618997218,
+    "swap_fee": 10.906916735546533,
+    "impact": 76.85253660576578,
+    "gas": 0.4,
+    "borrow_interest": 51.07626306677055,
+    "supply_interest": 1.113360541738164,
+    "adjustments": 4,
+    "traded_usd": 12192.74843657975
+   },
+   "costs_pct_of_start": 1.1049788469307575,
+   "hedged_before_hedge_costs_pct": -0.009838721874286421,
+   "lp": {
+    "fees_usd": 49.77933237920771,
+    "lvr_usd": 73.13463054708002,
+    "fee_over_lvr": 0.6806533649905093,
+    "recenters": 3,
+    "deployed_frac_avg": 0.9345506991566573,
+    "gas_usd": 0.1989
+   },
+   "samples_wanting_adjust_but_blocked": 0,
+   "worst_margin_ratio": 0.37132072911945707,
+   "max_short_usd": 6024.805875822933,
+   "worst_drawdown_pct": -1.0299154744568217,
+   "reward_tokens": 0.0,
+   "window": "30d@2026-08-11",
+   "size": 10000,
+   "rewards": {
+    "tokens": 0.0,
+    "usd_if_sold": 0.0
+   },
+   "hedged_plus_rewards_pct": -1.1148175688050377
+  },
+  {
+   "threshold": 0.02,
+   "start_equity": 1250.0,
+   "margin_posted": 250.0,
+   "days": 29.99652777777778,
+   "end": {
+    "hedged": 1232.1228320413538,
+    "unhedged_lp_plus_cash": 1249.9510449874754,
+    "hold_plus_cash": 1242.0053230583496
+   },
+   "return_pct": {
+    "hedged": -1.4301734366916952,
+    "unhedged": -0.003916401001968772,
+    "hold": -0.6395741553320344
+   },
+   "hedged_vs_hold_pct": -0.7905992813596641,
+   "hedged_vs_cash_pct": -1.4301734366916952,
+   "hedge_leg": {
+    "total": -17.828212946121425,
+    "price_and_rebalance": -1.0760805027200462,
+    "swap_fee": 2.408793190321269,
+    "impact": 2.2964892827497434,
+    "gas": 6.8999999999999915,
+    "borrow_interest": 5.260709601434556,
+    "supply_interest": 0.11385963110418088,
+    "adjustments": 69,
+    "traded_usd": 2621.119497225089
+   },
+   "costs_pct_of_start": 1.3401705954721104,
+   "hedged_before_hedge_costs_pct": -0.0900028412195752,
+   "lp": {
+    "fees_usd": 7.738103900792812,
+    "lvr_usd": 6.901371958045921,
+    "fee_over_lvr": 1.1212413919773432,
+    "recenters": 4,
+    "deployed_frac_avg": 0.9185445516536406,
+    "gas_usd": 0.2652
+   },
+   "samples_wanting_adjust_but_blocked": 335,
+   "worst_margin_ratio": 0.3987179866998858,
+   "max_short_usd": 609.4088239550643,
+   "worst_drawdown_pct": -1.426723822567133,
+   "reward_tokens": 0.0,
+   "window": "30d@2026-08-18",
+   "size": 1000,
+   "rewards": {
+    "tokens": 0.0,
+    "usd_if_sold": 0.0
+   },
+   "hedged_plus_rewards_pct": -1.4301734366916952
+  },
+  {
+   "threshold": 0.05,
+   "start_equity": 1250.0,
+   "margin_posted": 250.0,
+   "days": 29.99652777777778,
+   "end": {
+    "hedged": 1235.7642997164303,
+    "unhedged_lp_plus_cash": 1249.9510449874754,
+    "hold_plus_cash": 1242.0053230583496
+   },
+   "return_pct": {
+    "hedged": -1.1388560226855748,
+    "unhedged": -0.003916401001968772,
+    "hold": -0.6395741553320344
+   },
+   "hedged_vs_hold_pct": -0.49928186735354757,
+   "hedged_vs_cash_pct": -1.1388560226855748,
+   "hedge_leg": {
+    "total": -14.18674527104497,
+    "price_and_rebalance": -2.9395684397015316,
+    "swap_fee": 1.689746154973598,
+    "impact": 2.7201261358250406,
+    "gas": 1.7000000000000004,
+    "borrow_interest": 5.25141917075404,
+    "supply_interest": 0.11411463020923977,
+    "adjustments": 17,
+    "traded_usd": 1889.5688440143504
+   },
+   "costs_pct_of_start": 0.899774146507475,
+   "hedged_before_hedge_costs_pct": -0.23908187617809745,
+   "lp": {
+    "fees_usd": 7.738103900792812,
+    "lvr_usd": 6.901371958045921,
+    "fee_over_lvr": 1.1212413919773432,
+    "recenters": 4,
+    "deployed_frac_avg": 0.9185445516536406,
+    "gas_usd": 0.2652
+   },
+   "samples_wanting_adjust_but_blocked": 282,
+   "worst_margin_ratio": 0.3865683196019632,
+   "max_short_usd": 609.4088239550643,
+   "worst_drawdown_pct": -1.1385326692224251,
+   "reward_tokens": 0.0,
+   "window": "30d@2026-08-18",
+   "size": 1000,
+   "rewards": {
+    "tokens": 0.0,
+    "usd_if_sold": 0.0
+   },
+   "hedged_plus_rewards_pct": -1.1388560226855748
+  },
+  {
+   "threshold": 0.1,
+   "start_equity": 1250.0,
+   "margin_posted": 250.0,
+   "days": 29.99652777777778,
+   "end": {
+    "hedged": 1242.0978137766947,
+    "unhedged_lp_plus_cash": 1249.9510449874754,
+    "hold_plus_cash": 1242.0053230583496
+   },
+   "return_pct": {
+    "hedged": -0.6321748978644237,
+    "unhedged": -0.003916401001968772,
+    "hold": -0.6395741553320344
+   },
+   "hedged_vs_hold_pct": 0.007399257467604912,
+   "hedged_vs_cash_pct": -0.6321748978644237,
+   "hedge_leg": {
+    "total": -7.853231210780564,
+    "price_and_rebalance": -0.3222533836787198,
+    "swap_fee": 1.2372286750905528,
+    "impact": 0.7961162871648082,
+    "gas": 0.5,
+    "borrow_interest": 5.110125373985353,
+    "supply_interest": 0.11249250913887049,
+    "adjustments": 5,
+    "traded_usd": 1411.1893169896757
+   },
+   "costs_pct_of_start": 0.6024782261681476,
+   "hedged_before_hedge_costs_pct": -0.02969667169627428,
+   "lp": {
+    "fees_usd": 7.738103900792812,
+    "lvr_usd": 6.901371958045921,
+    "fee_over_lvr": 1.1212413919773432,
+    "recenters": 4,
+    "deployed_frac_avg": 0.9185445516536406,
+    "gas_usd": 0.2652
+   },
+   "samples_wanting_adjust_but_blocked": 0,
+   "worst_margin_ratio": 0.3790500148674594,
+   "max_short_usd": 609.4088239550643,
+   "worst_drawdown_pct": -0.6498509233749505,
+   "reward_tokens": 0.0,
+   "window": "30d@2026-08-18",
+   "size": 1000,
+   "rewards": {
+    "tokens": 0.0,
+    "usd_if_sold": 0.0
+   },
+   "hedged_plus_rewards_pct": -0.6321748978644237
+  },
+  {
+   "threshold": 0.02,
+   "start_equity": 12500.0,
+   "margin_posted": 2500.0,
+   "days": 29.99652777777778,
+   "end": {
+    "hedged": 12160.041886574054,
+    "unhedged_lp_plus_cash": 12482.898204696312,
+    "hold_plus_cash": 12420.053230583497
+   },
+   "return_pct": {
+    "hedged": -2.7196649074075707,
+    "unhedged": -0.13681436242950484,
+    "hold": -0.6395741553320233
+   },
+   "hedged_vs_hold_pct": -2.0800907520755425,
+   "hedged_vs_cash_pct": -2.7196649074075707,
+   "hedge_leg": {
+    "total": -322.856318122258,
+    "price_and_rebalance": -11.024004669254566,
+    "swap_fee": 24.069902942355913,
+    "impact": 229.43380932187594,
+    "gas": 6.8999999999999915,
+    "borrow_interest": 52.55145479672456,
+    "supply_interest": 1.1228536079529319,
+    "adjustments": 69,
+    "traded_usd": 26189.04027491876
+   },
+   "costs_pct_of_start": 2.4946585076240275,
+   "hedged_before_hedge_costs_pct": -0.22500639978353865,
+   "lp": {
+    "fees_usd": 58.08693554831593,
+    "lvr_usd": 68.99953981634684,
+    "fee_over_lvr": 0.8418452601701906,
+    "recenters": 4,
+    "deployed_frac_avg": 0.9187401938055597,
+    "gas_usd": 0.2652
+   },
+   "samples_wanting_adjust_but_blocked": 335,
+   "worst_margin_ratio": 0.37601465788464605,
+   "max_short_usd": 6092.105716462933,
+   "worst_drawdown_pct": -2.599505100877497,
+   "reward_tokens": 0.0,
+   "window": "30d@2026-08-18",
+   "size": 10000,
+   "rewards": {
+    "tokens": 0.0,
+    "usd_if_sold": 0.0
+   },
+   "hedged_plus_rewards_pct": -2.7196649074075707
+  },
+  {
+   "threshold": 0.05,
+   "start_equity": 12500.0,
+   "margin_posted": 2500.0,
+   "days": 29.99652777777778,
+   "end": {
+    "hedged": 12111.330375991187,
+    "unhedged_lp_plus_cash": 12482.898204696312,
+    "hold_plus_cash": 12420.053230583497
+   },
+   "return_pct": {
+    "hedged": -3.1093569920705,
+    "unhedged": -0.13681436242950484,
+    "hold": -0.6395741553320233
+   },
+   "hedged_vs_hold_pct": -2.469782836738479,
+   "hedged_vs_cash_pct": -3.1093569920705,
+   "hedge_leg": {
+    "total": -371.567828705126,
+    "price_and_rebalance": -29.660083955937466,
+    "swap_fee": 16.88687289787103,
+    "impact": 271.97647033790304,
+    "gas": 1.7000000000000004,
+    "borrow_interest": 52.46135830100983,
+    "supply_interest": 1.1169567875954347,
+    "adjustments": 17,
+    "traded_usd": 18881.035309453415
+   },
+   "costs_pct_of_start": 2.735261957993508,
+   "hedged_before_hedge_costs_pct": -0.3740950340769923,
+   "lp": {
+    "fees_usd": 58.08693554831593,
+    "lvr_usd": 68.99953981634684,
+    "fee_over_lvr": 0.8418452601701906,
+    "recenters": 4,
+    "deployed_frac_avg": 0.9187401938055597,
+    "gas_usd": 0.2652
+   },
+   "samples_wanting_adjust_but_blocked": 282,
+   "worst_margin_ratio": 0.3513463519214328,
+   "max_short_usd": 6092.105716462933,
+   "worst_drawdown_pct": -2.9926495888617066,
+   "reward_tokens": 0.0,
+   "window": "30d@2026-08-18",
+   "size": 10000,
+   "rewards": {
+    "tokens": 0.0,
+    "usd_if_sold": 0.0
+   },
+   "hedged_plus_rewards_pct": -3.1093569920705
+  },
+  {
+   "threshold": 0.1,
+   "start_equity": 12500.0,
+   "margin_posted": 2500.0,
+   "days": 29.99652777777778,
+   "end": {
+    "hedged": 12337.31604715615,
+    "unhedged_lp_plus_cash": 12482.898204696312,
+    "hold_plus_cash": 12420.053230583497
+   },
+   "return_pct": {
+    "hedged": -1.301471622750805,
+    "unhedged": -0.13681436242950484,
+    "hold": -0.6395741553320233
+   },
+   "hedged_vs_hold_pct": -0.6618974674187775,
+   "hedged_vs_cash_pct": -1.301471622750805,
+   "hedge_leg": {
+    "total": -145.58215754016328,
+    "price_and_rebalance": -3.1139509048421132,
+    "swap_fee": 12.357498623208553,
+    "impact": 79.64696061708362,
+    "gas": 0.5,
+    "borrow_interest": 51.08122672652763,
+    "supply_interest": 1.1174793314986688,
+    "adjustments": 5,
+    "traded_usd": 14091.852374311959
+   },
+   "costs_pct_of_start": 1.1397456530825694,
+   "hedged_before_hedge_costs_pct": -0.16172596966823038,
+   "lp": {
+    "fees_usd": 58.08693554831593,
+    "lvr_usd": 68.99953981634684,
+    "fee_over_lvr": 0.8418452601701906,
+    "recenters": 4,
+    "deployed_frac_avg": 0.9187401938055597,
+    "gas_usd": 0.2652
+   },
+   "samples_wanting_adjust_but_blocked": 0,
+   "worst_margin_ratio": 0.3747838703408045,
+   "max_short_usd": 6092.105716462933,
+   "worst_drawdown_pct": -1.1818093372680472,
+   "reward_tokens": 0.0,
+   "window": "30d@2026-08-18",
+   "size": 10000,
+   "rewards": {
+    "tokens": 0.0,
+    "usd_if_sold": 0.0
+   },
+   "hedged_plus_rewards_pct": -1.301471622750805
+  },
+  {
+   "threshold": 0.02,
+   "start_equity": 1250.0,
+   "margin_posted": 250.0,
+   "days": 29.989583333333332,
+   "end": {
+    "hedged": 1224.4188541552717,
+    "unhedged_lp_plus_cash": 1282.4003691159653,
+    "hold_plus_cash": 1280.5764808493968
+   },
+   "return_pct": {
+    "hedged": -2.046491667578265,
+    "unhedged": 2.5920295292772177,
+    "hold": 2.4461184679517523
+   },
+   "hedged_vs_hold_pct": -4.492610135530012,
+   "hedged_vs_cash_pct": -2.046491667578265,
+   "hedge_leg": {
+    "total": -57.98151496069369,
+    "price_and_rebalance": -33.36083666731192,
+    "swap_fee": 1.8027514393699255,
+    "impact": 14.085759803805823,
+    "gas": 4.899999999999999,
+    "borrow_interest": 3.920667863595875,
+    "supply_interest": 0.08850081338985716,
+    "adjustments": 49,
+    "traded_usd": 2007.7251746646023
+   },
+   "costs_pct_of_start": 1.9696542634705412,
+   "hedged_before_hedge_costs_pct": -0.07683740410771861,
+   "lp": {
+    "fees_usd": 6.684986961866237,
+    "lvr_usd": 7.061888996351737,
+    "fee_over_lvr": 0.9466287228983332,
+    "recenters": 3,
+    "deployed_frac_avg": 0.7954731197913231,
+    "gas_usd": 0.1989
+   },
+   "samples_wanting_adjust_but_blocked": 195,
+   "worst_margin_ratio": 0.4541075058860593,
+   "max_short_usd": 531.2990345343031,
+   "worst_drawdown_pct": -1.1245344814660108,
+   "reward_tokens": 0.0,
+   "window": "30d@2026-08-25",
+   "size": 1000,
+   "rewards": {
+    "tokens": 0.0,
+    "usd_if_sold": 0.0
+   },
+   "hedged_plus_rewards_pct": -2.046491667578265
+  },
+  {
+   "threshold": 0.05,
+   "start_equity": 1250.0,
+   "margin_posted": 250.0,
+   "days": 29.989583333333332,
+   "end": {
+    "hedged": 1229.7489453380817,
+    "unhedged_lp_plus_cash": 1282.4003691159653,
+    "hold_plus_cash": 1280.5764808493968
+   },
+   "return_pct": {
+    "hedged": -1.6200843729534564,
+    "unhedged": 2.5920295292772177,
+    "hold": 2.4461184679517523
+   },
+   "hedged_vs_hold_pct": -4.066202840905207,
+   "hedged_vs_cash_pct": -1.6200843729534564,
+   "hedge_leg": {
+    "total": -52.65142377788362,
+    "price_and_rebalance": -32.914104601081085,
+    "swap_fee": 1.1828922120608825,
+    "impact": 13.62954152952505,
+    "gas": 1.0999999999999999,
+    "borrow_interest": 3.9139613850498898,
+    "supply_interest": 0.08907594983328257,
+    "adjustments": 11,
+    "traded_usd": 1360.2070238984256
+   },
+   "costs_pct_of_start": 1.578985534144203,
+   "hedged_before_hedge_costs_pct": -0.04109883880926645,
+   "lp": {
+    "fees_usd": 6.684986961866237,
+    "lvr_usd": 7.061888996351737,
+    "fee_over_lvr": 0.9466287228983332,
+    "recenters": 3,
+    "deployed_frac_avg": 0.7954731197913231,
+    "gas_usd": 0.1989
+   },
+   "samples_wanting_adjust_but_blocked": 10,
+   "worst_margin_ratio": 0.4486652492856578,
+   "max_short_usd": 531.2990345343031,
+   "worst_drawdown_pct": -0.6959995146671116,
+   "reward_tokens": 0.0,
+   "window": "30d@2026-08-25",
+   "size": 1000,
+   "rewards": {
+    "tokens": 0.0,
+    "usd_if_sold": 0.0
+   },
+   "hedged_plus_rewards_pct": -1.6200843729534564
+  },
+  {
+   "threshold": 0.1,
+   "start_equity": 1250.0,
+   "margin_posted": 250.0,
+   "days": 29.989583333333332,
+   "end": {
+    "hedged": 1226.2937167551136,
+    "unhedged_lp_plus_cash": 1282.4003691159653,
+    "hold_plus_cash": 1280.5764808493968
+   },
+   "return_pct": {
+    "hedged": -1.8965026595909151,
+    "unhedged": 2.5920295292772177,
+    "hold": 2.4461184679517523
+   },
+   "hedged_vs_hold_pct": -4.342621127542661,
+   "hedged_vs_cash_pct": -1.8965026595909151,
+   "hedge_leg": {
+    "total": -56.1066523608518,
+    "price_and_rebalance": -38.307225097554365,
+    "swap_fee": 1.1014215442683348,
+    "impact": 12.236033043496196,
+    "gas": 0.6,
+    "borrow_interest": 3.951604008573546,
+    "supply_interest": 0.08963133304064706,
+    "adjustments": 6,
+    "traded_usd": 1254.9369444512072
+   },
+   "costs_pct_of_start": 1.4239541810637946,
+   "hedged_before_hedge_costs_pct": -0.4725484785271146,
+   "lp": {
+    "fees_usd": 6.684986961866237,
+    "lvr_usd": 7.061888996351737,
+    "fee_over_lvr": 0.9466287228983332,
+    "recenters": 3,
+    "deployed_frac_avg": 0.7954731197913231,
+    "gas_usd": 0.1989
+   },
+   "samples_wanting_adjust_but_blocked": 0,
+   "worst_margin_ratio": 0.4114955840961045,
+   "max_short_usd": 531.2990345343031,
+   "worst_drawdown_pct": -0.9749844501035776,
+   "reward_tokens": 0.0,
+   "window": "30d@2026-08-25",
+   "size": 1000,
+   "rewards": {
+    "tokens": 0.0,
+    "usd_if_sold": 0.0
+   },
+   "hedged_plus_rewards_pct": -1.8965026595909151
+  },
+  {
+   "threshold": 0.02,
+   "start_equity": 12500.0,
+   "margin_posted": 2499.9999999999995,
+   "days": 29.989583333333332,
+   "end": {
+    "hedged": 11006.386091010834,
+    "unhedged_lp_plus_cash": 12809.93519002524,
+    "hold_plus_cash": 12805.764808493968
+   },
+   "return_pct": {
+    "hedged": -11.948911271913332,
+    "unhedged": 2.4794815202019205,
+    "hold": 2.4461184679517523
+   },
+   "hedged_vs_hold_pct": -14.395029739865073,
+   "hedged_vs_cash_pct": -11.948911271913332,
+   "hedge_leg": {
+    "total": -1803.5490990144049,
+    "price_and_rebalance": -333.65213230649624,
+    "swap_fee": 18.02144507236573,
+    "impact": 1408.5282939361605,
+    "gas": 4.899999999999999,
+    "borrow_interest": 39.15071233013533,
+    "supply_interest": 0.7034846307528188,
+    "adjustments": 49,
+    "traded_usd": 20067.88845070937
+   },
+   "costs_pct_of_start": 11.75917573366327,
+   "hedged_before_hedge_costs_pct": -0.18973553825005365,
+   "lp": {
+    "fees_usd": 50.95847010872979,
+    "lvr_usd": 70.60600898617963,
+    "fee_over_lvr": 0.7217299326280341,
+    "recenters": 3,
+    "deployed_frac_avg": 0.7958406045580843,
+    "gas_usd": 0.1989
+   },
+   "samples_wanting_adjust_but_blocked": 195,
+   "worst_margin_ratio": 0.16587730356425948,
+   "max_short_usd": 5312.212492332387,
+   "worst_drawdown_pct": -2.803803948528416,
+   "reward_tokens": 0.0,
+   "window": "30d@2026-08-25",
+   "size": 10000,
+   "rewards": {
+    "tokens": 0.0,
+    "usd_if_sold": 0.0
+   },
+   "hedged_plus_rewards_pct": -11.948911271913332
+  },
+  {
+   "threshold": 0.05,
+   "start_equity": 12500.0,
+   "margin_posted": 2499.9999999999995,
+   "days": 29.989583333333332,
+   "end": {
+    "hedged": 11066.162256091357,
+    "unhedged_lp_plus_cash": 12809.93519002524,
+    "hold_plus_cash": 12805.764808493968
+   },
+   "return_pct": {
+    "hedged": -11.470701951269147,
+    "unhedged": 2.4794815202019205,
+    "hold": 2.4461184679517523
+   },
+   "hedged_vs_hold_pct": -13.916820419220894,
+   "hedged_vs_cash_pct": -11.470701951269147,
+   "hedge_leg": {
+    "total": -1743.772933933883,
+    "price_and_rebalance": -329.1407591274781,
+    "swap_fee": 11.823742612776634,
+    "impact": 1363.331943807122,
+    "gas": 1.0999999999999999,
+    "borrow_interest": 39.08821733487764,
+    "supply_interest": 0.7117289483711441,
+    "adjustments": 11,
+    "traded_usd": 13593.74312565407
+   },
+   "costs_pct_of_start": 11.317057398451238,
+   "hedged_before_hedge_costs_pct": -0.15364455281790287,
+   "lp": {
+    "fees_usd": 50.95847010872979,
+    "lvr_usd": 70.60600898617963,
+    "fee_over_lvr": 0.7217299326280341,
+    "recenters": 3,
+    "deployed_frac_avg": 0.7958406045580843,
+    "gas_usd": 0.1989
+   },
+   "samples_wanting_adjust_but_blocked": 10,
+   "worst_margin_ratio": 0.17275839770188137,
+   "max_short_usd": 5312.212492332387,
+   "worst_drawdown_pct": -2.2759899451226584,
+   "reward_tokens": 0.0,
+   "window": "30d@2026-08-25",
+   "size": 10000,
+   "rewards": {
+    "tokens": 0.0,
+    "usd_if_sold": 0.0
+   },
+   "hedged_plus_rewards_pct": -11.470701951269147
+  },
+  {
+   "threshold": 0.1,
+   "start_equity": 12500.0,
+   "margin_posted": 2499.9999999999995,
+   "days": 29.989583333333332,
+   "end": {
+    "hedged": 11152.656830745258,
+    "unhedged_lp_plus_cash": 12809.93519002524,
+    "hold_plus_cash": 12805.764808493968
+   },
+   "return_pct": {
+    "hedged": -10.778745354037934,
+    "unhedged": 2.4794815202019205,
+    "hold": 2.4461184679517523
+   },
+   "hedged_vs_hold_pct": -13.224863821989683,
+   "hedged_vs_cash_pct": -10.778745354037934,
+   "hedge_leg": {
+    "total": -1657.2783592799815,
+    "price_and_rebalance": -383.2201396772082,
+    "swap_fee": 11.016296882856343,
+    "impact": 1223.710209564775,
+    "gas": 0.6,
+    "borrow_interest": 39.46578691237026,
+    "supply_interest": 0.7340737572281113,
+    "adjustments": 6,
+    "traded_usd": 12548.118050990537
+   },
+   "costs_pct_of_start": 10.192465756822186,
+   "hedged_before_hedge_costs_pct": -0.5862795972157473,
+   "lp": {
+    "fees_usd": 50.95847010872979,
+    "lvr_usd": 70.60600898617963,
+    "fee_over_lvr": 0.7217299326280341,
+    "recenters": 3,
+    "deployed_frac_avg": 0.7958406045580843,
+    "gas_usd": 0.1989
+   },
+   "samples_wanting_adjust_but_blocked": 0,
+   "worst_margin_ratio": 0.17383901693339562,
+   "max_short_usd": 5312.212492332387,
+   "worst_drawdown_pct": -1.512256646751009,
+   "reward_tokens": 0.0,
+   "window": "30d@2026-08-25",
+   "size": 10000,
+   "rewards": {
+    "tokens": 0.0,
+    "usd_if_sold": 0.0
+   },
+   "hedged_plus_rewards_pct": -10.778745354037934
+  },
+  {
+   "threshold": 0.02,
+   "start_equity": 1250.0,
+   "margin_posted": 249.99999999999997,
+   "days": 29.98611111111111,
+   "end": {
+    "hedged": 1193.0834080590835,
+    "unhedged_lp_plus_cash": 1279.7578633443434,
+    "hold_plus_cash": 1277.5477273403603
+   },
+   "return_pct": {
+    "hedged": -4.553327355273318,
+    "unhedged": 2.3806290675474795,
+    "hold": 2.2038181872288343
+   },
+   "hedged_vs_hold_pct": -6.7571455425021485,
+   "hedged_vs_cash_pct": -4.553327355273318,
+   "hedge_leg": {
+    "total": -86.67445528525982,
+    "price_and_rebalance": -30.475063491495405,
+    "swap_fee": 1.6628350250516324,
+    "impact": 45.63168976565962,
+    "gas": 4.699999999999999,
+    "borrow_interest": 4.2966183540685075,
+    "supply_interest": 0.09175135101534213,
+    "adjustments": 47,
+    "traded_usd": 1922.2296287881368
+   },
+   "costs_pct_of_start": 4.4959513435011536,
+   "hedged_before_hedge_costs_pct": -0.05737601177217584,
+   "lp": {
+    "fees_usd": 6.562539089521138,
+    "lvr_usd": 4.391142011560635,
+    "fee_over_lvr": 1.4944948426272318,
+    "recenters": 3,
+    "deployed_frac_avg": 0.8919969515321846,
+    "gas_usd": 0.1989
+   },
+   "samples_wanting_adjust_but_blocked": 253,
+   "worst_margin_ratio": 0.3903346231640644,
+   "max_short_usd": 532.9817433150638,
+   "worst_drawdown_pct": -0.862418158092304,
+   "reward_tokens": 0.7982961193003713,
+   "window": "30d@2026-09-01",
+   "size": 1000,
+   "rewards": {
+    "tokens": 0.7982961193003713,
+    "usd_if_sold": 0.02940954407805204
+   },
+   "hedged_plus_rewards_pct": -4.550974591747074
+  },
+  {
+   "threshold": 0.05,
+   "start_equity": 1250.0,
+   "margin_posted": 249.99999999999997,
+   "days": 29.98611111111111,
+   "end": {
+    "hedged": 1197.4678058601921,
+    "unhedged_lp_plus_cash": 1279.7578633443434,
+    "hold_plus_cash": 1277.5477273403603
+   },
+   "return_pct": {
+    "hedged": -4.2025755311846265,
+    "unhedged": 2.3806290675474795,
+    "hold": 2.2038181872288343
+   },
+   "hedged_vs_hold_pct": -6.406393718413455,
+   "hedged_vs_cash_pct": -4.2025755311846265,
+   "hedge_leg": {
+    "total": -82.29005748415128,
+    "price_and_rebalance": -30.203026008252166,
+    "swap_fee": 1.1656334405830737,
+    "impact": 45.597327469448274,
+    "gas": 1.0999999999999999,
+    "borrow_interest": 4.316309884979433,
+    "supply_interest": 0.09223931911167096,
+    "adjustments": 11,
+    "traded_usd": 1345.7386020772951
+   },
+   "costs_pct_of_start": 4.166962518071929,
+   "hedged_before_hedge_costs_pct": -0.03561301311270654,
+   "lp": {
+    "fees_usd": 6.562539089521138,
+    "lvr_usd": 4.391142011560635,
+    "fee_over_lvr": 1.4944948426272318,
+    "recenters": 3,
+    "deployed_frac_avg": 0.8919969515321846,
+    "gas_usd": 0.1989
+   },
+   "samples_wanting_adjust_but_blocked": 179,
+   "worst_margin_ratio": 0.3723687973961722,
+   "max_short_usd": 532.9817433150638,
+   "worst_drawdown_pct": -0.5230890071381111,
+   "reward_tokens": 0.7982961193003713,
+   "window": "30d@2026-09-01",
+   "size": 1000,
+   "rewards": {
+    "tokens": 0.7982961193003713,
+    "usd_if_sold": 0.02940954407805204
+   },
+   "hedged_plus_rewards_pct": -4.200222767658382
+  },
+  {
+   "threshold": 0.1,
+   "start_equity": 1250.0,
+   "margin_posted": 249.99999999999997,
+   "days": 29.98611111111111,
+   "end": {
+    "hedged": 1195.2496160875708,
+    "unhedged_lp_plus_cash": 1279.7578633443434,
+    "hold_plus_cash": 1277.5477273403603
+   },
+   "return_pct": {
+    "hedged": -4.380030712994342,
+    "unhedged": 2.3806290675474795,
+    "hold": 2.2038181872288343
+   },
+   "hedged_vs_hold_pct": -6.583848900223165,
+   "hedged_vs_cash_pct": -4.380030712994342,
+   "hedge_leg": {
+    "total": -84.50824725677248,
+    "price_and_rebalance": -32.88112236526792,
+    "swap_fee": 1.04434476102479,
+    "impact": 45.813167468109356,
+    "gas": 0.5,
+    "borrow_interest": 4.362261723503497,
+    "supply_interest": 0.09264906113307746,
+    "adjustments": 5,
+    "traded_usd": 1245.392846564147
+   },
+   "costs_pct_of_start": 4.130169991320364,
+   "hedged_before_hedge_costs_pct": -0.24986072167397652,
+   "lp": {
+    "fees_usd": 6.562539089521138,
+    "lvr_usd": 4.391142011560635,
+    "fee_over_lvr": 1.4944948426272318,
+    "recenters": 3,
+    "deployed_frac_avg": 0.8919969515321846,
+    "gas_usd": 0.1989
+   },
+   "samples_wanting_adjust_but_blocked": 174,
+   "worst_margin_ratio": 0.34414122426643134,
+   "max_short_usd": 532.9817433150638,
+   "worst_drawdown_pct": -0.6962303320040664,
+   "reward_tokens": 0.7982961193003713,
+   "window": "30d@2026-09-01",
+   "size": 1000,
+   "rewards": {
+    "tokens": 0.7982961193003713,
+    "usd_if_sold": 0.02940954407805204
+   },
+   "hedged_plus_rewards_pct": -4.377677949468098
+  },
+  {
+   "threshold": 0.02,
+   "start_equity": 12500.0,
+   "margin_posted": 2500.0,
+   "days": 29.98611111111111,
+   "end": {
+    "hedged": 9896.751382799763,
+    "unhedged_lp_plus_cash": 12789.315520780492,
+    "hold_plus_cash": 12775.477273403603
+   },
+   "return_pct": {
+    "hedged": -20.825988937601903,
+    "unhedged": 2.3145241662439364,
+    "hold": 2.2038181872288343
+   },
+   "hedged_vs_hold_pct": -23.029807124830725,
+   "hedged_vs_cash_pct": -20.825988937601903,
+   "hedge_leg": {
+    "total": -2892.56413798073,
+    "price_and_rebalance": -304.65648722194874,
+    "swap_fee": 16.621699839595667,
+    "impact": 2524.2771653011096,
+    "gas": 4.699999999999999,
+    "borrow_interest": 42.923180213982334,
+    "supply_interest": 0.6143945959067444,
+    "adjustments": 47,
+    "traded_usd": 19212.68868603126
+   },
+   "costs_pct_of_start": 20.70326120607025,
+   "hedged_before_hedge_costs_pct": -0.12272773153164598,
+   "lp": {
+    "fees_usd": 55.630759605965665,
+    "lvr_usd": 43.87236310564293,
+    "fee_over_lvr": 1.2680137487011807,
+    "recenters": 3,
+    "deployed_frac_avg": 0.8919290136130181,
+    "gas_usd": 0.1989
+   },
+   "samples_wanting_adjust_but_blocked": 253,
+   "worst_margin_ratio": -0.11143960632907342,
+   "max_short_usd": 5324.00710724367,
+   "worst_drawdown_pct": -0.9389506140058068,
+   "reward_tokens": 7.88345835050609,
+   "window": "30d@2026-09-01",
+   "size": 10000,
+   "rewards": {
+    "tokens": 7.88345835050609,
+    "usd_if_sold": 0.2904266277039296
+   },
+   "hedged_plus_rewards_pct": -20.82366552458027
+  },
+  {
+   "threshold": 0.05,
+   "start_equity": 12500.0,
+   "margin_posted": 2500.0,
+   "days": 29.98611111111111,
+   "end": {
+    "hedged": 9911.19400943713,
+    "unhedged_lp_plus_cash": 12789.315520780492,
+    "hold_plus_cash": 12775.477273403603
+   },
+   "return_pct": {
+    "hedged": -20.71044792450296,
+    "unhedged": 2.3145241662439364,
+    "hold": 2.2038181872288343
+   },
+   "hedged_vs_hold_pct": -22.91426611173179,
+   "hedged_vs_cash_pct": -20.71044792450296,
+   "hedge_leg": {
+    "total": -2878.1215113433623,
+    "price_and_rebalance": -301.92822475260573,
+    "swap_fee": 11.65347480472156,
+    "impact": 2520.9361120115464,
+    "gas": 1.0999999999999999,
+    "borrow_interest": 43.121302146593884,
+    "supply_interest": 0.6176023721051176,
+    "adjustments": 11,
+    "traded_usd": 13452.339463536839
+   },
+   "costs_pct_of_start": 20.60954629272605,
+   "hedged_before_hedge_costs_pct": -0.10090163177691283,
+   "lp": {
+    "fees_usd": 55.630759605965665,
+    "lvr_usd": 43.87236310564293,
+    "fee_over_lvr": 1.2680137487011807,
+    "recenters": 3,
+    "deployed_frac_avg": 0.8919290136130181,
+    "gas_usd": 0.1989
+   },
+   "samples_wanting_adjust_but_blocked": 179,
+   "worst_margin_ratio": -0.1086591881553337,
+   "max_short_usd": 5324.00710724367,
+   "worst_drawdown_pct": -0.7944323672517628,
+   "reward_tokens": 7.88345835050609,
+   "window": "30d@2026-09-01",
+   "size": 10000,
+   "rewards": {
+    "tokens": 7.88345835050609,
+    "usd_if_sold": 0.2904266277039296
+   },
+   "hedged_plus_rewards_pct": -20.70812451148133
+  },
+  {
+   "threshold": 0.1,
+   "start_equity": 12500.0,
+   "margin_posted": 2500.0,
+   "days": 29.98611111111111,
+   "end": {
+    "hedged": 9864.070169059582,
+    "unhedged_lp_plus_cash": 12789.315520780492,
+    "hold_plus_cash": 12775.477273403603
+   },
+   "return_pct": {
+    "hedged": -21.08743864752335,
+    "unhedged": 2.3145241662439364,
+    "hold": 2.2038181872288343
+   },
+   "hedged_vs_hold_pct": -23.291256834752172,
+   "hedged_vs_cash_pct": -21.08743864752335,
+   "hedge_leg": {
+    "total": -2925.245351720911,
+    "price_and_rebalance": -328.6860429508338,
+    "swap_fee": 10.44194113513327,
+    "impact": 2542.654422953679,
+    "gas": 0.5,
+    "borrow_interest": 43.58157737984743,
+    "supply_interest": 0.6186326985823909,
+    "adjustments": 5,
+    "traded_usd": 12450.045645304392
+   },
+   "costs_pct_of_start": 20.772474470160617,
+   "hedged_before_hedge_costs_pct": -0.31496417736273724,
+   "lp": {
+    "fees_usd": 55.630759605965665,
+    "lvr_usd": 43.87236310564293,
+    "fee_over_lvr": 1.2680137487011807,
+    "recenters": 3,
+    "deployed_frac_avg": 0.8919290136130181,
+    "gas_usd": 0.1989
+   },
+   "samples_wanting_adjust_but_blocked": 174,
+   "worst_margin_ratio": -0.1060488090434156,
+   "max_short_usd": 5324.00710724367,
+   "worst_drawdown_pct": -1.2775398575598396,
+   "reward_tokens": 7.88345835050609,
+   "window": "30d@2026-09-01",
+   "size": 10000,
+   "rewards": {
+    "tokens": 7.88345835050609,
+    "usd_if_sold": 0.2904266277039296
+   },
+   "hedged_plus_rewards_pct": -21.085115234501718
+  },
+  {
+   "threshold": 0.02,
+   "start_equity": 1250.0,
+   "margin_posted": 250.0,
+   "days": 29.99652777777778,
+   "end": {
+    "hedged": 1239.8262707172134,
+    "unhedged_lp_plus_cash": 1266.4991586013348,
+    "hold_plus_cash": 1260.5439053912996
+   },
+   "return_pct": {
+    "hedged": -0.8138983426229207,
+    "unhedged": 1.319932688106773,
+    "hold": 0.843512431303961
+   },
+   "hedged_vs_hold_pct": -1.6574107739268948,
+   "hedged_vs_cash_pct": -0.8138983426229207,
+   "hedge_leg": {
+    "total": -26.67288788412111,
+    "price_and_rebalance": -16.030184663449695,
+    "swap_fee": 1.368632847735884,
+    "impact": 0.05076570885269899,
+    "gas": 3.800000000000002,
+    "borrow_interest": 5.544217579540275,
+    "supply_interest": 0.12091291545744776,
+    "adjustments": 38,
+    "traded_usd": 1831.8917818552304
+   },
+   "costs_pct_of_start": 0.851416257653713,
+   "hedged_before_hedge_costs_pct": 0.037517915030784936,
+   "lp": {
+    "fees_usd": 4.116979843928408,
+    "lvr_usd": 4.1958346940211495,
+    "fee_over_lvr": 0.98120639733374,
+    "recenters": 2,
+    "deployed_frac_avg": 0.8222032154044564,
+    "gas_usd": 0.1326
+   },
+   "samples_wanting_adjust_but_blocked": 214,
+   "worst_margin_ratio": 0.42242386548628835,
+   "max_short_usd": 634.6942390939504,
+   "worst_drawdown_pct": -0.8925459189065621,
+   "reward_tokens": 26.58741896281819,
+   "window": "30d@2026-09-08",
+   "size": 1000,
+   "rewards": {
+    "tokens": 26.58741896281819,
+    "usd_if_sold": 0.8490391941706623
+   },
+   "hedged_plus_rewards_pct": -0.7459752070892677
+  },
+  {
+   "threshold": 0.05,
+   "start_equity": 1250.0,
+   "margin_posted": 250.0,
+   "days": 29.99652777777778,
+   "end": {
+    "hedged": 1240.6834997042351,
+    "unhedged_lp_plus_cash": 1266.4991586013348,
+    "hold_plus_cash": 1260.5439053912996
+   },
+   "return_pct": {
+    "hedged": -0.745320023661189,
+    "unhedged": 1.319932688106773,
+    "hold": 0.843512431303961
+   },
+   "hedged_vs_hold_pct": -1.588832454965159,
+   "hedged_vs_cash_pct": -0.745320023661189,
+   "hedge_leg": {
+    "total": -25.815658897099638,
+    "price_and_rebalance": -18.1235901781756,
+    "swap_fee": 1.0301676412497298,
+    "impact": 0.05128265581041014,
+    "gas": 1.2,
+    "borrow_interest": 5.531349229504604,
+    "supply_interest": 0.12073080764070673,
+    "adjustments": 12,
+    "traded_usd": 1521.1031861245021
+   },
+   "costs_pct_of_start": 0.615365497513923,
+   "hedged_before_hedge_costs_pct": -0.12995452614726674,
+   "lp": {
+    "fees_usd": 4.116979843928408,
+    "lvr_usd": 4.1958346940211495,
+    "fee_over_lvr": 0.98120639733374,
+    "recenters": 2,
+    "deployed_frac_avg": 0.8222032154044564,
+    "gas_usd": 0.1326
+   },
+   "samples_wanting_adjust_but_blocked": 138,
+   "worst_margin_ratio": 0.40202861441135646,
+   "max_short_usd": 634.6942390939504,
+   "worst_drawdown_pct": -0.8239383672272171,
+   "reward_tokens": 26.58741896281819,
+   "window": "30d@2026-09-08",
+   "size": 1000,
+   "rewards": {
+    "tokens": 26.58741896281819,
+    "usd_if_sold": 0.8490391941706623
+   },
+   "hedged_plus_rewards_pct": -0.677396888127536
+  },
+  {
+   "threshold": 0.1,
+   "start_equity": 1250.0,
+   "margin_posted": 250.0,
+   "days": 29.99652777777778,
+   "end": {
+    "hedged": 1243.1306796645517,
+    "unhedged_lp_plus_cash": 1266.4991586013348,
+    "hold_plus_cash": 1260.5439053912996
+   },
+   "return_pct": {
+    "hedged": -0.5495456268358567,
+    "unhedged": 1.319932688106773,
+    "hold": 0.843512431303961
+   },
+   "hedged_vs_hold_pct": -1.3930580581398317,
+   "hedged_vs_cash_pct": -0.5495456268358567,
+   "hedge_leg": {
+    "total": -23.368478936782935,
+    "price_and_rebalance": -16.538901535078566,
+    "swap_fee": 0.8357630539865325,
+    "impact": 0.04778341632940412,
+    "gas": 0.4,
+    "borrow_interest": 5.6688733284839214,
+    "supply_interest": 0.12284239709548647,
+    "adjustments": 4,
+    "traded_usd": 1240.635017927852
+   },
+   "costs_pct_of_start": 0.5463661921363497,
+   "hedged_before_hedge_costs_pct": -0.003179434699504782,
+   "lp": {
+    "fees_usd": 4.116979843928408,
+    "lvr_usd": 4.1958346940211495,
+    "fee_over_lvr": 0.98120639733374,
+    "recenters": 2,
+    "deployed_frac_avg": 0.8222032154044564,
+    "gas_usd": 0.1326
+   },
+   "samples_wanting_adjust_but_blocked": 0,
+   "worst_margin_ratio": 0.3701716897543501,
+   "max_short_usd": 634.6942390939504,
+   "worst_drawdown_pct": -0.6972999263367141,
+   "reward_tokens": 26.58741896281819,
+   "window": "30d@2026-09-08",
+   "size": 1000,
+   "rewards": {
+    "tokens": 26.58741896281819,
+    "usd_if_sold": 0.8490391941706623
+   },
+   "hedged_plus_rewards_pct": -0.48162249130220375
+  },
+  {
+   "threshold": 0.02,
+   "start_equity": 12500.0,
+   "margin_posted": 2500.0,
+   "days": 29.99652777777778,
+   "end": {
+    "hedged": 12428.279544902056,
+    "unhedged_lp_plus_cash": 12665.35260132033,
+    "hold_plus_cash": 12605.439053912996
+   },
+   "return_pct": {
+    "hedged": -0.5737636407835534,
+    "unhedged": 1.3228208105626305,
+    "hold": 0.843512431303961
+   },
+   "hedged_vs_hold_pct": -1.417276072087523,
+   "hedged_vs_cash_pct": -0.5737636407835534,
+   "hedge_leg": {
+    "total": -237.07305641827497,
+    "price_and_rebalance": -160.28261872312163,
+    "swap_fee": 13.685698259214655,
+    "impact": 5.076134332544518,
+    "gas": 3.800000000000002,
+    "borrow_interest": 55.43970644813548,
+    "supply_interest": 1.2111013447413173,
+    "adjustments": 38,
+    "traded_usd": 18318.085761323717
+   },
+   "costs_pct_of_start": 0.6143235015612266,
+   "hedged_before_hedge_costs_pct": 0.040559860777677384,
+   "lp": {
+    "fees_usd": 40.35513437723311,
+    "lvr_usd": 41.95582017039197,
+    "fee_over_lvr": 0.9618483016978783,
+    "recenters": 2,
+    "deployed_frac_avg": 0.8222042077118887,
+    "gas_usd": 0.1326
+   },
+   "samples_wanting_adjust_but_blocked": 214,
+   "worst_margin_ratio": 0.4264231940481302,
+   "max_short_usd": 6346.663115363109,
+   "worst_drawdown_pct": -0.6479893022446004,
+   "reward_tokens": 253.55261294744957,
+   "window": "30d@2026-09-08",
+   "size": 10000,
+   "rewards": {
+    "tokens": 253.55261294744957,
+    "usd_if_sold": 8.097366912989877
+   },
+   "hedged_plus_rewards_pct": -0.5089847054796344
+  },
+  {
+   "threshold": 0.05,
+   "start_equity": 12500.0,
+   "margin_posted": 2500.0,
+   "days": 29.99652777777778,
+   "end": {
+    "hedged": 12413.405738367012,
+    "unhedged_lp_plus_cash": 12665.35260132033,
+    "hold_plus_cash": 12605.439053912996
+   },
+   "return_pct": {
+    "hedged": -0.6927540930639076,
+    "unhedged": 1.3228208105626305,
+    "hold": 0.843512431303961
+   },
+   "hedged_vs_hold_pct": -1.5362665243678784,
+   "hedged_vs_cash_pct": -0.6927540930639076,
+   "hedge_leg": {
+    "total": -251.9468629533185,
+    "price_and_rebalance": -181.21429806719726,
+    "swap_fee": 10.301199210601087,
+    "impact": 5.127925845049744,
+    "gas": 1.2,
+    "borrow_interest": 55.3112180772693,
+    "supply_interest": 1.2077782467989222,
+    "adjustments": 12,
+    "traded_usd": 15210.313418789556
+   },
+   "costs_pct_of_start": 0.5658605190889696,
+   "hedged_before_hedge_costs_pct": -0.12689357397494314,
+   "lp": {
+    "fees_usd": 40.35513437723311,
+    "lvr_usd": 41.95582017039197,
+    "fee_over_lvr": 0.9618483016978783,
+    "recenters": 2,
+    "deployed_frac_avg": 0.8222042077118887,
+    "gas_usd": 0.1326
+   },
+   "samples_wanting_adjust_but_blocked": 137,
+   "worst_margin_ratio": 0.40297969679587564,
+   "max_short_usd": 6346.663115363109,
+   "worst_drawdown_pct": -0.76703564323094,
+   "reward_tokens": 253.55261294744957,
+   "window": "30d@2026-09-08",
+   "size": 10000,
+   "rewards": {
+    "tokens": 253.55261294744957,
+    "usd_if_sold": 8.097366912989877
+   },
+   "hedged_plus_rewards_pct": -0.6279751577599886
+  },
+  {
+   "threshold": 0.1,
+   "start_equity": 12500.0,
+   "margin_posted": 2500.0,
+   "days": 29.99652777777778,
+   "end": {
+    "hedged": 12430.979135475875,
+    "unhedged_lp_plus_cash": 12665.35260132033,
+    "hold_plus_cash": 12605.439053912996
+   },
+   "return_pct": {
+    "hedged": -0.5521669161930087,
+    "unhedged": 1.3228208105626305,
+    "hold": 0.843512431303961
+   },
+   "hedged_vs_hold_pct": -1.3956793474969744,
+   "hedged_vs_cash_pct": -0.5521669161930087,
+   "hedge_leg": {
+    "total": -234.3734658444564,
+    "price_and_rebalance": -165.37918451363123,
+    "swap_fee": 8.357461539768964,
+    "impact": 4.7779134917492145,
+    "gas": 0.4,
+    "borrow_interest": 56.68725572642807,
+    "supply_interest": 1.2283494271210902,
+    "adjustments": 4,
+    "traded_usd": 12406.098552276992
+   },
+   "costs_pct_of_start": 0.5519542506466013,
+   "hedged_before_hedge_costs_pct": -0.00021266554640897084,
+   "lp": {
+    "fees_usd": 40.35513437723311,
+    "lvr_usd": 41.95582017039197,
+    "fee_over_lvr": 0.9618483016978783,
+    "recenters": 2,
+    "deployed_frac_avg": 0.8222042077118887,
+    "gas_usd": 0.1326
+   },
+   "samples_wanting_adjust_but_blocked": 0,
+   "worst_margin_ratio": 0.3700970019334767,
+   "max_short_usd": 6346.663115363109,
+   "worst_drawdown_pct": -0.6874735682286248,
+   "reward_tokens": 253.55261294744957,
+   "window": "30d@2026-09-08",
+   "size": 10000,
+   "rewards": {
+    "tokens": 253.55261294744957,
+    "usd_if_sold": 8.097366912989877
+   },
+   "hedged_plus_rewards_pct": -0.48738798088908974
+  },
+  {
+   "threshold": 0.02,
+   "start_equity": 1250.0,
+   "margin_posted": 250.00000000000003,
+   "days": 29.92361111111111,
+   "end": {
+    "hedged": 1239.9530026006792,
+    "unhedged_lp_plus_cash": 1264.7696348294535,
+    "hold_plus_cash": 1260.0488788822836
+   },
+   "return_pct": {
+    "hedged": -0.8037597919456685,
+    "unhedged": 1.1815707863562785,
+    "hold": 0.8039103105826895
+   },
+   "hedged_vs_hold_pct": -1.6076701025283546,
+   "hedged_vs_cash_pct": -0.8037597919456685,
+   "hedge_leg": {
+    "total": -24.816632228774296,
+    "price_and_rebalance": -16.750459170279488,
+    "swap_fee": 1.0857669601043525,
+    "impact": 0.14396563554051267,
+    "gas": 3.2000000000000015,
+    "borrow_interest": 3.7239024546001938,
+    "supply_interest": 0.08746199175025304,
+    "adjustments": 32,
+    "traded_usd": 1573.8051519879841
+   },
+   "costs_pct_of_start": 0.6452938446795846,
+   "hedged_before_hedge_costs_pct": -0.158465947266086,
+   "lp": {
+    "fees_usd": 2.832093550474454,
+    "lvr_usd": 4.174216938765115,
+    "fee_over_lvr": 0.6784730147044754,
+    "recenters": 3,
+    "deployed_frac_avg": 0.756534586840017,
+    "gas_usd": 0.1989
+   },
+   "samples_wanting_adjust_but_blocked": 0,
+   "worst_margin_ratio": 0.4877954227260696,
+   "max_short_usd": 509.34067631264446,
+   "worst_drawdown_pct": -0.7555539104544651,
+   "reward_tokens": 64.12345170445921,
+   "window": "30d@2026-09-15",
+   "size": 1000,
+   "rewards": {
+    "tokens": 64.12345170445921,
+    "usd_if_sold": 3.175665758108536
+   },
+   "hedged_plus_rewards_pct": -0.5497065312969855
+  },
+  {
+   "threshold": 0.05,
+   "start_equity": 1250.0,
+   "margin_posted": 250.00000000000003,
+   "days": 29.92361111111111,
+   "end": {
+    "hedged": 1240.5344066129933,
+    "unhedged_lp_plus_cash": 1264.7696348294535,
+    "hold_plus_cash": 1260.0488788822836
+   },
+   "return_pct": {
+    "hedged": -0.7572474709605426,
+    "unhedged": 1.1815707863562785,
+    "hold": 0.8039103105826895
+   },
+   "hedged_vs_hold_pct": -1.5611577815432247,
+   "hedged_vs_cash_pct": -0.7572474709605426,
+   "hedge_leg": {
+    "total": -24.235228216460115,
+    "price_and_rebalance": -18.47237873028033,
+    "swap_fee": 0.9137551521604864,
+    "impact": 0.14296309297983745,
+    "gas": 0.9999999999999999,
+    "borrow_interest": 3.7946625632991666,
+    "supply_interest": 0.08853132225970387,
+    "adjustments": 10,
+    "traded_usd": 1330.697042273261
+   },
+   "costs_pct_of_start": 0.4610279588943829,
+   "hedged_before_hedge_costs_pct": -0.2962195120661636,
+   "lp": {
+    "fees_usd": 2.832093550474454,
+    "lvr_usd": 4.174216938765115,
+    "fee_over_lvr": 0.6784730147044754,
+    "recenters": 3,
+    "deployed_frac_avg": 0.756534586840017,
+    "gas_usd": 0.1989
+   },
+   "samples_wanting_adjust_but_blocked": 0,
+   "worst_margin_ratio": 0.4649994617234385,
+   "max_short_usd": 509.34067631264446,
+   "worst_drawdown_pct": -0.7186876916269402,
+   "reward_tokens": 64.12345170445921,
+   "window": "30d@2026-09-15",
+   "size": 1000,
+   "rewards": {
+    "tokens": 64.12345170445921,
+    "usd_if_sold": 3.175665758108536
+   },
+   "hedged_plus_rewards_pct": -0.5031942103118596
+  },
+  {
+   "threshold": 0.1,
+   "start_equity": 1250.0,
+   "margin_posted": 250.00000000000003,
+   "days": 29.92361111111111,
+   "end": {
+    "hedged": 1239.188352850554,
+    "unhedged_lp_plus_cash": 1264.7696348294535,
+    "hold_plus_cash": 1260.0488788822836
+   },
+   "return_pct": {
+    "hedged": -0.8649317719556682,
+    "unhedged": 1.1815707863562785,
+    "hold": 0.8039103105826895
+   },
+   "hedged_vs_hold_pct": -1.6688420825383583,
+   "hedged_vs_cash_pct": -0.8649317719556682,
+   "hedge_leg": {
+    "total": -25.581281978899284,
+    "price_and_rebalance": -20.50456176186477,
+    "swap_fee": 0.7131682322680796,
+    "impact": 0.135897439096888,
+    "gas": 0.4,
+    "borrow_interest": 3.9180161009691474,
+    "supply_interest": 0.09036155529960178,
+    "adjustments": 4,
+    "traded_usd": 1024.6193208652878
+   },
+   "costs_pct_of_start": 0.406137617362761,
+   "hedged_before_hedge_costs_pct": -0.4587941545929061,
+   "lp": {
+    "fees_usd": 2.832093550474454,
+    "lvr_usd": 4.174216938765115,
+    "fee_over_lvr": 0.6784730147044754,
+    "recenters": 3,
+    "deployed_frac_avg": 0.756534586840017,
+    "gas_usd": 0.1989
+   },
+   "samples_wanting_adjust_but_blocked": 0,
+   "worst_margin_ratio": 0.4318144069325236,
+   "max_short_usd": 509.34067631264446,
+   "worst_drawdown_pct": -0.8263961605241454,
+   "reward_tokens": 64.12345170445921,
+   "window": "30d@2026-09-15",
+   "size": 1000,
+   "rewards": {
+    "tokens": 64.12345170445921,
+    "usd_if_sold": 3.175665758108536
+   },
+   "hedged_plus_rewards_pct": -0.6108785113069852
+  },
+  {
+   "threshold": 0.02,
+   "start_equity": 12500.0,
+   "margin_posted": 2500.0,
+   "days": 29.92361111111111,
+   "end": {
+    "hedged": 12416.852751426753,
+    "unhedged_lp_plus_cash": 12649.180080419408,
+    "hold_plus_cash": 12600.488788822835
+   },
+   "return_pct": {
+    "hedged": -0.6651779885859743,
+    "unhedged": 1.1934406433552702,
+    "hold": 0.8039103105826895
+   },
+   "hedged_vs_hold_pct": -1.4690882991686522,
+   "hedged_vs_cash_pct": -0.6651779885859743,
+   "hedge_leg": {
+    "total": -232.3273289926542,
+    "price_and_rebalance": -167.5115792282351,
+    "swap_fee": 10.857487765276671,
+    "impact": 14.395966730360872,
+    "gas": 3.2000000000000015,
+    "borrow_interest": 37.238043525608084,
+    "supply_interest": 0.8757482568265081,
+    "adjustments": 32,
+    "traded_usd": 15737.757064346868
+   },
+   "costs_pct_of_start": 0.5185259981153528,
+   "hedged_before_hedge_costs_pct": -0.14665199047062197,
+   "lp": {
+    "fees_usd": 28.006544052413677,
+    "lvr_usd": 41.74120305244887,
+    "fee_over_lvr": 0.6709568005795796,
+    "recenters": 3,
+    "deployed_frac_avg": 0.7565351859652867,
+    "gas_usd": 0.1989
+   },
+   "samples_wanting_adjust_but_blocked": 0,
+   "worst_margin_ratio": 0.4866268433497731,
+   "max_short_usd": 5093.4020935861945,
+   "worst_drawdown_pct": -0.5735620008774811,
+   "reward_tokens": 629.0567619384926,
+   "window": "30d@2026-09-15",
+   "size": 10000,
+   "rewards": {
+    "tokens": 629.0567619384926,
+    "usd_if_sold": 31.291272344860346
+   },
+   "hedged_plus_rewards_pct": -0.4148478098270916
+  },
+  {
+   "threshold": 0.05,
+   "start_equity": 12500.0,
+   "margin_posted": 2500.0,
+   "days": 29.92361111111111,
+   "end": {
+    "hedged": 12402.955189120981,
+    "unhedged_lp_plus_cash": 12649.180080419408,
+    "hold_plus_cash": 12600.488788822835
+   },
+   "return_pct": {
+    "hedged": -0.7763584870321472,
+    "unhedged": 1.1934406433552702,
+    "hold": 0.8039103105826895
+   },
+   "hedged_vs_hold_pct": -1.58026879761483,
+   "hedged_vs_cash_pct": -0.7763584870321472,
+   "hedge_leg": {
+    "total": -246.2248912984278,
+    "price_and_rebalance": -184.73091111910315,
+    "swap_fee": 9.137457193490823,
+    "impact": 14.295714361002453,
+    "gas": 0.9999999999999999,
+    "borrow_interest": 37.945773693073185,
+    "supply_interest": 0.8849650682418354,
+    "adjustments": 10,
+    "traded_usd": 13306.785428391471
+   },
+   "costs_pct_of_start": 0.491951841434597,
+   "hedged_before_hedge_costs_pct": -0.28440664559755535,
+   "lp": {
+    "fees_usd": 28.006544052413677,
+    "lvr_usd": 41.74120305244887,
+    "fee_over_lvr": 0.6709568005795796,
+    "recenters": 3,
+    "deployed_frac_avg": 0.7565351859652867,
+    "gas_usd": 0.1989
+   },
+   "samples_wanting_adjust_but_blocked": 0,
+   "worst_margin_ratio": 0.46384878728856416,
+   "max_short_usd": 5093.4020935861945,
+   "worst_drawdown_pct": -0.6906410662555817,
+   "reward_tokens": 629.0567619384926,
+   "window": "30d@2026-09-15",
+   "size": 10000,
+   "rewards": {
+    "tokens": 629.0567619384926,
+    "usd_if_sold": 31.291272344860346
+   },
+   "hedged_plus_rewards_pct": -0.5260283082732644
+  },
+  {
+   "threshold": 0.1,
+   "start_equity": 12500.0,
+   "margin_posted": 2500.0,
+   "days": 29.92361111111111,
+   "end": {
+    "hedged": 12384.729799777771,
+    "unhedged_lp_plus_cash": 12649.180080419408,
+    "hold_plus_cash": 12600.488788822835
+   },
+   "return_pct": {
+    "hedged": -0.9221616017778267,
+    "unhedged": 1.1934406433552702,
+    "hold": 0.8039103105826895
+   },
+   "hedged_vs_hold_pct": -1.7260719123605086,
+   "hedged_vs_cash_pct": -0.9221616017778267,
+   "hedge_leg": {
+    "total": -264.4502806416367,
+    "price_and_rebalance": -205.05216166335939,
+    "swap_fee": 7.131698462839042,
+    "impact": 13.58976834608617,
+    "gas": 0.4,
+    "borrow_interest": 39.179420159926416,
+    "supply_interest": 0.9027679905743049,
+    "adjustments": 4,
+    "traded_usd": 10246.199011847799
+   },
+   "costs_pct_of_start": 0.4751849518262186,
+   "hedged_before_hedge_costs_pct": -0.44697664995161174,
+   "lp": {
+    "fees_usd": 28.006544052413677,
+    "lvr_usd": 41.74120305244887,
+    "fee_over_lvr": 0.6709568005795796,
+    "recenters": 3,
+    "deployed_frac_avg": 0.7565351859652867,
+    "gas_usd": 0.1989
+   },
+   "samples_wanting_adjust_but_blocked": 0,
+   "worst_margin_ratio": 0.4306897974861839,
+   "max_short_usd": 5093.4020935861945,
+   "worst_drawdown_pct": -0.8365461952830056,
+   "reward_tokens": 629.0567619384926,
+   "window": "30d@2026-09-15",
+   "size": 10000,
+   "rewards": {
+    "tokens": 629.0567619384926,
+    "usd_if_sold": 31.291272344860346
+   },
+   "hedged_plus_rewards_pct": -0.6718314230189439
+  },
+  {
+   "threshold": 0.02,
+   "start_equity": 1250.0,
+   "margin_posted": 250.00000000000003,
+   "days": 29.99652777777778,
+   "end": {
+    "hedged": 1232.5249706358431,
+    "unhedged_lp_plus_cash": 1232.691819574292,
+    "hold_plus_cash": 1229.5123334046427
+   },
+   "return_pct": {
+    "hedged": -1.3980023491325433,
+    "unhedged": -1.3846544340566425,
+    "hold": -1.63901332762858
+   },
+   "hedged_vs_hold_pct": 0.2410109784960332,
+   "hedged_vs_cash_pct": -1.3980023491325433,
+   "hedge_leg": {
+    "total": -0.16684893844868043,
+    "price_and_rebalance": 13.181779828641432,
+    "swap_fee": 1.8666408699085923,
+    "impact": 0.1817749313019934,
+    "gas": 6.5999999999999925,
+    "borrow_interest": 4.808038180437497,
+    "supply_interest": 0.10782521455796336,
+    "adjustments": 66,
+    "traded_usd": 2454.5112256169486
+   },
+   "costs_pct_of_start": 1.067890301367209,
+   "hedged_before_hedge_costs_pct": -0.33011204776534214,
+   "lp": {
+    "fees_usd": 2.843640063460296,
+    "lvr_usd": 6.402983283269162,
+    "fee_over_lvr": 0.4441117425514225,
+    "recenters": 2,
+    "deployed_frac_avg": 0.9316161227015557,
+    "gas_usd": 0.1326
+   },
+   "samples_wanting_adjust_but_blocked": 30,
+   "worst_margin_ratio": 0.45615650864482415,
+   "max_short_usd": 579.3989327484994,
+   "worst_drawdown_pct": -1.4341449996931654,
+   "reward_tokens": 102.23392452140239,
+   "window": "30d@2026-09-22",
+   "size": 1000,
+   "rewards": {
+    "tokens": 102.23392452140239,
+    "usd_if_sold": 4.8667634161758775
+   },
+   "hedged_plus_rewards_pct": -1.008661275838473
+  },
+  {
+   "threshold": 0.05,
+   "start_equity": 1250.0,
+   "margin_posted": 250.00000000000003,
+   "days": 29.99652777777778,
+   "end": {
+    "hedged": 1240.6410476537105,
+    "unhedged_lp_plus_cash": 1232.691819574292,
+    "hold_plus_cash": 1229.5123334046427
+   },
+   "return_pct": {
+    "hedged": -0.7487161877031578,
+    "unhedged": -1.3846544340566425,
+    "hold": -1.63901332762858
+   },
+   "hedged_vs_hold_pct": 0.8902971399254238,
+   "hedged_vs_cash_pct": -0.7487161877031578,
+   "hedge_leg": {
+    "total": 7.9492280794187025,
+    "price_and_rebalance": 15.028905776005688,
+    "swap_fee": 1.0524014386077445,
+    "impact": 0.17665204378723043,
+    "gas": 1.0999999999999999,
+    "borrow_interest": 4.859644993979421,
+    "supply_interest": 0.1090207797874096,
+    "adjustments": 11,
+    "traded_usd": 1501.8916437851913
+   },
+   "costs_pct_of_start": 0.5663742157269589,
+   "hedged_before_hedge_costs_pct": -0.18234197197620233,
+   "lp": {
+    "fees_usd": 2.843640063460296,
+    "lvr_usd": 6.402983283269162,
+    "fee_over_lvr": 0.4441117425514225,
+    "recenters": 2,
+    "deployed_frac_avg": 0.9316161227015557,
+    "gas_usd": 0.1326
+   },
+   "samples_wanting_adjust_but_blocked": 157,
+   "worst_margin_ratio": 0.45060271817012204,
+   "max_short_usd": 579.3989327484994,
+   "worst_drawdown_pct": -0.8025530878426279,
+   "reward_tokens": 102.23392452140239,
+   "window": "30d@2026-09-22",
+   "size": 1000,
+   "rewards": {
+    "tokens": 102.23392452140239,
+    "usd_if_sold": 4.8667634161758775
+   },
+   "hedged_plus_rewards_pct": -0.35937511440908765
+  },
+  {
+   "threshold": 0.1,
+   "start_equity": 1250.0,
+   "margin_posted": 250.00000000000003,
+   "days": 29.99652777777778,
+   "end": {
+    "hedged": 1241.875564165015,
+    "unhedged_lp_plus_cash": 1232.691819574292,
+    "hold_plus_cash": 1229.5123334046427
+   },
+   "return_pct": {
+    "hedged": -0.6499548667987964,
+    "unhedged": -1.3846544340566425,
+    "hold": -1.63901332762858
+   },
+   "hedged_vs_hold_pct": 0.9890584608297831,
+   "hedged_vs_cash_pct": -0.6499548667987964,
+   "hedge_leg": {
+    "total": 9.18374459072308,
+    "price_and_rebalance": 15.115387028296434,
+    "swap_fee": 0.8174770719863513,
+    "impact": 0.16575308690220092,
+    "gas": 0.4,
+    "borrow_interest": 4.6545098396042155,
+    "supply_interest": 0.10609756091941387,
+    "adjustments": 4,
+    "traded_usd": 1194.0998386949857
+   },
+   "costs_pct_of_start": 0.47453139500586833,
+   "hedged_before_hedge_costs_pct": -0.17542347179292847,
+   "lp": {
+    "fees_usd": 2.843640063460296,
+    "lvr_usd": 6.402983283269162,
+    "fee_over_lvr": 0.4441117425514225,
+    "recenters": 2,
+    "deployed_frac_avg": 0.9316161227015557,
+    "gas_usd": 0.1326
+   },
+   "samples_wanting_adjust_but_blocked": 96,
+   "worst_margin_ratio": 0.42955702325024575,
+   "max_short_usd": 579.3989327484994,
+   "worst_drawdown_pct": -0.812728893530068,
+   "reward_tokens": 102.23392452140239,
+   "window": "30d@2026-09-22",
+   "size": 1000,
+   "rewards": {
+    "tokens": 102.23392452140239,
+    "usd_if_sold": 4.8667634161758775
+   },
+   "hedged_plus_rewards_pct": -0.26061379350472624
+  },
+  {
+   "threshold": 0.02,
+   "start_equity": 12500.0,
+   "margin_posted": 2500.0,
+   "days": 29.99652777777778,
+   "end": {
+    "hedged": 12369.087046502578,
+    "unhedged_lp_plus_cash": 12327.720001893456,
+    "hold_plus_cash": 12295.123334046428
+   },
+   "return_pct": {
+    "hedged": -1.047303627979379,
+    "unhedged": -1.3782399848523474,
+    "hold": -1.63901332762858
+   },
+   "hedged_vs_hold_pct": 0.5917096996492037,
+   "hedged_vs_cash_pct": -1.047303627979379,
+   "hedge_leg": {
+    "total": 41.367044609121876,
+    "price_and_rebalance": 131.80737415280544,
+    "swap_fee": 18.66600557575673,
+    "impact": 18.176451714144566,
+    "gas": 6.5999999999999925,
+    "borrow_interest": 48.07897200752189,
+    "supply_interest": 1.0810997537396099,
+    "adjustments": 66,
+    "traded_usd": 24544.542492877725
+   },
+   "costs_pct_of_start": 0.7235226363494687,
+   "hedged_before_hedge_costs_pct": -0.3237809916299011,
+   "lp": {
+    "fees_usd": 28.032932266936438,
+    "lvr_usd": 64.0283552628284,
+    "fee_over_lvr": 0.4378205898287525,
+    "recenters": 2,
+    "deployed_frac_avg": 0.9316211867547441,
+    "gas_usd": 0.1326
+   },
+   "samples_wanting_adjust_but_blocked": 30,
+   "worst_margin_ratio": 0.4636144284030443,
+   "max_short_usd": 5793.735535286313,
+   "worst_drawdown_pct": -1.0459798965647082,
+   "reward_tokens": 1000.1082530749751,
+   "window": "30d@2026-09-22",
+   "size": 10000,
+   "rewards": {
+    "tokens": 1000.1082530749751,
+    "usd_if_sold": 47.81411878845436
+   },
+   "hedged_plus_rewards_pct": -0.6647906776717442
+  },
+  {
+   "threshold": 0.05,
+   "start_equity": 12500.0,
+   "margin_posted": 2500.0,
+   "days": 29.99652777777778,
+   "end": {
+    "hedged": 12401.204569600843,
+    "unhedged_lp_plus_cash": 12327.720001893456,
+    "hold_plus_cash": 12295.123334046428
+   },
+   "return_pct": {
+    "hedged": -0.7903634431932538,
+    "unhedged": -1.3782399848523474,
+    "hold": -1.63901332762858
+   },
+   "hedged_vs_hold_pct": 0.8486498844353191,
+   "hedged_vs_cash_pct": -0.7903634431932538,
+   "hedge_leg": {
+    "total": 73.4845677073863,
+    "price_and_rebalance": 150.27799406543312,
+    "swap_fee": 10.523878232599484,
+    "impact": 17.66434398166726,
+    "gas": 1.0999999999999999,
+    "borrow_interest": 48.59522399586411,
+    "supply_interest": 1.0900198520840554,
+    "adjustments": 11,
+    "traded_usd": 15018.682904962396
+   },
+   "costs_pct_of_start": 0.6143474108643744,
+   "hedged_before_hedge_costs_pct": -0.17601603232888738,
+   "lp": {
+    "fees_usd": 28.032932266936438,
+    "lvr_usd": 64.0283552628284,
+    "fee_over_lvr": 0.4378205898287525,
+    "recenters": 2,
+    "deployed_frac_avg": 0.9316211867547441,
+    "gas_usd": 0.1326
+   },
+   "samples_wanting_adjust_but_blocked": 157,
+   "worst_margin_ratio": 0.4498997610632169,
+   "max_short_usd": 5793.735535286313,
+   "worst_drawdown_pct": -0.7903222641146845,
+   "reward_tokens": 1000.1082530749751,
+   "window": "30d@2026-09-22",
+   "size": 10000,
+   "rewards": {
+    "tokens": 1000.1082530749751,
+    "usd_if_sold": 47.81411878845436
+   },
+   "hedged_plus_rewards_pct": -0.4078504928856189
+  },
+  {
+   "threshold": 0.1,
+   "start_equity": 12500.0,
+   "margin_posted": 2500.0,
+   "days": 29.99652777777778,
+   "end": {
+    "hedged": 12408.226829043251,
+    "unhedged_lp_plus_cash": 12327.720001893456,
+    "hold_plus_cash": 12295.123334046428
+   },
+   "return_pct": {
+    "hedged": -0.7341853676539944,
+    "unhedged": -1.3782399848523474,
+    "hold": -1.63901332762858
+   },
+   "hedged_vs_hold_pct": 0.9048279599745874,
+   "hedged_vs_cash_pct": -0.7341853676539944,
+   "hedge_leg": {
+    "total": 80.50682714979484,
+    "price_and_rebalance": 151.14041964526893,
+    "swap_fee": 8.174718301055623,
+    "impact": 16.57494492984509,
+    "gas": 0.4,
+    "borrow_interest": 46.544192703190035,
+    "supply_interest": 1.0602634386166694,
+    "adjustments": 4,
+    "traded_usd": 11940.870747837882
+   },
+   "costs_pct_of_start": 0.5650687399637926,
+   "hedged_before_hedge_costs_pct": -0.16911662769019312,
+   "lp": {
+    "fees_usd": 28.032932266936438,
+    "lvr_usd": 64.0283552628284,
+    "fee_over_lvr": 0.4378205898287525,
+    "recenters": 2,
+    "deployed_frac_avg": 0.9316211867547441,
+    "gas_usd": 0.1326
+   },
+   "samples_wanting_adjust_but_blocked": 96,
+   "worst_margin_ratio": 0.4286593599761356,
+   "max_short_usd": 5793.735535286313,
+   "worst_drawdown_pct": -0.8034158712504569,
+   "reward_tokens": 1000.1082530749751,
+   "window": "30d@2026-09-22",
+   "size": 10000,
+   "rewards": {
+    "tokens": 1000.1082530749751,
+    "usd_if_sold": 47.81411878845436
+   },
+   "hedged_plus_rewards_pct": -0.35167241734635957
+  },
+  {
+   "threshold": 0.02,
+   "start_equity": 1250.0,
+   "margin_posted": 250.0,
+   "days": 29.99652777777778,
+   "end": {
+    "hedged": 1235.2511391259934,
+    "unhedged_lp_plus_cash": 1211.4824981018885,
+    "hold_plus_cash": 1214.969179361272
+   },
+   "return_pct": {
+    "hedged": -1.1799088699205318,
+    "unhedged": -3.081400151848923,
+    "hold": -2.8024656510982404
+   },
+   "hedged_vs_hold_pct": 1.6225567811777182,
+   "hedged_vs_cash_pct": -1.1799088699205318,
+   "hedge_leg": {
+    "total": 23.76864102410491,
+    "price_and_rebalance": 35.41234334301616,
+    "swap_fee": 1.3882193618714154,
+    "impact": 0.11605102790811452,
+    "gas": 4.899999999999999,
+    "borrow_interest": 5.3579755974338825,
+    "supply_interest": 0.11854366830215536,
+    "adjustments": 49,
+    "traded_usd": 2122.5478351762795
+   },
+   "costs_pct_of_start": 0.9314961855129004,
+   "hedged_before_hedge_costs_pct": -0.24841268440763087,
+   "lp": {
+    "fees_usd": 2.192252984213974,
+    "lvr_usd": 5.1311689769363795,
+    "fee_over_lvr": 0.42724240695789417,
+    "recenters": 1,
+    "deployed_frac_avg": 0.8871478887009996,
+    "gas_usd": 0.0663
+   },
+   "samples_wanting_adjust_but_blocked": 152,
+   "worst_margin_ratio": 0.4326099541547797,
+   "max_short_usd": 628.7117775153,
+   "worst_drawdown_pct": -1.1762751781277059,
+   "reward_tokens": 132.69665871619998,
+   "window": "30d@2026-09-29",
+   "size": 1000,
+   "rewards": {
+    "tokens": 132.69665871619998,
+    "usd_if_sold": 6.2144092102605875
+   },
+   "hedged_plus_rewards_pct": -0.6827561330996847
+  },
+  {
+   "threshold": 0.05,
+   "start_equity": 1250.0,
+   "margin_posted": 250.0,
+   "days": 29.99652777777778,
+   "end": {
+    "hedged": 1239.0183565383936,
+    "unhedged_lp_plus_cash": 1211.4824981018885,
+    "hold_plus_cash": 1214.969179361272
+   },
+   "return_pct": {
+    "hedged": -0.8785314769285124,
+    "unhedged": -3.081400151848923,
+    "hold": -2.8024656510982404
+   },
+   "hedged_vs_hold_pct": 1.9239341741697353,
+   "hedged_vs_cash_pct": -0.8785314769285124,
+   "hedge_leg": {
+    "total": 27.53585843650501,
+    "price_and_rebalance": 34.972008670691636,
+    "swap_fee": 1.0124778595831243,
+    "impact": 0.12533535769496545,
+    "gas": 1.0999999999999999,
+    "borrow_interest": 5.31659303966447,
+    "supply_interest": 0.11825602275593348,
+    "adjustments": 11,
+    "traded_usd": 1583.555295323763
+   },
+   "costs_pct_of_start": 0.5948920187349301,
+   "hedged_before_hedge_costs_pct": -0.28363945819357467,
+   "lp": {
+    "fees_usd": 2.192252984213974,
+    "lvr_usd": 5.1311689769363795,
+    "fee_over_lvr": 0.42724240695789417,
+    "recenters": 1,
+    "deployed_frac_avg": 0.8871478887009996,
+    "gas_usd": 0.0663
+   },
+   "samples_wanting_adjust_but_blocked": 195,
+   "worst_margin_ratio": 0.4175813411548377,
+   "max_short_usd": 628.7117775153,
+   "worst_drawdown_pct": -0.8792068425481858,
+   "reward_tokens": 132.69665871619998,
+   "window": "30d@2026-09-29",
+   "size": 1000,
+   "rewards": {
+    "tokens": 132.69665871619998,
+    "usd_if_sold": 6.2144092102605875
+   },
+   "hedged_plus_rewards_pct": -0.3813787401076654
+  },
+  {
+   "threshold": 0.1,
+   "start_equity": 1250.0,
+   "margin_posted": 250.0,
+   "days": 29.99652777777778,
+   "end": {
+    "hedged": 1238.0045452176878,
+    "unhedged_lp_plus_cash": 1211.4824981018885,
+    "hold_plus_cash": 1214.969179361272
+   },
+   "return_pct": {
+    "hedged": -0.9596363825849719,
+    "unhedged": -3.081400151848923,
+    "hold": -2.8024656510982404
+   },
+   "hedged_vs_hold_pct": 1.8428292685132692,
+   "hedged_vs_cash_pct": -0.9596363825849719,
+   "hedge_leg": {
+    "total": 26.522047115799296,
+    "price_and_rebalance": 33.197043173146,
+    "swap_fee": 0.9393915623550821,
+    "impact": 0.10408992938328931,
+    "gas": 0.5,
+    "borrow_interest": 5.248456950251652,
+    "supply_interest": 0.11694238464331781,
+    "adjustments": 5,
+    "traded_usd": 1383.211300681396
+   },
+   "costs_pct_of_start": 0.5339996845877365,
+   "hedged_before_hedge_costs_pct": -0.4256366979972336,
+   "lp": {
+    "fees_usd": 2.192252984213974,
+    "lvr_usd": 5.1311689769363795,
+    "fee_over_lvr": 0.42724240695789417,
+    "recenters": 1,
+    "deployed_frac_avg": 0.8871478887009996,
+    "gas_usd": 0.0663
+   },
+   "samples_wanting_adjust_but_blocked": 0,
+   "worst_margin_ratio": 0.4306950448144667,
+   "max_short_usd": 628.7117775153,
+   "worst_drawdown_pct": -0.9603278773047785,
+   "reward_tokens": 132.69665871619998,
+   "window": "30d@2026-09-29",
+   "size": 1000,
+   "rewards": {
+    "tokens": 132.69665871619998,
+    "usd_if_sold": 6.2144092102605875
+   },
+   "hedged_plus_rewards_pct": -0.4624836457641249
+  },
+  {
+   "threshold": 0.02,
+   "start_equity": 12500.0,
+   "margin_posted": 2500.0,
+   "days": 29.99652777777778,
+   "end": {
+    "hedged": 12386.507337691943,
+    "unhedged_lp_plus_cash": 12115.1677969684,
+    "hold_plus_cash": 12149.691793612717
+   },
+   "return_pct": {
+    "hedged": -0.9079412984644541,
+    "unhedged": -3.0786576242528008,
+    "hold": -2.8024656510982626
+   },
+   "hedged_vs_hold_pct": 1.8945243526338018,
+   "hedged_vs_cash_pct": -0.9079412984644541,
+   "hedge_leg": {
+    "total": 271.3395407235412,
+    "price_and_rebalance": 354.11677268328367,
+    "swap_fee": 13.882048345028947,
+    "impact": 11.604734208578064,
+    "gas": 4.899999999999999,
+    "borrow_interest": 53.578962434164175,
+    "supply_interest": 1.1885130280287273,
+    "adjustments": 49,
+    "traded_usd": 21225.251504764732
+   },
+   "costs_pct_of_start": 0.6622178556779397,
+   "hedged_before_hedge_costs_pct": -0.24572344278651873,
+   "lp": {
+    "fees_usd": 21.661486915760502,
+    "lvr_usd": 51.31108238267882,
+    "fee_over_lvr": 0.4221600073490715,
+    "recenters": 1,
+    "deployed_frac_avg": 0.8871539880210321,
+    "gas_usd": 0.0663
+   },
+   "samples_wanting_adjust_but_blocked": 152,
+   "worst_margin_ratio": 0.4387242186106531,
+   "max_short_usd": 6286.996797858035,
+   "worst_drawdown_pct": -0.8958145894132574,
+   "reward_tokens": 1299.2781049000268,
+   "window": "30d@2026-09-29",
+   "size": 10000,
+   "rewards": {
+    "tokens": 1299.2781049000268,
+    "usd_if_sold": 61.03975648905851
+   },
+   "hedged_plus_rewards_pct": -0.4196232465519861
+  },
+  {
+   "threshold": 0.05,
+   "start_equity": 12500.0,
+   "margin_posted": 2500.0,
+   "days": 29.99652777777778,
+   "end": {
+    "hedged": 12389.14015639192,
+    "unhedged_lp_plus_cash": 12115.1677969684,
+    "hold_plus_cash": 12149.691793612717
+   },
+   "return_pct": {
+    "hedged": -0.886878748864639,
+    "unhedged": -3.0786576242528008,
+    "hold": -2.8024656510982626
+   },
+   "hedged_vs_hold_pct": 1.9155869022336265,
+   "hedged_vs_cash_pct": -0.886878748864639,
+   "hedge_leg": {
+    "total": 273.97235942351926,
+    "price_and_rebalance": 349.71267133325193,
+    "swap_fee": 10.124691570407503,
+    "impact": 12.53323103974947,
+    "gas": 1.0999999999999999,
+    "borrow_interest": 53.16522119036695,
+    "supply_interest": 1.1828318907912234,
+    "adjustments": 11,
+    "traded_usd": 15835.408994198893
+   },
+   "costs_pct_of_start": 0.6059224952778616,
+   "hedged_before_hedge_costs_pct": -0.2809562535867735,
+   "lp": {
+    "fees_usd": 21.661486915760502,
+    "lvr_usd": 51.31108238267882,
+    "fee_over_lvr": 0.4221600073490715,
+    "recenters": 1,
+    "deployed_frac_avg": 0.8871539880210321,
+    "gas_usd": 0.0663
+   },
+   "samples_wanting_adjust_but_blocked": 195,
+   "worst_margin_ratio": 0.41819958240556854,
+   "max_short_usd": 6286.996797858035,
+   "worst_drawdown_pct": -0.8789147678874509,
+   "reward_tokens": 1299.2781049000268,
+   "window": "30d@2026-09-29",
+   "size": 10000,
+   "rewards": {
+    "tokens": 1299.2781049000268,
+    "usd_if_sold": 61.03975648905851
+   },
+   "hedged_plus_rewards_pct": -0.39856069695217095
+  },
+  {
+   "threshold": 0.1,
+   "start_equity": 12500.0,
+   "margin_posted": 2500.0,
+   "days": 29.99652777777778,
+   "end": {
+    "hedged": 12375.512795030078,
+    "unhedged_lp_plus_cash": 12115.1677969684,
+    "hold_plus_cash": 12149.691793612717
+   },
+   "return_pct": {
+    "hedged": -0.99589763975938,
+    "unhedged": -3.0786576242528008,
+    "hold": -2.8024656510982626
+   },
+   "hedged_vs_hold_pct": 1.8065680113388807,
+   "hedged_vs_cash_pct": -0.99589763975938,
+   "hedge_leg": {
+    "total": 260.34499806167605,
+    "price_and_rebalance": 331.96225419900077,
+    "swap_fee": 9.393879774274836,
+    "impact": 10.408775317430589,
+    "gas": 0.5,
+    "borrow_interest": 52.48399403188173,
+    "supply_interest": 1.1693929862624541,
+    "adjustments": 5,
+    "traded_usd": 13832.071023837449
+   },
+   "costs_pct_of_start": 0.5729380490985976,
+   "hedged_before_hedge_costs_pct": -0.4229595906607865,
+   "lp": {
+    "fees_usd": 21.661486915760502,
+    "lvr_usd": 51.31108238267882,
+    "fee_over_lvr": 0.4221600073490715,
+    "recenters": 1,
+    "deployed_frac_avg": 0.8871539880210321,
+    "gas_usd": 0.0663
+   },
+   "samples_wanting_adjust_but_blocked": 0,
+   "worst_margin_ratio": 0.4305411791559785,
+   "max_short_usd": 6286.996797858035,
+   "worst_drawdown_pct": -0.9879648451000866,
+   "reward_tokens": 1299.2781049000268,
+   "window": "30d@2026-09-29",
+   "size": 10000,
+   "rewards": {
+    "tokens": 1299.2781049000268,
+    "usd_if_sold": 61.03975648905851
+   },
+   "hedged_plus_rewards_pct": -0.5075795878469118
+  },
+  {
+   "threshold": 0.02,
+   "start_equity": 1250.0,
+   "margin_posted": 249.99999999999997,
+   "days": 29.99652777777778,
+   "end": {
+    "hedged": 1231.933800970438,
+    "unhedged_lp_plus_cash": 1132.9533528047755,
+    "hold_plus_cash": 1163.0944106729032
+   },
+   "return_pct": {
+    "hedged": -1.4452959223649642,
+    "unhedged": -9.363731775617968,
+    "hold": -6.9524471461677395
+   },
+   "hedged_vs_hold_pct": 5.507151223802776,
+   "hedged_vs_cash_pct": -1.4452959223649642,
+   "hedge_leg": {
+    "total": 98.98044816566235,
+    "price_and_rebalance": 112.115123264918,
+    "swap_fee": 1.454066748236672,
+    "impact": 1.0070154056530536,
+    "gas": 4.6,
+    "borrow_interest": 6.211443394281636,
+    "supply_interest": 0.13785044891572243,
+    "adjustments": 46,
+    "traded_usd": 2096.3769224926887
+   },
+   "costs_pct_of_start": 1.050774007940451,
+   "hedged_before_hedge_costs_pct": -0.39452191442451295,
+   "lp": {
+    "fees_usd": 1.5403933143388753,
+    "lvr_usd": 7.464494117983364,
+    "fee_over_lvr": 0.20636272063337546,
+    "recenters": 3,
+    "deployed_frac_avg": 0.704725558637969,
+    "gas_usd": 0.1989
+   },
+   "samples_wanting_adjust_but_blocked": 153,
+   "worst_margin_ratio": 0.4381310681273815,
+   "max_short_usd": 691.9032229665719,
+   "worst_drawdown_pct": -1.4228093906529127,
+   "reward_tokens": 121.08289715410866,
+   "window": "30d@2026-10-06",
+   "size": 1000,
+   "rewards": {
+    "tokens": 121.08289715410866,
+    "usd_if_sold": 5.631965427516629
+   },
+   "hedged_plus_rewards_pct": -0.9947386881636338
+  },
+  {
+   "threshold": 0.05,
+   "start_equity": 1250.0,
+   "margin_posted": 249.99999999999997,
+   "days": 29.99652777777778,
+   "end": {
+    "hedged": 1238.1727506575157,
+    "unhedged_lp_plus_cash": 1132.9533528047755,
+    "hold_plus_cash": 1163.0944106729032
+   },
+   "return_pct": {
+    "hedged": -0.9461799473987398,
+    "unhedged": -9.363731775617968,
+    "hold": -6.9524471461677395
+   },
+   "hedged_vs_hold_pct": 6.006267198769001,
+   "hedged_vs_cash_pct": -0.9461799473987398,
+   "hedge_leg": {
+    "total": 105.21939785274029,
+    "price_and_rebalance": 113.94718867991486,
+    "swap_fee": 0.9750781969465617,
+    "impact": 0.9741636025926625,
+    "gas": 0.7999999999999999,
+    "borrow_interest": 6.115311857374054,
+    "supply_interest": 0.13676282973871004,
+    "adjustments": 8,
+    "traded_usd": 1475.794756632289
+   },
+   "costs_pct_of_start": 0.6982232661739654,
+   "hedged_before_hedge_costs_pct": -0.24795668122476855,
+   "lp": {
+    "fees_usd": 1.5403933143388753,
+    "lvr_usd": 7.464494117983364,
+    "fee_over_lvr": 0.20636272063337546,
+    "recenters": 3,
+    "deployed_frac_avg": 0.704725558637969,
+    "gas_usd": 0.1989
+   },
+   "samples_wanting_adjust_but_blocked": 0,
+   "worst_margin_ratio": 0.43262324549200604,
+   "max_short_usd": 691.9032229665719,
+   "worst_drawdown_pct": -0.9235491337534096,
+   "reward_tokens": 121.08289715410866,
+   "window": "30d@2026-10-06",
+   "size": 1000,
+   "rewards": {
+    "tokens": 121.08289715410866,
+    "usd_if_sold": 5.631965427516629
+   },
+   "hedged_plus_rewards_pct": -0.4956227131974094
+  },
+  {
+   "threshold": 0.1,
+   "start_equity": 1250.0,
+   "margin_posted": 249.99999999999997,
+   "days": 29.99652777777778,
+   "end": {
+    "hedged": 1234.2583629915612,
+    "unhedged_lp_plus_cash": 1132.9533528047755,
+    "hold_plus_cash": 1163.0944106729032
+   },
+   "return_pct": {
+    "hedged": -1.259330960675109,
+    "unhedged": -9.363731775617968,
+    "hold": -6.9524471461677395
+   },
+   "hedged_vs_hold_pct": 5.693116185492636,
+   "hedged_vs_cash_pct": -1.259330960675109,
+   "hedge_leg": {
+    "total": 101.30501018678561,
+    "price_and_rebalance": 109.6377383324627,
+    "swap_fee": 0.8855364539585235,
+    "impact": 0.9622012732163743,
+    "gas": 0.5,
+    "borrow_interest": 6.121498101587478,
+    "supply_interest": 0.13650768308527422,
+    "adjustments": 5,
+    "traded_usd": 1460.2595704101695
+   },
+   "costs_pct_of_start": 0.6666182516541681,
+   "hedged_before_hedge_costs_pct": -0.5927127090209433,
+   "lp": {
+    "fees_usd": 1.5403933143388753,
+    "lvr_usd": 7.464494117983364,
+    "fee_over_lvr": 0.20636272063337546,
+    "recenters": 3,
+    "deployed_frac_avg": 0.704725558637969,
+    "gas_usd": 0.1989
+   },
+   "samples_wanting_adjust_but_blocked": 0,
+   "worst_margin_ratio": 0.4357414767627745,
+   "max_short_usd": 691.9032229665719,
+   "worst_drawdown_pct": -1.236790671148158,
+   "reward_tokens": 121.08289715410866,
+   "window": "30d@2026-10-06",
+   "size": 1000,
+   "rewards": {
+    "tokens": 121.08289715410866,
+    "usd_if_sold": 5.631965427516629
+   },
+   "hedged_plus_rewards_pct": -0.8087737264737787
+  },
+  {
+   "threshold": 0.02,
+   "start_equity": 12500.0,
+   "margin_posted": 2500.0,
+   "days": 29.99652777777778,
+   "end": {
+    "hedged": 12271.667909503787,
+    "unhedged_lp_plus_cash": 11331.088846850727,
+    "hold_plus_cash": 11630.944106729032
+   },
+   "return_pct": {
+    "hedged": -1.8266567239696996,
+    "unhedged": -9.351289225194181,
+    "hold": -6.952447146167751
+   },
+   "hedged_vs_hold_pct": 5.125790422198042,
+   "hedged_vs_cash_pct": -1.8266567239696996,
+   "hedge_leg": {
+    "total": 940.5790626530606,
+    "price_and_rebalance": 1121.143026598902,
+    "swap_fee": 14.539720858863518,
+    "impact": 100.69549864904508,
+    "gas": 4.6,
+    "borrow_interest": 62.109888737848614,
+    "supply_interest": 1.381144299915815,
+    "adjustments": 46,
+    "traded_usd": 20963.518894653178
+   },
+   "costs_pct_of_start": 1.4445117115667314,
+   "hedged_before_hedge_costs_pct": -0.3821450124029652,
+   "lp": {
+    "fees_usd": 15.160572996087202,
+    "lvr_usd": 74.64406145231737,
+    "fee_over_lvr": 0.20310487801861876,
+    "recenters": 3,
+    "deployed_frac_avg": 0.704725879898088,
+    "gas_usd": 0.1989
+   },
+   "samples_wanting_adjust_but_blocked": 153,
+   "worst_margin_ratio": 0.44193351285142124,
+   "max_short_usd": 6918.899672235719,
+   "worst_drawdown_pct": -1.7994543365202897,
+   "reward_tokens": 1191.016543639793,
+   "window": "30d@2026-10-06",
+   "size": 10000,
+   "rewards": {
+    "tokens": 1191.016543639793,
+    "usd_if_sold": 55.48423390272706
+   },
+   "hedged_plus_rewards_pct": -1.3827828527478832
+  },
+  {
+   "threshold": 0.05,
+   "start_equity": 12500.0,
+   "margin_posted": 2500.0,
+   "days": 29.99652777777778,
+   "end": {
+    "hedged": 12302.80729741913,
+    "unhedged_lp_plus_cash": 11331.088846850727,
+    "hold_plus_cash": 11630.944106729032
+   },
+   "return_pct": {
+    "hedged": -1.5775416206469717,
+    "unhedged": -9.351289225194181,
+    "hold": -6.952447146167751
+   },
+   "hedged_vs_hold_pct": 5.374905525520779,
+   "hedged_vs_cash_pct": -1.5775416206469717,
+   "hedge_leg": {
+    "total": 971.7184505684017,
+    "price_and_rebalance": 1139.4664640998303,
+    "swap_fee": 9.75053190898805,
+    "impact": 97.4126176045207,
+    "gas": 0.7999999999999999,
+    "borrow_interest": 61.152829598795506,
+    "supply_interest": 1.367965580875691,
+    "adjustments": 8,
+    "traded_usd": 14757.690810550444
+   },
+   "costs_pct_of_start": 1.3419841082514288,
+   "hedged_before_hedge_costs_pct": -0.23555751239553502,
+   "lp": {
+    "fees_usd": 15.160572996087202,
+    "lvr_usd": 74.64406145231737,
+    "fee_over_lvr": 0.20310487801861876,
+    "recenters": 3,
+    "deployed_frac_avg": 0.704725879898088,
+    "gas_usd": 0.1989
+   },
+   "samples_wanting_adjust_but_blocked": 0,
+   "worst_margin_ratio": 0.4329416315503473,
+   "max_short_usd": 6918.899672235719,
+   "worst_drawdown_pct": -1.550254974788956,
+   "reward_tokens": 1191.016543639793,
+   "window": "30d@2026-10-06",
+   "size": 10000,
+   "rewards": {
+    "tokens": 1191.016543639793,
+    "usd_if_sold": 55.48423390272706
+   },
+   "hedged_plus_rewards_pct": -1.1336677494251552
+  },
+  {
+   "threshold": 0.1,
+   "start_equity": 12500.0,
+   "margin_posted": 2500.0,
+   "days": 29.99652777777778,
+   "end": {
+    "hedged": 12262.039853541732,
+    "unhedged_lp_plus_cash": 11331.088846850727,
+    "hold_plus_cash": 11630.944106729032
+   },
+   "return_pct": {
+    "hedged": -1.9036811716661495,
+    "unhedged": -9.351289225194181,
+    "hold": -6.952447146167751
+   },
+   "hedged_vs_hold_pct": 5.048765974501599,
+   "hedged_vs_cash_pct": -1.9036811716661495,
+   "hedge_leg": {
+    "total": 930.9510066910043,
+    "price_and_rebalance": 1096.373920708591,
+    "swap_fee": 8.855275497808256,
+    "impact": 96.21807585898254,
+    "gas": 0.5,
+    "borrow_interest": 61.214694521635685,
+    "supply_interest": 1.365131860839755,
+    "adjustments": 5,
+    "traded_usd": 14602.452704451203
+   },
+   "costs_pct_of_start": 1.323383312140694,
+   "hedged_before_hedge_costs_pct": -0.5802978595254535,
+   "lp": {
+    "fees_usd": 15.160572996087202,
+    "lvr_usd": 74.64406145231737,
+    "fee_over_lvr": 0.20310487801861876,
+    "recenters": 3,
+    "deployed_frac_avg": 0.704725879898088,
+    "gas_usd": 0.1989
+   },
+   "samples_wanting_adjust_but_blocked": 0,
+   "worst_margin_ratio": 0.43584279334474074,
+   "max_short_usd": 6918.899672235719,
+   "worst_drawdown_pct": -1.8765048362597403,
+   "reward_tokens": 1191.016543639793,
+   "window": "30d@2026-10-06",
+   "size": 10000,
+   "rewards": {
+    "tokens": 1191.016543639793,
+    "usd_if_sold": 55.48423390272706
+   },
+   "hedged_plus_rewards_pct": -1.459807300444333
+  }
+ ]
+}
