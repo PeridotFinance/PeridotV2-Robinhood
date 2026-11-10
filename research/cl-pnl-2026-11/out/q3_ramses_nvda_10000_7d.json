@@ -8,6 +8,11 @@
  "notional_usd": 10000.0,
  "horizon_days": 7.0,
  "width_ticks": 200,
+ "dist_ticks": [
+  100,
+  300,
+  490
+ ],
  "venue_params": {
   "poll_s": 30,
   "user_fee_share": 0.7,

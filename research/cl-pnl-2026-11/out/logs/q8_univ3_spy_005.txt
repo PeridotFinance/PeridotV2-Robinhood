@@ -1,0 +1,5 @@
+Uniswap V3 SPY/USDG (0.05%)  ['2026-08-19 00:00', '2026-11-10 09:47']  $1,000
+geometry   full % fee/LVR  fees $   LVR $  depl    n     min     p05  median     max   >=0 p95 short cost %/y uncapped cut %/y
+full         0.05     nan    0.57   -0.20  1.00   54   -0.04   -0.02    0.01    0.03   91%      0.02     0.02     0.02    0.05
+pm50         0.18    2.55    1.93    0.76  0.81   54   -0.13   -0.06    0.03    0.12   91%      0.06     0.06     0.08    0.16
+wrote /Users/joshua/Peridot/wt-cl-research/research/cl-pnl-2026-11/out/q8_univ3_spy_005.json

@@ -1,0 +1,519 @@
+{
+ "host": "avalanche-c-chain-rpc.publicnode.com (receipts, logs), api.avax.network (eth_call)",
+ "1_swap_sign_convention": {
+  "statement": "Swap.amount0 / amount1 are the pool's own balance changes: positive = the pool received that token, negative = the pool paid it out",
+  "checks": [
+   {
+    "tx": "0x97eac4076959203da6f01503577b75672d397203788b331ea673849d95ad0b5d",
+    "block": 99924375,
+    "log_index": 4,
+    "event_amount0": "28022653000000000000",
+    "event_amount1": "-234994366",
+    "pool_net_WAVAX_from_transfers (in - out, excluding the fee transfer to the vault)": "28022653000000000000",
+    "pool_net_USDC_from_transfers": "-234994366",
+    "signs_and_amounts_match": true,
+    "transfers": [
+     {
+      "log_index": 1,
+      "token": "USDC",
+      "from": "pool",
+      "to": "0x584A4e93F11331D318165B04099e53708b1FA915",
+      "amount": "234994366"
+     },
+     {
+      "log_index": 2,
+      "token": "WAVAX",
+      "from": "0x584A4e93F11331D318165B04099e53708b1FA915",
+      "to": "pool",
+      "amount": "28022653000000000000"
+     },
+     {
+      "log_index": 5,
+      "token": "WAVAX",
+      "from": "0x584A4e93F11331D318165B04099e53708b1FA915",
+      "to": "0x8aC5707f8D4BDe1d771d34c7AfD81c3922b73379",
+      "amount": "278977347000000000000"
+     },
+     {
+      "log_index": 8,
+      "token": "USDC",
+      "from": "0x8aC5707f8D4BDe1d771d34c7AfD81c3922b73379",
+      "to": "0x584A4e93F11331D318165B04099e53708b1FA915",
+      "amount": "2339453114"
+     },
+     {
+      "log_index": 9,
+      "token": "USDC",
+      "from": "0x584A4e93F11331D318165B04099e53708b1FA915",
+      "to": "0xA5B7922F058b4675DcE7ACfDC6d43E9b8eC68De6",
+      "amount": "2574447480"
+     }
+    ]
+   },
+   {
+    "tx": "0x5c851c68d0120a2789fe4a7c48f745ef8756f407a4b79926d0bf2bae44c8c885",
+    "block": 99924330,
+    "log_index": 28,
+    "event_amount0": "-29664392517234943127",
+    "event_amount1": "249144367",
+    "pool_net_WAVAX_from_transfers (in - out, excluding the fee transfer to the vault)": "-29664392517234943127",
+    "pool_net_USDC_from_transfers": "249144367",
+    "signs_and_amounts_match": true,
+    "transfers": [
+     {
+      "log_index": 25,
+      "token": "WAVAX",
+      "from": "pool",
+      "to": "0x278d858f05b94576C1E6f73285886876ff6eF8D2",
+      "amount": "29664392517234943127"
+     },
+     {
+      "log_index": 26,
+      "token": "USDC",
+      "from": "0x278d858f05b94576C1E6f73285886876ff6eF8D2",
+      "to": "pool",
+      "amount": "249144367"
+     }
+    ]
+   }
+  ]
+ },
+ "2_pool_to_vault_transfers_last_20000_blocks": {
+  "WAVAX": {
+   "transfers": 341,
+   "sum": "16147167106185315158"
+  },
+  "USDC": {
+   "transfers": 313,
+   "sum": "115707761"
+  },
+  "sample": {
+   "tx": "0xe50c0d234db081fd3beb5de86586d1c8d496ac698ea15f3c9e468fd466ec8cae",
+   "block": 99924372,
+   "status": 1,
+   "from": "0x4A097D66BeDc4389Db74835A0E3eb457a8b8e3D2",
+   "to": "0x20F6ee51340aDEed01A59B0e65cB3703f3dc860c",
+   "transfers": [
+    {
+     "log_index": 16,
+     "token": "WAVAX",
+     "from": "0x20F6ee51340aDEed01A59B0e65cB3703f3dc860c",
+     "to": "0x09AD820aaC5779683B481c4674208A4e1B024Afa",
+     "amount": "11864860660856128004"
+    },
+    {
+     "log_index": 17,
+     "token": "USDC",
+     "from": "pool",
+     "to": "0x09AD820aaC5779683B481c4674208A4e1B024Afa",
+     "amount": "99513109"
+    },
+    {
+     "log_index": 18,
+     "token": "WAVAX",
+     "from": "0x09AD820aaC5779683B481c4674208A4e1B024Afa",
+     "to": "pool",
+     "amount": "11864860660856128004"
+    },
+    {
+     "log_index": 19,
+     "token": "WAVAX",
+     "from": "pool",
+     "to": "communityVault",
+     "amount": "5932430330428065"
+    },
+    {
+     "log_index": 22,
+     "token": "USDC",
+     "from": "0x09AD820aaC5779683B481c4674208A4e1B024Afa",
+     "to": "0x20F6ee51340aDEed01A59B0e65cB3703f3dc860c",
+     "amount": "99513109"
+    },
+    {
+     "log_index": 23,
+     "token": "USDC",
+     "from": "0x20F6ee51340aDEed01A59B0e65cB3703f3dc860c",
+     "to": "0x4A097D66BeDc4389Db74835A0E3eb457a8b8e3D2",
+     "amount": "99513109"
+    }
+   ],
+   "events": [
+    {
+     "log_index": 20,
+     "emitter": "pool",
+     "event": "SwapFee(address,uint24,uint24)",
+     "topics": [
+      "0x00000000000000000000000009ad820aac5779683b481c4674208a4e1b024afa"
+     ],
+     "data_words": [
+      "0",
+      "0"
+     ]
+    },
+    {
+     "log_index": 21,
+     "emitter": "pool",
+     "event": "Swap(address,address,int256,int256,uint160,uint128,int24)",
+     "topics": [
+      "0x00000000000000000000000009ad820aac5779683b481c4674208a4e1b024afa",
+      "0x00000000000000000000000009ad820aac5779683b481c4674208a4e1b024afa"
+     ],
+     "data_words": [
+      "11864860660856128004",
+      "115792089237316195423570985008687907853269984665640564039457584007913030126827",
+      "229502109237686885287253",
+      "722133245316243265",
+      "115792089237316195423570985008687907853269984665640564039457584007913129384884"
+     ]
+    }
+   ]
+  }
+ },
+ "3_fee_distribution": {
+  "tx": "0x61ad593ec15a47327fecca53ebf804da690902d35a24e105d87fd1548327593d",
+  "block": 99447047,
+  "from": "0x9740726b1c876aB126F41C7447Fd2F3dCE0E2fd3",
+  "to": "GaugeManager",
+  "transfers": [
+   {
+    "log_index": 70,
+    "token": "WAVAX",
+    "from": "communityVault",
+    "to": "algebraFeeReceiver",
+    "amount": "12024269720198500258"
+   },
+   {
+    "log_index": 72,
+    "token": "WAVAX",
+    "from": "communityVault",
+    "to": "gauge",
+    "amount": "589189216289726512599"
+   },
+   {
+    "log_index": 74,
+    "token": "USDC",
+    "from": "communityVault",
+    "to": "algebraFeeReceiver",
+    "amount": "102681868"
+   },
+   {
+    "log_index": 76,
+    "token": "USDC",
+    "from": "communityVault",
+    "to": "gauge",
+    "amount": "5031411509"
+   },
+   {
+    "log_index": 80,
+    "token": "WAVAX",
+    "from": "gauge",
+    "to": "internalBribe",
+    "amount": "589189216289726512599"
+   },
+   {
+    "log_index": 84,
+    "token": "USDC",
+    "from": "gauge",
+    "to": "internalBribe",
+    "amount": "5031411509"
+   }
+  ],
+  "events": [
+   {
+    "log_index": 71,
+    "emitter": "communityVault",
+    "event": "AlgebraTokensWithdrawal(address,address,uint256)",
+    "topics": [
+     "0x000000000000000000000000b31f66aa3c1e785363f0875a1b74e27b85fd66c7",
+     "0x0000000000000000000000006cbd743d9b97da1855e64893d3226f8edca16e76"
+    ],
+    "data_words": [
+     "12024269720198500258"
+    ]
+   },
+   {
+    "log_index": 73,
+    "emitter": "communityVault",
+    "event": "TokensWithdrawal(address,address,uint256)",
+    "topics": [
+     "0x000000000000000000000000b31f66aa3c1e785363f0875a1b74e27b85fd66c7",
+     "0x0000000000000000000000003ade52f9779c07471f4b6d5997444c3c2124c1c0"
+    ],
+    "data_words": [
+     "589189216289726512599"
+    ]
+   },
+   {
+    "log_index": 75,
+    "emitter": "communityVault",
+    "event": "AlgebraTokensWithdrawal(address,address,uint256)",
+    "topics": [
+     "0x000000000000000000000000b97ef9ef8734c71904d8002f8b6bc66dd9c48a6e",
+     "0x0000000000000000000000006cbd743d9b97da1855e64893d3226f8edca16e76"
+    ],
+    "data_words": [
+     "102681868"
+    ]
+   },
+   {
+    "log_index": 77,
+    "emitter": "communityVault",
+    "event": "TokensWithdrawal(address,address,uint256)",
+    "topics": [
+     "0x000000000000000000000000b97ef9ef8734c71904d8002f8b6bc66dd9c48a6e",
+     "0x0000000000000000000000003ade52f9779c07471f4b6d5997444c3c2124c1c0"
+    ],
+    "data_words": [
+     "5031411509"
+    ]
+   },
+   {
+    "log_index": 81,
+    "emitter": "internalBribe",
+    "event": "RewardAdded(address,uint256,uint256)",
+    "topics": [
+     "0x000000000000000000000000b31f66aa3c1e785363f0875a1b74e27b85fd66c7"
+    ],
+    "data_words": [
+     "589189216289726512599",
+     "1793836800"
+    ]
+   },
+   {
+    "log_index": 85,
+    "emitter": "internalBribe",
+    "event": "RewardAdded(address,uint256,uint256)",
+    "topics": [
+     "0x000000000000000000000000b97ef9ef8734c71904d8002f8b6bc66dd9c48a6e"
+    ],
+    "data_words": [
+     "5031411509",
+     "1793836800"
+    ]
+   },
+   {
+    "log_index": 86,
+    "emitter": "gauge",
+    "event": "ClaimFees(address,uint256,uint256)",
+    "topics": [
+     "0x00000000000000000000000059aa177312ff6bdf39c8af6f46dae217bf76cbf6"
+    ],
+    "data_words": [
+     "589189216289726512599",
+     "5031411509"
+    ]
+   }
+  ],
+  "split": {
+   "WAVAX": {
+    "vault_to_algebraFeeReceiver": "12024269720198500258",
+    "vault_to_gauge": "589189216289726512599",
+    "gauge_to_internalBribe": "589189216289726512599",
+    "algebra_share_of_withdrawal": 0.02,
+    "gauge_share_of_withdrawal": 0.98,
+    "bribe_share_of_gauge_receipt": 1.0
+   },
+   "USDC": {
+    "vault_to_algebraFeeReceiver": "102681868",
+    "vault_to_gauge": "5031411509",
+    "gauge_to_internalBribe": "5031411509",
+    "algebra_share_of_withdrawal": 0.020000000089597125,
+    "gauge_share_of_withdrawal": 0.9799999999104029,
+    "bribe_share_of_gauge_receipt": 1.0
+   }
+  }
+ },
+ "4_reward_notification": {
+  "tx": "0xfb3b8ec9f6b39edf363b6d06f11d88b51040c83bc27036633069c6b4232448e8",
+  "block": 99446965,
+  "from": "0x9740726b1c876aB126F41C7447Fd2F3dCE0E2fd3",
+  "to": "GaugeManager",
+  "BLACK_transfers_touching_this_gauge": [
+   {
+    "log_index": 40,
+    "token": "BLACK",
+    "from": "GaugeManager",
+    "to": "gauge",
+    "amount": "4509932197837557796381369"
+   },
+   {
+    "log_index": 42,
+    "token": "BLACK",
+    "from": "gauge",
+    "to": "AlgebraEternalFarming",
+    "amount": "4509932197837557796381369"
+   }
+  ],
+  "events_of_this_gauge_and_incentive": [
+   {
+    "log_index": 43,
+    "emitter": "AlgebraEternalFarming",
+    "event": "RewardsAdded(uint256,uint256,bytes32)",
+    "topics": [],
+    "data_words": [
+     "4509932197837557796381369",
+     "0",
+     "83598976099934200504627807544990239998526505823450319157333993342822920559684"
+    ]
+   },
+   {
+    "log_index": 44,
+    "emitter": "gauge",
+    "event": "RewardAdded(uint256)",
+    "topics": [],
+    "data_words": [
+     "4509932197837557796381369"
+    ]
+   },
+   {
+    "log_index": 45,
+    "emitter": "AlgebraEternalFarming",
+    "event": "RewardsRatesChanged(uint128,uint128,bytes32)",
+    "topics": [],
+    "data_words": [
+     "7456898475260512229",
+     "0",
+     "83598976099934200504627807544990239998526505823450319157333993342822920559684"
+    ]
+   },
+   {
+    "log_index": 46,
+    "emitter": "GaugeManager",
+    "event": "DistributeReward(address,address,uint256)",
+    "topics": [
+     "0x0000000000000000000000009740726b1c876ab126f41c7447fd2f3dce0e2fd3",
+     "0x0000000000000000000000003ade52f9779c07471f4b6d5997444c3c2124c1c0"
+    ],
+    "data_words": [
+     "4509932197837557796381369"
+    ]
+   }
+  ]
+ },
+ "gauge_events_last_50000_blocks": {
+  "Deposit": 300,
+  "Withdraw": 5
+ },
+ "5_harvest_event_probes (gauge, 50,000-block ranges)": {
+  "99874389-99924388": 0,
+  "98924388-98974387": 0,
+  "96924388-96974387": 0,
+  "91716610-91766609": 0
+ },
+ "5_reward_claims_on_farming_contract_last_50000_blocks": {
+  "RewardClaimed_events_by_reward_token (all incentives of this farming contract)": {
+   "BLACK": 414
+  },
+  "of_which_owner_is_a_depositor_of_this_gauge_in_the_same_range": 310
+ },
+ "5_reward_claim": {
+  "tx": "0xfe7748a96b1bfdc248465f419aa3507ed032053796cb94f45db76a4f438e41a3",
+  "block": 99924242,
+  "event": "AlgebraEternalFarming.RewardClaimed",
+  "owner (position owner, a depositor of this gauge)": "0x087beFDBCF63C7D0D5D96499e66daA8d43Da9790",
+  "to": "0x00e7478e08A5319e6Ea9c8276FF54635A5292f90",
+  "rewardAddress": "BLACK",
+  "reward": "33543296241058104965",
+  "token_transfers_out_of_the_farming_contract_in_this_tx": [
+   {
+    "log_index": 163,
+    "token": "BLACK",
+    "from": "AlgebraEternalFarming",
+    "to": "0x00e7478e08A5319e6Ea9c8276FF54635A5292f90",
+    "amount": "33543296241058104965"
+   }
+  ],
+  "note": "the farming contract's rewards[owner][token] ledger is not per pool: this proves the token paid, not the pool it was earned on"
+ },
+ "5_reward_claim_via_gauge (historic sample)": {
+  "tx": "0x40b4bd0fef2970938660a8ba89db3f7c008f3abfa12638325aa53c02f355bb27",
+  "block": 66403279,
+  "tx_to": "GaugeManager",
+  "harvest_events": [
+   {
+    "log_index": 34,
+    "emitter": "gauge",
+    "event": "Harvest(address,uint256)",
+    "topics": [
+     "0x000000000000000000000000807b755d5374769dd5282a05ebaca84ca70af607"
+    ],
+    "data_words": [
+     "29284759139463967507"
+    ]
+   }
+  ],
+  "farming_contract_events_in_this_tx": [
+   "RewardsCollected"
+  ],
+  "token_transfers_out_of_the_farming_contract_in_this_tx": []
+ },
+ "5_reward_ledger": {
+  "AlgebraEternalFarming.rewards(gauge, BLACK) at END": "0",
+  "AlgebraEternalFarming.rewards(GaugeManager, BLACK) at END": "0",
+  "source_reading": "collectRewards / exitFarming credit rewards[NFPM.ownerOf(tokenId)]; AlgebraEternalFarming.claimReward(token, to, amount) pays out of rewards[msg.sender]; FarmingCenter.claimReward pays out of rewards[its caller]. GaugeCL.getReward calls FarmingCenter.collectRewards (books to the owner) and then FarmingCenter.claimReward, which reads rewards[gauge]"
+ },
+ "6_stake": {
+  "tx": "0xc13d0185a7e03c1f9bc8b279bfe588ba928ce105121125d5040766203cb6dbc3",
+  "block": 99924236,
+  "tx_to": "0x087beFDBCF63C7D0D5D96499e66daA8d43Da9790",
+  "deposit_user": "0x087beFDBCF63C7D0D5D96499e66daA8d43Da9790",
+  "tokenId": 3532437,
+  "NFPM.ownerOf(tokenId) at block-1": null,
+  "NFPM.ownerOf(tokenId) at block": "0x087beFDBCF63C7D0D5D96499e66daA8d43Da9790",
+  "NFPM.ownerOf(tokenId) at END": null,
+  "NFPM.tokenFarmedIn(tokenId) at block-1": "0x0",
+  "NFPM.tokenFarmedIn(tokenId) at block": "FarmingCenter",
+  "NFPM.farmingApprovals(tokenId) at block": "FarmingCenter",
+  "NFPM.getApproved(tokenId) at block": "gauge",
+  "NFPM.isApprovedForAll(owner, gauge) at block-1": false,
+  "ERC721_transfers_in_tx": [
+   {
+    "log_index": 14,
+    "emitter": "NFPM",
+    "event": "ERC721 Transfer",
+    "from": "0x0",
+    "to": "0x087beFDBCF63C7D0D5D96499e66daA8d43Da9790",
+    "tokenId": 3532437
+   }
+  ],
+  "farming_events": [
+   {
+    "log_index": 17,
+    "emitter": "AlgebraEternalFarming",
+    "event": "FarmEntered(uint256,bytes32,uint128)",
+    "topics": [
+     "0x000000000000000000000000000000000000000000000000000000000035e695",
+     "0xb8d357fb69145957ca158e9f5c813097a086f9b431583483504929ec48911c44"
+    ],
+    "data_words": [
+     "721411111938156855"
+    ]
+   },
+   {
+    "log_index": 18,
+    "emitter": "gauge",
+    "event": "Deposit(address,uint256)",
+    "topics": [
+     "0x000000000000000000000000087befdbcf63c7d0d5d96499e66daa8d43da9790"
+    ],
+    "data_words": [
+     "3532437"
+    ]
+   }
+  ],
+  "position_liquidity (FarmEntered)": "721411111938156855",
+  "pool.liquidity() at the same block": "1443544357254400120",
+  "position_share_of_active_liquidity_at_that_block": 0.49974987489145817,
+  "depositor_code_bytes": 9736,
+  "Deposit_events_last_50000_blocks_by_depositor": {
+   "0x087beFDBCF63C7D0D5D96499e66daA8d43Da9790": 292,
+   "0xD1b6b949bFC2b14938c8B8c656dF501dd8d0eA33": 4,
+   "0xE168Fcd8f27c22E1C5E9C7Aa6Cf78aFED82F06C6": 2,
+   "0x53D569BC4B37ADbBDB6ab447D92ADf42514AE480": 1,
+   "0x77A0006FdEB1ce7F521A01852a632b2a21490D67": 1
+  },
+  "NFPM.balanceOf(gauge) at END": 0,
+  "NFPM.balanceOf(FarmingCenter) at END": 0,
+  "NFPM.balanceOf(AlgebraEternalFarming) at END": 0
+ }
+}

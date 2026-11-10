@@ -321,6 +321,25 @@ def main() -> None:
     e["factory.getPool(WAVAX,USDC,10)"] = ad(rd(B.PHARAOH_FACTORY, "getPool(address,address,int24)", B.a(B.WAVAX) + B.a(B.USDC) + B.u(10)))
     out["E_pharaoh_pool"] = e
 
+    # ------------------------------------------------------------------ C: claim threshold / anti-sybil probes
+    voter = m["voter()"]
+    probes = {}
+    for target, tname in ((voter, "VoterV3"), (gm, "GaugeManager"), (G, "GaugeCL"), (ef, "AlgebraEternalFarming"), (g["farmingCenter()"], "FarmingCenter")):
+        for sig, args in (("timeThresholdForGauge(address)", B.a(G)), ("timeThreshold()", ""), ("minStakeTime()", ""), ("lockDuration()", ""), ("cooldown()", "")):
+            w = rd(target, sig, args)
+            probes[f"{tname}.{sig}"] = "reverts (no such function)" if w is None else (w[0] if w else "empty return")
+    out["C_claim_threshold_probes"] = {
+        "probes": probes,
+        "farming incentive minimalPositionWidth (ticks)": far["incentive"]["minimalPositionWidth_ticks"],
+        "source_reading": "GaugeCL.deposit/withdraw/getReward, FarmingCenter.enterFarming/exitFarming/collectRewards and AlgebraEternalFarming._enterFarming (verified sources on Routescan) contain no time condition; the only entry condition is tickUpper - tickLower >= minimalPositionWidth"}
+    out["C_black"].update({"name": string(B.BLACK, "name()"), "symbol": tok[B.BLACK]["symbol"], "decimals": tok[B.BLACK]["decimals"]})
+    out["A_docs_vs_chain"] = {
+        "docs 'AlgebraPool' row 0xA02Ec3Ba...": "is the WAVAX/USDC tick-spacing-1 pool of the v1 deployer (factory.customPoolByPair), not an implementation",
+        "docs 'GaugeManager(New Implementation)'": "0x93C601C31145185787dAb3617D6B419894dC0B8f",
+        "GaugeManager implementation in the EIP-1967 slot at END": m["implementation_at_END (EIP-1967 slot)"],
+        "docs VoterV3": D["VoterV3"], "GaugeManager.voter() at END": voter, "docs Minter": D["Minter"], "GaugeManager.minter() at END": mi,
+        "docs 'Fee Structure: Static fee model' for concentrated pools": "consistent with pluginConfig = 2 (no DYNAMIC_FEE flag) and the Fee event history of the dataset pool"}
+
     A.write_json(CACHE_F, _cache)
     out["calls"] = CALLS
     A.write_json(B.DATA_BH / "state_at_end.json", out)

@@ -72,9 +72,13 @@ VENUES = {
     # Pharaoh: the pool's protocol share is 1,000,000 ppm (data/facts/pharaoh-wavax-usdc-lp-fee-check.json): LPs earn no swap fee.
     "pharaoh_wavax": Venue("pharaoh_wavax", "Pharaoh WAVAX/USDC (CL10, dynamic fee)", "avalanche/pharaoh_wavax_usdc_swaps.csv.gz", True, 1.0, False, 1.0,
                            "avalanche/feed_avax_usd.csv.gz", spacing=10),
+    # Blackhole (Algebra Integral): communityFee is 1000/1000, so the table's protocol_share column is 1.0 (data/blackhole/FACTS.md, B)
+    "blackhole_wavax": Venue("blackhole_wavax", "Blackhole WAVAX/USDC (spacing 200, 0.05%)", "blackhole/blackhole_wavax_usdc_swaps.csv.gz", True, 1.0, False, None,
+                             "avalanche/feed_avax_usd.csv.gz", spacing=200),
     # reward-token price pools (quote is not USD: converted with the quote's USD series where used)
     "ram_weth": Venue("ram_weth", "Ramses RAM/WETH (CL100)", "robinhood/ram_pool_swaps.csv.gz", False, 0.10, False, None, None, spacing=100,
                       quote_decimals=18),
+    "black_usdc": Venue("black_usdc", "Blackhole vAMM USDC/BLACK", "blackhole/black_pool_swaps.csv.gz", False, 1.0, False, None, None, spacing=1),
     "phar_wavax": Venue("phar_wavax", "Pharaoh PHAR/WAVAX (CL5)", "avalanche/phar_wavax_cl_swaps.csv.gz", True, 1.0, False, 1.0, None, spacing=5,
                         quote_decimals=18),
 }

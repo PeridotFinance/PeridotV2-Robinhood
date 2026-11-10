@@ -178,6 +178,86 @@ def chart_q6_session():
     return save(f, "q6_session.png")
 
 
+# ------------------------------------------------------------------------------------------------ Q7
+def chart_q7_blackhole():
+    o = jload("q7_blackhole_vs_pharaoh.json")
+    if not o:
+        return
+    f, axes = fig(8.6, 3.7, ncols=2, sharey=True)
+    for ax, v in zip(axes, ("pharaoh_wavax", "blackhole_wavax")):
+        w = o[v]["weeks"]
+        x = np.arange(len(w))
+        ax.bar(x - 0.2, [r["reward_per_1000_in_range"] for r in w], 0.38, color=C_REWARD, label="emissions, value if sold")
+        ax.bar(x + 0.2, [r["loss_per_1000_in_range"] for r in w], 0.38, color=C_LOSS, label="arbitrage loss (+1 h)")
+        ax.set_xticks(x[::2]); ax.set_xticklabels([r["week_start"][5:] for r in w][::2], fontsize=8)
+        t = o[v]["total"]
+        ax.set_title(f"{short(v).split(' ')[0]} ({o[v]['token']}): {100 * t['reward_over_loss']:.0f}% of the loss covered", fontsize=9.5)
+        ax.yaxis.set_major_formatter(lambda val, _: f"${val:,.0f}")
+    axes[0].set_ylabel("per $1,000 of in-range liquidity, per week")
+    axes[0].legend(loc="upper left", fontsize=7.5)
+    f.suptitle("Emissions against arbitrage loss on the two WAVAX/USDC pools, week by week", x=0.01, ha="left", fontsize=10.5, fontweight="bold")
+    note(f, "Whole pool. In-range liquidity = dollar value of active liquidity within ±1% of the price, time-weighted over the week. Neither pool pays its LPs any swap fee. Emissions are valued at the reward token's volume-weighted price in the week, with no sale cost.")
+    return save(f, "q7_blackhole_vs_pharaoh.png")
+
+
+# ------------------------------------------------------------------------------------------------ Q8
+Q8_SET = (("v4_nvda", "", "v4 NVDA\n0.30%"), ("univ3_nvda_005", "", "V3 NVDA\n0.05%"), ("ramses_nvda", "_share50", "Ramses NVDA\n50% share"),
+          ("v4_spy", "", "v4 SPY\n0.30%"), ("univ3_spy_005", "", "V3 SPY\n0.05%"), ("ramses_spy", "_share50", "Ramses SPY\n50% share"))
+
+
+def chart_q8_windows():
+    data = [(lab, jload(f"q8_{v}{tag}.json")) for v, tag, lab in Q8_SET]
+    data = [(lab, o) for lab, o in data if o]
+    if not data:
+        return
+    f, ax = fig(8.6, 4.0)
+    for i, (lab, o) in enumerate(data):
+        for g, off, col, name in (("full", -0.18, BLUE, "full range"), ("pm50", 0.18, ORANGE, "±50% band")):
+            xs = np.array([r["excess_mark_pct"] for r in o["rows"] if r["geometry"] == g and r["window"] != "full" and "error" not in r])
+            if not len(xs):
+                continue
+            jit = (np.arange(len(xs)) % 9 - 4) * 0.012
+            ax.plot(i + off + jit, xs, linestyle="none", marker="o", markersize=2.6, color=col, alpha=0.55, zorder=2, label=name if i == 0 else None)
+            ax.hlines(np.median(xs), i + off - 0.13, i + off + 0.13, color=INK, linewidth=1.6, zorder=4)
+            ax.plot([i + off], [np.percentile(xs, 5)], marker="_", markersize=12, markeredgewidth=2.0, color=col, zorder=5)
+    zero_line(ax)
+    ax.set_xticks(range(len(data))); ax.set_xticklabels([d[0] for d in data], fontsize=8)
+    ax.set_ylabel("net return against holding, 30-day window")
+    ax.yaxis.set_major_formatter(lambda val, _: "0%" if val == 0 else f"{val:+.1f}%")
+    ax.set_title("Full range and ±50%: every rolling 30-day window")
+    ax.legend(loc="lower left", fontsize=7.5, markerscale=2.5)
+    note(f, "Each dot is one window; black bar = median, coloured dash = 5th percentile. $1,000 position, 50/50 deposit, no recentre; after the pool's protocol share and the 20% reserve cut. Windows start one day apart and overlap heavily. Ramses pools use today's 50% LP share for the whole history.")
+    return save(f, "q8_windows.png")
+
+
+def chart_q8_reserve():
+    data = [(lab, jload(f"q8_{v}{tag}.json")) for v, tag, lab in Q8_SET]
+    data = [(lab, o) for lab, o in data if o]
+    if not data:
+        return
+    f, axes = fig(8.6, 3.7, ncols=2, sharey=True)
+    for ax, g, name in zip(axes, ("full", "pm50"), ("Full range", "±50% band")):
+        x = np.arange(len(data))
+        cost = [o["summary"][g]["cost_pct_per_year_capped_at_p95"] if g in o["summary"] else np.nan for _, o in data]
+        inc = [o["summary"][g]["reserve_income_pct_per_year_from_20pct_fee_cut"] if g in o["summary"] else np.nan for _, o in data]
+        b1 = ax.bar(x - 0.2, cost, 0.38, color=C_LOSS, label="reserve cost per year (95% of windows made whole)")
+        b2 = ax.bar(x + 0.2, inc, 0.38, color=C_FEE, label="brought in per year by the 20% fee cut")
+        for bars in (b1, b2):
+            for b in bars:
+                h = b.get_height()
+                if h == h:
+                    ax.annotate(f"{h:.2f}", (b.get_x() + b.get_width() / 2, h), xytext=(0, 2), textcoords="offset points", ha="center", fontsize=7, color=INK)
+        ax.set_xticks(x); ax.set_xticklabels([d[0] for d in data], fontsize=7.2)
+        ax.set_title(name, fontsize=9.5)
+        ax.set_yticks([0, 0.5, 1.0, 1.5, 2.0, 2.5])
+        ax.yaxis.set_major_formatter(lambda val, _: f"{val:.1f}%")
+    axes[0].set_ylabel("% of deposits per year")
+    axes[0].legend(loc="upper right", fontsize=7.2)
+    f.suptitle("Loss-protection reserve: yearly payout against what the 20% fee cut brings in", x=0.01, ha="left", fontsize=10.5, fontweight="bold")
+    note(f, "Cost = average payout per 30-day window when each depositor's shortfall against holding is paid up to the 95th-percentile shortfall, times 365/30. Realised over each pool's history; not a forecast.")
+    return save(f, "q8_reserve.png")
+
+
 if __name__ == "__main__":
     for fn in [v for k, v in sorted(globals().items()) if k.startswith("chart_q")]:
         try:

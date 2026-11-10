@@ -5,7 +5,7 @@
 set -u
 cd "$(dirname "$0")"
 PY=${PY:-python3}; PROCS=${PROCS:-8}; L=../out/logs; mkdir -p $L
-STEPS=${*:-gate q1 q2 q3 q6 q4 q5 charts}
+STEPS=${*:-gate q1 q2 q3 q6 q4 q5 q7 q8 charts}
 # Position simulations on the v4 NVDA pool start on 16 July 2026: in its first two weeks the pool held so little liquidity
 # (about $2,000 moved the price 1 percent) that a $1,000 position would have been 1 percent of it and a hedge trade would have moved the price.
 V4N="--from-ts 1784160000"
@@ -39,6 +39,25 @@ q4) for v in v4_nvda ramses_nvda pharaoh_wavax; do $PY q4_hedged.py $v $(from_of
     fi
     $PY q4_hedged.py v4_nvda $V3N --tag _from_aug4 --no-windows > $L/q4_v4_nvda_from_aug4.txt 2>&1 ;;
 q5) for v in ramses_nvda ramses_spy pharaoh_wavax; do $PY q5_reward_timing.py $v > $L/q5_$v.txt 2>&1; done ;;
+q7) $PY q1_fee_vs_lvr.py pharaoh_wavax --ref external/avaxusdt_1m.csv.gz > $L/q1_pharaoh_wavax.txt 2>&1
+    $PY q1_fee_vs_lvr.py blackhole_wavax --ref external/avaxusdt_1m.csv.gz > $L/q1_blackhole_wavax.txt 2>&1
+    $PY q7_blackhole.py > $L/q7_blackhole.txt 2>&1
+    $PY q2_geometry.py pharaoh_wavax --procs $PROCS > $L/q2_pharaoh_wavax.txt 2>&1
+    $PY q2_geometry.py blackhole_wavax --procs 2 --cells 1200:600,2400:600,2400:1200,4800:600,4800:1200 > $L/q2_blackhole_wavax.txt 2>&1 ;;
+q8) $PY q8_wide.py v4_nvda $V4N --procs 2 > $L/q8_v4_nvda.txt 2>&1
+    $PY q8_wide.py v4_spy --procs 2 > $L/q8_v4_spy.txt 2>&1
+    $PY q8_wide.py univ3_spy_005 --from-ts 1787097600 --procs 2 > $L/q8_univ3_spy_005.txt 2>&1
+    $PY q8_wide.py ramses_nvda --protocol-share 0.5 --procs 2 > $L/q8_ramses_nvda_share50.txt 2>&1
+    $PY q8_wide.py ramses_spy --protocol-share 0.5 --procs 2 > $L/q8_ramses_spy_share50.txt 2>&1
+    $PY q1_fee_vs_lvr.py v4_nvda --from 2026-07-16 --tag _q8 > $L/q1_v4_nvda_q8.txt 2>&1
+    $PY q1_fee_vs_lvr.py v4_spy --tag _q8 > $L/q1_v4_spy_q8.txt 2>&1
+    $PY q1_fee_vs_lvr.py univ3_spy_005 --from 2026-08-19 --tag _q8 > $L/q1_univ3_spy_005_q8.txt 2>&1
+    $PY q1_fee_vs_lvr.py ramses_nvda --protocol-share 0.5 --tag _q8 > $L/q1_ramses_nvda_q8.txt 2>&1
+    $PY q1_fee_vs_lvr.py ramses_spy --protocol-share 0.5 --tag _q8 > $L/q1_ramses_spy_q8.txt 2>&1
+    if [ -f ../data/robinhood/univ3_nvda_005_swaps.csv.gz ]; then
+      $PY q8_wide.py univ3_nvda_005 $V3N --procs 2 > $L/q8_univ3_nvda_005.txt 2>&1
+      $PY q1_fee_vs_lvr.py univ3_nvda_005 --from 2026-08-04 --tag _q8 > $L/q1_univ3_nvda_005_q8.txt 2>&1
+    fi ;;
 charts) $PY charts_q1.py > $L/charts.txt 2>&1; $PY charts_rest.py >> $L/charts.txt 2>&1
-    $PY tables_q1.py > ../out/tables_q1.md; $PY tables_q2.py > ../out/tables_q2.md; $PY tables_q3.py > ../out/tables_q3.md; $PY tables_q456.py > ../out/tables_q456.md ;;
+    $PY tables_q1.py > ../out/tables_q1.md; $PY tables_q2.py > ../out/tables_q2.md; $PY tables_q3.py > ../out/tables_q3.md; $PY tables_q456.py > ../out/tables_q456.md; $PY tables_q78.py q7 > ../out/tables_q7.md; $PY tables_q78.py q8 > ../out/tables_q8.md ;;
 esac; echo "$step done"; done

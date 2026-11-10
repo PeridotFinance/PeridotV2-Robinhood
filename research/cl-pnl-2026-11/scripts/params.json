@@ -84,6 +84,15 @@
    "gas_usd_per_adjustment": 0.1,
    "flash_fee": 0.0005,
    "_note": "hypothetical route: the margin executor swaps on the v4 0.30% pool today; here the short is executed on the Uniswap V3 0.05% pool"
+  },
+  "blackhole_wavax": {
+   "hedge_venue": "blackhole_wavax",
+   "borrow_apr": 0.12,
+   "quote_supply_apr": 0.0,
+   "margin_fraction": 0.5,
+   "gas_usd_per_adjustment": 0.05,
+   "flash_fee": 0.0,
+   "_note": "not available: no WAVAX borrow"
   }
  },
  "rewards": {
@@ -128,6 +137,23 @@
    "_sale_cost": "assumption: RAM/WETH pool fee 1.75% in force at END, plus impact and the WETH leg; pilot size only",
    "form": "liquid RAM (voter.xRatio = 0); the vault cannot sell or distribute it today [MECHANICS 3.4]",
    "forfeit_window_s": 99
+  },
+  "blackhole_wavax": {
+   "token_symbol": "BLACK",
+   "token": "0xcd94a87696FAC69Edae3a70fE5725307Ae1c43f6",
+   "notify_file": "blackhole/blackhole_gauge_notify.csv.gz",
+   "periods_from_state": [
+    {
+     "period": 2952,
+     "tokens": 4823111.0,
+     "source": "data/blackhole/gauge_epochs.json (epoch notified 2026-07-30, before the table)"
+    }
+   ],
+   "price_venue": "black_usdc",
+   "sale_cost": 0.02,
+   "_sale_cost": "assumption: vAMM USDC/BLACK pair fee 0.7% plus impact; pilot size only (the pair holds about $36,000 of USDC)",
+   "form": "liquid BLACK through Algebra eternal farming; only positions staked with GaugeCL.deposit earn it",
+   "forfeit_window_s": 0
   }
  }
 }

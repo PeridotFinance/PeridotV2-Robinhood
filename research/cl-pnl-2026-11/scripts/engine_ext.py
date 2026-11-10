@@ -94,7 +94,7 @@ def session_plan(by_session: dict[str, tuple[int, int]], equity: bool = True):
 
 class Sim(E.Sim):
     def __init__(self, ds, cfg, session_fn=engine_session, start_index=0, end_index=None, start_stock_frac: float = 0.5, plan=None, outages=(),
-                 initial_half: int | None = None, initial_center_price: float | None = None):
+                 initial_half: int | None = None, initial_center_price: float | None = None, price_range: tuple | None = None):
         super().__init__(ds, dataclasses.replace(cfg), session_fn, start_index, end_index)
         self.start_stock_frac = start_stock_frac
         self.outages = tuple(outages)   # (start, end) unix intervals in which the keeper sends nothing
@@ -102,6 +102,8 @@ class Sim(E.Sim):
         # in force afterwards did not place
         self._initial = (initial_half, initial_center_price) if initial_half else None
         self._policy_half = self.cfg.core_half
+        # a static band given as multiples of the price at deployment, e.g. (0.5, 1.5) for "plus or minus 50%"
+        self.price_range = price_range
         self.plan = plan
         self._first_targets = True
         self._force = False
@@ -130,6 +132,8 @@ class Sim(E.Sim):
         return super()._targets(price_o)
 
     def _deploy(self, name, s_pool, price_o, cap_usd_per_side, s_ref):
+        if self.price_range is not None:
+            return self._deploy_band(name, s_pool, price_o)
         if self._initial and self._initial[1] and self.cfg.core_half == self._initial[0] and self.layers[name].L == 0 and not self.recenters[name]:
             # centre the pre-existing range where it really was; value the inventory at the oracle as usual
             ok = self._deploy_centered(name, s_pool, price_o, cap_usd_per_side, self._initial[1])
@@ -137,6 +141,22 @@ class Sim(E.Sim):
             self._initial = None
             return ok
         return super()._deploy(name, s_pool, price_o, cap_usd_per_side, s_ref)
+
+    def _deploy_band(self, name, s_pool, price_o):
+        """Band [a x P, b x P] around the oracle price, ticks snapped to the spacing; deploys the most liquidity the two
+        idle sides allow at the pool price (no swap: the surplus token stays idle)."""
+        c, ly, m = self.cfg, self.layers[name], self.m
+        t1, t2 = m.tick_for_usd(price_o * self.price_range[0]), m.tick_for_usd(price_o * self.price_range[1])
+        lo, hi = E.align(min(t1, t2), c.spacing), E.align(max(t1, t2), c.spacing) + c.spacing
+        L = E.liquidity_for(self.idle0, self.idle1, s_pool, lo, hi)
+        if L <= 0:
+            return True
+        u0, u1 = E.amounts(L, s_pool, lo, hi)
+        self.idle0 -= u0
+        self.idle1 -= u1
+        ly.lo, ly.hi, ly.L = lo, hi, L
+        ly.center = m.tick_for_usd(price_o)
+        return True
 
     def _deploy_centered(self, name, s_pool, price_o, cap_usd_per_side, center_price):
         c, ly, m = self.cfg, self.layers[name], self.m
@@ -210,10 +230,10 @@ def single_range_config(half: int, trigger: int, capital: float, spacing: int, *
 
 def run_window(ds: E.Dataset, cfg: E.Config, t_from: float | None = None, t_to: float | None = None, equity_sessions: bool = True,
                start_stock_frac: float = 0.5, plan=None, keep_series: bool = False, reward_price=None, reward_sale_cost: float = 0.0, outages=(),
-               initial_half: int | None = None, initial_center_price: float | None = None) -> dict:
+               initial_half: int | None = None, initial_center_price: float | None = None, price_range: tuple | None = None) -> dict:
     i0 = 0 if t_from is None else bisect.bisect_left(ds.ts, t_from)
     i1 = len(ds.ts) if t_to is None else bisect.bisect_right(ds.ts, t_to)
-    sim = Sim(ds, cfg, (lambda t: session_of(t, equity_sessions)), i0, i1, start_stock_frac, plan, outages, initial_half, initial_center_price)
+    sim = Sim(ds, cfg, (lambda t: session_of(t, equity_sessions)), i0, i1, start_stock_frac, plan, outages, initial_half, initial_center_price, price_range)
     sim.run()
     # mark the end at the oracle when it is fresh there, else at the pool (both legs of every comparison use the same price)
     p_o, age = sim.oracle_at(sim.end_ts)

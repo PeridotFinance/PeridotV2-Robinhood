@@ -1,0 +1,3978 @@
+{
+ "block": 99924388,
+ "block_hash": "0x6b4ae5c8e69d8e7bb381910a28ea9d61af1edab6bafabb8b57ec6aeab9c8323f",
+ "block_iso": "2026-11-10T09:12:09Z",
+ "state_host": "api.avax.network (archive eth_call)",
+ "method": "bisection on the exact-input amount of each protocol's QuoterV2.quoteExactInputSingle until sqrtPriceX96After is at the target; see the script header",
+ "formulas": {
+  "target_sqrt": "floor(sqrt(sqrtP0^2 * (10000 + move_bp) / 10000))",
+  "P0_usdc_per_wavax": "(sqrtP0 / 2^96)^2 * 1e12",
+  "usd_in": "sell_WAVAX: amount_in / 1e18 * P0 ; sell_USDC: amount_in / 1e6",
+  "avg_price": "sell_WAVAX: (amount_out / 1e6) / (amount_in / 1e18) ; sell_USDC: (amount_in / 1e6) / (amount_out / 1e18)",
+  "cost_bp": "sell_WAVAX: (1 - avg_price / P0) * 1e4 ; sell_USDC: (avg_price / P0 - 1) * 1e4  (includes the swap fee)",
+  "price_reached_pct": "((sqrt_price_after / sqrtP0)^2 - 1) * 100",
+  "liquidity_within_band_usd": "USDC out of the sell to -x % / 1e6  +  WAVAX out of the buy to +x % / 1e18 * P0"
+ },
+ "pools": {
+  "blackhole": {
+   "pool": "0x41100C6D2c6920B10d12Cd8D59c8A9AA2eF56fC7",
+   "quoter": "0x3e182bcf14Be6142b9217847ec1112e3c39Eb689",
+   "sqrt_price_x96_pre": "229476327054149863882010",
+   "P0_usdc_per_wavax": 8.389123977615322,
+   "active_liquidity": "722133245316243265",
+   "fee_ppm": 500,
+   "balance_WAVAX": "50783945025808051666392",
+   "balance_USDC": "47951124806",
+   "tvl_usd_at_pool_price": 473983.9356999046,
+   "targets": [
+    {
+     "move_bp": -100,
+     "target_sqrt_price": "228326062532249088881008",
+     "amount_in": "1256661969921157132636",
+     "amount_out": "10484204431",
+     "sqrt_price_after": "228326062531696953965017",
+     "bracket_lo_not_reaching_target": "1256661968751384650782",
+     "ticks_crossed": 0,
+     "limit_price_check": {
+      "amount_in_offered": "5026647879684628530544",
+      "amount_out": "10484204426",
+      "sqrt_price_after": "228326062532249088881008",
+      "amount_in_used": "1256661969314911864406",
+      "amount_out_rel_diff_vs_bisection": 4.769079077870568e-10,
+      "amount_in_rel_diff_vs_bisection": 4.824250934147675e-10
+     },
+     "direction": "sell_WAVAX",
+     "wavax_in": 1256.6619699211572,
+     "usdc_out": 10484.204431,
+     "usd_in_at_P0": 10542.293063622883,
+     "avg_price": 8.342899428760289,
+     "cost_bp": 55.10056708945332,
+     "price_reached_pct": -1.0000000004787957
+    },
+    {
+     "move_bp": -500,
+     "target_sqrt_price": "223665856679892014107419",
+     "amount_in": "3593212103090135499769",
+     "amount_out": "29603717888",
+     "sqrt_price_after": "223665856666537403876406",
+     "bracket_lo_not_reaching_target": "3593212100074070020041",
+     "ticks_crossed": 2,
+     "limit_price_check": {
+      "amount_in_offered": "14372848412360541999076",
+      "amount_out": "29603717868",
+      "sqrt_price_after": "223665856679892014107419",
+      "amount_in_used": "3593212100485166028447",
+      "amount_out_rel_diff_vs_bisection": 6.755908185473923e-10,
+      "amount_in_rel_diff_vs_bisection": 7.249695805827175e-10
+     },
+     "direction": "sell_WAVAX",
+     "wavax_in": 3593.2121030901358,
+     "usdc_out": 29603.717888,
+     "usd_in_at_P0": 30143.901810691033,
+     "avg_price": 8.238789428138968,
+     "cost_bp": 179.20172580294548,
+     "price_reached_pct": -5.000000011344497
+    },
+    {
+     "move_bp": -1000,
+     "target_sqrt_price": "217700358774249238651517",
+     "amount_in": "4205350326320889764313",
+     "amount_out": "34372336181",
+     "sqrt_price_after": "217700358743934887481221",
+     "bracket_lo_not_reaching_target": "4205350323180839108800",
+     "ticks_crossed": 5,
+     "limit_price_check": {
+      "amount_in_offered": "16821401305283559057252",
+      "amount_out": "34372336164",
+      "sqrt_price_after": "217700358774249238651517",
+      "amount_in_used": "4205350324085509148878",
+      "amount_out_rel_diff_vs_bisection": 4.945837812850524e-10,
+      "amount_in_rel_diff_vs_bisection": 5.315563370414027e-10
+     },
+     "direction": "sell_WAVAX",
+     "wavax_in": 4205.3503263208895,
+     "usdc_out": 34372.336181,
+     "usd_in_at_P0": 35279.205256810994,
+     "avg_price": 8.173477478408113,
+     "cost_bp": 257.0548483758461,
+     "price_reached_pct": -10.000000025064637
+    },
+    {
+     "move_bp": 100,
+     "target_sqrt_price": "230620854488586491909478",
+     "amount_in": "16468748079",
+     "amount_out": "1950474044527218314286",
+     "sqrt_price_after": "230620854488990748333511",
+     "bracket_lo_not_reaching_target": "16468748070",
+     "ticks_crossed": 1,
+     "limit_price_check": {
+      "amount_in_offered": "65874992316",
+      "amount_out": "1950474043548331617649",
+      "sqrt_price_after": "230620854488586491909478",
+      "amount_in_used": "16468748071",
+      "amount_out_rel_diff_vs_bisection": 5.01871173002087e-10,
+      "amount_in_rel_diff_vs_bisection": 4.857685576113184e-10
+     },
+     "direction": "sell_USDC",
+     "usdc_in": 16468.748079,
+     "wavax_out": 1950.4740445272182,
+     "usd_in_at_P0": 16468.748079,
+     "avg_price": 8.443459232492332,
+     "cost_bp": 64.76868743624742,
+     "price_reached_pct": 1.0000000003540732
+    },
+    {
+     "move_bp": 500,
+     "target_sqrt_price": "235143262527711625655907",
+     "amount_in": "92125672654",
+     "amount_out": "10718706863976173117133",
+     "sqrt_price_after": "235143262529931953015648",
+     "bracket_lo_not_reaching_target": "92125672605",
+     "ticks_crossed": 3,
+     "limit_price_check": {
+      "amount_in_offered": "368502690616",
+      "amount_out": "10718706860351798542878",
+      "sqrt_price_after": "235143262527711625655907",
+      "amount_in_used": "92125672623",
+      "amount_out_rel_diff_vs_bisection": 3.3813543184354937e-10,
+      "amount_in_rel_diff_vs_bisection": 3.3649686462999205e-10
+     },
+     "direction": "sell_USDC",
+     "usdc_in": 92125.672654,
+     "wavax_out": 10718.706863976173,
+     "usd_in_at_P0": 92125.672654,
+     "avg_price": 8.594849530181609,
+     "cost_bp": 245.2288857754681,
+     "price_reached_pct": 5.000000001982929
+    },
+    {
+     "move_bp": 1000,
+     "target_sqrt_price": "240676802259979904403628",
+     "amount_in": "152199184483",
+     "amount_out": "17403869007670381399583",
+     "sqrt_price_after": "240676802262112519752932",
+     "bracket_lo_not_reaching_target": "152199184388",
+     "ticks_crossed": 5,
+     "limit_price_check": {
+      "amount_in_offered": "608796737932",
+      "amount_out": "17403869006496543081881",
+      "sqrt_price_after": "240676802259979904403628",
+      "amount_in_used": "152199184473",
+      "amount_out_rel_diff_vs_bisection": 6.744697499071362e-11,
+      "amount_in_rel_diff_vs_bisection": 6.570337439039929e-11
+     },
+     "direction": "sell_USDC",
+     "usdc_in": 152199.184483,
+     "wavax_out": 17403.869007670382,
+     "usd_in_at_P0": 152199.184483,
+     "avg_price": 8.74513502807459,
+     "cost_bp": 424.37214113083985,
+     "price_reached_pct": 10.000000001949383
+    }
+   ],
+   "quoter_vs_pool_check": {
+    "amount_in": "1000000000000",
+    "sqrt_price_after": "229476327053229919322308",
+    "rel_diff_to_pool_sqrt_price": 4.0088865440351904e-12
+   },
+   "liquidity_within_band_usd": {
+    "+/-1%": 26846.973005659624,
+    "+/-5%": 119524.27864961245,
+    "+/-10%": 180375.55097652378
+   },
+   "liquidity_within_band_parts": {
+    "+/-1%": {
+     "usdc_below (out of the sell)": 10484.204431,
+     "wavax_above (out of the buy)": 1950.4740445272182
+    },
+    "+/-5%": {
+     "usdc_below (out of the sell)": 29603.717888,
+     "wavax_above (out of the buy)": 10718.706863976173
+    },
+    "+/-10%": {
+     "usdc_below (out of the sell)": 34372.336181,
+     "wavax_above (out of the buy)": 17403.869007670382
+    }
+   },
+   "quote_calls": [
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "1000000000000",
+     "limit_sqrt_price": "0",
+     "amount_out": "8",
+     "amount_in_used": "1000000000000",
+     "sqrt_price_after": "229476327053229919322308",
+     "ticks_crossed": 0,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "1256033638330254408472",
+     "limit_sqrt_price": "0",
+     "amount_out": "10478988588",
+     "amount_in_used": "1256033638330254408472",
+     "sqrt_price_after": "228326634783057630827131",
+     "ticks_crossed": 0,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "2512067276660508816944",
+     "limit_sqrt_price": "0",
+     "amount_out": "20841364670",
+     "amount_in_used": "2512067276660508816944",
+     "sqrt_price_after": "226696090983291732951295",
+     "ticks_crossed": 1,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "1884050457495381612708",
+     "limit_sqrt_price": "0",
+     "amount_out": "15679135674",
+     "amount_in_used": "1884050457495381612708",
+     "sqrt_price_after": "227718507416500951148305",
+     "ticks_crossed": 1,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "1570042047912818010590",
+     "limit_sqrt_price": "0",
+     "amount_out": "13082349865",
+     "amount_in_used": "1570042047912818010590",
+     "sqrt_price_after": "228041009475371710730576",
+     "ticks_crossed": 0,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "1413037843121536209531",
+     "limit_sqrt_price": "0",
+     "amount_out": "11781483905",
+     "amount_in_used": "1413037843121536209531",
+     "sqrt_price_after": "228183732747531485019493",
+     "ticks_crossed": 0,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "1334535740725895309001",
+     "limit_sqrt_price": "0",
+     "amount_out": "11130440107",
+     "amount_in_used": "1334535740725895309001",
+     "sqrt_price_after": "228255161398889312868827",
+     "ticks_crossed": 0,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "1295284689528074858736",
+     "limit_sqrt_price": "0",
+     "amount_out": "10804765336",
+     "amount_in_used": "1295284689528074858736",
+     "sqrt_price_after": "228290892496746230212333",
+     "ticks_crossed": 0,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "1275659163929164633604",
+     "limit_sqrt_price": "0",
+     "amount_out": "10641889712",
+     "amount_in_used": "1275659163929164633604",
+     "sqrt_price_after": "228308762241016698959940",
+     "ticks_crossed": 0,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "1265846401129709521038",
+     "limit_sqrt_price": "0",
+     "amount_out": "10560442338",
+     "amount_in_used": "1265846401129709521038",
+     "sqrt_price_after": "228317698162274793112229",
+     "ticks_crossed": 0,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "1260940019729981964755",
+     "limit_sqrt_price": "0",
+     "amount_out": "10519716260",
+     "amount_in_used": "1260940019729981964755",
+     "sqrt_price_after": "228322166385220485334759",
+     "ticks_crossed": 0,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "1258486829030118186613",
+     "limit_sqrt_price": "0",
+     "amount_out": "10499352623",
+     "amount_in_used": "1258486829030118186613",
+     "sqrt_price_after": "228324400562276984667061",
+     "ticks_crossed": 0,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "1257260233680186297542",
+     "limit_sqrt_price": "0",
+     "amount_out": "10489170655",
+     "amount_in_used": "1257260233680186297542",
+     "sqrt_price_after": "228325517667201709171483",
+     "ticks_crossed": 0,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "1256646936005220353007",
+     "limit_sqrt_price": "0",
+     "amount_out": "10484079634",
+     "amount_in_used": "1256646936005220353007",
+     "sqrt_price_after": "228326076223763260327464",
+     "ticks_crossed": 0,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "1256953584842703325274",
+     "limit_sqrt_price": "0",
+     "amount_out": "10486625148",
+     "amount_in_used": "1256953584842703325274",
+     "sqrt_price_after": "228325796945140883585013",
+     "ticks_crossed": 0,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "1256800260423961839140",
+     "limit_sqrt_price": "0",
+     "amount_out": "10485352391",
+     "amount_in_used": "1256800260423961839140",
+     "sqrt_price_after": "228325936584366671508437",
+     "ticks_crossed": 0,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "1256723598214591096073",
+     "limit_sqrt_price": "0",
+     "amount_out": "10484716013",
+     "amount_in_used": "1256723598214591096073",
+     "sqrt_price_after": "228326006404043615786415",
+     "ticks_crossed": 0,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "1256685267109905724540",
+     "limit_sqrt_price": "0",
+     "amount_out": "10484397823",
+     "amount_in_used": "1256685267109905724540",
+     "sqrt_price_after": "228326041313898100521607",
+     "ticks_crossed": 0,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "1256666101557563038773",
+     "limit_sqrt_price": "0",
+     "amount_out": "10484238729",
+     "amount_in_used": "1256666101557563038773",
+     "sqrt_price_after": "228326058768829346040397",
+     "ticks_crossed": 0,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "1256656518781391695890",
+     "limit_sqrt_price": "0",
+     "amount_out": "10484159181",
+     "amount_in_used": "1256656518781391695890",
+     "sqrt_price_after": "228326067496295969587857",
+     "ticks_crossed": 0,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "1256661310169477367331",
+     "limit_sqrt_price": "0",
+     "amount_out": "10484198955",
+     "amount_in_used": "1256661310169477367331",
+     "sqrt_price_after": "228326063132562574415114",
+     "ticks_crossed": 0,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "1256663705863520203052",
+     "limit_sqrt_price": "0",
+     "amount_out": "10484218842",
+     "amount_in_used": "1256663705863520203052",
+     "sqrt_price_after": "228326060950695939378003",
+     "ticks_crossed": 0,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "1256662508016498785191",
+     "limit_sqrt_price": "0",
+     "amount_out": "10484208898",
+     "amount_in_used": "1256662508016498785191",
+     "sqrt_price_after": "228326062041629251684121",
+     "ticks_crossed": 0,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "1256661909092988076261",
+     "limit_sqrt_price": "0",
+     "amount_out": "10484203927",
+     "amount_in_used": "1256661909092988076261",
+     "sqrt_price_after": "228326062587095911746508",
+     "ticks_crossed": 0,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "1256662208554743430726",
+     "limit_sqrt_price": "0",
+     "amount_out": "10484206412",
+     "amount_in_used": "1256662208554743430726",
+     "sqrt_price_after": "228326062314362581389537",
+     "ticks_crossed": 0,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "1256662058823865753493",
+     "limit_sqrt_price": "0",
+     "amount_out": "10484205169",
+     "amount_in_used": "1256662058823865753493",
+     "sqrt_price_after": "228326062450729246486578",
+     "ticks_crossed": 0,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "1256661983958426914877",
+     "limit_sqrt_price": "0",
+     "amount_out": "10484204548",
+     "amount_in_used": "1256661983958426914877",
+     "sqrt_price_after": "228326062518912579096182",
+     "ticks_crossed": 0,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "1256661946525707495569",
+     "limit_sqrt_price": "0",
+     "amount_out": "10484204237",
+     "amount_in_used": "1256661946525707495569",
+     "sqrt_price_after": "228326062553004245416254",
+     "ticks_crossed": 0,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "1256661965242067205223",
+     "limit_sqrt_price": "0",
+     "amount_out": "10484204393",
+     "amount_in_used": "1256661965242067205223",
+     "sqrt_price_after": "228326062535958412254946",
+     "ticks_crossed": 0,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "1256661974600247060050",
+     "limit_sqrt_price": "0",
+     "amount_out": "10484204470",
+     "amount_in_used": "1256661974600247060050",
+     "sqrt_price_after": "228326062527435495675246",
+     "ticks_crossed": 0,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "1256661969921157132636",
+     "limit_sqrt_price": "0",
+     "amount_out": "10484204431",
+     "amount_in_used": "1256661969921157132636",
+     "sqrt_price_after": "228326062531696953965017",
+     "ticks_crossed": 0,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "1256661967581612168929",
+     "limit_sqrt_price": "0",
+     "amount_out": "10484204412",
+     "amount_in_used": "1256661967581612168929",
+     "sqrt_price_after": "228326062533827683109962",
+     "ticks_crossed": 0,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "1256661968751384650782",
+     "limit_sqrt_price": "0",
+     "amount_out": "10484204422",
+     "amount_in_used": "1256661968751384650782",
+     "sqrt_price_after": "228326062532762318537485",
+     "ticks_crossed": 0,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "5026647879684628530544",
+     "limit_sqrt_price": "228326062532249088881008",
+     "amount_out": "10484204426",
+     "amount_in_used": "1256661969314911864406",
+     "sqrt_price_after": "228326062532249088881008",
+     "ticks_crossed": 0,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "6476951299012857865424",
+     "limit_sqrt_price": "0",
+     "amount_out": "45637247490",
+     "amount_in_used": "6476951299012857865424",
+     "sqrt_price_after": "89067075076488373180469",
+     "ticks_crossed": 51,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "3238475649506428932712",
+     "limit_sqrt_price": "0",
+     "amount_out": "26754836005",
+     "amount_in_used": "3238475649506428932712",
+     "sqrt_price_after": "225499352832922521109124",
+     "ticks_crossed": 2,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "4857713474259643399068",
+     "limit_sqrt_price": "0",
+     "amount_out": "39067934843",
+     "amount_in_used": "4857713474259643399068",
+     "sqrt_price_after": "207193571077845207403167",
+     "ticks_crossed": 10,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "4048094561883036165890",
+     "limit_sqrt_price": "0",
+     "amount_out": "33174008430",
+     "amount_in_used": "4048094561883036165890",
+     "sqrt_price_after": "219800622180173479588113",
+     "ticks_crossed": 4,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "3643285105694732549301",
+     "limit_sqrt_price": "0",
+     "amount_out": "30002126293",
+     "amount_in_used": "3643285105694732549301",
+     "sqrt_price_after": "223409447200134750635807",
+     "ticks_crossed": 2,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "3440880377600580741006",
+     "limit_sqrt_price": "0",
+     "amount_out": "28386040068",
+     "amount_in_used": "3440880377600580741006",
+     "sqrt_price_after": "224449535213751728383566",
+     "ticks_crossed": 2,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "3542082741647656645153",
+     "limit_sqrt_price": "0",
+     "amount_out": "29195959745",
+     "amount_in_used": "3542082741647656645153",
+     "sqrt_price_after": "223928283479602102934633",
+     "ticks_crossed": 2,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "3592683923671194597227",
+     "limit_sqrt_price": "0",
+     "amount_out": "29599510528",
+     "amount_in_used": "3592683923671194597227",
+     "sqrt_price_after": "223668564458603076683489",
+     "ticks_crossed": 2,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "3617984514682963573264",
+     "limit_sqrt_price": "0",
+     "amount_out": "29800935084",
+     "amount_in_used": "3617984514682963573264",
+     "sqrt_price_after": "223538930739841040175548",
+     "ticks_crossed": 2,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "3605334219177079085245",
+     "limit_sqrt_price": "0",
+     "amount_out": "29700252000",
+     "amount_in_used": "3605334219177079085245",
+     "sqrt_price_after": "223603728810515227143342",
+     "ticks_crossed": 2,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "3599009071424136841236",
+     "limit_sqrt_price": "0",
+     "amount_out": "29649888565",
+     "amount_in_used": "3599009071424136841236",
+     "sqrt_price_after": "223636141935339765611998",
+     "ticks_crossed": 2,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "3595846497547665719231",
+     "limit_sqrt_price": "0",
+     "amount_out": "29624701372",
+     "amount_in_used": "3595846497547665719231",
+     "sqrt_price_after": "223652352021911110208233",
+     "ticks_crossed": 2,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "3594265210609430158229",
+     "limit_sqrt_price": "0",
+     "amount_out": "29612106406",
+     "amount_in_used": "3594265210609430158229",
+     "sqrt_price_after": "223660457946460074563928",
+     "ticks_crossed": 2,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "3593474567140312377728",
+     "limit_sqrt_price": "0",
+     "amount_out": "29605808581",
+     "amount_in_used": "3593474567140312377728",
+     "sqrt_price_after": "223664511129078327753356",
+     "ticks_crossed": 2,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "3593079245405753487477",
+     "limit_sqrt_price": "0",
+     "amount_out": "29602659583",
+     "amount_in_used": "3593079245405753487477",
+     "sqrt_price_after": "223666537775476891075445",
+     "ticks_crossed": 2,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "3593276906273032932602",
+     "limit_sqrt_price": "0",
+     "amount_out": "29604234089",
+     "amount_in_used": "3593276906273032932602",
+     "sqrt_price_after": "223665524447686719026998",
+     "ticks_crossed": 2,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "3593178075839393210039",
+     "limit_sqrt_price": "0",
+     "amount_out": "29603446838",
+     "amount_in_used": "3593178075839393210039",
+     "sqrt_price_after": "223666031110434074654671",
+     "ticks_crossed": 2,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "3593227491056213071320",
+     "limit_sqrt_price": "0",
+     "amount_out": "29603840464",
+     "amount_in_used": "3593227491056213071320",
+     "sqrt_price_after": "223665777778773465216664",
+     "ticks_crossed": 2,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "3593202783447803140679",
+     "limit_sqrt_price": "0",
+     "amount_out": "29603643651",
+     "amount_in_used": "3593202783447803140679",
+     "sqrt_price_after": "223665904444532036907757",
+     "ticks_crossed": 2,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "3593215137252008105999",
+     "limit_sqrt_price": "0",
+     "amount_out": "29603742058",
+     "amount_in_used": "3593215137252008105999",
+     "sqrt_price_after": "223665841111634817820471",
+     "ticks_crossed": 2,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "3593208960349905623339",
+     "limit_sqrt_price": "0",
+     "amount_out": "29603692854",
+     "amount_in_used": "3593208960349905623339",
+     "sqrt_price_after": "223665872778078944051771",
+     "ticks_crossed": 2,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "3593212048800956864669",
+     "limit_sqrt_price": "0",
+     "amount_out": "29603717456",
+     "amount_in_used": "3593212048800956864669",
+     "sqrt_price_after": "223665856944855760108274",
+     "ticks_crossed": 2,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "3593213593026482485334",
+     "limit_sqrt_price": "0",
+     "amount_out": "29603729757",
+     "amount_in_used": "3593213593026482485334",
+     "sqrt_price_after": "223665849028245008757438",
+     "ticks_crossed": 2,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "3593212820913719675001",
+     "limit_sqrt_price": "0",
+     "amount_out": "29603723606",
+     "amount_in_used": "3593212820913719675001",
+     "sqrt_price_after": "223665852986550314381122",
+     "ticks_crossed": 2,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "3593212434857338269835",
+     "limit_sqrt_price": "0",
+     "amount_out": "29603720531",
+     "amount_in_used": "3593212434857338269835",
+     "sqrt_price_after": "223665854965703019731766",
+     "ticks_crossed": 2,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "3593212241829147567252",
+     "limit_sqrt_price": "0",
+     "amount_out": "29603718993",
+     "amount_in_used": "3593212241829147567252",
+     "sqrt_price_after": "223665855955279385541783",
+     "ticks_crossed": 2,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "3593212145315052215960",
+     "limit_sqrt_price": "0",
+     "amount_out": "29603718225",
+     "amount_in_used": "3593212145315052215960",
+     "sqrt_price_after": "223665856450067571730475",
+     "ticks_crossed": 2,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "3593212097058004540314",
+     "limit_sqrt_price": "0",
+     "amount_out": "29603717840",
+     "amount_in_used": "3593212097058004540314",
+     "sqrt_price_after": "223665856697461665645738",
+     "ticks_crossed": 2,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "3593212121186528378137",
+     "limit_sqrt_price": "0",
+     "amount_out": "29603718032",
+     "amount_in_used": "3593212121186528378137",
+     "sqrt_price_after": "223665856573764618619697",
+     "ticks_crossed": 2,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "3593212109122266459225",
+     "limit_sqrt_price": "0",
+     "amount_out": "29603717936",
+     "amount_in_used": "3593212109122266459225",
+     "sqrt_price_after": "223665856635613142115615",
+     "ticks_crossed": 2,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "3593212103090135499769",
+     "limit_sqrt_price": "0",
+     "amount_out": "29603717888",
+     "amount_in_used": "3593212103090135499769",
+     "sqrt_price_after": "223665856666537403876406",
+     "ticks_crossed": 2,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "3593212100074070020041",
+     "limit_sqrt_price": "0",
+     "amount_out": "29603717864",
+     "amount_in_used": "3593212100074070020041",
+     "sqrt_price_after": "223665856681999534760005",
+     "ticks_crossed": 2,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "14372848412360541999076",
+     "limit_sqrt_price": "223665856679892014107419",
+     "amount_out": "29603717868",
+     "amount_in_used": "3593212100485166028447",
+     "sqrt_price_after": "223665856679892014107419",
+     "ticks_crossed": 2,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "13486414873212912543298",
+     "limit_sqrt_price": "0",
+     "amount_out": "47461327782",
+     "amount_in_used": "13486414873212912543298",
+     "sqrt_price_after": "18349251213440454828826",
+     "ticks_crossed": 51,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "6743207436606456271649",
+     "limit_sqrt_price": "0",
+     "amount_out": "45930622735",
+     "amount_in_used": "6743207436606456271649",
+     "sqrt_price_after": "77693201336389226616065",
+     "ticks_crossed": 51,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "3371603718303228135824",
+     "limit_sqrt_price": "0",
+     "amount_out": "27829443453",
+     "amount_in_used": "3371603718303228135824",
+     "sqrt_price_after": "224807752157371086013176",
+     "ticks_crossed": 2,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "5057405577454842203736",
+     "limit_sqrt_price": "0",
+     "amount_out": "40411205405",
+     "amount_in_used": "5057405577454842203736",
+     "sqrt_price_after": "203871622794888047004200",
+     "ticks_crossed": 12,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "4214504647879035169780",
+     "limit_sqrt_price": "0",
+     "amount_out": "34441379315",
+     "amount_in_used": "4214504647879035169780",
+     "sqrt_price_after": "217576286289040552159017",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "3793054183091131652802",
+     "limit_sqrt_price": "0",
+     "amount_out": "31186773579",
+     "amount_in_used": "3793054183091131652802",
+     "sqrt_price_after": "222299090391141965808698",
+     "ticks_crossed": 3,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "4003779415485083411291",
+     "limit_sqrt_price": "0",
+     "amount_out": "32832202077",
+     "amount_in_used": "4003779415485083411291",
+     "sqrt_price_after": "220381631194799618782629",
+     "ticks_crossed": 4,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "4109142031682059290535",
+     "limit_sqrt_price": "0",
+     "amount_out": "33641931779",
+     "amount_in_used": "4109142031682059290535",
+     "sqrt_price_after": "219005237067392327705300",
+     "ticks_crossed": 4,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "4161823339780547230157",
+     "limit_sqrt_price": "0",
+     "amount_out": "34042969492",
+     "amount_in_used": "4161823339780547230157",
+     "sqrt_price_after": "218292239950444632844620",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "4188163993829791199968",
+     "limit_sqrt_price": "0",
+     "amount_out": "34242501616",
+     "amount_in_used": "4188163993829791199968",
+     "sqrt_price_after": "217933675110269070353201",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "4201334320854413184874",
+     "limit_sqrt_price": "0",
+     "amount_out": "34342022067",
+     "amount_in_used": "4201334320854413184874",
+     "sqrt_price_after": "217754834059186326081976",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "4207919484366724177327",
+     "limit_sqrt_price": "0",
+     "amount_out": "34391721066",
+     "amount_in_used": "4207919484366724177327",
+     "sqrt_price_after": "217665523559103928052856",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "4204626902610568681100",
+     "limit_sqrt_price": "0",
+     "amount_out": "34366876664",
+     "amount_in_used": "4204626902610568681100",
+     "sqrt_price_after": "217710169649760080628607",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "4206273193488646429213",
+     "limit_sqrt_price": "0",
+     "amount_out": "34379300139",
+     "amount_in_used": "4206273193488646429213",
+     "sqrt_price_after": "217687844315290187320242",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "4205450048049607555156",
+     "limit_sqrt_price": "0",
+     "amount_out": "34373088720",
+     "amount_in_used": "4205450048049607555156",
+     "sqrt_price_after": "217699006410151646721209",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "4205038475330088118128",
+     "limit_sqrt_price": "0",
+     "amount_out": "34369982771",
+     "amount_in_used": "4205038475330088118128",
+     "sqrt_price_after": "217704587886851485761928",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "4205244261689847836642",
+     "limit_sqrt_price": "0",
+     "amount_out": "34371535766",
+     "amount_in_used": "4205244261689847836642",
+     "sqrt_price_after": "217701797112726847613957",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "4205347154869727695899",
+     "limit_sqrt_price": "0",
+     "amount_out": "34372312248",
+     "amount_in_used": "4205347154869727695899",
+     "sqrt_price_after": "217700401752495739484295",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "4205398601459667625527",
+     "limit_sqrt_price": "0",
+     "amount_out": "34372700485",
+     "amount_in_used": "4205398601459667625527",
+     "sqrt_price_after": "217699704079087837678156",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "4205372878164697660713",
+     "limit_sqrt_price": "0",
+     "amount_out": "34372506367",
+     "amount_in_used": "4205372878164697660713",
+     "sqrt_price_after": "217700052915232822038062",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "4205360016517212678306",
+     "limit_sqrt_price": "0",
+     "amount_out": "34372409307",
+     "amount_in_used": "4205360016517212678306",
+     "sqrt_price_after": "217700227333724538789512",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "4205353585693470187102",
+     "limit_sqrt_price": "0",
+     "amount_out": "34372360777",
+     "amount_in_used": "4205353585693470187102",
+     "sqrt_price_after": "217700314543075203602016",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "4205350370281598941500",
+     "limit_sqrt_price": "0",
+     "amount_out": "34372336513",
+     "amount_in_used": "4205350370281598941500",
+     "sqrt_price_after": "217700358147776737654189",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "4205348762575663318699",
+     "limit_sqrt_price": "0",
+     "amount_out": "34372324380",
+     "amount_in_used": "4205348762575663318699",
+     "sqrt_price_after": "217700379950134055096343",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "4205349566428631130099",
+     "limit_sqrt_price": "0",
+     "amount_out": "34372330446",
+     "amount_in_used": "4205349566428631130099",
+     "sqrt_price_after": "217700369048954850507130",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "4205349968355115035799",
+     "limit_sqrt_price": "0",
+     "amount_out": "34372333479",
+     "amount_in_used": "4205349968355115035799",
+     "sqrt_price_after": "217700363598365657613640",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "4205350169318356988649",
+     "limit_sqrt_price": "0",
+     "amount_out": "34372334996",
+     "amount_in_used": "4205350169318356988649",
+     "sqrt_price_after": "217700360873071163517159",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "4205350269799977965074",
+     "limit_sqrt_price": "0",
+     "amount_out": "34372335754",
+     "amount_in_used": "4205350269799977965074",
+     "sqrt_price_after": "217700359510423942056499",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "4205350320040788453287",
+     "limit_sqrt_price": "0",
+     "amount_out": "34372336133",
+     "amount_in_used": "4205350320040788453287",
+     "sqrt_price_after": "217700358829100337723047",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "4205350345161193697393",
+     "limit_sqrt_price": "0",
+     "amount_out": "34372336323",
+     "amount_in_used": "4205350345161193697393",
+     "sqrt_price_after": "217700358488438537155550",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "4205350332600991075340",
+     "limit_sqrt_price": "0",
+     "amount_out": "34372336228",
+     "amount_in_used": "4205350332600991075340",
+     "sqrt_price_after": "217700358658769437306030",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "4205350326320889764313",
+     "limit_sqrt_price": "0",
+     "amount_out": "34372336181",
+     "amount_in_used": "4205350326320889764313",
+     "sqrt_price_after": "217700358743934887481221",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "4205350323180839108800",
+     "limit_sqrt_price": "0",
+     "amount_out": "34372336157",
+     "amount_in_used": "4205350323180839108800",
+     "sqrt_price_after": "217700358786517612593811",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "16821401305283559057252",
+     "limit_sqrt_price": "217700358774249238651517",
+     "amount_out": "34372336164",
+     "amount_in_used": "4205350324085509148878",
+     "sqrt_price_after": "217700358774249238651517",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "10431913152",
+     "limit_sqrt_price": "0",
+     "amount_out": "1237443259979287339179",
+     "amount_in_used": "10431913152",
+     "sqrt_price_after": "230326765600274273321812",
+     "ticks_crossed": 1,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "20863826304",
+     "limit_sqrt_price": "0",
+     "amount_out": "2468448577206313468354",
+     "amount_in_used": "20863826304",
+     "sqrt_price_after": "230834963982885485017987",
+     "ticks_crossed": 1,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "15647869728",
+     "limit_sqrt_price": "0",
+     "amount_out": "1853624200062260202911",
+     "amount_in_used": "15647869728",
+     "sqrt_price_after": "230580864791579879169900",
+     "ticks_crossed": 1,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "18255848016",
+     "limit_sqrt_price": "0",
+     "amount_out": "2161205678857210287145",
+     "amount_in_used": "18255848016",
+     "sqrt_price_after": "230707914387232682093943",
+     "ticks_crossed": 1,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "16951858872",
+     "limit_sqrt_price": "0",
+     "amount_out": "2007457296926298557121",
+     "amount_in_used": "16951858872",
+     "sqrt_price_after": "230644389589381910576234",
+     "ticks_crossed": 1,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "16299864300",
+     "limit_sqrt_price": "0",
+     "amount_out": "1930551342310120140381",
+     "amount_in_used": "16299864300",
+     "sqrt_price_after": "230612627190505264928754",
+     "ticks_crossed": 1,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "16625861586",
+     "limit_sqrt_price": "0",
+     "amount_out": "1969006967510292987163",
+     "amount_in_used": "16625861586",
+     "sqrt_price_after": "230628508389943587752494",
+     "ticks_crossed": 1,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "16462862943",
+     "limit_sqrt_price": "0",
+     "amount_out": "1949779816892594522363",
+     "amount_in_used": "16462862943",
+     "sqrt_price_after": "230620567790200056284936",
+     "ticks_crossed": 1,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "16544362264",
+     "limit_sqrt_price": "0",
+     "amount_out": "1959393557703246520552",
+     "amount_in_used": "16544362264",
+     "sqrt_price_after": "230624538090071822018715",
+     "ticks_crossed": 1,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "16503612603",
+     "limit_sqrt_price": "0",
+     "amount_out": "1954586728556419664421",
+     "amount_in_used": "16503612603",
+     "sqrt_price_after": "230622552940087199040450",
+     "ticks_crossed": 1,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "16483237773",
+     "limit_sqrt_price": "0",
+     "amount_out": "1952183283127780441128",
+     "amount_in_used": "16483237773",
+     "sqrt_price_after": "230621560365167997718381",
+     "ticks_crossed": 1,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "16473050358",
+     "limit_sqrt_price": "0",
+     "amount_out": "1950981552655280776597",
+     "amount_in_used": "16473050358",
+     "sqrt_price_after": "230621064077708397057346",
+     "ticks_crossed": 1,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "16467956650",
+     "limit_sqrt_price": "0",
+     "amount_out": "1950380685302438653343",
+     "amount_in_used": "16467956650",
+     "sqrt_price_after": "230620815933905486559766",
+     "ticks_crossed": 1,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "16470503504",
+     "limit_sqrt_price": "0",
+     "amount_out": "1950681119140490213457",
+     "amount_in_used": "16470503504",
+     "sqrt_price_after": "230620940005806941808556",
+     "ticks_crossed": 1,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "16469230077",
+     "limit_sqrt_price": "0",
+     "amount_out": "1950530902320882948673",
+     "amount_in_used": "16469230077",
+     "sqrt_price_after": "230620877969880584239849",
+     "ticks_crossed": 1,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "16468593363",
+     "limit_sqrt_price": "0",
+     "amount_out": "1950455793762751853413",
+     "amount_in_used": "16468593363",
+     "sqrt_price_after": "230620846951868665344120",
+     "ticks_crossed": 1,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "16468911720",
+     "limit_sqrt_price": "0",
+     "amount_out": "1950493348044342886081",
+     "amount_in_used": "16468911720",
+     "sqrt_price_after": "230620862460874624791984",
+     "ticks_crossed": 1,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "16468752541",
+     "limit_sqrt_price": "0",
+     "amount_out": "1950474570786157001177",
+     "amount_in_used": "16468752541",
+     "sqrt_price_after": "230620854706322904956677",
+     "ticks_crossed": 1,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "16468672952",
+     "limit_sqrt_price": "0",
+     "amount_out": "1950465182274612268148",
+     "amount_in_used": "16468672952",
+     "sqrt_price_after": "230620850829095785150398",
+     "ticks_crossed": 1,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "16468712746",
+     "limit_sqrt_price": "0",
+     "amount_out": "1950469876471413223936",
+     "amount_in_used": "16468712746",
+     "sqrt_price_after": "230620852767684974997850",
+     "ticks_crossed": 1,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "16468732643",
+     "limit_sqrt_price": "0",
+     "amount_out": "1950472223569784107412",
+     "amount_in_used": "16468732643",
+     "sqrt_price_after": "230620853736979569921575",
+     "ticks_crossed": 1,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "16468742592",
+     "limit_sqrt_price": "0",
+     "amount_out": "1950473397177973020744",
+     "amount_in_used": "16468742592",
+     "sqrt_price_after": "230620854221651237439126",
+     "ticks_crossed": 1,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "16468747566",
+     "limit_sqrt_price": "0",
+     "amount_out": "1950473983982065627571",
+     "amount_in_used": "16468747566",
+     "sqrt_price_after": "230620854463987071197901",
+     "ticks_crossed": 1,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "16468750053",
+     "limit_sqrt_price": "0",
+     "amount_out": "1950474277384111468527",
+     "amount_in_used": "16468750053",
+     "sqrt_price_after": "230620854585154988077289",
+     "ticks_crossed": 1,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "16468748809",
+     "limit_sqrt_price": "0",
+     "amount_out": "1950474130565066846508",
+     "amount_in_used": "16468748809",
+     "sqrt_price_after": "230620854524522289526220",
+     "ticks_crossed": 1,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "16468748187",
+     "limit_sqrt_price": "0",
+     "amount_out": "1950474057273566246657",
+     "amount_in_used": "16468748187",
+     "sqrt_price_after": "230620854494254680362060",
+     "ticks_crossed": 1,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "16468747876",
+     "limit_sqrt_price": "0",
+     "amount_out": "1950474020568805069456",
+     "amount_in_used": "16468747876",
+     "sqrt_price_after": "230620854479096505724293",
+     "ticks_crossed": 1,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "16468748031",
+     "limit_sqrt_price": "0",
+     "amount_out": "1950474038862174788601",
+     "amount_in_used": "16468748031",
+     "sqrt_price_after": "230620854486651222987489",
+     "ticks_crossed": 1,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "16468748109",
+     "limit_sqrt_price": "0",
+     "amount_out": "1950474048067870517782",
+     "amount_in_used": "16468748109",
+     "sqrt_price_after": "230620854490452951674775",
+     "ticks_crossed": 1,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "16468748070",
+     "limit_sqrt_price": "0",
+     "amount_out": "1950474043465022653229",
+     "amount_in_used": "16468748070",
+     "sqrt_price_after": "230620854488552087331132",
+     "ticks_crossed": 1,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "16468748089",
+     "limit_sqrt_price": "0",
+     "amount_out": "1950474045707435715457",
+     "amount_in_used": "16468748089",
+     "sqrt_price_after": "230620854489478149447266",
+     "ticks_crossed": 1,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "16468748079",
+     "limit_sqrt_price": "0",
+     "amount_out": "1950474044527218314286",
+     "amount_in_used": "16468748079",
+     "sqrt_price_after": "230620854488990748333511",
+     "ticks_crossed": 1,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "65874992316",
+     "limit_sqrt_price": "230620854488586491909478",
+     "amount_out": "1950474043548331617649",
+     "amount_in_used": "16468748071",
+     "sqrt_price_after": "230620854488586491909478",
+     "ticks_crossed": 1,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "51651866894",
+     "limit_sqrt_price": "0",
+     "amount_out": "6070153350920132474295",
+     "amount_in_used": "51651866894",
+     "sqrt_price_after": "232334826203976138897107",
+     "ticks_crossed": 1,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "103303733788",
+     "limit_sqrt_price": "0",
+     "amount_out": "11982891894073940855729",
+     "amount_in_used": "103303733788",
+     "sqrt_price_after": "235920273772542940846686",
+     "ticks_crossed": 3,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "77477800341",
+     "limit_sqrt_price": "0",
+     "amount_out": "9049371977706183080362",
+     "amount_in_used": "77477800341",
+     "sqrt_price_after": "234118469356932958073220",
+     "ticks_crossed": 2,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "90390767064",
+     "limit_sqrt_price": "0",
+     "amount_out": "10521748002479790963546",
+     "amount_in_used": "90390767064",
+     "sqrt_price_after": "235022665484341351700341",
+     "ticks_crossed": 3,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "96847250426",
+     "limit_sqrt_price": "0",
+     "amount_out": "11253712404515215661129",
+     "amount_in_used": "96847250426",
+     "sqrt_price_after": "235471469628442146273514",
+     "ticks_crossed": 3,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "93619008745",
+     "limit_sqrt_price": "0",
+     "amount_out": "10888079313754625870227",
+     "amount_in_used": "93619008745",
+     "sqrt_price_after": "235247067556391748986927",
+     "ticks_crossed": 3,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "92004887904",
+     "limit_sqrt_price": "0",
+     "amount_out": "10705001060508589715494",
+     "amount_in_used": "92004887904",
+     "sqrt_price_after": "235134866520297003404027",
+     "ticks_crossed": 3,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "92811948324",
+     "limit_sqrt_price": "0",
+     "amount_out": "10796562022064918079195",
+     "amount_in_used": "92811948324",
+     "sqrt_price_after": "235190967038309602725674",
+     "ticks_crossed": 3,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "92408418114",
+     "limit_sqrt_price": "0",
+     "amount_out": "10750787001987619695785",
+     "amount_in_used": "92408418114",
+     "sqrt_price_after": "235162916779303303064850",
+     "ticks_crossed": 3,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "92206653009",
+     "limit_sqrt_price": "0",
+     "amount_out": "10727895396724353221630",
+     "amount_in_used": "92206653009",
+     "sqrt_price_after": "235148891649834926704242",
+     "ticks_crossed": 3,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "92105770456",
+     "limit_sqrt_price": "0",
+     "amount_out": "10716448569945122123288",
+     "amount_in_used": "92105770456",
+     "sqrt_price_after": "235141879085031191584331",
+     "ticks_crossed": 3,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "92156211732",
+     "limit_sqrt_price": "0",
+     "amount_out": "10722172068563750604081",
+     "amount_in_used": "92156211732",
+     "sqrt_price_after": "235145385367363512204679",
+     "ticks_crossed": 3,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "92130991094",
+     "limit_sqrt_price": "0",
+     "amount_out": "10719310340647309525684",
+     "amount_in_used": "92130991094",
+     "sqrt_price_after": "235143632226232125364309",
+     "ticks_crossed": 3,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "92118380775",
+     "limit_sqrt_price": "0",
+     "amount_out": "10717879460630303314914",
+     "amount_in_used": "92118380775",
+     "sqrt_price_after": "235142755655631658474320",
+     "ticks_crossed": 3,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "92124685934",
+     "limit_sqrt_price": "0",
+     "amount_out": "10718594901858795096165",
+     "amount_in_used": "92124685934",
+     "sqrt_price_after": "235143193940862344979707",
+     "ticks_crossed": 3,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "92127838514",
+     "limit_sqrt_price": "0",
+     "amount_out": "10718952621586430088625",
+     "amount_in_used": "92127838514",
+     "sqrt_price_after": "235143413083547235172008",
+     "ticks_crossed": 3,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "92126262224",
+     "limit_sqrt_price": "0",
+     "amount_out": "10718773761805957153331",
+     "amount_in_used": "92126262224",
+     "sqrt_price_after": "235143303512204790075858",
+     "ticks_crossed": 3,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "92125474079",
+     "limit_sqrt_price": "0",
+     "amount_out": "10718684331853212279544",
+     "amount_in_used": "92125474079",
+     "sqrt_price_after": "235143248726533567527782",
+     "ticks_crossed": 3,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "92125868151",
+     "limit_sqrt_price": "0",
+     "amount_out": "10718729046778030922964",
+     "amount_in_used": "92125868151",
+     "sqrt_price_after": "235143276119334405332016",
+     "ticks_crossed": 3,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "92125671115",
+     "limit_sqrt_price": "0",
+     "amount_out": "10718706689373686694360",
+     "amount_in_used": "92125671115",
+     "sqrt_price_after": "235143262422968759899703",
+     "ticks_crossed": 3,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "92125769633",
+     "limit_sqrt_price": "0",
+     "amount_out": "10718717868019421537358",
+     "amount_in_used": "92125769633",
+     "sqrt_price_after": "235143269271116809146056",
+     "ticks_crossed": 3,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "92125720374",
+     "limit_sqrt_price": "0",
+     "amount_out": "10718712278696635505625",
+     "amount_in_used": "92125720374",
+     "sqrt_price_after": "235143265847042784522880",
+     "ticks_crossed": 3,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "92125695744",
+     "limit_sqrt_price": "0",
+     "amount_out": "10718709483921655775159",
+     "amount_in_used": "92125695744",
+     "sqrt_price_after": "235143264134936225271684",
+     "ticks_crossed": 3,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "92125683429",
+     "limit_sqrt_price": "0",
+     "amount_out": "10718708086647676321207",
+     "amount_in_used": "92125683429",
+     "sqrt_price_after": "235143263278952492585694",
+     "ticks_crossed": 3,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "92125677272",
+     "limit_sqrt_price": "0",
+     "amount_out": "10718707388010682779395",
+     "amount_in_used": "92125677272",
+     "sqrt_price_after": "235143262850960626242698",
+     "ticks_crossed": 3,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "92125674193",
+     "limit_sqrt_price": "0",
+     "amount_out": "10718707038578659381058",
+     "amount_in_used": "92125674193",
+     "sqrt_price_after": "235143262636895146131593",
+     "ticks_crossed": 3,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "92125672654",
+     "limit_sqrt_price": "0",
+     "amount_out": "10718706863976173117133",
+     "amount_in_used": "92125672654",
+     "sqrt_price_after": "235143262529931953015648",
+     "ticks_crossed": 3,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "92125671884",
+     "limit_sqrt_price": "0",
+     "amount_out": "10718706776561404251725",
+     "amount_in_used": "92125671884",
+     "sqrt_price_after": "235143262476380809518068",
+     "ticks_crossed": 3,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "92125672269",
+     "limit_sqrt_price": "0",
+     "amount_out": "10718706820268788689406",
+     "amount_in_used": "92125672269",
+     "sqrt_price_after": "235143262503156381266858",
+     "ticks_crossed": 3,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "92125672461",
+     "limit_sqrt_price": "0",
+     "amount_out": "10718706842065718067596",
+     "amount_in_used": "92125672461",
+     "sqrt_price_after": "235143262516509393671450",
+     "ticks_crossed": 3,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "92125672557",
+     "limit_sqrt_price": "0",
+     "amount_out": "10718706852964182755761",
+     "amount_in_used": "92125672557",
+     "sqrt_price_after": "235143262523185899873745",
+     "ticks_crossed": 3,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "92125672605",
+     "limit_sqrt_price": "0",
+     "amount_out": "10718706858413415099612",
+     "amount_in_used": "92125672605",
+     "sqrt_price_after": "235143262526524152974893",
+     "ticks_crossed": 3,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "368502690616",
+     "limit_sqrt_price": "235143262527711625655907",
+     "amount_out": "10718706860351798542878",
+     "amount_in_used": "92125672623",
+     "sqrt_price_after": "235143262527711625655907",
+     "ticks_crossed": 3,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "102087884570",
+     "limit_sqrt_price": "0",
+     "amount_out": "11845788953843628225224",
+     "amount_in_used": "102087884570",
+     "sqrt_price_after": "235835757459730437639866",
+     "ticks_crossed": 3,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "204175769140",
+     "limit_sqrt_price": "0",
+     "amount_out": "22739689866703278167015",
+     "amount_in_used": "204175769140",
+     "sqrt_price_after": "253825515288791089283454",
+     "ticks_crossed": 10,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "153131826855",
+     "limit_sqrt_price": "0",
+     "amount_out": "17504807684077111214898",
+     "amount_in_used": "153131826855",
+     "sqrt_price_after": "240860326272895280070900",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "127609855712",
+     "limit_sqrt_price": "0",
+     "amount_out": "14702689954515793773299",
+     "amount_in_used": "127609855712",
+     "sqrt_price_after": "237775993803455042019988",
+     "ticks_crossed": 4,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "140370841283",
+     "limit_sqrt_price": "0",
+     "amount_out": "16111810680139581504425",
+     "amount_in_used": "140370841283",
+     "sqrt_price_after": "238951617909251199275995",
+     "ticks_crossed": 4,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "146751334069",
+     "limit_sqrt_price": "0",
+     "amount_out": "16811165597617040969265",
+     "amount_in_used": "146751334069",
+     "sqrt_price_after": "239604782173837660359546",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "149941580462",
+     "limit_sqrt_price": "0",
+     "amount_out": "17158892948311658100455",
+     "amount_in_used": "149941580462",
+     "sqrt_price_after": "240232554223366470215223",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "151536703658",
+     "limit_sqrt_price": "0",
+     "amount_out": "17332076005980137658333",
+     "amount_in_used": "151536703658",
+     "sqrt_price_after": "240546440247933998157662",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "152334265256",
+     "limit_sqrt_price": "0",
+     "amount_out": "17418498157028455621297",
+     "amount_in_used": "152334265256",
+     "sqrt_price_after": "240703383260217762128881",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "151935484457",
+     "limit_sqrt_price": "0",
+     "amount_out": "17375301173358697774971",
+     "amount_in_used": "151935484457",
+     "sqrt_price_after": "240624911754174318635971",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "152134874856",
+     "limit_sqrt_price": "0",
+     "amount_out": "17396903186420564817103",
+     "amount_in_used": "152134874856",
+     "sqrt_price_after": "240664147507196040382426",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "152234570056",
+     "limit_sqrt_price": "0",
+     "amount_out": "17407701551815998662298",
+     "amount_in_used": "152234570056",
+     "sqrt_price_after": "240683765383706901255654",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "152184722456",
+     "limit_sqrt_price": "0",
+     "amount_out": "17402302589168055690614",
+     "amount_in_used": "152184722456",
+     "sqrt_price_after": "240673956445451470819040",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "152209646256",
+     "limit_sqrt_price": "0",
+     "amount_out": "17405002125501107591544",
+     "amount_in_used": "152209646256",
+     "sqrt_price_after": "240678860914579186037347",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "152197184356",
+     "limit_sqrt_price": "0",
+     "amount_out": "17403652371087272107515",
+     "amount_in_used": "152197184356",
+     "sqrt_price_after": "240676408680015328428193",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "152203415306",
+     "limit_sqrt_price": "0",
+     "amount_out": "17404327251678127586354",
+     "amount_in_used": "152203415306",
+     "sqrt_price_after": "240677634797198818740070",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "152200299831",
+     "limit_sqrt_price": "0",
+     "amount_out": "17403989812242236294655",
+     "amount_in_used": "152200299831",
+     "sqrt_price_after": "240677021738607073584132",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "152198742093",
+     "limit_sqrt_price": "0",
+     "amount_out": "17403821091825456386895",
+     "amount_in_used": "152198742093",
+     "sqrt_price_after": "240676715209212762513463",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "152199520962",
+     "limit_sqrt_price": "0",
+     "amount_out": "17403905452141750184041",
+     "amount_in_used": "152199520962",
+     "sqrt_price_after": "240676868474008356541497",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "152199131527",
+     "limit_sqrt_price": "0",
+     "amount_out": "17403863271888668181520",
+     "amount_in_used": "152199131527",
+     "sqrt_price_after": "240676791841413682542080",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "152199326244",
+     "limit_sqrt_price": "0",
+     "amount_out": "17403884361964384083367",
+     "amount_in_used": "152199326244",
+     "sqrt_price_after": "240676830157612581049089",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "152199228885",
+     "limit_sqrt_price": "0",
+     "amount_out": "17403873816927365527327",
+     "amount_in_used": "152199228885",
+     "sqrt_price_after": "240676810999513131795584",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "152199180206",
+     "limit_sqrt_price": "0",
+     "amount_out": "17403868544408226703170",
+     "amount_in_used": "152199180206",
+     "sqrt_price_after": "240676801420463407168832",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "152199204545",
+     "limit_sqrt_price": "0",
+     "amount_out": "17403871180613665871247",
+     "amount_in_used": "152199204545",
+     "sqrt_price_after": "240676806209889830989508",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "152199192375",
+     "limit_sqrt_price": "0",
+     "amount_out": "17403869862456776694953",
+     "amount_in_used": "152199192375",
+     "sqrt_price_after": "240676803815078180586470",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "152199186290",
+     "limit_sqrt_price": "0",
+     "amount_out": "17403869203378322269741",
+     "amount_in_used": "152199186290",
+     "sqrt_price_after": "240676802617672355384951",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "152199183248",
+     "limit_sqrt_price": "0",
+     "amount_out": "17403868873839092597870",
+     "amount_in_used": "152199183248",
+     "sqrt_price_after": "240676802018969442784192",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "152199184769",
+     "limit_sqrt_price": "0",
+     "amount_out": "17403869038662890346682",
+     "amount_in_used": "152199184769",
+     "sqrt_price_after": "240676802318419337577272",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "152199184008",
+     "limit_sqrt_price": "0",
+     "amount_out": "17403868956196808815540",
+     "amount_in_used": "152199184008",
+     "sqrt_price_after": "240676802168595951688032",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "152199184388",
+     "limit_sqrt_price": "0",
+     "amount_out": "17403868997375666885974",
+     "amount_in_used": "152199184388",
+     "sqrt_price_after": "240676802243409206139952",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "152199184578",
+     "limit_sqrt_price": "0",
+     "amount_out": "17403869017965095911591",
+     "amount_in_used": "152199184578",
+     "sqrt_price_after": "240676802280815833365912",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "152199184483",
+     "limit_sqrt_price": "0",
+     "amount_out": "17403869007670381399583",
+     "amount_in_used": "152199184483",
+     "sqrt_price_after": "240676802262112519752932",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "608796737932",
+     "limit_sqrt_price": "240676802259979904403628",
+     "amount_out": "17403869006496543081881",
+     "amount_in_used": "152199184473",
+     "sqrt_price_after": "240676802259979904403628",
+     "ticks_crossed": 5,
+     "fee_ppm": 500
+    }
+   ]
+  },
+  "pharaoh": {
+   "pool": "0xf01449C0bA930B6e2CaCA3DEF3CCBd7a3E589534",
+   "quoter": "0xB7297301b7CC659BB96D51754643A0Df6eEA2138",
+   "sqrt_price_x96_pre": "229517231315934171862176",
+   "P0_usdc_per_wavax": 8.392114974648722,
+   "active_liquidity": "12405249810747714683",
+   "fee_ppm": 850,
+   "balance_WAVAX": "267381821310628606255512",
+   "balance_USDC": "896794032449",
+   "tvl_usd_at_pool_price": 3140693.0190187753,
+   "targets": [
+    {
+     "move_bp": -100,
+     "target_sqrt_price": "228366761758848595735552",
+     "amount_in": "18956337402794780058589",
+     "amount_out": "158182987611",
+     "sqrt_price_after": "228366761758264401245104",
+     "bracket_lo_not_reaching_target": "18956337392749034509049",
+     "ticks_crossed": 11,
+     "limit_price_check": {
+      "amount_in_offered": "75825349611179120234356",
+      "amount_out": "158182987540",
+      "sqrt_price_after": "228366761758848595735552",
+      "amount_in_used": null,
+      "amount_out_rel_diff_vs_bisection": 4.488472564104149e-10
+     },
+     "direction": "sell_WAVAX",
+     "wavax_in": 18956.33740279478,
+     "usdc_out": 158182.987611,
+     "usd_in_at_P0": 159083.76298248774,
+     "avg_price": 8.344596545727166,
+     "cost_bp": 56.62270960908211,
+     "price_reached_pct": -1.0000000005065068
+    },
+    {
+     "move_bp": -500,
+     "target_sqrt_price": "223705725222635801951465",
+     "amount_in": "64603479439813188739686",
+     "amount_out": "529617318173",
+     "sqrt_price_after": "223705725220604157975553",
+     "bracket_lo_not_reaching_target": "64603479388010591499425",
+     "ticks_crossed": 52,
+     "limit_price_check": {
+      "amount_in_offered": "258413917759252754958744",
+      "amount_out": "529617318021",
+      "sqrt_price_after": "223705725222635801951465",
+      "amount_in_used": null,
+      "amount_out_rel_diff_vs_bisection": 2.869996784175193e-10
+     },
+     "direction": "sell_WAVAX",
+     "wavax_in": 64603.47943981319,
+     "usdc_out": 529617.318173,
+     "usd_in_at_P0": 542159.8272212672,
+     "avg_price": 8.197968944790498,
+     "cost_bp": 231.34338655357968,
+     "price_reached_pct": -5.000000001725546
+    },
+    {
+     "move_bp": -1000,
+     "target_sqrt_price": "217739163964223097540471",
+     "amount_in": "103322500720365231939571",
+     "amount_out": "832039315787",
+     "sqrt_price_after": "217739163957819875024944",
+     "bracket_lo_not_reaching_target": "103322500666433120546470",
+     "ticks_crossed": 85,
+     "limit_price_check": {
+      "amount_in_offered": "413290002881460927758284",
+      "amount_out": "832039315651",
+      "sqrt_price_after": "217739163964223097540471",
+      "amount_in_used": null,
+      "amount_out_rel_diff_vs_bisection": 1.6345381452481227e-10
+     },
+     "direction": "sell_WAVAX",
+     "wavax_in": 103322.50072036523,
+     "usdc_out": 832039.315787,
+     "usd_in_at_P0": 867094.3055135305,
+     "avg_price": 8.052837571545556,
+     "cost_bp": 404.2811664616974,
+     "price_reached_pct": -10.000000005293385
+    },
+    {
+     "move_bp": 100,
+     "target_sqrt_price": "230661962762917098275226",
+     "amount_in": "161633187119",
+     "amount_out": "19155974710371418873020",
+     "sqrt_price_after": "230661962763342902470959",
+     "bracket_lo_not_reaching_target": "161633187035",
+     "ticks_crossed": 11,
+     "limit_price_check": {
+      "amount_in_offered": "646532748476",
+      "amount_out": "19155974704287935407108",
+      "sqrt_price_after": "230661962762917098275226",
+      "amount_in_used": null,
+      "amount_out_rel_diff_vs_bisection": 3.175762944925106e-10
+     },
+     "direction": "sell_USDC",
+     "usdc_in": 161633.187119,
+     "wavax_out": 19155.974710371418,
+     "usd_in_at_P0": 161633.187119,
+     "avg_price": 8.437742770222423,
+     "cost_bp": 54.36984087031193,
+     "price_reached_pct": 1.0000000003728804
+    },
+    {
+     "move_bp": 500,
+     "target_sqrt_price": "235185176923373798314490",
+     "amount_in": "545231572301",
+     "amount_out": "63536340092271576517580",
+     "sqrt_price_after": "235185176926025898057525",
+     "bracket_lo_not_reaching_target": "545231571888",
+     "ticks_crossed": 50,
+     "limit_price_check": {
+      "amount_in_offered": "2180926289204",
+      "amount_out": "63536340067885243391721",
+      "sqrt_price_after": "235185176923373798314490",
+      "amount_in_used": null,
+      "amount_out_rel_diff_vs_bisection": 3.8381708940810237e-10
+     },
+     "direction": "sell_USDC",
+     "usdc_in": 545231.572301,
+     "wavax_out": 63536.34009227158,
+     "usd_in_at_P0": 545231.572301,
+     "avg_price": 8.581412960034832,
+     "cost_bp": 225.56648229671515,
+     "price_reached_pct": 5.000000002368088
+    },
+    {
+     "move_bp": 1000,
+     "target_sqrt_price": "240719703011667154804204",
+     "amount_in": "986241084152",
+     "amount_out": "112403156879315442314740",
+     "sqrt_price_after": "240719703015877652420281",
+     "bracket_lo_not_reaching_target": "986241083335",
+     "ticks_crossed": 97,
+     "limit_price_check": {
+      "amount_in_offered": "3944964336608",
+      "amount_out": "112403156844038370387741",
+      "sqrt_price_after": "240719703011667154804204",
+      "amount_in_used": null,
+      "amount_out_rel_diff_vs_bisection": 3.1384413842464534e-10
+     },
+     "direction": "sell_USDC",
+     "usdc_in": 986241.084152,
+     "wavax_out": 112403.15687931544,
+     "usd_in_at_P0": 986241.084152,
+     "avg_price": 8.774140438163167,
+     "cost_bp": 455.219530080897,
+     "price_reached_pct": 10.000000003848065
+    }
+   ],
+   "quoter_vs_pool_check": {
+    "amount_in": "1000000000000",
+    "sqrt_price_after": "229517231315880619801467",
+    "rel_diff_to_pool_sqrt_price": 2.333247939684525e-13
+   },
+   "liquidity_within_band_usd": {
+    "+/-1%": 318942.1298319002,
+    "+/-5%": 1062821.5892957263,
+    "+/-10%": 1775339.5318316927
+   },
+   "liquidity_within_band_parts": {
+    "+/-1%": {
+     "usdc_below (out of the sell)": 158182.987611,
+     "wavax_above (out of the buy)": 19155.974710371418
+    },
+    "+/-5%": {
+     "usdc_below (out of the sell)": 529617.318173,
+     "wavax_above (out of the buy)": 63536.34009227158
+    },
+    "+/-10%": {
+     "usdc_below (out of the sell)": 832039.315787,
+     "wavax_above (out of the buy)": 112403.15687931544
+    }
+   },
+   "quote_calls": [
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "1000000000000",
+     "limit_sqrt_price": "0",
+     "amount_out": "8",
+     "sqrt_price_after": "229517231315880619801467",
+     "ticks_crossed": 1
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "21573074299604432373038",
+     "limit_sqrt_price": "0",
+     "amount_out": "179887864419",
+     "sqrt_price_after": "228188024354778078173503",
+     "ticks_crossed": 12
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "10786537149802216186519",
+     "limit_sqrt_price": "0",
+     "amount_out": "90208870158",
+     "sqrt_price_after": "228889957522314455745054",
+     "ticks_crossed": 6
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "16179805724703324279778",
+     "limit_sqrt_price": "0",
+     "amount_out": "135116631794",
+     "sqrt_price_after": "228544669876658574753882",
+     "ticks_crossed": 9
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "18876440012153878326408",
+     "limit_sqrt_price": "0",
+     "amount_out": "157519732973",
+     "sqrt_price_after": "228372223591918251053329",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "20224757155879155349723",
+     "limit_sqrt_price": "0",
+     "amount_out": "168708310908",
+     "sqrt_price_after": "228280086804573018318358",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "19550598584016516838065",
+     "limit_sqrt_price": "0",
+     "amount_out": "163115150676",
+     "sqrt_price_after": "228326145903222496699475",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "19213519298085197582236",
+     "limit_sqrt_price": "0",
+     "amount_out": "160317724094",
+     "sqrt_price_after": "228349182423111236995863",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "19044979655119537954322",
+     "limit_sqrt_price": "0",
+     "amount_out": "158918799111",
+     "sqrt_price_after": "228360702426312009708431",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "18960709833636708140365",
+     "limit_sqrt_price": "0",
+     "amount_out": "158219283688",
+     "sqrt_price_after": "228366462863803451098598",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "18918574922895293233386",
+     "limit_sqrt_price": "0",
+     "amount_out": "157869512742",
+     "sqrt_price_after": "228369343191531556671138",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "18939642378266000686875",
+     "limit_sqrt_price": "0",
+     "amount_out": "158044399318",
+     "sqrt_price_after": "228367903018585352112111",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "18950176105951354413620",
+     "limit_sqrt_price": "0",
+     "amount_out": "158131841779",
+     "sqrt_price_after": "228367182938923885140248",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "18955442969794031276992",
+     "limit_sqrt_price": "0",
+     "amount_out": "158175562802",
+     "sqrt_price_after": "228366822900796041687877",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "18958076401715369708678",
+     "limit_sqrt_price": "0",
+     "amount_out": "158197423262",
+     "sqrt_price_after": "228366642882157840120940",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "18956759685754700492835",
+     "limit_sqrt_price": "0",
+     "amount_out": "158186493037",
+     "sqrt_price_after": "228366732891441464294386",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "18956101327774365884913",
+     "limit_sqrt_price": "0",
+     "amount_out": "158181027921",
+     "sqrt_price_after": "228366777896109883833382",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "18956430506764533188874",
+     "limit_sqrt_price": "0",
+     "amount_out": "158183760479",
+     "sqrt_price_after": "228366755393773456775102",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "18956265917269449536893",
+     "limit_sqrt_price": "0",
+     "amount_out": "158182394200",
+     "sqrt_price_after": "228366766644941115981965",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "18956348212016991362883",
+     "limit_sqrt_price": "0",
+     "amount_out": "158183077339",
+     "sqrt_price_after": "228366761019357147797974",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "18956307064643220449888",
+     "limit_sqrt_price": "0",
+     "amount_out": "158182735770",
+     "sqrt_price_after": "228366763832149097244828",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "18956327638330105906385",
+     "limit_sqrt_price": "0",
+     "amount_out": "158182906554",
+     "sqrt_price_after": "228366762425753113860116",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "18956337925173548634634",
+     "limit_sqrt_price": "0",
+     "amount_out": "158182991947",
+     "sqrt_price_after": "228366761722555128663724",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "18956332781751827270509",
+     "limit_sqrt_price": "0",
+     "amount_out": "158182949251",
+     "sqrt_price_after": "228366762074154120720590",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "18956335353462687952571",
+     "limit_sqrt_price": "0",
+     "amount_out": "158182970599",
+     "sqrt_price_after": "228366761898354624556824",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "18956336639318118293602",
+     "limit_sqrt_price": "0",
+     "amount_out": "158182981273",
+     "sqrt_price_after": "228366761810454876576441",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "18956337282245833464118",
+     "limit_sqrt_price": "0",
+     "amount_out": "158182986610",
+     "sqrt_price_after": "228366761766505002611624",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "18956337603709691049376",
+     "limit_sqrt_price": "0",
+     "amount_out": "158182989278",
+     "sqrt_price_after": "228366761744530065635559",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "18956337442977762256747",
+     "limit_sqrt_price": "0",
+     "amount_out": "158182987944",
+     "sqrt_price_after": "228366761755517534123063",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "18956337362611797860432",
+     "limit_sqrt_price": "0",
+     "amount_out": "158182987277",
+     "sqrt_price_after": "228366761761011268367212",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "18956337402794780058589",
+     "limit_sqrt_price": "0",
+     "amount_out": "158182987611",
+     "sqrt_price_after": "228366761758264401245104",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "18956337382703288959510",
+     "limit_sqrt_price": "0",
+     "amount_out": "158182987444",
+     "sqrt_price_after": "228366761759637834806150",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "18956337392749034509049",
+     "limit_sqrt_price": "0",
+     "amount_out": "158182987527",
+     "sqrt_price_after": "228366761758951118025625",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "75825349611179120234356",
+     "limit_sqrt_price": "228366761758848595735552",
+     "amount_out": "158182987540",
+     "sqrt_price_after": "228366761758848595735552",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "111245230497389433241871",
+     "limit_sqrt_price": "0",
+     "amount_out": "891021293956",
+     "sqrt_price_after": "209065207784195545867245",
+     "ticks_crossed": 102
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "55622615248694716620935",
+     "limit_sqrt_price": "0",
+     "amount_out": "457775592091",
+     "sqrt_price_after": "224650290248620275744918",
+     "ticks_crossed": 43
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "83433922873042074931403",
+     "limit_sqrt_price": "0",
+     "amount_out": "678315355130",
+     "sqrt_price_after": "221774321740383192099786",
+     "ticks_crossed": 69
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "69528269060868395776169",
+     "limit_sqrt_price": "0",
+     "amount_out": "568755819057",
+     "sqrt_price_after": "223190499084783331236196",
+     "ticks_crossed": 56
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "62575442154781556198552",
+     "limit_sqrt_price": "0",
+     "amount_out": "513447067865",
+     "sqrt_price_after": "223919300825277272850272",
+     "ticks_crossed": 50
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "66051855607824975987360",
+     "limit_sqrt_price": "0",
+     "amount_out": "541146761978",
+     "sqrt_price_after": "223551898504512910109756",
+     "ticks_crossed": 53
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "64313648881303266092956",
+     "limit_sqrt_price": "0",
+     "amount_out": "527308287507",
+     "sqrt_price_after": "223736532473779482665428",
+     "ticks_crossed": 52
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "65182752244564121040158",
+     "limit_sqrt_price": "0",
+     "amount_out": "534230380900",
+     "sqrt_price_after": "223644177406024464845690",
+     "ticks_crossed": 52
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "64748200562933693566557",
+     "limit_sqrt_price": "0",
+     "amount_out": "530770048685",
+     "sqrt_price_after": "223690345407239577196810",
+     "ticks_crossed": 52
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "64530924722118479829756",
+     "limit_sqrt_price": "0",
+     "amount_out": "529039346771",
+     "sqrt_price_after": "223713436556605901181157",
+     "ticks_crossed": 52
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "64639562642526086698156",
+     "limit_sqrt_price": "0",
+     "amount_out": "529904742390",
+     "sqrt_price_after": "223701890386039109509505",
+     "ticks_crossed": 52
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "64585243682322283263956",
+     "limit_sqrt_price": "0",
+     "amount_out": "529472055747",
+     "sqrt_price_after": "223707663322340064725303",
+     "ticks_crossed": 52
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "64612403162424184981056",
+     "limit_sqrt_price": "0",
+     "amount_out": "529688401860",
+     "sqrt_price_after": "223704776816945418705425",
+     "ticks_crossed": 52
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "64598823422373234122506",
+     "limit_sqrt_price": "0",
+     "amount_out": "529580229501",
+     "sqrt_price_after": "223706220060331519400304",
+     "ticks_crossed": 52
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "64605613292398709551781",
+     "limit_sqrt_price": "0",
+     "amount_out": "529634315855",
+     "sqrt_price_after": "223705498436310686000971",
+     "ticks_crossed": 52
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "64602218357385971837143",
+     "limit_sqrt_price": "0",
+     "amount_out": "529607272722",
+     "sqrt_price_after": "223705859247739154121828",
+     "ticks_crossed": 52
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "64603915824892340694462",
+     "limit_sqrt_price": "0",
+     "amount_out": "529620794300",
+     "sqrt_price_after": "223705678841879433268678",
+     "ticks_crossed": 52
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "64603067091139156265802",
+     "limit_sqrt_price": "0",
+     "amount_out": "529614033513",
+     "sqrt_price_after": "223705769044772921953075",
+     "ticks_crossed": 52
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "64603491458015748480132",
+     "limit_sqrt_price": "0",
+     "amount_out": "529617413907",
+     "sqrt_price_after": "223705723943317084680832",
+     "ticks_crossed": 52
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "64603279274577452372967",
+     "limit_sqrt_price": "0",
+     "amount_out": "529615723710",
+     "sqrt_price_after": "223705746494042730083755",
+     "ticks_crossed": 52
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "64603385366296600426549",
+     "limit_sqrt_price": "0",
+     "amount_out": "529616568809",
+     "sqrt_price_after": "223705735218679339074080",
+     "ticks_crossed": 52
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "64603438412156174453340",
+     "limit_sqrt_price": "0",
+     "amount_out": "529616991358",
+     "sqrt_price_after": "223705729580998069800413",
+     "ticks_crossed": 52
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "64603464935085961466736",
+     "limit_sqrt_price": "0",
+     "amount_out": "529617202633",
+     "sqrt_price_after": "223705726762157541721363",
+     "ticks_crossed": 52
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "64603478196550854973434",
+     "limit_sqrt_price": "0",
+     "amount_out": "529617308270",
+     "sqrt_price_after": "223705725352737304321283",
+     "ticks_crossed": 52
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "64603484827283301726783",
+     "limit_sqrt_price": "0",
+     "amount_out": "529617361089",
+     "sqrt_price_after": "223705724648027192281104",
+     "ticks_crossed": 52
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "64603481511917078350108",
+     "limit_sqrt_price": "0",
+     "amount_out": "529617334679",
+     "sqrt_price_after": "223705725000382247746205",
+     "ticks_crossed": 52
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "64603479854233966661771",
+     "limit_sqrt_price": "0",
+     "amount_out": "529617321475",
+     "sqrt_price_after": "223705725176559775894997",
+     "ticks_crossed": 52
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "64603479025392410817602",
+     "limit_sqrt_price": "0",
+     "amount_out": "529617314872",
+     "sqrt_price_after": "223705725264648540073453",
+     "ticks_crossed": 52
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "64603479439813188739686",
+     "limit_sqrt_price": "0",
+     "amount_out": "529617318173",
+     "sqrt_price_after": "223705725220604157975553",
+     "ticks_crossed": 52
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "64603479232602799778644",
+     "limit_sqrt_price": "0",
+     "amount_out": "529617316523",
+     "sqrt_price_after": "223705725242626349022335",
+     "ticks_crossed": 52
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "64603479336207994259165",
+     "limit_sqrt_price": "0",
+     "amount_out": "529617317348",
+     "sqrt_price_after": "223705725231615253498402",
+     "ticks_crossed": 52
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "64603479388010591499425",
+     "limit_sqrt_price": "0",
+     "amount_out": "529617317761",
+     "sqrt_price_after": "223705725226109705736842",
+     "ticks_crossed": 52
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "258413917759252754958744",
+     "limit_sqrt_price": "223705725222635801951465",
+     "amount_out": "529617318021",
+     "sqrt_price_after": "223705725222635801951465",
+     "ticks_crossed": 52
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "231636654637599304908499",
+     "limit_sqrt_price": "0",
+     "amount_out": "892949752399",
+     "sqrt_price_after": "239568199993683661",
+     "ticks_crossed": 127
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "115818327318799652454249",
+     "limit_sqrt_price": "0",
+     "amount_out": "892949752381",
+     "sqrt_price_after": "6727070837306170918",
+     "ticks_crossed": 127
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "57909163659399826227124",
+     "limit_sqrt_price": "0",
+     "amount_out": "476124089775",
+     "sqrt_price_after": "224409661270166119762138",
+     "ticks_crossed": 46
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "86863745489099739340686",
+     "limit_sqrt_price": "0",
+     "amount_out": "705124273753",
+     "sqrt_price_after": "221421300040282889471509",
+     "ticks_crossed": 72
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "101341036403949695897467",
+     "limit_sqrt_price": "0",
+     "amount_out": "817037932199",
+     "sqrt_price_after": "218442400020236611958046",
+     "ticks_crossed": 81
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "108579681861374674175858",
+     "limit_sqrt_price": "0",
+     "amount_out": "871376115783",
+     "sqrt_price_after": "215892329233154834737950",
+     "ticks_crossed": 91
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "104960359132662185036662",
+     "limit_sqrt_price": "0",
+     "amount_out": "844366567258",
+     "sqrt_price_after": "217160869375191387917018",
+     "ticks_crossed": 87
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "103150697768305940467064",
+     "limit_sqrt_price": "0",
+     "amount_out": "830742445540",
+     "sqrt_price_after": "217799971998386912302722",
+     "ticks_crossed": 84
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "104055528450484062751863",
+     "limit_sqrt_price": "0",
+     "amount_out": "837564514768",
+     "sqrt_price_after": "217480042029454153361033",
+     "ticks_crossed": 86
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "103603113109395001609463",
+     "limit_sqrt_price": "0",
+     "amount_out": "834155987209",
+     "sqrt_price_after": "217639905506486876023569",
+     "ticks_crossed": 85
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "103376905438850471038263",
+     "limit_sqrt_price": "0",
+     "amount_out": "832449843799",
+     "sqrt_price_after": "217719912800453300458939",
+     "ticks_crossed": 85
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "103263801603578205752663",
+     "limit_sqrt_price": "0",
+     "amount_out": "831596301606",
+     "sqrt_price_after": "217759938510292584055473",
+     "ticks_crossed": 85
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "103320353521214338395463",
+     "limit_sqrt_price": "0",
+     "amount_out": "832023111928",
+     "sqrt_price_after": "217739923815956671542833",
+     "ticks_crossed": 85
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "103348629480032404716863",
+     "limit_sqrt_price": "0",
+     "amount_out": "832236487668",
+     "sqrt_price_after": "217729917848414314388500",
+     "ticks_crossed": 85
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "103334491500623371556163",
+     "limit_sqrt_price": "0",
+     "amount_out": "832129802249",
+     "sqrt_price_after": "217734920717229901464717",
+     "ticks_crossed": 85
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "103327422510918854975813",
+     "limit_sqrt_price": "0",
+     "amount_out": "832076457701",
+     "sqrt_price_after": "217737422237853398099153",
+     "ticks_crossed": 85
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "103323888016066596685638",
+     "limit_sqrt_price": "0",
+     "amount_out": "832049784968",
+     "sqrt_price_after": "217738673019719938898685",
+     "ticks_crossed": 85
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "103322120768640467540550",
+     "limit_sqrt_price": "0",
+     "amount_out": "832036448486",
+     "sqrt_price_after": "217739298416042015762227",
+     "ticks_crossed": 85
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "103323004392353532113094",
+     "limit_sqrt_price": "0",
+     "amount_out": "832043116737",
+     "sqrt_price_after": "217738985717431906900582",
+     "ticks_crossed": 85
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "103322562580496999826822",
+     "limit_sqrt_price": "0",
+     "amount_out": "832039782614",
+     "sqrt_price_after": "217739142066624693482092",
+     "ticks_crossed": 85
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "103322341674568733683686",
+     "limit_sqrt_price": "0",
+     "amount_out": "832038115550",
+     "sqrt_price_after": "217739220241305287629601",
+     "ticks_crossed": 85
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "103322452127532866755254",
+     "limit_sqrt_price": "0",
+     "amount_out": "832038949082",
+     "sqrt_price_after": "217739181153957973811485",
+     "ticks_crossed": 85
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "103322507354014933291038",
+     "limit_sqrt_price": "0",
+     "amount_out": "832039365848",
+     "sqrt_price_after": "217739161610289579461171",
+     "ticks_crossed": 85
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "103322479740773900023146",
+     "limit_sqrt_price": "0",
+     "amount_out": "832039157465",
+     "sqrt_price_after": "217739171382123338089864",
+     "ticks_crossed": 85
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "103322493547394416657092",
+     "limit_sqrt_price": "0",
+     "amount_out": "832039261657",
+     "sqrt_price_after": "217739166496206349138909",
+     "ticks_crossed": 85
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "103322500450704674974065",
+     "limit_sqrt_price": "0",
+     "amount_out": "832039313752",
+     "sqrt_price_after": "217739164053247936890889",
+     "ticks_crossed": 85
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "103322503902359804132551",
+     "limit_sqrt_price": "0",
+     "amount_out": "832039339800",
+     "sqrt_price_after": "217739162831768751323742",
+     "ticks_crossed": 85
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "103322502176532239553308",
+     "limit_sqrt_price": "0",
+     "amount_out": "832039326776",
+     "sqrt_price_after": "217739163442508342394244",
+     "ticks_crossed": 85
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "103322501313618457263686",
+     "limit_sqrt_price": "0",
+     "amount_out": "832039320264",
+     "sqrt_price_after": "217739163747878139214298",
+     "ticks_crossed": 85
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "103322500882161566118875",
+     "limit_sqrt_price": "0",
+     "amount_out": "832039317008",
+     "sqrt_price_after": "217739163900563037945526",
+     "ticks_crossed": 85
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "103322500666433120546470",
+     "limit_sqrt_price": "0",
+     "amount_out": "832039315380",
+     "sqrt_price_after": "217739163976905487391441",
+     "ticks_crossed": 85
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "103322500774297343332672",
+     "limit_sqrt_price": "0",
+     "amount_out": "832039316194",
+     "sqrt_price_after": "217739163938734262661792",
+     "ticks_crossed": 85
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "103322500720365231939571",
+     "limit_sqrt_price": "0",
+     "amount_out": "832039315787",
+     "sqrt_price_after": "217739163957819875024944",
+     "ticks_crossed": 85
+    },
+    {
+     "direction": "sell_WAVAX",
+     "amount_in": "413290002881460927758284",
+     "limit_sqrt_price": "217739163964223097540471",
+     "amount_out": "832039315651",
+     "sqrt_price_after": "217739163964223097540471",
+     "ticks_crossed": 85
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "179237774995",
+     "limit_sqrt_price": "0",
+     "amount_out": "21229887043908176091599",
+     "sqrt_price_after": "230807192555311156492010",
+     "ticks_crossed": 13
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "89618887497",
+     "limit_sqrt_price": "0",
+     "amount_out": "10645498256080061631948",
+     "sqrt_price_after": "230092824719673222454352",
+     "ticks_crossed": 6
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "134428331246",
+     "limit_sqrt_price": "0",
+     "amount_out": "15945958669883455440809",
+     "sqrt_price_after": "230437449365568243159608",
+     "ticks_crossed": 9
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "156833053120",
+     "limit_sqrt_price": "0",
+     "amount_out": "18590040653066015436324",
+     "sqrt_price_after": "230622357868968478864447",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "168035414057",
+     "limit_sqrt_price": "0",
+     "amount_out": "19910492567997312173418",
+     "sqrt_price_after": "230714779949599135864964",
+     "ticks_crossed": 12
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "162434233588",
+     "limit_sqrt_price": "0",
+     "amount_out": "19250398876898336551706",
+     "sqrt_price_after": "230668571960808138743811",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "159633643354",
+     "limit_sqrt_price": "0",
+     "amount_out": "18920252843894353938221",
+     "sqrt_price_after": "230645464948990985551109",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "161033938471",
+     "limit_sqrt_price": "0",
+     "amount_out": "19085334128906988910047",
+     "sqrt_price_after": "230657018488998109990208",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "161734086029",
+     "limit_sqrt_price": "0",
+     "amount_out": "19167868569797069000384",
+     "sqrt_price_after": "230662795258993414401291",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "161384012250",
+     "limit_sqrt_price": "0",
+     "amount_out": "19126601866111192017621",
+     "sqrt_price_after": "230659906873995762195749",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "161559049139",
+     "limit_sqrt_price": "0",
+     "amount_out": "19147235347141494666170",
+     "sqrt_price_after": "230661351066494588298520",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "161646567584",
+     "limit_sqrt_price": "0",
+     "amount_out": "19157551990765819553169",
+     "sqrt_price_after": "230662073162744001349906",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "161602808361",
+     "limit_sqrt_price": "0",
+     "amount_out": "19152393676909849521358",
+     "sqrt_price_after": "230661712114611037015747",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "161624687972",
+     "limit_sqrt_price": "0",
+     "amount_out": "19154972835856372976394",
+     "sqrt_price_after": "230661892638677519182826",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "161635627778",
+     "limit_sqrt_price": "0",
+     "amount_out": "19156262413815730282149",
+     "sqrt_price_after": "230661982900710760266366",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "161630157875",
+     "limit_sqrt_price": "0",
+     "amount_out": "19155617624903220356629",
+     "sqrt_price_after": "230661937769690010820363",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "161632892826",
+     "limit_sqrt_price": "0",
+     "amount_out": "19155940019391014960509",
+     "sqrt_price_after": "230661960335200385543365",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "161634260302",
+     "limit_sqrt_price": "0",
+     "amount_out": "19156101216552267696719",
+     "sqrt_price_after": "230661971617951444000632",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "161633576564",
+     "limit_sqrt_price": "0",
+     "amount_out": "19156020617914622717994",
+     "sqrt_price_after": "230661965976571785867766",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "161633234695",
+     "limit_sqrt_price": "0",
+     "amount_out": "19155980318653311645037",
+     "sqrt_price_after": "230661963155886085705565",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "161633063760",
+     "limit_sqrt_price": "0",
+     "amount_out": "19155960168904306826676",
+     "sqrt_price_after": "230661961745534977815999",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "161633149227",
+     "limit_sqrt_price": "0",
+     "amount_out": "19155970243778840036579",
+     "sqrt_price_after": "230661962450710531760782",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "161633191961",
+     "limit_sqrt_price": "0",
+     "amount_out": "19155975281157093702763",
+     "sqrt_price_after": "230661962803294179828941",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "161633170594",
+     "limit_sqrt_price": "0",
+     "amount_out": "19155972762408978956341",
+     "sqrt_price_after": "230661962626998226890628",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "161633181277",
+     "limit_sqrt_price": "0",
+     "amount_out": "19155974021724046972554",
+     "sqrt_price_after": "230661962715142074455552",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "161633186619",
+     "limit_sqrt_price": "0",
+     "amount_out": "19155974651499560296236",
+     "sqrt_price_after": "230661962759222256046479",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "161633189290",
+     "limit_sqrt_price": "0",
+     "amount_out": "19155974966387316867820",
+     "sqrt_price_after": "230661962781262346841943",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "161633187954",
+     "limit_sqrt_price": "0",
+     "amount_out": "19155974808884448751301",
+     "sqrt_price_after": "230661962770238172539978",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "161633187286",
+     "limit_sqrt_price": "0",
+     "amount_out": "19155974730074024849150",
+     "sqrt_price_after": "230661962764721956484763",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "161633186952",
+     "limit_sqrt_price": "0",
+     "amount_out": "19155974690786792573162",
+     "sqrt_price_after": "230661962761972106265621",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "161633187119",
+     "limit_sqrt_price": "0",
+     "amount_out": "19155974710371418873020",
+     "sqrt_price_after": "230661962763342902470959",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "161633187035",
+     "limit_sqrt_price": "0",
+     "amount_out": "19155974700579105723120",
+     "sqrt_price_after": "230661962762657504368290",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "646532748476",
+     "limit_sqrt_price": "230661962762917098275226",
+     "amount_out": "19155974704287935407108",
+     "sqrt_price_after": "230661962762917098275226",
+     "ticks_crossed": 11
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "887465756401",
+     "limit_sqrt_price": "0",
+     "amount_out": "101655283354131845849300",
+     "sqrt_price_after": "239445659829541267663396",
+     "ticks_crossed": 86
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "443732878200",
+     "limit_sqrt_price": "0",
+     "amount_out": "51965716729646572010526",
+     "sqrt_price_after": "233928294955371594070747",
+     "ticks_crossed": 39
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "665599317300",
+     "limit_sqrt_price": "0",
+     "amount_out": "77099089760685903013273",
+     "sqrt_price_after": "236669503196930011735222",
+     "ticks_crossed": 63
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "554666097750",
+     "limit_sqrt_price": "0",
+     "amount_out": "64605580211089386505699",
+     "sqrt_price_after": "235301518044255389186315",
+     "ticks_crossed": 51
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "499199487975",
+     "limit_sqrt_price": "0",
+     "amount_out": "58304173938548647831487",
+     "sqrt_price_after": "234615749602006936440130",
+     "ticks_crossed": 45
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "526932792862",
+     "limit_sqrt_price": "0",
+     "amount_out": "61459471896816200979405",
+     "sqrt_price_after": "234959565430752406960342",
+     "ticks_crossed": 48
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "540799445306",
+     "limit_sqrt_price": "0",
+     "amount_out": "63033669936550434403761",
+     "sqrt_price_after": "235130522477614855782674",
+     "ticks_crossed": 50
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "547732771528",
+     "limit_sqrt_price": "0",
+     "amount_out": "63819910757671943217530",
+     "sqrt_price_after": "235216020277944597544160",
+     "ticks_crossed": 50
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "544266108417",
+     "limit_sqrt_price": "0",
+     "amount_out": "63426861807051671860833",
+     "sqrt_price_after": "235173271379068993725154",
+     "ticks_crossed": 50
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "545999439972",
+     "limit_sqrt_price": "0",
+     "amount_out": "63623404142426776948965",
+     "sqrt_price_after": "235194645829789891737814",
+     "ticks_crossed": 50
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "545132774194",
+     "limit_sqrt_price": "0",
+     "amount_out": "63525137440319175751679",
+     "sqrt_price_after": "235183958604423271772904",
+     "ticks_crossed": 50
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "545566107083",
+     "limit_sqrt_price": "0",
+     "amount_out": "63574271907706055234358",
+     "sqrt_price_after": "235189302217106581755359",
+     "ticks_crossed": 50
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "545349440638",
+     "limit_sqrt_price": "0",
+     "amount_out": "63549704953105396678794",
+     "sqrt_price_after": "235186630410764926764131",
+     "ticks_crossed": 50
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "545241107416",
+     "limit_sqrt_price": "0",
+     "amount_out": "63537421266486670492056",
+     "sqrt_price_after": "235185294507594099268518",
+     "ticks_crossed": 50
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "545186940805",
+     "limit_sqrt_price": "0",
+     "amount_out": "63531279370789924944680",
+     "sqrt_price_after": "235184626556002514562131",
+     "ticks_crossed": 50
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "545214024110",
+     "limit_sqrt_price": "0",
+     "amount_out": "63534350322999215394298",
+     "sqrt_price_after": "235184960531798306915324",
+     "ticks_crossed": 50
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "545227565763",
+     "limit_sqrt_price": "0",
+     "amount_out": "63535885795776427409723",
+     "sqrt_price_after": "235185127519690032133341",
+     "ticks_crossed": 50
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "545234336589",
+     "limit_sqrt_price": "0",
+     "amount_out": "63536653531347362865052",
+     "sqrt_price_after": "235185211013635894742349",
+     "ticks_crossed": 50
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "545230951176",
+     "limit_sqrt_price": "0",
+     "amount_out": "63536269663686776899624",
+     "sqrt_price_after": "235185169266669134396425",
+     "ticks_crossed": 50
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "545232643882",
+     "limit_sqrt_price": "0",
+     "amount_out": "63536461597477362060880",
+     "sqrt_price_after": "235185190140146343610807",
+     "ticks_crossed": 50
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "545231797529",
+     "limit_sqrt_price": "0",
+     "amount_out": "63536365630529585567944",
+     "sqrt_price_after": "235185179703401568045036",
+     "ticks_crossed": 50
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "545231374352",
+     "limit_sqrt_price": "0",
+     "amount_out": "63536317647052503298272",
+     "sqrt_price_after": "235185174485029180262151",
+     "ticks_crossed": 50
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "545231585940",
+     "limit_sqrt_price": "0",
+     "amount_out": "63536341638734567995491",
+     "sqrt_price_after": "235185177094209203195014",
+     "ticks_crossed": 50
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "545231480146",
+     "limit_sqrt_price": "0",
+     "amount_out": "63536329642893602188717",
+     "sqrt_price_after": "235185175789619191728582",
+     "ticks_crossed": 50
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "545231533043",
+     "limit_sqrt_price": "0",
+     "amount_out": "63536335640814101727564",
+     "sqrt_price_after": "235185176441914197461798",
+     "ticks_crossed": 50
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "545231559491",
+     "limit_sqrt_price": "0",
+     "amount_out": "63536338639774339020392",
+     "sqrt_price_after": "235185176768061700328406",
+     "ticks_crossed": 50
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "545231572715",
+     "limit_sqrt_price": "0",
+     "amount_out": "63536340139140969335026",
+     "sqrt_price_after": "235185176931123109844550",
+     "ticks_crossed": 50
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "545231566103",
+     "limit_sqrt_price": "0",
+     "amount_out": "63536339389457654437599",
+     "sqrt_price_after": "235185176849592405086478",
+     "ticks_crossed": 50
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "545231569409",
+     "limit_sqrt_price": "0",
+     "amount_out": "63536339764299311951285",
+     "sqrt_price_after": "235185176890357757465514",
+     "ticks_crossed": 50
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "545231571062",
+     "limit_sqrt_price": "0",
+     "amount_out": "63536339951776883265724",
+     "sqrt_price_after": "235185176910746604613612",
+     "ticks_crossed": 50
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "545231571888",
+     "limit_sqrt_price": "0",
+     "amount_out": "63536340045402183698112",
+     "sqrt_price_after": "235185176920928686270501",
+     "ticks_crossed": 50
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "545231572301",
+     "limit_sqrt_price": "0",
+     "amount_out": "63536340092271576517580",
+     "sqrt_price_after": "235185176926025898057525",
+     "ticks_crossed": 50
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "2180926289204",
+     "limit_sqrt_price": "235185176923373798314490",
+     "amount_out": "63536340067885243391721",
+     "sqrt_price_after": "235185176923373798314490",
+     "ticks_crossed": 50
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "1754041182747",
+     "limit_sqrt_price": "0",
+     "amount_out": "192216116595391100940631",
+     "sqrt_price_after": "250666865255583262457247",
+     "ticks_crossed": 178
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "877020591373",
+     "limit_sqrt_price": "0",
+     "amount_out": "100512053142312030369086",
+     "sqrt_price_after": "239312015172105427007772",
+     "ticks_crossed": 85
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "1315530887060",
+     "limit_sqrt_price": "0",
+     "amount_out": "147428701526374582499500",
+     "sqrt_price_after": "244965979178037344522435",
+     "ticks_crossed": 132
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "1096275739216",
+     "limit_sqrt_price": "0",
+     "amount_out": "124243555974139514162853",
+     "sqrt_price_after": "242122058660068734210004",
+     "ticks_crossed": 108
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "986648165294",
+     "limit_sqrt_price": "0",
+     "amount_out": "112447216228616209153556",
+     "sqrt_price_after": "240724961837764005359774",
+     "ticks_crossed": 97
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "931834378333",
+     "limit_sqrt_price": "0",
+     "amount_out": "106497218766474919864495",
+     "sqrt_price_after": "240016872192572775496791",
+     "ticks_crossed": 91
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "959241271813",
+     "limit_sqrt_price": "0",
+     "amount_out": "109476599395072992533636",
+     "sqrt_price_after": "240370911670765694439730",
+     "ticks_crossed": 94
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "972944718553",
+     "limit_sqrt_price": "0",
+     "amount_out": "110963000890289069233650",
+     "sqrt_price_after": "240547935766570848672913",
+     "ticks_crossed": 95
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "979796441923",
+     "limit_sqrt_price": "0",
+     "amount_out": "111705381528081196230553",
+     "sqrt_price_after": "240636448799873691196523",
+     "ticks_crossed": 96
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "983222303608",
+     "limit_sqrt_price": "0",
+     "amount_out": "112076367082856680110236",
+     "sqrt_price_after": "240680705313928480693833",
+     "ticks_crossed": 96
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "984935234451",
+     "limit_sqrt_price": "0",
+     "amount_out": "112261808702062804318759",
+     "sqrt_price_after": "240702833575657562543577",
+     "ticks_crossed": 97
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "985791699872",
+     "limit_sqrt_price": "0",
+     "amount_out": "112354516726358898603435",
+     "sqrt_price_after": "240713897706710783951676",
+     "ticks_crossed": 97
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "986219932583",
+     "limit_sqrt_price": "0",
+     "amount_out": "112400867542668958754819",
+     "sqrt_price_after": "240719429772237394655725",
+     "ticks_crossed": 97
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "986434048938",
+     "limit_sqrt_price": "0",
+     "amount_out": "112424042151874593250200",
+     "sqrt_price_after": "240722195804994235331368",
+     "ticks_crossed": 97
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "986326990760",
+     "limit_sqrt_price": "0",
+     "amount_out": "112412454913736140212083",
+     "sqrt_price_after": "240720812788602885640783",
+     "ticks_crossed": 97
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "986273461671",
+     "limit_sqrt_price": "0",
+     "amount_out": "112406661244791701895477",
+     "sqrt_price_after": "240720121280413675471873",
+     "ticks_crossed": 97
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "986246697127",
+     "limit_sqrt_price": "0",
+     "amount_out": "112403764397891177081561",
+     "sqrt_price_after": "240719775526325535063799",
+     "ticks_crossed": 97
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "986233314855",
+     "limit_sqrt_price": "0",
+     "amount_out": "112402315971320281848433",
+     "sqrt_price_after": "240719602649281464859762",
+     "ticks_crossed": 97
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "986240005991",
+     "limit_sqrt_price": "0",
+     "amount_out": "112403040184919946070622",
+     "sqrt_price_after": "240719689087809964638162",
+     "ticks_crossed": 97
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "986243351559",
+     "limit_sqrt_price": "0",
+     "amount_out": "112403402291470574831949",
+     "sqrt_price_after": "240719732307067749850980",
+     "ticks_crossed": 97
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "986241678775",
+     "limit_sqrt_price": "0",
+     "amount_out": "112403221238211513769628",
+     "sqrt_price_after": "240719710697438857244571",
+     "ticks_crossed": 97
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "986240842383",
+     "limit_sqrt_price": "0",
+     "amount_out": "112403130711569793250253",
+     "sqrt_price_after": "240719699892624410941366",
+     "ticks_crossed": 97
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "986241260579",
+     "limit_sqrt_price": "0",
+     "amount_out": "112403175974837505946492",
+     "sqrt_price_after": "240719705295025169416587",
+     "ticks_crossed": 97
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "986241051481",
+     "limit_sqrt_price": "0",
+     "amount_out": "112403153343203903555894",
+     "sqrt_price_after": "240719702593824790178977",
+     "ticks_crossed": 97
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "986241156030",
+     "limit_sqrt_price": "0",
+     "amount_out": "112403164659020768240571",
+     "sqrt_price_after": "240719703944424979797782",
+     "ticks_crossed": 97
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "986241103755",
+     "limit_sqrt_price": "0",
+     "amount_out": "112403159001004024976923",
+     "sqrt_price_after": "240719703269111955635616",
+     "ticks_crossed": 97
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "986241077618",
+     "limit_sqrt_price": "0",
+     "amount_out": "112403156172158131631320",
+     "sqrt_price_after": "240719702931474837583678",
+     "ticks_crossed": 97
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "986241090686",
+     "limit_sqrt_price": "0",
+     "amount_out": "112403157586581079296067",
+     "sqrt_price_after": "240719703100293396609647",
+     "ticks_crossed": 97
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "986241084152",
+     "limit_sqrt_price": "0",
+     "amount_out": "112403156879315442314740",
+     "sqrt_price_after": "240719703015877652420281",
+     "ticks_crossed": 97
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "986241080885",
+     "limit_sqrt_price": "0",
+     "amount_out": "112403156525736787035021",
+     "sqrt_price_after": "240719702973676245001980",
+     "ticks_crossed": 97
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "986241082518",
+     "limit_sqrt_price": "0",
+     "amount_out": "112403156702417787896476",
+     "sqrt_price_after": "240719702994764019358367",
+     "ticks_crossed": 97
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "986241083335",
+     "limit_sqrt_price": "0",
+     "amount_out": "112403156790920778506435",
+     "sqrt_price_after": "240719703005327300565706",
+     "ticks_crossed": 97
+    },
+    {
+     "direction": "sell_USDC",
+     "amount_in": "3944964336608",
+     "limit_sqrt_price": "240719703011667154804204",
+     "amount_out": "112403156844038370387741",
+     "sqrt_price_after": "240719703011667154804204",
+     "ticks_crossed": 97
+    }
+   ]
+  }
+ }
+}

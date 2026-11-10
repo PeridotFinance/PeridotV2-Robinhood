@@ -111,11 +111,23 @@ TRANSFER = "Transfer(address,address,uint256)"
 # The pre-window pull of the pool (creation..START-1, Mint/Burn/config events only) is cut into consecutive segments
 # so that several processes can fetch at once; each segment is its own cache directory with its own ledger and the
 # build step asserts that the segments tile [POOL_CREATED, START-1] without gap or overlap.
-PRE_SEGMENTS = [("bh_pool_pre", POOL_CREATED, 67178164)]
-_a, _n = 67178165, 6
-_step = (START - _a) // _n + 1
-for _k in range(_n):
-    PRE_SEGMENTS.append((f"bh_pool_pre_{_k + 1}", _a + _k * _step, min(_a + (_k + 1) * _step - 1, START - 1)))
+PRE_SEGMENTS = [
+    ("bh_pool_pre", 65228165, 67178164),
+    ("bh_pool_pre_1", 67178165, 68778164),
+    ("bh_pool_pre_1b", 68778165, 69608078),
+    ("bh_pool_pre_1c", 69608079, 70437992),
+    ("bh_pool_pre_1d", 70437993, 71267905),
+    ("bh_pool_pre_2", 71267906, 73217905),
+    ("bh_pool_pre_2b", 73217906, 73931153),
+    ("bh_pool_pre_2c", 73931154, 74644401),
+    ("bh_pool_pre_2d", 74644402, 75357646),
+    ("bh_pool_pre_3", 75357647, 79407646),
+    ("bh_pool_pre_3b", 79407647, 79427517),
+    ("bh_pool_pre_3c", 79427518, 79447387),
+    ("bh_pool_pre_4", 79447388, 83537128),
+    ("bh_pool_pre_5", 83537129, 87626869),
+    ("bh_pool_pre_6", 87626870, 91716609),
+]
 assert PRE_SEGMENTS[-1][2] == START - 1 and all(x[2] + 1 == y[1] for x, y in zip(PRE_SEGMENTS, PRE_SEGMENTS[1:]))
 
 # ---- keccak256 (pure Python, FIPS-202 permutation with the original Keccak padding 0x01) ----

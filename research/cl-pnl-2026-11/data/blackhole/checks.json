@@ -1,0 +1,764 @@
+{
+ "seed": 20261110,
+ "run_at_unix": 1794323499,
+ "re_requests": {
+  "bh_pool_pre (all segments)": [
+   {
+    "from": 83065816,
+    "to": 83079559,
+    "count_in_dataset": 237,
+    "publicnode_other_split_at": 83073719,
+    "publicnode_count": 237,
+    "publicnode_identical": true,
+    "routescan_count": 237,
+    "routescan_identical": true
+   },
+   {
+    "from": 83120795,
+    "to": 83136985,
+    "count_in_dataset": 348,
+    "publicnode_other_split_at": 83125992,
+    "publicnode_count": 348,
+    "publicnode_identical": true,
+    "routescan_count": 348,
+    "routescan_identical": true
+   },
+   {
+    "from": 88715961,
+    "to": 88730491,
+    "count_in_dataset": 491,
+    "publicnode_other_split_at": 88724454,
+    "publicnode_count": 491,
+    "publicnode_identical": true,
+    "routescan_count": 491,
+    "routescan_identical": true
+   },
+   {
+    "from": 89720403,
+    "to": 89738075,
+    "count_in_dataset": 550,
+    "publicnode_other_split_at": 89731386,
+    "publicnode_count": 550,
+    "publicnode_identical": true,
+    "routescan_count": 550,
+    "routescan_identical": true
+   },
+   {
+    "from": 71087204,
+    "to": 71097504,
+    "count_in_dataset": 3133,
+    "publicnode_other_split_at": 71094405,
+    "publicnode_count": 3133,
+    "publicnode_identical": true,
+    "routescan_count": 3133,
+    "routescan_identical": true
+   }
+  ],
+  "bh_gauge_rf": [
+   {
+    "from": 73047190,
+    "to": 73067190,
+    "count_in_dataset": 2,
+    "publicnode_other_split_at": 73052561,
+    "publicnode_count": 2,
+    "publicnode_identical": true,
+    "routescan_count": 2,
+    "routescan_identical": true
+   },
+   {
+    "from": 87108358,
+    "to": 87128358,
+    "count_in_dataset": 2,
+    "publicnode_other_split_at": 87114859,
+    "publicnode_count": 2,
+    "publicnode_identical": true,
+    "routescan_count": 2,
+    "routescan_identical": true
+   },
+   {
+    "from": 90986757,
+    "to": 91006757,
+    "count_in_dataset": 2,
+    "publicnode_other_split_at": 90997692,
+    "publicnode_count": 2,
+    "publicnode_identical": true,
+    "routescan_count": 2,
+    "routescan_identical": true
+   },
+   {
+    "from": 73929883,
+    "to": 73949883,
+    "count_in_dataset": 2,
+    "publicnode_other_split_at": 73935348,
+    "publicnode_count": 2,
+    "publicnode_identical": true,
+    "routescan_count": 2,
+    "routescan_identical": true
+   },
+   {
+    "from": 93362239,
+    "to": 94519909,
+    "count_in_dataset": 4,
+    "publicnode_other_split_at": 94070525,
+    "publicnode_count": 4,
+    "publicnode_identical": true,
+    "routescan_count": 4,
+    "routescan_identical": true
+   }
+  ],
+  "bh_vault": [
+   {
+    "from": 74316151,
+    "to": 75745261,
+    "count_in_dataset": 12,
+    "publicnode_other_split_at": 75197276,
+    "publicnode_count": 12,
+    "publicnode_identical": true,
+    "routescan_count": 12,
+    "routescan_identical": true
+   },
+   {
+    "from": 77444006,
+    "to": 77913158,
+    "count_in_dataset": 4,
+    "publicnode_other_split_at": 77676754,
+    "publicnode_count": 4,
+    "publicnode_identical": true,
+    "routescan_count": 4,
+    "routescan_identical": true
+   },
+   {
+    "from": 95869768,
+    "to": 96634541,
+    "count_in_dataset": 8,
+    "publicnode_other_split_at": 96233418,
+    "publicnode_count": 8,
+    "publicnode_identical": true,
+    "routescan_count": 8,
+    "routescan_identical": true
+   },
+   {
+    "from": 69149714,
+    "to": 70600303,
+    "count_in_dataset": 16,
+    "publicnode_other_split_at": 69883202,
+    "publicnode_count": 16,
+    "publicnode_identical": true,
+    "routescan_count": 16,
+    "routescan_identical": true
+   },
+   {
+    "from": 91816651,
+    "to": 92976757,
+    "count_in_dataset": 8,
+    "publicnode_other_split_at": 92330558,
+    "publicnode_count": 8,
+    "publicnode_identical": true,
+    "routescan_count": 8,
+    "routescan_identical": true
+   }
+  ],
+  "bh_gm_distribute": [
+   {
+    "from": 98181279,
+    "to": 98201279,
+    "count_in_dataset": 1,
+    "publicnode_other_split_at": 98192831,
+    "publicnode_count": 1,
+    "publicnode_identical": true,
+    "routescan_count": 1,
+    "routescan_identical": true
+   },
+   {
+    "from": 71475687,
+    "to": 71495687,
+    "count_in_dataset": 1,
+    "publicnode_other_split_at": 71486036,
+    "publicnode_count": 1,
+    "publicnode_identical": true,
+    "routescan_count": 1,
+    "routescan_identical": true
+   },
+   {
+    "from": 76255462,
+    "to": 76275462,
+    "count_in_dataset": 1,
+    "publicnode_other_split_at": 76267500,
+    "publicnode_count": 1,
+    "publicnode_identical": true,
+    "routescan_count": 1,
+    "routescan_identical": true
+   },
+   {
+    "from": 70744854,
+    "to": 70764854,
+    "count_in_dataset": 1,
+    "publicnode_other_split_at": 70755364,
+    "publicnode_count": 1,
+    "publicnode_identical": true,
+    "routescan_count": 1,
+    "routescan_identical": true
+   },
+   {
+    "from": 82521954,
+    "to": 83731563,
+    "count_in_dataset": 2,
+    "publicnode_other_split_at": 82980339,
+    "publicnode_count": 2,
+    "publicnode_identical": true,
+    "routescan_count": 2,
+    "routescan_identical": true
+   }
+  ],
+  "bh_black_pair": [
+   {
+    "from": 99530577,
+    "to": 99575142,
+    "count_in_dataset": 90,
+    "publicnode_other_split_at": 99560200,
+    "publicnode_count": 90,
+    "publicnode_identical": true,
+    "routescan_count": 90,
+    "routescan_identical": true
+   },
+   {
+    "from": 94612345,
+    "to": 94654036,
+    "count_in_dataset": 408,
+    "publicnode_other_split_at": 94626928,
+    "publicnode_count": 408,
+    "publicnode_identical": true,
+    "routescan_count": 408,
+    "routescan_identical": true
+   },
+   {
+    "from": 98632731,
+    "to": 98655240,
+    "count_in_dataset": 45,
+    "publicnode_other_split_at": 98646129,
+    "publicnode_count": 45,
+    "publicnode_identical": true,
+    "routescan_count": 45,
+    "routescan_identical": true
+   },
+   {
+    "from": 95930991,
+    "to": 95961156,
+    "count_in_dataset": 568,
+    "publicnode_other_split_at": 95938936,
+    "publicnode_count": 568,
+    "publicnode_identical": true,
+    "routescan_count": 568,
+    "routescan_identical": true
+   },
+   {
+    "from": 91971472,
+    "to": 92004168,
+    "count_in_dataset": 673,
+    "publicnode_other_split_at": 91985356,
+    "publicnode_count": 673,
+    "publicnode_identical": true,
+    "routescan_count": 673,
+    "routescan_identical": true
+   }
+  ],
+  "bh_pool": [
+   {
+    "from": 99619806,
+    "to": 99622353,
+    "count_in_dataset": 268,
+    "publicnode_other_split_at": 99620778,
+    "publicnode_count": 268,
+    "publicnode_identical": true,
+    "routescan_count": 268,
+    "routescan_identical": true
+   },
+   {
+    "from": 94020718,
+    "to": 94023186,
+    "count_in_dataset": 221,
+    "publicnode_other_split_at": 94022495,
+    "publicnode_count": 221,
+    "publicnode_identical": true,
+    "routescan_count": 221,
+    "routescan_identical": true
+   },
+   {
+    "from": 92808852,
+    "to": 92813118,
+    "count_in_dataset": 629,
+    "publicnode_other_split_at": 92811691,
+    "publicnode_count": 629,
+    "publicnode_identical": true,
+    "routescan_count": 629,
+    "routescan_identical": true
+   },
+   {
+    "from": 95833392,
+    "to": 95835435,
+    "count_in_dataset": 1371,
+    "publicnode_other_split_at": 95834356,
+    "publicnode_count": 1371,
+    "publicnode_identical": true,
+    "routescan_count": 1371,
+    "routescan_identical": true
+   },
+   {
+    "from": 93114997,
+    "to": 93119263,
+    "count_in_dataset": 643,
+    "publicnode_other_split_at": 93117159,
+    "publicnode_count": 643,
+    "publicnode_identical": true,
+    "routescan_count": 643,
+    "routescan_identical": true
+   }
+  ]
+ },
+ "structure": {
+  "black_pool_swaps.csv.gz": {
+   "rows": 19302,
+   "duplicates": 0,
+   "strictly_ascending": true,
+   "ts_non_decreasing": true,
+   "first_block": 91716618,
+   "last_block": 99923235
+  },
+  "blackhole_gauge_fee_claims.csv.gz": {
+   "rows": 69,
+   "duplicates": 0,
+   "strictly_ascending": true,
+   "ts_non_decreasing": true,
+   "first_block": 65579562,
+   "last_block": 99447047
+  },
+  "blackhole_gauge_notify.csv.gz": {
+   "rows": 14,
+   "duplicates": 0,
+   "strictly_ascending": true,
+   "ts_non_decreasing": true,
+   "first_block": 92124343,
+   "last_block": 99446965
+  },
+  "blackhole_wavax_usdc_fee_events.csv.gz": {
+   "rows": 17,
+   "duplicates": 0,
+   "strictly_ascending": true,
+   "ts_non_decreasing": true,
+   "first_block": 65228165,
+   "last_block": 67621544
+  },
+  "blackhole_wavax_usdc_liquidity.csv.gz": {
+   "rows": 3206294,
+   "duplicates": 0,
+   "strictly_ascending": true,
+   "first_block": 65236348,
+   "last_block": 99924242
+  },
+  "blackhole_wavax_usdc_swaps.csv.gz": {
+   "rows": 808773,
+   "duplicates": 0,
+   "strictly_ascending": true,
+   "ts_non_decreasing": true,
+   "first_block": 91716612,
+   "last_block": 99924375
+  }
+ },
+ "requested_ranges": {
+  "bh_pool": {
+   "from": 91716610,
+   "to": 99924388,
+   "windows": 396,
+   "logs": 1931807,
+   "tiling_ok": true,
+   "sources": {
+    "avalanche-c-chain-rpc.publicnode.com": 396
+   }
+  },
+  "bh_gauge_rf": {
+   "from": 65228165,
+   "to": 99924388,
+   "windows": 694,
+   "logs": 138,
+   "tiling_ok": true,
+   "sources": {
+    "avalanche-c-chain-rpc.publicnode.com": 694
+   }
+  },
+  "bh_black_pair": {
+   "from": 91716610,
+   "to": 99924388,
+   "windows": 165,
+   "logs": 60346,
+   "tiling_ok": true,
+   "sources": {
+    "avalanche-c-chain-rpc.publicnode.com": 165
+   }
+  },
+  "bh_pool_pre": {
+   "from": 65228165,
+   "to": 67178164,
+   "windows": 64,
+   "logs": 324222,
+   "tiling_ok": true,
+   "sources": {
+    "avalanche-c-chain-rpc.publicnode.com": 64
+   }
+  },
+  "bh_pool_pre_1": {
+   "from": 67178165,
+   "to": 68778164,
+   "windows": 70,
+   "logs": 455350,
+   "tiling_ok": true,
+   "sources": {
+    "avalanche-c-chain-rpc.publicnode.com": 70
+   }
+  },
+  "bh_pool_pre_1b": {
+   "from": 68778165,
+   "to": 69608078,
+   "windows": 37,
+   "logs": 221661,
+   "tiling_ok": true,
+   "sources": {
+    "avalanche-c-chain-rpc.publicnode.com": 37
+   }
+  },
+  "bh_pool_pre_1c": {
+   "from": 69608079,
+   "to": 70437992,
+   "windows": 35,
+   "logs": 201428,
+   "tiling_ok": true,
+   "sources": {
+    "avalanche-c-chain-rpc.publicnode.com": 35
+   }
+  },
+  "bh_pool_pre_1d": {
+   "from": 70437993,
+   "to": 71267905,
+   "windows": 41,
+   "logs": 259515,
+   "tiling_ok": true,
+   "sources": {
+    "avalanche-c-chain-rpc.publicnode.com": 41
+   }
+  },
+  "bh_pool_pre_2": {
+   "from": 71267906,
+   "to": 73217905,
+   "windows": 72,
+   "logs": 401735,
+   "tiling_ok": true,
+   "sources": {
+    "avalanche-c-chain-rpc.publicnode.com": 72
+   }
+  },
+  "bh_pool_pre_2b": {
+   "from": 73217906,
+   "to": 73931153,
+   "windows": 25,
+   "logs": 161007,
+   "tiling_ok": true,
+   "sources": {
+    "avalanche-c-chain-rpc.publicnode.com": 25
+   }
+  },
+  "bh_pool_pre_2c": {
+   "from": 73931154,
+   "to": 74644401,
+   "windows": 19,
+   "logs": 114792,
+   "tiling_ok": true,
+   "sources": {
+    "avalanche-c-chain-rpc.publicnode.com": 19
+   }
+  },
+  "bh_pool_pre_2d": {
+   "from": 74644402,
+   "to": 75357646,
+   "windows": 29,
+   "logs": 170485,
+   "tiling_ok": true,
+   "sources": {
+    "avalanche-c-chain-rpc.publicnode.com": 29
+   }
+  },
+  "bh_pool_pre_3": {
+   "from": 75357647,
+   "to": 79407646,
+   "windows": 98,
+   "logs": 495402,
+   "tiling_ok": true,
+   "sources": {
+    "avalanche-c-chain-rpc.publicnode.com": 98
+   }
+  },
+  "bh_pool_pre_3b": {
+   "from": 79407647,
+   "to": 79427517,
+   "windows": 1,
+   "logs": 2370,
+   "tiling_ok": true,
+   "sources": {
+    "avalanche-c-chain-rpc.publicnode.com": 1
+   }
+  },
+  "bh_pool_pre_3c": {
+   "from": 79427518,
+   "to": 79447387,
+   "windows": 1,
+   "logs": 2270,
+   "tiling_ok": true,
+   "sources": {
+    "avalanche-c-chain-rpc.publicnode.com": 1
+   }
+  },
+  "bh_pool_pre_4": {
+   "from": 79447388,
+   "to": 83537128,
+   "windows": 82,
+   "logs": 143631,
+   "tiling_ok": true,
+   "sources": {
+    "avalanche-c-chain-rpc.publicnode.com": 82
+   }
+  },
+  "bh_pool_pre_5": {
+   "from": 83537129,
+   "to": 87626869,
+   "windows": 82,
+   "logs": 11573,
+   "tiling_ok": true,
+   "sources": {
+    "avalanche-c-chain-rpc.publicnode.com": 82
+   }
+  },
+  "bh_pool_pre_6": {
+   "from": 87626870,
+   "to": 91716609,
+   "windows": 82,
+   "logs": 84214,
+   "tiling_ok": true,
+   "sources": {
+    "avalanche-c-chain-rpc.publicnode.com": 82
+   }
+  },
+  "pre_window_segments_tile_creation_to_START_minus_1": true,
+  "bh_vault": {
+   "from": 65228165,
+   "to": 99924388,
+   "windows": 694,
+   "logs": 281,
+   "tiling_ok": true,
+   "sources": {
+    "avalanche-c-chain-rpc.publicnode.com": 694
+   }
+  },
+  "bh_gm_distribute": {
+   "from": 65228165,
+   "to": 99924388,
+   "windows": 694,
+   "logs": 69,
+   "tiling_ok": true,
+   "sources": {
+    "avalanche-c-chain-rpc.publicnode.com": 694
+   }
+  }
+ },
+ "header_checks": {
+  "pool": [
+   {
+    "blocks": 583263,
+    "header_source": "avalanche-c-chain-rpc.publicnode.com",
+    "logs_checked": 808791,
+    "block_hash_mismatches": 0
+   }
+  ],
+  "gauge": [
+   {
+    "blocks": 138,
+    "header_source": "avalanche-c-chain-rpc.publicnode.com",
+    "logs_checked": 207,
+    "block_hash_mismatches": 0
+   }
+  ],
+  "black": [
+   {
+    "blocks": 18133,
+    "header_source": "avalanche-c-chain-rpc.publicnode.com",
+    "logs_checked": 19302,
+    "block_hash_mismatches": 0
+   }
+  ]
+ },
+ "replay": {
+  "liquidity_rows_before_START": 3049637,
+  "active_liquidity_replayed_at_START_minus_1": "2865881598943069085",
+  "pool.liquidity()_at_START_minus_1": "2865881598943069085",
+  "equal_at_START_minus_1": true,
+  "initialised_ticks_at_START_minus_1": 157,
+  "swaps": 808773,
+  "swap_event_liquidity_equals_replayed_active_liquidity": {
+   "equal": 808773,
+   "of": 808773,
+   "share": 1.0
+  },
+  "active_liquidity_replayed_at_END": "722133245316243265",
+  "pool.liquidity()_at_END": "722133245316243265",
+  "equal_at_END": true,
+  "initialised_ticks_at_END": 155,
+  "last_swap_vs_state_at_END": {
+   "last_swap": {
+    "block": 99924375,
+    "log_index": 4,
+    "sqrt_price_x96": "229476327054149863882010",
+    "liquidity": "722133245316243265",
+    "tick": -255054
+   },
+   "globalState.price_at_END": "229476327054149863882010",
+   "globalState.tick_at_END": -255054,
+   "liquidity()_at_END": "722133245316243265",
+   "price_equal": true,
+   "tick_equal": true,
+   "liquidity_equal_to_last_swap": true,
+   "mints_burns_after_last_swap": [],
+   "liquidity_equal_after_applying_them": true
+  },
+  "fee_validation": {
+   "eligible_swaps (no initialised tick between the previous and the new tick, price moved)": 802048,
+   "all_swaps": 808773,
+   "within_1_ppm": 794914,
+   "share_within_1_ppm": 0.9911052705075007,
+   "within_1_ppm_or_within_2_base_units_of_rounding": 802048,
+   "share_within_1_ppm_or_rounding": 1.0,
+   "abs_deviation_ppm_histogram": {
+    "<=0.01": 733720,
+    "<=0.1": 40208,
+    "<=1": 20986,
+    "<=10": 6252,
+    ">10": 882
+   },
+   "examples_outside_both": [],
+   "aggregate_implied_fee_ppm_token0_in": 500.0,
+   "aggregate_implied_fee_ppm_token1_in": 500.0012316475887
+  },
+  "fee_accounting_window": {
+   "per_token": {
+    "WAVAX": {
+     "volume_in_raw": "17598997378317942166128014",
+     "gross_swap_fee_raw (sum amount_in*fee_ppm/1e6)": "8799498689158971083064",
+     "gross_swap_fee": 8799.49868915897,
+     "vault_balance_change": "306866089896860001629",
+     "vault_withdrawn_to_communityFeeReceiver(gauge)": "8322766216176899259829",
+     "vault_withdrawn_to_algebraFeeReceiver": "169852371758712229800",
+     "pool_pending_community_fee_change": "14011326500000000",
+     "community_fee_that_left_the_swaps (sum of the four)": "8799498689158971491258",
+     "community_fee / gross_swap_fee": 1.0,
+     "algebra_cut_of_withdrawals": 0.02,
+     "totalFeeGrowth_delta_X128": "359487692000076584391326344671139759",
+     "totalFeeGrowth_delta_reproduced_from_ExcessTokens_only": "359487692000076584391326344671139759",
+     "fee_growth_fully_explained_by_ExcessTokens": true,
+     "ExcessTokens_sum_raw": "1482750482220633",
+     "ExcessTokens_sum": 0.001482750482220633,
+     "lp_fee_growth_as_share_of_gross_swap_fee": 1.685039721691634e-07,
+     "lp_share_of_SWAP_fees": 0.0
+    },
+    "USDC": {
+     "volume_in_raw": "152889418850661",
+     "gross_swap_fee_raw (sum amount_in*fee_ppm/1e6)": "76444709425",
+     "gross_swap_fee": 76444.709425,
+     "vault_balance_change": "2875030254",
+     "vault_withdrawn_to_communityFeeReceiver(gauge)": "72098467363",
+     "vault_withdrawn_to_algebraFeeReceiver": "1471397300",
+     "pool_pending_community_fee_change": "0",
+     "community_fee_that_left_the_swaps (sum of the four)": "76444894917",
+     "community_fee / gross_swap_fee": 1.000002426485775,
+     "algebra_cut_of_withdrawals": 0.0200000000916136,
+     "totalFeeGrowth_delta_X128": "2943710714862749361379670501",
+     "totalFeeGrowth_delta_reproduced_from_ExcessTokens_only": "2943710714862749361379670501",
+     "fee_growth_fully_explained_by_ExcessTokens": true,
+     "ExcessTokens_sum_raw": "11177840",
+     "ExcessTokens_sum": 11.17784,
+     "lp_fee_growth_as_share_of_gross_swap_fee": 0.0001462212373371187,
+     "lp_share_of_SWAP_fees": 0.0
+    }
+   },
+   "ExcessTokens_events": 1633,
+   "Flash_events": 0,
+   "vault_withdrawal_events_in_window": {
+    "AlgebraTokensWithdrawal -> 0x6cbd743d9b97DA1855E64893D3226F8eDCa16e76": 28,
+    "TokensWithdrawal -> 0x3ADE52f9779c07471F4B6d5997444C3c2124C1c0": 28
+   },
+   "other_vault_events_in_window": {},
+   "note": "totalFeeGrowth changes only in swaps (LP part of the fee), flashes and _updateReserves (ExcessTokens: tokens sent to the pool outside a swap/mint are booked as fee growth); with communityFee = 1000/1000 the LP part of every swap fee is zero"
+  }
+ },
+ "depth_offline_vs_quoter_blackhole": {
+  "method": "walk the tick map rebuilt from blackhole_wavax_usdc_liquidity.csv.gz from the END price to the target, v3 integer math, fee 500 ppm on the input of every step",
+  "rows": [
+   {
+    "direction": "sell_WAVAX",
+    "move_bp": -100,
+    "quoter_amount_in": "1256661969921157132636",
+    "offline_amount_in": "1256661969314911864406",
+    "rel_diff_amount_in": 4.824250934147675e-10,
+    "quoter_amount_out": "10484204431",
+    "offline_amount_out": "10484204426",
+    "rel_diff_amount_out": 4.769079077870568e-10
+   },
+   {
+    "direction": "sell_WAVAX",
+    "move_bp": -500,
+    "quoter_amount_in": "3593212103090135499769",
+    "offline_amount_in": "3593212100485166028447",
+    "rel_diff_amount_in": 7.249695805827175e-10,
+    "quoter_amount_out": "29603717888",
+    "offline_amount_out": "29603717868",
+    "rel_diff_amount_out": 6.755908185473923e-10
+   },
+   {
+    "direction": "sell_WAVAX",
+    "move_bp": -1000,
+    "quoter_amount_in": "4205350326320889764313",
+    "offline_amount_in": "4205350324085509148878",
+    "rel_diff_amount_in": 5.315563370414027e-10,
+    "quoter_amount_out": "34372336181",
+    "offline_amount_out": "34372336164",
+    "rel_diff_amount_out": 4.945837812850524e-10
+   },
+   {
+    "direction": "sell_USDC",
+    "move_bp": 100,
+    "quoter_amount_in": "16468748079",
+    "offline_amount_in": "16468748071",
+    "rel_diff_amount_in": 4.857685576113184e-10,
+    "quoter_amount_out": "1950474044527218314286",
+    "offline_amount_out": "1950474043548331617649",
+    "rel_diff_amount_out": 5.01871173002087e-10
+   },
+   {
+    "direction": "sell_USDC",
+    "move_bp": 500,
+    "quoter_amount_in": "92125672654",
+    "offline_amount_in": "92125672623",
+    "rel_diff_amount_in": 3.3649686462999205e-10,
+    "quoter_amount_out": "10718706863976173117133",
+    "offline_amount_out": "10718706860351798542878",
+    "rel_diff_amount_out": 3.3813543184354937e-10
+   },
+   {
+    "direction": "sell_USDC",
+    "move_bp": 1000,
+    "quoter_amount_in": "152199184483",
+    "offline_amount_in": "152199184473",
+    "rel_diff_amount_in": 6.570337439039929e-11,
+    "quoter_amount_out": "17403869007670381399583",
+    "offline_amount_out": "17403869006496543081881",
+    "rel_diff_amount_out": 6.744697499071362e-11
+   }
+  ],
+  "max_rel_diff": 7.249695805827175e-10
+ }
+}

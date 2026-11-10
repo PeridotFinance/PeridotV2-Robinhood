@@ -90,17 +90,99 @@ def s24t(topic_hex: str) -> int:
     return B.s_int(int(topic_hex, 16), 24)
 
 
+def scan(name: str, a: int, b: int, info: dict):
+    """Stream the cached logs of one dataset window by window (never the whole dataset in memory), with the same
+    structural checks as load(): windows tile [a, b], every log lies in the window that returned it, (block, log_index)
+    strictly ascending across the whole dataset (hence no duplicates). Fills `info` when exhausted."""
+    rows = A.ledger_rows(name)
+    pos, n, last = a, 0, (-1, -1)
+    per = Counter()
+    for r in rows:
+        assert r["from"] == pos, f"{name}: gap/overlap at {pos}"
+        part = A.read_json_gz(A.CACHE / "logs" / name / f"{r['from']}-{r['to']}.json.gz")
+        assert len(part) == r["count"], f"{name}: cached count differs from the ledger in {r['from']}-{r['to']}"
+        for x in part:
+            k = (x["b"], x["i"])
+            assert r["from"] <= x["b"] <= r["to"], f"{name}: log outside its window"
+            assert k > last, f"{name}: (block, log_index) not strictly ascending at {k}"
+            assert x["t"][0] in NAME, "unknown topic0 in pool logs"
+            last = k
+            per[x["t"][0]] += 1
+            yield x
+        n += len(part)
+        pos = r["to"] + 1
+    assert pos == b + 1, f"{name}: windows end at {pos - 1}, expected {b}"
+    info.update({"dataset": name, "requested_from": a, "requested_to": b, "windows": len(rows),
+                 "sources": dict(Counter(r["host"] for r in rows)), "logs": n, "served_in_ascending_order": True,
+                 "duplicates": 0, "window_tiling_ok": True,
+                 "logs_per_topic0": {NAME.get(t, t): c for t, c in per.most_common()},
+                 "ranges": [[r["from"], r["to"], r["count"], r["host"]] for r in rows]})
+
+
 def pool(st: dict) -> dict:
-    pre, ipre = load("bh_pool_pre", B.POOL_CREATED, B.START - 1)
-    win, iwin = load("bh_pool", B.START, B.END)
-    info = {"pre_window": ipre, "window": iwin}
-    assert all(x["t"][0] in NAME for x in pre + win), "unknown topic0 in pool logs"
-    cfg_ev = [x for x in pre + win if x["t"][0] in CFG_KIND]
-    swaps = [x for x in win if x["t"][0] == SWAP]
-    ts = stamp(swaps + cfg_ev + [x for x in pre if x["t"][0] == INIT], iwin)
+    """Two streaming passes. Pass 1 (creation..END): writes the liquidity file and collects the configuration events,
+    the Initialize event, the set of swap blocks and the side-event totals. Pass 2 (START..END): writes the swaps."""
+    segs = [dict() for _ in B.PRE_SEGMENTS]
+    iwin: dict = {}
+    cfg_ev, init, swap_blocks = [], [], set()
+    stat = {"mints": 0, "burns": 0, "zb": 0, "net": 0, "pre_rows": 0, "first": None, "last": None,
+            "ex_n": 0, "ex0": 0, "ex1": 0, "flash": 0, "skim": 0, "burnfee_nz": 0, "collect": 0}
+
+    def everything():
+        for (name, a, b), i_ in zip(B.PRE_SEGMENTS, segs):
+            yield from scan(name, a, b, i_)
+        yield from scan("bh_pool", B.START, B.END, iwin)
+
+    def lrows():
+        for x in everything():
+            t0 = x["t"][0]
+            row = None
+            if t0 == MINT:       # topics: owner, bottomTick, topTick; data: sender, liquidityAmount, amount0, amount1
+                w = A.words(x["d"])
+                row = [x["b"], x["i"], "mint", s24t(x["t"][2]), s24t(x["t"][3]), w[1]]
+                stat["mints"] += 1
+                stat["net"] += w[1]
+            elif t0 == BURN:     # topics: owner, bottomTick, topTick; data: liquidityAmount, amount0, amount1
+                w = A.words(x["d"])
+                row = [x["b"], x["i"], "burn", s24t(x["t"][2]), s24t(x["t"][3]), -w[0]]
+                stat["burns"] += 1
+                stat["zb"] += w[0] == 0
+                stat["net"] -= w[0]
+            elif t0 in CFG_KIND:
+                cfg_ev.append(x)
+            elif t0 == INIT:
+                init.append(x)
+            elif x["b"] >= B.START:
+                if t0 == SWAP:
+                    swap_blocks.add(x["b"])
+                elif t0 == EXCESS:
+                    e0, e1 = A.words(x["d"])
+                    stat["ex_n"] += 1
+                    stat["ex0"] += e0
+                    stat["ex1"] += e1
+                elif t0 == FLASH:
+                    stat["flash"] += 1
+                elif t0 == SKIM:
+                    stat["skim"] += 1
+                elif t0 == COLLECT:
+                    stat["collect"] += 1
+                elif t0 == BURNFEE and A.words(x["d"])[0] != 0:
+                    stat["burnfee_nz"] += 1
+            if row:
+                if stat["first"] is None:
+                    stat["first"] = row[0]
+                stat["last"] = row[0]
+                stat["pre_rows"] += row[0] < B.START
+                yield row
+    n_liq = A.write_csv_gz(B.DATA_BH / "blackhole_wavax_usdc_liquidity.csv.gz", ["block", "log_index", "kind", "tick_lower", "tick_upper", "liquidity_delta"], lrows())
+    print("liquidity rows", n_liq, flush=True)
+    info = {"pre_window_segments": segs, "window": iwin,
+            "pre_window_topic_filter": "topic0 in {" + ", ".join(s_.split("(")[0] for s_ in B.EV_PRE) + "}"}
+    hd = A.block_timestamps(swap_blocks | {x["b"] for x in cfg_ev + init} | {stat["first"], stat["last"]}, source="publicnode")
+    bad = sum(1 for x in cfg_ev + init if hd[x["b"]][1] != x["h"])
+    ts = {b: v[0] for b, v in hd.items()}
 
     # ---- initialise event, config history
-    init = [x for x in pre + win if x["t"][0] == INIT]
     assert len(init) == 1
     w = A.words(init[0]["d"])
     info["initialize"] = {"block": init[0]["b"], "log_index": init[0]["i"], "ts": ts[init[0]["b"]], "tx": init[0]["tx"],
@@ -145,73 +227,61 @@ def pool(st: dict) -> dict:
         "first_ts": ts[cfg_ev[0]["b"]] if cfg_ev else None, "last_ts": ts[cfg_ev[-1]["b"]] if cfg_ev else None,
         "kinds": dict(Counter(CFG_KIND[x["t"][0]] for x in cfg_ev))}}
 
-    # ---- swaps
-    fee = last_before("fee", B.START)
-    cfee = last_before("community_fee", B.START)
-    assert fee == s1["fee()_ppm"] and cfee == s1["globalState"]["communityFee_per_1000"]
-    out = []
-    sf_missing = 0
-    sf_nonzero = Counter()
-    fees_seen, share_seen = Counter(), Counter()
-    for k, x in enumerate(win):
-        t0 = x["t"][0]
-        if t0 == FEE:
-            fee = A.words(x["d"])[0]
-        elif t0 == CFEE:
-            cfee = A.words(x["d"])[0]
-        elif t0 == SWAP:
-            sfe = win[k - 1] if k > 0 else None
-            if not sfe or sfe["t"][0] != SWAPFEE or sfe["tx"] != x["tx"] or sfe["i"] != x["i"] - 1:
-                sf_missing += 1
-                override = plug = 0
-            else:
-                override, plug = A.words(sfe["d"])
-            if override or plug:
-                sf_nonzero[(override, plug)] += 1
-            f_eff = (override + plug) if override else (fee + plug)
-            lp = (1 - cfee / 1000) * ((1 - plug / f_eff) if f_eff else 1)
-            share = 1 - lp
-            w = A.words(x["d"])
-            out.append([x["b"], x["i"], ts[x["b"]], A.s256(w[0]), A.s256(w[1]), w[2], w[3], A.s256(w[4]), f_eff, f"{share:.6f}"])
-            fees_seen[f_eff] += 1
-            share_seen[f"{share:.6f}"] += 1
+    # ---- swaps (second pass over the window)
+    fee0 = last_before("fee", B.START)
+    cfee0 = last_before("community_fee", B.START)
+    assert fee0 == s1["fee()_ppm"] and cfee0 == s1["globalState"]["communityFee_per_1000"]
+    sw = {"sf_missing": 0, "sf_nonzero": Counter(), "fees": Counter(), "shares": Counter(), "first": None, "last": None, "bad_hash": 0}
+
+    def srows():
+        fee, cfee = fee0, cfee0
+        prev = None
+        for x in scan("bh_pool", B.START, B.END, {}):
+            t0 = x["t"][0]
+            if t0 == FEE:
+                fee = A.words(x["d"])[0]
+            elif t0 == CFEE:
+                cfee = A.words(x["d"])[0]
+            elif t0 == SWAP:
+                if not prev or prev["t"][0] != SWAPFEE or prev["tx"] != x["tx"] or prev["i"] != x["i"] - 1:
+                    sw["sf_missing"] += 1
+                    override = plug = 0
+                else:
+                    override, plug = A.words(prev["d"])
+                if override or plug:
+                    sw["sf_nonzero"][(override, plug)] += 1
+                f_eff = (override + plug) if override else (fee + plug)
+                lp = (1 - cfee / 1000) * ((1 - plug / f_eff) if f_eff else 1)
+                share = f"{1 - lp:.6f}"
+                w_ = A.words(x["d"])
+                sw["bad_hash"] += hd[x["b"]][1] != x["h"]
+                row = [x["b"], x["i"], ts[x["b"]], A.s256(w_[0]), A.s256(w_[1]), w_[2], w_[3], A.s256(w_[4]), f_eff, share]
+                sw["fees"][f_eff] += 1
+                sw["shares"][share] += 1
+                if sw["first"] is None:
+                    sw["first"] = row
+                sw["last"] = row
+                yield row
+            prev = x
     n = A.write_csv_gz(B.DATA_BH / "blackhole_wavax_usdc_swaps.csv.gz",
-                       ["block", "log_index", "ts", "amount0", "amount1", "sqrt_price_x96", "liquidity", "tick", "fee_ppm", "protocol_share"], out)
+                       ["block", "log_index", "ts", "amount0", "amount1", "sqrt_price_x96", "liquidity", "tick", "fee_ppm", "protocol_share"], srows())
+    assert bad + sw["bad_hash"] == 0, "log blockHash differs from the canonical header"
+    iwin["header_checks"] = [{"blocks": len(hd), "header_source": A.RPC["publicnode"].split("/")[2], "logs_checked": n + len(cfg_ev) + len(init),
+                              "block_hash_mismatches": bad + sw["bad_hash"]}]
+    first, last = sw["first"], sw["last"]
     info["files"]["blackhole_wavax_usdc_swaps.csv.gz"] = {
-        "rows": n, "first_block": out[0][0], "last_block": out[-1][0], "first_ts": out[0][2], "last_ts": out[-1][2],
-        "fee_ppm_values": {str(k): v for k, v in sorted(fees_seen.items())}, "protocol_share_values": dict(share_seen),
-        "swaps_without_a_SwapFee_event_right_before": sf_missing,
-        "swaps_with_nonzero_overrideFee_or_pluginFee": {f"{a}/{b}": c for (a, b), c in sf_nonzero.items()}}
-    info["last_swap"] = {"block": out[-1][0], "log_index": out[-1][1], "sqrt_price_x96": str(out[-1][5]), "liquidity": str(out[-1][6]), "tick": out[-1][7]}
-
-    # ---- liquidity, creation..END
-    lrows, mints, burns, zb, net = [], 0, 0, 0, 0
-    for x in pre + win:
-        t0 = x["t"][0]
-        if t0 == MINT:       # topics: owner, bottomTick, topTick; data: sender, liquidityAmount, amount0, amount1
-            w = A.words(x["d"])
-            lrows.append([x["b"], x["i"], "mint", s24t(x["t"][2]), s24t(x["t"][3]), w[1]])
-            mints += 1
-            net += w[1]
-        elif t0 == BURN:     # topics: owner, bottomTick, topTick; data: liquidityAmount, amount0, amount1
-            w = A.words(x["d"])
-            lrows.append([x["b"], x["i"], "burn", s24t(x["t"][2]), s24t(x["t"][3]), -w[0]])
-            burns += 1
-            zb += w[0] == 0
-            net -= w[0]
-    n = A.write_csv_gz(B.DATA_BH / "blackhole_wavax_usdc_liquidity.csv.gz", ["block", "log_index", "kind", "tick_lower", "tick_upper", "liquidity_delta"], lrows)
+        "rows": n, "first_block": first[0], "last_block": last[0], "first_ts": first[2], "last_ts": last[2],
+        "fee_ppm_values": {str(k): v for k, v in sorted(sw["fees"].items())}, "protocol_share_values": dict(sw["shares"]),
+        "swaps_without_a_SwapFee_event_right_before": sw["sf_missing"],
+        "swaps_with_nonzero_overrideFee_or_pluginFee": {f"{a}/{b}": c for (a, b), c in sw["sf_nonzero"].items()}}
+    info["last_swap"] = {"block": last[0], "log_index": last[1], "sqrt_price_x96": str(last[5]), "liquidity": str(last[6]), "tick": last[7]}
     info["files"]["blackhole_wavax_usdc_liquidity.csv.gz"] = {
-        "rows": n, "first_block": lrows[0][0], "last_block": lrows[-1][0], "mints": mints, "burns": burns,
-        "zero_amount_burns": int(zb), "net_liquidity_delta_all_ranges": str(net),
-        "rows_before_START": sum(1 for r in lrows if r[0] < B.START)}
-
-    # ---- side events of the window (kept in the report, not as datasets)
-    ex = [x for x in win if x["t"][0] == EXCESS]
+        "rows": n_liq, "first_block": stat["first"], "last_block": stat["last"], "first_ts": ts[stat["first"]], "last_ts": ts[stat["last"]],
+        "mints": stat["mints"], "burns": stat["burns"],
+        "zero_amount_burns": int(stat["zb"]), "net_liquidity_delta_all_ranges": str(stat["net"]), "rows_before_START": int(stat["pre_rows"])}
     info["window_side_events"] = {
-        "ExcessTokens": {"events": len(ex), "sum_amount0": str(sum(A.words(x["d"])[0] for x in ex)), "sum_amount1": str(sum(A.words(x["d"])[1] for x in ex))},
-        "Flash": sum(1 for x in win if x["t"][0] == FLASH), "Skim": sum(1 for x in win if x["t"][0] == SKIM),
-        "BurnFee_nonzero_pluginFee": sum(1 for x in win if x["t"][0] == BURNFEE and A.words(x["d"])[0] != 0),
-        "Collect": sum(1 for x in win if x["t"][0] == COLLECT)}
+        "ExcessTokens": {"events": stat["ex_n"], "sum_amount0": str(stat["ex0"]), "sum_amount1": str(stat["ex1"])},
+        "Flash": stat["flash"], "Skim": stat["skim"], "BurnFee_nonzero_pluginFee": stat["burnfee_nz"], "Collect": stat["collect"]}
     return info
 
 
@@ -220,7 +290,8 @@ def gauge(st: dict) -> dict:
                                               "Harvest(address,uint256)", "ClaimFees(address,uint256,uint256)",
                                               "EmergencyActivated(address,uint256)", "EmergencyDeactivated(address,uint256)",
                                               "OwnershipTransferred(address,address)")}
-    logs, info = load("bh_gauge", B.POOL_CREATED, B.END, names)
+    logs, info = load("bh_gauge_rf", B.POOL_CREATED, B.END, names)
+    info["topic_filter"] = "topic0 in {RewardAdded(uint256), ClaimFees(address,uint256,uint256)}"
     ra = [x for x in logs if x["t"][0] == T("RewardAdded(uint256)")]
     cf = [x for x in logs if x["t"][0] == T("ClaimFees(address,uint256,uint256)")]
     dist, idist = load("bh_gm_distribute", B.POOL_CREATED, B.END, {T("DistributeReward(address,address,uint256)"): "DistributeReward"})
@@ -264,8 +335,8 @@ def gauge(st: dict) -> dict:
         "first_ts": crow[0][2] if crow else None, "last_ts": crow[-1][2] if crow else None,
         "rows_in_window": len(inw), "sum_claimed0_in_window": str(sum(r[4] for r in inw)), "sum_claimed1_in_window": str(sum(r[5] for r in inw)),
         "note": "GaugeCL.ClaimFees(from, claimed0, claimed1): the WAVAX / USDC the gauge handed to its internal bribe (Bribe.notifyRewardAmount), from gauge creation to END"}
-    info["gauge_event_counts_in_window"] = dict(Counter(names.get(x["t"][0], x["t"][0]) for x in logs if x["b"] >= B.START))
-    info["gauge_event_counts_before_window"] = dict(Counter(names.get(x["t"][0], x["t"][0]) for x in logs if x["b"] < B.START))
+    info["events_in_window"] = dict(Counter(names.get(x["t"][0], x["t"][0]) for x in logs if x["b"] >= B.START))
+    info["events_before_window"] = dict(Counter(names.get(x["t"][0], x["t"][0]) for x in logs if x["b"] < B.START))
     return info
 
 

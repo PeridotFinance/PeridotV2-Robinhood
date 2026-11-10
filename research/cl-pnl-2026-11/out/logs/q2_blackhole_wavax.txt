@@ -1,0 +1,8 @@
+Blackhole WAVAX/USDC (spacing 200, 0.05%)  ['2026-08-01 00:00', '2026-11-10 09:11']  capital $1,000  max/day 4  (65 runs, 125 s)
+ half  trig  full % fee/LVR  fees $   LVR $  rec  depl  30d min  30d med  30d max  pos/n   rew % +rew min  pos/n
+ 1200   600  -12.02     nan    0.00   34.92   45  0.16   -20.80    -4.72     2.11   1/12    2.92   -18.42   4/12
+ 2400   600   -7.41     nan    0.00   44.24   45  0.33   -15.57    -3.56    -1.21   0/12    4.12   -12.95   6/12
+ 2400  1200   -7.62     nan    0.00   41.23   12  0.31   -15.90    -4.02    -0.71   0/12    3.72   -13.16   4/12
+ 4800   600   -4.10     nan    0.00   54.43   45  0.58   -10.17    -2.27    -0.69   0/12    5.33    -7.48   6/12
+ 4800  1200   -4.19     nan    0.00   52.80   12  0.57   -10.25    -2.31    -0.49   0/12    5.10    -7.49   6/12
+wrote /Users/joshua/Peridot/wt-cl-research/research/cl-pnl-2026-11/out/q2_blackhole_wavax_1000_mpd4.json

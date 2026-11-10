@@ -1,0 +1,18 @@
+
+=== Blackhole WAVAX/USDC (spacing 200, 0.05%)  2026-08-01 00:00 .. 2026-11-10 09:11  (101.4 d, 808,768 swaps, sigma 76%)
+bucket              days     vol $/d LPfee bp   LP fee $    loss0 $   loss1m $   loss1h $ fee/L1m fee/L1h refFee% refL1h%  fcLVR%  Ptrade
+TOTAL              101.4   3,021,363     0.00          0    160,834    170,661    191,297    0.00    0.00     0.0    65.7    65.5  0.1401
+regular             19.2   4,204,165     0.00          0     18,836     42,460     42,396    0.00    0.00     0.0    74.6    83.8  0.1662
+extended            28.1   3,102,315     0.00          0    105,321     53,491     54,894    0.00    0.00     0.0    60.7    66.5  0.1339
+overnight           24.0   2,782,132     0.00          0     16,258     35,743     42,048    0.00    0.00     0.0    57.6    56.2  0.1357
+weekend             30.0   2,379,635     0.00          0     20,420     38,966     51,959    0.00    0.00     0.0    71.2    60.5  0.1325
+vol Q1              25.5   1,301,029     0.00          0      5,592     14,007     14,441    0.00    0.00     0.0    13.8    14.2  0.0816
+vol Q2              25.3   1,928,878     0.00          0     10,428     23,506     28,171    0.00    0.00     0.0    29.7    27.4  0.1111
+vol Q3              25.4   3,091,999     0.00          0     16,931     40,508     38,960    0.00    0.00     0.0    44.4    49.3  0.1430
+vol Q4              25.2   5,789,992     0.00          0    127,883     92,639    109,725    0.00    0.00     0.0   175.8   172.3  0.2254
+external-reference loss: {'total': {'loss_usd': 190437.91303996954, 'lp_fee_usd_on_scored': 0.0, 'fee_over_loss': 0.0, 'scored_swaps': 808768}} gap {'swaps': 808768, 'median_abs': 8.701077122382772, 'p95_abs': 32.06172077743367, 'mean': -5.608381512389639}
+   regular {'loss_usd': 47089.37533962324, 'lp_fee_usd_on_scored': 0.0, 'fee_over_loss': 0.0, 'scored_swaps': 211673}
+   extended {'loss_usd': 58393.75563593999, 'lp_fee_usd_on_scored': 0.0, 'fee_over_loss': 0.0, 'scored_swaps': 204801}
+   overnight {'loss_usd': 40933.97774201949, 'lp_fee_usd_on_scored': 0.0, 'fee_over_loss': 0.0, 'scored_swaps': 174212}
+   weekend {'loss_usd': 44020.804322386684, 'lp_fee_usd_on_scored': 0.0, 'fee_over_loss': 0.0, 'scored_swaps': 218082}
+wrote /Users/joshua/Peridot/wt-cl-research/research/cl-pnl-2026-11/out/q1_blackhole_wavax.json

@@ -15,7 +15,7 @@ Everything below is rebuilt from the tables in `data/` by `scripts/run_all.sh`.
 | 4 | Hedged mode at scale | Not positive after costs at $1,000 or $10,000 on any venue, with or without rewards, and not openable today. On the v4 route it is +1.2% to +1.9% before hedge costs over 117 days and −1.4% to −3.1% after them. |
 | 5 | Reward timing | Nothing has been lost because nothing has been earned. Under the gauge's rule the three policies differ by less than 0.03% of rewards at pilot activity; a visible loss needs frequent liquidity changes and dense claims together: up to 2.75% with an hourly rebalance and thousands of settlements a day. |
 | 6 | Session-aware allocation | Wider ranges over the weekend beat the better fixed range in 0 of 14, 0 of 11 and 0 of 9 rolling windows (v4 NVDA, Ramses NVDA, Ramses SPY). The reverse plan is ahead in a third to a half of windows, which is not a result. Fixed width stands. |
-| 7 | Blackhole WAVAX/USDC against Pharaoh | Pending its data pull (section 10). |
+| 7 | Blackhole WAVAX/USDC against Pharaoh | Neither pool pays LPs any swap fee. Over 13 weeks Blackhole's emissions were worth 1.14 times its pool's arbitrage loss, Pharaoh's 0.56. Blackhole is a fifteenth as deep at 1% and a twenty-fifth at 10%, an unstaked position earns nothing there, and no staked range beat holding in more than half the 30-day windows. |
 
 ## 2. Method, stated once
 
@@ -757,7 +757,107 @@ The other three pairs are in `out/tables_q456.md`; wide over the weekend is ahea
 
 ## 10. Question 7: Blackhole WAVAX/USDC against Pharaoh
 
-Pending: the data pull for this question was started when it was asked and has not reported yet.
+**Verdict.** Blackhole pays its liquidity providers no swap fee either: every fee leaves the pool, 98% to voters and 2% to
+Algebra. What differs is the emission: over 13 full weeks BLACK emissions were worth 1.14 times the pool's arbitrage
+loss (above it in 9 weeks), against 0.56 for PHAR on Pharaoh (above it in 1). Blackhole's pool is a fifteenth as deep at
+1% and a twenty-fifth at 10%, a position held the way our vaults hold one (not staked) earns nothing at all there, and
+no staked range beat holding in every 30-day window.
+
+![Emissions against arbitrage loss on the two WAVAX/USDC pools](charts/q7_blackhole_vs_pharaoh.png)
+
+### 10.1 The pool
+
+| | Blackhole | Pharaoh |
+| --- | --- | --- |
+| Pool | `0x41100C6D2c6920B10d12Cd8D59c8A9AA2eF56fC7`, Algebra Integral, tick spacing 200 | `0xf01449C0bA930B6e2CaCA3DEF3CCBd7a3E589534`, Ramses V3, tick spacing 10 |
+| Swap fee | 0.05%, fixed by the administrator | dynamic, 0.045% to 5.6%, 0.085% at the end |
+| Balances at the end block | $473,984 | $3,140,693 |
+| Volume a day, 1 Aug to 10 Nov | $3.0M (808,773 swaps) | $22.3M (933,549 swaps) |
+| Reward | liquid BLACK, through Algebra eternal farming | liquid PHAR, through the gauge |
+| Claim-timing rule | none found (no threshold in the sources; 25 probe calls revert) | 111 seconds |
+
+Blackhole has three other WAVAX/USDC pools, holding $32,654, $5,184 and $3,109; this is the only one of any size. All
+facts are in `data/blackhole/FACTS.md` with the call or event behind each.
+
+### 10.2 Fee share to LPs: none, on both
+
+- **Blackhole.** The pool's `communityFee` is 1,000 of 1,000 and has been since 76 seconds after the pool was created.
+  Checked on the window's accounts: swappers paid 8,799.50 WAVAX and 76,444.71 USDC in fees; 100.00% of both left the
+  pool for its community vault; the pool's fee-growth counters moved only by dust sent to the pool outside swaps (11
+  USDC in 101 days). From the vault 98% goes to the gauge and on to the bribe contract for veBLACK voters, 2% to an
+  Algebra fee receiver.
+- **Staked or not makes no difference to fees, and all the difference to emissions.** The gauge holds no NFTs: the owner
+  calls `GaugeCL.deposit`, the NFT stays with the owner and its liquidity is mirrored into a farming pool. A staked
+  position earns BLACK and no fees. **An unstaked position earns neither.** Our vaults and the range take-profit
+  custodian hold their NFTs unstaked, so on Blackhole they would earn nothing until they call the gauge themselves;
+  BLACK is then booked to the NFT's owner address and only that address can claim it.
+- **Pharaoh,** for comparison (section 3): protocol share 1,000,000 ppm, nothing to LPs; PHAR accrues to the NFT without
+  staking.
+
+### 10.3 Emissions per dollar of liquidity, and the same fee-versus-loss ratio (whole pool, 13 full weeks, 6 Aug to 4 Nov)
+
+| Pool | Emissions, value if sold | Swap fees paid (none to LPs) | Arbitrage loss (+1 h) | LP fee ÷ loss | Swap fee ÷ loss | Emissions ÷ loss | Weeks emissions exceeded loss | Mean in-range liquidity (±1%) | Emissions per $1,000 in range, per week | Loss per $1,000 in range, per week |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Pharaoh WAVAX/USDC | $1,072,020 (17.2M PHAR) | $1,627,127 | $1,923,592 | 0 | 0.85 | 0.56 | 1 of 13 | $730,083 | $113 | $203 |
+| Blackhole WAVAX/USDC | $202,536 (63.2M BLACK) | $140,321 | $178,056 | 0 | 0.79 | 1.14 | 9 of 13 | $60,125 | $259 | $228 |
+
+Latest full week (from 29 October), against what was read at the end block:
+
+| Pool | Emissions in the week | Per $1,000 of pool balances | Per $1,000 within ±1% (by quote) | Loss per $1,000 of pool balances |
+| --- | --- | --- | --- | --- |
+| Pharaoh | $98,829 | $31.5 | $310 | $67.4 |
+| Blackhole | $12,892 | $27.2 | $480 | $39.6 |
+
+- **The loss per dollar of in-range liquidity is about the same on both** ($203 and $228 a week per $1,000): same asset,
+  same volatility. Blackhole's loss measure passes the same checks as Pharaoh's: $191,297 at +1 hour over the whole
+  window, $190,438 against Binance, $202,463 from the naive LVR formula. Like Pharaoh it shows no session pattern.
+- **Blackhole emits 2.3 times as much per dollar of in-range liquidity** ($259 against $113). Per dollar of pool
+  balances the two are close ($27 and $32 in the latest week): Blackhole's liquidity is far more concentrated around the
+  price, so less of it is out of range and unpaid.
+- "In-range liquidity" is the dollar value of each pool's active liquidity within ±1% of the price, time-weighted over
+  the week from the swap stream. Both venues pay emissions pro rata to in-range liquidity, so this is the basis that
+  decides what a position receives. These are realised weekly amounts; nothing is annualised.
+- **Limits of "value if sold".** The deepest BLACK market holds about $36,000 of USDC; the gauge receives $8,000 to
+  $29,000 of BLACK a week. The whole emission could not be sold near the quoted price. BLACK's weekly average price
+  ranged from $0.0016 to $0.0059 in the window, and the best weeks are the weeks of the highest price.
+- **Who the other LPs are.** 99.98% of Blackhole's active liquidity is staked, and one contract made 292 of the last 300
+  gauge deposits, minting a position worth half the pool's active liquidity and re-minting it continually. A passive
+  range competes with that manager for the same emission.
+
+### 10.4 Sell-side depth at the end block (each protocol's own quoter, same block)
+
+| Sell WAVAX until the price is down by | Blackhole: WAVAX in (USD) | Blackhole: cost, bp of size | Pharaoh: WAVAX in (USD) | Pharaoh: cost, bp of size | Pharaoh ÷ Blackhole |
+| --- | --- | --- | --- | --- | --- |
+| 1% | 1,257 ($10,542) | 55 | 18,956 ($159,084) | 57 | 15 |
+| 5% | 3,593 ($30,144) | 179 | 64,603 ($542,160) | 231 | 18 |
+| 10% | 4,205 ($35,279) | 257 | 103,323 ($867,094) | 404 | 25 |
+
+Buy side (USDC in for +1%, +5%, +10%): $16,469, $92,126 and $152,199 on Blackhole; $161,633, $545,232 and $986,241 on
+Pharaoh. Neither pool ran out of liquidity inside 10% at this block. The brief's figure for Pharaoh was about $106,000 to move
+the price 1%, with liquidity running out past 10%; the margin rehearsals measured $231,000 and $777,000 to 10% on two
+earlier blocks. Pharaoh's depth moves by a factor of three or more from one day to the next; Blackhole's was read once.
+
+### 10.5 A staked $1,000 position (rewards valued if sold, 2% sale cost)
+
+| Pool | Range | Against holding, whole window | Reward if sold | With reward | Rolling 30 days with reward: worst | Median | Best | Windows above holding |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Pharaoh | ±2,400 / 600 | −7.79% | +2.71% (902 PHAR) | −5.08% | −14.86% | −1.57% | +1.50% | 3 of 12 |
+| Pharaoh | ±4,800 / 1,200 | −4.03% | +3.34% (809 PHAR) | −0.69% | −8.92% | −0.62% | +0.51% | 4 of 12 |
+| Blackhole | ±2,400 / 600 | −7.41% | +4.12% (18,291 BLACK) | −3.29% | −12.95% | +0.06% | +4.47% | 6 of 12 |
+| Blackhole | ±4,800 / 1,200 | −4.19% | +5.10% (18,858 BLACK) | +0.91% | −7.49% | +0.15% | +2.09% | 6 of 12 |
+
+WAVAX rose about 31% in the window, which is why every range is behind holding before rewards. Blackhole's reward per
+dollar of position is about one and a half times Pharaoh's; it moves the median window from slightly negative to about
+zero and leaves the worst window at −7% to −13%.
+
+### 10.6 Recommendation
+
+| Lever | Decision | Parameters |
+| --- | --- | --- |
+| Blackhole as the execution venue for margin closes, liquidations or take-profit bands | **Reject.** Not with this venue's depth: $35,000 moves it 10%, against $867,000 on Pharaoh at the same block. | none |
+| Move the range take-profit to Blackhole for the emission | **Reject.** A band earns nothing there unless the custodian stakes each NFT; the farming accepts nothing narrower than 200 ticks, and the pool's 200-tick spacing does not fit the 100 / 300 / 490 presets. | none |
+| A staked symmetric position on Blackhole WAVAX/USDC | **Reject as a product; no pilot.** It is the only WAVAX venue where emissions have exceeded the loss, but no range was ahead of holding in more than half the windows, the reward's value rests on a token with a $36,000 market, and our contracts cannot stake. | none |
+| Use Blackhole's ratio as a benchmark when judging Pharaoh's emissions | **Adopt.** Pharaoh pays LPs half as much per dollar of in-range liquidity for the same loss. | compare weekly emissions per $1,000 of in-range liquidity with loss per $1,000 |
 
 ## 11. All levers in one table
 

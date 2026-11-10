@@ -50,9 +50,11 @@ def cells_of(ts0: float, ts1: float, equity: bool) -> list[tuple[float, float, i
     return [(float(grid[a]), float(grid[b]), int(codes[a])) for a, b in zip(starts, ends) if grid[b] > grid[a]]
 
 
-def analyse(key: str, t_from: float | None, t_to: float | None, width: int, ref_rel: str | None) -> dict:
+def analyse(key: str, t_from: float | None, t_to: float | None, width: int, ref_rel: str | None, protocol_share: float | None = None) -> dict:
     v = VENUES[key]
     s = load_swaps(key, t_from, t_to)
+    if protocol_share is not None:      # one protocol share for the whole window (e.g. Ramses at today's 50%)
+        s.proto = np.full(len(s), protocol_share)
     n = len(s)
     t0, t1 = float(s.ts[0]), float(s.ts[-1])
     usable = s.ts <= t1 - max(HORIZONS)            # every horizon observed for every scored swap
@@ -248,8 +250,10 @@ if __name__ == "__main__":
     ap.add_argument("--width", type=int, default=2400)
     ap.add_argument("--ref")
     ap.add_argument("--tag", default="")
+    ap.add_argument("--protocol-share", type=float, default=None)
     a = ap.parse_args()
-    res = analyse(a.venue, parse_ts(a.frm), parse_ts(a.to), a.width, a.ref)
+    res = analyse(a.venue, parse_ts(a.frm), parse_ts(a.to), a.width, a.ref, a.protocol_share)
+    res["protocol_share_override"] = a.protocol_share
     show(res)
     p = dump(res, f"q1_{a.venue}{a.tag}.json")
     print("wrote", p)
