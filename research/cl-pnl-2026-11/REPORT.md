@@ -889,8 +889,10 @@ deposits a year on every pool.
 - **SPY** has history on Uniswap v4 0.30% (from 14 July), Uniswap V3 0.05% (from 19 August, after its thin first week)
   and Ramses (from 19 August).
 - **Fee-to-loss ratio:** measured per unit of liquidity on real swaps at +1 hour, as in section 4, over the same window.
-  For a position that stays in range with constant liquidity this is exact, and it is the same for full range and for
-  ±50%. It uses the LP fee before the vault's reserve cut.
+  It is the ratio of a position that stays in range with constant liquidity, the same for full range and for ±50%, and
+  it uses the LP fee before the vault's reserve cut. It weights every period by price moves, not by volume, so it
+  differs from section 4.1's pool-wide ratio: Ramses NVDA at a 50% share is 0.60 there and 0.43 here because the thin
+  weeks count for more.
 
 ### 11.2 Fee ÷ loss (+1 hour) over the same windows
 
@@ -982,13 +984,17 @@ How the reserve is computed:
 
 ### 11.6 Recommendation
 
+Nothing here reverses section 5. Full range fails the same test as every other NVDA geometry (the windows starting 7 to
+11 October end below holding), its fee income at $1,000 is below the keeper's cost on every pool, there is no position
+to test on (the vault is unwound) and the repository has no Uniswap V3 adapter, only v4 ones.
+
 | Lever | Decision | Parameters |
 | --- | --- | --- |
-| Full range as the default for any remaining symmetric LP on Uniswap NVDA or SPY | **Adopt** over ±2,400: it has the smallest worst window of any geometry tested (−0.8% against −3.9% on v4 NVDA) for the same fee-to-loss ratio. It is still not a yield product: about 1% a year to holders. | adapter full range; no recentre policy needed |
-| ±50% band | **Reject.** It needs a library change and is full range at 3.4 times the scale; if more exposure is wanted, ±4,800 is already allowed and behaves the same way. | none |
-| A loss-protection reserve on full-range NVDA, Uniswap v4 0.30% or V3 0.05% | **Test live at pilot size,** funded as below; do not promise more than 95% of windows. | standing reserve 0.8% of deposits (the largest 30-day shortfall seen); reserve fee cut 35% on v4 and 40% on V3 (20% now); 30-day minimum holding; review after any window whose shortfall exceeds 0.8% |
-| The same reserve on Ramses NVDA | **Reject.** At a 50% fee share the cut covers 18% of the cost. | none |
-| A loss-protection reserve on full-range SPY | **Adopt if a SPY market is opened:** the current 20% cut covers it on all three pools. | standing reserve 0.05% of deposits; fee cut 20% |
+| Re-open symmetric LP on NVDA at full range | **Reject,** as in section 5.5. If a symmetric NVDA position is ever reopened despite that, full range is the geometry to use: the smallest worst window of any tested (−0.8% against −3.9% for ±2,400 on v4) at the same fee-to-loss ratio. | adapter full range; no recentre policy |
+| ±50% band | **Reject.** It needs a library change and is full range at 3.4 times the scale; ±4,800 is already allowed and behaves the same way. | none |
+| SPY | **No change to section 5.5** (±1,200 / 300 on Uniswap v4 0.30%, only once a SPY market exists). Full range earns about a sixth as much there. | as section 5.5 |
+| A loss-protection reserve | **Not a pilot; a sizing answer** for anyone who chooses to offer full range. To make depositors whole in 95% of 30-day windows on NVDA: a standing reserve of about 0.45% of deposits and payouts of 0.4% to 0.6% of deposits a year. By arithmetic on these runs the fee cut would have to be about 33% (v4 since August) to 40% (V3) instead of 20%, or 39% to 48% to pay every shortfall in full; the contract's cap is 50%. These cuts were not simulated, and a larger cut lowers holders' returns and so raises the shortfalls it must pay. | standing size 0.45% of deposits (95% of windows) or 0.8% (every window seen) |
+| The same reserve on Ramses NVDA | **Reject.** At a 50% fee share the cut covers 18% of the cost; no cut within the contract's cap funds it. | none |
 
 ## 12. All levers in one table
 
@@ -1010,20 +1016,20 @@ How the reserve is computed:
 | Hourly rebalance on a reward-earning position | Reject | value gate only |
 | Session-aware width | Reject | none |
 | Blackhole as execution venue, as a home for bands, or as a staked LP product | Reject | none: a fifteenth to a twenty-fifth of Pharaoh's depth; unstaked positions earn nothing |
-| Full range as the default for any remaining symmetric LP on Uniswap NVDA or SPY | Adopt | adapter full range |
+| Full range on NVDA | Reject (as every NVDA geometry); least-bad geometry if one is ever reopened | adapter full range |
 | ±50% band | Reject | none |
-| Loss-protection reserve, full-range NVDA on Uniswap | Test live at pilot size | standing 0.8% of deposits; fee cut 35% (v4) or 40% (V3); 30-day minimum holding |
+| Loss-protection reserve | Sizing answer only, not a pilot | 0.45% of deposits standing for 95% of windows; 0.4% to 0.6% a year in payouts; needs a fee cut of roughly 33% to 48% (not simulated) |
 | Loss-protection reserve, Ramses NVDA | Reject | none |
-| Loss-protection reserve, full-range SPY | Adopt if a SPY market is opened | standing 0.05% of deposits; fee cut 20% |
 | Naive LVR as the loss estimate | Adopt | σ²/4 × L√P, σ from a fast pool or the outside market |
 | LVR × P_trade as a forecast of LP loss | Reject | none |
 
 ## 13. Reproducing this report
 
 - `sh scripts/run_all.sh` rebuilds every file in `out/` and `charts/` from `data/` with no network (Python 3.9 or later
-  with numpy and matplotlib; about an hour and a half on six cores). **Tested:** run end to end in a fresh clone of the
-  branch, it reproduced every number in the 45 result files it can rebuild (`scripts/compare_out.py`); the four it cannot
-  need the table named below. `out/logs/` holds the console output of the runs behind this
+  with numpy and matplotlib; about an hour and a half on six cores). **Tested:** the pipeline for questions 1 to 6 was
+  run end to end in a fresh clone at commit `805a828` and reproduced every number in the 45 result files it can rebuild
+  (`scripts/compare_out.py`). The question 7 and 8 steps added afterwards were being re-run in a second clone when this
+  was written; that check is not finished. `out/logs/` holds the console output of the runs behind this
   report, and `out/tables_q1.md`, `tables_q2.md`, `tables_q3.md` and `tables_q456.md` hold every table in full.
 - `scripts/pull/` holds the read-only fetch scripts; `data/*/MANIFEST.json` and `SHA256SUMS` list every table with its
   source, block range, checksum and checks.
