@@ -1,0 +1,144 @@
+{
+ "gauge": "0x4543922018006b46fe7dab001669f38d4e22c728",
+ "read_at_block": 99924388,
+ "source": "eth_call via api.avax.network",
+ "week_seconds": 604800,
+ "periods": [
+  {
+   "period": 2952,
+   "period_start_ts": 1785369600,
+   "period_start_iso": "2026-07-30T00:00:00Z",
+   "tokenTotalSupplyByPeriod_PHAR": "1052615591046788099884914",
+   "tokenTotalSupplyByPeriod_xPHAR": "0",
+   "sum_of_PHAR_notify_events_in_window": "0",
+   "equal": false,
+   "note": "this period began before START; its NotifyReward was emitted before the window, so only the state value is available"
+  },
+  {
+   "period": 2953,
+   "period_start_ts": 1785974400,
+   "period_start_iso": "2026-08-06T00:00:00Z",
+   "tokenTotalSupplyByPeriod_PHAR": "985579972059940249812157",
+   "tokenTotalSupplyByPeriod_xPHAR": "0",
+   "sum_of_PHAR_notify_events_in_window": "985579972059940249812157",
+   "equal": true
+  },
+  {
+   "period": 2954,
+   "period_start_ts": 1786579200,
+   "period_start_iso": "2026-08-13T00:00:00Z",
+   "tokenTotalSupplyByPeriod_PHAR": "1291869339772285661364338",
+   "tokenTotalSupplyByPeriod_xPHAR": "0",
+   "sum_of_PHAR_notify_events_in_window": "1291869339772285661364338",
+   "equal": true
+  },
+  {
+   "period": 2955,
+   "period_start_ts": 1787184000,
+   "period_start_iso": "2026-08-20T00:00:00Z",
+   "tokenTotalSupplyByPeriod_PHAR": "894177758265764712515048",
+   "tokenTotalSupplyByPeriod_xPHAR": "0",
+   "sum_of_PHAR_notify_events_in_window": "894177758265764712515048",
+   "equal": true
+  },
+  {
+   "period": 2956,
+   "period_start_ts": 1787788800,
+   "period_start_iso": "2026-08-27T00:00:00Z",
+   "tokenTotalSupplyByPeriod_PHAR": "886796181938573768452782",
+   "tokenTotalSupplyByPeriod_xPHAR": "0",
+   "sum_of_PHAR_notify_events_in_window": "886796181938573768452782",
+   "equal": true
+  },
+  {
+   "period": 2957,
+   "period_start_ts": 1788393600,
+   "period_start_iso": "2026-09-03T00:00:00Z",
+   "tokenTotalSupplyByPeriod_PHAR": "1159283251016752882387185",
+   "tokenTotalSupplyByPeriod_xPHAR": "0",
+   "sum_of_PHAR_notify_events_in_window": "1159283251016752882387185",
+   "equal": true
+  },
+  {
+   "period": 2958,
+   "period_start_ts": 1788998400,
+   "period_start_iso": "2026-09-10T00:00:00Z",
+   "tokenTotalSupplyByPeriod_PHAR": "1290348142211888246032584",
+   "tokenTotalSupplyByPeriod_xPHAR": "0",
+   "sum_of_PHAR_notify_events_in_window": "1290348142211888246032584",
+   "equal": true
+  },
+  {
+   "period": 2959,
+   "period_start_ts": 1789603200,
+   "period_start_iso": "2026-09-17T00:00:00Z",
+   "tokenTotalSupplyByPeriod_PHAR": "1317601615478197188890859",
+   "tokenTotalSupplyByPeriod_xPHAR": "0",
+   "sum_of_PHAR_notify_events_in_window": "1317601615478197188890859",
+   "equal": true
+  },
+  {
+   "period": 2960,
+   "period_start_ts": 1790208000,
+   "period_start_iso": "2026-09-24T00:00:00Z",
+   "tokenTotalSupplyByPeriod_PHAR": "1455243578132090174309625",
+   "tokenTotalSupplyByPeriod_xPHAR": "0",
+   "sum_of_PHAR_notify_events_in_window": "1455243578132090174309625",
+   "equal": true
+  },
+  {
+   "period": 2961,
+   "period_start_ts": 1790812800,
+   "period_start_iso": "2026-10-01T00:00:00Z",
+   "tokenTotalSupplyByPeriod_PHAR": "1601703430813222417635483",
+   "tokenTotalSupplyByPeriod_xPHAR": "0",
+   "sum_of_PHAR_notify_events_in_window": "1601703430813222417635483",
+   "equal": true
+  },
+  {
+   "period": 2962,
+   "period_start_ts": 1791417600,
+   "period_start_iso": "2026-10-08T00:00:00Z",
+   "tokenTotalSupplyByPeriod_PHAR": "1277177645379052239113849",
+   "tokenTotalSupplyByPeriod_xPHAR": "0",
+   "sum_of_PHAR_notify_events_in_window": "1277177645379052239113849",
+   "equal": true
+  },
+  {
+   "period": 2963,
+   "period_start_ts": 1792022400,
+   "period_start_iso": "2026-10-15T00:00:00Z",
+   "tokenTotalSupplyByPeriod_PHAR": "1431693704538267265672195",
+   "tokenTotalSupplyByPeriod_xPHAR": "0",
+   "sum_of_PHAR_notify_events_in_window": "1431693704538267265672195",
+   "equal": true
+  },
+  {
+   "period": 2964,
+   "period_start_ts": 1792627200,
+   "period_start_iso": "2026-10-22T00:00:00Z",
+   "tokenTotalSupplyByPeriod_PHAR": "1786106599433791389101428",
+   "tokenTotalSupplyByPeriod_xPHAR": "0",
+   "sum_of_PHAR_notify_events_in_window": "1786106599433791389101428",
+   "equal": true
+  },
+  {
+   "period": 2965,
+   "period_start_ts": 1793232000,
+   "period_start_iso": "2026-10-29T00:00:00Z",
+   "tokenTotalSupplyByPeriod_PHAR": "1858082794171755842032652",
+   "tokenTotalSupplyByPeriod_xPHAR": "0",
+   "sum_of_PHAR_notify_events_in_window": "1858082794171755842032652",
+   "equal": true
+  },
+  {
+   "period": 2966,
+   "period_start_ts": 1793836800,
+   "period_start_iso": "2026-11-05T00:00:00Z",
+   "tokenTotalSupplyByPeriod_PHAR": "2279299500829265997557884",
+   "tokenTotalSupplyByPeriod_xPHAR": "0",
+   "sum_of_PHAR_notify_events_in_window": "2279299500829265997557884",
+   "equal": true
+  }
+ ]
+}

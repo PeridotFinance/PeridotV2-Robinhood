@@ -1,0 +1,100 @@
+{
+ "_note": "Every value has its source in data/facts/MECHANICS.md (section in brackets) or is marked as an assumption of this study.",
+ "sizes_usd": [
+  1000,
+  10000
+ ],
+ "thresholds": [
+  0.02,
+  0.05,
+  0.1
+ ],
+ "bands": {
+  "_presets": "range take-profit prototype presets: distance 100 / 300 / 490 ticks, width 200 ticks [5]",
+  "dist_ticks": [
+   100,
+   300,
+   490
+  ],
+  "width_ticks": 200,
+  "ramses_nvda": {
+   "poll_s": 30,
+   "user_fee_share": 0.7,
+   "oracle_gate_bps": 100,
+   "max_oracle_age_s": 43200,
+   "forfeit_window_s": 99
+  },
+  "ramses_spy": {
+   "poll_s": 30,
+   "user_fee_share": 0.7,
+   "oracle_gate_bps": 100,
+   "max_oracle_age_s": 43200,
+   "forfeit_window_s": 99
+  },
+  "v4_nvda": {
+   "poll_s": 30,
+   "user_fee_share": 0.7,
+   "oracle_gate_bps": 100,
+   "max_oracle_age_s": 43200,
+   "forfeit_window_s": 0,
+   "_note": "hypothetical venue for the band: the prototype targets the Ramses pools [5]; shown to isolate the effect of a 0.30% fee tier"
+  },
+  "pharaoh_wavax": {
+   "poll_s": 20,
+   "user_fee_share": 1.0,
+   "oracle_gate_bps": 100,
+   "max_oracle_age_s": 86400,
+   "forfeit_window_s": 111
+  }
+ },
+ "hedge": {
+  "_rate_model": "Robinhood pNVDA / pUSDG: base 2%, +10% to the 80% kink, +100% above, reserve factor 10% [6A]. Borrow APR at utilisation u <= 0.8: 0.02 + 0.10 * u / 0.8",
+  "v4_nvda": {
+   "hedge_venue": "v4_nvda",
+   "borrow_apr": 0.12,
+   "quote_supply_apr": 0.0018,
+   "margin_fraction": 0.5,
+   "gas_usd_per_adjustment": 0.1,
+   "flash_fee": 0.0005,
+   "_note": "as built: the margin executor swaps on the v4 pool (34.99 bp paid) and pays the flash vault 5 bp on open and close [6A]; borrow at the 80% kink"
+  },
+  "ramses_nvda": {
+   "hedge_venue": "ramses_nvda",
+   "borrow_apr": 0.12,
+   "quote_supply_apr": 0.0018,
+   "margin_fraction": 0.5,
+   "gas_usd_per_adjustment": 0.1,
+   "flash_fee": 0.0005,
+   "_note": "hypothetical route: the same short executed on the Ramses pool at its fee in force"
+  },
+  "pharaoh_wavax": {
+   "hedge_venue": "pharaoh_wavax",
+   "borrow_apr": 0.12,
+   "quote_supply_apr": 0.0,
+   "margin_fraction": 0.5,
+   "gas_usd_per_adjustment": 0.05,
+   "flash_fee": 0.0,
+   "_note": "NOT AVAILABLE TODAY: WAVAX borrowing is paused and no short pair exists [6B]; shown only to size the economics"
+  }
+ },
+ "rewards": {
+  "pharaoh_wavax": {
+   "token_symbol": "PHAR",
+   "token": "0x13a466998ce03db73abc2d4df3bbd845ed1f28e7",
+   "notify_file": "avalanche/pharaoh_gauge_notify.csv.gz",
+   "periods_from_state": [
+    {
+     "period": 2952,
+     "tokens": 1052615.591046788,
+     "source": "data/avalanche/gauge_periods.json (tokenTotalSupplyByPeriod at END; its notification predates the table)"
+    }
+   ],
+   "price_venue": "phar_wavax",
+   "quote_usd_bars": "external/avaxusdt_1m.csv.gz",
+   "sale_cost": 0.02,
+   "_sale_cost": "assumption: PHAR/WAVAX CL pool fee 1% in force at END plus 1% impact and the WAVAX leg; applies at pilot size only (the pool trades about $23k a day)",
+   "form": "liquid PHAR (voter.xRatio = 0 at START and END)",
+   "forfeit_window_s": 111
+  }
+ }
+}

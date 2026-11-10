@@ -1,0 +1,305 @@
+{
+ "fetched_at_unix": 1794302591,
+ "fetched_at_iso": "2026-11-10T09:23:11Z",
+ "url_pattern": "https://query1.finance.yahoo.com/v8/finance/chart/{SYMBOL}?interval={1m|5m|1h}&includePrePost=true&period1={unix}&period2={unix}",
+ "files": {
+  "nvda_1m.csv.gz": {
+   "symbol": "NVDA",
+   "interval": "1m",
+   "rows": 18857,
+   "requests": [
+    {
+     "host": "query1.finance.yahoo.com",
+     "period1": 1791753791,
+     "period2": 1792358591,
+     "bars": 4127,
+     "error": null,
+     "dataGranularity": "1m"
+    },
+    {
+     "host": "query1.finance.yahoo.com",
+     "period1": 1792358591,
+     "period2": 1792963391,
+     "bars": 4644,
+     "error": null,
+     "dataGranularity": "1m"
+    },
+    {
+     "host": "query1.finance.yahoo.com",
+     "period1": 1792963391,
+     "period2": 1793568191,
+     "bars": 4552,
+     "error": null,
+     "dataGranularity": "1m"
+    },
+    {
+     "host": "query1.finance.yahoo.com",
+     "period1": 1793568191,
+     "period2": 1794172991,
+     "bars": 4551,
+     "error": null,
+     "dataGranularity": "1m"
+    },
+    {
+     "host": "query1.finance.yahoo.com",
+     "period1": 1794172991,
+     "period2": 1794302591,
+     "bars": 984,
+     "error": null,
+     "dataGranularity": "1m"
+    }
+   ],
+   "requested_from_iso": "2026-10-11T21:23:11Z",
+   "requested_to_iso": "2026-11-10T09:23:11Z",
+   "first_ts": 1791792000,
+   "last_ts": 1794302520,
+   "first_iso": "2026-10-12T08:00:00Z",
+   "last_iso": "2026-11-10T09:22:00Z",
+   "null_bars_dropped": 101,
+   "open_bars_dropped": 1,
+   "off_grid_bars_dropped": 1,
+   "session_mix_new_york": {
+    "pre": 6381,
+    "regular": 8089,
+    "post": 4387
+   },
+   "pre_post_present": true,
+   "trading_days": 22
+  },
+  "nvda_5m.csv.gz": {
+   "symbol": "NVDA",
+   "interval": "5m",
+   "rows": 7566,
+   "requests": [
+    {
+     "host": "query1.finance.yahoo.com",
+     "period1": 1789161791,
+     "period2": 1790889791,
+     "bars": 2687,
+     "error": null,
+     "dataGranularity": "5m"
+    },
+    {
+     "host": "query1.finance.yahoo.com",
+     "period1": 1790889791,
+     "period2": 1792617791,
+     "bars": 2439,
+     "error": null,
+     "dataGranularity": "5m"
+    },
+    {
+     "host": "query1.finance.yahoo.com",
+     "period1": 1792617791,
+     "period2": 1794302591,
+     "bars": 2442,
+     "error": null,
+     "dataGranularity": "5m"
+    }
+   ],
+   "requested_from_iso": "2026-09-11T21:23:11Z",
+   "requested_to_iso": "2026-11-10T09:23:11Z",
+   "first_ts": 1789161900,
+   "last_ts": 1794302100,
+   "first_iso": "2026-09-11T21:25:00Z",
+   "last_iso": "2026-11-10T09:15:00Z",
+   "null_bars_dropped": 19,
+   "open_bars_dropped": 2,
+   "off_grid_bars_dropped": 1,
+   "session_mix_new_york": {
+    "post": 1691,
+    "pre": 2696,
+    "regular": 3179
+   },
+   "pre_post_present": true,
+   "trading_days": 43
+  },
+  "nvda_1h.csv.gz": {
+   "symbol": "NVDA",
+   "interval": "1h",
+   "rows": 1168,
+   "requests": [
+    {
+     "host": "query1.finance.yahoo.com",
+     "period1": 1785542400,
+     "period2": 1790726400,
+     "bars": 697,
+     "error": null,
+     "dataGranularity": "1h"
+    },
+    {
+     "host": "query1.finance.yahoo.com",
+     "period1": 1790726400,
+     "period2": 1794302591,
+     "bars": 473,
+     "error": null,
+     "dataGranularity": "1h"
+    }
+   ],
+   "requested_from_iso": "2026-08-01T00:00:00Z",
+   "requested_to_iso": "2026-11-10T09:23:11Z",
+   "first_ts": 1785744000,
+   "last_ts": 1794268800,
+   "first_iso": "2026-08-03T08:00:00Z",
+   "last_iso": "2026-11-10T00:00:00Z",
+   "null_bars_dropped": 1,
+   "open_bars_dropped": 2,
+   "off_grid_bars_dropped": 1,
+   "session_mix_new_york": {
+    "pre": 419,
+    "regular": 489,
+    "post": 260
+   },
+   "pre_post_present": true,
+   "trading_days": 70
+  },
+  "spy_1m.csv.gz": {
+   "symbol": "SPY",
+   "interval": "1m",
+   "rows": 18533,
+   "requests": [
+    {
+     "host": "query1.finance.yahoo.com",
+     "period1": 1791753791,
+     "period2": 1792358591,
+     "bars": 4166,
+     "error": null,
+     "dataGranularity": "1m"
+    },
+    {
+     "host": "query1.finance.yahoo.com",
+     "period1": 1792358591,
+     "period2": 1792963391,
+     "bars": 4502,
+     "error": null,
+     "dataGranularity": "1m"
+    },
+    {
+     "host": "query1.finance.yahoo.com",
+     "period1": 1792963391,
+     "period2": 1793568191,
+     "bars": 4494,
+     "error": null,
+     "dataGranularity": "1m"
+    },
+    {
+     "host": "query1.finance.yahoo.com",
+     "period1": 1793568191,
+     "period2": 1794172991,
+     "bars": 4436,
+     "error": null,
+     "dataGranularity": "1m"
+    },
+    {
+     "host": "query1.finance.yahoo.com",
+     "period1": 1794172991,
+     "period2": 1794302591,
+     "bars": 936,
+     "error": null,
+     "dataGranularity": "1m"
+    }
+   ],
+   "requested_from_iso": "2026-10-11T21:23:11Z",
+   "requested_to_iso": "2026-11-10T09:23:11Z",
+   "first_ts": 1791792000,
+   "last_ts": 1794302520,
+   "first_iso": "2026-10-12T08:00:00Z",
+   "last_iso": "2026-11-10T09:22:00Z",
+   "null_bars_dropped": 101,
+   "open_bars_dropped": 1,
+   "off_grid_bars_dropped": 1,
+   "session_mix_new_york": {
+    "pre": 6142,
+    "regular": 8089,
+    "post": 4302
+   },
+   "pre_post_present": true,
+   "trading_days": 22
+  },
+  "spy_5m.csv.gz": {
+   "symbol": "SPY",
+   "interval": "5m",
+   "rows": 7457,
+   "requests": [
+    {
+     "host": "query1.finance.yahoo.com",
+     "period1": 1789161791,
+     "period2": 1790889791,
+     "bars": 2641,
+     "error": null,
+     "dataGranularity": "5m"
+    },
+    {
+     "host": "query1.finance.yahoo.com",
+     "period1": 1790889791,
+     "period2": 1792617791,
+     "bars": 2413,
+     "error": null,
+     "dataGranularity": "5m"
+    },
+    {
+     "host": "query1.finance.yahoo.com",
+     "period1": 1792617791,
+     "period2": 1794302591,
+     "bars": 2405,
+     "error": null,
+     "dataGranularity": "5m"
+    }
+   ],
+   "requested_from_iso": "2026-09-11T21:23:11Z",
+   "requested_to_iso": "2026-11-10T09:23:11Z",
+   "first_ts": 1789161900,
+   "last_ts": 1794302100,
+   "first_iso": "2026-09-11T21:25:00Z",
+   "last_iso": "2026-11-10T09:15:00Z",
+   "null_bars_dropped": 19,
+   "open_bars_dropped": 2,
+   "off_grid_bars_dropped": 1,
+   "session_mix_new_york": {
+    "post": 1701,
+    "pre": 2577,
+    "regular": 3179
+   },
+   "pre_post_present": true,
+   "trading_days": 43
+  },
+  "spy_1h.csv.gz": {
+   "symbol": "SPY",
+   "interval": "1h",
+   "rows": 1174,
+   "requests": [
+    {
+     "host": "query1.finance.yahoo.com",
+     "period1": 1785542400,
+     "period2": 1790726400,
+     "bars": 697,
+     "error": null,
+     "dataGranularity": "1h"
+    },
+    {
+     "host": "query1.finance.yahoo.com",
+     "period1": 1790726400,
+     "period2": 1794302591,
+     "bars": 479,
+     "error": null,
+     "dataGranularity": "1h"
+    }
+   ],
+   "requested_from_iso": "2026-08-01T00:00:00Z",
+   "requested_to_iso": "2026-11-10T09:23:11Z",
+   "first_ts": 1785744000,
+   "last_ts": 1794268800,
+   "first_iso": "2026-08-03T08:00:00Z",
+   "last_iso": "2026-11-10T00:00:00Z",
+   "null_bars_dropped": 1,
+   "open_bars_dropped": 2,
+   "off_grid_bars_dropped": 1,
+   "session_mix_new_york": {
+    "pre": 419,
+    "regular": 489,
+    "post": 266
+   },
+   "pre_post_present": true,
+   "trading_days": 70
+  }
+ }
+}

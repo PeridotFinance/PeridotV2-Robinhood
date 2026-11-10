@@ -1,0 +1,515 @@
+{
+ "block": 99924000,
+ "rpc": "https://api.avax.network/ext/bc/C/rpc",
+ "multicall3": "0xcA11bde05977b3631167028862bE2a173976CA11",
+ "calls": [
+  {
+   "label": "USDC vault gauge.earned(PHAR,tokenId)",
+   "target": "0xf51B4EB0f6801729170d18BEe67C7F5d98985572",
+   "sig": "earned(address,uint256)",
+   "args": [
+    "0x13A466998Ce03Db73aBc2d4DF3bBD845Ed1f28E7",
+    "485334"
+   ],
+   "result": "145711973904730 [1.457e14]"
+  },
+  {
+   "label": "USDC vault gauge.earned(xPHAR,tokenId)",
+   "target": "0xf51B4EB0f6801729170d18BEe67C7F5d98985572",
+   "sig": "earned(address,uint256)",
+   "args": [
+    "0xE8164Ea89665DAb7a553e667F81F30CfDA736B9A",
+    "485334"
+   ],
+   "result": "0"
+  },
+  {
+   "label": "USDC vault NFP.ownerOf(tokenId)",
+   "target": "0x0B4478e810D48B5882D4019D435A2f864Bab4F39",
+   "sig": "ownerOf(uint256)",
+   "args": [
+    "485334"
+   ],
+   "result": "0x855bF832f26a294d28500db59eE941dE3d654129"
+  },
+  {
+   "label": "USDC vault NFP.positions(tokenId)",
+   "target": "0x0B4478e810D48B5882D4019D435A2f864Bab4F39",
+   "sig": "positions(uint256)",
+   "args": [
+    "485334"
+   ],
+   "result": "0x9702230A8Ea53601f5cD2dc00fDBc13d4dF4A8c7 | 0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E | 1 | -109 | 91 | 4013650999 [4.013e9] | 1097961328216927793925906758224175 [1.097e33] | 1097736342905003443237293749249102 [1.097e33] | 0 | 0"
+  },
+  {
+   "label": "USDC vault NFP.positionLastModified(tokenId)",
+   "target": "0x0B4478e810D48B5882D4019D435A2f864Bab4F39",
+   "sig": "positionLastModified(uint256)",
+   "args": [
+    "485334"
+   ],
+   "result": "1794232619 [1.794e9]"
+  },
+  {
+   "label": "WAVAX vault gauge.earned(PHAR,tokenId)",
+   "target": "0xCB348abA8D8CE40a45353955ad63ca72095E152d",
+   "sig": "earned(address,uint256)",
+   "args": [
+    "0x13A466998Ce03Db73aBc2d4DF3bBD845Ed1f28E7",
+    "485416"
+   ],
+   "result": "27327801165927 [2.732e13]"
+  },
+  {
+   "label": "WAVAX vault gauge.earned(xPHAR,tokenId)",
+   "target": "0xCB348abA8D8CE40a45353955ad63ca72095E152d",
+   "sig": "earned(address,uint256)",
+   "args": [
+    "0xE8164Ea89665DAb7a553e667F81F30CfDA736B9A",
+    "485416"
+   ],
+   "result": "0"
+  },
+  {
+   "label": "WAVAX vault NFP.ownerOf(tokenId)",
+   "target": "0x0B4478e810D48B5882D4019D435A2f864Bab4F39",
+   "sig": "ownerOf(uint256)",
+   "args": [
+    "485416"
+   ],
+   "result": "0xe9a53f0077f9cf767a95Ce75Da483E906eE190E8"
+  },
+  {
+   "label": "WAVAX vault NFP.positions(tokenId)",
+   "target": "0x0B4478e810D48B5882D4019D435A2f864Bab4F39",
+   "sig": "positions(uint256)",
+   "args": [
+    "485416"
+   ],
+   "result": "0x2b2C81e08f1Af8835a78Bb2A90AE924ACE0eA4bE | 0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7 | 1 | 1854 | 3054 | 44492270966252569219 [4.449e19] | 4886772950302975306850965173854941 [4.886e33] | 6392679161573164591595123148140060 [6.392e33] | 52075059 [5.207e7] | 0"
+  },
+  {
+   "label": "WAVAX vault NFP.positionLastModified(tokenId)",
+   "target": "0x0B4478e810D48B5882D4019D435A2f864Bab4F39",
+   "sig": "positionLastModified(uint256)",
+   "args": [
+    "485416"
+   ],
+   "result": "1794232666 [1.794e9]"
+  },
+  {
+   "label": "controller.borrowGuardianPaused(pWAVAX)",
+   "target": "0xbE938cD7C25E0E4d0604Fa3F9f0a8b5b67b3D51A",
+   "sig": "borrowGuardianPaused(address)",
+   "args": [
+    "0x12f1F4Fc057a76f473B781ce2Fa88E55ef8581B1"
+   ],
+   "result": "true"
+  },
+  {
+   "label": "controller.mintGuardianPaused(pWAVAX)",
+   "target": "0xbE938cD7C25E0E4d0604Fa3F9f0a8b5b67b3D51A",
+   "sig": "mintGuardianPaused(address)",
+   "args": [
+    "0x12f1F4Fc057a76f473B781ce2Fa88E55ef8581B1"
+   ],
+   "result": "false"
+  },
+  {
+   "label": "controller.borrowCaps(pWAVAX)",
+   "target": "0xbE938cD7C25E0E4d0604Fa3F9f0a8b5b67b3D51A",
+   "sig": "borrowCaps(address)",
+   "args": [
+    "0x12f1F4Fc057a76f473B781ce2Fa88E55ef8581B1"
+   ],
+   "result": "5008172856064459802 [5.008e18]"
+  },
+  {
+   "label": "controller.borrowCashFloor(pWAVAX)",
+   "target": "0xbE938cD7C25E0E4d0604Fa3F9f0a8b5b67b3D51A",
+   "sig": "borrowCashFloor(address)",
+   "args": [
+    "0x12f1F4Fc057a76f473B781ce2Fa88E55ef8581B1"
+   ],
+   "result": "0"
+  },
+  {
+   "label": "controller.markets(pWAVAX)",
+   "target": "0xbE938cD7C25E0E4d0604Fa3F9f0a8b5b67b3D51A",
+   "sig": "markets(address)",
+   "args": [
+    "0x12f1F4Fc057a76f473B781ce2Fa88E55ef8581B1"
+   ],
+   "result": "true | 300000000000000000 [3e17] | false"
+  },
+  {
+   "label": "pWAVAX.getCash",
+   "target": "0x12f1F4Fc057a76f473B781ce2Fa88E55ef8581B1",
+   "sig": "getCash()",
+   "args": [],
+   "result": "1252043214016114950 [1.252e18]"
+  },
+  {
+   "label": "pWAVAX.totalBorrows",
+   "target": "0x12f1F4Fc057a76f473B781ce2Fa88E55ef8581B1",
+   "sig": "totalBorrows()",
+   "args": [],
+   "result": "0"
+  },
+  {
+   "label": "pWAVAX.totalReserves",
+   "target": "0x12f1F4Fc057a76f473B781ce2Fa88E55ef8581B1",
+   "sig": "totalReserves()",
+   "args": [],
+   "result": "0"
+  },
+  {
+   "label": "pWAVAX.totalSupply",
+   "target": "0x12f1F4Fc057a76f473B781ce2Fa88E55ef8581B1",
+   "sig": "totalSupply()",
+   "args": [],
+   "result": "6260216070 [6.26e9]"
+  },
+  {
+   "label": "pWAVAX.borrowRatePerBlock",
+   "target": "0x12f1F4Fc057a76f473B781ce2Fa88E55ef8581B1",
+   "sig": "borrowRatePerBlock()",
+   "args": [],
+   "result": "597014925 [5.97e8]"
+  },
+  {
+   "label": "pWAVAX.supplyRatePerBlock",
+   "target": "0x12f1F4Fc057a76f473B781ce2Fa88E55ef8581B1",
+   "sig": "supplyRatePerBlock()",
+   "args": [],
+   "result": "0"
+  },
+  {
+   "label": "pWAVAX.reserveFactorMantissa",
+   "target": "0x12f1F4Fc057a76f473B781ce2Fa88E55ef8581B1",
+   "sig": "reserveFactorMantissa()",
+   "args": [],
+   "result": "100000000000000000 [1e17]"
+  },
+  {
+   "label": "pWAVAX.exchangeRateStored",
+   "target": "0x12f1F4Fc057a76f473B781ce2Fa88E55ef8581B1",
+   "sig": "exchangeRateStored()",
+   "args": [],
+   "result": "200000000002574184312459362 [2e26]"
+  },
+  {
+   "label": "pWAVAX.accrualBlockNumber",
+   "target": "0x12f1F4Fc057a76f473B781ce2Fa88E55ef8581B1",
+   "sig": "accrualBlockNumber()",
+   "args": [],
+   "result": "99846851 [9.984e7]"
+  },
+  {
+   "label": "pWAVAX.interestRateModel",
+   "target": "0x12f1F4Fc057a76f473B781ce2Fa88E55ef8581B1",
+   "sig": "interestRateModel()",
+   "args": [],
+   "result": "0xe5a82bF40b493cf37C06851A934370F3f0896263"
+  },
+  {
+   "label": "controller.borrowGuardianPaused(pUSDC)",
+   "target": "0xbE938cD7C25E0E4d0604Fa3F9f0a8b5b67b3D51A",
+   "sig": "borrowGuardianPaused(address)",
+   "args": [
+    "0x0f7849CD9E54ffb027aacaEec82007cca9470098"
+   ],
+   "result": "false"
+  },
+  {
+   "label": "controller.mintGuardianPaused(pUSDC)",
+   "target": "0xbE938cD7C25E0E4d0604Fa3F9f0a8b5b67b3D51A",
+   "sig": "mintGuardianPaused(address)",
+   "args": [
+    "0x0f7849CD9E54ffb027aacaEec82007cca9470098"
+   ],
+   "result": "false"
+  },
+  {
+   "label": "controller.borrowCaps(pUSDC)",
+   "target": "0xbE938cD7C25E0E4d0604Fa3F9f0a8b5b67b3D51A",
+   "sig": "borrowCaps(address)",
+   "args": [
+    "0x0f7849CD9E54ffb027aacaEec82007cca9470098"
+   ],
+   "result": "200000000 [2e8]"
+  },
+  {
+   "label": "controller.borrowCashFloor(pUSDC)",
+   "target": "0xbE938cD7C25E0E4d0604Fa3F9f0a8b5b67b3D51A",
+   "sig": "borrowCashFloor(address)",
+   "args": [
+    "0x0f7849CD9E54ffb027aacaEec82007cca9470098"
+   ],
+   "result": "50000000 [5e7]"
+  },
+  {
+   "label": "controller.markets(pUSDC)",
+   "target": "0xbE938cD7C25E0E4d0604Fa3F9f0a8b5b67b3D51A",
+   "sig": "markets(address)",
+   "args": [
+    "0x0f7849CD9E54ffb027aacaEec82007cca9470098"
+   ],
+   "result": "true | 0 | false"
+  },
+  {
+   "label": "pUSDC.getCash",
+   "target": "0x0f7849CD9E54ffb027aacaEec82007cca9470098",
+   "sig": "getCash()",
+   "args": [],
+   "result": "270000000 [2.7e8]"
+  },
+  {
+   "label": "pUSDC.totalBorrows",
+   "target": "0x0f7849CD9E54ffb027aacaEec82007cca9470098",
+   "sig": "totalBorrows()",
+   "args": [],
+   "result": "0"
+  },
+  {
+   "label": "pUSDC.totalReserves",
+   "target": "0x0f7849CD9E54ffb027aacaEec82007cca9470098",
+   "sig": "totalReserves()",
+   "args": [],
+   "result": "0"
+  },
+  {
+   "label": "pUSDC.totalSupply",
+   "target": "0x0f7849CD9E54ffb027aacaEec82007cca9470098",
+   "sig": "totalSupply()",
+   "args": [],
+   "result": "1350000000000 [1.35e12]"
+  },
+  {
+   "label": "pUSDC.borrowRatePerBlock",
+   "target": "0x0f7849CD9E54ffb027aacaEec82007cca9470098",
+   "sig": "borrowRatePerBlock()",
+   "args": [],
+   "result": "597014925 [5.97e8]"
+  },
+  {
+   "label": "pUSDC.supplyRatePerBlock",
+   "target": "0x0f7849CD9E54ffb027aacaEec82007cca9470098",
+   "sig": "supplyRatePerBlock()",
+   "args": [],
+   "result": "0"
+  },
+  {
+   "label": "pUSDC.reserveFactorMantissa",
+   "target": "0x0f7849CD9E54ffb027aacaEec82007cca9470098",
+   "sig": "reserveFactorMantissa()",
+   "args": [],
+   "result": "100000000000000000 [1e17]"
+  },
+  {
+   "label": "pUSDC.exchangeRateStored",
+   "target": "0x0f7849CD9E54ffb027aacaEec82007cca9470098",
+   "sig": "exchangeRateStored()",
+   "args": [],
+   "result": "200000000000000 [2e14]"
+  },
+  {
+   "label": "pUSDC.accrualBlockNumber",
+   "target": "0x0f7849CD9E54ffb027aacaEec82007cca9470098",
+   "sig": "accrualBlockNumber()",
+   "args": [],
+   "result": "99920804 [9.992e7]"
+  },
+  {
+   "label": "pUSDC.interestRateModel",
+   "target": "0x0f7849CD9E54ffb027aacaEec82007cca9470098",
+   "sig": "interestRateModel()",
+   "args": [],
+   "result": "0xe5a82bF40b493cf37C06851A934370F3f0896263"
+  },
+  {
+   "label": "IRM.baseRatePerBlock",
+   "target": "0xe5a82bF40b493cf37C06851A934370F3f0896263",
+   "sig": "baseRatePerBlock()",
+   "args": [],
+   "result": "597014925 [5.97e8]"
+  },
+  {
+   "label": "IRM.multiplierPerBlock",
+   "target": "0xe5a82bF40b493cf37C06851A934370F3f0896263",
+   "sig": "multiplierPerBlock()",
+   "args": [],
+   "result": "3731343283 [3.731e9]"
+  },
+  {
+   "label": "IRM.jumpMultiplierPerBlock",
+   "target": "0xe5a82bF40b493cf37C06851A934370F3f0896263",
+   "sig": "jumpMultiplierPerBlock()",
+   "args": [],
+   "result": "29850746268 [2.985e10]"
+  },
+  {
+   "label": "IRM.kink",
+   "target": "0xe5a82bF40b493cf37C06851A934370F3f0896263",
+   "sig": "kink()",
+   "args": [],
+   "result": "800000000000000000 [8e17]"
+  },
+  {
+   "label": "IRM.blocksPerYear",
+   "target": "0xe5a82bF40b493cf37C06851A934370F3f0896263",
+   "sig": "blocksPerYear()",
+   "args": [],
+   "result": "33500000 [3.35e7]"
+  },
+  {
+   "label": "controller.closeFactorMantissa",
+   "target": "0xbE938cD7C25E0E4d0604Fa3F9f0a8b5b67b3D51A",
+   "sig": "closeFactorMantissa()",
+   "args": [],
+   "result": "500000000000000000 [5e17]"
+  },
+  {
+   "label": "controller.liquidationIncentiveMantissa",
+   "target": "0xbE938cD7C25E0E4d0604Fa3F9f0a8b5b67b3D51A",
+   "sig": "liquidationIncentiveMantissa()",
+   "args": [],
+   "result": "1080000000000000000 [1.08e18]"
+  },
+  {
+   "label": "controller.isolatedMarginRiskHook",
+   "target": "0xbE938cD7C25E0E4d0604Fa3F9f0a8b5b67b3D51A",
+   "sig": "isolatedMarginRiskHook()",
+   "args": [],
+   "result": "0xE022c90DB98ea8B1615c5B422Cbf46878B76a470"
+  },
+  {
+   "label": "marginConfig.getPairRisk(pUSDC,pWAVAX,pUSDC) [long]",
+   "target": "0x5d59C647CC4bD6C05b4E9205c23062d490699631",
+   "sig": "getPairRisk(address,address,address)",
+   "args": [
+    "0x0f7849CD9E54ffb027aacaEec82007cca9470098",
+    "0x12f1F4Fc057a76f473B781ce2Fa88E55ef8581B1",
+    "0x0f7849CD9E54ffb027aacaEec82007cca9470098"
+   ],
+   "result": "(false, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)"
+  },
+  {
+   "label": "marginConfig.getPairRisk(pUSDC,pUSDC,pWAVAX) [short]",
+   "target": "0x5d59C647CC4bD6C05b4E9205c23062d490699631",
+   "sig": "getPairRisk(address,address,address)",
+   "args": [
+    "0x0f7849CD9E54ffb027aacaEec82007cca9470098",
+    "0x0f7849CD9E54ffb027aacaEec82007cca9470098",
+    "0x12f1F4Fc057a76f473B781ce2Fa88E55ef8581B1"
+   ],
+   "result": "(false, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)"
+  },
+  {
+   "label": "marginConfig.opensPaused",
+   "target": "0x5d59C647CC4bD6C05b4E9205c23062d490699631",
+   "sig": "opensPaused()",
+   "args": [],
+   "result": "true"
+  },
+  {
+   "label": "marginConfig.openFeeBps",
+   "target": "0x5d59C647CC4bD6C05b4E9205c23062d490699631",
+   "sig": "openFeeBps()",
+   "args": [],
+   "result": "0"
+  },
+  {
+   "label": "marginConfig.closeFeeBps",
+   "target": "0x5d59C647CC4bD6C05b4E9205c23062d490699631",
+   "sig": "closeFeeBps()",
+   "args": [],
+   "result": "0"
+  },
+  {
+   "label": "marginConfig.actionDelay",
+   "target": "0x5d59C647CC4bD6C05b4E9205c23062d490699631",
+   "sig": "actionDelay()",
+   "args": [],
+   "result": "86400 [8.64e4]"
+  },
+  {
+   "label": "marginConfig.fundedLiquidators(op1)",
+   "target": "0x5d59C647CC4bD6C05b4E9205c23062d490699631",
+   "sig": "fundedLiquidators(address)",
+   "args": [
+    "0xA7640fc537E2172eD6c4b4A809C9456AbD60fbF4"
+   ],
+   "result": "false"
+  },
+  {
+   "label": "marginConfig.fundedLiquidators(op2)",
+   "target": "0x5d59C647CC4bD6C05b4E9205c23062d490699631",
+   "sig": "fundedLiquidators(address)",
+   "args": [
+    "0xfbb137eBcBb0F7eb2Ba70F59ff0be9B0A0c5125d"
+   ],
+   "result": "false"
+  },
+  {
+   "label": "USDC.balanceOf(flashVault)",
+   "target": "0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E",
+   "sig": "balanceOf(address)",
+   "args": [
+    "0x73B06542582e650925461194183C4882f6C0475b"
+   ],
+   "result": "100000000 [1e8]"
+  },
+  {
+   "label": "flashVault.feeBps",
+   "target": "0x73B06542582e650925461194183C4882f6C0475b",
+   "sig": "feeBps()",
+   "args": [],
+   "result": "0"
+  },
+  {
+   "label": "pUSDC.balanceOf(insuranceFund)",
+   "target": "0x0f7849CD9E54ffb027aacaEec82007cca9470098",
+   "sig": "balanceOf(address)",
+   "args": [
+    "0x8CbFF3c556B182bCaf4ba02257D5f9B8f994794E"
+   ],
+   "result": "50000000000 [5e10]"
+  },
+  {
+   "label": "executor.nextPositionId",
+   "target": "0x445D51c8A684139e0Ec215C3Ed827D94Ee8b53af",
+   "sig": "nextPositionId()",
+   "args": [],
+   "result": "1"
+  },
+  {
+   "label": "AVAX/USD feed latestRoundData",
+   "target": "0x0A77230d17318075983913bC2145DB16C7366156",
+   "sig": "latestRoundData()",
+   "args": [],
+   "result": "36893488147419964250 [3.689e19] | 839778360 [8.397e8] | 1794301512 [1.794e9] | 1794301514 [1.794e9] | 36893488147419964250 [3.689e19]"
+  },
+  {
+   "label": "multicall.getBlockNumber",
+   "target": "0xcA11bde05977b3631167028862bE2a173976CA11",
+   "sig": "getBlockNumber()",
+   "args": [],
+   "result": "99924000 [9.992e7]"
+  },
+  {
+   "label": "multicall.getCurrentBlockTimestamp",
+   "target": "0xcA11bde05977b3631167028862bE2a173976CA11",
+   "sig": "getCurrentBlockTimestamp()",
+   "args": [],
+   "result": "1794301565 [1.794e9]"
+  },
+  {
+   "label": "multicall.getBasefee",
+   "target": "0xcA11bde05977b3631167028862bE2a173976CA11",
+   "sig": "getBasefee()",
+   "args": [],
+   "result": "0"
+  }
+ ]
+}

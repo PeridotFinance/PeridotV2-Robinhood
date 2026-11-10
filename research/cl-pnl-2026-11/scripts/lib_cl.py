@@ -47,17 +47,24 @@ class Venue:
     protocol_share: float | None  # None = per-swap column in the table
     feed: str | None = None       # oracle table, relative to DATA
     feed_decimals: int = 8
+    lp_fee_ppm: float | None = None  # set when the table's fee column is LP fee + protocol fee (Uniswap v4): LP share = lp_fee / fee
+    spacing: int = 1
+    quote_decimals: int = 6          # base tokens are 18 dp everywhere in this study
 
 
 VENUES = {
+    "v4_nvda": Venue("v4_nvda", "Uniswap v4 NVDA/USDG (0.30%)", "robinhood/v4_nvda_swaps.csv.gz", False, 0.10, True, None,
+                     "robinhood/feed_nvda.csv.gz", lp_fee_ppm=3000.0, spacing=60),
     "ramses_nvda": Venue("ramses_nvda", "Ramses NVDA/USDG (CL10, dynamic fee)", "robinhood/ramses_nvda_swaps.csv.gz", False, 0.10, True, None,
-                         "robinhood/feed_nvda.csv.gz"),
+                         "robinhood/feed_nvda.csv.gz", spacing=10),
     "ramses_spy": Venue("ramses_spy", "Ramses SPY/USDG (CL1, dynamic fee)", "robinhood/ramses_spy_swaps.csv.gz", True, 0.10, True, None,
-                        "robinhood/feed_spy.csv.gz"),
-    "v4_nvda": Venue("v4_nvda", "Uniswap v4 NVDA/USDG (0.30%)", "robinhood/v4_nvda_swaps.csv.gz", False, 0.10, True, 0.0,
-                     "robinhood/feed_nvda.csv.gz"),
-    "pharaoh_wavax": Venue("pharaoh_wavax", "Pharaoh WAVAX/USDC", "avalanche/pharaoh_wavax_usdc_swaps.csv.gz", True, 1.0, False, None,
-                           "avalanche/feed_avax_usd.csv.gz"),
+                        "robinhood/feed_spy.csv.gz", spacing=1),
+    # Pharaoh: the pool's protocol share is 1,000,000 ppm (data/facts/pharaoh-wavax-usdc-lp-fee-check.json): LPs earn no swap fee.
+    "pharaoh_wavax": Venue("pharaoh_wavax", "Pharaoh WAVAX/USDC (CL10, dynamic fee)", "avalanche/pharaoh_wavax_usdc_swaps.csv.gz", True, 1.0, False, 1.0,
+                           "avalanche/feed_avax_usd.csv.gz", spacing=10),
+    # reward-token price pools (quote is not USD: converted with the quote's USD series where used)
+    "phar_wavax": Venue("phar_wavax", "Pharaoh PHAR/WAVAX (CL5)", "avalanche/phar_wavax_cl_swaps.csv.gz", True, 1.0, False, 1.0, None, spacing=5,
+                        quote_decimals=18),
 }
 
 
@@ -162,19 +169,20 @@ def load_swaps(key: str, t_from: float | None = None, t_to: float | None = None,
             cols["proto"].append(float(row[ix["protocol_share"]]) if has_proto else float("nan"))
     a = {k: np.array(x) for k, x in cols.items()}
     raw_price = a["sq"] ** 2                       # token1 raw per token0 raw
-    p = raw_price * 1e12 if v.base_is_token0 else 1e12 / raw_price
+    scale = 10.0 ** (18 - v.quote_decimals)
+    p = raw_price * scale if v.base_is_token0 else scale / raw_price
     base = (a["a0"] if v.base_is_token0 else a["a1"]) / 1e18
-    usd = (a["a1"] if v.base_is_token0 else a["a0"]) / 1e6
-    proto = a["proto"] if v.protocol_share is None else np.full(len(p), v.protocol_share)
+    usd = (a["a1"] if v.base_is_token0 else a["a0"]) / 10.0 ** v.quote_decimals
+    a["L"] = a["L"] * 1e12 / 10.0 ** ((18 + v.quote_decimals) / 2)   # loaded as raw / 1e12; correct for the quote's decimals
+    if v.lp_fee_ppm is not None:      # fee column = what the swapper paid (LP fee + protocol fee on top)
+        proto = 1.0 - np.minimum(v.lp_fee_ppm / np.maximum(a["fee"], 1e-9), 1.0)
+    elif v.protocol_share is None:
+        proto = a["proto"]
+    else:
+        proto = np.full(len(p), v.protocol_share)
     # A dust swap can push a pool with no liquidity in range to an extreme tick for a while (seen on thin pools). Such
     # jumps are not prices anyone could trade size at; drop swaps more than max_jump_ticks from the last accepted tick.
-    ok = np.ones(len(p), dtype=bool)
-    last = a["tick"][0]
-    for i, t in enumerate(a["tick"]):
-        if abs(t - last) > max_jump_ticks:
-            ok[i] = False
-        else:
-            last = t
+    ok = glitch_mask(a["tick"], max_jump_ticks)
     p, base, usd, proto = p[ok], base[ok], usd[ok], proto[ok]
     a = {k: x[ok] for k, x in a.items()}
     # the state a swap traded against is the state the previous ACCEPTED swap left behind
@@ -189,6 +197,31 @@ def load_swaps(key: str, t_from: float | None = None, t_to: float | None = None,
               proto[keep], a["tick"][keep])
     s.dropped_glitches = int((~ok).sum())
     return s
+
+
+def glitch_mask(ticks, max_jump_ticks: int = 1500, confirm: int = 5) -> np.ndarray:
+    """True for swaps to keep. A swap whose tick is more than ``max_jump_ticks`` from the last accepted tick is dropped as
+    a dust print into an empty range, unless ``confirm`` consecutive swaps agree on the new level (then the level is real:
+    the pool moved, and the run is accepted from its first swap)."""
+    n = len(ticks)
+    ok = np.ones(n, dtype=bool)
+    last = ticks[0]
+    run: list[int] = []
+    for i in range(n):
+        t = ticks[i]
+        if abs(t - last) <= max_jump_ticks:
+            last = t
+            run = []
+            continue
+        ok[i] = False
+        if run and abs(t - ticks[run[-1]]) > max_jump_ticks:
+            run = []
+        run.append(i)
+        if len(run) >= confirm:
+            ok[run] = True
+            last = t
+            run = []
+    return ok
 
 
 class Series:

@@ -1,0 +1,1840 @@
+{
+ "generated_at_unix": 1794305364,
+ "generated_at_iso": "2026-11-10T10:09:24Z",
+ "window": {
+  "start": {
+   "number": 91716610,
+   "hash": "0x14728160b150de12d88cc4f09dbb8b65e71163b4105f2b41ba960c220c1546e8",
+   "timestamp": 1785542401,
+   "iso": "2026-08-01T00:00:01Z",
+   "rule": "first block with timestamp >= 2026-08-01T00:00:00Z",
+   "previous_block_timestamp": 1785542396
+  },
+  "end": {
+   "number": 99924388,
+   "hash": "0x6b4ae5c8e69d8e7bb381910a28ea9d61af1edab6bafabb8b57ec6aeab9c8323f",
+   "timestamp": 1794301929,
+   "iso": "2026-11-10T09:12:09Z"
+  },
+  "end_rule": "node 'finalized' tag minus 64 blocks at pin time; header identical on api.avax.network and tenderly gateway"
+ },
+ "endpoints": {
+  "logs_primary": "avalanche-mainnet.gateway.tenderly.co (pool) / avalanche-c-chain-rpc.publicnode.com (gauge, feed, PHAR pools, legacy factory)",
+  "logs_second_pass": "avalanche-c-chain-rpc.publicnode.com (pool, different grid)",
+  "headers": "avalanche-c-chain-rpc.publicnode.com",
+  "state": "api.avax.network (archive eth_call), avalanche-mainnet.gateway.tenderly.co",
+  "third_source_spot_checks": "api.routescan.io etherscan-style logs API",
+  "not_used": "AVALANCHE_RPC env endpoint, any Alchemy endpoint, any operator host config"
+ },
+ "files": [
+  {
+   "path": "data/avalanche/END.json",
+   "bytes": 758,
+   "sha256": "4fe982baa56a73bd46814e34e8da47065b4116e38e9f87213d38fc9d719624a2",
+   "description": "the pinned END block and the START block (first block with timestamp >= 2026-08-01T00:00:00Z)"
+  },
+  {
+   "path": "data/avalanche/build_report.json",
+   "bytes": 145825,
+   "sha256": "be858b8de369fd78f943e2c6c21246f07c9027e1aef88ad8b477f237eb7c9f0c",
+   "description": "per dataset: every requested block range with count and host, logs per topic0, fee-series facts"
+  },
+  {
+   "path": "data/avalanche/checks.json",
+   "bytes": 24795,
+   "sha256": "1bd08448410fd95a82ba1b388a4430ef5baefb06c2d5bbadf281efea90b03850",
+   "description": "all check results"
+  },
+  {
+   "path": "data/avalanche/feed_avax_usd.csv.gz",
+   "bytes": 1502364,
+   "sha256": "572e2180ca78c5c0bf98326ac45fda69e3515608240dfe07d4caed75774e65dc",
+   "rows": 104752,
+   "columns": [
+    "block",
+    "log_index",
+    "updated_at",
+    "answer",
+    "round_id"
+   ],
+   "first_block": 91716624,
+   "last_block": 99924372,
+   "time_column": "updated_at",
+   "first_time": 1785542414,
+   "last_time": 1794301917,
+   "iso_range": [
+    "2026-08-01T00:00:14Z",
+    "2026-11-10T09:11:57Z"
+   ],
+   "description": "AnswerUpdated(int256 indexed current, uint256 indexed roundId, uint256 updatedAt) of the Chainlink AVAX/USD aggregator 0xcfbfe648ba88bf7d9776d970417a0b26c315feb4 behind proxy 0x0A77230d17318075983913bC2145DB16C7366156 (8 decimals). round_id is the aggregator's round; the proxy's roundId = (phaseId << 64) + round_id.",
+   "source": {
+    "method": "eth_getLogs (JSON-RPC), keyless public endpoint",
+    "hosts_and_windows": {
+     "avalanche-c-chain-rpc.publicnode.com": 165
+    },
+    "windows": 165,
+    "requested_block_range": [
+     91716610,
+     99924388
+    ],
+    "topic_filter": "topic0 = AnswerUpdated",
+    "logs_returned": 104752,
+    "logs_per_topic0": {
+     "AnswerUpdated": 104752
+    },
+    "per_window_ledger": "build_report.json -> feed.ranges ([from, to, count, host])",
+    "timestamps": "eth_getBlockByNumber batches from avalanche-c-chain-rpc.publicnode.com; each log's blockHash checked against that header"
+   },
+   "build": {
+    "rows": 104752,
+    "first_block": 91716624,
+    "last_block": 99924372,
+    "first_ts": 1785542414,
+    "last_ts": 1794301917,
+    "first_round_id": 756273,
+    "last_round_id": 861024,
+    "round_ids_consecutive": true,
+    "round_id_gaps": 0
+   }
+  },
+  {
+   "path": "data/avalanche/gauge_periods.json",
+   "bytes": 4835,
+   "sha256": "803f91014a67be4c6153d913d5e5155662308c3b2c258eb13a2eadb27a886fb9",
+   "description": "tokenTotalSupplyByPeriod(period, PHAR / xPHAR) of the gauge at END for every period overlapping the window"
+  },
+  {
+   "path": "data/avalanche/phar_pool_swaps.csv.gz",
+   "bytes": 800403,
+   "sha256": "b173669988f2ff5655778dc56d6f589e8f153dfd3232c1f772c92e84380aad88",
+   "rows": 10074,
+   "columns": [
+    "block",
+    "log_index",
+    "ts",
+    "amount0",
+    "amount1",
+    "sqrt_price_x96",
+    "liquidity",
+    "tick",
+    "fee_ppm",
+    "reserve0",
+    "reserve1"
+   ],
+   "first_block": 91718359,
+   "last_block": 99924247,
+   "time_column": "ts",
+   "first_time": 1785544249,
+   "last_time": 1794301806,
+   "iso_range": [
+    "2026-08-01T00:30:49Z",
+    "2026-11-10T09:10:06Z"
+   ],
+   "description": "Swaps of the deepest PHAR pool quoted in WAVAX or USDC: the Solidly-style (constant-product, stable=false) PHAR/WAVAX pair 0x0afdee8162ccead9ac6a30c94f691e6e7d1af670. token0 = PHAR (18 dp), token1 = WAVAX (18 dp). amount0/amount1 = amountIn - amountOut. reserve0/reserve1 = the Sync emitted just before the Swap in the same transaction (post-swap reserves). DERIVED columns (the pair has no v3 state): sqrt_price_x96 = floor(sqrt(reserve1 * 2^192 / reserve0)), liquidity = floor(sqrt(reserve0 * reserve1)), tick = getTickAtSqrtRatio(sqrt_price_x96). fee_ppm = pair fee from the legacy factory's SetPairFee events (denominator 1e6), anchored on pair.fee() at START.",
+   "source": {
+    "method": "eth_getLogs (JSON-RPC), keyless public endpoint",
+    "hosts_and_windows": {
+     "avalanche-c-chain-rpc.publicnode.com": 165
+    },
+    "windows": 165,
+    "requested_block_range": [
+     91716610,
+     99924388
+    ],
+    "topic_filter": "topic0 in {Swap (v2 style), Sync}",
+    "logs_returned": 21278,
+    "logs_per_topic0": {
+     "Sync": 11204,
+     "SwapV2": 10074
+    },
+    "per_window_ledger": "build_report.json -> phar_pool.ranges ([from, to, count, host])",
+    "timestamps": "eth_getBlockByNumber batches from avalanche-c-chain-rpc.publicnode.com; each log's blockHash checked against that header"
+   },
+   "build": {
+    "rows": 10074,
+    "first_block": 91718359,
+    "last_block": 99924247,
+    "first_ts": 1785544249,
+    "last_ts": 1794301806,
+    "swaps_without_a_preceding_sync_in_the_same_tx_dropped": 0,
+    "last_row_reserves": [
+     "4213754866623711373831542",
+     "25297197470437612539054"
+    ]
+   }
+  },
+  {
+   "path": "data/avalanche/phar_pools.json",
+   "bytes": 68597,
+   "sha256": "eb308c1a2a8a3aadeda3bd33dbaabc0372999a19fd293fd11690bc61d7f9b1f5",
+   "description": "PHAR pool candidates (factories + DexScreener), on-chain facts at END, ranking by PHAR balance, the selection"
+  },
+  {
+   "path": "data/avalanche/phar_wavax_cl_swaps.csv.gz",
+   "bytes": 1553828,
+   "sha256": "eeb3ba4ebb00d68baace9559a90af7d326cd7cce33878eae680be896e1261532",
+   "rows": 33690,
+   "columns": [
+    "block",
+    "log_index",
+    "ts",
+    "amount0",
+    "amount1",
+    "sqrt_price_x96",
+    "liquidity",
+    "tick",
+    "fee_ppm"
+   ],
+   "first_block": 91716610,
+   "last_block": 99924247,
+   "time_column": "ts",
+   "first_time": 1785542401,
+   "last_time": 1794301806,
+   "iso_range": [
+    "2026-08-01T00:00:01Z",
+    "2026-11-10T09:10:06Z"
+   ],
+   "description": "Swaps of the deepest PHAR CL pool quoted in WAVAX or USDC: RamsesV3 PHAR/WAVAX 0xb78da03566b6537acc22f6a4ba070abcf6edebf6 (tick spacing 5). token0 = PHAR (18 dp), token1 = WAVAX (18 dp). Same columns and conventions as pharaoh_wavax_usdc_swaps; all columns are event values.",
+   "source": {
+    "method": "eth_getLogs (JSON-RPC), keyless public endpoint",
+    "hosts_and_windows": {
+     "avalanche-c-chain-rpc.publicnode.com": 165
+    },
+    "windows": 165,
+    "requested_block_range": [
+     91716610,
+     99924388
+    ],
+    "topic_filter": "none (every log of the contract)",
+    "logs_returned": 40086,
+    "logs_per_topic0": {
+     "Swap": 33690,
+     "Burn": 1928,
+     "Collect": 1918,
+     "CollectProtocol": 1354,
+     "Mint": 1194,
+     "FeeAdjustment": 1,
+     "IncreaseObservationCardinalityNext": 1
+    },
+    "per_window_ledger": "build_report.json -> phar_cl_pool.ranges ([from, to, count, host])",
+    "timestamps": "eth_getBlockByNumber batches from avalanche-c-chain-rpc.publicnode.com; each log's blockHash checked against that header"
+   },
+   "build": {
+    "rows": 33690,
+    "first_block": 91716610,
+    "last_block": 99924247,
+    "first_ts": 1785542401,
+    "last_ts": 1794301806
+   }
+  },
+  {
+   "path": "data/avalanche/pharaoh_gauge_notify.csv.gz",
+   "bytes": 592,
+   "sha256": "f8f0104404f140f8fde8aa06ff0a431a7856e43902c5ec515db54edfbb8a5df6",
+   "rows": 14,
+   "columns": [
+    "block",
+    "log_index",
+    "ts",
+    "from",
+    "token",
+    "amount",
+    "period",
+    "kind",
+    "token_symbol"
+   ],
+   "first_block": 92124448,
+   "last_block": 99446897,
+   "time_column": "ts",
+   "first_time": 1785974582,
+   "last_time": 1793836818,
+   "iso_range": [
+    "2026-08-06T00:03:02Z",
+    "2026-11-05T00:00:18Z"
+   ],
+   "description": "NotifyReward(address indexed from, address indexed reward, uint256 amount, uint256 period) (and Bribe, same shape, if any) of the pool's gauge 0x4543922018006b46fe7dab001669f38d4e22c728. period = floor(timestamp / 604800).",
+   "source": {
+    "method": "eth_getLogs (JSON-RPC), keyless public endpoint",
+    "hosts_and_windows": {
+     "avalanche-c-chain-rpc.publicnode.com": 165
+    },
+    "windows": 165,
+    "requested_block_range": [
+     91716610,
+     99924388
+    ],
+    "topic_filter": "none (every log of the contract)",
+    "logs_returned": 76425,
+    "logs_per_topic0": {
+     "ClaimRewards": 68921,
+     "Forfeited": 7490,
+     "NotifyReward": 14
+    },
+    "per_window_ledger": "build_report.json -> gauge.ranges ([from, to, count, host])",
+    "timestamps": "eth_getBlockByNumber batches from avalanche-c-chain-rpc.publicnode.com; each log's blockHash checked against that header"
+   },
+   "build": {
+    "rows": 14,
+    "first_block": 92124448,
+    "last_block": 99446897,
+    "first_ts": 1785974582,
+    "last_ts": 1793836818,
+    "events_by_kind_and_token": {
+     "NotifyReward:PHAR": 14
+    },
+    "raw_amount_by_kind_and_token": {
+     "NotifyReward:PHAR": "19514963514040848034878069"
+    },
+    "senders": {
+     "0x922b9ca8e2207bfb850b6ff647c054d4b58a2aa7": 14
+    }
+   }
+  },
+  {
+   "path": "data/avalanche/pharaoh_wavax_usdc_fee_events.csv.gz",
+   "bytes": 137350,
+   "sha256": "3b003beaf176f17bdc16554e3ce3f19103dd5719f409ddb953383a136b5df660",
+   "rows": 15584,
+   "columns": [
+    "block",
+    "log_index",
+    "ts",
+    "kind",
+    "old_value",
+    "new_value"
+   ],
+   "first_block": 91716834,
+   "last_block": 99924386,
+   "time_column": "ts",
+   "first_time": 1785542642,
+   "last_time": 1794301927,
+   "iso_range": [
+    "2026-08-01T00:04:02Z",
+    "2026-11-10T09:12:07Z"
+   ],
+   "description": "FeeAdjustment(uint24 oldFee, uint24 newFee) [kind=fee] and SetFeeProtocol(uint24 old, uint24 new) [kind=fee_protocol] of the same pool.",
+   "source": {
+    "method": "eth_getLogs (JSON-RPC), keyless public endpoint",
+    "hosts_and_windows": {
+     "avalanche-mainnet.gateway.tenderly.co": 405,
+     "avalanche-c-chain-rpc.publicnode.com": 6
+    },
+    "windows": 411,
+    "requested_block_range": [
+     91716610,
+     99924388
+    ],
+    "topic_filter": "none (every log of the contract)",
+    "logs_returned": 1167991,
+    "logs_per_topic0": {
+     "Swap": 933549,
+     "Burn": 69389,
+     "Mint": 63247,
+     "Collect": 60329,
+     "CollectProtocol": 25873,
+     "FeeAdjustment": 15584,
+     "Flash": 20
+    },
+    "per_window_ledger": "build_report.json -> pool.ranges ([from, to, count, host])",
+    "timestamps": "eth_getBlockByNumber batches from avalanche-c-chain-rpc.publicnode.com; each log's blockHash checked against that header"
+   },
+   "build": {
+    "rows": 15584,
+    "first_block": 91716834,
+    "last_block": 99924386,
+    "first_ts": 1785542642,
+    "last_ts": 1794301927,
+    "kinds": {
+     "fee": 15584
+    }
+   }
+  },
+  {
+   "path": "data/avalanche/pharaoh_wavax_usdc_liquidity.csv.gz",
+   "bytes": 1721433,
+   "sha256": "d013bb29b79bd943a1149e32e5425493d4de295374bafedc47dc6bf211b8d527",
+   "rows": 132636,
+   "columns": [
+    "block",
+    "log_index",
+    "kind",
+    "tick_lower",
+    "tick_upper",
+    "liquidity_delta"
+   ],
+   "first_block": 91717662,
+   "last_block": 99924372,
+   "first_time": 1785543515,
+   "last_time": 1794301917,
+   "iso_range": [
+    "2026-08-01T00:18:35Z",
+    "2026-11-10T09:11:57Z"
+   ],
+   "time_column": null,
+   "iso_range_source": "timestamps of the first and last block (eth_getBlockByNumber, publicnode); the file has no time column",
+   "description": "Every Mint and Burn of the same pool. liquidity_delta = +amount (mint) / -amount (burn); zero-amount burns kept.",
+   "source": {
+    "method": "eth_getLogs (JSON-RPC), keyless public endpoint",
+    "hosts_and_windows": {
+     "avalanche-mainnet.gateway.tenderly.co": 405,
+     "avalanche-c-chain-rpc.publicnode.com": 6
+    },
+    "windows": 411,
+    "requested_block_range": [
+     91716610,
+     99924388
+    ],
+    "topic_filter": "none (every log of the contract)",
+    "logs_returned": 1167991,
+    "logs_per_topic0": {
+     "Swap": 933549,
+     "Burn": 69389,
+     "Mint": 63247,
+     "Collect": 60329,
+     "CollectProtocol": 25873,
+     "FeeAdjustment": 15584,
+     "Flash": 20
+    },
+    "per_window_ledger": "build_report.json -> pool.ranges ([from, to, count, host])",
+    "timestamps": "eth_getBlockByNumber batches from avalanche-c-chain-rpc.publicnode.com; each log's blockHash checked against that header"
+   },
+   "build": {
+    "rows": 132636,
+    "first_block": 91717662,
+    "last_block": 99924372,
+    "mints": 63247,
+    "burns": 69389,
+    "zero_amount_burns": 9119,
+    "net_liquidity_delta_all_ranges": "-285250353936143733"
+   }
+  },
+  {
+   "path": "data/avalanche/pharaoh_wavax_usdc_swaps.csv.gz",
+   "bytes": 33377883,
+   "sha256": "1dc356534326101e6af41eeb282acc7279e5db363798375b07becfef056c40af",
+   "rows": 933549,
+   "columns": [
+    "block",
+    "log_index",
+    "ts",
+    "amount0",
+    "amount1",
+    "sqrt_price_x96",
+    "liquidity",
+    "tick",
+    "fee_ppm"
+   ],
+   "first_block": 91716610,
+   "last_block": 99924371,
+   "time_column": "ts",
+   "first_time": 1785542401,
+   "last_time": 1794301912,
+   "iso_range": [
+    "2026-08-01T00:00:01Z",
+    "2026-11-10T09:11:52Z"
+   ],
+   "description": "Every Swap of the Pharaoh WAVAX/USDC CL pool 0xf01449C0bA930B6e2CaCA3DEF3CCBd7a3E589534. token0 = WAVAX (18 dp), token1 = USDC (6 dp). amount0/amount1 signed from the pool's side as in the event. fee_ppm = fee in force at that log (FeeAdjustment series; before the first event, fee() at START-1).",
+   "source": {
+    "method": "eth_getLogs (JSON-RPC), keyless public endpoint",
+    "hosts_and_windows": {
+     "avalanche-mainnet.gateway.tenderly.co": 405,
+     "avalanche-c-chain-rpc.publicnode.com": 6
+    },
+    "windows": 411,
+    "requested_block_range": [
+     91716610,
+     99924388
+    ],
+    "topic_filter": "none (every log of the contract)",
+    "logs_returned": 1167991,
+    "logs_per_topic0": {
+     "Swap": 933549,
+     "Burn": 69389,
+     "Mint": 63247,
+     "Collect": 60329,
+     "CollectProtocol": 25873,
+     "FeeAdjustment": 15584,
+     "Flash": 20
+    },
+    "per_window_ledger": "build_report.json -> pool.ranges ([from, to, count, host])",
+    "timestamps": "eth_getBlockByNumber batches from avalanche-c-chain-rpc.publicnode.com; each log's blockHash checked against that header"
+   },
+   "build": {
+    "rows": 933549,
+    "first_block": 91716610,
+    "last_block": 99924371,
+    "first_ts": 1785542401,
+    "last_ts": 1794301912
+   }
+  },
+  {
+   "path": "data/avalanche/raw_dexscreener_phar_pairs.json.gz",
+   "bytes": 2302,
+   "sha256": "25cb3c69b5d3c07d0c65677e60d299e03eb7ceb7c568b0812f9723421dfef72c",
+   "description": "raw DexScreener reply for the PHAR token (pair list used only to find candidates)"
+  },
+  {
+   "path": "data/avalanche/state_at_end.json",
+   "bytes": 58068,
+   "sha256": "872e26af8e7f2617f614519054cf08ddfd82ccf1d58fb96e85327193cd7403da",
+   "description": "raw eth_call results at END (and at START / START-1 where stated) with decoded values: pool, tokens, vault pools, voter, gauge, xPHAR, Chainlink proxy"
+  }
+ ],
+ "facts": {
+  "pool": {
+   "address": "0xf01449C0bA930B6e2CaCA3DEF3CCBd7a3E589534",
+   "contract": "RamsesV3Pool (Sourcify: match)",
+   "token0": "0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7",
+   "token0_symbol": "WAVAX",
+   "token0_decimals": 18,
+   "token1": "0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e",
+   "token1_symbol": "USDC",
+   "token1_decimals": 6,
+   "tickSpacing": 10,
+   "factory": "0xae6e5c62328ade73ceefd42228528b70c8157d0d",
+   "fee_ppm_at_END": 850,
+   "fee_ppm_at_START": 450,
+   "fee_is_dynamic": true,
+   "fee_distinct_values_in_window": [
+    450,
+    490,
+    600,
+    650,
+    700,
+    750,
+    800,
+    850,
+    900,
+    950,
+    1000,
+    1125,
+    1200,
+    1250,
+    1330,
+    1400,
+    1500,
+    1600,
+    1750,
+    1800,
+    1900,
+    2000,
+    2200,
+    2400,
+    2500,
+    2600,
+    2750,
+    2800,
+    3000,
+    3500,
+    4000,
+    4500,
+    5000,
+    5500,
+    6000,
+    7000,
+    8000,
+    9000,
+    10000,
+    12000,
+    14000,
+    24000,
+    28000,
+    48000,
+    56000
+   ],
+   "slot0_at_END": {
+    "sqrtPriceX96": "229517231315934171862176",
+    "tick": -255051,
+    "observationIndex": 63,
+    "observationCardinality": 250,
+    "observationCardinalityNext": 250,
+    "feeProtocol": 1000000,
+    "unlocked": true
+   },
+   "liquidity_at_END": "12405249810747714683",
+   "protocol_fee_share": {
+    "slot0.feeProtocol": 1000000,
+    "denominator": 1000000,
+    "factory.poolFeeProtocol(pool)": 1000000,
+    "factory.feeProtocol() (default)": 50000,
+    "at_START": 1000000
+   },
+   "lp_share_of_swap_fees": {
+    "statement": "feeProtocol = 1,000,000 of 1,000,000 throughout the window: the whole swap fee is booked as protocol fee, none to in-pool LP fee growth",
+    "evidence": [
+     "slot0().feeProtocol = 1000000 at START-1, START and END (eth_call)",
+     "no SetFeeProtocol event of the pool in the window (0 of 1,167,991 logs)",
+     "feeGrowthGlobal0X128 and feeGrowthGlobal1X128 are identical at START and END while grossFeeGrowthGlobal{0,1}X128 grew (checks.protocol_share)",
+     "RamsesV3Pool.sol: protocol part of a step = feeAmount * feeProtocol / FEE_DENOM, FEE_DENOM = 1_000_000 (Sourcify verified source, lines 58 and 536-538)"
+    ],
+    "swaps_file_has_no_protocol_share_column": "by specification; the share is the constant above"
+   },
+   "verified_by": "eth_call at END (api.avax.network, slot0 also on tenderly); denominators and event signatures from the verified source on Sourcify"
+  },
+  "task_premise_mismatches": {
+   "pool_candidates_in_task": {
+    "0x13fa49215C180Acce0f5EEcB7d4900987d407930": {
+     "code_bytes": 0
+    },
+    "0xf51B4EB0f6801729170d18BEe67C7F5d98985572": {
+     "code_bytes": 291,
+     "pool()": "0x9bfe3108cc16d17a9ec65545a0f50b2ca1c970c0"
+    },
+    "0xf01449C0bA930B6e2CaCA3DEF3CCBd7a3E589534": {
+     "code_bytes": 21609
+    }
+   },
+   "pool_candidates_note": "0x13fa49... has no code on Avalanche (addresses.MD lists it as a USDT/P pool of another deployment); 0xf51B4E... is a gauge whose pool() is the USDC/USDt pool 0x9bfe31.... The WAVAX/USDC pool is 0xf01449... (PHARAOH_POOL in contracts/script/DeployAvalancheMarginMainnet.s.sol and contracts/range-tp/test/RangeFixture.sol).",
+   "vault_pools": {
+    "usdcVault": {
+     "proxy": "0x855bF832f26a294d28500db59eE941dE3d654129",
+     "pool()": "0x9bfe3108cc16d17a9ec65545a0f50b2ca1c970c0",
+     "pool.token0": "0x9702230a8ea53601f5cd2dc00fdbc13d4df4a8c7",
+     "pool.token0.symbol": "USDt",
+     "pool.token1": "0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e",
+     "pool.token1.symbol": "USDC",
+     "pool.tickSpacing": 1
+    },
+    "wavaxVault": {
+     "proxy": "0xe9a53f0077f9cf767a95Ce75Da483E906eE190E8",
+     "pool()": "0x65b9016c376604fe0af38c1e336ffcec0f8ecbbd",
+     "pool.token0": "0x2b2c81e08f1af8835a78bb2a90ae924ace0ea4be",
+     "pool.token0.symbol": "sAVAX",
+     "pool.token1": "0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7",
+     "pool.token1.symbol": "WAVAX",
+     "pool.tickSpacing": 1
+    }
+   },
+   "vault_pools_note": "the two live liquidity vaults hold USDt/USDC and sAVAX/WAVAX positions, not WAVAX/USDC; only the margin / range take-profit code references the WAVAX/USDC pool",
+   "usdc_address": {
+    "as_written_in_task": "0xB97EF9Ef8734C71904D8A701F8FA42F4F4aDA7B9E",
+    "pool_token1_on_chain": "0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e",
+    "equal": false
+   }
+  },
+  "gauge": {
+   "address": "0x4543922018006b46fe7dab001669f38d4e22c728",
+   "found_by": "voter.gaugeForPool(pool) at END; gauge.pool() and voter.poolForGauge(gauge) point back to the pool",
+   "voter": "0x922b9Ca8e2207bfB850B6FF647c054d4b58a2Aa7",
+   "isAlive": true,
+   "implementation": "0x6e84212763a5b8b11d32a407d4f8f0f1eaa930d8",
+   "beacon": "0xe565310baa582c768a77a3bb7f86a892ef07d04e",
+   "reward_token_list_at_END": {
+    "0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7": "WAVAX",
+    "0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e": "USDC",
+    "0xe8164ea89665dab7a553e667f81f30cfda736b9a": "xPHAR",
+    "0x13a466998ce03db73abc2d4df3bbd845ed1f28e7": "PHAR",
+    "0x2b2c81e08f1af8835a78bb2a90ae924ace0ea4be": "sAVAX",
+    "0xa25eaf2906fa1a3a13edac9b9657108af7b703e3": "stAVAX"
+   },
+   "rewardRate_at_END": {
+    "PHAR": "3768683037085426583",
+    "sAVAX": "0",
+    "stAVAX": "0",
+    "WAVAX": "0",
+    "USDC": "0",
+    "xPHAR": "0"
+   },
+   "left_at_END": {
+    "PHAR": "526375728472758616311023",
+    "sAVAX": "0",
+    "stAVAX": "0",
+    "WAVAX": "0",
+    "USDC": "0",
+    "xPHAR": "0"
+   },
+   "current_period": 2966,
+   "timeThresholdForGauge_seconds": 111,
+   "claims_in_window_by_reward_token": {
+    "PHAR": {
+     "events": 68915,
+     "raw_amount": "19768282392139864607561511"
+    },
+    "sAVAX": {
+     "events": 3,
+     "raw_amount": "21174063513175524"
+    },
+    "stAVAX": {
+     "events": 3,
+     "raw_amount": "22925736040174639"
+    }
+   },
+   "per_period_supply": "gauge_periods.json",
+   "not_understood_not_used": {
+    "voter.gaugeRewardsPerPeriod(gauge,2966)": "0",
+    "voter.gaugeRewardsPerPeriod(gauge,2965)": "0",
+    "voter.gaugeRewardsPerPeriod(gauge,2964)": "0"
+   },
+   "not_understood_note": "voter.gaugeRewardsPerPeriod(gauge, period) returned 0 for the three latest periods although the voter notified non-zero PHAR in each; the meaning of that mapping was not investigated and no dataset uses it"
+  },
+  "phar_and_xphar": {
+   "0x13A466998Ce03Db73aBc2d4DF3bBD845Ed1f28E7": {
+    "symbol": "PHAR",
+    "name": "Pharaoh",
+    "is": "PHAR (voter.ram())",
+    "voter.ram()": "0x13a466998ce03db73abc2d4df3bbd845ed1f28e7"
+   },
+   "0xE8164Ea89665DAb7a553e667F81F30CfDA736B9A": {
+    "symbol": "xPHAR",
+    "name": "xPHAR",
+    "is": "xPHAR (voter.xRam())",
+    "voter.xRam()": "0xe8164ea89665dab7a553e667f81f30cfda736b9a",
+    "xPHAR.PHAR()": "0x13a466998ce03db73abc2d4df3bbd845ed1f28e7"
+   },
+   "reward_form": {
+    "verified_on_chain": [
+     "every NotifyReward of the gauge in the window carries reward = PHAR (see pharaoh_gauge_notify.csv.gz, token column); none carries xPHAR",
+     "voter.xRatio() = 0 at END and 0 at START (share of emissions converted to xPHAR)",
+     "tokenTotalSupplyByPeriod(period, xPHAR) = 0 for every period overlapping the window (gauge_periods.json)",
+     "xPHAR.SLASHING_PENALTY() = 500000 of BASIS() = 1000000 (instant-exit penalty), paused() = False",
+     "ClaimRewards events in the window by reward token: see gauge.claims_in_window_by_reward_token"
+    ],
+    "from_repo_doc_not_re_verified": [
+     "PHAR is a plain ERC20 (no fee, pause or blacklist) and xPHAR is non-transferable except for exempt addresses: docs/deployment-handoffs/avalanche-vault-source-references.md (source reading at block 99216397)",
+     "a claim within timeThresholdForGauge seconds of a liquidity change is forfeited (same document)"
+    ]
+   }
+  },
+  "phar_price_pools": {
+   "deepest_overall": {
+    "address": "0xabfc76e5126941ab22858906b9d65e4b09fb3d1a",
+    "pair": "PHAR/p33",
+    "phar_balance": "5664049380086087996822947"
+   },
+   "chosen_for_phar_pool_swaps": {
+    "address": "0x0afdee8162ccead9ac6a30c94f691e6e7d1af670",
+    "kind": "legacy",
+    "why": "largest PHAR balance at END among pools quoted in WAVAX or USDC (a quote asset with a USD reference)"
+   },
+   "cl_reference": {
+    "address": "0xb78da03566b6537acc22f6a4ba070abcf6edebf6",
+    "why": "largest PHAR balance among CL pools quoted in WAVAX or USDC"
+   },
+   "ranking": [
+    {
+     "address": "0xabfc76e5126941ab22858906b9d65e4b09fb3d1a",
+     "kind": "cl",
+     "pair": "PHAR/p33",
+     "phar_balance": "5664049380086087996822947"
+    },
+    {
+     "address": "0x0afdee8162ccead9ac6a30c94f691e6e7d1af670",
+     "kind": "legacy",
+     "pair": "PHAR/WAVAX",
+     "phar_balance": "4213754866623711373831542"
+    },
+    {
+     "address": "0xb78da03566b6537acc22f6a4ba070abcf6edebf6",
+     "kind": "cl",
+     "pair": "PHAR/WAVAX",
+     "phar_balance": "1572187248880256714061919"
+    },
+    {
+     "address": "0x1b7bcd44e77adbb31bea105842139d78f352dc81",
+     "kind": "legacy",
+     "pair": "PHAR/USDC",
+     "phar_balance": "525737440029004127071722"
+    },
+    {
+     "address": "0x2dd3e721afd3b539358be35bf23b724500f37e9d",
+     "kind": "cl",
+     "pair": "PHAR/AMI",
+     "phar_balance": "3153967401585926657247"
+    },
+    {
+     "address": "0xe336641f5264e38d90aeb25310fb944529c3c75a",
+     "kind": "legacy",
+     "pair": "PHAR/p33",
+     "phar_balance": "2521102956618933370166"
+    },
+    {
+     "address": "0x062d76834f188b9e88c46381d327a7613250240c",
+     "kind": "cl",
+     "pair": "PHAR/WAVAX",
+     "phar_balance": "42018576017754864272"
+    },
+    {
+     "address": "0x913a95a4fe3505066d97d227068808265cb7ab46",
+     "kind": "cl",
+     "pair": "PHAR/USDC",
+     "phar_balance": "351867858847678406"
+    },
+    {
+     "address": "0xa0d5ca9b7a482c0270520acca231a2b20bb37883",
+     "kind": "cl",
+     "pair": "PHAR/USDC",
+     "phar_balance": "461500251423945"
+    },
+    {
+     "address": "0x088b9b9855c158a7de8811899d576734fd76207e",
+     "kind": "cl",
+     "pair": "PHAR/USDC",
+     "phar_balance": "22226554211"
+    },
+    {
+     "address": "0xc9591d7b0330259b9fd5712d428e53b059ec40b8",
+     "kind": "cl",
+     "pair": "PHAR/WAVAX",
+     "phar_balance": "388"
+    },
+    {
+     "address": "0x650e045a72e117214dbb789c7d595e7ae39c699c",
+     "kind": "cl",
+     "pair": "PHAR/WAVAX",
+     "phar_balance": "2"
+    }
+   ],
+   "note": "the deepest pool overall is PHAR/p33 (quote token p33 has no USD reference of its own), so the price series uses the deepest pool quoted in WAVAX; PHAR/USD = PHAR/WAVAX x AVAX/USD"
+  },
+  "chainlink_avax_usd": {
+   "proxy": "0x0A77230d17318075983913bC2145DB16C7366156",
+   "aggregator()": "0xcfbfe648ba88bf7d9776d970417a0b26c315feb4",
+   "aggregator()_at_start": "0xcfbfe648ba88bf7d9776d970417a0b26c315feb4",
+   "decimals": 8,
+   "description": "AVAX / USD",
+   "latestRoundData": {
+    "roundId": "36893488147419964256",
+    "answer": "838300000",
+    "startedAt": 1794301915,
+    "updatedAt": 1794301917,
+    "answeredInRound": "36893488147419964256"
+   }
+  }
+ },
+ "checks": {
+  "seed": 20261110,
+  "end": {
+   "number": 99924388,
+   "hash": "0x6b4ae5c8e69d8e7bb381910a28ea9d61af1edab6bafabb8b57ec6aeab9c8323f",
+   "timestamp": 1794301929,
+   "iso": "2026-11-10T09:12:09Z"
+  },
+  "start": {
+   "number": 91716610,
+   "hash": "0x14728160b150de12d88cc4f09dbb8b65e71163b4105f2b41ba960c220c1546e8",
+   "timestamp": 1785542401,
+   "iso": "2026-08-01T00:00:01Z",
+   "rule": "first block with timestamp >= 2026-08-01T00:00:00Z",
+   "previous_block_timestamp": 1785542396
+  },
+  "run_at_unix": 1794304464,
+  "structure": {
+   "feed_avax_usd.csv.gz": {
+    "rows": 104752,
+    "duplicates": 0,
+    "strictly_ascending": true
+   },
+   "phar_pool_swaps.csv.gz": {
+    "rows": 10074,
+    "duplicates": 0,
+    "strictly_ascending": true,
+    "ts_non_decreasing": true
+   },
+   "phar_wavax_cl_swaps.csv.gz": {
+    "rows": 33690,
+    "duplicates": 0,
+    "strictly_ascending": true,
+    "ts_non_decreasing": true
+   },
+   "pharaoh_gauge_notify.csv.gz": {
+    "rows": 14,
+    "duplicates": 0,
+    "strictly_ascending": true,
+    "ts_non_decreasing": true
+   },
+   "pharaoh_wavax_usdc_fee_events.csv.gz": {
+    "rows": 15584,
+    "duplicates": 0,
+    "strictly_ascending": true,
+    "ts_non_decreasing": true
+   },
+   "pharaoh_wavax_usdc_liquidity.csv.gz": {
+    "rows": 132636,
+    "duplicates": 0,
+    "strictly_ascending": true
+   },
+   "pharaoh_wavax_usdc_swaps.csv.gz": {
+    "rows": 933549,
+    "duplicates": 0,
+    "strictly_ascending": true,
+    "ts_non_decreasing": true
+   },
+   "requested_ranges": {
+    "gauge": {
+     "windows": 165,
+     "tiling_ok": true,
+     "sources": {
+      "avalanche-c-chain-rpc.publicnode.com": 165
+     },
+     "logs": 76425,
+     "note": "every requested range with its count and host is in build_report.json -> <dataset>.ranges"
+    },
+    "phar_pool": {
+     "windows": 165,
+     "tiling_ok": true,
+     "sources": {
+      "avalanche-c-chain-rpc.publicnode.com": 165
+     },
+     "logs": 21278,
+     "note": "every requested range with its count and host is in build_report.json -> <dataset>.ranges"
+    },
+    "phar_cl_pool": {
+     "windows": 165,
+     "tiling_ok": true,
+     "sources": {
+      "avalanche-c-chain-rpc.publicnode.com": 165
+     },
+     "logs": 40086,
+     "note": "every requested range with its count and host is in build_report.json -> <dataset>.ranges"
+    },
+    "feed": {
+     "windows": 165,
+     "tiling_ok": true,
+     "sources": {
+      "avalanche-c-chain-rpc.publicnode.com": 165
+     },
+     "logs": 104752,
+     "note": "every requested range with its count and host is in build_report.json -> <dataset>.ranges"
+    },
+    "pool": {
+     "windows": 411,
+     "tiling_ok": true,
+     "sources": {
+      "avalanche-mainnet.gateway.tenderly.co": 405,
+      "avalanche-c-chain-rpc.publicnode.com": 6
+     },
+     "logs": 1167991,
+     "note": "every requested range with its count and host is in build_report.json -> <dataset>.ranges"
+    }
+   }
+  },
+  "re_requests": {
+   "full_second_pass_pool": {
+    "first_pass": {
+     "hosts": {
+      "avalanche-mainnet.gateway.tenderly.co": 405,
+      "avalanche-c-chain-rpc.publicnode.com": 6
+     },
+     "windows": 411,
+     "logs": 1167991
+    },
+    "second_pass": {
+     "hosts": {
+      "avalanche-c-chain-rpc.publicnode.com": 249
+     },
+     "windows": 249,
+     "logs": 1167991
+    },
+    "only_in_first": 0,
+    "only_in_second": 0,
+    "same_key_different_content": 0,
+    "identical": true
+   },
+   "pool_range_served_by_publicnode_in_both_passes": {
+    "from": 99816610,
+    "to": 99924388,
+    "compared_with": "api.routescan.io (all topics, 5,000-block slices)",
+    "count_in_dataset": 19592,
+    "count_routescan": 19592,
+    "identical_records": true
+   },
+   "random_ranges": {
+    "pool": [
+     {
+      "from": 97124171,
+      "to": 97150776,
+      "split_at": 97133674,
+      "originally_served_by": [
+       "avalanche-mainnet.gateway.tenderly.co"
+      ],
+      "re_requested_from": "avalanche-c-chain-rpc.publicnode.com",
+      "count_in_dataset": 3877,
+      "count_re_requested": 3877,
+      "identical_records": true
+     },
+     {
+      "from": 98754404,
+      "to": 98798516,
+      "split_at": 98780873,
+      "originally_served_by": [
+       "avalanche-mainnet.gateway.tenderly.co"
+      ],
+      "re_requested_from": "avalanche-c-chain-rpc.publicnode.com",
+      "count_in_dataset": 5392,
+      "count_re_requested": 5392,
+      "identical_records": true
+     },
+     {
+      "from": 94393821,
+      "to": 94425273,
+      "split_at": 94404633,
+      "originally_served_by": [
+       "avalanche-mainnet.gateway.tenderly.co"
+      ],
+      "re_requested_from": "avalanche-c-chain-rpc.publicnode.com",
+      "count_in_dataset": 3494,
+      "count_re_requested": 3494,
+      "identical_records": true
+     },
+     {
+      "from": 94461340,
+      "to": 94505017,
+      "split_at": 94479752,
+      "originally_served_by": [
+       "avalanche-mainnet.gateway.tenderly.co"
+      ],
+      "re_requested_from": "avalanche-c-chain-rpc.publicnode.com",
+      "count_in_dataset": 2886,
+      "count_re_requested": 2886,
+      "identical_records": true
+     },
+     {
+      "from": 96176022,
+      "to": 96204509,
+      "split_at": 96192079,
+      "originally_served_by": [
+       "avalanche-mainnet.gateway.tenderly.co"
+      ],
+      "re_requested_from": "avalanche-c-chain-rpc.publicnode.com",
+      "count_in_dataset": 4598,
+      "count_re_requested": 4598,
+      "identical_records": true
+     }
+    ],
+    "gauge": [
+     {
+      "from": 96189767,
+      "to": 96223148,
+      "split_at": 96202715,
+      "originally_served_by": [
+       "avalanche-c-chain-rpc.publicnode.com"
+      ],
+      "re_requested_from": "api.routescan.io",
+      "count_in_dataset": 76,
+      "count_re_requested": 76,
+      "identical_records": true
+     },
+     {
+      "from": 97588559,
+      "to": 97618621,
+      "split_at": 97605796,
+      "originally_served_by": [
+       "avalanche-c-chain-rpc.publicnode.com"
+      ],
+      "re_requested_from": "api.routescan.io",
+      "count_in_dataset": 329,
+      "count_re_requested": 329,
+      "identical_records": true
+     },
+     {
+      "from": 97839669,
+      "to": 97876014,
+      "split_at": 97861885,
+      "originally_served_by": [
+       "avalanche-c-chain-rpc.publicnode.com"
+      ],
+      "re_requested_from": "api.routescan.io",
+      "count_in_dataset": 412,
+      "count_re_requested": 412,
+      "identical_records": true
+     },
+     {
+      "from": 93181369,
+      "to": 93202971,
+      "split_at": 93196021,
+      "originally_served_by": [
+       "avalanche-c-chain-rpc.publicnode.com"
+      ],
+      "re_requested_from": "api.routescan.io",
+      "count_in_dataset": 261,
+      "count_re_requested": 261,
+      "identical_records": true
+     },
+     {
+      "from": 96259496,
+      "to": 96299058,
+      "split_at": 96276127,
+      "originally_served_by": [
+       "avalanche-c-chain-rpc.publicnode.com"
+      ],
+      "re_requested_from": "api.routescan.io",
+      "count_in_dataset": 77,
+      "count_re_requested": 77,
+      "identical_records": true
+     }
+    ],
+    "feed": [
+     {
+      "from": 99686394,
+      "to": 99703471,
+      "split_at": 99693322,
+      "originally_served_by": [
+       "avalanche-c-chain-rpc.publicnode.com"
+      ],
+      "re_requested_from": "api.routescan.io",
+      "count_in_dataset": 139,
+      "count_re_requested": 139,
+      "identical_records": true
+     },
+     {
+      "from": 93936125,
+      "to": 93956646,
+      "split_at": 93942340,
+      "originally_served_by": [
+       "avalanche-c-chain-rpc.publicnode.com"
+      ],
+      "re_requested_from": "api.routescan.io",
+      "count_in_dataset": 190,
+      "count_re_requested": 190,
+      "identical_records": true
+     },
+     {
+      "from": 94287887,
+      "to": 94299622,
+      "split_at": 94294770,
+      "originally_served_by": [
+       "avalanche-c-chain-rpc.publicnode.com"
+      ],
+      "re_requested_from": "api.routescan.io",
+      "count_in_dataset": 132,
+      "count_re_requested": 132,
+      "identical_records": true
+     },
+     {
+      "from": 92402668,
+      "to": 92413011,
+      "split_at": 92406770,
+      "originally_served_by": [
+       "avalanche-c-chain-rpc.publicnode.com"
+      ],
+      "re_requested_from": "api.routescan.io",
+      "count_in_dataset": 100,
+      "count_re_requested": 100,
+      "identical_records": true
+     },
+     {
+      "from": 97190719,
+      "to": 97223110,
+      "split_at": 97202753,
+      "originally_served_by": [
+       "avalanche-c-chain-rpc.publicnode.com"
+      ],
+      "re_requested_from": "api.routescan.io",
+      "count_in_dataset": 316,
+      "count_re_requested": 316,
+      "identical_records": true
+     }
+    ],
+    "phar_pool": [
+     {
+      "from": 99273777,
+      "to": 99312000,
+      "split_at": 99289270,
+      "originally_served_by": [
+       "avalanche-c-chain-rpc.publicnode.com"
+      ],
+      "re_requested_from": "api.routescan.io",
+      "count_in_dataset": 77,
+      "count_re_requested": 77,
+      "identical_records": true
+     },
+     {
+      "from": 93533492,
+      "to": 93546286,
+      "split_at": 93541163,
+      "originally_served_by": [
+       "avalanche-c-chain-rpc.publicnode.com"
+      ],
+      "re_requested_from": "api.routescan.io",
+      "count_in_dataset": 9,
+      "count_re_requested": 9,
+      "identical_records": true
+     },
+     {
+      "from": 95357382,
+      "to": 95395080,
+      "split_at": 95369557,
+      "originally_served_by": [
+       "avalanche-c-chain-rpc.publicnode.com"
+      ],
+      "re_requested_from": "api.routescan.io",
+      "count_in_dataset": 80,
+      "count_re_requested": 80,
+      "identical_records": true
+     },
+     {
+      "from": 98449920,
+      "to": 98465595,
+      "split_at": 98454086,
+      "originally_served_by": [
+       "avalanche-c-chain-rpc.publicnode.com"
+      ],
+      "re_requested_from": "api.routescan.io",
+      "count_in_dataset": 90,
+      "count_re_requested": 90,
+      "identical_records": true
+     },
+     {
+      "from": 93995407,
+      "to": 94007780,
+      "split_at": 94001399,
+      "originally_served_by": [
+       "avalanche-c-chain-rpc.publicnode.com"
+      ],
+      "re_requested_from": "api.routescan.io",
+      "count_in_dataset": 39,
+      "count_re_requested": 39,
+      "identical_records": true
+     }
+    ],
+    "phar_cl_pool": [
+     {
+      "from": 99113501,
+      "to": 99130035,
+      "split_at": 99121214,
+      "originally_served_by": [
+       "avalanche-c-chain-rpc.publicnode.com"
+      ],
+      "re_requested_from": "api.routescan.io",
+      "count_in_dataset": 50,
+      "count_re_requested": 50,
+      "identical_records": true
+     },
+     {
+      "from": 94265519,
+      "to": 94305039,
+      "split_at": 94279872,
+      "originally_served_by": [
+       "avalanche-c-chain-rpc.publicnode.com"
+      ],
+      "re_requested_from": "api.routescan.io",
+      "count_in_dataset": 119,
+      "count_re_requested": 119,
+      "identical_records": true
+     },
+     {
+      "from": 93523263,
+      "to": 93534942,
+      "split_at": 93526584,
+      "originally_served_by": [
+       "avalanche-c-chain-rpc.publicnode.com"
+      ],
+      "re_requested_from": "api.routescan.io",
+      "count_in_dataset": 0,
+      "count_re_requested": 0,
+      "identical_records": true
+     },
+     {
+      "from": 96693491,
+      "to": 96719189,
+      "split_at": 96700250,
+      "originally_served_by": [
+       "avalanche-c-chain-rpc.publicnode.com"
+      ],
+      "re_requested_from": "api.routescan.io",
+      "count_in_dataset": 225,
+      "count_re_requested": 225,
+      "identical_records": true
+     },
+     {
+      "from": 91948462,
+      "to": 91976058,
+      "split_at": 91962736,
+      "originally_served_by": [
+       "avalanche-c-chain-rpc.publicnode.com"
+      ],
+      "re_requested_from": "api.routescan.io",
+      "count_in_dataset": 275,
+      "count_re_requested": 275,
+      "identical_records": true
+     }
+    ]
+   },
+   "routescan_third_source_pool_swaps": {
+    "host": "api.routescan.io",
+    "ranges": [
+     {
+      "from": 93365279,
+      "to": 93368278,
+      "count_in_dataset": 369,
+      "count_routescan": 369,
+      "same_keys": true,
+      "timestamps_equal": true
+     },
+     {
+      "from": 98022875,
+      "to": 98025874,
+      "count_in_dataset": 213,
+      "count_routescan": 213,
+      "same_keys": true,
+      "timestamps_equal": true
+     },
+     {
+      "from": 93805144,
+      "to": 93808143,
+      "count_in_dataset": 255,
+      "count_routescan": 255,
+      "same_keys": true,
+      "timestamps_equal": true
+     },
+     {
+      "from": 98090902,
+      "to": 98093901,
+      "count_in_dataset": 256,
+      "count_routescan": 256,
+      "same_keys": true,
+      "timestamps_equal": true
+     },
+     {
+      "from": 97037313,
+      "to": 97040312,
+      "count_in_dataset": 617,
+      "count_routescan": 617,
+      "same_keys": true,
+      "timestamps_equal": true
+     }
+    ]
+   }
+  },
+  "price_continuity": {
+   "last_swap": {
+    "block": 99924371,
+    "log_index": 15,
+    "sqrt_price_x96": "229517231315934171862176",
+    "tick": -255051,
+    "liquidity": "11734758650386989842"
+   },
+   "slot0_at_END": {
+    "block": 99924388,
+    "sqrt_price_x96": "229517231315934171862176",
+    "tick": -255051,
+    "liquidity()": "12405249810747714683"
+   },
+   "sqrt_price_equal": true,
+   "tick_equal": true,
+   "liquidity_equal": false,
+   "liquidity_note": "liquidity() can differ from the last swap's value when an in-range Mint/Burn follows the last swap",
+   "blocks_between_last_swap_and_END": 17,
+   "window_start": {
+    "slot0_at_START_minus_1": {
+     "sqrtPriceX96": "200102565559035928890477",
+     "tick": -257794,
+     "feeProtocol": 1000000
+    },
+    "first_swap_block": 91716610,
+    "note": "the first swap of the file traded against the state at START-1 (no swap can precede it inside the window)"
+   },
+   "phar_cl_pool": {
+    "last_swap": {
+     "block": 99924247,
+     "log_index": 52,
+     "sqrt_price_x96": "6138965392502524873952684252",
+     "liquidity": "211379644147136036408431",
+     "tick": -51157
+    },
+    "slot0_at_END": {
+     "sqrtPriceX96": "6138965392502524873952684252",
+     "tick": -51157,
+     "feeProtocol": 50000
+    },
+    "sqrt_price_equal": true,
+    "tick_equal": true
+   },
+   "phar_pool_legacy": {
+    "last_sync_in_window": {
+     "block": 99924247,
+     "reserve0": "4213754866623711373831542",
+     "reserve1": "25297197470437612539054"
+    },
+    "getReserves_at_END": {
+     "reserve0": "4213754866623711373831542",
+     "reserve1": "25297197470437612539054",
+     "blockTimestampLast": 1794301806
+    },
+    "equal": true
+   },
+   "liquidity_reconciliation": {
+    "last_swap_liquidity": "11734758650386989842",
+    "liquidity()_at_END": "12405249810747714683",
+    "mint_burn_events_after_last_swap": 1,
+    "of_which_in_range_at_END_tick": [
+     {
+      "block": "99924372",
+      "log_index": "31",
+      "kind": "mint",
+      "tick_lower": "-255150",
+      "tick_upper": "-254990",
+      "liquidity_delta": "670491160360724841"
+     }
+    ],
+    "sum_in_range_liquidity_delta": "670491160360724841",
+    "last_swap_liquidity_plus_delta_equals_liquidity_at_END": true
+   }
+  },
+  "fee_series": {
+   "fee_adjustment_events": 15584,
+   "first_old_fee": 450,
+   "last_new_fee": 850,
+   "fee_before_first_log": 450,
+   "fee_before_first_log_source": "eth_call fee() at START-1",
+   "chain_breaks_old_ne_previous_new": 0,
+   "distinct_fees": [
+    450,
+    490,
+    600,
+    650,
+    700,
+    750,
+    800,
+    850,
+    900,
+    950,
+    1000,
+    1125,
+    1200,
+    1250,
+    1330,
+    1400,
+    1500,
+    1600,
+    1750,
+    1800,
+    1900,
+    2000,
+    2200,
+    2400,
+    2500,
+    2600,
+    2750,
+    2800,
+    3000,
+    3500,
+    4000,
+    4500,
+    5000,
+    5500,
+    6000,
+    7000,
+    8000,
+    9000,
+    10000,
+    12000,
+    14000,
+    24000,
+    28000,
+    48000,
+    56000
+   ],
+   "fee()_at_START_minus_1": 450,
+   "fee()_at_END": 850,
+   "first_old_equals_fee_at_START_minus_1": true,
+   "last_new_equals_fee_at_END": true,
+   "last_swap_fee_ppm": 900
+  },
+  "fee_series_phar_cl_pool": {
+   "fee_adjustment_events": 1,
+   "first_old_fee": 20000,
+   "last_new_fee": 10000,
+   "fee_before_first_log": 20000,
+   "fee_before_first_log_source": "oldFee of the first FeeAdjustment",
+   "chain_breaks_old_ne_previous_new": 0,
+   "distinct_fees": [
+    10000,
+    20000
+   ],
+   "fee()_at_START": 20000,
+   "fee()_at_END": 10000,
+   "last_new_equals_fee_at_END": true,
+   "first_old_equals_fee_at_START": true
+  },
+  "implied_fee": {
+   "eligibility": "previous swap's tick and this swap's tick in the same 10-tick bucket, price moved, input side positive",
+   "size_filter_for_the_sample": "gross input >= 100 USDC (token1 in) or >= 10 WAVAX (token0 in), so integer rounding is below ~0.01 ppm of the amount",
+   "swaps_total": 933549,
+   "eligible": 854312,
+   "eligible_and_large": 728774,
+   "sample_of_20": [
+    {
+     "block": 91817988,
+     "log_index": 9,
+     "side": "token1_in",
+     "gross_in": "105415935",
+     "implied_fee_ppm": 800.0024,
+     "fee_ppm": 800,
+     "diff_ppm": 0.0024
+    },
+    {
+     "block": 92027915,
+     "log_index": 2,
+     "side": "token0_in",
+     "gross_in": "30000000000000000000",
+     "implied_fee_ppm": 450.0,
+     "fee_ppm": 450,
+     "diff_ppm": 0.0
+    },
+    {
+     "block": 92642004,
+     "log_index": 10,
+     "side": "token0_in",
+     "gross_in": "47730936911729767885",
+     "implied_fee_ppm": 800.0,
+     "fee_ppm": 800,
+     "diff_ppm": -0.0
+    },
+    {
+     "block": 93041561,
+     "log_index": 107,
+     "side": "token0_in",
+     "gross_in": "30000000000000000000",
+     "implied_fee_ppm": 600.0,
+     "fee_ppm": 600,
+     "diff_ppm": 0.0
+    },
+    {
+     "block": 94539109,
+     "log_index": 2,
+     "side": "token0_in",
+     "gross_in": "537583873336613797888",
+     "implied_fee_ppm": 450.0,
+     "fee_ppm": 450,
+     "diff_ppm": 0.0
+    },
+    {
+     "block": 94718733,
+     "log_index": 3,
+     "side": "token0_in",
+     "gross_in": "61795472121077427239",
+     "implied_fee_ppm": 600.0,
+     "fee_ppm": 600,
+     "diff_ppm": 0.0
+    },
+    {
+     "block": 94767777,
+     "log_index": 2,
+     "side": "token1_in",
+     "gross_in": "244957766",
+     "implied_fee_ppm": 600.0014,
+     "fee_ppm": 600,
+     "diff_ppm": 0.0014
+    },
+    {
+     "block": 95745378,
+     "log_index": 30,
+     "side": "token1_in",
+     "gross_in": "325516637",
+     "implied_fee_ppm": 800.0021,
+     "fee_ppm": 800,
+     "diff_ppm": 0.0021
+    },
+    {
+     "block": 95808457,
+     "log_index": 11,
+     "side": "token0_in",
+     "gross_in": "30000000000000000000",
+     "implied_fee_ppm": 800.0,
+     "fee_ppm": 800,
+     "diff_ppm": 0.0
+    },
+    {
+     "block": 96040977,
+     "log_index": 9,
+     "side": "token0_in",
+     "gross_in": "77934181470182657807",
+     "implied_fee_ppm": 800.0,
+     "fee_ppm": 800,
+     "diff_ppm": 0.0
+    },
+    {
+     "block": 96270792,
+     "log_index": 12,
+     "side": "token1_in",
+     "gross_in": "328137508",
+     "implied_fee_ppm": 600.0015,
+     "fee_ppm": 600,
+     "diff_ppm": 0.0015
+    },
+    {
+     "block": 96488353,
+     "log_index": 2,
+     "side": "token0_in",
+     "gross_in": "141905840936814964048",
+     "implied_fee_ppm": 450.0,
+     "fee_ppm": 450,
+     "diff_ppm": 0.0
+    },
+    {
+     "block": 96707214,
+     "log_index": 2,
+     "side": "token1_in",
+     "gross_in": "3994670094",
+     "implied_fee_ppm": 450.0001,
+     "fee_ppm": 450,
+     "diff_ppm": 0.0001
+    },
+    {
+     "block": 96961404,
+     "log_index": 2,
+     "side": "token1_in",
+     "gross_in": "629990800",
+     "implied_fee_ppm": 600.0008,
+     "fee_ppm": 600,
+     "diff_ppm": 0.0008
+    },
+    {
+     "block": 97142196,
+     "log_index": 5,
+     "side": "token0_in",
+     "gross_in": "101109562756665317811",
+     "implied_fee_ppm": 600.0,
+     "fee_ppm": 600,
+     "diff_ppm": 0.0
+    },
+    {
+     "block": 97200464,
+     "log_index": 11,
+     "side": "token0_in",
+     "gross_in": "30000000000000000000",
+     "implied_fee_ppm": 450.0,
+     "fee_ppm": 450,
+     "diff_ppm": 0.0
+    },
+    {
+     "block": 97869704,
+     "log_index": 5,
+     "side": "token1_in",
+     "gross_in": "1381094932",
+     "implied_fee_ppm": 600.0,
+     "fee_ppm": 600,
+     "diff_ppm": 0.0
+    },
+    {
+     "block": 99246594,
+     "log_index": 2,
+     "side": "token0_in",
+     "gross_in": "118752916680000000000",
+     "implied_fee_ppm": 750.0,
+     "fee_ppm": 750,
+     "diff_ppm": 0.0
+    },
+    {
+     "block": 99864061,
+     "log_index": 11,
+     "side": "token0_in",
+     "gross_in": "558923806730000000000",
+     "implied_fee_ppm": 1250.0,
+     "fee_ppm": 1250,
+     "diff_ppm": 0.0
+    },
+    {
+     "block": 99906488,
+     "log_index": 2,
+     "side": "token0_in",
+     "gross_in": "326437331423023300000",
+     "implied_fee_ppm": 490.0,
+     "fee_ppm": 490,
+     "diff_ppm": 0.0
+    }
+   ],
+   "sample_median_implied_ppm": 600.0004,
+   "sample_median_fee_ppm": 600.0,
+   "sample_median_abs_diff_ppm": 0.0,
+   "sample_max_abs_diff_ppm": 0.0024,
+   "all_eligible_large": {
+    "n": 728774,
+    "median_diff_ppm": 0.0,
+    "share_within_1ppm": 1.0,
+    "share_within_5ppm": 1.0,
+    "max_abs_diff_ppm": 0.01
+   },
+   "all_eligible": {
+    "n": 854312,
+    "median_diff_ppm": 0.0,
+    "share_within_1ppm": 0.993516,
+    "share_within_5ppm": 0.997868
+   },
+   "largest_deviations_large_swaps": [
+    {
+     "block": 93736533,
+     "log_index": 29,
+     "side": "token1_in",
+     "gross_in": "100000001",
+     "implied_fee_ppm": 1000.01,
+     "fee_ppm": 1000
+    },
+    {
+     "block": 95170224,
+     "log_index": 12,
+     "side": "token1_in",
+     "gross_in": "100443338",
+     "implied_fee_ppm": 600.01,
+     "fee_ppm": 600
+    },
+    {
+     "block": 93582921,
+     "log_index": 5,
+     "side": "token1_in",
+     "gross_in": "100175017",
+     "implied_fee_ppm": 800.01,
+     "fee_ppm": 800
+    },
+    {
+     "block": 97055761,
+     "log_index": 9,
+     "side": "token1_in",
+     "gross_in": "101303340",
+     "implied_fee_ppm": 1200.01,
+     "fee_ppm": 1200
+    },
+    {
+     "block": 96202587,
+     "log_index": 41,
+     "side": "token1_in",
+     "gross_in": "102390008",
+     "implied_fee_ppm": 800.01,
+     "fee_ppm": 800
+    },
+    {
+     "block": 93241670,
+     "log_index": 43,
+     "side": "token1_in",
+     "gross_in": "101261699",
+     "implied_fee_ppm": 600.01,
+     "fee_ppm": 600
+    },
+    {
+     "block": 99858813,
+     "log_index": 19,
+     "side": "token1_in",
+     "gross_in": "101984589",
+     "implied_fee_ppm": 2400.01,
+     "fee_ppm": 2400
+    },
+    {
+     "block": 95957860,
+     "log_index": 10,
+     "side": "token1_in",
+     "gross_in": "101390034",
+     "implied_fee_ppm": 600.01,
+     "fee_ppm": 600
+    },
+    {
+     "block": 92282705,
+     "log_index": 5,
+     "side": "token1_in",
+     "gross_in": "103520004",
+     "implied_fee_ppm": 450.01,
+     "fee_ppm": 450
+    },
+    {
+     "block": 98900509,
+     "log_index": 62,
+     "side": "token1_in",
+     "gross_in": "102565671",
+     "implied_fee_ppm": 3000.01,
+     "fee_ppm": 3000
+    }
+   ]
+  },
+  "protocol_share": {
+   "slot0.feeProtocol_at_START": 1000000,
+   "slot0.feeProtocol_at_END": 1000000,
+   "denominator": 1000000,
+   "denominator_source": "RamsesV3Pool.sol FEE_DENOM = 1_000_000 (verified source on Sourcify, match)",
+   "SetFeeProtocol_events_in_window": 0,
+   "feeGrowthGlobal0X128_START": "80554464292408762374268598131179289878600",
+   "feeGrowthGlobal0X128_END": "80554464292408762374268598131179289878600",
+   "feeGrowthGlobal1X128_START": "2449214072924067239511171616695",
+   "feeGrowthGlobal1X128_END": "2449214072924067239511171616695",
+   "lp_fee_growth_unchanged_over_window": true,
+   "grossFeeGrowthGlobal0X128_START": "4635531433983943735377922677210626978775936",
+   "grossFeeGrowthGlobal0X128_END": "6951012374015737160045011770477725372869821",
+   "grossFeeGrowthGlobal1X128_START": "49616244207849200286346126426891",
+   "grossFeeGrowthGlobal1X128_END": "69708458789300411403320796943997"
+  },
+  "gauge": {
+   "period_vs_state": [
+    {
+     "token": "0x13a466998ce03db73abc2d4df3bbd845ed1f28e7",
+     "symbol": "PHAR",
+     "period": 2966,
+     "tokenTotalSupplyByPeriod_at_END": "2279299500829265997557884",
+     "sum_of_notify_events_in_file": "2279299500829265997557884",
+     "equal": true
+    },
+    {
+     "token": "0x13a466998ce03db73abc2d4df3bbd845ed1f28e7",
+     "symbol": "PHAR",
+     "period": 2965,
+     "tokenTotalSupplyByPeriod_at_END": "1858082794171755842032652",
+     "sum_of_notify_events_in_file": "1858082794171755842032652",
+     "equal": true
+    },
+    {
+     "token": "0x13a466998ce03db73abc2d4df3bbd845ed1f28e7",
+     "symbol": "PHAR",
+     "period": 2964,
+     "tokenTotalSupplyByPeriod_at_END": "1786106599433791389101428",
+     "sum_of_notify_events_in_file": "1786106599433791389101428",
+     "equal": true
+    }
+   ],
+   "rewardRate(PHAR)_at_END": "3768683037085426583",
+   "tokenTotalSupplyByPeriod[current]/604800": "3768683037085426583",
+   "rewardRate_equals_period_supply_over_week": true,
+   "current_period": 2966,
+   "period_definition": "floor(block.timestamp / 604800)",
+   "end_ts_over_week": 2966
+  },
+  "feed": {
+   "last_row": {
+    "block": "99924372",
+    "log_index": "14",
+    "updated_at": "1794301917",
+    "answer": "838300000",
+    "round_id": "861024"
+   },
+   "latestRoundData_at_END": {
+    "roundId": "36893488147419964256",
+    "answer": "838300000",
+    "startedAt": 1794301915,
+    "updatedAt": 1794301917,
+    "answeredInRound": "36893488147419964256"
+   },
+   "answer_equal": true,
+   "updated_at_equal": true,
+   "round_id_equal_low_64_bits": true,
+   "proxy_phase_id": 2
+  },
+  "timestamps": {
+   "blocks_rechecked": 40,
+   "second_header_source": "api.avax.network",
+   "mismatches": 0,
+   "first_swap_ts": 1785542401,
+   "last_swap_ts": 1794301912,
+   "all_within_window": true
+  }
+ },
+ "limitations": [
+  "The keyless tenderly gateway stopped serving (HTTP 429, daily egress allowance used up) after it had delivered pool logs for blocks 91716610..99816609; blocks 99816610..99924388 of the pool were served by publicnode in both passes and were therefore compared record by record with the Routescan logs API instead (checks.re_requests.pool_range_served_by_publicnode_in_both_passes).",
+  "Gauge, feed, PHAR pools and legacy factory logs were served once, by publicnode; they were not pulled a second time in full. Five random ranges of each were compared with Routescan, the feed's round ids are consecutive, and the gauge's per-period sums equal the contract state.",
+  "The gauge period that contains START (2952, began 2026-07-30) was notified before the window: its NotifyReward is not in pharaoh_gauge_notify.csv.gz; its amount is in gauge_periods.json (state read at END).",
+  "phar_pool_swaps.csv.gz is a constant-product pair: sqrt_price_x96, liquidity and tick are derived from the event reserves, not event fields. The deepest PHAR pool overall (PHAR/p33) was not pulled because p33 has no USD reference.",
+  "PHAR/USD is not stored: PHAR is quoted in WAVAX in both PHAR files; convert with feed_avax_usd or the AVAX/USDT klines.",
+  "No Pharaoh documentation URL was consulted for the reward form; the statement rests on contract reads and events only.",
+  "Facts marked from_repo_doc_not_re_verified were read from the repository's own source-reference document, not re-derived here."
+ ],
+ "scripts": "scripts/pull/avax_00_pin_state.py, avax_01_fetch_logs.py, avax_02_phar_pools.py, avax_03_build.py, avax_04_checks.py, avax_05_gauge_periods.py, avax_99_manifest.py (library avax_lib.py)",
+ "run_sequence": [
+  "python3 avax_00_pin_state.py                      # pins END (kept if END.json exists), state reads on api.avax.network, slot0 second opinion on the tenderly gateway",
+  "python3 avax_01_fetch_logs.py pool tenderly 20000  # served 91716610..99816609, then HTTP 429 (daily egress allowance used up)",
+  "python3 avax_01_fetch_logs.py pool publicnode 20000  # same cache and grid: served the remaining 99816610..99924388",
+  "python3 avax_01_fetch_logs.py pool_second publicnode 33333",
+  "python3 avax_02_phar_pools.py ; python3 avax_02_phar_pools.py --reselect",
+  "for d in gauge legacy_factory phar_pool phar_cl_pool feed: python3 avax_01_fetch_logs.py $d publicnode 50000",
+  "python3 avax_03_build.py                           # headers from publicnode, batches of 500",
+  "python3 avax_05_gauge_periods.py",
+  "python3 avax_04_checks.py ; python3 avax_04_checks.py --only-liquidity",
+  "python3 avax_99_manifest.py"
+ ],
+ "side_effect_on_this_machine": "the keyless tenderly gateway (avalanche-mainnet.gateway.tenderly.co) answers HTTP 429 to this IP until its egress allowance resets: response header x-tdly-egress-reset-timestamp = 1794387856579 ms = 2026-11-11T09:04:16Z"
+}

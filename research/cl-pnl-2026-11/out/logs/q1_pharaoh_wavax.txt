@@ -1,0 +1,18 @@
+
+=== Pharaoh WAVAX/USDC (CL10, dynamic fee)  2026-08-01 00:00 .. 2026-11-10 09:11  (101.4 d, 933,545 swaps, sigma 77%)
+bucket              days     vol $/d LPfee bp   LP fee $    loss0 $   loss1m $   loss1h $ fee/L1m fee/L1h refFee% refL1h%  fcLVR%  Ptrade
+TOTAL              101.4  22,261,920     0.00          0    979,641  1,800,003  2,003,077    0.00    0.00     0.0    65.2    65.4  0.1051
+regular             19.2  31,844,805     0.00          0     79,761    509,714    506,932    0.00    0.00     0.0    74.7    80.8  0.1164
+extended            28.1  22,731,740     0.00          0    756,459    546,400    557,444    0.00    0.00     0.0    58.3    69.1  0.1017
+overnight           24.0  21,187,763     0.00          0     60,791    367,090    455,741    0.00    0.00     0.0    57.4    55.6  0.1065
+weekend             30.0  16,546,560     0.00          0     82,629    376,799    482,962    0.00    0.00     0.0    71.8    60.0  0.1000
+vol Q1              25.5  12,913,572     0.00          0     29,911    149,180    173,113    0.00    0.00     0.0    14.2    14.1  0.0772
+vol Q2              26.7  17,679,040     0.00          0     48,725    263,931    253,224    0.00    0.00     0.0    27.2    27.4  0.0966
+vol Q3              24.0  27,089,767     0.00          0     73,380    447,897    479,052    0.00    0.00     0.0    48.2    49.0  0.1122
+vol Q4              25.1  31,995,876     0.00          0    827,625    938,995  1,097,688    0.00    0.00     0.0   173.5   173.6  0.1357
+external-reference loss: {'total': {'loss_usd': 2093224.138612082, 'lp_fee_usd_on_scored': 0.0, 'fee_over_loss': 0.0, 'scored_swaps': 933545}} gap {'swaps': 933545, 'median_abs': 9.166997980274427, 'p95_abs': 30.289311734428942, 'mean': -6.232704437228328}
+   regular {'loss_usd': 609178.9656210276, 'lp_fee_usd_on_scored': 0.0, 'fee_over_loss': 0.0, 'scored_swaps': 223397}
+   extended {'loss_usd': 571783.0608125322, 'lp_fee_usd_on_scored': 0.0, 'fee_over_loss': 0.0, 'scored_swaps': 256388}
+   overnight {'loss_usd': 453821.13501581043, 'lp_fee_usd_on_scored': 0.0, 'fee_over_loss': 0.0, 'scored_swaps': 219323}
+   weekend {'loss_usd': 458440.9771627125, 'lp_fee_usd_on_scored': 0.0, 'fee_over_loss': 0.0, 'scored_swaps': 234437}
+wrote /Users/joshua/Peridot/wt-cl-research/research/cl-pnl-2026-11/out/q1_pharaoh_wavax.json

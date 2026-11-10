@@ -1,0 +1,1044 @@
+{
+ "symbol": "AVAXUSDT",
+ "interval": "1m",
+ "url_pattern": "https://{host}/api/v3/klines?symbol=AVAXUSDT&interval=1m&startTime={ms}&endTime={ms}&limit=1000",
+ "hosts_used": [
+  "api.binance.com"
+ ],
+ "requests": [
+  {
+   "host": "api.binance.com",
+   "startTime": 1785542400000,
+   "rows": 1000,
+   "first": 1785542400000,
+   "last": 1785602340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1785602400000,
+   "rows": 1000,
+   "first": 1785602400000,
+   "last": 1785662340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1785662400000,
+   "rows": 1000,
+   "first": 1785662400000,
+   "last": 1785722340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1785722400000,
+   "rows": 1000,
+   "first": 1785722400000,
+   "last": 1785782340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1785782400000,
+   "rows": 1000,
+   "first": 1785782400000,
+   "last": 1785842340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1785842400000,
+   "rows": 1000,
+   "first": 1785842400000,
+   "last": 1785902340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1785902400000,
+   "rows": 1000,
+   "first": 1785902400000,
+   "last": 1785962340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1785962400000,
+   "rows": 1000,
+   "first": 1785962400000,
+   "last": 1786022340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1786022400000,
+   "rows": 1000,
+   "first": 1786022400000,
+   "last": 1786082340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1786082400000,
+   "rows": 1000,
+   "first": 1786082400000,
+   "last": 1786142340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1786142400000,
+   "rows": 1000,
+   "first": 1786142400000,
+   "last": 1786202340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1786202400000,
+   "rows": 1000,
+   "first": 1786202400000,
+   "last": 1786262340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1786262400000,
+   "rows": 1000,
+   "first": 1786262400000,
+   "last": 1786322340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1786322400000,
+   "rows": 1000,
+   "first": 1786322400000,
+   "last": 1786382340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1786382400000,
+   "rows": 1000,
+   "first": 1786382400000,
+   "last": 1786442340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1786442400000,
+   "rows": 1000,
+   "first": 1786442400000,
+   "last": 1786502340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1786502400000,
+   "rows": 1000,
+   "first": 1786502400000,
+   "last": 1786562340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1786562400000,
+   "rows": 1000,
+   "first": 1786562400000,
+   "last": 1786622340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1786622400000,
+   "rows": 1000,
+   "first": 1786622400000,
+   "last": 1786682340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1786682400000,
+   "rows": 1000,
+   "first": 1786682400000,
+   "last": 1786742340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1786742400000,
+   "rows": 1000,
+   "first": 1786742400000,
+   "last": 1786802340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1786802400000,
+   "rows": 1000,
+   "first": 1786802400000,
+   "last": 1786862340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1786862400000,
+   "rows": 1000,
+   "first": 1786862400000,
+   "last": 1786922340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1786922400000,
+   "rows": 1000,
+   "first": 1786922400000,
+   "last": 1786982340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1786982400000,
+   "rows": 1000,
+   "first": 1786982400000,
+   "last": 1787042340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1787042400000,
+   "rows": 1000,
+   "first": 1787042400000,
+   "last": 1787102340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1787102400000,
+   "rows": 1000,
+   "first": 1787102400000,
+   "last": 1787162340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1787162400000,
+   "rows": 1000,
+   "first": 1787162400000,
+   "last": 1787222340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1787222400000,
+   "rows": 1000,
+   "first": 1787222400000,
+   "last": 1787282340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1787282400000,
+   "rows": 1000,
+   "first": 1787282400000,
+   "last": 1787342340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1787342400000,
+   "rows": 1000,
+   "first": 1787342400000,
+   "last": 1787402340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1787402400000,
+   "rows": 1000,
+   "first": 1787402400000,
+   "last": 1787462340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1787462400000,
+   "rows": 1000,
+   "first": 1787462400000,
+   "last": 1787522340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1787522400000,
+   "rows": 1000,
+   "first": 1787522400000,
+   "last": 1787582340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1787582400000,
+   "rows": 1000,
+   "first": 1787582400000,
+   "last": 1787642340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1787642400000,
+   "rows": 1000,
+   "first": 1787642400000,
+   "last": 1787702340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1787702400000,
+   "rows": 1000,
+   "first": 1787702400000,
+   "last": 1787762340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1787762400000,
+   "rows": 1000,
+   "first": 1787762400000,
+   "last": 1787822340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1787822400000,
+   "rows": 1000,
+   "first": 1787822400000,
+   "last": 1787882340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1787882400000,
+   "rows": 1000,
+   "first": 1787882400000,
+   "last": 1787942340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1787942400000,
+   "rows": 1000,
+   "first": 1787942400000,
+   "last": 1788002340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1788002400000,
+   "rows": 1000,
+   "first": 1788002400000,
+   "last": 1788062340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1788062400000,
+   "rows": 1000,
+   "first": 1788062400000,
+   "last": 1788122340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1788122400000,
+   "rows": 1000,
+   "first": 1788122400000,
+   "last": 1788182340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1788182400000,
+   "rows": 1000,
+   "first": 1788182400000,
+   "last": 1788242340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1788242400000,
+   "rows": 1000,
+   "first": 1788242400000,
+   "last": 1788302340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1788302400000,
+   "rows": 1000,
+   "first": 1788302400000,
+   "last": 1788362340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1788362400000,
+   "rows": 1000,
+   "first": 1788362400000,
+   "last": 1788422340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1788422400000,
+   "rows": 1000,
+   "first": 1788422400000,
+   "last": 1788482340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1788482400000,
+   "rows": 1000,
+   "first": 1788482400000,
+   "last": 1788542340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1788542400000,
+   "rows": 1000,
+   "first": 1788542400000,
+   "last": 1788602340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1788602400000,
+   "rows": 1000,
+   "first": 1788602400000,
+   "last": 1788662340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1788662400000,
+   "rows": 1000,
+   "first": 1788662400000,
+   "last": 1788722340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1788722400000,
+   "rows": 1000,
+   "first": 1788722400000,
+   "last": 1788782340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1788782400000,
+   "rows": 1000,
+   "first": 1788782400000,
+   "last": 1788842340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1788842400000,
+   "rows": 1000,
+   "first": 1788842400000,
+   "last": 1788902340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1788902400000,
+   "rows": 1000,
+   "first": 1788902400000,
+   "last": 1788962340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1788962400000,
+   "rows": 1000,
+   "first": 1788962400000,
+   "last": 1789022340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1789022400000,
+   "rows": 1000,
+   "first": 1789022400000,
+   "last": 1789082340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1789082400000,
+   "rows": 1000,
+   "first": 1789082400000,
+   "last": 1789142340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1789142400000,
+   "rows": 1000,
+   "first": 1789142400000,
+   "last": 1789202340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1789202400000,
+   "rows": 1000,
+   "first": 1789202400000,
+   "last": 1789262340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1789262400000,
+   "rows": 1000,
+   "first": 1789262400000,
+   "last": 1789322340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1789322400000,
+   "rows": 1000,
+   "first": 1789322400000,
+   "last": 1789382340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1789382400000,
+   "rows": 1000,
+   "first": 1789382400000,
+   "last": 1789442340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1789442400000,
+   "rows": 1000,
+   "first": 1789442400000,
+   "last": 1789502340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1789502400000,
+   "rows": 1000,
+   "first": 1789502400000,
+   "last": 1789562340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1789562400000,
+   "rows": 1000,
+   "first": 1789562400000,
+   "last": 1789622340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1789622400000,
+   "rows": 1000,
+   "first": 1789622400000,
+   "last": 1789682340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1789682400000,
+   "rows": 1000,
+   "first": 1789682400000,
+   "last": 1789742340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1789742400000,
+   "rows": 1000,
+   "first": 1789742400000,
+   "last": 1789802340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1789802400000,
+   "rows": 1000,
+   "first": 1789802400000,
+   "last": 1789862340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1789862400000,
+   "rows": 1000,
+   "first": 1789862400000,
+   "last": 1789922340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1789922400000,
+   "rows": 1000,
+   "first": 1789922400000,
+   "last": 1789982340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1789982400000,
+   "rows": 1000,
+   "first": 1789982400000,
+   "last": 1790042340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1790042400000,
+   "rows": 1000,
+   "first": 1790042400000,
+   "last": 1790102340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1790102400000,
+   "rows": 1000,
+   "first": 1790102400000,
+   "last": 1790162340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1790162400000,
+   "rows": 1000,
+   "first": 1790162400000,
+   "last": 1790222340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1790222400000,
+   "rows": 1000,
+   "first": 1790222400000,
+   "last": 1790282340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1790282400000,
+   "rows": 1000,
+   "first": 1790282400000,
+   "last": 1790342340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1790342400000,
+   "rows": 1000,
+   "first": 1790342400000,
+   "last": 1790402340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1790402400000,
+   "rows": 1000,
+   "first": 1790402400000,
+   "last": 1790462340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1790462400000,
+   "rows": 1000,
+   "first": 1790462400000,
+   "last": 1790522340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1790522400000,
+   "rows": 1000,
+   "first": 1790522400000,
+   "last": 1790582340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1790582400000,
+   "rows": 1000,
+   "first": 1790582400000,
+   "last": 1790642340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1790642400000,
+   "rows": 1000,
+   "first": 1790642400000,
+   "last": 1790702340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1790702400000,
+   "rows": 1000,
+   "first": 1790702400000,
+   "last": 1790762340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1790762400000,
+   "rows": 1000,
+   "first": 1790762400000,
+   "last": 1790822340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1790822400000,
+   "rows": 1000,
+   "first": 1790822400000,
+   "last": 1790882340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1790882400000,
+   "rows": 1000,
+   "first": 1790882400000,
+   "last": 1790942340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1790942400000,
+   "rows": 1000,
+   "first": 1790942400000,
+   "last": 1791002340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1791002400000,
+   "rows": 1000,
+   "first": 1791002400000,
+   "last": 1791062340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1791062400000,
+   "rows": 1000,
+   "first": 1791062400000,
+   "last": 1791122340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1791122400000,
+   "rows": 1000,
+   "first": 1791122400000,
+   "last": 1791182340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1791182400000,
+   "rows": 1000,
+   "first": 1791182400000,
+   "last": 1791242340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1791242400000,
+   "rows": 1000,
+   "first": 1791242400000,
+   "last": 1791302340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1791302400000,
+   "rows": 1000,
+   "first": 1791302400000,
+   "last": 1791362340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1791362400000,
+   "rows": 1000,
+   "first": 1791362400000,
+   "last": 1791422340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1791422400000,
+   "rows": 1000,
+   "first": 1791422400000,
+   "last": 1791482340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1791482400000,
+   "rows": 1000,
+   "first": 1791482400000,
+   "last": 1791542340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1791542400000,
+   "rows": 1000,
+   "first": 1791542400000,
+   "last": 1791602340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1791602400000,
+   "rows": 1000,
+   "first": 1791602400000,
+   "last": 1791662340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1791662400000,
+   "rows": 1000,
+   "first": 1791662400000,
+   "last": 1791722340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1791722400000,
+   "rows": 1000,
+   "first": 1791722400000,
+   "last": 1791782340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1791782400000,
+   "rows": 1000,
+   "first": 1791782400000,
+   "last": 1791842340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1791842400000,
+   "rows": 1000,
+   "first": 1791842400000,
+   "last": 1791902340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1791902400000,
+   "rows": 1000,
+   "first": 1791902400000,
+   "last": 1791962340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1791962400000,
+   "rows": 1000,
+   "first": 1791962400000,
+   "last": 1792022340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1792022400000,
+   "rows": 1000,
+   "first": 1792022400000,
+   "last": 1792082340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1792082400000,
+   "rows": 1000,
+   "first": 1792082400000,
+   "last": 1792142340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1792142400000,
+   "rows": 1000,
+   "first": 1792142400000,
+   "last": 1792202340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1792202400000,
+   "rows": 1000,
+   "first": 1792202400000,
+   "last": 1792262340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1792262400000,
+   "rows": 1000,
+   "first": 1792262400000,
+   "last": 1792322340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1792322400000,
+   "rows": 1000,
+   "first": 1792322400000,
+   "last": 1792382340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1792382400000,
+   "rows": 1000,
+   "first": 1792382400000,
+   "last": 1792442340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1792442400000,
+   "rows": 1000,
+   "first": 1792442400000,
+   "last": 1792502340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1792502400000,
+   "rows": 1000,
+   "first": 1792502400000,
+   "last": 1792562340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1792562400000,
+   "rows": 1000,
+   "first": 1792562400000,
+   "last": 1792622340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1792622400000,
+   "rows": 1000,
+   "first": 1792622400000,
+   "last": 1792682340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1792682400000,
+   "rows": 1000,
+   "first": 1792682400000,
+   "last": 1792742340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1792742400000,
+   "rows": 1000,
+   "first": 1792742400000,
+   "last": 1792802340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1792802400000,
+   "rows": 1000,
+   "first": 1792802400000,
+   "last": 1792862340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1792862400000,
+   "rows": 1000,
+   "first": 1792862400000,
+   "last": 1792922340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1792922400000,
+   "rows": 1000,
+   "first": 1792922400000,
+   "last": 1792982340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1792982400000,
+   "rows": 1000,
+   "first": 1792982400000,
+   "last": 1793042340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1793042400000,
+   "rows": 1000,
+   "first": 1793042400000,
+   "last": 1793102340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1793102400000,
+   "rows": 1000,
+   "first": 1793102400000,
+   "last": 1793162340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1793162400000,
+   "rows": 1000,
+   "first": 1793162400000,
+   "last": 1793222340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1793222400000,
+   "rows": 1000,
+   "first": 1793222400000,
+   "last": 1793282340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1793282400000,
+   "rows": 1000,
+   "first": 1793282400000,
+   "last": 1793342340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1793342400000,
+   "rows": 1000,
+   "first": 1793342400000,
+   "last": 1793402340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1793402400000,
+   "rows": 1000,
+   "first": 1793402400000,
+   "last": 1793462340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1793462400000,
+   "rows": 1000,
+   "first": 1793462400000,
+   "last": 1793522340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1793522400000,
+   "rows": 1000,
+   "first": 1793522400000,
+   "last": 1793582340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1793582400000,
+   "rows": 1000,
+   "first": 1793582400000,
+   "last": 1793642340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1793642400000,
+   "rows": 1000,
+   "first": 1793642400000,
+   "last": 1793702340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1793702400000,
+   "rows": 1000,
+   "first": 1793702400000,
+   "last": 1793762340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1793762400000,
+   "rows": 1000,
+   "first": 1793762400000,
+   "last": 1793822340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1793822400000,
+   "rows": 1000,
+   "first": 1793822400000,
+   "last": 1793882340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1793882400000,
+   "rows": 1000,
+   "first": 1793882400000,
+   "last": 1793942340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1793942400000,
+   "rows": 1000,
+   "first": 1793942400000,
+   "last": 1794002340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1794002400000,
+   "rows": 1000,
+   "first": 1794002400000,
+   "last": 1794062340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1794062400000,
+   "rows": 1000,
+   "first": 1794062400000,
+   "last": 1794122340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1794122400000,
+   "rows": 1000,
+   "first": 1794122400000,
+   "last": 1794182340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1794182400000,
+   "rows": 1000,
+   "first": 1794182400000,
+   "last": 1794242340000
+  },
+  {
+   "host": "api.binance.com",
+   "startTime": 1794242400000,
+   "rows": 992,
+   "first": 1794242400000,
+   "last": 1794301860000
+  }
+ ],
+ "rows": 145992,
+ "first_open_time": 1785542400000,
+ "last_open_time": 1794301860000,
+ "first_iso": "2026-08-01T00:00:00Z",
+ "last_iso": "2026-11-10T09:11:00Z",
+ "expected_minutes": 145992,
+ "gaps": [],
+ "window": {
+  "start_ts": 1785542401,
+  "end_ts": 1794301929
+ },
+ "note": "raw kline fields: open time, open, high, low, close, volume, close time, quote volume, trades, taker buy base, taker buy quote, ignore"
+}

@@ -1,0 +1,514 @@
+{
+ "generated_at_unix": 1794305363,
+ "generated_at_iso": "2026-11-10T10:09:23Z",
+ "files": [
+  {
+   "path": "data/external/avaxusdt_1m.csv.gz",
+   "bytes": 1985595,
+   "sha256": "2a9aa23dfdd266d35b43c87a626ed276f4f6c1380f2512c082b2934254737187",
+   "rows": 145992,
+   "columns": [
+    "open_time",
+    "open",
+    "high",
+    "low",
+    "close",
+    "volume"
+   ],
+   "time_column": "open_time",
+   "first_time": 1785542400,
+   "last_time": 1794301860,
+   "iso_range": [
+    "2026-08-01T00:00:00Z",
+    "2026-11-10T09:11:00Z"
+   ],
+   "source": {
+    "host": [
+     "api.binance.com"
+    ],
+    "url_pattern": "https://{host}/api/v3/klines?symbol=AVAXUSDT&interval=1m&startTime={ms}&endTime={ms}&limit=1000",
+    "requests": 146
+   },
+   "description": "Binance spot AVAXUSDT 1-minute klines, closed bars only, open_time in ms",
+   "checks": {
+    "expected_minutes": 145992,
+    "rows": 145992,
+    "gaps": [],
+    "contiguous": true
+   }
+  },
+  {
+   "path": "data/external/binance_avaxusdt_1m.fetch.json",
+   "bytes": 20928,
+   "sha256": "b6a95ae896dd4a1b3c8fa87770ad232186c61f075a9f0417e8a5a6bb0f5ba47e",
+   "description": "fetch ledger"
+  },
+  {
+   "path": "data/external/nvda_1h.csv.gz",
+   "bytes": 22209,
+   "sha256": "cd4dfa38e307b3de5613d8f04185eb28c838e06cff6dff1f38da994b088beaed",
+   "rows": 1168,
+   "columns": [
+    "ts",
+    "open",
+    "high",
+    "low",
+    "close",
+    "volume"
+   ],
+   "time_column": "ts",
+   "first_time": 1785744000,
+   "last_time": 1794268800,
+   "iso_range": [
+    "2026-08-03T08:00:00Z",
+    "2026-11-10T00:00:00Z"
+   ],
+   "source": {
+    "host": [
+     "query1.finance.yahoo.com"
+    ],
+    "url_pattern": "https://query1.finance.yahoo.com/v8/finance/chart/{SYMBOL}?interval={1m|5m|1h}&includePrePost=true&period1={unix}&period2={unix}",
+    "requests": [
+     {
+      "period1": 1785542400,
+      "period2": 1790726400,
+      "bars": 697,
+      "error": null,
+      "dataGranularity": "1h"
+     },
+     {
+      "period1": 1790726400,
+      "period2": 1794302591,
+      "bars": 473,
+      "error": null,
+      "dataGranularity": "1h"
+     }
+    ],
+    "fetched_at_iso": "2026-11-10T09:23:11Z"
+   },
+   "description": "Yahoo Finance chart API NVDA 1h bars with includePrePost=true, exactly as served; ts = bar open (unix s)",
+   "checks": {
+    "requested_from_iso": "2026-08-01T00:00:00Z",
+    "requested_to_iso": "2026-11-10T09:23:11Z",
+    "null_bars_dropped": 1,
+    "open_bars_dropped": 2,
+    "off_grid_bars_dropped": 1,
+    "session_mix_new_york": {
+     "pre": 419,
+     "regular": 489,
+     "post": 260
+    },
+    "pre_post_present": true,
+    "trading_days": 70
+   }
+  },
+  {
+   "path": "data/external/nvda_1m.csv.gz",
+   "bytes": 272909,
+   "sha256": "0b921b53b5d98f9ad0b055eb6363cc737bc76df267e013446f55cbcabb1fce32",
+   "rows": 18857,
+   "columns": [
+    "ts",
+    "open",
+    "high",
+    "low",
+    "close",
+    "volume"
+   ],
+   "time_column": "ts",
+   "first_time": 1791792000,
+   "last_time": 1794302520,
+   "iso_range": [
+    "2026-10-12T08:00:00Z",
+    "2026-11-10T09:22:00Z"
+   ],
+   "source": {
+    "host": [
+     "query1.finance.yahoo.com"
+    ],
+    "url_pattern": "https://query1.finance.yahoo.com/v8/finance/chart/{SYMBOL}?interval={1m|5m|1h}&includePrePost=true&period1={unix}&period2={unix}",
+    "requests": [
+     {
+      "period1": 1791753791,
+      "period2": 1792358591,
+      "bars": 4127,
+      "error": null,
+      "dataGranularity": "1m"
+     },
+     {
+      "period1": 1792358591,
+      "period2": 1792963391,
+      "bars": 4644,
+      "error": null,
+      "dataGranularity": "1m"
+     },
+     {
+      "period1": 1792963391,
+      "period2": 1793568191,
+      "bars": 4552,
+      "error": null,
+      "dataGranularity": "1m"
+     },
+     {
+      "period1": 1793568191,
+      "period2": 1794172991,
+      "bars": 4551,
+      "error": null,
+      "dataGranularity": "1m"
+     },
+     {
+      "period1": 1794172991,
+      "period2": 1794302591,
+      "bars": 984,
+      "error": null,
+      "dataGranularity": "1m"
+     }
+    ],
+    "fetched_at_iso": "2026-11-10T09:23:11Z"
+   },
+   "description": "Yahoo Finance chart API NVDA 1m bars with includePrePost=true, exactly as served; ts = bar open (unix s)",
+   "checks": {
+    "requested_from_iso": "2026-10-11T21:23:11Z",
+    "requested_to_iso": "2026-11-10T09:23:11Z",
+    "null_bars_dropped": 101,
+    "open_bars_dropped": 1,
+    "off_grid_bars_dropped": 1,
+    "session_mix_new_york": {
+     "pre": 6381,
+     "regular": 8089,
+     "post": 4387
+    },
+    "pre_post_present": true,
+    "trading_days": 22
+   }
+  },
+  {
+   "path": "data/external/nvda_5m.csv.gz",
+   "bytes": 123507,
+   "sha256": "09b640a0030b20719bbc95e8ef0ec7dbd9b2c5c55c75e928d28df9a930cb22a3",
+   "rows": 7566,
+   "columns": [
+    "ts",
+    "open",
+    "high",
+    "low",
+    "close",
+    "volume"
+   ],
+   "time_column": "ts",
+   "first_time": 1789161900,
+   "last_time": 1794302100,
+   "iso_range": [
+    "2026-09-11T21:25:00Z",
+    "2026-11-10T09:15:00Z"
+   ],
+   "source": {
+    "host": [
+     "query1.finance.yahoo.com"
+    ],
+    "url_pattern": "https://query1.finance.yahoo.com/v8/finance/chart/{SYMBOL}?interval={1m|5m|1h}&includePrePost=true&period1={unix}&period2={unix}",
+    "requests": [
+     {
+      "period1": 1789161791,
+      "period2": 1790889791,
+      "bars": 2687,
+      "error": null,
+      "dataGranularity": "5m"
+     },
+     {
+      "period1": 1790889791,
+      "period2": 1792617791,
+      "bars": 2439,
+      "error": null,
+      "dataGranularity": "5m"
+     },
+     {
+      "period1": 1792617791,
+      "period2": 1794302591,
+      "bars": 2442,
+      "error": null,
+      "dataGranularity": "5m"
+     }
+    ],
+    "fetched_at_iso": "2026-11-10T09:23:11Z"
+   },
+   "description": "Yahoo Finance chart API NVDA 5m bars with includePrePost=true, exactly as served; ts = bar open (unix s)",
+   "checks": {
+    "requested_from_iso": "2026-09-11T21:23:11Z",
+    "requested_to_iso": "2026-11-10T09:23:11Z",
+    "null_bars_dropped": 19,
+    "open_bars_dropped": 2,
+    "off_grid_bars_dropped": 1,
+    "session_mix_new_york": {
+     "post": 1691,
+     "pre": 2696,
+     "regular": 3179
+    },
+    "pre_post_present": true,
+    "trading_days": 43
+   }
+  },
+  {
+   "path": "data/external/raw_binance_avaxusdt_1m.json.gz",
+   "bytes": 5598693,
+   "sha256": "1aae846861be18c43db582e1589de39b67133c812ba5430ffc71295b7302a7fd",
+   "description": "raw API responses the CSV of the same name was built from"
+  },
+  {
+   "path": "data/external/raw_yahoo_nvda_1h.json.gz",
+   "bytes": 25291,
+   "sha256": "af99910d2f07214ae6d3b47a5d3230f2d1fd468bae794959eb53c5f96d38b2a0",
+   "description": "raw API responses the CSV of the same name was built from"
+  },
+  {
+   "path": "data/external/raw_yahoo_nvda_1m.json.gz",
+   "bytes": 283653,
+   "sha256": "88b3f3b84349d894f70845a32e1aac2679075e51e28a97e762d9f67ff2395e36",
+   "description": "raw API responses the CSV of the same name was built from"
+  },
+  {
+   "path": "data/external/raw_yahoo_nvda_5m.json.gz",
+   "bytes": 127654,
+   "sha256": "1dc831acf277677ba8bad8c86cf90c1622e3b051e8704d6a09b1a6f13a12da7b",
+   "description": "raw API responses the CSV of the same name was built from"
+  },
+  {
+   "path": "data/external/raw_yahoo_spy_1h.json.gz",
+   "bytes": 23923,
+   "sha256": "b129373381459e8579c749990801030d7b333a28dd271f771f662c3381ed8b07",
+   "description": "raw API responses the CSV of the same name was built from"
+  },
+  {
+   "path": "data/external/raw_yahoo_spy_1m.json.gz",
+   "bytes": 258266,
+   "sha256": "a9b8435f9ceba9edcb60f6f886cd93a2c51a1da4b125cabac5ea49d185ce45a4",
+   "description": "raw API responses the CSV of the same name was built from"
+  },
+  {
+   "path": "data/external/raw_yahoo_spy_5m.json.gz",
+   "bytes": 115671,
+   "sha256": "4d5521fe343364a577b01220a887984b9ecfb2b45f4e09a4cd18a71f206768ca",
+   "description": "raw API responses the CSV of the same name was built from"
+  },
+  {
+   "path": "data/external/spy_1h.csv.gz",
+   "bytes": 20781,
+   "sha256": "ba6013d73c13623d89b92b01038a184b26281a391a054392d5ebdfdd2120dee1",
+   "rows": 1174,
+   "columns": [
+    "ts",
+    "open",
+    "high",
+    "low",
+    "close",
+    "volume"
+   ],
+   "time_column": "ts",
+   "first_time": 1785744000,
+   "last_time": 1794268800,
+   "iso_range": [
+    "2026-08-03T08:00:00Z",
+    "2026-11-10T00:00:00Z"
+   ],
+   "source": {
+    "host": [
+     "query1.finance.yahoo.com"
+    ],
+    "url_pattern": "https://query1.finance.yahoo.com/v8/finance/chart/{SYMBOL}?interval={1m|5m|1h}&includePrePost=true&period1={unix}&period2={unix}",
+    "requests": [
+     {
+      "period1": 1785542400,
+      "period2": 1790726400,
+      "bars": 697,
+      "error": null,
+      "dataGranularity": "1h"
+     },
+     {
+      "period1": 1790726400,
+      "period2": 1794302591,
+      "bars": 479,
+      "error": null,
+      "dataGranularity": "1h"
+     }
+    ],
+    "fetched_at_iso": "2026-11-10T09:23:11Z"
+   },
+   "description": "Yahoo Finance chart API SPY 1h bars with includePrePost=true, exactly as served; ts = bar open (unix s)",
+   "checks": {
+    "requested_from_iso": "2026-08-01T00:00:00Z",
+    "requested_to_iso": "2026-11-10T09:23:11Z",
+    "null_bars_dropped": 1,
+    "open_bars_dropped": 2,
+    "off_grid_bars_dropped": 1,
+    "session_mix_new_york": {
+     "pre": 419,
+     "regular": 489,
+     "post": 266
+    },
+    "pre_post_present": true,
+    "trading_days": 70
+   }
+  },
+  {
+   "path": "data/external/spy_1m.csv.gz",
+   "bytes": 245625,
+   "sha256": "9b30b4f9c80b3b2647f7ca465a164601bf9edba0ba4741b91328dc0d549425e2",
+   "rows": 18533,
+   "columns": [
+    "ts",
+    "open",
+    "high",
+    "low",
+    "close",
+    "volume"
+   ],
+   "time_column": "ts",
+   "first_time": 1791792000,
+   "last_time": 1794302520,
+   "iso_range": [
+    "2026-10-12T08:00:00Z",
+    "2026-11-10T09:22:00Z"
+   ],
+   "source": {
+    "host": [
+     "query1.finance.yahoo.com"
+    ],
+    "url_pattern": "https://query1.finance.yahoo.com/v8/finance/chart/{SYMBOL}?interval={1m|5m|1h}&includePrePost=true&period1={unix}&period2={unix}",
+    "requests": [
+     {
+      "period1": 1791753791,
+      "period2": 1792358591,
+      "bars": 4166,
+      "error": null,
+      "dataGranularity": "1m"
+     },
+     {
+      "period1": 1792358591,
+      "period2": 1792963391,
+      "bars": 4502,
+      "error": null,
+      "dataGranularity": "1m"
+     },
+     {
+      "period1": 1792963391,
+      "period2": 1793568191,
+      "bars": 4494,
+      "error": null,
+      "dataGranularity": "1m"
+     },
+     {
+      "period1": 1793568191,
+      "period2": 1794172991,
+      "bars": 4436,
+      "error": null,
+      "dataGranularity": "1m"
+     },
+     {
+      "period1": 1794172991,
+      "period2": 1794302591,
+      "bars": 936,
+      "error": null,
+      "dataGranularity": "1m"
+     }
+    ],
+    "fetched_at_iso": "2026-11-10T09:23:11Z"
+   },
+   "description": "Yahoo Finance chart API SPY 1m bars with includePrePost=true, exactly as served; ts = bar open (unix s)",
+   "checks": {
+    "requested_from_iso": "2026-10-11T21:23:11Z",
+    "requested_to_iso": "2026-11-10T09:23:11Z",
+    "null_bars_dropped": 101,
+    "open_bars_dropped": 1,
+    "off_grid_bars_dropped": 1,
+    "session_mix_new_york": {
+     "pre": 6142,
+     "regular": 8089,
+     "post": 4302
+    },
+    "pre_post_present": true,
+    "trading_days": 22
+   }
+  },
+  {
+   "path": "data/external/spy_5m.csv.gz",
+   "bytes": 110758,
+   "sha256": "014a08fbba5c905aef64080ffb01a83b8ecce4ba6bb611586ff856319e26ff4d",
+   "rows": 7457,
+   "columns": [
+    "ts",
+    "open",
+    "high",
+    "low",
+    "close",
+    "volume"
+   ],
+   "time_column": "ts",
+   "first_time": 1789161900,
+   "last_time": 1794302100,
+   "iso_range": [
+    "2026-09-11T21:25:00Z",
+    "2026-11-10T09:15:00Z"
+   ],
+   "source": {
+    "host": [
+     "query1.finance.yahoo.com"
+    ],
+    "url_pattern": "https://query1.finance.yahoo.com/v8/finance/chart/{SYMBOL}?interval={1m|5m|1h}&includePrePost=true&period1={unix}&period2={unix}",
+    "requests": [
+     {
+      "period1": 1789161791,
+      "period2": 1790889791,
+      "bars": 2641,
+      "error": null,
+      "dataGranularity": "5m"
+     },
+     {
+      "period1": 1790889791,
+      "period2": 1792617791,
+      "bars": 2413,
+      "error": null,
+      "dataGranularity": "5m"
+     },
+     {
+      "period1": 1792617791,
+      "period2": 1794302591,
+      "bars": 2405,
+      "error": null,
+      "dataGranularity": "5m"
+     }
+    ],
+    "fetched_at_iso": "2026-11-10T09:23:11Z"
+   },
+   "description": "Yahoo Finance chart API SPY 5m bars with includePrePost=true, exactly as served; ts = bar open (unix s)",
+   "checks": {
+    "requested_from_iso": "2026-09-11T21:23:11Z",
+    "requested_to_iso": "2026-11-10T09:23:11Z",
+    "null_bars_dropped": 19,
+    "open_bars_dropped": 2,
+    "off_grid_bars_dropped": 1,
+    "session_mix_new_york": {
+     "post": 1701,
+     "pre": 2577,
+     "regular": 3179
+    },
+    "pre_post_present": true,
+    "trading_days": 43
+   }
+  },
+  {
+   "path": "data/external/yahoo_bars.fetch.json",
+   "bytes": 7163,
+   "sha256": "d408ed383f2e949f938c4b50053b5560369157f94cad9aeccd912dc60d363111",
+   "description": "fetch ledger"
+  }
+ ],
+ "notes": [
+  "AVAX/USDT klines cover the swap window minute by minute (START minute .. last minute closed before END).",
+  "Yahoo serves 1m bars for about the last 30 days, 5m for about the last 60 days and 1h further back; each file covers exactly the period in its iso_range, nothing was filled for earlier dates.",
+  "Yahoo reports volume 0 on pre-market and after-hours bars; regular-session bars carry volume.",
+  "Yahoo 1h bars as served start at these New York times: 04:00, 05:00 .. 09:00 (pre-market; the 09:00 bar is followed by a 09:30 bar), 09:30, 10:30 .. 15:30 (regular), 16:00, 17:00, 18:00, 19:00 (after-hours; the 17:00-19:00 bars are missing on some days). Observed on the file, not taken from documentation.",
+  "Extended-hours bars are as served and can contain off-market prints (wide high/low on a single bar); nothing was cleaned.",
+  "Bars with a null close were dropped and counted (null_bars_dropped); the bar still open at fetch time was dropped (open_bars_dropped / off_grid_bars_dropped)."
+ ],
+ "scripts": "scripts/pull/ext_10_binance_klines.py, ext_11_yahoo_bars.py, avax_99_manifest.py"
+}

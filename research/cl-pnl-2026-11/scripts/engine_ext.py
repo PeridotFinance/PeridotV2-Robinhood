@@ -23,7 +23,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent / "vendor"))
 import engine as E  # noqa: E402
 
-from lib_cl import DATA, ET, VENUES, session_of  # noqa: E402
+from lib_cl import DATA, ET, VENUES, glitch_mask, session_of  # noqa: E402
 
 Q96 = 2 ** 96
 
@@ -36,22 +36,26 @@ def load_dataset(key: str, feed_series=None, ram_rate=None, max_jump_ticks: int 
         r = csv.reader(f)
         ix = {n: i for i, n in enumerate(next(r))}
         has_proto = "protocol_share" in ix
-        last = None
         for row in r:
-            tick = int(row[ix["tick"]])
-            if last is not None and abs(tick - last) > max_jump_ticks:
-                continue  # a dust swap into an empty range: not a tradable price (see lib_cl.load_swaps)
-            last = tick
             a0, a1 = int(row[ix["amount0"]]), int(row[ix["amount1"]])
             tok = 0 if a0 > 0 else 1
             cols["ts"].append(float(row[ix["ts"]]))
             cols["s"].append(int(row[ix["sqrt_price_x96"]]) / Q96)
-            cols["tick"].append(tick)
+            cols["tick"].append(int(row[ix["tick"]]))
             cols["L"].append(float(int(row[ix["liquidity"]])))
             cols["in_tok"].append(tok)
             cols["in_amt"].append(float(a0 if tok == 0 else a1))
-            cols["fee"].append(float(row[ix["fee_ppm"]]))
-            cols["proto"].append(float(row[ix["protocol_share"]]) if has_proto else (v.protocol_share or 0.0))
+            fee_ = float(row[ix["fee_ppm"]])
+            if v.lp_fee_ppm is not None:
+                cols["proto"].append(1.0 - min(v.lp_fee_ppm / max(fee_, 1e-9), 1.0))
+            elif has_proto and v.protocol_share is None:
+                cols["proto"].append(float(row[ix["protocol_share"]]))
+            else:
+                cols["proto"].append(v.protocol_share or 0.0)
+            cols["fee"].append(fee_)
+    # dust prints into an empty range are not tradable prices (same rule as lib_cl.load_swaps)
+    keep = glitch_mask(cols["tick"], max_jump_ticks)
+    cols = {k: [x for x, m in zip(c, keep) if m] for k, c in cols.items()}
     # timestamps are interpolated per block; several swaps in one block share a time, keep the order of the table
     ts = cols["ts"]
     for i in range(1, len(ts)):
@@ -169,7 +173,7 @@ def single_range_config(half: int, trigger: int, capital: float, spacing: int, *
 
 
 def run_window(ds: E.Dataset, cfg: E.Config, t_from: float | None = None, t_to: float | None = None, equity_sessions: bool = True,
-               start_stock_frac: float = 0.5, plan=None, keep_series: bool = False) -> dict:
+               start_stock_frac: float = 0.5, plan=None, keep_series: bool = False, reward_price=None, reward_sale_cost: float = 0.0) -> dict:
     i0 = 0 if t_from is None else bisect.bisect_left(ds.ts, t_from)
     i1 = len(ds.ts) if t_to is None else bisect.bisect_right(ds.ts, t_to)
     sim = Sim(ds, cfg, (lambda t: session_of(t, equity_sessions)), i0, i1, start_stock_frac, plan)
@@ -190,6 +194,12 @@ def run_window(ds: E.Dataset, cfg: E.Config, t_from: float | None = None, t_to: 
     resid = (r["equity_end"] - sim.equity0) - (r["bench_pnl"] - r["lvr_usd"] + r["fees_usd"] - r["gas_usd"] + sim.ram * cfg.ram_usd)
     r["decomposition_residual_usd"] = resid
     assert abs(resid) < 1e-6 * max(1.0, cfg.capital_usd), resid
+    if ds.ram_rate is not None:
+        from rewards import usd_if_sold
+        n = len(sim.series)
+        r["reward_tokens"] = sim.ram
+        r["reward_usd_if_sold"] = usd_if_sold([x[0] for x in sim.series], sim.ram_series[:n], reward_price, reward_sale_cost) if reward_price is not None else None
+        r["reward_pct_if_sold"] = None if r["reward_usd_if_sold"] is None else 100 * r["reward_usd_if_sold"] / sim.equity0
     if keep_series:
         r["series"] = sim.series
         r["q_series"] = sim.q_series[:len(sim.series)]

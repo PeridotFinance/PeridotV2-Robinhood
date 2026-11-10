@@ -24,14 +24,15 @@ from lib_cl import VENUES, dump, iso
 
 HALVES = (600, 900, 1200, 1800, 2400, 3600, 4800)
 TRIGGERS = (100, 200, 300, 450, 600, 900, 1200)
-SPACING = {"ramses_nvda": 10, "ramses_spy": 1, "v4_nvda": 60, "pharaoh_wavax": 1}
+SPACING = {k: v.spacing for k, v in VENUES.items()}
 WINDOW_S, STEP_S = 30 * 86400.0, 7 * 86400.0
 KEEP = ("days", "excess_mark_pct", "excess_pct", "end_mark", "hold_ret_pct", "ret_pct", "fees_usd", "reserve_usd", "lvr_usd", "bench_pnl",
         "fee_over_lvr", "fees_minus_lvr_minus_gas", "gas_usd", "recenters_core", "recenters_per_day", "deployed_frac_avg", "in_range_core",
-        "blocked", "max_drawdown_pct", "start_ts", "end_ts", "plan_switches")
+        "blocked", "max_drawdown_pct", "start_ts", "end_ts", "plan_switches", "reward_tokens", "reward_usd_if_sold", "reward_pct_if_sold")
 
 _DS = None
 _ARGS = None
+_RW = (None, 0.0)
 
 
 def feasible(half: int, trig: int, spacing: int) -> bool:
@@ -39,8 +40,11 @@ def feasible(half: int, trig: int, spacing: int) -> bool:
 
 
 def _init(venue, capital, max_per_day, extra):
-    global _DS, _ARGS
-    _DS = X.load_dataset(venue)
+    global _DS, _ARGS, _RW
+    from rewards import load_rewards
+    rate, price, cfg = load_rewards(venue)
+    _RW = (price, (cfg or {}).get("sale_cost", 0.0))
+    _DS = X.load_dataset(venue, ram_rate=rate)
     _ARGS = (venue, capital, max_per_day, extra)
 
 
@@ -51,7 +55,7 @@ def _run(job):
     cfg = X.single_range_config(half, trig, capital, SPACING[venue], max_per_day=max_per_day,
                                 block_sessions=("weekend",) if v.equity else (), **extra)
     try:
-        r = X.run_window(_DS, cfg, t_from, t_to, equity_sessions=v.equity)
+        r = X.run_window(_DS, cfg, t_from, t_to, equity_sessions=v.equity, reward_price=_RW[0], reward_sale_cost=_RW[1])
         out = {k: r.get(k) for k in KEEP}
     except Exception as e:  # a window with no fresh oracle, etc.: recorded, not hidden
         out = {"error": repr(e)}
@@ -90,7 +94,7 @@ def main():
     p = dump(res, f"q2_{a.venue}_{int(a.capital)}_mpd{a.max_per_day}{a.tag}.json")
     # console summary: full window, and worst / best / share-positive over the rolling windows
     print(f"{res['label']}  {res['data_window']}  capital ${a.capital:,.0f}  max/day {a.max_per_day}  ({len(jobs)} runs, {res['seconds']:.0f} s)")
-    print(f"{'half':>5}{'trig':>6}{'full %':>8}{'fee/LVR':>8}{'fees $':>8}{'LVR $':>8}{'rec':>5}{'depl':>6}{'30d min':>9}{'30d med':>9}{'30d max':>9}{'pos/n':>7}")
+    print(f"{'half':>5}{'trig':>6}{'full %':>8}{'fee/LVR':>8}{'fees $':>8}{'LVR $':>8}{'rec':>5}{'depl':>6}{'30d min':>9}{'30d med':>9}{'30d max':>9}{'pos/n':>7}{'rew %':>8}{'+rew min':>9}{'pos/n':>7}")
     for h, t in cells:
         full = next(r for r in rows if r["half"] == h and r["trigger"] == t and r["window"] == "full")
         w = sorted(r["excess_mark_pct"] for r in rows if r["half"] == h and r["trigger"] == t and r["window"] != "full" and "error" not in r)
@@ -99,7 +103,13 @@ def main():
         med = w[len(w) // 2] if w else float("nan")
         print(f"{h:>5}{t:>6}{full['excess_mark_pct']:>8.2f}{(full['fee_over_lvr'] or float('nan')):>8.2f}{full['fees_usd']:>8.2f}{full['lvr_usd']:>8.2f}"
               f"{full['recenters_core']:>5}{full['deployed_frac_avg']:>6.2f}{(w[0] if w else float('nan')):>9.2f}{med:>9.2f}{(w[-1] if w else float('nan')):>9.2f}"
-              f"{sum(x > 0 for x in w):>4}/{len(w)}")
+              f"{sum(x > 0 for x in w):>4}/{len(w)}", end="")
+        if full.get("reward_pct_if_sold") is not None:
+            wr = sorted(r["excess_mark_pct"] + r["reward_pct_if_sold"] for r in rows if r["half"] == h and r["trigger"] == t and r["window"] != "full"
+                        and "error" not in r and r.get("reward_pct_if_sold") is not None)
+            print(f"{full['reward_pct_if_sold']:>8.2f}{(wr[0] if wr else float('nan')):>9.2f}{sum(x > 0 for x in wr):>4}/{len(wr)}")
+        else:
+            print()
     print("wrote", p)
 
 

@@ -50,12 +50,17 @@ def label_bars(ax, bars, fmt="{:.2f}", dy=2, fontsize=8):
 
 
 def note(f, text: str):
-    f.text(0.005, 0.005, text, fontsize=7.5, color=INK2, ha="left", va="bottom")
+    """Footnote under the plot, wrapped to the figure width (about 15.5 characters per inch at this size)."""
+    import textwrap
+    lines = textwrap.wrap(text, width=int(f.get_figwidth() * 15.5))
+    f._note_lines = len(lines)
+    f.text(0.008, 0.008, "\n".join(lines), fontsize=7.5, color=INK2, ha="left", va="bottom", linespacing=1.3)
 
 
 def save(f, name: str):
     CHARTS.mkdir(exist_ok=True)
-    f.tight_layout(rect=(0, 0.035, 1, 1))
+    pad = 0.02 + 0.13 * getattr(f, "_note_lines", 0) / f.get_figheight()
+    f.tight_layout(rect=(0, pad, 1, 1))
     p = CHARTS / name
     f.savefig(p)
     plt.close(f)

@@ -1,0 +1,26 @@
+{
+ "end": {
+  "number": 99924388,
+  "hash": "0x6b4ae5c8e69d8e7bb381910a28ea9d61af1edab6bafabb8b57ec6aeab9c8323f",
+  "timestamp": 1794301929,
+  "iso": "2026-11-10T09:12:09Z"
+ },
+ "start": {
+  "number": 91716610,
+  "hash": "0x14728160b150de12d88cc4f09dbb8b65e71163b4105f2b41ba960c220c1546e8",
+  "timestamp": 1785542401,
+  "iso": "2026-08-01T00:00:01Z",
+  "rule": "first block with timestamp >= 2026-08-01T00:00:00Z",
+  "previous_block_timestamp": 1785542396
+ },
+ "finalized_tag_at_pin": {
+  "number": 99924452,
+  "hash": "0x0ea5e89ba4a7f8c8f880cb0bd0f1cc8b2b2e5063f9a965d53a27c90159cb64ae",
+  "timestamp": 1794301979
+ },
+ "pinned_at_unix": 1794301994,
+ "sources": {
+  "header": "api.avax.network",
+  "cross_check": "avalanche-mainnet.gateway.tenderly.co"
+ }
+}

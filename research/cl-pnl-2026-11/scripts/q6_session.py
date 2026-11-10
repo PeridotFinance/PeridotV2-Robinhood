@@ -26,11 +26,15 @@ PAIRS = (((600, 300), (2400, 600)), ((1200, 300), (2400, 600)), ((1200, 300), (4
 
 _DS = None
 _ARGS = None
+_RW = (None, 0.0)
 
 
 def _init(venue, capital, max_per_day):
-    global _DS, _ARGS
-    _DS = X.load_dataset(venue)
+    global _DS, _ARGS, _RW
+    from rewards import load_rewards
+    rate, price, cfg = load_rewards(venue)
+    _RW = (price, (cfg or {}).get("sale_cost", 0.0))
+    _DS = X.load_dataset(venue, ram_rate=rate)
     _ARGS = (venue, capital, max_per_day)
 
 
@@ -56,7 +60,7 @@ def _run(job):
     cfg = X.single_range_config(base[0], base[1], capital, SPACING[venue], max_per_day=max_per_day,
                                 block_sessions=("weekend",) if v.equity else ())
     try:
-        r = X.run_window(_DS, cfg, t_from, t_to, equity_sessions=v.equity, plan=plan)
+        r = X.run_window(_DS, cfg, t_from, t_to, equity_sessions=v.equity, plan=plan, reward_price=_RW[0], reward_sale_cost=_RW[1])
         out = {k: r.get(k) for k in KEEP}
     except Exception as e:
         out = {"error": repr(e)}

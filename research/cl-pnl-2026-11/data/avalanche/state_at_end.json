@@ -1,0 +1,1353 @@
+{
+ "end": {
+  "number": 99924388,
+  "hash": "0x6b4ae5c8e69d8e7bb381910a28ea9d61af1edab6bafabb8b57ec6aeab9c8323f",
+  "timestamp": 1794301929,
+  "iso": "2026-11-10T09:12:09Z"
+ },
+ "start": {
+  "number": 91716610,
+  "hash": "0x14728160b150de12d88cc4f09dbb8b65e71163b4105f2b41ba960c220c1546e8",
+  "timestamp": 1785542401,
+  "iso": "2026-08-01T00:00:01Z",
+  "rule": "first block with timestamp >= 2026-08-01T00:00:00Z",
+  "previous_block_timestamp": 1785542396
+ },
+ "decoded": {
+  "task_candidates": {
+   "0x13fa49215C180Acce0f5EEcB7d4900987d407930": {
+    "code_bytes": 0
+   },
+   "0xf51B4EB0f6801729170d18BEe67C7F5d98985572": {
+    "code_bytes": 291,
+    "pool()": "0x9bfe3108cc16d17a9ec65545a0f50b2ca1c970c0"
+   },
+   "0xf01449C0bA930B6e2CaCA3DEF3CCBd7a3E589534": {
+    "code_bytes": 21609
+   }
+  },
+  "pool": {
+   "token0": "0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7",
+   "token1": "0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e",
+   "tickSpacing": 10,
+   "fee_ppm": 850,
+   "liquidity": "12405249810747714683",
+   "slot0": {
+    "sqrtPriceX96": "229517231315934171862176",
+    "tick": -255051,
+    "observationIndex": 63,
+    "observationCardinality": 250,
+    "observationCardinalityNext": 250,
+    "feeProtocol": 1000000,
+    "unlocked": true
+   },
+   "factory": "0xae6e5c62328ade73ceefd42228528b70c8157d0d",
+   "feeGrowthGlobal0X128": "80554464292408762374268598131179289878600",
+   "feeGrowthGlobal1X128": "2449214072924067239511171616695",
+   "grossFeeGrowthGlobal0X128": "6951012374015737160045011770477725372869821",
+   "grossFeeGrowthGlobal1X128": "69708458789300411403320796943997",
+   "protocolFees": {
+    "token0": "451566895582192799238",
+    "token1": "3729401259"
+   },
+   "lastPeriod": 2966,
+   "factory.poolFeeProtocol(pool)": 1000000,
+   "factory.feeProtocol()": 50000,
+   "balance_token0": "267381821310628606255512",
+   "balance_token1": "896794032449",
+   "slot0_second_source_equal": true,
+   "at_start": {
+    "block": 91716610,
+    "fee_ppm": 450,
+    "slot0": {
+     "sqrtPriceX96": "200134921248111975386056",
+     "tick": -257790,
+     "feeProtocol": 1000000
+    },
+    "liquidity": "9274543303810639982",
+    "fee_ppm_at_start_minus_1": 450,
+    "slot0_at_start_minus_1": {
+     "sqrtPriceX96": "200102565559035928890477",
+     "tick": -257794,
+     "feeProtocol": 1000000
+    },
+    "liquidity_at_start_minus_1": "9274543303810639982",
+    "feeGrowthGlobal0X128": "80554464292408762374268598131179289878600",
+    "feeGrowthGlobal1X128": "2449214072924067239511171616695",
+    "grossFeeGrowthGlobal0X128": "4635531433983943735377922677210626978775936",
+    "grossFeeGrowthGlobal1X128": "49616244207849200286346126426891"
+   }
+  },
+  "tokens": {
+   "WAVAX": {
+    "address": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+    "symbol": "WAVAX",
+    "name": "Wrapped AVAX",
+    "decimals": 18,
+    "totalSupply": "17417172659035599010375465"
+   },
+   "USDC": {
+    "address": "0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E",
+    "symbol": "USDC",
+    "name": "USD Coin",
+    "decimals": 6,
+    "totalSupply": "227475638086420"
+   },
+   "PHAR": {
+    "address": "0x13A466998Ce03Db73aBc2d4DF3bBD845Ed1f28E7",
+    "symbol": "PHAR",
+    "name": "Pharaoh",
+    "decimals": 18,
+    "totalSupply": "549369684511276014541652989"
+   },
+   "XPHAR": {
+    "address": "0xE8164Ea89665DAb7a553e667F81F30CfDA736B9A",
+    "symbol": "xPHAR",
+    "name": "xPHAR",
+    "decimals": 18,
+    "totalSupply": "1004695051113821904358725326"
+   }
+  },
+  "task_usdc_address_note": {
+   "as_written_in_task": "0xB97EF9Ef8734C71904D8A701F8FA42F4F4aDA7B9E",
+   "pool_token1_on_chain": "0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e",
+   "equal": false
+  },
+  "vaults": {
+   "usdcVault": {
+    "proxy": "0x855bF832f26a294d28500db59eE941dE3d654129",
+    "pool()": "0x9bfe3108cc16d17a9ec65545a0f50b2ca1c970c0",
+    "pool.token0": "0x9702230a8ea53601f5cd2dc00fdbc13d4df4a8c7",
+    "pool.token0.symbol": "USDt",
+    "pool.token1": "0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e",
+    "pool.token1.symbol": "USDC",
+    "pool.tickSpacing": 1
+   },
+   "wavaxVault": {
+    "proxy": "0xe9a53f0077f9cf767a95Ce75Da483E906eE190E8",
+    "pool()": "0x65b9016c376604fe0af38c1e336ffcec0f8ecbbd",
+    "pool.token0": "0x2b2c81e08f1af8835a78bb2a90ae924ace0ea4be",
+    "pool.token0.symbol": "sAVAX",
+    "pool.token1": "0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7",
+    "pool.token1.symbol": "WAVAX",
+    "pool.tickSpacing": 1
+   }
+  },
+  "gauge": {
+   "voter": "0x922b9Ca8e2207bfB850B6FF647c054d4b58a2Aa7",
+   "gauge": "0x4543922018006b46fe7dab001669f38d4e22c728",
+   "gauge_code_bytes": 291,
+   "voter.poolForGauge(gauge)": "0xf01449c0ba930b6e2caca3def3ccbd7a3e589534",
+   "voter.isAlive(gauge)": true,
+   "voter.xRatio()": 0,
+   "voter.xRatio()_at_start": 0,
+   "voter.ram()": "0x13a466998ce03db73abc2d4df3bbd845ed1f28e7",
+   "voter.xRam()": "0xe8164ea89665dab7a553e667f81f30cfda736b9a",
+   "voter.clFactory()": "0xae6e5c62328ade73ceefd42228528b70c8157d0d",
+   "voter.legacyFactory()": "0x85448bf2f589ab1f56225df5167c63f57758f8c1",
+   "voter.getPeriod()": 2966,
+   "voter.timeThresholdForGauge(gauge)": 111,
+   "gauge.pool()": "0xf01449c0ba930b6e2caca3def3ccbd7a3e589534",
+   "gauge.voter()": "0x922b9ca8e2207bfb850b6ff647c054d4b58a2aa7",
+   "gauge.nfpManager()": "0x0b4478e810d48b5882d4019d435a2f864bab4f39",
+   "gauge.feeCollector()": "0x1e1e2a861205767d69a51edf03cf5e3a278437bc",
+   "gauge.r33()": "0x26e9dbe75aed331e41272bece932ff1b48926ca9",
+   "gauge.firstPeriod()": 2910,
+   "gauge.getRewardTokens()": [
+    "0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7",
+    "0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e",
+    "0xe8164ea89665dab7a553e667f81f30cfda736b9a",
+    "0x13a466998ce03db73abc2d4df3bbd845ed1f28e7",
+    "0x2b2c81e08f1af8835a78bb2a90ae924ace0ea4be",
+    "0xa25eaf2906fa1a3a13edac9b9657108af7b703e3"
+   ],
+   "reward_tokens": {
+    "0x13a466998ce03db73abc2d4df3bbd845ed1f28e7": {
+     "symbol": "PHAR",
+     "decimals": 18,
+     "rewardRate": "3768683037085426583",
+     "left": "526375728472758616311023",
+     "gauge_balance": "1104484547776193738508672",
+     "tokenTotalSupplyByPeriod[2966]": "2279299500829265997557884",
+     "tokenTotalSupplyByPeriod[2965]": "1858082794171755842032652",
+     "tokenTotalSupplyByPeriod[2964]": "1786106599433791389101428"
+    },
+    "0x2b2c81e08f1af8835a78bb2a90ae924ace0ea4be": {
+     "symbol": "sAVAX",
+     "decimals": 18,
+     "rewardRate": "0",
+     "left": "0",
+     "gauge_balance": "6458817825598960753",
+     "tokenTotalSupplyByPeriod[2966]": "0",
+     "tokenTotalSupplyByPeriod[2965]": "0",
+     "tokenTotalSupplyByPeriod[2964]": "0"
+    },
+    "0xa25eaf2906fa1a3a13edac9b9657108af7b703e3": {
+     "symbol": "stAVAX",
+     "decimals": 18,
+     "rewardRate": "0",
+     "left": "0",
+     "gauge_balance": "6991797980531245251",
+     "tokenTotalSupplyByPeriod[2966]": "0",
+     "tokenTotalSupplyByPeriod[2965]": "0",
+     "tokenTotalSupplyByPeriod[2964]": "0"
+    },
+    "0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7": {
+     "symbol": "WAVAX",
+     "decimals": 18,
+     "rewardRate": "0",
+     "left": "0",
+     "gauge_balance": "0",
+     "tokenTotalSupplyByPeriod[2966]": "0",
+     "tokenTotalSupplyByPeriod[2965]": "0",
+     "tokenTotalSupplyByPeriod[2964]": "0"
+    },
+    "0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e": {
+     "symbol": "USDC",
+     "decimals": 6,
+     "rewardRate": "0",
+     "left": "0",
+     "gauge_balance": "0",
+     "tokenTotalSupplyByPeriod[2966]": "0",
+     "tokenTotalSupplyByPeriod[2965]": "0",
+     "tokenTotalSupplyByPeriod[2964]": "0"
+    },
+    "0xe8164ea89665dab7a553e667f81f30cfda736b9a": {
+     "symbol": "xPHAR",
+     "decimals": 18,
+     "rewardRate": "0",
+     "left": "0",
+     "gauge_balance": "0",
+     "tokenTotalSupplyByPeriod[2966]": "0",
+     "tokenTotalSupplyByPeriod[2965]": "0",
+     "tokenTotalSupplyByPeriod[2964]": "0"
+    }
+   },
+   "voter.gaugeRewardsPerPeriod(gauge,2966)": "0",
+   "voter.gaugeRewardsPerPeriod(gauge,2965)": "0",
+   "voter.gaugeRewardsPerPeriod(gauge,2964)": "0",
+   "gauge.beacon": "0xe565310baa582c768a77a3bb7f86a892ef07d04e",
+   "gauge.implementation": "0x6e84212763a5b8b11d32a407d4f8f0f1eaa930d8"
+  },
+  "xphar": {
+   "PHAR()": "0x13a466998ce03db73abc2d4df3bbd845ed1f28e7",
+   "SLASHING_PENALTY()": 500000,
+   "BASIS()": 1000000,
+   "paused()": false,
+   "PHAR.balanceOf(xPHAR)": "502347525556910952179360417"
+  },
+  "chainlink_avax_usd": {
+   "proxy": "0x0A77230d17318075983913bC2145DB16C7366156",
+   "aggregator()": "0xcfbfe648ba88bf7d9776d970417a0b26c315feb4",
+   "aggregator()_at_start": "0xcfbfe648ba88bf7d9776d970417a0b26c315feb4",
+   "decimals": 8,
+   "description": "AVAX / USD",
+   "latestRoundData": {
+    "roundId": "36893488147419964256",
+    "answer": "838300000",
+    "startedAt": 1794301915,
+    "updatedAt": 1794301917,
+    "answeredInRound": "36893488147419964256"
+   }
+  }
+ },
+ "raw_calls": {
+  "cand_f51B.pool()": {
+   "to": "0xf51B4EB0f6801729170d18BEe67C7F5d98985572",
+   "sig": "pool()",
+   "data": "0x16f0115b",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000009bfe3108cc16d17a9ec65545a0f50b2ca1c970c0"
+  },
+  "pool.token0": {
+   "to": "0xf01449C0bA930B6e2CaCA3DEF3CCBd7a3E589534",
+   "sig": "token0()",
+   "data": "0x0dfe1681",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x000000000000000000000000b31f66aa3c1e785363f0875a1b74e27b85fd66c7"
+  },
+  "pool.token1": {
+   "to": "0xf01449C0bA930B6e2CaCA3DEF3CCBd7a3E589534",
+   "sig": "token1()",
+   "data": "0xd21220a7",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x000000000000000000000000b97ef9ef8734c71904d8002f8b6bc66dd9c48a6e"
+  },
+  "pool.tickSpacing": {
+   "to": "0xf01449C0bA930B6e2CaCA3DEF3CCBd7a3E589534",
+   "sig": "tickSpacing()",
+   "data": "0xd0c93a7c",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x000000000000000000000000000000000000000000000000000000000000000a"
+  },
+  "pool.fee": {
+   "to": "0xf01449C0bA930B6e2CaCA3DEF3CCBd7a3E589534",
+   "sig": "fee()",
+   "data": "0xddca3f43",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000352"
+  },
+  "pool.liquidity": {
+   "to": "0xf01449C0bA930B6e2CaCA3DEF3CCBd7a3E589534",
+   "sig": "liquidity()",
+   "data": "0x1a686502",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x000000000000000000000000000000000000000000000000ac284cfa1f996c7b"
+  },
+  "pool.slot0": {
+   "to": "0xf01449C0bA930B6e2CaCA3DEF3CCBd7a3E589534",
+   "sig": "slot0()",
+   "data": "0x3850c7bd",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x00000000000000000000000000000000000000000000309a276f376f094794a0fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc1bb5000000000000000000000000000000000000000000000000000000000000003f00000000000000000000000000000000000000000000000000000000000000fa00000000000000000000000000000000000000000000000000000000000000fa00000000000000000000000000000000000000000000000000000000000f42400000000000000000000000000000000000000000000000000000000000000001"
+  },
+  "pool.factory": {
+   "to": "0xf01449C0bA930B6e2CaCA3DEF3CCBd7a3E589534",
+   "sig": "factory()",
+   "data": "0xc45a0155",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x000000000000000000000000ae6e5c62328ade73ceefd42228528b70c8157d0d"
+  },
+  "pool.feeGrowthGlobal0X128()": {
+   "to": "0xf01449C0bA930B6e2CaCA3DEF3CCBd7a3E589534",
+   "sig": "feeGrowthGlobal0X128()",
+   "data": "0xf3058399",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x000000000000000000000000000000ecba717e54da1b1a61ab301e9deb18a048"
+  },
+  "pool.feeGrowthGlobal1X128()": {
+   "to": "0xf01449C0bA930B6e2CaCA3DEF3CCBd7a3E589534",
+   "sig": "feeGrowthGlobal1X128()",
+   "data": "0x46141319",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x000000000000000000000000000000000000001ee9d665a95135475d72314fb7"
+  },
+  "pool.grossFeeGrowthGlobal0X128()": {
+   "to": "0xf01449C0bA930B6e2CaCA3DEF3CCBd7a3E589534",
+   "sig": "grossFeeGrowthGlobal0X128()",
+   "data": "0x461dfd23",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x00000000000000000000000000004fcb307f7e08239ce1a93bbe065b539f6cbd"
+  },
+  "pool.grossFeeGrowthGlobal1X128()": {
+   "to": "0xf01449C0bA930B6e2CaCA3DEF3CCBd7a3E589534",
+   "sig": "grossFeeGrowthGlobal1X128()",
+   "data": "0xe8169d4b",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x000000000000000000000000000000000000036fd82da436c9c1b03a31d4967d"
+  },
+  "pool.protocolFees": {
+   "to": "0xf01449C0bA930B6e2CaCA3DEF3CCBd7a3E589534",
+   "sig": "protocolFees()",
+   "data": "0x1ad8b03b",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000187abfe3072e830e0600000000000000000000000000000000000000000000000000000000de4a25ab"
+  },
+  "pool.lastPeriod": {
+   "to": "0xf01449C0bA930B6e2CaCA3DEF3CCBd7a3E589534",
+   "sig": "lastPeriod()",
+   "data": "0xd340ef8a",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000b96"
+  },
+  "factory.poolFeeProtocol": {
+   "to": "0xae6e5c62328ade73ceefd42228528b70c8157d0d",
+   "sig": "poolFeeProtocol(address)",
+   "data": "0xebb0d9f7000000000000000000000000f01449c0ba930b6e2caca3def3ccbd7a3e589534",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x00000000000000000000000000000000000000000000000000000000000f4240"
+  },
+  "factory.feeProtocol": {
+   "to": "0xae6e5c62328ade73ceefd42228528b70c8157d0d",
+   "sig": "feeProtocol()",
+   "data": "0x527eb4bc",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x000000000000000000000000000000000000000000000000000000000000c350"
+  },
+  "pool.bal0": {
+   "to": "0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7",
+   "sig": "balanceOf(address)",
+   "data": "0x70a08231000000000000000000000000f01449c0ba930b6e2caca3def3ccbd7a3e589534",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x00000000000000000000000000000000000000000000389ecc2e08699d082198"
+  },
+  "pool.bal1": {
+   "to": "0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e",
+   "sig": "balanceOf(address)",
+   "data": "0x70a08231000000000000000000000000f01449c0ba930b6e2caca3def3ccbd7a3e589534",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x000000000000000000000000000000000000000000000000000000d0cd16f941"
+  },
+  "pool.slot0@tenderly": {
+   "to": "0xf01449C0bA930B6e2CaCA3DEF3CCBd7a3E589534",
+   "sig": "slot0()",
+   "data": "0x3850c7bd",
+   "block": 99924388,
+   "source": "avalanche-mainnet.gateway.tenderly.co",
+   "result": "0x00000000000000000000000000000000000000000000309a276f376f094794a0fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc1bb5000000000000000000000000000000000000000000000000000000000000003f00000000000000000000000000000000000000000000000000000000000000fa00000000000000000000000000000000000000000000000000000000000000fa00000000000000000000000000000000000000000000000000000000000f42400000000000000000000000000000000000000000000000000000000000000001"
+  },
+  "pool.fee@START": {
+   "to": "0xf01449C0bA930B6e2CaCA3DEF3CCBd7a3E589534",
+   "sig": "fee()",
+   "data": "0xddca3f43",
+   "block": 91716610,
+   "source": "api.avax.network",
+   "result": "0x00000000000000000000000000000000000000000000000000000000000001c2"
+  },
+  "pool.slot0@START": {
+   "to": "0xf01449C0bA930B6e2CaCA3DEF3CCBd7a3E589534",
+   "sig": "slot0()",
+   "data": "0x3850c7bd",
+   "block": 91716610,
+   "source": "api.avax.network",
+   "result": "0x000000000000000000000000000000000000000000002a6155f852e66ba2cbc8fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc1102000000000000000000000000000000000000000000000000000000000000008300000000000000000000000000000000000000000000000000000000000000fa00000000000000000000000000000000000000000000000000000000000000fa00000000000000000000000000000000000000000000000000000000000f42400000000000000000000000000000000000000000000000000000000000000001"
+  },
+  "pool.liquidity@START": {
+   "to": "0xf01449C0bA930B6e2CaCA3DEF3CCBd7a3E589534",
+   "sig": "liquidity()",
+   "data": "0x1a686502",
+   "block": 91716610,
+   "source": "api.avax.network",
+   "result": "0x00000000000000000000000000000000000000000000000080b5cbff059c686e"
+  },
+  "pool.fee@START-1": {
+   "to": "0xf01449C0bA930B6e2CaCA3DEF3CCBd7a3E589534",
+   "sig": "fee()",
+   "data": "0xddca3f43",
+   "block": 91716609,
+   "source": "api.avax.network",
+   "result": "0x00000000000000000000000000000000000000000000000000000000000001c2"
+  },
+  "pool.slot0@START-1": {
+   "to": "0xf01449C0bA930B6e2CaCA3DEF3CCBd7a3E589534",
+   "sig": "slot0()",
+   "data": "0x3850c7bd",
+   "block": 91716609,
+   "source": "api.avax.network",
+   "result": "0x000000000000000000000000000000000000000000002a5f94f1d31cfae5cc6dfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc10fe000000000000000000000000000000000000000000000000000000000000008200000000000000000000000000000000000000000000000000000000000000fa00000000000000000000000000000000000000000000000000000000000000fa00000000000000000000000000000000000000000000000000000000000f42400000000000000000000000000000000000000000000000000000000000000001"
+  },
+  "pool.liquidity@START-1": {
+   "to": "0xf01449C0bA930B6e2CaCA3DEF3CCBd7a3E589534",
+   "sig": "liquidity()",
+   "data": "0x1a686502",
+   "block": 91716609,
+   "source": "api.avax.network",
+   "result": "0x00000000000000000000000000000000000000000000000080b5cbff059c686e"
+  },
+  "pool.feeGrowthGlobal0X128()@START": {
+   "to": "0xf01449C0bA930B6e2CaCA3DEF3CCBd7a3E589534",
+   "sig": "feeGrowthGlobal0X128()",
+   "data": "0xf3058399",
+   "block": 91716610,
+   "source": "api.avax.network",
+   "result": "0x000000000000000000000000000000ecba717e54da1b1a61ab301e9deb18a048"
+  },
+  "pool.feeGrowthGlobal1X128()@START": {
+   "to": "0xf01449C0bA930B6e2CaCA3DEF3CCBd7a3E589534",
+   "sig": "feeGrowthGlobal1X128()",
+   "data": "0x46141319",
+   "block": 91716610,
+   "source": "api.avax.network",
+   "result": "0x000000000000000000000000000000000000001ee9d665a95135475d72314fb7"
+  },
+  "pool.grossFeeGrowthGlobal0X128()@START": {
+   "to": "0xf01449C0bA930B6e2CaCA3DEF3CCBd7a3E589534",
+   "sig": "grossFeeGrowthGlobal0X128()",
+   "data": "0x461dfd23",
+   "block": 91716610,
+   "source": "api.avax.network",
+   "result": "0x000000000000000000000000000035369a3faf9075e3eed56228319979f88380"
+  },
+  "pool.grossFeeGrowthGlobal1X128()@START": {
+   "to": "0xf01449C0bA930B6e2CaCA3DEF3CCBd7a3E589534",
+   "sig": "grossFeeGrowthGlobal1X128()",
+   "data": "0xe8169d4b",
+   "block": 91716610,
+   "source": "api.avax.network",
+   "result": "0x00000000000000000000000000000000000002723ebb46c4124a6b0dfc3e030b"
+  },
+  "WAVAX.symbol": {
+   "to": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+   "sig": "symbol()",
+   "data": "0x95d89b41",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000055741564158000000000000000000000000000000000000000000000000000000"
+  },
+  "WAVAX.name": {
+   "to": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+   "sig": "name()",
+   "data": "0x06fdde03",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000c5772617070656420415641580000000000000000000000000000000000000000"
+  },
+  "WAVAX.decimals": {
+   "to": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+   "sig": "decimals()",
+   "data": "0x313ce567",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000012"
+  },
+  "WAVAX.totalSupply": {
+   "to": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+   "sig": "totalSupply()",
+   "data": "0x18160ddd",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000e683ad25fc92e8029a729"
+  },
+  "USDC.symbol": {
+   "to": "0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E",
+   "sig": "symbol()",
+   "data": "0x95d89b41",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000045553444300000000000000000000000000000000000000000000000000000000"
+  },
+  "USDC.name": {
+   "to": "0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E",
+   "sig": "name()",
+   "data": "0x06fdde03",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000855534420436f696e000000000000000000000000000000000000000000000000"
+  },
+  "USDC.decimals": {
+   "to": "0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E",
+   "sig": "decimals()",
+   "data": "0x313ce567",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000006"
+  },
+  "USDC.totalSupply": {
+   "to": "0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E",
+   "sig": "totalSupply()",
+   "data": "0x18160ddd",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000cee34c9a6b14"
+  },
+  "PHAR.symbol": {
+   "to": "0x13A466998Ce03Db73aBc2d4DF3bBD845Ed1f28E7",
+   "sig": "symbol()",
+   "data": "0x95d89b41",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000045048415200000000000000000000000000000000000000000000000000000000"
+  },
+  "PHAR.name": {
+   "to": "0x13A466998Ce03Db73aBc2d4DF3bBD845Ed1f28E7",
+   "sig": "name()",
+   "data": "0x06fdde03",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000750686172616f6800000000000000000000000000000000000000000000000000"
+  },
+  "PHAR.decimals": {
+   "to": "0x13A466998Ce03Db73aBc2d4DF3bBD845Ed1f28E7",
+   "sig": "decimals()",
+   "data": "0x313ce567",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000012"
+  },
+  "PHAR.totalSupply": {
+   "to": "0x13A466998Ce03Db73aBc2d4DF3bBD845Ed1f28E7",
+   "sig": "totalSupply()",
+   "data": "0x18160ddd",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x000000000000000000000000000000000000000001c66d8e45b186a6f5bec3fd"
+  },
+  "XPHAR.symbol": {
+   "to": "0xE8164Ea89665DAb7a553e667F81F30CfDA736B9A",
+   "sig": "symbol()",
+   "data": "0x95d89b41",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000057850484152000000000000000000000000000000000000000000000000000000"
+  },
+  "XPHAR.name": {
+   "to": "0xE8164Ea89665DAb7a553e667F81F30CfDA736B9A",
+   "sig": "name()",
+   "data": "0x06fdde03",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000057850484152000000000000000000000000000000000000000000000000000000"
+  },
+  "XPHAR.decimals": {
+   "to": "0xE8164Ea89665DAb7a553e667F81F30CfDA736B9A",
+   "sig": "decimals()",
+   "data": "0x313ce567",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000012"
+  },
+  "XPHAR.totalSupply": {
+   "to": "0xE8164Ea89665DAb7a553e667F81F30CfDA736B9A",
+   "sig": "totalSupply()",
+   "data": "0x18160ddd",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000033f1073daeb3e586a41d6ce"
+  },
+  "usdcVault.pool": {
+   "to": "0x855bF832f26a294d28500db59eE941dE3d654129",
+   "sig": "pool()",
+   "data": "0x16f0115b",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000009bfe3108cc16d17a9ec65545a0f50b2ca1c970c0"
+  },
+  "usdcVault.pool.token0": {
+   "to": "0x9bfe3108cc16d17a9ec65545a0f50b2ca1c970c0",
+   "sig": "token0()",
+   "data": "0x0dfe1681",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000009702230a8ea53601f5cd2dc00fdbc13d4df4a8c7"
+  },
+  "usdcVault.pool.token1": {
+   "to": "0x9bfe3108cc16d17a9ec65545a0f50b2ca1c970c0",
+   "sig": "token1()",
+   "data": "0xd21220a7",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x000000000000000000000000b97ef9ef8734c71904d8002f8b6bc66dd9c48a6e"
+  },
+  "usdcVault.pool.token0.symbol": {
+   "to": "0x9702230a8ea53601f5cd2dc00fdbc13d4df4a8c7",
+   "sig": "symbol()",
+   "data": "0x95d89b41",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000045553447400000000000000000000000000000000000000000000000000000000"
+  },
+  "usdcVault.pool.token1.symbol": {
+   "to": "0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e",
+   "sig": "symbol()",
+   "data": "0x95d89b41",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000045553444300000000000000000000000000000000000000000000000000000000"
+  },
+  "usdcVault.pool.tickSpacing": {
+   "to": "0x9bfe3108cc16d17a9ec65545a0f50b2ca1c970c0",
+   "sig": "tickSpacing()",
+   "data": "0xd0c93a7c",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000001"
+  },
+  "wavaxVault.pool": {
+   "to": "0xe9a53f0077f9cf767a95Ce75Da483E906eE190E8",
+   "sig": "pool()",
+   "data": "0x16f0115b",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x00000000000000000000000065b9016c376604fe0af38c1e336ffcec0f8ecbbd"
+  },
+  "wavaxVault.pool.token0": {
+   "to": "0x65b9016c376604fe0af38c1e336ffcec0f8ecbbd",
+   "sig": "token0()",
+   "data": "0x0dfe1681",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000002b2c81e08f1af8835a78bb2a90ae924ace0ea4be"
+  },
+  "wavaxVault.pool.token1": {
+   "to": "0x65b9016c376604fe0af38c1e336ffcec0f8ecbbd",
+   "sig": "token1()",
+   "data": "0xd21220a7",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x000000000000000000000000b31f66aa3c1e785363f0875a1b74e27b85fd66c7"
+  },
+  "wavaxVault.pool.token0.symbol": {
+   "to": "0x2b2c81e08f1af8835a78bb2a90ae924ace0ea4be",
+   "sig": "symbol()",
+   "data": "0x95d89b41",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000057341564158000000000000000000000000000000000000000000000000000000"
+  },
+  "wavaxVault.pool.token1.symbol": {
+   "to": "0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7",
+   "sig": "symbol()",
+   "data": "0x95d89b41",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000055741564158000000000000000000000000000000000000000000000000000000"
+  },
+  "wavaxVault.pool.tickSpacing": {
+   "to": "0x65b9016c376604fe0af38c1e336ffcec0f8ecbbd",
+   "sig": "tickSpacing()",
+   "data": "0xd0c93a7c",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000001"
+  },
+  "voter.gaugeForPool": {
+   "to": "0x922b9Ca8e2207bfB850B6FF647c054d4b58a2Aa7",
+   "sig": "gaugeForPool(address)",
+   "data": "0x2045be90000000000000000000000000f01449c0ba930b6e2caca3def3ccbd7a3e589534",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000004543922018006b46fe7dab001669f38d4e22c728"
+  },
+  "voter.poolForGauge": {
+   "to": "0x922b9Ca8e2207bfB850B6FF647c054d4b58a2Aa7",
+   "sig": "poolForGauge(address)",
+   "data": "0x06d6a1b20000000000000000000000004543922018006b46fe7dab001669f38d4e22c728",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x000000000000000000000000f01449c0ba930b6e2caca3def3ccbd7a3e589534"
+  },
+  "voter.isAlive": {
+   "to": "0x922b9Ca8e2207bfB850B6FF647c054d4b58a2Aa7",
+   "sig": "isAlive(address)",
+   "data": "0x1703e5f90000000000000000000000004543922018006b46fe7dab001669f38d4e22c728",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000001"
+  },
+  "voter.xRatio": {
+   "to": "0x922b9Ca8e2207bfB850B6FF647c054d4b58a2Aa7",
+   "sig": "xRatio()",
+   "data": "0x986e471d",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "voter.xRatio@START": {
+   "to": "0x922b9Ca8e2207bfB850B6FF647c054d4b58a2Aa7",
+   "sig": "xRatio()",
+   "data": "0x986e471d",
+   "block": 91716610,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "voter.ram": {
+   "to": "0x922b9Ca8e2207bfB850B6FF647c054d4b58a2Aa7",
+   "sig": "ram()",
+   "data": "0x8f33b5e5",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x00000000000000000000000013a466998ce03db73abc2d4df3bbd845ed1f28e7"
+  },
+  "voter.xRam": {
+   "to": "0x922b9Ca8e2207bfB850B6FF647c054d4b58a2Aa7",
+   "sig": "xRam()",
+   "data": "0x11233634",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x000000000000000000000000e8164ea89665dab7a553e667f81f30cfda736b9a"
+  },
+  "voter.clFactory": {
+   "to": "0x922b9Ca8e2207bfB850B6FF647c054d4b58a2Aa7",
+   "sig": "clFactory()",
+   "data": "0xe74f6166",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x000000000000000000000000ae6e5c62328ade73ceefd42228528b70c8157d0d"
+  },
+  "voter.legacyFactory": {
+   "to": "0x922b9Ca8e2207bfB850B6FF647c054d4b58a2Aa7",
+   "sig": "legacyFactory()",
+   "data": "0x2da5347b",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x00000000000000000000000085448bf2f589ab1f56225df5167c63f57758f8c1"
+  },
+  "voter.getPeriod": {
+   "to": "0x922b9Ca8e2207bfB850B6FF647c054d4b58a2Aa7",
+   "sig": "getPeriod()",
+   "data": "0x1ed24195",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000b96"
+  },
+  "voter.timeThresholdForGauge": {
+   "to": "0x922b9Ca8e2207bfB850B6FF647c054d4b58a2Aa7",
+   "sig": "timeThresholdForGauge(address)",
+   "data": "0x0ce113120000000000000000000000004543922018006b46fe7dab001669f38d4e22c728",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x000000000000000000000000000000000000000000000000000000000000006f"
+  },
+  "gauge.pool": {
+   "to": "0x4543922018006b46fe7dab001669f38d4e22c728",
+   "sig": "pool()",
+   "data": "0x16f0115b",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x000000000000000000000000f01449c0ba930b6e2caca3def3ccbd7a3e589534"
+  },
+  "gauge.voter": {
+   "to": "0x4543922018006b46fe7dab001669f38d4e22c728",
+   "sig": "voter()",
+   "data": "0x46c96aac",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x000000000000000000000000922b9ca8e2207bfb850b6ff647c054d4b58a2aa7"
+  },
+  "gauge.nfpManager": {
+   "to": "0x4543922018006b46fe7dab001669f38d4e22c728",
+   "sig": "nfpManager()",
+   "data": "0x98bbc3c7",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000b4478e810d48b5882d4019d435a2f864bab4f39"
+  },
+  "gauge.feeCollector": {
+   "to": "0x4543922018006b46fe7dab001669f38d4e22c728",
+   "sig": "feeCollector()",
+   "data": "0xc415b95c",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000001e1e2a861205767d69a51edf03cf5e3a278437bc"
+  },
+  "gauge.r33": {
+   "to": "0x4543922018006b46fe7dab001669f38d4e22c728",
+   "sig": "r33()",
+   "data": "0x0a2e3e27",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x00000000000000000000000026e9dbe75aed331e41272bece932ff1b48926ca9"
+  },
+  "gauge.firstPeriod": {
+   "to": "0x4543922018006b46fe7dab001669f38d4e22c728",
+   "sig": "firstPeriod()",
+   "data": "0xc4e3a63b",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000b5e"
+  },
+  "gauge.getRewardTokens": {
+   "to": "0x4543922018006b46fe7dab001669f38d4e22c728",
+   "sig": "getRewardTokens()",
+   "data": "0xc4f59f9b",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000006000000000000000000000000b31f66aa3c1e785363f0875a1b74e27b85fd66c7000000000000000000000000b97ef9ef8734c71904d8002f8b6bc66dd9c48a6e000000000000000000000000e8164ea89665dab7a553e667f81f30cfda736b9a00000000000000000000000013a466998ce03db73abc2d4df3bbd845ed1f28e70000000000000000000000002b2c81e08f1af8835a78bb2a90ae924ace0ea4be000000000000000000000000a25eaf2906fa1a3a13edac9b9657108af7b703e3"
+  },
+  "reward.0x13a466998ce03db73abc2d4df3bbd845ed1f28e7.symbol": {
+   "to": "0x13a466998ce03db73abc2d4df3bbd845ed1f28e7",
+   "sig": "symbol()",
+   "data": "0x95d89b41",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000045048415200000000000000000000000000000000000000000000000000000000"
+  },
+  "reward.0x13a466998ce03db73abc2d4df3bbd845ed1f28e7.decimals": {
+   "to": "0x13a466998ce03db73abc2d4df3bbd845ed1f28e7",
+   "sig": "decimals()",
+   "data": "0x313ce567",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000012"
+  },
+  "gauge.rewardRate.0x13a466998ce03db73abc2d4df3bbd845ed1f28e7": {
+   "to": "0x4543922018006b46fe7dab001669f38d4e22c728",
+   "sig": "rewardRate(address)",
+   "data": "0x221ca18c00000000000000000000000013a466998ce03db73abc2d4df3bbd845ed1f28e7",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x000000000000000000000000000000000000000000000000344d0d4140846397"
+  },
+  "gauge.left.0x13a466998ce03db73abc2d4df3bbd845ed1f28e7": {
+   "to": "0x4543922018006b46fe7dab001669f38d4e22c728",
+   "sig": "left(address)",
+   "data": "0x99bcc05200000000000000000000000013a466998ce03db73abc2d4df3bbd845ed1f28e7",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x000000000000000000000000000000000000000000006f76e2aabbd6e61bc4ef"
+  },
+  "gauge.balance.0x13a466998ce03db73abc2d4df3bbd845ed1f28e7": {
+   "to": "0x13a466998ce03db73abc2d4df3bbd845ed1f28e7",
+   "sig": "balanceOf(address)",
+   "data": "0x70a082310000000000000000000000004543922018006b46fe7dab001669f38d4e22c728",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x00000000000000000000000000000000000000000000e9e23a30e8844f430980"
+  },
+  "gauge.ttsbp.0x13a466998ce03db73abc2d4df3bbd845ed1f28e7.2966": {
+   "to": "0x4543922018006b46fe7dab001669f38d4e22c728",
+   "sig": "tokenTotalSupplyByPeriod(uint256,address)",
+   "data": "0xe92a9fa90000000000000000000000000000000000000000000000000000000000000b9600000000000000000000000013a466998ce03db73abc2d4df3bbd845ed1f28e7",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x00000000000000000000000000000000000000000001e2a912d2ade5c113707c"
+  },
+  "gauge.ttsbp.0x13a466998ce03db73abc2d4df3bbd845ed1f28e7.2965": {
+   "to": "0x4543922018006b46fe7dab001669f38d4e22c728",
+   "sig": "tokenTotalSupplyByPeriod(uint256,address)",
+   "data": "0xe92a9fa90000000000000000000000000000000000000000000000000000000000000b9500000000000000000000000013a466998ce03db73abc2d4df3bbd845ed1f28e7",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x000000000000000000000000000000000000000000018976debf32a678e4d40c"
+  },
+  "gauge.ttsbp.0x13a466998ce03db73abc2d4df3bbd845ed1f28e7.2964": {
+   "to": "0x4543922018006b46fe7dab001669f38d4e22c728",
+   "sig": "tokenTotalSupplyByPeriod(uint256,address)",
+   "data": "0xe92a9fa90000000000000000000000000000000000000000000000000000000000000b9400000000000000000000000013a466998ce03db73abc2d4df3bbd845ed1f28e7",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x000000000000000000000000000000000000000000017a3908639ab1f1c4ed74"
+  },
+  "reward.0x2b2c81e08f1af8835a78bb2a90ae924ace0ea4be.symbol": {
+   "to": "0x2b2c81e08f1af8835a78bb2a90ae924ace0ea4be",
+   "sig": "symbol()",
+   "data": "0x95d89b41",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000057341564158000000000000000000000000000000000000000000000000000000"
+  },
+  "reward.0x2b2c81e08f1af8835a78bb2a90ae924ace0ea4be.decimals": {
+   "to": "0x2b2c81e08f1af8835a78bb2a90ae924ace0ea4be",
+   "sig": "decimals()",
+   "data": "0x313ce567",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000012"
+  },
+  "gauge.rewardRate.0x2b2c81e08f1af8835a78bb2a90ae924ace0ea4be": {
+   "to": "0x4543922018006b46fe7dab001669f38d4e22c728",
+   "sig": "rewardRate(address)",
+   "data": "0x221ca18c0000000000000000000000002b2c81e08f1af8835a78bb2a90ae924ace0ea4be",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "gauge.left.0x2b2c81e08f1af8835a78bb2a90ae924ace0ea4be": {
+   "to": "0x4543922018006b46fe7dab001669f38d4e22c728",
+   "sig": "left(address)",
+   "data": "0x99bcc0520000000000000000000000002b2c81e08f1af8835a78bb2a90ae924ace0ea4be",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "gauge.balance.0x2b2c81e08f1af8835a78bb2a90ae924ace0ea4be": {
+   "to": "0x2b2c81e08f1af8835a78bb2a90ae924ace0ea4be",
+   "sig": "balanceOf(address)",
+   "data": "0x70a082310000000000000000000000004543922018006b46fe7dab001669f38d4e22c728",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x00000000000000000000000000000000000000000000000059a2549793c97471"
+  },
+  "gauge.ttsbp.0x2b2c81e08f1af8835a78bb2a90ae924ace0ea4be.2966": {
+   "to": "0x4543922018006b46fe7dab001669f38d4e22c728",
+   "sig": "tokenTotalSupplyByPeriod(uint256,address)",
+   "data": "0xe92a9fa90000000000000000000000000000000000000000000000000000000000000b960000000000000000000000002b2c81e08f1af8835a78bb2a90ae924ace0ea4be",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "gauge.ttsbp.0x2b2c81e08f1af8835a78bb2a90ae924ace0ea4be.2965": {
+   "to": "0x4543922018006b46fe7dab001669f38d4e22c728",
+   "sig": "tokenTotalSupplyByPeriod(uint256,address)",
+   "data": "0xe92a9fa90000000000000000000000000000000000000000000000000000000000000b950000000000000000000000002b2c81e08f1af8835a78bb2a90ae924ace0ea4be",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "gauge.ttsbp.0x2b2c81e08f1af8835a78bb2a90ae924ace0ea4be.2964": {
+   "to": "0x4543922018006b46fe7dab001669f38d4e22c728",
+   "sig": "tokenTotalSupplyByPeriod(uint256,address)",
+   "data": "0xe92a9fa90000000000000000000000000000000000000000000000000000000000000b940000000000000000000000002b2c81e08f1af8835a78bb2a90ae924ace0ea4be",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "reward.0xa25eaf2906fa1a3a13edac9b9657108af7b703e3.symbol": {
+   "to": "0xa25eaf2906fa1a3a13edac9b9657108af7b703e3",
+   "sig": "symbol()",
+   "data": "0x95d89b41",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000067374415641580000000000000000000000000000000000000000000000000000"
+  },
+  "reward.0xa25eaf2906fa1a3a13edac9b9657108af7b703e3.decimals": {
+   "to": "0xa25eaf2906fa1a3a13edac9b9657108af7b703e3",
+   "sig": "decimals()",
+   "data": "0x313ce567",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000012"
+  },
+  "gauge.rewardRate.0xa25eaf2906fa1a3a13edac9b9657108af7b703e3": {
+   "to": "0x4543922018006b46fe7dab001669f38d4e22c728",
+   "sig": "rewardRate(address)",
+   "data": "0x221ca18c000000000000000000000000a25eaf2906fa1a3a13edac9b9657108af7b703e3",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "gauge.left.0xa25eaf2906fa1a3a13edac9b9657108af7b703e3": {
+   "to": "0x4543922018006b46fe7dab001669f38d4e22c728",
+   "sig": "left(address)",
+   "data": "0x99bcc052000000000000000000000000a25eaf2906fa1a3a13edac9b9657108af7b703e3",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "gauge.balance.0xa25eaf2906fa1a3a13edac9b9657108af7b703e3": {
+   "to": "0xa25eaf2906fa1a3a13edac9b9657108af7b703e3",
+   "sig": "balanceOf(address)",
+   "data": "0x70a082310000000000000000000000004543922018006b46fe7dab001669f38d4e22c728",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000006107db381adbc0c3"
+  },
+  "gauge.ttsbp.0xa25eaf2906fa1a3a13edac9b9657108af7b703e3.2966": {
+   "to": "0x4543922018006b46fe7dab001669f38d4e22c728",
+   "sig": "tokenTotalSupplyByPeriod(uint256,address)",
+   "data": "0xe92a9fa90000000000000000000000000000000000000000000000000000000000000b96000000000000000000000000a25eaf2906fa1a3a13edac9b9657108af7b703e3",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "gauge.ttsbp.0xa25eaf2906fa1a3a13edac9b9657108af7b703e3.2965": {
+   "to": "0x4543922018006b46fe7dab001669f38d4e22c728",
+   "sig": "tokenTotalSupplyByPeriod(uint256,address)",
+   "data": "0xe92a9fa90000000000000000000000000000000000000000000000000000000000000b95000000000000000000000000a25eaf2906fa1a3a13edac9b9657108af7b703e3",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "gauge.ttsbp.0xa25eaf2906fa1a3a13edac9b9657108af7b703e3.2964": {
+   "to": "0x4543922018006b46fe7dab001669f38d4e22c728",
+   "sig": "tokenTotalSupplyByPeriod(uint256,address)",
+   "data": "0xe92a9fa90000000000000000000000000000000000000000000000000000000000000b94000000000000000000000000a25eaf2906fa1a3a13edac9b9657108af7b703e3",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "reward.0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7.symbol": {
+   "to": "0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7",
+   "sig": "symbol()",
+   "data": "0x95d89b41",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000055741564158000000000000000000000000000000000000000000000000000000"
+  },
+  "reward.0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7.decimals": {
+   "to": "0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7",
+   "sig": "decimals()",
+   "data": "0x313ce567",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000012"
+  },
+  "gauge.rewardRate.0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7": {
+   "to": "0x4543922018006b46fe7dab001669f38d4e22c728",
+   "sig": "rewardRate(address)",
+   "data": "0x221ca18c000000000000000000000000b31f66aa3c1e785363f0875a1b74e27b85fd66c7",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "gauge.left.0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7": {
+   "to": "0x4543922018006b46fe7dab001669f38d4e22c728",
+   "sig": "left(address)",
+   "data": "0x99bcc052000000000000000000000000b31f66aa3c1e785363f0875a1b74e27b85fd66c7",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "gauge.balance.0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7": {
+   "to": "0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7",
+   "sig": "balanceOf(address)",
+   "data": "0x70a082310000000000000000000000004543922018006b46fe7dab001669f38d4e22c728",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "gauge.ttsbp.0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7.2966": {
+   "to": "0x4543922018006b46fe7dab001669f38d4e22c728",
+   "sig": "tokenTotalSupplyByPeriod(uint256,address)",
+   "data": "0xe92a9fa90000000000000000000000000000000000000000000000000000000000000b96000000000000000000000000b31f66aa3c1e785363f0875a1b74e27b85fd66c7",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "gauge.ttsbp.0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7.2965": {
+   "to": "0x4543922018006b46fe7dab001669f38d4e22c728",
+   "sig": "tokenTotalSupplyByPeriod(uint256,address)",
+   "data": "0xe92a9fa90000000000000000000000000000000000000000000000000000000000000b95000000000000000000000000b31f66aa3c1e785363f0875a1b74e27b85fd66c7",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "gauge.ttsbp.0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7.2964": {
+   "to": "0x4543922018006b46fe7dab001669f38d4e22c728",
+   "sig": "tokenTotalSupplyByPeriod(uint256,address)",
+   "data": "0xe92a9fa90000000000000000000000000000000000000000000000000000000000000b94000000000000000000000000b31f66aa3c1e785363f0875a1b74e27b85fd66c7",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "reward.0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e.symbol": {
+   "to": "0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e",
+   "sig": "symbol()",
+   "data": "0x95d89b41",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000045553444300000000000000000000000000000000000000000000000000000000"
+  },
+  "reward.0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e.decimals": {
+   "to": "0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e",
+   "sig": "decimals()",
+   "data": "0x313ce567",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000006"
+  },
+  "gauge.rewardRate.0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e": {
+   "to": "0x4543922018006b46fe7dab001669f38d4e22c728",
+   "sig": "rewardRate(address)",
+   "data": "0x221ca18c000000000000000000000000b97ef9ef8734c71904d8002f8b6bc66dd9c48a6e",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "gauge.left.0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e": {
+   "to": "0x4543922018006b46fe7dab001669f38d4e22c728",
+   "sig": "left(address)",
+   "data": "0x99bcc052000000000000000000000000b97ef9ef8734c71904d8002f8b6bc66dd9c48a6e",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "gauge.balance.0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e": {
+   "to": "0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e",
+   "sig": "balanceOf(address)",
+   "data": "0x70a082310000000000000000000000004543922018006b46fe7dab001669f38d4e22c728",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "gauge.ttsbp.0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e.2966": {
+   "to": "0x4543922018006b46fe7dab001669f38d4e22c728",
+   "sig": "tokenTotalSupplyByPeriod(uint256,address)",
+   "data": "0xe92a9fa90000000000000000000000000000000000000000000000000000000000000b96000000000000000000000000b97ef9ef8734c71904d8002f8b6bc66dd9c48a6e",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "gauge.ttsbp.0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e.2965": {
+   "to": "0x4543922018006b46fe7dab001669f38d4e22c728",
+   "sig": "tokenTotalSupplyByPeriod(uint256,address)",
+   "data": "0xe92a9fa90000000000000000000000000000000000000000000000000000000000000b95000000000000000000000000b97ef9ef8734c71904d8002f8b6bc66dd9c48a6e",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "gauge.ttsbp.0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e.2964": {
+   "to": "0x4543922018006b46fe7dab001669f38d4e22c728",
+   "sig": "tokenTotalSupplyByPeriod(uint256,address)",
+   "data": "0xe92a9fa90000000000000000000000000000000000000000000000000000000000000b94000000000000000000000000b97ef9ef8734c71904d8002f8b6bc66dd9c48a6e",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "reward.0xe8164ea89665dab7a553e667f81f30cfda736b9a.symbol": {
+   "to": "0xe8164ea89665dab7a553e667f81f30cfda736b9a",
+   "sig": "symbol()",
+   "data": "0x95d89b41",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000057850484152000000000000000000000000000000000000000000000000000000"
+  },
+  "reward.0xe8164ea89665dab7a553e667f81f30cfda736b9a.decimals": {
+   "to": "0xe8164ea89665dab7a553e667f81f30cfda736b9a",
+   "sig": "decimals()",
+   "data": "0x313ce567",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000012"
+  },
+  "gauge.rewardRate.0xe8164ea89665dab7a553e667f81f30cfda736b9a": {
+   "to": "0x4543922018006b46fe7dab001669f38d4e22c728",
+   "sig": "rewardRate(address)",
+   "data": "0x221ca18c000000000000000000000000e8164ea89665dab7a553e667f81f30cfda736b9a",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "gauge.left.0xe8164ea89665dab7a553e667f81f30cfda736b9a": {
+   "to": "0x4543922018006b46fe7dab001669f38d4e22c728",
+   "sig": "left(address)",
+   "data": "0x99bcc052000000000000000000000000e8164ea89665dab7a553e667f81f30cfda736b9a",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "gauge.balance.0xe8164ea89665dab7a553e667f81f30cfda736b9a": {
+   "to": "0xe8164ea89665dab7a553e667f81f30cfda736b9a",
+   "sig": "balanceOf(address)",
+   "data": "0x70a082310000000000000000000000004543922018006b46fe7dab001669f38d4e22c728",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "gauge.ttsbp.0xe8164ea89665dab7a553e667f81f30cfda736b9a.2966": {
+   "to": "0x4543922018006b46fe7dab001669f38d4e22c728",
+   "sig": "tokenTotalSupplyByPeriod(uint256,address)",
+   "data": "0xe92a9fa90000000000000000000000000000000000000000000000000000000000000b96000000000000000000000000e8164ea89665dab7a553e667f81f30cfda736b9a",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "gauge.ttsbp.0xe8164ea89665dab7a553e667f81f30cfda736b9a.2965": {
+   "to": "0x4543922018006b46fe7dab001669f38d4e22c728",
+   "sig": "tokenTotalSupplyByPeriod(uint256,address)",
+   "data": "0xe92a9fa90000000000000000000000000000000000000000000000000000000000000b95000000000000000000000000e8164ea89665dab7a553e667f81f30cfda736b9a",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "gauge.ttsbp.0xe8164ea89665dab7a553e667f81f30cfda736b9a.2964": {
+   "to": "0x4543922018006b46fe7dab001669f38d4e22c728",
+   "sig": "tokenTotalSupplyByPeriod(uint256,address)",
+   "data": "0xe92a9fa90000000000000000000000000000000000000000000000000000000000000b94000000000000000000000000e8164ea89665dab7a553e667f81f30cfda736b9a",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "voter.grpp.2966": {
+   "to": "0x922b9Ca8e2207bfB850B6FF647c054d4b58a2Aa7",
+   "sig": "gaugeRewardsPerPeriod(address,uint256)",
+   "data": "0x77b325c10000000000000000000000004543922018006b46fe7dab001669f38d4e22c7280000000000000000000000000000000000000000000000000000000000000b96",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "voter.grpp.2965": {
+   "to": "0x922b9Ca8e2207bfB850B6FF647c054d4b58a2Aa7",
+   "sig": "gaugeRewardsPerPeriod(address,uint256)",
+   "data": "0x77b325c10000000000000000000000004543922018006b46fe7dab001669f38d4e22c7280000000000000000000000000000000000000000000000000000000000000b95",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "voter.grpp.2964": {
+   "to": "0x922b9Ca8e2207bfB850B6FF647c054d4b58a2Aa7",
+   "sig": "gaugeRewardsPerPeriod(address,uint256)",
+   "data": "0x77b325c10000000000000000000000004543922018006b46fe7dab001669f38d4e22c7280000000000000000000000000000000000000000000000000000000000000b94",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "beacon.implementation": {
+   "to": "0xe565310baa582c768a77a3bb7f86a892ef07d04e",
+   "sig": "implementation()",
+   "data": "0x5c60da1b",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000006e84212763a5b8b11d32a407d4f8f0f1eaa930d8"
+  },
+  "xphar.PHAR": {
+   "to": "0xE8164Ea89665DAb7a553e667F81F30CfDA736B9A",
+   "sig": "PHAR()",
+   "data": "0xc450a9d9",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x00000000000000000000000013a466998ce03db73abc2d4df3bbd845ed1f28e7"
+  },
+  "xphar.SLASHING_PENALTY": {
+   "to": "0xE8164Ea89665DAb7a553e667F81F30CfDA736B9A",
+   "sig": "SLASHING_PENALTY()",
+   "data": "0x25d64f4b",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x000000000000000000000000000000000000000000000000000000000007a120"
+  },
+  "xphar.BASIS": {
+   "to": "0xE8164Ea89665DAb7a553e667F81F30CfDA736B9A",
+   "sig": "BASIS()",
+   "data": "0x528cfa98",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x00000000000000000000000000000000000000000000000000000000000f4240"
+  },
+  "xphar.paused": {
+   "to": "0xE8164Ea89665DAb7a553e667F81F30CfDA736B9A",
+   "sig": "paused()",
+   "data": "0x5c975abb",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "phar.balanceOf(xphar)": {
+   "to": "0x13A466998Ce03Db73aBc2d4DF3bBD845Ed1f28E7",
+   "sig": "balanceOf(address)",
+   "data": "0x70a08231000000000000000000000000e8164ea89665dab7a553e667f81f30cfda736b9a",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000019f8839ed759f2c3520e2a1"
+  },
+  "feed.aggregator": {
+   "to": "0x0A77230d17318075983913bC2145DB16C7366156",
+   "sig": "aggregator()",
+   "data": "0x245a7bfc",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x000000000000000000000000cfbfe648ba88bf7d9776d970417a0b26c315feb4"
+  },
+  "feed.aggregator@START": {
+   "to": "0x0A77230d17318075983913bC2145DB16C7366156",
+   "sig": "aggregator()",
+   "data": "0x245a7bfc",
+   "block": 91716610,
+   "source": "api.avax.network",
+   "result": "0x000000000000000000000000cfbfe648ba88bf7d9776d970417a0b26c315feb4"
+  },
+  "feed.decimals": {
+   "to": "0x0A77230d17318075983913bC2145DB16C7366156",
+   "sig": "decimals()",
+   "data": "0x313ce567",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000008"
+  },
+  "feed.description": {
+   "to": "0x0A77230d17318075983913bC2145DB16C7366156",
+   "sig": "description()",
+   "data": "0x7284e416",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x0000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000a41564158202f2055534400000000000000000000000000000000000000000000"
+  },
+  "feed.latestRoundData": {
+   "to": "0x0A77230d17318075983913bC2145DB16C7366156",
+   "sig": "latestRoundData()",
+   "data": "0xfeaf968c",
+   "block": 99924388,
+   "source": "api.avax.network",
+   "result": "0x00000000000000000000000000000000000000000000000200000000000d23600000000000000000000000000000000000000000000000000000000031f77160000000000000000000000000000000000000000000000000000000006af2dfdb000000000000000000000000000000000000000000000000000000006af2dfdd00000000000000000000000000000000000000000000000200000000000d2360"
+  }
+ },
+ "note": "eth_getStorageAt was used once (gauge beacon slot); every other read is eth_call at the stated block."
+}

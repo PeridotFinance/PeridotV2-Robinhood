@@ -1,0 +1,14 @@
+{
+ "what": "Does liquidity in the Pharaoh WAVAX/USDC pool earn any swap fee? Read-only eth_call on api.avax.network, 2026-11-10.",
+ "pool": "0xf01449C0bA930B6e2CaCA3DEF3CCBd7a3E589534",
+ "token0": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7 (WAVAX)",
+ "pinned_block": 99924388,
+ "later_block": 99925326,
+ "feeGrowthGlobal0X128": {"pinned": "80554464292408762374268598131179289878600", "later": "80554464292408762374268598131179289878600", "changed": false},
+ "feeGrowthGlobal1X128": {"pinned": "2449214072924067239511171616695", "later": "2449214072924067239511171616695", "changed": false},
+ "grossFeeGrowthGlobal0X128": {"pinned": "6951012374015737160045011770477725372869821", "later": "6951108424339637052348088298614833444732382", "changed": true},
+ "grossFeeGrowthGlobal1X128": {"pinned": "69708458789300411403320796943997", "later": "69711144077193494510674967976348", "changed": true},
+ "factory.poolFeeProtocol(pool)": 1000000,
+ "reading": "Swaps happened between the two blocks (the gross fee growth moved in both tokens) and the LP fee growth did not move at all. With feeProtocol = 1,000,000 ppm the whole swap fee leaves the pool for the protocol side (voters); liquidity providers are paid in gauge emissions only. LP fee growth is 1.16% (token0) of gross since the pool began, so LPs were paid a share only in an earlier regime; the pinned state at 2026-08-01 already shows 1,000,000.",
+ "sources": ["data/avalanche/state_at_end.json (pinned values)", "cast call at the later block (this file)"]
+}
