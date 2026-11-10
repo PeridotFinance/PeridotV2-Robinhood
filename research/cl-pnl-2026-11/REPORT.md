@@ -3,7 +3,7 @@
 Research report for Peridot's lead adviser, 10 November 2026. Read-only: nothing was deployed, signed or changed.
 Everything below is rebuilt from the tables in `data/` by `scripts/run_all.sh`.
 
-**Status: sections 1 to 9 are final. Sections 2 to 4 are as accepted on 10 November; the only changes to them are the verdict rows in section 1, the Uniswap V3 note in 2.1 and the addendum 4.9. Section 10 (question 7, Blackhole) is pending its data pull.**
+**Status: final. Sections 2 to 9 are as accepted on 10 November (the changes made after acceptance are the verdict rows in section 1, the Uniswap V3 note in 2.1 and the addendum 4.9). Sections 10 and 11 (questions 7 and 8) were added afterwards.**
 
 ## 1. Verdicts
 
@@ -16,6 +16,7 @@ Everything below is rebuilt from the tables in `data/` by `scripts/run_all.sh`.
 | 5 | Reward timing | Nothing has been lost because nothing has been earned. Under the gauge's rule the three policies differ by less than 0.03% of rewards at pilot activity; a visible loss needs frequent liquidity changes and dense claims together: up to 2.75% with an hourly rebalance and thousands of settlements a day. |
 | 6 | Session-aware allocation | Wider ranges over the weekend beat the better fixed range in 0 of 14, 0 of 11 and 0 of 9 rolling windows (v4 NVDA, Ramses NVDA, Ramses SPY). The reverse plan is ahead in a third to a half of windows, which is not a result. Fixed width stands. |
 | 7 | Blackhole WAVAX/USDC against Pharaoh | Neither pool pays LPs any swap fee. Over 13 weeks Blackhole's emissions were worth 1.14 times its pool's arbitrage loss, Pharaoh's 0.56. Blackhole is a fifteenth as deep at 1% and a twenty-fifth at 10%, an unstaked position earns nothing there, and no staked range beat holding in more than half the 30-day windows. |
+| 8 | Full range and ±50% | Width changes the scale, not the sign: both stay in range, so their fee-to-loss ratio is the pool's (1.88 on v4 NVDA 0.30%, 1.19 on V3 NVDA 0.05%, 0.43 on Ramses NVDA at a 50% share). Full range on NVDA was at or above holding in 66% to 83% of 30-day windows with a worst window of −0.8%. Making a $1,000 depositor whole in 95% of windows would have cost 0.4% to 0.6% of deposits a year at full range and 1.3% to 2.1% at ±50%; the 20% fee cut covered that only on v4 including July. On SPY the cost is under 0.1% a year. |
 
 ## 2. Method, stated once
 
@@ -859,7 +860,137 @@ zero and leaves the worst window at −7% to −13%.
 | A staked symmetric position on Blackhole WAVAX/USDC | **Reject as a product; no pilot.** It is the only WAVAX venue where emissions have exceeded the loss, but no range was ahead of holding in more than half the windows, the reward's value rests on a token with a $36,000 market, and our contracts cannot stake. | none |
 | Use Blackhole's ratio as a benchmark when judging Pharaoh's emissions | **Adopt.** Pharaoh pays LPs half as much per dollar of in-range liquidity for the same loss. | compare weekly emissions per $1,000 of in-range liquidity with loss per $1,000 |
 
-## 11. All levers in one table
+## 11. Question 8: full range and ±50%
+
+**Verdict.** Going wide changes the scale of the result, not its sign. A full-range or ±50% position never left its range,
+so its fee-to-loss ratio is simply the pool's: 1.88 on Uniswap v4 NVDA 0.30%, 1.19 on Uniswap V3 NVDA 0.05%, 0.43 on
+Ramses NVDA at a 50% fee share. Full range was at or above holding in 83%, 78% and 66% of rolling 30-day windows on
+those three, with a worst window of −0.7% to −0.8%; ±50% is the same position about 3.4 times larger in both directions.
+A reserve that makes a 30-day $1,000 depositor whole in 95% of windows would have paid out 0.4% to 0.6% of deposits a
+year at full range on NVDA and 1.3% to 2.1% at ±50%. The vault's 20% fee cut covered that only on v4 including July
+(1.06 times); since 4 August it covered 0.61 on v4, 0.50 on V3 and 0.18 on Ramses. On SPY the reserve is under 0.1% of
+deposits a year on every pool.
+
+![Full range and ±50%: every rolling 30-day window](charts/q8_windows.png)
+
+### 11.1 What was modelled
+
+- **Full range:** the adapter's default range (minimum to maximum usable tick). A 50/50 deposit is deployed in full.
+- **±50%:** a band from 0.5 to 1.5 times the oracle price at deployment. The vault's range library does not allow it
+  today (its widest half-width is 4,800 ticks, −38% to +62%); it is modelled as asked. Nothing is swapped at deployment,
+  so a 50/50 deposit puts all its quote and about 63% of its stock in the band and holds the rest of the stock idle
+  (80% of capital deployed).
+- Neither position recentres: NVDA and SPY stayed inside ±50% throughout. Same ledger as section 5: fees are the LP
+  share of each swap's fee, diluted by our own liquidity, less the 20% reserve cut; the benchmark is the 50/50 deposit
+  held untouched; both are valued at the oracle.
+- **Windows:** every 30-day window starting one day apart (53 to 90 per pool). v4 NVDA runs from 16 July (section 5.1)
+  and, for a like-for-like comparison with V3 and Ramses, again from 4 August.
+- **Ramses** pools use today's 50% LP share for their whole history, as asked for NVDA; SPY is treated the same way.
+- **SPY** has history on Uniswap v4 0.30% (from 14 July), Uniswap V3 0.05% (from 19 August, after its thin first week)
+  and Ramses (from 19 August).
+- **Fee-to-loss ratio:** measured per unit of liquidity on real swaps at +1 hour, as in section 4, over the same window.
+  For a position that stays in range with constant liquidity this is exact, and it is the same for full range and for
+  ±50%. It uses the LP fee before the vault's reserve cut.
+
+### 11.2 Fee ÷ loss (+1 hour) over the same windows
+
+| Pool | Whole window | Lowest 30-day window | Median 30-day window | 30-day windows above 1.0 |
+| --- | --- | --- | --- | --- |
+| Uniswap v4 NVDA/USDG 0.30% (from 16 Jul) | 1.88 | 0.87 | 1.64 | 94% of 88 |
+| Uniswap V3 NVDA/USDG 0.05% (from 4 Aug) | 1.19 | 0.69 | 1.18 | 72% of 69 |
+| Ramses NVDA/USDG at a 50% fee share (from 4 Aug) | 0.43 | 0.25 | 0.56 | 1% of 69 |
+| Uniswap v4 SPY/USDG 0.30% | 5.04 | 1.14 | 7.05 | 100% of 90 |
+| Uniswap V3 SPY/USDG 0.05% | 1.60 | 0.56 | 1.61 | 80% of 54 |
+| Ramses SPY/USDG at a 50% fee share | 0.92 | 0.31 | 1.12 | 50% of 54 |
+
+As in section 4.5, the +1 hour figure for the two 0.30% pools is generous: valued against prices that have caught up
+(section 7), v4 NVDA's fees have been about equal to its loss since August.
+
+### 11.3 Net return against holding per rolling 30-day window ($1,000)
+
+| Pool | Geometry | Capital deployed | Whole window | Windows | Worst | 5th percentile | Median | Best | At or above holding |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Uniswap v4 NVDA 0.30% (16 Jul to 10 Nov) | full range | 99% | +0.44% | 88 | −0.79% | −0.34% | +0.08% | +0.34% | 83% |
+| | ±50% | 80% | +1.49% | 88 | −2.72% | −1.15% | +0.27% | +1.14% | 83% |
+| Uniswap v4 NVDA 0.30% (4 Aug to 10 Nov) | full range | 99% | +0.23% | 69 | −0.79% | −0.45% | +0.08% | +0.15% | 83% |
+| | ±50% | 81% | +0.77% | 69 | −2.72% | −1.52% | +0.26% | +0.52% | 83% |
+| Uniswap V3 NVDA 0.05% (4 Aug to 10 Nov) | full range | 100% | +0.18% | 69 | −0.81% | −0.46% | +0.04% | +0.17% | 78% |
+| | ±50% | 80% | +0.62% | 69 | −2.77% | −1.58% | +0.15% | +0.57% | 78% |
+| Ramses NVDA at a 50% share (4 Aug to 10 Nov) | full range | 100% | −0.09% | 68 | −0.69% | −0.47% | +0.01% | +0.05% | 66% |
+| | ±50% | 81% | −0.31% | 68 | −2.36% | −1.62% | +0.03% | +0.18% | 66% |
+| Uniswap v4 SPY 0.30% (14 Jul to 10 Nov) | full range | 99% | +0.25% | 90 | −0.02% | 0.00% | +0.02% | +0.16% | 96% |
+| | ±50% | 81% | +0.87% | 90 | −0.07% | +0.01% | +0.07% | +0.55% | 96% |
+| Uniswap V3 SPY 0.05% (19 Aug to 10 Nov) | full range | 100% | +0.05% | 54 | −0.04% | −0.02% | +0.01% | +0.03% | 91% |
+| | ±50% | 81% | +0.18% | 54 | −0.13% | −0.06% | +0.03% | +0.12% | 91% |
+| Ramses SPY at a 50% share (19 Aug to 10 Nov) | full range | 100% | +0.03% | 53 | −0.04% | −0.02% | 0.00% | +0.02% | 81% |
+| | ±50% | 81% | +0.09% | 53 | −0.15% | −0.08% | +0.02% | +0.07% | 81% |
+
+### 11.4 Loss-protection reserve (% of deposits; a $1,000 depositor held for 30 days)
+
+| Pool | Geometry | Standing size: 95th-percentile shortfall of one window | Largest shortfall seen | Cost per year, paying shortfalls up to that size | Cost per year, paying every shortfall in full | Brought in per year by the 20% fee cut | Fee cut ÷ cost | Holders' fee income per year |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Uniswap v4 NVDA 0.30% (from 16 Jul) | full range | 0.34% | 0.79% | 0.37% | 0.53% | 0.40% | 1.06 | 1.58% |
+| | ±50% | 1.15% | 2.72% | 1.27% | 1.81% | 1.35% | 1.06 | 5.39% |
+| Uniswap v4 NVDA 0.30% (from 4 Aug) | full range | 0.45% | 0.79% | 0.54% | 0.65% | 0.33% | 0.61 | 1.32% |
+| | ±50% | 1.52% | 2.72% | 1.83% | 2.23% | 1.11% | 0.61 | 4.44% |
+| Uniswap V3 NVDA 0.05% (from 4 Aug) | full range | 0.46% | 0.81% | 0.56% | 0.67% | 0.28% | 0.50 | 1.13% |
+| | ±50% | 1.58% | 2.77% | 1.91% | 2.29% | 0.96% | 0.50 | 3.86% |
+| Ramses NVDA at a 50% share (from 4 Aug) | full range | 0.47% | 0.69% | 0.62% | 0.69% | 0.11% | 0.18 | 0.46% |
+| | ±50% | 1.62% | 2.36% | 2.13% | 2.37% | 0.38% | 0.18 | 1.54% |
+| Uniswap v4 SPY 0.30% | full range | 0.00% | 0.02% | 0.00% | 0.01% | 0.14% | fully covered | 0.57% |
+| | ±50% | 0.00% | 0.07% | 0.00% | 0.03% | 0.49% | fully covered | 1.94% |
+| Uniswap V3 SPY 0.05% | full range | 0.02% | 0.04% | 0.02% | 0.02% | 0.05% | 2.70 | 0.19% |
+| | ±50% | 0.06% | 0.13% | 0.06% | 0.08% | 0.16% | 2.69 | 0.64% |
+| Ramses SPY at a 50% share | full range | 0.02% | 0.04% | 0.03% | 0.03% | 0.03% | 1.08 | 0.11% |
+| | ±50% | 0.08% | 0.15% | 0.09% | 0.11% | 0.09% | 1.08 | 0.37% |
+
+How the reserve is computed:
+
+- For each window the depositor's shortfall is max(0, holding − position), as a share of the deposit.
+- **Standing size** is the 95th-percentile shortfall of one window: with that much per dollar of deposits the reserve
+  pays every shortfall in full in 95% of windows.
+- **Cost per year** is the average payout per window when each shortfall is paid up to the standing size, times 365/30.
+  It is the answer to "what does the promise cost"; the standing size is the answer to "how much must be there".
+- **Brought in** is the vault's existing 20% cut of the fees the position earned, on the same basis.
+
+![Loss-protection reserve: yearly payout against the fee cut](charts/q8_reserve.png)
+
+### 11.5 What it says
+
+- **Width does not create an edge.** For a position that stays in range, fees and loss both scale with liquidity. Full
+  range and ±50% have the same fee-to-loss ratio, the same share of windows above holding and the same fee cut ÷ cost;
+  ±50% is 3.4 times full range in every dollar figure (4.2 times the liquidity per dollar, on 80% of the capital).
+- **Full range on NVDA is close to holding, in both directions.** Median window +0.01% to +0.08%, worst −0.7% to −0.8%,
+  holders' fee income 0.5% to 1.6% of deposits a year. It is the low-variance end of the surface in section 5.
+- **The reserve is small and the fee cut does not reliably fund it.** At full range on NVDA the promise costs 0.4% to
+  0.6% of deposits a year. The 20% cut brought in 0.11% (Ramses), 0.28% (V3) and 0.33% to 0.40% (v4). Funding the
+  reserve from fees alone would have taken about a 33% cut on v4 since August, 40% on V3 and more than the whole LP fee
+  on Ramses, before allowing for the larger shortfalls a bigger cut itself causes.
+- **The 5% of windows it does not cover come together.** Every shortfall above the standing size is in the windows
+  starting 7 to 11 October, which hold the 14.5% fall of late October, and the largest is 1.5 to 2.3 times the standing
+  size. A reserve sized at the 95th
+  percentile is exhausted exactly when every depositor's window is under water at once. The largest shortfall seen
+  (0.8% of deposits at full range, 2.8% at ±50%) is the more honest standing size.
+- **On SPY the question hardly arises:** the largest full-range shortfall in any window is 0.04% of deposits, and the fee
+  cut covers the cost on all three pools. The fee income it protects is 0.1% to 0.6% of deposits a year.
+- **What 95% means here.** Between 53 and 90 overlapping windows are about three to four independent months containing
+  one sharp fall. The percentile describes this history; it is not a tail estimate, and a longer history with a larger
+  move would raise every number in the table.
+- **Fee income is still falling** (section 2.5), and the keeper's cost is not included: full range needs no recentres,
+  but the checkpoint cadence alone ($51 to $208 a year) exceeds the fee income of a $1,000 full-range position on every
+  pool here.
+
+### 11.6 Recommendation
+
+| Lever | Decision | Parameters |
+| --- | --- | --- |
+| Full range as the default for any remaining symmetric LP on Uniswap NVDA or SPY | **Adopt** over ±2,400: it has the smallest worst window of any geometry tested (−0.8% against −3.9% on v4 NVDA) for the same fee-to-loss ratio. It is still not a yield product: about 1% a year to holders. | adapter full range; no recentre policy needed |
+| ±50% band | **Reject.** It needs a library change and is full range at 3.4 times the scale; if more exposure is wanted, ±4,800 is already allowed and behaves the same way. | none |
+| A loss-protection reserve on full-range NVDA, Uniswap v4 0.30% or V3 0.05% | **Test live at pilot size,** funded as below; do not promise more than 95% of windows. | standing reserve 0.8% of deposits (the largest 30-day shortfall seen); reserve fee cut 35% on v4 and 40% on V3 (20% now); 30-day minimum holding; review after any window whose shortfall exceeds 0.8% |
+| The same reserve on Ramses NVDA | **Reject.** At a 50% fee share the cut covers 18% of the cost. | none |
+| A loss-protection reserve on full-range SPY | **Adopt if a SPY market is opened:** the current 20% cut covers it on all three pools. | standing reserve 0.05% of deposits; fee cut 20% |
+
+## 12. All levers in one table
 
 | Lever | Decision | Exact parameters |
 | --- | --- | --- |
@@ -878,13 +1009,21 @@ zero and leaves the worst window at −7% to −13%.
 | Settle before admit | Adopt with a guard | settle only 100 s (Ramses) or 112 s (Pharaoh) after the last liquidity change |
 | Hourly rebalance on a reward-earning position | Reject | value gate only |
 | Session-aware width | Reject | none |
+| Blackhole as execution venue, as a home for bands, or as a staked LP product | Reject | none: a fifteenth to a twenty-fifth of Pharaoh's depth; unstaked positions earn nothing |
+| Full range as the default for any remaining symmetric LP on Uniswap NVDA or SPY | Adopt | adapter full range |
+| ±50% band | Reject | none |
+| Loss-protection reserve, full-range NVDA on Uniswap | Test live at pilot size | standing 0.8% of deposits; fee cut 35% (v4) or 40% (V3); 30-day minimum holding |
+| Loss-protection reserve, Ramses NVDA | Reject | none |
+| Loss-protection reserve, full-range SPY | Adopt if a SPY market is opened | standing 0.05% of deposits; fee cut 20% |
 | Naive LVR as the loss estimate | Adopt | σ²/4 × L√P, σ from a fast pool or the outside market |
 | LVR × P_trade as a forecast of LP loss | Reject | none |
 
-## 12. Reproducing this report
+## 13. Reproducing this report
 
 - `sh scripts/run_all.sh` rebuilds every file in `out/` and `charts/` from `data/` with no network (Python 3.9 or later
-  with numpy and matplotlib; about an hour on six cores). `out/logs/` holds the console output of the runs behind this
+  with numpy and matplotlib; about an hour and a half on six cores). **Tested:** run end to end in a fresh clone of the
+  branch, it reproduced every number in the 45 result files it can rebuild (`scripts/compare_out.py`); the four it cannot
+  need the table named below. `out/logs/` holds the console output of the runs behind this
   report, and `out/tables_q1.md`, `tables_q2.md`, `tables_q3.md` and `tables_q456.md` hold every table in full.
 - `scripts/pull/` holds the read-only fetch scripts; `data/*/MANIFEST.json` and `SHA256SUMS` list every table with its
   source, block range, checksum and checks.

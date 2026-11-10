@@ -40,7 +40,16 @@ product must say before placement that the order completes only if the price pas
 **What changes:** do not build the hedged D order or a session rule. Do make a policy change move the range, and alarm
 when the range in the pool is not the policy's.
 
+## Added after acceptance (questions 7 and 8)
+
+- **Blackhole is not an alternative to Pharaoh for us.** It pays LPs no swap fee either, its WAVAX/USDC pool is a
+  fifteenth to a twenty-fifth as deep, and a position that is not staked earns nothing. Its emissions did cover its
+  LPs' arbitrage loss (1.14 times over 13 weeks, against 0.56 on Pharaoh). [10]
+- **Full range is the safest symmetric geometry and still not a product.** On NVDA it was at or above holding in 66% to
+  83% of 30-day windows, never more than 0.8% behind, and paid holders about 1% a year. A reserve that makes depositors
+  whole in 95% of windows would cost 0.4% to 0.6% of deposits a year; the 20% fee cut has not covered that on NVDA since
+  August. [11]
+
 ## Not settled
 
-- Question 7 (Blackhole WAVAX/USDC against Pharaoh) is still being measured.
 - Everything rests on one 100 to 130 day history in which fee income per day fell by about half or more on every pool.

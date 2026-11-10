@@ -81,6 +81,7 @@ def main():
     ap.add_argument("--procs", type=int, default=4)
     ap.add_argument("--protocol-share", type=float, default=None, help="apply one protocol share to the whole window (Ramses today: 0.5)")
     ap.add_argument("--step-days", type=float, default=1.0)
+    ap.add_argument("--tag", default="")
     a = ap.parse_args()
     v = VENUES[a.venue]
     ds = X.load_dataset(a.venue)
@@ -114,7 +115,7 @@ def main():
               f"{sm['shortfall_p95_pct']:>10.2f}{sm['cost_pct_per_year_capped_at_p95']:>9.2f}{sm['cost_pct_per_year_uncapped']:>9.2f}"
               f"{sm['reserve_income_pct_per_year_from_20pct_fee_cut']:>8.2f}")
     tag = "" if a.protocol_share is None else f"_share{int(round(100 * (1 - a.protocol_share)))}"
-    p = dump(res, f"q8_{a.venue}{tag}.json")
+    p = dump(res, f"q8_{a.venue}{tag}{a.tag}.json")
     print("wrote", p)
 
 

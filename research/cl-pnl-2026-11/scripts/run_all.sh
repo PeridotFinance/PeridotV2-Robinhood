@@ -45,6 +45,7 @@ q7) $PY q1_fee_vs_lvr.py pharaoh_wavax --ref external/avaxusdt_1m.csv.gz > $L/q1
     $PY q2_geometry.py pharaoh_wavax --procs $PROCS > $L/q2_pharaoh_wavax.txt 2>&1
     $PY q2_geometry.py blackhole_wavax --procs 2 --cells 1200:600,2400:600,2400:1200,4800:600,4800:1200 > $L/q2_blackhole_wavax.txt 2>&1 ;;
 q8) $PY q8_wide.py v4_nvda $V4N --procs 2 > $L/q8_v4_nvda.txt 2>&1
+    $PY q8_wide.py v4_nvda $V3N --procs 2 --tag _from_aug4 > $L/q8_v4_nvda_from_aug4.txt 2>&1
     $PY q8_wide.py v4_spy --procs 2 > $L/q8_v4_spy.txt 2>&1
     $PY q8_wide.py univ3_spy_005 --from-ts 1787097600 --procs 2 > $L/q8_univ3_spy_005.txt 2>&1
     $PY q8_wide.py ramses_nvda --protocol-share 0.5 --procs 2 > $L/q8_ramses_nvda_share50.txt 2>&1
