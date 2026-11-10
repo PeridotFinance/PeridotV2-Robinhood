@@ -1,0 +1,6 @@
+Vendored unmodified from PeridotV2-Robinhood, branch feat/ramses-inkind-production, commit 4e509dd72e7b980ab44d188145f08a0940f02f50:
+  ramses-vaults/research/dual-range-backtest/engine.py      sha256 de4f28dcefc38c916cbb758a6d15be29af6aa9eb6818a711f981eabf2b463904
+  ramses-vaults/research/dual-range-backtest/feasibility.py sha256 842995efae30c012418d210037ac98b5726cd7f601e4d74649fae2521e01da16
+The engine replays one pool's swaps against the contract's range policy (RamsesRangeLib): oracle-centred range, matched-value
+redeploy with no swap, cooldown, rolling daily limit, staleness and allocation gates, per-recentre loss bound. Its unit tests and
+mutation checks live with the original. Extensions for this research are in ../engine_ext.py (subclass; the vendored file is not edited).

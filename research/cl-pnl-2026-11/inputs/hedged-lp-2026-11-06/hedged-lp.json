@@ -1,0 +1,52 @@
+{
+ "window": [
+  "2026-10-19 14:39",
+  "2026-11-06 08:44"
+ ],
+ "days": 17.75,
+ "checkpoints": 277,
+ "priceStart": 218.2616,
+ "priceEnd": 186.5338,
+ "inputs": {
+  "nvdaBorrowRatePerBlock": 7631306231,
+  "usdgSupplyRatePerBlock": 693873118,
+  "openFeeBps": 0,
+  "closeFeeBps": 0,
+  "swapCost": 0.003,
+  "gasUsdPerAdjustment": 0.087,
+  "marginFractionOfNotional": 0.5,
+  "band": 0.05,
+  "nvdaBorrowAPR": 2.006,
+  "usdgSupplyAPR": 0.182
+ },
+ "startEquityUsd": 23.2839,
+ "marginPostedUsd": 3.9192,
+ "endUsd": {
+  "hedged": 22.3154,
+  "unhedgedLpPlusCash": 21.6091,
+  "holdTokensPlusCash": 22.1445
+ },
+ "dollarPnlUsd": {
+  "hedged": -0.9685,
+  "unhedged": -1.6748,
+  "hold": -1.1394
+ },
+ "returnPct": {
+  "hedged": -4.16,
+  "unhedged": -7.193,
+  "hold": -4.894
+ },
+ "hedgedVsHoldPct": 0.772,
+ "hedgeLegUsd": {
+  "total": 0.7063,
+  "swapCost": -0.0954,
+  "gas": -0.87,
+  "borrowInterest": -0.0092,
+  "supplyInterest": 0.0012,
+  "priceAndRebalance": 1.6797
+ },
+ "adjustments": 10,
+ "lpFeesUsd": 0.1888,
+ "worstHedgedEquityUsd": 22.3154,
+ "bestHedgedEquityUsd": 23.1827
+}

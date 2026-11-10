@@ -1,0 +1,24 @@
+{
+ "window": [
+  "2026-10-19 14:39",
+  "2026-11-06 08:44"
+ ],
+ "days": 17.75,
+ "withdrawnDays": 10.94,
+ "withdrawnWindows": [
+  [
+   "10-22 16:29",
+   "11-02 15:00"
+  ]
+ ],
+ "priceStart": 218.2616,
+ "priceEnd": 186.5338,
+ "holdUsd": 18.2254,
+ "actualUsd": 17.69,
+ "counterfactualUsd": 17.6621,
+ "actualVsHoldPct": -2.938,
+ "counterfactualVsHoldPct": -3.09,
+ "feesTotalUsd": 0.188805,
+ "feesGivenUpUsd": 0.001379,
+ "shareOfShortfallRecoveredPct": -5.2
+}
