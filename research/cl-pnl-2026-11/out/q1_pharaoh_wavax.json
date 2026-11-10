@@ -14438,5 +14438,6 @@
    "ext_scored_swaps": 168,
    "vol_bucket": null
   }
- ]
+ ],
+ "protocol_share_override": null
 }

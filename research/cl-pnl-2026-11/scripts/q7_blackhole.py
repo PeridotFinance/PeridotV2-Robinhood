@@ -4,8 +4,9 @@ Inputs: out/q1_<venue>.json (per-day fee and loss from q1_fee_vs_lvr.py), the ga
 tokens' own pools for price, and each pool's swap table for its active liquidity through time.
 
 "Dollar of liquidity" is measured two ways, the same for both pools:
-  in range   the dollar value of the pool's active liquidity within +/-1% of the price, time-weighted over the week from
-             the swap stream (0.009976 x L x sqrt(P): the tokens a constant-liquidity position holds between -1% and +1%).
+  in range   the dollar value of the pool's active liquidity within +/-1% of the price, time-weighted over the week, with
+             the active liquidity rebuilt from the swap stream and every Mint and Burn between swaps
+             (0.009976 x L x sqrt(P): the tokens a constant-liquidity position holds between -1% and +1%).
              Emissions on both venues are paid pro rata to in-range liquidity, so this is the basis that decides what a
              position receives.
   balances   the pool's token balances at the end block (the only block where they were read).
@@ -38,6 +39,9 @@ def weekly(venue: str) -> dict:
     s = load_swaps(venue)
     lsp = s.L * np.sqrt(s.p)                      # in force from each swap until the next
     dts = np.diff(s.ts, append=s.ts[-1])
+    # active liquidity rebuilt from Mint/Burn between swaps (q7_check_inrange.py); falls back to the swap stream alone
+    chk = OUT / f"q7_check_inrange_{venue.split('_')[0]}.json"
+    exact = {x["week_start"]: x["exact_usd"] for x in json.loads(chk.read_text())["weeks"]} if chk.exists() else {}
     per = {}
     for period, ts, amt in rate.notes:
         per[period] = per.get(period, 0.0) + amt
@@ -50,7 +54,7 @@ def weekly(venue: str) -> dict:
         if len(dsel) != 7 or not m.any() or not w.any():
             continue
         price = float(np.sum(px[m] * pvol[m]) / np.sum(pvol[m]))
-        inr = float(BAND * np.sum(lsp[w] * dts[w]) / np.sum(dts[w]))
+        inr = exact.get(dt.datetime.fromtimestamp(a, tz=dt.timezone.utc).strftime("%Y-%m-%d"), float(BAND * np.sum(lsp[w] * dts[w]) / np.sum(dts[w])))
         rew = per[period] * price
         loss = sum(v["loss_3600"] for v in dsel)
         rows.append({"week_start": dt.datetime.fromtimestamp(a, tz=dt.timezone.utc).strftime("%Y-%m-%d"), "tokens": per[period], "token_usd": price,
@@ -82,8 +86,9 @@ def position(venue: str) -> dict:
     ds = X.load_dataset(venue, ram_rate=rate)
     out = {}
     for half, trig in ((2400, 600), (4800, 1200)):
-        c = X.single_range_config(half, trig, 1000.0, v.spacing, block_sessions=(), sample_s=3600.0)
-        r = X.run_window(ds, c, None, None, equity_sessions=False, reward_price=price, reward_sale_cost=cfg.get("sale_cost", 0.0))
+        c = X.single_range_config(half, trig, 1000.0, v.spacing, block_sessions=(), sample_s=3600.0, max_per_day=4)   # as the Q2 sweep
+        t0 = max(ds.ts[0], ds.oracle_t[0])      # the same start as the Q2 sweep (first swap with a feed value)
+        r = X.run_window(ds, c, t0, None, equity_sessions=False, reward_price=price, reward_sale_cost=cfg.get("sale_cost", 0.0))
         out[f"{half}_{trig}"] = {k: r[k] for k in ("days", "excess_mark_pct", "hold_ret_pct", "fees_usd", "lvr_usd", "recenters_core", "deployed_frac_avg",
                                                     "reward_tokens", "reward_usd_if_sold", "reward_pct_if_sold")}
     return out

@@ -799,8 +799,8 @@ facts are in `data/blackhole/FACTS.md` with the call or event behind each.
 
 | Pool | Emissions, value if sold | Swap fees paid (none to LPs) | Arbitrage loss (+1 h) | LP fee ÷ loss | Swap fee ÷ loss | Emissions ÷ loss | Weeks emissions exceeded loss | Mean in-range liquidity (±1%) | Emissions per $1,000 in range, per week | Loss per $1,000 in range, per week |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Pharaoh WAVAX/USDC | $1,072,020 (17.2M PHAR) | $1,627,127 | $1,923,592 | 0 | 0.85 | 0.56 | 1 of 13 | $730,083 | $113 | $203 |
-| Blackhole WAVAX/USDC | $202,536 (63.2M BLACK) | $140,321 | $178,056 | 0 | 0.79 | 1.14 | 9 of 13 | $60,125 | $259 | $228 |
+| Pharaoh WAVAX/USDC | $1,072,020 (17.2M PHAR) | $1,627,127 | $1,923,592 | 0 | 0.85 | 0.56 | 1 of 13 | $736,308 | $112 | $201 |
+| Blackhole WAVAX/USDC | $202,536 (63.2M BLACK) | $140,321 | $178,056 | 0 | 0.79 | 1.14 | 9 of 13 | $64,658 | $241 | $212 |
 
 Latest full week (from 29 October), against what was read at the end block:
 
@@ -809,14 +809,15 @@ Latest full week (from 29 October), against what was read at the end block:
 | Pharaoh | $98,829 | $31.5 | $310 | $67.4 |
 | Blackhole | $12,892 | $27.2 | $480 | $39.6 |
 
-- **The loss per dollar of in-range liquidity is about the same on both** ($203 and $228 a week per $1,000): same asset,
+- **The loss per dollar of in-range liquidity is about the same on both** ($201 and $212 a week per $1,000): same asset,
   same volatility. Blackhole's loss measure passes the same checks as Pharaoh's: $191,297 at +1 hour over the whole
   window, $190,438 against Binance, $202,463 from the naive LVR formula. Like Pharaoh it shows no session pattern.
-- **Blackhole emits 2.3 times as much per dollar of in-range liquidity** ($259 against $113). Per dollar of pool
+- **Blackhole emits 2.2 times as much per dollar of in-range liquidity** ($241 against $112). Per dollar of pool
   balances the two are close ($27 and $32 in the latest week): Blackhole's liquidity is far more concentrated around the
   price, so less of it is out of range and unpaid.
 - "In-range liquidity" is the dollar value of each pool's active liquidity within ±1% of the price, time-weighted over
-  the week from the swap stream. Both venues pay emissions pro rata to in-range liquidity, so this is the basis that
+  the week, with the active liquidity rebuilt from the swaps and every mint and burn between them (the swaps alone
+  understate it by 7.5% on Blackhole, whose main LP re-mints continually, and by 0.9% on Pharaoh). Both venues pay emissions pro rata to in-range liquidity, so this is the basis that
   decides what a position receives. These are realised weekly amounts; nothing is annualised.
 - **Limits of "value if sold".** The deepest BLACK market holds about $36,000 of USDC; the gauge receives $8,000 to
   $29,000 of BLACK a week. The whole emission could not be sold near the quoted price. BLACK's weekly average price
@@ -842,9 +843,9 @@ earlier blocks. Pharaoh's depth moves by a factor of three or more from one day 
 
 | Pool | Range | Against holding, whole window | Reward if sold | With reward | Rolling 30 days with reward: worst | Median | Best | Windows above holding |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Pharaoh | ±2,400 / 600 | −7.79% | +2.71% (902 PHAR) | −5.08% | −14.86% | −1.57% | +1.50% | 3 of 12 |
+| Pharaoh | ±2,400 / 600 | −7.79% | +2.71% (903 PHAR) | −5.08% | −14.86% | −1.57% | +1.50% | 3 of 12 |
 | Pharaoh | ±4,800 / 1,200 | −4.03% | +3.34% (809 PHAR) | −0.69% | −8.92% | −0.62% | +0.51% | 4 of 12 |
-| Blackhole | ±2,400 / 600 | −7.41% | +4.12% (18,291 BLACK) | −3.29% | −12.95% | +0.06% | +4.47% | 6 of 12 |
+| Blackhole | ±2,400 / 600 | −7.41% | +4.12% (18,354 BLACK) | −3.28% | −12.95% | +0.06% | +4.47% | 6 of 12 |
 | Blackhole | ±4,800 / 1,200 | −4.19% | +5.10% (18,858 BLACK) | +0.91% | −7.49% | +0.15% | +2.09% | 6 of 12 |
 
 WAVAX rose about 31% in the window, which is why every range is behind holding before rewards. Blackhole's reward per
@@ -868,8 +869,8 @@ Ramses NVDA at a 50% fee share. Full range was at or above holding in 83%, 78% a
 those three, with a worst window of −0.7% to −0.8%; ±50% is the same position about 3.4 times larger in both directions.
 A reserve that makes a 30-day $1,000 depositor whole in 95% of windows would have paid out 0.4% to 0.6% of deposits a
 year at full range on NVDA and 1.3% to 2.1% at ±50%. The vault's 20% fee cut covered that only on v4 including July
-(1.06 times); since 4 August it covered 0.61 on v4, 0.50 on V3 and 0.18 on Ramses. On SPY the reserve is under 0.1% of
-deposits a year on every pool.
+(1.06 times); since 4 August it covered 0.61 on v4, 0.50 on V3 and 0.18 on Ramses, and funding it from fees takes a 35% cut on v4
+and about 45% on V3. On SPY the reserve is under 0.1% of deposits a year on every pool.
 
 ![Full range and ±50%: every rolling 30-day window](charts/q8_windows.png)
 
@@ -957,6 +958,22 @@ How the reserve is computed:
 
 ![Loss-protection reserve: yearly payout against the fee cut](charts/q8_reserve.png)
 
+The same runs repeated with a larger cut of fees going to the reserve (full range, 4 August to 10 November; the live
+cut is 20% and the contract's cap is 50%). A larger cut lowers what holders keep, so shortfalls and their cost rise with
+it:
+
+| Pool | Fee cut | Brought in per year | Cost per year, 95% of windows | Cut ÷ cost | Cost per year, every shortfall | Cut ÷ cost | Windows at or above holding |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Uniswap v4 NVDA 0.30% | 20% | 0.33% | 0.54% | 0.61 | 0.65% | 0.50 | 83% |
+| | 30% | 0.49% | 0.56% | 0.88 | 0.68% | 0.72 | 81% |
+| | 35% | 0.57% | 0.57% | 1.00 | 0.69% | 0.83 | 80% |
+| | 40% | 0.65% | 0.59% | 1.12 | 0.70% | 0.93 | 80% |
+| | 45% | 0.74% | 0.60% | 1.23 | 0.72% | 1.03 | 78% |
+| | 50% | 0.82% | 0.61% | 1.33 | 0.73% | 1.12 | 77% |
+| Uniswap V3 NVDA 0.05% | 20% | 0.28% | 0.56% | 0.50 | 0.67% | 0.42 | 78% |
+| | 40% | 0.56% | 0.61% | 0.92 | 0.72% | 0.78 | 75% |
+| | 50% | 0.71% | 0.64% | 1.10 | 0.76% | 0.93 | 70% |
+
 ### 11.5 What it says
 
 - **Width does not create an edge.** For a position that stays in range, fees and loss both scale with liquidity. Full
@@ -965,9 +982,10 @@ How the reserve is computed:
 - **Full range on NVDA is close to holding, in both directions.** Median window +0.01% to +0.08%, worst −0.7% to −0.8%,
   holders' fee income 0.5% to 1.6% of deposits a year. It is the low-variance end of the surface in section 5.
 - **The reserve is small and the fee cut does not reliably fund it.** At full range on NVDA the promise costs 0.4% to
-  0.6% of deposits a year. The 20% cut brought in 0.11% (Ramses), 0.28% (V3) and 0.33% to 0.40% (v4). Funding the
-  reserve from fees alone would have taken about a 33% cut on v4 since August, 40% on V3 and more than the whole LP fee
-  on Ramses, before allowing for the larger shortfalls a bigger cut itself causes.
+  0.6% of deposits a year. The 20% cut brought in 0.11% (Ramses), 0.28% (V3) and 0.33% to 0.40% (v4). Simulated
+  with a larger cut, the 95% promise is funded from fees at a 35% cut on v4 since August and at about 45% on V3 (0.92 at
+  40%, 1.10 at the 50% cap). Paying every shortfall in full needs 45% on v4 and is not reached within the cap on V3. On
+  Ramses it would take more than the whole LP fee.
 - **The 5% of windows it does not cover come together.** Every shortfall above the standing size is in the windows
   starting 7 to 11 October, which hold the 14.5% fall of late October, and the largest is 1.5 to 2.3 times the standing
   size. A reserve sized at the 95th
@@ -993,7 +1011,7 @@ to test on (the vault is unwound) and the repository has no Uniswap V3 adapter, 
 | Re-open symmetric LP on NVDA at full range | **Reject,** as in section 5.5. If a symmetric NVDA position is ever reopened despite that, full range is the geometry to use: the smallest worst window of any tested (−0.8% against −3.9% for ±2,400 on v4) at the same fee-to-loss ratio. | adapter full range; no recentre policy |
 | ±50% band | **Reject.** It needs a library change and is full range at 3.4 times the scale; ±4,800 is already allowed and behaves the same way. | none |
 | SPY | **No change to section 5.5** (±1,200 / 300 on Uniswap v4 0.30%, only once a SPY market exists). Full range earns about a sixth as much there. | as section 5.5 |
-| A loss-protection reserve | **Not a pilot; a sizing answer** for anyone who chooses to offer full range. To make depositors whole in 95% of 30-day windows on NVDA: a standing reserve of about 0.45% of deposits and payouts of 0.4% to 0.6% of deposits a year. By arithmetic on these runs the fee cut would have to be about 33% (v4 since August) to 40% (V3) instead of 20%, or 39% to 48% to pay every shortfall in full; the contract's cap is 50%. These cuts were not simulated, and a larger cut lowers holders' returns and so raises the shortfalls it must pay. | standing size 0.45% of deposits (95% of windows) or 0.8% (every window seen) |
+| A loss-protection reserve | **Not a pilot; a sizing answer** for anyone who chooses to offer full range. To make depositors whole in 95% of 30-day windows on NVDA: a standing reserve of about 0.45% of deposits and payouts of 0.4% to 0.6% of deposits a year. Simulated since August, the fee cut that funds it is 35% on v4 and about 45% on V3 instead of 20%; paying every shortfall in full takes 45% on v4 and is out of reach within the contract's 50% cap on V3. At those cuts 70% to 80% of windows end at or above holding. | standing size 0.45% to 0.5% of deposits (95% of windows) or 0.8% (every window seen); fee cut 35% (v4) or 45% (V3) |
 | The same reserve on Ramses NVDA | **Reject.** At a 50% fee share the cut covers 18% of the cost; no cut within the contract's cap funds it. | none |
 
 ## 12. All levers in one table
@@ -1018,7 +1036,7 @@ to test on (the vault is unwound) and the repository has no Uniswap V3 adapter, 
 | Blackhole as execution venue, as a home for bands, or as a staked LP product | Reject | none: a fifteenth to a twenty-fifth of Pharaoh's depth; unstaked positions earn nothing |
 | Full range on NVDA | Reject (as every NVDA geometry); least-bad geometry if one is ever reopened | adapter full range |
 | ±50% band | Reject | none |
-| Loss-protection reserve | Sizing answer only, not a pilot | 0.45% of deposits standing for 95% of windows; 0.4% to 0.6% a year in payouts; needs a fee cut of roughly 33% to 48% (not simulated) |
+| Loss-protection reserve | Sizing answer only, not a pilot | 0.45% to 0.5% of deposits standing for 95% of windows; 0.4% to 0.6% a year in payouts; funded by a fee cut of 35% (v4) or about 45% (V3), simulated since August |
 | Loss-protection reserve, Ramses NVDA | Reject | none |
 | Naive LVR as the loss estimate | Adopt | σ²/4 × L√P, σ from a fast pool or the outside market |
 | LVR × P_trade as a forecast of LP loss | Reject | none |
@@ -1026,10 +1044,10 @@ to test on (the vault is unwound) and the repository has no Uniswap V3 adapter, 
 ## 13. Reproducing this report
 
 - `sh scripts/run_all.sh` rebuilds every file in `out/` and `charts/` from `data/` with no network (Python 3.9 or later
-  with numpy and matplotlib; about an hour and a half on six cores). **Tested:** the pipeline for questions 1 to 6 was
-  run end to end in a fresh clone at commit `805a828` and reproduced every number in the 45 result files it can rebuild
-  (`scripts/compare_out.py`). The question 7 and 8 steps added afterwards were being re-run in a second clone when this
-  was written; that check is not finished. `out/logs/` holds the console output of the runs behind this
+  with numpy and matplotlib; about an hour and a half on six cores). **Tested in two fresh clones of the branch:** the pipeline
+  for questions 1 to 6 at commit `805a828` reproduced every number in the 45 result files it can rebuild, and the
+  question 7 and 8 steps at `da0daae` reproduced every number in their 16 (`scripts/compare_out.py`). Every data folder
+  verifies against its `SHA256SUMS`. `out/logs/` holds the console output of the runs behind this
   report, and `out/tables_q1.md`, `tables_q2.md`, `tables_q3.md` and `tables_q456.md` hold every table in full.
 - `scripts/pull/` holds the read-only fetch scripts; `data/*/MANIFEST.json` and `SHA256SUMS` list every table with its
   source, block range, checksum and checks.

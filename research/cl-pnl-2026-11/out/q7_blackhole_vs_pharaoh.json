@@ -13,10 +13,10 @@
     "loss_3600_usd": 43214.13006541255,
     "loss_60_usd": 25882.596300514844,
     "volume_usd": 37845333.44964896,
-    "in_range_1pct_usd": 296121.5998402888,
-    "reward_per_1000_in_range": 66.11305289361194,
-    "loss_per_1000_in_range": 145.93373157756747,
-    "net_per_1000_in_range": -79.82067868395552
+    "in_range_1pct_usd": 296468.9177204842,
+    "reward_per_1000_in_range": 66.03560043903151,
+    "loss_per_1000_in_range": 145.76276797473773,
+    "net_per_1000_in_range": -79.72716753570623
    },
    {
     "week_start": "2026-08-13",
@@ -28,10 +28,10 @@
     "loss_3600_usd": 67015.6733429761,
     "loss_60_usd": 25193.371591142757,
     "volume_usd": 36654834.45901298,
-    "in_range_1pct_usd": 291557.2871235946,
-    "reward_per_1000_in_range": 87.86827386620864,
-    "loss_per_1000_in_range": 229.85422180364625,
-    "net_per_1000_in_range": -141.98594793743763
+    "in_range_1pct_usd": 292945.05123948684,
+    "reward_per_1000_in_range": 87.45201683479279,
+    "loss_per_1000_in_range": 228.76533691019688,
+    "net_per_1000_in_range": -141.31332007540408
    },
    {
     "week_start": "2026-08-20",
@@ -43,10 +43,10 @@
     "loss_3600_usd": 95611.20519565475,
     "loss_60_usd": 119293.0804270043,
     "volume_usd": 128099206.3023232,
-    "in_range_1pct_usd": 349991.8564194829,
-    "reward_per_1000_in_range": 58.61180478694179,
-    "loss_per_1000_in_range": 273.18122819709237,
-    "net_per_1000_in_range": -214.56942341015056
+    "in_range_1pct_usd": 350064.86200465343,
+    "reward_per_1000_in_range": 58.5995813690247,
+    "loss_per_1000_in_range": 273.1242565967212,
+    "net_per_1000_in_range": -214.52467522769643
    },
    {
     "week_start": "2026-08-27",
@@ -58,10 +58,10 @@
     "loss_3600_usd": 41833.94828204404,
     "loss_60_usd": 54660.263092995185,
     "volume_usd": 96626054.33840092,
-    "in_range_1pct_usd": 587479.2498561463,
-    "reward_per_1000_in_range": 59.94102264338023,
-    "loss_per_1000_in_range": 71.20923554710699,
-    "net_per_1000_in_range": -11.268212903726758
+    "in_range_1pct_usd": 587751.6208997045,
+    "reward_per_1000_in_range": 59.91324526547299,
+    "loss_per_1000_in_range": 71.17623634624172,
+    "net_per_1000_in_range": -11.262991080768744
    },
    {
     "week_start": "2026-09-03",
@@ -73,10 +73,10 @@
     "loss_3600_usd": 111256.09262281994,
     "loss_60_usd": 121583.44422940511,
     "volume_usd": 223207633.13987082,
-    "in_range_1pct_usd": 2063461.1326835672,
-    "reward_per_1000_in_range": 24.44767246638603,
-    "loss_per_1000_in_range": 53.91722231187823,
-    "net_per_1000_in_range": -29.469549845492192
+    "in_range_1pct_usd": 2063707.2618145214,
+    "reward_per_1000_in_range": 24.44475670188331,
+    "loss_per_1000_in_range": 53.910791846028424,
+    "net_per_1000_in_range": -29.466035144145113
    },
    {
     "week_start": "2026-09-10",
@@ -88,10 +88,10 @@
     "loss_3600_usd": 142980.09963851076,
     "loss_60_usd": 142285.94709828336,
     "volume_usd": 183347250.06735998,
-    "in_range_1pct_usd": 896683.7338690662,
-    "reward_per_1000_in_range": 65.01139989921782,
-    "loss_per_1000_in_range": 159.45432512929773,
-    "net_per_1000_in_range": -94.4429252300799
+    "in_range_1pct_usd": 898272.2062882122,
+    "reward_per_1000_in_range": 64.89643606648755,
+    "loss_per_1000_in_range": 159.17235180783868,
+    "net_per_1000_in_range": -94.27591574135114
    },
    {
     "week_start": "2026-09-17",
@@ -103,10 +103,10 @@
     "loss_3600_usd": 238238.58792114086,
     "loss_60_usd": 236698.12757398476,
     "volume_usd": 215065082.28284842,
-    "in_range_1pct_usd": 544502.3382993378,
-    "reward_per_1000_in_range": 147.502778776046,
-    "loss_per_1000_in_range": 437.534554333117,
-    "net_per_1000_in_range": -290.031775557071
+    "in_range_1pct_usd": 545538.5522404464,
+    "reward_per_1000_in_range": 147.2226071271455,
+    "loss_per_1000_in_range": 436.7034867521829,
+    "net_per_1000_in_range": -289.48087962503746
    },
    {
     "week_start": "2026-09-24",
@@ -118,10 +118,10 @@
     "loss_3600_usd": 278882.33264635905,
     "loss_60_usd": 308420.25447932637,
     "volume_usd": 241657664.79490602,
-    "in_range_1pct_usd": 513713.77406047797,
-    "reward_per_1000_in_range": 258.5995745937861,
-    "loss_per_1000_in_range": 542.874936838908,
-    "net_per_1000_in_range": -284.2753622451219
+    "in_range_1pct_usd": 514553.2420286257,
+    "reward_per_1000_in_range": 258.1776822768856,
+    "loss_per_1000_in_range": 541.9892634372794,
+    "net_per_1000_in_range": -283.81158116039387
    },
    {
     "week_start": "2026-10-01",
@@ -133,10 +133,10 @@
     "loss_3600_usd": 203085.8114530142,
     "loss_60_usd": 191098.06145688234,
     "volume_usd": 277106537.7345472,
-    "in_range_1pct_usd": 1216314.237566587,
-    "reward_per_1000_in_range": 160.38736116943116,
-    "loss_per_1000_in_range": 166.96821033626705,
-    "net_per_1000_in_range": -6.5808491668358995
+    "in_range_1pct_usd": 1230823.2682398253,
+    "reward_per_1000_in_range": 158.4967037510555,
+    "loss_per_1000_in_range": 164.99997740816437,
+    "net_per_1000_in_range": -6.503273657108884
    },
    {
     "week_start": "2026-10-08",
@@ -148,10 +148,10 @@
     "loss_3600_usd": 166942.56356497627,
     "loss_60_usd": 118516.18866835962,
     "volume_usd": 163329780.22793993,
-    "in_range_1pct_usd": 575189.8909902445,
-    "reward_per_1000_in_range": 202.70700320515377,
-    "loss_per_1000_in_range": 290.2390431055189,
-    "net_per_1000_in_range": -87.53203990036512
+    "in_range_1pct_usd": 580850.4268354753,
+    "reward_per_1000_in_range": 200.73157165735688,
+    "loss_per_1000_in_range": 287.4105894601717,
+    "net_per_1000_in_range": -86.67901780281481
    },
    {
     "week_start": "2026-10-15",
@@ -163,10 +163,10 @@
     "loss_3600_usd": 237195.85198494047,
     "loss_60_usd": 167612.0764545252,
     "volume_usd": 218436575.33510226,
-    "in_range_1pct_usd": 904778.9798696934,
-    "reward_per_1000_in_range": 128.95834072311695,
-    "loss_per_1000_in_range": 262.15888881404106,
-    "net_per_1000_in_range": -133.20054809092412
+    "in_range_1pct_usd": 915848.3406043602,
+    "reward_per_1000_in_range": 127.39969140322381,
+    "loss_per_1000_in_range": 258.9903169212678,
+    "net_per_1000_in_range": -131.590625518044
    },
    {
     "week_start": "2026-10-22",
@@ -178,10 +178,10 @@
     "loss_3600_usd": 85630.64280689861,
     "loss_60_usd": 86120.64038304413,
     "volume_usd": 135501658.34286484,
-    "in_range_1pct_usd": 682983.6434732007,
-    "reward_per_1000_in_range": 178.64076144179197,
-    "loss_per_1000_in_range": 125.37729655052658,
-    "net_per_1000_in_range": 53.26346489126538
+    "in_range_1pct_usd": 703194.3095218923,
+    "reward_per_1000_in_range": 173.50640707729374,
+    "loss_per_1000_in_range": 121.77379942838218,
+    "net_per_1000_in_range": 51.73260764891157
    },
    {
     "week_start": "2026-10-29",
@@ -193,10 +193,10 @@
     "loss_3600_usd": 211705.05178021645,
     "loss_60_usd": 134824.00901233667,
     "volume_usd": 171411482.91360307,
-    "in_range_1pct_usd": 568296.761633256,
-    "reward_per_1000_in_range": 173.90403960795476,
-    "loss_per_1000_in_range": 372.52552904188104,
-    "net_per_1000_in_range": -198.62148943392629
+    "in_range_1pct_usd": 591984.9600977303,
+    "reward_per_1000_in_range": 166.94529288012075,
+    "loss_per_1000_in_range": 357.6189701597592,
+    "net_per_1000_in_range": -190.67367727963847
    }
   ],
   "total": {
@@ -208,9 +208,9 @@
    "loss_60_usd": 1732188.0607678043,
    "volume_usd": 2128289093.3884282,
    "weeks": 13,
-   "in_range_1pct_usd_mean": 730082.6527449955,
-   "reward_per_1000_in_range_per_week": 112.95035417533647,
-   "loss_per_1000_in_range_per_week": 202.6737851658683,
+   "in_range_1pct_usd_mean": 736307.9245796476,
+   "reward_per_1000_in_range_per_week": 111.99539140081096,
+   "loss_per_1000_in_range_per_week": 200.96023657526243,
    "reward_over_loss": 0.5573012517770755,
    "swap_fee_over_loss": 0.8458796598103338,
    "weeks_reward_above_loss": 1
@@ -227,15 +227,15 @@
   "position_1000": {
    "2400_600": {
     "days": 101.38299768518519,
-    "excess_mark_pct": -7.796907304470733,
+    "excess_mark_pct": -7.789329483681877,
     "hold_ret_pct": 15.727709965491442,
     "fees_usd": 0.0,
-    "lvr_usd": 42.09216514109879,
-    "recenters_core": 45,
-    "deployed_frac_avg": 0.31713232916412004,
-    "reward_tokens": 902.2946252721262,
-    "reward_usd_if_sold": 27.076983092253542,
-    "reward_pct_if_sold": 2.707698309225354
+    "lvr_usd": 42.12034619597162,
+    "recenters_core": 43,
+    "deployed_frac_avg": 0.31727202152403466,
+    "reward_tokens": 903.0657434680758,
+    "reward_usd_if_sold": 27.117323475048693,
+    "reward_pct_if_sold": 2.7117323475048694
    },
    "4800_1200": {
     "days": 101.38299768518519,
@@ -265,10 +265,10 @@
     "loss_3600_usd": 8258.921635906747,
     "loss_60_usd": 5329.020466117981,
     "volume_usd": 9477437.131505001,
-    "in_range_1pct_usd": 59293.450028515574,
-    "reward_per_1000_in_range": 153.61638291821683,
-    "loss_per_1000_in_range": 139.28893717492983,
-    "net_per_1000_in_range": 14.327445743286987
+    "in_range_1pct_usd": 64788.24734404897,
+    "reward_per_1000_in_range": 140.5879260130849,
+    "loss_per_1000_in_range": 127.4756143972979,
+    "net_per_1000_in_range": 13.112311615787009
    },
    {
     "week_start": "2026-08-13",
@@ -280,10 +280,10 @@
     "loss_3600_usd": 12612.403296794117,
     "loss_60_usd": 5336.847201695578,
     "volume_usd": 11428016.62002902,
-    "in_range_1pct_usd": 66676.91965605537,
-    "reward_per_1000_in_range": 119.82638349519006,
-    "loss_per_1000_in_range": 189.15695808765068,
-    "net_per_1000_in_range": -69.33057459246061
+    "in_range_1pct_usd": 73040.11825218382,
+    "reward_per_1000_in_range": 109.38720166633335,
+    "loss_per_1000_in_range": 172.67775023648758,
+    "net_per_1000_in_range": -63.29054857015424
    },
    {
     "week_start": "2026-08-20",
@@ -295,10 +295,10 @@
     "loss_3600_usd": 10920.144998256135,
     "loss_60_usd": 13738.561004136483,
     "volume_usd": 26657224.764258042,
-    "in_range_1pct_usd": 44961.06782214707,
-    "reward_per_1000_in_range": 205.57778146890135,
-    "loss_per_1000_in_range": 242.88001880767285,
-    "net_per_1000_in_range": -37.302237338771484
+    "in_range_1pct_usd": 47760.394814124826,
+    "reward_per_1000_in_range": 193.52847922053292,
+    "loss_per_1000_in_range": 228.64436193954106,
+    "net_per_1000_in_range": -35.115882719008134
    },
    {
     "week_start": "2026-08-27",
@@ -310,10 +310,10 @@
     "loss_3600_usd": 5405.966084222127,
     "loss_60_usd": 5877.557585167827,
     "volume_usd": 13507788.342790985,
-    "in_range_1pct_usd": 63994.43328108963,
-    "reward_per_1000_in_range": 173.01080605547494,
-    "loss_per_1000_in_range": 84.47556774941535,
-    "net_per_1000_in_range": 88.5352383060596
+    "in_range_1pct_usd": 69422.10668961219,
+    "reward_per_1000_in_range": 159.48419045429688,
+    "loss_per_1000_in_range": 77.87095987150497,
+    "net_per_1000_in_range": 81.61323058279193
    },
    {
     "week_start": "2026-09-03",
@@ -325,10 +325,10 @@
     "loss_3600_usd": 9430.432113347419,
     "loss_60_usd": 8570.375981985579,
     "volume_usd": 18210350.665826984,
-    "in_range_1pct_usd": 82187.51099360877,
-    "reward_per_1000_in_range": 137.02440646163214,
-    "loss_per_1000_in_range": 114.74288489014793,
-    "net_per_1000_in_range": 22.281521571484184
+    "in_range_1pct_usd": 87653.74618165228,
+    "reward_per_1000_in_range": 128.4793337767851,
+    "loss_per_1000_in_range": 107.58732540425522,
+    "net_per_1000_in_range": 20.892008372529865
    },
    {
     "week_start": "2026-09-10",
@@ -340,10 +340,10 @@
     "loss_3600_usd": 8838.588027039648,
     "loss_60_usd": 9352.836495611984,
     "volume_usd": 17870627.860788025,
-    "in_range_1pct_usd": 61647.618727331945,
-    "reward_per_1000_in_range": 182.07039656539277,
-    "loss_per_1000_in_range": 143.37274025348515,
-    "net_per_1000_in_range": 38.69765631190765
+    "in_range_1pct_usd": 68448.61443252052,
+    "reward_per_1000_in_range": 163.98003790219522,
+    "loss_per_1000_in_range": 129.12734757769414,
+    "net_per_1000_in_range": 34.85269032450108
    },
    {
     "week_start": "2026-09-17",
@@ -355,10 +355,10 @@
     "loss_3600_usd": 26658.87956185394,
     "loss_60_usd": 23399.84964712192,
     "volume_usd": 42566930.140042,
-    "in_range_1pct_usd": 46639.20552490432,
-    "reward_per_1000_in_range": 347.6251383729385,
-    "loss_per_1000_in_range": 571.5980635137252,
-    "net_per_1000_in_range": -223.97292514078666
+    "in_range_1pct_usd": 48999.51617078226,
+    "reward_per_1000_in_range": 330.8800074206926,
+    "loss_per_1000_in_range": 544.0641386934809,
+    "net_per_1000_in_range": -213.18413127278828
    },
    {
     "week_start": "2026-09-24",
@@ -370,10 +370,10 @@
     "loss_3600_usd": 22873.34706331282,
     "loss_60_usd": 27565.781160045306,
     "volume_usd": 39844433.19790695,
-    "in_range_1pct_usd": 45576.64616448048,
-    "reward_per_1000_in_range": 589.535361357587,
-    "loss_per_1000_in_range": 501.86551640429485,
-    "net_per_1000_in_range": 87.66984495329217
+    "in_range_1pct_usd": 47454.58008670959,
+    "reward_per_1000_in_range": 566.2055067592725,
+    "loss_per_1000_in_range": 482.00504612027675,
+    "net_per_1000_in_range": 84.20046063899575
    },
    {
     "week_start": "2026-10-01",
@@ -385,10 +385,10 @@
     "loss_3600_usd": 14356.571816760394,
     "loss_60_usd": 14323.310750648732,
     "volume_usd": 25410729.513149012,
-    "in_range_1pct_usd": 71873.79113517718,
-    "reward_per_1000_in_range": 402.5517700466345,
-    "loss_per_1000_in_range": 199.74696742737783,
-    "net_per_1000_in_range": 202.80480261925666
+    "in_range_1pct_usd": 77168.17404042883,
+    "reward_per_1000_in_range": 374.9333478626767,
+    "loss_per_1000_in_range": 186.04265288483964,
+    "net_per_1000_in_range": 188.8906949778371
    },
    {
     "week_start": "2026-10-08",
@@ -400,10 +400,10 @@
     "loss_3600_usd": 17697.14771934278,
     "loss_60_usd": 12649.553621114153,
     "volume_usd": 22757755.05104899,
-    "in_range_1pct_usd": 63068.788170098356,
-    "reward_per_1000_in_range": 391.23416822957665,
-    "loss_per_1000_in_range": 280.6007255381705,
-    "net_per_1000_in_range": 110.63344269140617
+    "in_range_1pct_usd": 68100.79725954586,
+    "reward_per_1000_in_range": 362.32563896331015,
+    "loss_per_1000_in_range": 259.86696825141985,
+    "net_per_1000_in_range": 102.45867071189032
    },
    {
     "week_start": "2026-10-15",
@@ -415,10 +415,10 @@
     "loss_3600_usd": 15063.23042806799,
     "loss_60_usd": 11206.826034287114,
     "volume_usd": 18900612.292779993,
-    "in_range_1pct_usd": 62350.145848620276,
-    "reward_per_1000_in_range": 282.7730492187505,
-    "loss_per_1000_in_range": 241.5909413370092,
-    "net_per_1000_in_range": 41.182107881741324
+    "in_range_1pct_usd": 66286.76801071214,
+    "reward_per_1000_in_range": 265.9797934030961,
+    "loss_per_1000_in_range": 227.24339834510752,
+    "net_per_1000_in_range": 38.736395057988595
    },
    {
     "week_start": "2026-10-22",
@@ -430,10 +430,10 @@
     "loss_3600_usd": 7178.925684568182,
     "loss_60_usd": 7459.526584484086,
     "volume_usd": 13588513.45506401,
-    "in_range_1pct_usd": 55074.1397881108,
-    "reward_per_1000_in_range": 280.0849883476081,
-    "loss_per_1000_in_range": 130.3502099567598,
-    "net_per_1000_in_range": 149.73477839084828
+    "in_range_1pct_usd": 59438.13799782956,
+    "reward_per_1000_in_range": 259.52091233697166,
+    "loss_per_1000_in_range": 120.7797876311389,
+    "net_per_1000_in_range": 138.7411247058328
    },
    {
     "week_start": "2026-10-29",
@@ -445,10 +445,10 @@
     "loss_3600_usd": 18761.414124885978,
     "loss_60_usd": 14921.44981377148,
     "volume_usd": 20422336.963675994,
-    "in_range_1pct_usd": 58282.25371928498,
-    "reward_per_1000_in_range": 221.19326939973615,
-    "loss_per_1000_in_range": 321.90611940385594,
-    "net_per_1000_in_range": -100.71285000411979
+    "in_range_1pct_usd": 61994.10280855865,
+    "reward_per_1000_in_range": 207.94949300199906,
+    "loss_per_1000_in_range": 302.6322387924913,
+    "net_per_1000_in_range": -94.68274579049225
    }
   ],
   "total": {
@@ -460,9 +460,9 @@
    "loss_60_usd": 159731.4963461882,
    "volume_usd": 280642755.998865,
    "weeks": 13,
-   "in_range_1pct_usd_mean": 60125.074681494196,
-   "reward_per_1000_in_range_per_week": 259.1218151063953,
-   "loss_per_1000_in_range_per_week": 227.80201681192813,
+   "in_range_1pct_usd_mean": 64658.100314516116,
+   "reward_per_1000_in_range_per_week": 240.95540093340185,
+   "loss_per_1000_in_range_per_week": 211.83135920770636,
    "reward_over_loss": 1.137486922779637,
    "swap_fee_over_loss": 0.7880745362618723,
    "weeks_reward_above_loss": 9
@@ -479,15 +479,15 @@
   "position_1000": {
    "2400_600": {
     "days": 101.38285879629629,
-    "excess_mark_pct": -7.394802574813161,
+    "excess_mark_pct": -7.4067456882622995,
     "hold_ret_pct": 15.71493693619126,
     "fees_usd": 0.0,
-    "lvr_usd": 44.37438909116314,
+    "lvr_usd": 44.23523550805923,
     "recenters_core": 45,
-    "deployed_frac_avg": 0.3259164636188784,
-    "reward_tokens": 18291.4486176755,
-    "reward_usd_if_sold": 41.11322509562477,
-    "reward_pct_if_sold": 4.111322509562477
+    "deployed_frac_avg": 0.32668110042912685,
+    "reward_tokens": 18353.566058695702,
+    "reward_usd_if_sold": 41.2455933990556,
+    "reward_pct_if_sold": 4.124559339905559
    },
    "4800_1200": {
     "days": 101.38285879629629,

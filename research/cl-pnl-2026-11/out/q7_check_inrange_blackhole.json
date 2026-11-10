@@ -1,0 +1,84 @@
+{
+ "weeks": [
+  {
+   "week_start": "2026-08-06",
+   "exact_usd": 64788.24734404897,
+   "swap_only_usd": 59292.57019114248,
+   "ratio": 1.0926874503026263
+  },
+  {
+   "week_start": "2026-08-13",
+   "exact_usd": 73040.11825218382,
+   "swap_only_usd": 66676.91965605567,
+   "ratio": 1.0954333017924627
+  },
+  {
+   "week_start": "2026-08-20",
+   "exact_usd": 47760.394814124826,
+   "swap_only_usd": 44960.82314625829,
+   "ratio": 1.0622669131025355
+  },
+  {
+   "week_start": "2026-08-27",
+   "exact_usd": 69422.10668961219,
+   "swap_only_usd": 63994.38265519984,
+   "ratio": 1.084815632391624
+  },
+  {
+   "week_start": "2026-09-03",
+   "exact_usd": 87653.74618165228,
+   "swap_only_usd": 82187.28799775093,
+   "ratio": 1.0665122103074012
+  },
+  {
+   "week_start": "2026-09-10",
+   "exact_usd": 68448.61443252052,
+   "swap_only_usd": 61647.61872733256,
+   "ratio": 1.1103204932419006
+  },
+  {
+   "week_start": "2026-09-17",
+   "exact_usd": 48999.51617078226,
+   "swap_only_usd": 46639.20552490436,
+   "ratio": 1.0506078656210716
+  },
+  {
+   "week_start": "2026-09-24",
+   "exact_usd": 47454.58008670959,
+   "swap_only_usd": 45574.75283883796,
+   "ratio": 1.0412471188712553
+  },
+  {
+   "week_start": "2026-10-01",
+   "exact_usd": 77168.17404042883,
+   "swap_only_usd": 71872.86328151698,
+   "ratio": 1.0736760790810682
+  },
+  {
+   "week_start": "2026-10-08",
+   "exact_usd": 68100.79725954586,
+   "swap_only_usd": 63068.965374666375,
+   "ratio": 1.0797830098367314
+  },
+  {
+   "week_start": "2026-10-15",
+   "exact_usd": 66286.76801071214,
+   "swap_only_usd": 62350.14584861981,
+   "ratio": 1.0631373368660608
+  },
+  {
+   "week_start": "2026-10-22",
+   "exact_usd": 59438.13799782956,
+   "swap_only_usd": 55074.13978811072,
+   "ratio": 1.0792386086556895
+  },
+  {
+   "week_start": "2026-10-29",
+   "exact_usd": 61994.10280855865,
+   "swap_only_usd": 58282.19634655937,
+   "ratio": 1.0636885137260002
+  }
+ ],
+ "ratio_all_full_weeks": 1.0753989043422405,
+ "method": "active liquidity rebuilt from Mint/Burn between swaps versus the last swap's liquidity held constant"
+}

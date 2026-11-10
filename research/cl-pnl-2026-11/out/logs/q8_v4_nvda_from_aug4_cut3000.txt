@@ -1,0 +1,5 @@
+Uniswap v4 NVDA/USDG (0.30%)  ['2026-08-04 00:00', '2026-11-10 09:47']  $1,000
+geometry   full % fee/LVR  fees $   LVR $  depl    n     min     p05  median     max   >=0 p95 short cost %/y uncapped cut %/y
+full         0.17   14.24    3.83    0.27  0.99   69   -0.80   -0.46    0.06    0.13   81%      0.46     0.56     0.68    0.49
+pm50         0.60    1.70   13.17    7.76  0.81   69   -2.76   -1.57    0.22    0.46   81%      1.57     1.91     2.31    1.67
+wrote /Users/joshua/Peridot/wt-cl-research/research/cl-pnl-2026-11/out/q8_v4_nvda_from_aug4_cut3000.json

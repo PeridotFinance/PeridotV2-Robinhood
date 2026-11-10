@@ -36,19 +36,19 @@ _DS = None
 _ARGS = None
 
 
-def _init(venue, capital, proto):
+def _init(venue, capital, proto, reserve_bps=2000):
     global _DS, _ARGS
     _DS = X.load_dataset(venue)
-    _ARGS = (venue, capital, proto)
+    _ARGS = (venue, capital, proto, reserve_bps)
 
 
 def _run(job):
     geom, t_from, t_to, label = job
-    venue, capital, proto = _ARGS
+    venue, capital, proto, reserve_bps = _ARGS
     v = VENUES[venue]
     g = GEOMS[geom]
     cfg = X.single_range_config(4800, 10 ** 9, capital, v.spacing, block_sessions=("weekend",) if v.equity else (), sample_s=3600.0,
-                                full_range=bool(g.get("full_range")), protocol_share=proto)
+                                full_range=bool(g.get("full_range")), protocol_share=proto, reserve_bps=reserve_bps)
     try:
         r = X.run_window(_DS, cfg, t_from, t_to, equity_sessions=v.equity, price_range=g.get("price_range"))
         out = {k: r.get(k) for k in KEEP}
@@ -69,7 +69,7 @@ def reserve(rows: list[dict], capital: float) -> dict:
             "shortfall_p95_pct": q95, "shortfall_max_pct": float(short.max()),
             "cost_pct_per_year_capped_at_p95": float(np.mean(np.minimum(short, q95)) * per_year),
             "cost_pct_per_year_uncapped": float(np.mean(short) * per_year),
-            "reserve_income_pct_per_year_from_20pct_fee_cut": float(np.mean(income) * per_year),
+            "reserve_income_pct_per_year_from_20pct_fee_cut": float(np.mean(income) * per_year),   # key name kept; the cut is reserve_bps
             "holder_fee_income_pct_per_year": float(np.mean([100.0 * r["fees_usd"] / capital for r in rows]) * per_year)}
 
 
@@ -82,6 +82,7 @@ def main():
     ap.add_argument("--protocol-share", type=float, default=None, help="apply one protocol share to the whole window (Ramses today: 0.5)")
     ap.add_argument("--step-days", type=float, default=1.0)
     ap.add_argument("--tag", default="")
+    ap.add_argument("--reserve-bps", type=int, default=2000, help="the vault's cut of collected fees that goes to the reserve (live: 2000; contract cap 5000)")
     a = ap.parse_args()
     v = VENUES[a.venue]
     ds = X.load_dataset(a.venue)
@@ -95,9 +96,9 @@ def main():
         s += a.step_days * STEP_S
     jobs = [(g, w0, w1, lab) for g in GEOMS for (w0, w1, lab) in windows]
     tic = time.time()
-    with mp.Pool(a.procs, initializer=_init, initargs=(a.venue, a.capital, a.protocol_share)) as pool:
+    with mp.Pool(a.procs, initializer=_init, initargs=(a.venue, a.capital, a.protocol_share, a.reserve_bps)) as pool:
         rows = pool.map(_run, jobs, chunksize=4)
-    res = {"venue": a.venue, "label": v.label, "capital_usd": a.capital, "protocol_share_override": a.protocol_share, "data_window": [iso(t0), iso(t1)],
+    res = {"venue": a.venue, "label": v.label, "capital_usd": a.capital, "protocol_share_override": a.protocol_share, "reserve_bps": a.reserve_bps, "data_window": [iso(t0), iso(t1)],
            "days": (t1 - t0) / 86400, "step_days": a.step_days, "rows": rows, "summary": {}, "seconds": time.time() - tic}
     print(f"{v.label}  {res['data_window']}  ${a.capital:,.0f}" + (f"  protocol share {a.protocol_share}" if a.protocol_share is not None else ""))
     print(f"{'geometry':<9}{'full %':>8}{'fee/LVR':>8}{'fees $':>8}{'LVR $':>8}{'depl':>6}{'n':>5}{'min':>8}{'p05':>8}{'median':>8}{'max':>8}{'>=0':>6}{'p95 short':>10}{'cost %/y':>9}"
