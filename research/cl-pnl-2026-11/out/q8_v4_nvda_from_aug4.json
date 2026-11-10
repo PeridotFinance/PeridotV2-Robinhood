@@ -3,6 +3,7 @@
  "label": "Uniswap v4 NVDA/USDG (0.30%)",
  "capital_usd": 1000.0,
  "protocol_share_override": null,
+ "reserve_bps": 2000,
  "data_window": [
   "2026-08-04 00:00",
   "2026-11-10 09:47"
@@ -2597,5 +2598,5 @@
    }
   }
  },
- "seconds": 14.154577732086182
+ "seconds": 11.471918106079102
 }
