@@ -1,0 +1,18 @@
+{
+ "path": "headers.csv.gz",
+ "rows": 10923,
+ "first_row": [
+  "1570000",
+  "1783033940"
+ ],
+ "last_row": [
+  "110790000",
+  "1794304197"
+ ],
+ "grid_step": 10000,
+ "first_block": 1570000,
+ "last_block": 110790000,
+ "fetched_now": 3242,
+ "copied_from_existing_cache": 7681,
+ "non_monotonic_steps": 0
+}

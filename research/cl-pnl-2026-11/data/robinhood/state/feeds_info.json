@@ -1,0 +1,298 @@
+{
+ "nvda": {
+  "path": "feed_nvda.csv.gz",
+  "rows": 1047,
+  "first_row": [
+   "27020109",
+   "4",
+   "1785785924",
+   "20739000000",
+   "627"
+  ],
+  "last_row": [
+   "110779346",
+   "2",
+   "1794303069",
+   "18234093376",
+   "1673"
+  ],
+  "pre_27000000_file": {
+   "path": "feed_nvda_pre27m.csv.gz",
+   "rows": 626,
+   "first_block": 138546,
+   "last_block": 26941291,
+   "first_round": 1,
+   "last_round": 626,
+   "round_id_not_consecutive_steps": 0,
+   "continues_into_main_file": true
+  },
+  "proxy": "0x379EC4f7C378F34a1B47E4F3cbeBCbAC3E8E9F15",
+  "description": "RHNVDA / USD",
+  "decimals": 8,
+  "phaseId_at_discovery": 1,
+  "aggregators": [
+   {
+    "phase": 1,
+    "aggregator": "0xc9d16e4f2569b9e3ea0468fd85844953713dc2a2",
+    "rows": 1047,
+    "events_before_block_27000000": 626,
+    "first_block": 27020109,
+    "last_block": 110779346,
+    "first_round": 627,
+    "last_round": 1673,
+    "round_id_not_consecutive_steps": 0,
+    "first_updated_at": 1785785924,
+    "last_updated_at": 1794303069
+   }
+  ],
+  "topic0": "0x0559884fd3a460db3073b7fc896cc77986f16e378210ded43186175bf646fc5f",
+  "signature": "AnswerUpdated(int256,uint256,uint256)",
+  "from_block": 27000000,
+  "updated_at_non_monotonic_steps": 0,
+  "latestRoundData_at_END": {
+   "roundId": "18446744073709553289",
+   "phase": 1,
+   "aggregator_round": 1673,
+   "answer": "18234093376",
+   "updatedAt": 1794303069,
+   "aggregator_at_END": "0xc9d16e4f2569b9e3ea0468fd85844953713dc2a2"
+  },
+  "last_row_matches_latestRoundData_at_END": true
+ },
+ "spy": {
+  "path": "feed_spy.csv.gz",
+  "rows": 144,
+  "first_row": [
+   "27661653",
+   "54",
+   "1785850252",
+   "76123500000",
+   "84"
+  ],
+  "last_row": [
+   "110236509",
+   "5",
+   "1794245641",
+   "75416843261",
+   "227"
+  ],
+  "pre_27000000_file": {
+   "path": "feed_spy_pre27m.csv.gz",
+   "rows": 83,
+   "first_block": 138551,
+   "last_block": 26946539,
+   "first_round": 1,
+   "last_round": 83,
+   "round_id_not_consecutive_steps": 0,
+   "continues_into_main_file": true
+  },
+  "proxy": "0x319724394D3A0e3669269846abE664Cd621f9f6A",
+  "description": "RHSPY / USD",
+  "decimals": 8,
+  "phaseId_at_discovery": 1,
+  "aggregators": [
+   {
+    "phase": 1,
+    "aggregator": "0x78bcb218fa04b9b3a278ebc865ed320bf8defbac",
+    "rows": 144,
+    "events_before_block_27000000": 83,
+    "first_block": 27661653,
+    "last_block": 110236509,
+    "first_round": 84,
+    "last_round": 227,
+    "round_id_not_consecutive_steps": 0,
+    "first_updated_at": 1785850252,
+    "last_updated_at": 1794245641
+   }
+  ],
+  "topic0": "0x0559884fd3a460db3073b7fc896cc77986f16e378210ded43186175bf646fc5f",
+  "signature": "AnswerUpdated(int256,uint256,uint256)",
+  "from_block": 27000000,
+  "updated_at_non_monotonic_steps": 0,
+  "latestRoundData_at_END": {
+   "roundId": "18446744073709551843",
+   "phase": 1,
+   "aggregator_round": 227,
+   "answer": "75416843261",
+   "updatedAt": 1794245641,
+   "aggregator_at_END": "0x78bcb218fa04b9b3a278ebc865ed320bf8defbac"
+  },
+  "last_row_matches_latestRoundData_at_END": true
+ },
+ "usdg": {
+  "path": "feed_usdg.csv.gz",
+  "rows": 98,
+  "first_row": [
+   "27726761",
+   "14",
+   "1785856775",
+   "99999876",
+   "61"
+  ],
+  "last_row": [
+   "110176116",
+   "28",
+   "1794239489",
+   "100005000",
+   "158"
+  ],
+  "pre_27000000_file": {
+   "path": "feed_usdg_pre27m.csv.gz",
+   "rows": 60,
+   "first_block": 34847,
+   "last_block": 26864465,
+   "first_round": 1,
+   "last_round": 60,
+   "round_id_not_consecutive_steps": 0,
+   "continues_into_main_file": true
+  },
+  "proxy": "0x61B7e5650328764B076A108EFF5fa7282a1B9aD2",
+  "description": "USDG / USD",
+  "decimals": 8,
+  "phaseId_at_discovery": 1,
+  "aggregators": [
+   {
+    "phase": 1,
+    "aggregator": "0x8beee3503f6860d5dac4ce26b5eee92982951c2e",
+    "rows": 98,
+    "events_before_block_27000000": 60,
+    "first_block": 27726761,
+    "last_block": 110176116,
+    "first_round": 61,
+    "last_round": 158,
+    "round_id_not_consecutive_steps": 0,
+    "first_updated_at": 1785856775,
+    "last_updated_at": 1794239489
+   }
+  ],
+  "topic0": "0x0559884fd3a460db3073b7fc896cc77986f16e378210ded43186175bf646fc5f",
+  "signature": "AnswerUpdated(int256,uint256,uint256)",
+  "from_block": 27000000,
+  "updated_at_non_monotonic_steps": 0,
+  "latestRoundData_at_END": {
+   "roundId": "18446744073709551774",
+   "phase": 1,
+   "aggregator_round": 158,
+   "answer": "100005000",
+   "updatedAt": 1794239489,
+   "aggregator_at_END": "0x8beee3503f6860d5dac4ce26b5eee92982951c2e"
+  },
+  "last_row_matches_latestRoundData_at_END": true
+ },
+ "eth_usd": {
+  "path": "feed_eth_usd.csv.gz",
+  "rows": 1840,
+  "first_row": [
+   "27106639",
+   "919",
+   "1785794600",
+   "185958904995",
+   "1393"
+  ],
+  "last_row": [
+   "110762212",
+   "51",
+   "1794301282",
+   "209778649210",
+   "3232"
+  ],
+  "pre_27000000_file": {
+   "path": "feed_eth_usd_pre27m.csv.gz",
+   "rows": 1392,
+   "first_block": 34860,
+   "last_block": 26903224,
+   "first_round": 1,
+   "last_round": 1392,
+   "round_id_not_consecutive_steps": 0,
+   "continues_into_main_file": true
+  },
+  "proxy": "0x78F3556b67E17Df817D51Ef5a990cDaF09E8d3A9",
+  "description": "ETH / USD",
+  "decimals": 8,
+  "phaseId_at_discovery": 1,
+  "aggregators": [
+   {
+    "phase": 1,
+    "aggregator": "0x6091e64eb7138eef066a80fd3a0d7427b91f2721",
+    "rows": 1840,
+    "events_before_block_27000000": 1392,
+    "first_block": 27106639,
+    "last_block": 110762212,
+    "first_round": 1393,
+    "last_round": 3232,
+    "round_id_not_consecutive_steps": 0,
+    "first_updated_at": 1785794600,
+    "last_updated_at": 1794301282
+   }
+  ],
+  "topic0": "0x0559884fd3a460db3073b7fc896cc77986f16e378210ded43186175bf646fc5f",
+  "signature": "AnswerUpdated(int256,uint256,uint256)",
+  "from_block": 27000000,
+  "updated_at_non_monotonic_steps": 0,
+  "latestRoundData_at_END": {
+   "roundId": "18446744073709554848",
+   "phase": 1,
+   "aggregator_round": 3232,
+   "answer": "209778649210",
+   "updatedAt": 1794301282,
+   "aggregator_at_END": "0x6091e64eb7138eef066a80fd3a0d7427b91f2721"
+  },
+  "last_row_matches_latestRoundData_at_END": true
+ },
+ "nvda_247": {
+  "path": "feed_nvda_247.csv.gz",
+  "rows": 89,
+  "first_row": [
+   "107857105",
+   "6",
+   "1793996483",
+   "18812646500",
+   "1"
+  ],
+  "last_row": [
+   "110771275",
+   "17",
+   "1794302219",
+   "18192386071",
+   "89"
+  ],
+  "pre_27000000_file": null,
+  "proxy": "0x321A36e441DfBadA01Aa6f9884F14a344E133D1F",
+  "description": "Robinhood NVDA (24/7)",
+  "decimals": 8,
+  "phaseId_at_discovery": 1,
+  "aggregators": [
+   {
+    "phase": 1,
+    "aggregator": "0x1c28973bd1bab2e34efa5bff5e94a95c6cab72cc",
+    "rows": 89,
+    "events_before_block_27000000": 0,
+    "first_block": 107857105,
+    "last_block": 110771275,
+    "first_round": 1,
+    "last_round": 89,
+    "round_id_not_consecutive_steps": 0,
+    "first_updated_at": 1793996483,
+    "last_updated_at": 1794302219
+   }
+  ],
+  "topic0": "0x0559884fd3a460db3073b7fc896cc77986f16e378210ded43186175bf646fc5f",
+  "signature": "AnswerUpdated(int256,uint256,uint256)",
+  "from_block": 27000000,
+  "updated_at_non_monotonic_steps": 0,
+  "latestRoundData_at_END": {
+   "roundId": "18446744073709551705",
+   "phase": 1,
+   "aggregator_round": 89,
+   "answer": "18192386071",
+   "updatedAt": 1794302219,
+   "aggregator_at_END": "0x1c28973bd1bab2e34efa5bff5e94a95c6cab72cc"
+  },
+  "last_row_matches_latestRoundData_at_END": true,
+  "reproduces_feed247_rounds_json": {
+   "file": "/Users/joshua/Peridot/RobinhoodVaults/deployments/nvda-247-feed-2026-11-07/feed247-rounds.json",
+   "rounds_in_file": 4,
+   "all_match": true
+  }
+ }
+}

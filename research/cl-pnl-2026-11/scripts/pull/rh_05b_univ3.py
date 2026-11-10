@@ -1,40 +1,55 @@
-"""Step 5b: Uniswap V3 pools USDG x {NVDA, SPY} -> univ3_pools.json, univ3_<sym>_swaps.csv.gz, univ3_<sym>_liquidity.csv.gz.
+"""Step 5b: Uniswap V3 (factory 0x1f7d7550b1b028f7571e69a784071f0205fd2efa) pools USDG x {NVDA, SPY}.
 
-Every pool of the two pairs on the UniswapV3Factory is scanned from its creation block to END (streaming, compact
-cache: one of these pools has millions of swaps). Per symbol the pool with the most swaps gets
-``univ3_<sym>_swaps.csv.gz`` / ``univ3_<sym>_liquidity.csv.gz``; every other fee tier that has swaps gets
-``univ3_<sym>_fee<fee>_swaps.csv.gz`` / ``..._liquidity.csv.gz``.
+  rh_05b_univ3.py datasets            the two 0.30% pools, creation block .. END:
+                                      univ3_<sym>_swaps.csv.gz, univ3_<sym>_liquidity.csv.gz
+  rh_05b_univ3.py counts --minutes=N  the other fee tiers: swap count and USDG volume only (no tables), streamed;
+                                      stops after N minutes and records how far each count got (re-run to continue:
+                                      the scan cache is kept)
+Both write univ3_pools.json (every pool of the two pairs: fee, spacing, creation, counts or dataset files).
 
 Swap columns as for the Ramses pools: block,log_index,ts,amount0,amount1,sqrt_price_x96,liquidity,tick,fee_ppm,protocol_share
-  fee_ppm: the pool's immutable fee tier; protocol_share: 1/n of the swap fee where n is the feeProtocol value in force
-  for the swap's INPUT token (SetFeeProtocol(uint8 old0, uint8 old1, uint8 new0, uint8 new1); 0 when n = 0).
+  amounts as emitted by the pool (positive = paid into the pool); fee_ppm: the pool's immutable fee (3000);
+  protocol_share: FRACTION of the swap fee that goes to the protocol = 1/n, n being the feeProtocol value in force for the
+  swap's INPUT token (slot0.feeProtocol packs n0 = value % 16 for token0-in, n1 = value >> 4 for token1-in; changes come
+  from SetFeeProtocol(uint8 old0, uint8 old1, uint8 new0, uint8 new1); 0 when n = 0).
 Liquidity columns: block,log_index,kind,tick_lower,tick_upper,liquidity_delta (burn negative); standard Uniswap v3
   Mint(address sender, address indexed owner, int24 indexed tickLower, int24 indexed tickUpper, uint128 amount, uint256, uint256).
 """
 from __future__ import annotations
 
-import os
+import sys
+import time
 
 from rh_lib import *  # noqa: F401,F403
 
+DATASET_POOLS = {"NVDA": "0xb944cec30bd4175855215d767adc81f39e5f7e2b", "SPY": "0xa43b424bc609495aed4bcd88d654934b510b0ad9"}
 SWAP_HDR = ["block", "log_index", "ts", "amount0", "amount1", "sqrt_price_x96", "liquidity", "tick", "fee_ppm", "protocol_share"]
 LIQ_HDR = ["block", "log_index", "kind", "tick_lower", "tick_upper", "liquidity_delta"]
+INFO = STATE / "univ3_info.json"
 
 
 def share(n: int) -> str:
     return "0" if n == 0 else format(1.0 / n, ".12g")
 
 
-def main():
-    end = load_end()["END"]
-    disc = jload(STATE / "univ3_discovery.json")
-    st = jload(END_STATE_FILE)
-    r = rpc()
-    ti = time_index(r)
-    pools = [dict(p) for p in disc["pools"]]
-    meta = {}
-    for p in pools:
-        a, lo = p["pool"], p["created_block"]
+def write_table(end, disc, info):
+    pools = []
+    for p in disc["pools"]:
+        q = {k: p[k] for k in ("symbol", "pool", "token0", "token1", "fee", "tick_spacing", "created_block", "initialize", "getPool_matches")}
+        q.update(info["pools"].get(p["pool"], {"swaps": None, "note": "not counted"}))
+        pools.append(q)
+    jdump(DATA / "univ3_pools.json", {
+        "END": end, "factory": UNIV3_FACTORY, "factory_source": disc["factory_source"], "factory_code_bytes": disc["factory_code_bytes"],
+        "fee_tiers_enabled_tick_spacing": disc["fee_tiers_enabled"], "getPool": disc["getPool"], "repo_grep_note": disc["repo_grep_note"],
+        "usdg_volume_raw_note": "sum of |USDG leg| over the pool's swaps, raw 6-decimal units",
+        "pools": pools})
+
+
+def datasets(end, disc, st, r, ti, info):
+    by = {p["pool"].lower(): p for p in disc["pools"]}
+    for sym, a in DATASET_POOLS.items():
+        p = by[a]
+        lo = p["created_block"]
         if lo < min(ti.grid):
             raise SystemExit(f"univ3 pool {a} was created below the header grid; run rh_03_headers.py --from={lo}")
         es = st["univ3"][a]
@@ -43,7 +58,7 @@ def main():
         fp = Step(fp_init, [(l["blockNumber"], l["logIndex"], (words(l["data"])[2], words(l["data"])[3])) for l in pe])
         fee = p["fee"]
         usdg0 = p["token0"].lower() == USDG.lower()
-        acc = {"vol": 0, "first": None, "last": None}
+        acc = {"vol": 0}
 
         def swap_rows():
             for rows in scan_compact(r, a, [T(SIG["v3_swap"])], lo, end, progress=say):
@@ -53,9 +68,6 @@ def main():
                         raise EvidenceError("v3 Swap data is not 5 words")
                     a0, a1 = s256(w[0]), s256(w[1])
                     acc["vol"] += abs(a0 if usdg0 else a1)
-                    if acc["first"] is None:
-                        acc["first"] = b
-                    acc["last"] = b
                     n0, n1 = fp.at(b, i)
                     yield (b, i, ts_fmt(ti.ts(b)), a0, a1, w[2], w[3], sN(w[4], 24), fee, share(n0 if a0 > 0 else n1))
 
@@ -78,53 +90,85 @@ def main():
                     d = -w[0]
                 yield (b, i, kind, lo_t, hi_t, d)
 
-        tmp_s, tmp_l = f"univ3_tmp_{a}_swaps.csv.gz", f"univ3_tmp_{a}_liquidity.csv.gz"
-        sw = write_csv_gz(tmp_s, SWAP_HDR, swap_rows())
-        lq = write_csv_gz(tmp_l, LIQ_HDR, liq_rows())
-        p["swaps"], p["mints"], p["burns"] = sw["rows"], len(mints), len(burns)
-        p["first_swap_block"], p["last_swap_block"] = acc["first"], acc["last"]
-        p["usdg_volume_raw"] = str(acc["vol"])
-        p["state_at_END"] = {k: v for k, v in es.items() if k != "slot0_words"}
-        meta[a] = {"tmp": (tmp_s, tmp_l), "fp": fp, "pe": len(pe), "es": es, "usdg0": usdg0}
-        say(p["symbol"], a, "fee", fee, "swaps", p["swaps"], "mints", p["mints"], "burns", p["burns"], "usdg vol", acc["vol"] / 1e6)
+        stem = f"univ3_{sym.lower()}"
+        sw = write_csv_gz(f"{stem}_swaps.csv.gz", SWAP_HDR, swap_rows())
+        lq = write_csv_gz(f"{stem}_liquidity.csv.gz", LIQ_HDR, liq_rows())
+        fp_end = [es["feeProtocol_raw"] % 16, es["feeProtocol_raw"] >> 4]
+        common = {"contract": a, "factory": UNIV3_FACTORY, "symbol": sym, "fee": fee, "tick_spacing": p["tick_spacing"],
+                  "token0": "USDG" if usdg0 else sym, "decimals0": 6 if usdg0 else 18, "token1": sym if usdg0 else "USDG", "decimals1": 18 if usdg0 else 6,
+                  "initialize": p["initialize"], "created_block": lo}
+        info["files"][f"{stem}_swaps.csv.gz"] = dict(
+            common, topics=[T(SIG["v3_swap"])], event=SIG["v3_swap"], fee_ppm_source="immutable pool fee",
+            **{"fee()_at_END": es["fee"], "fee_match": es["fee"] == fee},
+            protocol_share_unit="fraction of the swap fee taken by the protocol = 1/n for the swap's input token (n = feeProtocol nibble; 0 = none)",
+            protocol_share_events={"SetFeeProtocol(uint8,uint8,uint8,uint8)": len(pe),
+                                   "events": [{"block": l["blockNumber"], "log_index": l["logIndex"], "old0_old1_new0_new1": words(l["data"])} for l in pe],
+                                   "initial_feeProtocol0_1": list(fp.initial), "in_force_at_END_from_events": list(fp.last),
+                                   "slot0_feeProtocol_at_END_0_1": fp_end, "match": list(fp.last) == fp_end},
+            amount_sign="as emitted by the pool: positive = paid into the pool")
+        info["files"][f"{stem}_liquidity.csv.gz"] = dict(common, topics=[[T(SIG["v3_mint_std"]), T(SIG["v3_burn"])]], events=[SIG["v3_mint_std"], SIG["v3_burn"]],
+                                                         mints=len(mints), burns=len(burns))
+        info["pools"][a] = {"swaps": sw["rows"], "usdg_volume_raw": str(acc["vol"]), "mints": len(mints), "burns": len(burns), "complete": True,
+                            "counted_through_block": end, "dataset_files": {"swaps": f"{stem}_swaps.csv.gz", "liquidity": f"{stem}_liquidity.csv.gz"},
+                            "state_at_END": {k: v for k, v in es.items() if k != "slot0_words"}}
+        say("univ3", sym, a, "swaps", sw["rows"], "mints", len(mints), "burns", len(burns), "usdg vol", acc["vol"] / 1e6,
+            "feeProtocol match", list(fp.last) == fp_end)
+        jdump(INFO, info)
 
-    files, table_files = {}, {}
-    for sym in ("NVDA", "SPY"):
-        ranked = sorted([p for p in pools if p["symbol"] == sym], key=lambda p: -p["swaps"])
-        for rank, p in enumerate(ranked):
-            a = p["pool"]
-            m = meta[a]
-            if p["swaps"] == 0:
-                for t in m["tmp"]:
-                    (DATA / t).unlink()
-                continue
-            stem = f"univ3_{sym.lower()}" if rank == 0 else f"univ3_{sym.lower()}_fee{p['fee']}"
-            os.replace(DATA / m["tmp"][0], DATA / f"{stem}_swaps.csv.gz")
-            os.replace(DATA / m["tmp"][1], DATA / f"{stem}_liquidity.csv.gz")
-            es, fp, usdg0 = m["es"], m["fp"], m["usdg0"]
-            common = {"contract": a, "factory": UNIV3_FACTORY, "symbol": sym, "fee": p["fee"], "tick_spacing": p["tick_spacing"],
-                      "token0": "USDG" if usdg0 else sym, "decimals0": 6 if usdg0 else 18, "token1": sym if usdg0 else "USDG", "decimals1": 18 if usdg0 else 6,
-                      "initialize": p["initialize"], "created_block": p["created_block"], "rank_by_swaps_within_symbol": rank + 1}
-            fp_end = [es["feeProtocol_raw"] % 16, es["feeProtocol_raw"] >> 4]
-            files[f"{stem}_swaps.csv.gz"] = dict(
-                common, topics=[T(SIG["v3_swap"])], event=SIG["v3_swap"], fee_ppm_source="immutable pool fee",
-                **{"fee()_at_END": es["fee"], "fee_match": es["fee"] == p["fee"]},
-                protocol_share_events={"SetFeeProtocol(uint8,uint8,uint8,uint8)": m["pe"], "initial_feeProtocol0_1": list(fp.initial),
-                                       "in_force_at_END_from_events": list(fp.last), "slot0_feeProtocol_at_END_0_1": fp_end, "match": list(fp.last) == fp_end},
-                amount_sign="as emitted by the pool: positive = paid into the pool")
-            files[f"{stem}_liquidity.csv.gz"] = dict(common, topics=[[T(SIG["v3_mint_std"]), T(SIG["v3_burn"])]], events=[SIG["v3_mint_std"], SIG["v3_burn"]],
-                                                     mints=p["mints"], burns=p["burns"])
-            table_files[a] = {"swaps": f"{stem}_swaps.csv.gz", "liquidity": f"{stem}_liquidity.csv.gz"}
-            say("univ3", sym, a, "->", stem)
-    for p in pools:
-        p["dataset_files"] = table_files.get(p["pool"])
-    table = {"END": end, "factory": UNIV3_FACTORY, "factory_source": disc["factory_source"], "factory_code_bytes": disc["factory_code_bytes"],
-             "fee_tiers_enabled_tick_spacing": disc["fee_tiers_enabled"], "getPool": disc["getPool"], "repo_grep_note": disc["repo_grep_note"],
-             "usdg_volume_raw_note": "sum of |USDG leg| over the pool's swaps, raw 6-decimal units",
-             "pools": sorted(pools, key=lambda p: (p["symbol"], -p["swaps"]))}
-    jdump(DATA / "univ3_pools.json", table)
-    jdump(STATE / "univ3_info.json", {"files": files, "pools": table["pools"], "factory": UNIV3_FACTORY, "factory_source": disc["factory_source"],
-                                      "repo_grep_note": disc["repo_grep_note"]})
+
+def counts(end, disc, st, r, info, minutes):
+    deadline = time.time() + minutes * 60
+    todo = [p for p in disc["pools"] if p["pool"].lower() not in DATASET_POOLS.values()]
+    todo.sort(key=lambda p: (p["fee"] == 500, p["symbol"]))      # the 0.05% pools are the busy ones: last
+    for p in todo:
+        a, lo = p["pool"], p["created_block"]
+        usdg0 = p["token0"].lower() == USDG.lower()
+        n, vol, through, complete = 0, 0, lo - 1, True
+        for frm, to, rows in scan_pieces(r, a, [T(SIG["v3_swap"])], lo, end, progress=say):
+            for b, i, _t, data in rows:
+                w = words(data)
+                vol += abs(s256(w[0] if usdg0 else w[1]))
+            n += len(rows)
+            through = to
+            if time.time() > deadline and to < end:
+                complete = False
+                break
+        info["pools"][a] = {"swaps": n if complete else None, "usdg_volume_raw": str(vol) if complete else None, "complete": complete,
+                            "counted_through_block": through, "dataset_files": None,
+                            "state_at_END": {k: v for k, v in st["univ3"][a].items() if k != "slot0_words"}}
+        if not complete:
+            info["pools"][a].update({"partial_swaps_through_counted_block": n, "partial_usdg_volume_raw": str(vol),
+                                     "note": f"count stopped by the time budget at block {through}; blocks {through + 1}..{end} not scanned"})
+        say("univ3 count", p["symbol"], a, "fee", p["fee"], "swaps", n, "usdg vol", vol / 1e6, "complete", complete, "through", through)
+        jdump(INFO, info)
+        if time.time() > deadline:
+            for q in todo:
+                if q["pool"] not in info["pools"]:
+                    info["pools"][q["pool"]] = {"swaps": None, "complete": False, "counted_through_block": None, "dataset_files": None,
+                                                "note": "not scanned: time budget used up"}
+            jdump(INFO, info)
+            break
+
+
+def main():
+    mode = sys.argv[1] if len(sys.argv) > 1 else "datasets"
+    minutes = float(([a.split("=")[1] for a in sys.argv if a.startswith("--minutes=")] or ["20"])[0])
+    end = load_end()["END"]
+    disc = jload(STATE / "univ3_discovery.json")
+    st = jload(END_STATE_FILE)
+    r = rpc()
+    info = jload(INFO) if INFO.exists() else {}
+    info.setdefault("files", {})
+    info.setdefault("pools", {})
+    info.update({"factory": UNIV3_FACTORY, "factory_source": disc["factory_source"], "repo_grep_note": disc["repo_grep_note"]})
+    if mode == "datasets":
+        datasets(end, disc, st, r, time_index(r), info)
+    elif mode == "counts":
+        counts(end, disc, st, r, info, minutes)
+    else:
+        raise SystemExit("usage: rh_05b_univ3.py datasets | counts --minutes=N")
+    jdump(INFO, info)
+    write_table(end, disc, info)
 
 
 if __name__ == "__main__":

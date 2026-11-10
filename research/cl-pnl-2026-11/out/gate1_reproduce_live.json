@@ -1,0 +1,100 @@
+{
+ "target_live": {
+  "fees_collected_usd": 0.188805,
+  "start_usd": 19.364773073913227,
+  "end_usd": 17.69,
+  "hold_usd": 18.2254,
+  "vs_hold_pct": -2.938,
+  "nvda_start": 0.03591244011633571,
+  "nvda_end": 0.07184166638633757,
+  "usdg_end": 4.289068,
+  "recentres_in_window": 2
+ },
+ "outage_utc": [
+  1792686598,
+  1793617388
+ ],
+ "runs": {
+  "replay_as_it_ran": {
+   "fees_gross_usd": 0.1861558752189578,
+   "fees_to_holders_usd": 0.14892470017516624,
+   "end_usd": 17.753624833608534,
+   "hold_usd": 18.241267448232417,
+   "vs_hold_pct": -2.67329348691248,
+   "recentres": 3,
+   "nvda_end": 0.07155482975377456,
+   "lvr_usd": 0.07223476090245295,
+   "bench_minus_hold_usd": -0.565504337811769,
+   "deployed_frac_avg": 0.8274162261494584,
+   "in_range": 1.0,
+   "end_mark": "oracle",
+   "recentre_times": [
+    1793648906.6,
+    1793890380.5,
+    1793920790.0
+   ]
+  },
+  "replay_no_outage": {
+   "fees_gross_usd": 0.17366926081342995,
+   "fees_to_holders_usd": 0.13893540865074397,
+   "end_usd": 17.740776899742222,
+   "hold_usd": 18.241267448232417,
+   "vs_hold_pct": -2.743726826606516,
+   "recentres": 3,
+   "nvda_end": 0.07166244064996147,
+   "lvr_usd": 0.06833839418057153,
+   "bench_minus_hold_usd": -0.5722629027155066,
+   "deployed_frac_avg": 0.8054587710723266,
+   "in_range": 1.0,
+   "end_mark": "oracle",
+   "recentre_times": [
+    1793381808.3,
+    1793890380.5,
+    1793920790.0
+   ]
+  },
+  "if_2400_from_19_oct": {
+   "fees_gross_usd": 0.14055001679080462,
+   "fees_to_holders_usd": 0.11244001343264369,
+   "end_usd": 17.948563815308795,
+   "hold_usd": 18.241267448232417,
+   "vs_hold_pct": -1.6046233286930147,
+   "recentres": 3,
+   "nvda_end": 0.06464859454639987,
+   "lvr_usd": 0.06336772415002856,
+   "bench_minus_hold_usd": -0.3427196050509156,
+   "deployed_frac_avg": 0.8204863128032465,
+   "in_range": 1.0,
+   "end_mark": "oracle",
+   "recentre_times": [
+    1793647508.3,
+    1793889683.1,
+    1793920478.4
+   ]
+  },
+  "if_2400_no_outage": {
+   "fees_gross_usd": 0.14353037177921368,
+   "fees_to_holders_usd": 0.11482429742337094,
+   "end_usd": 17.952392765609325,
+   "hold_usd": 18.241267448232417,
+   "vs_hold_pct": -1.583632735186305,
+   "recentres": 3,
+   "nvda_end": 0.06461685833003747,
+   "lvr_usd": 0.06436700827939146,
+   "bench_minus_hold_usd": -0.3402746058874777,
+   "deployed_frac_avg": 0.8559855205415055,
+   "in_range": 1.0,
+   "end_mark": "oracle",
+   "recentre_times": [
+    1793379625.2,
+    1793889683.1,
+    1793920478.4
+   ]
+  }
+ },
+ "reconciliation": {
+  "fees_ratio_replay_over_live": 0.9859689903284224,
+  "vs_hold_gap_points": 0.26470651308752036,
+  "end_value_gap_usd": 0.06362483360853233
+ }
+}

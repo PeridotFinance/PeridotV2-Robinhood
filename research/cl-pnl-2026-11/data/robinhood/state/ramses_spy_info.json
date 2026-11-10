@@ -1,0 +1,155 @@
+{
+ "pool": "0x38453c115607463ac284820ce959831042f3df4e",
+ "token0": "SPY",
+ "decimals0": 18,
+ "token1": "USDG",
+ "decimals1": 6,
+ "tick_spacing": 1,
+ "initialize": {
+  "block": 40907861,
+  "log_index": 33,
+  "tx": "0x760a938e61f905f0a16aa328c1d5219e3f1e510f2fa857d571b20d2596c053e8",
+  "sqrtPriceX96": "2195725485166469025328727",
+  "tick": -209882
+ },
+ "provenance": {
+  "existing_file": "/Users/joshua/Peridot/ramses-group-pool-SPY.json",
+  "existing_file_head": 104071867,
+  "existing_file_sha256": "ff7ada97754c7ee3eda916a13ca5e7ae269b594d1716e3b95e92fa787d07595b",
+  "swap": {
+   "from_existing_file": 655414,
+   "fetched_tail": 36390,
+   "topic0": "0xc42079f94a6350d7e6235f29174924f928cc2ac818eb64fed8004e115fbcca67",
+   "signature": "Swap(address,address,int256,int256,uint160,uint128,int24)"
+  },
+  "mint": {
+   "from_existing_file": 1942,
+   "fetched_tail": 205,
+   "topic0": "0xd78218c0d304e8893cb3200abe394bbc8d5b7804d9c51f236df9fdcf481d02d3",
+   "signature": "Mint(address,address,uint256,int24,int24,uint128,uint256,uint256)"
+  },
+  "burn": {
+   "from_existing_file": 2107,
+   "fetched_tail": 252,
+   "topic0": "0x0c396cd989a39f4459b5fa1aed6a9a8dcdbc45908acfd67e028cd568da98982c",
+   "signature": "Burn(address,int24,int24,uint128,uint256,uint256)"
+  },
+  "init": {
+   "from_existing_file": 1,
+   "fetched_tail": 0,
+   "topic0": "0x98636036cb66a9c19a37435efc1e90142190214e8abeb821bdba3f2990dd4c95",
+   "signature": "Initialize(uint160,int24)"
+  },
+  "feeadj": {
+   "from_existing_file": 503,
+   "fetched_tail": 255,
+   "topic0": "0x0cba87189055d3b5ab05c96fbd641bc766576c9e7cf0d195bdfb58a0c6a6df24",
+   "signature": "FeeAdjustment(uint24,uint24)"
+  },
+  "setfee": {
+   "from_existing_file": 0,
+   "fetched_tail": 0,
+   "topic0": "0x0eb63f4a36d6bdeee05aa00020a97d80c3e84f1b5b3ebf345fb67262e62b0f33",
+   "signature": "SetFee(uint24,uint24)"
+  },
+  "proto_a": {
+   "from_existing_file": 0,
+   "fetched_tail": 0,
+   "topic0": "0x973d8d92bb299f4af6ce49b52a8adb85ae46b9f214c4c4fc06ac77401237b133",
+   "signature": "SetFeeProtocol(uint8,uint8,uint8,uint8)"
+  },
+  "proto_b": {
+   "from_existing_file": 1,
+   "fetched_tail": 0,
+   "topic0": "0x67a069e4d951485f3e494a1edfa67d7334e991e8514ba748fd1636270acd1c97",
+   "signature": "SetFeeProtocol(uint24,uint24)"
+  },
+  "proto_c": {
+   "from_existing_file": 0,
+   "fetched_tail": 0,
+   "topic0": "0x8f517a34947cf2fca464c6548f5250e5a5693f78cd46052cde6e4cf65e60e527",
+   "signature": "SetFeeProtocol(uint24)"
+  },
+  "tail_range": [
+   104071868,
+   110790000
+  ]
+ },
+ "swaps": {
+  "path": "ramses_spy_swaps.csv.gz",
+  "rows": 691804,
+  "first_row": [
+   "40919052",
+   "11",
+   "1787178612.7",
+   "-174096571112757959",
+   "133835322",
+   "2197446054086547894536749",
+   "6162186314136024",
+   "-209867",
+   "100",
+   "0.05"
+  ],
+  "last_row": [
+   "110789697",
+   "16",
+   "1794304164.9",
+   "4911287705626553",
+   "-3709308",
+   "2177458706053411598767062",
+   "215980238697077245",
+   "-210050",
+   "100",
+   "0.5"
+  ]
+ },
+ "liquidity": {
+  "path": "ramses_spy_liquidity.csv.gz",
+  "rows": 4506,
+  "first_row": [
+   "40907861",
+   "37",
+   "mint",
+   "-210812",
+   "-208953",
+   "41113383448356"
+  ],
+  "last_row": [
+   "110565291",
+   "86",
+   "burn",
+   "-210460",
+   "-209663",
+   "0"
+  ]
+ },
+ "mints": 2147,
+ "burns": 2359,
+ "fee_events": {
+  "FeeAdjustment": 758,
+  "SetFee": 0,
+  "initial_fee_ppm": 100,
+  "first_event_block": 48792669,
+  "fee_ppm_in_force_at_END_from_events": 100,
+  "fee()_at_END": 100,
+  "match": true,
+  "min_fee_ppm": 70,
+  "max_fee_ppm": 1000
+ },
+ "protocol_share_events": {
+  "SetFeeProtocol(uint24,uint24)": 1,
+  "SetFeeProtocol(uint8,uint8,uint8,uint8)": 0,
+  "SetFeeProtocol(uint24)": 0,
+  "initial_ppm": 50000,
+  "changes": [
+   {
+    "block": 76901418,
+    "log_index": 16,
+    "new_ppm": 500000
+   }
+  ],
+  "in_force_at_END_from_events_ppm": 500000,
+  "slot0_feeProtocol_at_END": 500000,
+  "match": true
+ }
+}

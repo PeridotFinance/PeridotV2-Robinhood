@@ -47,6 +47,11 @@ def hedge_ledger(run: dict, ds, hv, thr: float, par: dict, self_share: float = 0
     p = np.array([m.usd_per_stock(ds.s_after[i]) for i in idx])
     j = np.clip(np.searchsorted(hv.ts, t, side="right") - 1, 0, None)
     ph, Lh, fh = hv.p[j], hv.L[j], hv.fee_ppm[j] / 1e6
+    # the margin stack refuses to trade when the feed is older than 12 h or the pool is more than 1% from it [MECHANICS 6A]
+    ot, op = np.asarray(ds.oracle_t), np.asarray(ds.oracle_p)
+    oi = np.clip(np.searchsorted(ot, t, side="right") - 1, 0, None)
+    can_trade = ((t - ot[oi]) <= par.get("max_oracle_age_s", 43200)) & (np.abs(ph / op[oi] - 1) <= par.get("oracle_gate", 0.01))
+    led_blocked = 0
     r_b, r_s = par["borrow_apr"], par["quote_supply_apr"]
     M = par["margin_fraction"] * q[0] * p[0]
     cash, debt = M, 0.0
@@ -61,7 +66,7 @@ def hedge_ledger(run: dict, ds, hv, thr: float, par: dict, self_share: float = 0
         if n <= 0:
             return
         n_eff = n / (1.0 - self_share)                # trading in the pool our own liquidity sits in hands part of it back
-        fee = n_eff * fh[k]
+        fee = n_eff * (fh[k] + par.get("flash_fee", 0.0))
         imp = n_eff * min(n_eff / (Lh[k] * math.sqrt(ph[k])), 0.5)
         cash += dq * ph[k] - fee - imp - par["gas_usd_per_adjustment"]
         led["swap_fee"] += fee; led["impact"] += imp; led["gas"] += par["gas_usd_per_adjustment"]
@@ -82,7 +87,10 @@ def hedge_ledger(run: dict, ds, hv, thr: float, par: dict, self_share: float = 0
         if last:
             adjust(0.0, k)
         elif abs(q[k] - debt) * p[k] > thr * lp[k]:
-            adjust(q[k], k)
+            if can_trade[k]:
+                adjust(q[k], k)
+            else:
+                led_blocked += 1
         e = lp[k] + cash - debt * p[k]
         eq.append(e)
         if debt > 0:
@@ -105,7 +113,7 @@ def hedge_ledger(run: dict, ds, hv, thr: float, par: dict, self_share: float = 0
             "hedged_before_hedge_costs_pct": 100 * (hedged_end + costs - start) / start,
             "lp": {"fees_usd": run["fees_usd"], "lvr_usd": run["lvr_usd"], "fee_over_lvr": run["fee_over_lvr"], "recenters": run["recenters_core"],
                    "deployed_frac_avg": run["deployed_frac_avg"], "gas_usd": run["gas_usd"]},
-            "worst_margin_ratio": worst_ratio, "max_short_usd": float(np.max(np.array(q) * p)),
+            "samples_wanting_adjust_but_blocked": led_blocked, "worst_margin_ratio": worst_ratio, "max_short_usd": float(np.max(np.array(q) * p)),
             "worst_drawdown_pct": float(100 * np.min(eqa / np.maximum.accumulate(eqa) - 1)),
             "reward_tokens": run.get("ram_tokens", 0.0)}
 
@@ -144,11 +152,8 @@ def main():
     v = VENUES[a.venue]
     par = PARAMS["hedge"][a.venue]
     hv_key = a.hedge_venue or par.get("hedge_venue", a.venue)
-    rewards = PARAMS.get("rewards", {}).get(a.venue)
-    ram_rate = price = None
-    if rewards:
-        from rewards import emission_rate, reward_price
-        ram_rate, price = emission_rate(rewards), reward_price(rewards)
+    from rewards import load_rewards
+    ram_rate, price, rewards = load_rewards(a.venue)
     ds = X.load_dataset(a.venue, ram_rate=ram_rate)
     hv = load_swaps(hv_key)
     t0 = max(ds.ts[0], a.from_ts or 0.0, ds.oracle_t[0], hv.ts[0])
@@ -168,15 +173,13 @@ def main():
             cfg = X.single_range_config(a.half, a.trigger, size, SPACING[a.venue], max_per_day=a.max_per_day,
                                         block_sessions=("weekend",) if v.equity else ())
             try:
-                run = X.run_window(ds, cfg, w0, w1, equity_sessions=v.equity, start_stock_frac=a.start_stock_frac, keep_series=True)
+                run = X.run_window(ds, cfg, w0, w1, equity_sessions=v.equity, start_stock_frac=a.start_stock_frac, keep_series=True,
+                                   reward_price=price, reward_sale_cost=(rewards or {}).get("sale_cost", 0.0))
             except Exception as e:
                 out["rows"].append({"window": lab, "size": size, "error": repr(e)}); continue
-            rw = reward_value(run, price, rewards.get("sale_cost", 0.0) if rewards else 0.0, rewards.get("forfeit_share", 0.0) if rewards else 0.0)
+            rw = {"tokens": run.get("reward_tokens", 0.0), "usd_if_sold": run.get("reward_usd_if_sold")}
             for thr in PARAMS["thresholds"]:
-                # our share of the hedge venue's active liquidity only matters when the hedge trades in the LP's own pool
-                share = 0.0
-                if hv_key == a.venue:
-                    share = min(par.get("self_share_cap", 0.9), run["deployed_frac_avg"] * 0.0)  # reported, not assumed: see report
+                share = 0.0   # our own liquidity's share of the hedge venue is negligible at these sizes (stated in the report)
                 h = hedge_ledger(run, ds, hv, thr, par, share)
                 h.update({"window": lab, "size": size, "rewards": rw})
                 h["hedged_plus_rewards_pct"] = None if rw["usd_if_sold"] is None else h["return_pct"]["hedged"] + 100 * rw["usd_if_sold"] / h["start_equity"]

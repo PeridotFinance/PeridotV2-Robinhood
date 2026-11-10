@@ -25,7 +25,16 @@ def main():
     end = load_end()
     disc = jload(DISCOVERY_FILE)
     st = jload(END_STATE_FILE)
-    checks = opt(STATE / "checks.json") or {}
+    # checks.json: the first (offline) run; checks_online.json / checks_univ3.json: later runs with the re-fetch and header reads.
+    # A later run recomputes the offline parts too, so its entry replaces the earlier one key by key.
+    checks, check_files = {}, []
+    for name in ("checks.json", "checks_online.json", "checks_univ3.json"):
+        c = opt(STATE / name)
+        if c:
+            check_files.append("state/" + name)
+            for k, v in c.items():
+                if isinstance(v, dict):
+                    checks.setdefault(k, {}).update(v)
     v4 = opt(STATE / "v4_info.json") or {}
     feeds = opt(STATE / "feeds_info.json") or {}
     rew = opt(STATE / "rewards_info.json") or {}
@@ -108,7 +117,34 @@ def main():
     for path in sorted(list(DATA.glob("*.json")) + list(STATE.glob("*.json"))):
         if path.name == "MANIFEST.json":
             continue
-        extra.append({"path": str(path.relative_to(DATA)), "bytes": path.stat().st_size, "sha256": sha256_file(path)})
+        rel = str(path.relative_to(DATA))
+        mine = rel.startswith("state/") or rel in ("v4_pools.json", "univ3_pools.json")
+        extra.append({"path": rel, "bytes": path.stat().st_size, "sha256": sha256_file(path),
+                      "origin": "rh_* pull scripts" if mine else "not written by the rh_* pull scripts (listed and hashed only)"})
+
+    summary = {}
+    for f in files:
+        c = f.get("checks") or {}
+        row = {}
+        if "order" in c:
+            row["order_pass"] = c["order"].get("pass")
+        if "refetch" in c:
+            row["refetch_pass"] = c["refetch"].get("pass")
+            row["refetch_windows"] = len(c["refetch"].get("windows", []))
+        if "end_state" in c:
+            row["end_state_pass"] = c["end_state"].get("pass")
+        if "liquidity_rebuild" in c:
+            row["liquidity_rebuild_pass"] = c["liquidity_rebuild"].get("pass")
+        if "v3_math" in c:
+            m = c["v3_math"]
+            row["v3_math_eligible_pairs"] = m["eligible_equal_liquidity"]
+            row["v3_math_output_leg_over_10_units"] = m["output_leg"]["over_10"]
+            row["v3_math_input_leg_over_10_units"] = m["input_leg_fee"]["over_10"]
+            if "exceptions_classified" in m:
+                row["v3_math_exceptions"] = {k: v for k, v in m["exceptions_classified"].items() if k != "detail"}
+        if "ts_error" in c:
+            row["ts_max_abs_error_s"] = c["ts_error"].get("max_abs_error_s")
+        summary[f["path"]] = row or None
 
     manifest = {
         "generated_by": "research/cl-pnl-2026-11/scripts/pull (rh_01_discover .. rh_09_manifest, rh_lib)",
@@ -126,8 +162,9 @@ def main():
         "v4_pools_table": "v4_pools.json",
         "univ3_check": {"table": "univ3_pools.json", "factory": univ3.get("factory"), "factory_source": univ3.get("factory_source"),
                         "repo_grep_note": univ3.get("repo_grep_note"),
-                        "pools": [{k: p.get(k) for k in ("symbol", "pool", "fee", "tick_spacing", "created_block", "swaps", "mints", "burns", "dataset_files")}
-                                  for p in univ3.get("pools", [])]} if univ3 else None,
+                        "pools": (opt(DATA / "univ3_pools.json") or {}).get("pools")} if univ3 else None,
+        "check_files_merged": check_files,
+        "checks_summary": summary,
         "gauge_signature_check": disc.get("gauges"),
         "feeds_discovery": disc.get("feeds"),
         "files": files,

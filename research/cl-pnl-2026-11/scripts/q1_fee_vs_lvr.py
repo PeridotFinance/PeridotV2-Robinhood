@@ -176,17 +176,23 @@ def analyse(key: str, t_from: float | None, t_to: float | None, width: int, ref_
            "by_vol_bucket": {q: agg(lambda x, q=q: x["vol_bucket"] == q) for q in ("Q1", "Q2", "Q3", "Q4")},
            "by_session_and_vol": {se: {q: agg(lambda x, se=se, q=q: x["session"] == se and x["vol_bucket"] == q) for q in ("Q1", "Q2", "Q3", "Q4")}
                                   for se in SESSIONS}}
-    # per UTC day
+    # per UTC day (each swap in its own day)
+    day_idx = (s.ts // 86400).astype(np.int64)
+    d0 = int(day_idx[0])
+    nd = int(day_idx[-1]) - d0 + 1
+    um = usable.astype(float)
+
+    def per_day(x):
+        return np.bincount(day_idx - d0, weights=x, minlength=nd)
+    cols = {"lp_fee_usd": per_day(lp_fee), "lp_fee_usd_scored": per_day(lp_fee * um), "fee_usd_scored": per_day(fee * um), "loss_0": per_day(-mk[0] * um),
+            "loss_60": per_day(-mk[60] * um), "loss_3600": per_day(-mk[3600] * um), "volume_usd": per_day(s.notional), "ref_fee": per_day(ref_fee * um),
+            "ref_loss_60": per_day(-ref_mk[60] * um), "ref_loss_3600": per_day(-ref_mk[3600] * um)}
     days = {}
-    for x in rows:
-        d = dt.datetime.fromtimestamp(x["start"], tz=dt.timezone.utc).strftime("%Y-%m-%d")
-        e = days.setdefault(d, {"lp_fee_usd": 0.0, "lp_fee_usd_scored": 0.0, "loss_60": 0.0, "loss_3600": 0.0, "loss_0": 0.0, "volume_usd": 0.0,
-                                "ref_fee": 0.0, "ref_loss_60": 0.0, "ref_loss_3600": 0.0})
-        for k_ in e:
-            e[k_] += x.get(k_, 0.0)
-    for d, e in days.items():
-        a = dt.datetime.fromisoformat(d).replace(tzinfo=dt.timezone.utc).timestamp()
+    for k in range(nd):
+        a = (d0 + k) * 86400.0
+        e = {c: float(v[k]) for c, v in cols.items()}
         e["sigma"] = realised_vol(s.ts, s.p, max(a, t0), min(a + 86400, t1))
+        days[dt.datetime.fromtimestamp(a, tz=dt.timezone.utc).strftime("%Y-%m-%d")] = e
     out["by_day"] = days
     # rolling 30-day windows of the pool-level net (fee - loss) at the two main horizons, stepping one day
     dkeys = sorted(days)

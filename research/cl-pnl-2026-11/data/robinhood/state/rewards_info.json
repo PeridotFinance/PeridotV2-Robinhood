@@ -1,0 +1,172 @@
+{
+ "gauge_nvda": {
+  "path": "gauge_nvda_notify.csv.gz",
+  "rows": 7,
+  "first_row": [
+   "76907896",
+   "8",
+   "1790810708.8",
+   "0xbe0ca442d6b7d81e0faa7dbfd09331019f893f89",
+   "0x5173d45a1191ee33cbb7d8c7e65f21b04ed54802",
+   "50000000000000000000",
+   "2960"
+  ],
+  "last_row": [
+   "106286712",
+   "81",
+   "1793835141.8",
+   "0xc389e1af91f197762608a3541e0ba90019e14a77",
+   "0x5173d45a1191ee33cbb7d8c7e65f21b04ed54802",
+   "6011247038000000000000",
+   "2966"
+  ],
+  "gauge": "0x93c6A733FB3165D94774B3A5Fc4319D29bd7b6ce",
+  "topic0": "0x52977ea98a2220a03ee9ba5cb003ada08d394ea10155483c95dc2dc77a7eb24b",
+  "signature": "NotifyReward(address,address,uint256,uint256)",
+  "by_token": {
+   "0x5173d45a1191ee33cbb7d8c7e65f21b04ed54802": {
+    "events": 7,
+    "amount_raw": "228999087774209306000000"
+   }
+  },
+  "by_sender": {
+   "0xbe0ca442d6b7d81e0faa7dbfd09331019f893f89": 1,
+   "0x20d630cf1f5628285bfb91dfac8c89eb9087be1a": 2,
+   "0xc389e1af91f197762608a3541e0ba90019e14a77": 4
+  },
+  "ram_token": "0x5173d45a1191ee33cbb7d8c7e65f21b04ed54802",
+  "amount_decimals_note": "amount is the raw token amount (RAM has 18 decimals); period is the event's 4th field as emitted"
+ },
+ "gauge_spy": {
+  "path": "gauge_spy_notify.csv.gz",
+  "rows": 8,
+  "first_row": [
+   "76905242",
+   "89",
+   "1790810442.3",
+   "0xbe0ca442d6b7d81e0faa7dbfd09331019f893f89",
+   "0x5173d45a1191ee33cbb7d8c7e65f21b04ed54802",
+   "10000000000000000000",
+   "2960"
+  ],
+  "last_row": [
+   "106286712",
+   "41",
+   "1793835141.8",
+   "0xc389e1af91f197762608a3541e0ba90019e14a77",
+   "0x5173d45a1191ee33cbb7d8c7e65f21b04ed54802",
+   "20000000000000000000000",
+   "2966"
+  ],
+  "gauge": "0x739e31798efe8cff3ef4c613d8ae751e179c7337",
+  "topic0": "0x52977ea98a2220a03ee9ba5cb003ada08d394ea10155483c95dc2dc77a7eb24b",
+  "signature": "NotifyReward(address,address,uint256,uint256)",
+  "by_token": {
+   "0x5173d45a1191ee33cbb7d8c7e65f21b04ed54802": {
+    "events": 8,
+    "amount_raw": "128103335133044488754789"
+   }
+  },
+  "by_sender": {
+   "0xbe0ca442d6b7d81e0faa7dbfd09331019f893f89": 1,
+   "0x20d630cf1f5628285bfb91dfac8c89eb9087be1a": 2,
+   "0xc389e1af91f197762608a3541e0ba90019e14a77": 5
+  },
+  "ram_token": "0x5173d45a1191ee33cbb7d8c7e65f21b04ed54802",
+  "amount_decimals_note": "amount is the raw token amount (RAM has 18 decimals); period is the event's 4th field as emitted"
+ },
+ "ram_pool": {
+  "path": "ram_pool_swaps.csv.gz",
+  "rows": 78633,
+  "first_row": [
+   "50756824",
+   "14",
+   "1788168467.9",
+   "-10417947537353960",
+   "1000000000000000000000",
+   "24435127656753630242799050116348",
+   "3344469308607592738267",
+   "114634",
+   "10000",
+   "0.05"
+  ],
+  "last_row": [
+   "110789183",
+   "20",
+   "1794304110.6",
+   "-68362322559856079",
+   "5418483762255478061351",
+   "22110186395243945033193183955753",
+   "257990307558680393500787",
+   "112634",
+   "17500",
+   "0.5"
+  ],
+  "pool": "0x5860dd468b4fc1740eaf80a3b7f22e78d70a076a",
+  "static": {
+   "address": "0x5860dd468b4fc1740eaf80a3b7f22e78d70a076a",
+   "token0()": "0x0bd7d308f8e1639fab988df18a8011f41eacad73",
+   "token1()": "0x5173d45a1191ee33cbb7d8c7e65f21b04ed54802",
+   "factory()": "0xe0c4ceb92d08ca985bb70fe0a22feb121a9854a8",
+   "fee()": 17500,
+   "tickSpacing()": 100,
+   "token0().decimals": 18,
+   "token0().symbol": "WETH",
+   "token1().decimals": 18,
+   "token1().symbol": "RAM"
+  },
+  "token0": "WETH",
+  "decimals0": 18,
+  "token1": "RAM",
+  "decimals1": 18,
+  "tick_spacing": 100,
+  "price_note": "price of RAM in WETH = 1 / (sqrt_price_x96 / 2**96)**2 (token1 = RAM per token0 = WETH, both 18 dp); multiply by feed_eth_usd (8 dp) for USD",
+  "since_unix": 1785542400,
+  "since_iso": "2026-08-01T00:00:00Z",
+  "start_block_first_with_interpolated_ts_ge_cut": 24591566,
+  "fetched_from_block": 24590000,
+  "swaps_fetched_before_cut_dropped": 0,
+  "initialize": {
+   "block": 50754877,
+   "sqrtPriceX96": "24411675242139672548377492892849",
+   "tick": 114615
+  },
+  "fee_events": {
+   "FeeAdjustment": 2,
+   "SetFee": 0,
+   "initial_fee_ppm": 10000,
+   "fee_ppm_in_force_at_END_from_events": 17500,
+   "fee()_at_END": 17500,
+   "match": true,
+   "source_when_no_events": null
+  },
+  "protocol_share_events": {
+   "SetFeeProtocol(uint24,uint24)": 3,
+   "initial_ppm": 50000,
+   "changes": [
+    {
+     "block": 64314860,
+     "log_index": 2,
+     "new_ppm": 250000
+    },
+    {
+     "block": 64315087,
+     "log_index": 1,
+     "new_ppm": 50000
+    },
+    {
+     "block": 76903304,
+     "log_index": 11,
+     "new_ppm": 500000
+    }
+   ],
+   "in_force_at_END_from_events_ppm": 500000,
+   "slot0_feeProtocol_at_END": 500000,
+   "match": true,
+   "source_when_no_events": null
+  },
+  "topics": {
+   "swap": "0xc42079f94a6350d7e6235f29174924f928cc2ac818eb64fed8004e115fbcca67"
+  }
+ }
+}

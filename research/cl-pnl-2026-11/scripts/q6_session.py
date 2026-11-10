@@ -58,7 +58,7 @@ def _run(job):
     v = VENUES[venue]
     plan, base = make_plan(kind, narrow, wide, v.equity)
     cfg = X.single_range_config(base[0], base[1], capital, SPACING[venue], max_per_day=max_per_day,
-                                block_sessions=("weekend",) if v.equity else ())
+                                block_sessions=("weekend",) if v.equity else (), sample_s=3600.0)
     try:
         r = X.run_window(_DS, cfg, t_from, t_to, equity_sessions=v.equity, plan=plan, reward_price=_RW[0], reward_sale_cost=_RW[1])
         out = {k: r.get(k) for k in KEEP}

@@ -1,0 +1,5535 @@
+{
+ "generated_by": "research/cl-pnl-2026-11/scripts/pull (rh_01_discover .. rh_09_manifest, rh_lib)",
+ "chain": {
+  "name": "Robinhood Chain mainnet",
+  "chain_id": 4663,
+  "rpc": "https://rpc.mainnet.chain.robinhood.com"
+ },
+ "END": {
+  "END": 110790000,
+  "hash": "0x2e7fe9da51f5b156c74e4ef78713cab6d2c28c60cc7093e9826ef265ce61cf75",
+  "timestamp": 1794304197,
+  "iso": "2026-11-10T09:49:57Z",
+  "l1BlockNumber": 26383720,
+  "head_when_fixed": 110792087,
+  "fixed_at_unix": 1794304419,
+  "rule": "largest multiple of 10,000 <= head - 2,000"
+ },
+ "conventions": {
+  "integers": "plain decimal strings",
+  "ts": "unix seconds, linear interpolation between real headers on the 10,000-block grid, 1 decimal",
+  "gzip": "mtime 0, no embedded file name (sha256 stable across re-runs of the same content)",
+  "pool_side_amounts": "positive = paid into the pool"
+ },
+ "state_at_END": {
+  "ramses": {
+   "nvda": {
+    "address": "0xdac1904d823f7d6bcaaf431ceee40c934fed321b",
+    "sqrtPriceX96": "5863145936603847916732664309806396",
+    "tick": 224248,
+    "feeProtocol_raw": 500000,
+    "liquidity": "31852565403993159",
+    "fee": 300,
+    "tickSpacing": 10
+   },
+   "spy": {
+    "address": "0x38453c115607463ac284820ce959831042f3df4e",
+    "sqrtPriceX96": "2177458706053411598767062",
+    "tick": -210050,
+    "feeProtocol_raw": 500000,
+    "liquidity": "215980238697077245",
+    "fee": 100,
+    "tickSpacing": 1
+   },
+   "ram_pool": {
+    "address": "0x5860dd468b4fc1740eaf80a3b7f22e78d70a076a",
+    "sqrtPriceX96": "22110186395243945033193183955753",
+    "tick": 112634,
+    "feeProtocol_raw": 500000,
+    "liquidity": "257990307558680393500787",
+    "fee": 17500,
+    "tickSpacing": 100
+   }
+  },
+  "univ3": {
+   "0xb944cec30bd4175855215d767adc81f39e5f7e2b": {
+    "address": "0xb944cec30bd4175855215d767adc81f39e5f7e2b",
+    "sqrtPriceX96": "5869902401722211179805620369700194",
+    "tick": 224271,
+    "feeProtocol_raw": 102,
+    "liquidity": "29088842481660900",
+    "fee": 3000,
+    "tickSpacing": 60
+   },
+   "0xb75d2d02b0ec3de50d32e40a4f1a8dae8acc4333": {
+    "address": "0xb75d2d02b0ec3de50d32e40a4f1a8dae8acc4333",
+    "sqrtPriceX96": "5506415238774881071790920856353536",
+    "tick": 222992,
+    "feeProtocol_raw": 68,
+    "liquidity": "14297015922504961",
+    "fee": 100,
+    "tickSpacing": 1
+   },
+   "0xd4eb21209c4d6093f80b5b84f5c45cc093ea14a3": {
+    "address": "0xd4eb21209c4d6093f80b5b84f5c45cc093ea14a3",
+    "sqrtPriceX96": "5862330994840907573585432263589888",
+    "tick": 224245,
+    "feeProtocol_raw": 68,
+    "liquidity": "563225868862125244",
+    "fee": 500,
+    "tickSpacing": 10
+   },
+   "0xc277560df3689a401ba7dedd7626168b234ceb5e": {
+    "address": "0xc277560df3689a401ba7dedd7626168b234ceb5e",
+    "sqrtPriceX96": "5882312381759459432469822038151091",
+    "tick": 224313,
+    "feeProtocol_raw": 102,
+    "liquidity": "11089497995315009",
+    "fee": 10000,
+    "tickSpacing": 200
+   },
+   "0xa43b424bc609495aed4bcd88d654934b510b0ad9": {
+    "address": "0xa43b424bc609495aed4bcd88d654934b510b0ad9",
+    "sqrtPriceX96": "2175733701176822225862283",
+    "tick": -210065,
+    "feeProtocol_raw": 102,
+    "liquidity": "11569760914085643",
+    "fee": 3000,
+    "tickSpacing": 60
+   },
+   "0xa7bb1ac63bbab0c44316e6c8c455213441689167": {
+    "address": "0xa7bb1ac63bbab0c44316e6c8c455213441689167",
+    "sqrtPriceX96": "2177069899529223754022311",
+    "tick": -210053,
+    "feeProtocol_raw": 68,
+    "liquidity": "306435904058267065",
+    "fee": 500,
+    "tickSpacing": 10
+   },
+   "0x62fde201c424d6d07730b77450dd73928ebac5f5": {
+    "address": "0x62fde201c424d6d07730b77450dd73928ebac5f5",
+    "sqrtPriceX96": "2178801905731427758476658",
+    "tick": -210037,
+    "feeProtocol_raw": 68,
+    "liquidity": "894307235208",
+    "fee": 100,
+    "tickSpacing": 1
+   }
+  },
+  "v4": {
+   "0x3bb34a44f1b2b5f32c034c38a53065a521a47b199700fa9bd19d60985ff24bf1": {
+    "symbol": "NVDA",
+    "sqrtPriceX96": "5869055222606936907350112741318901",
+    "tick": 224268,
+    "protocolFee": 2048500,
+    "lpFee": 3000,
+    "liquidity": "128406677551474183"
+   },
+   "0x6444a8e0b267406a15db74ca00c4a24bdfa81ed3180f5b6d0851f8ed6f4f29c5": {
+    "symbol": "NVDA",
+    "sqrtPriceX96": "5871342340213799855020245379523245",
+    "tick": 224276,
+    "protocolFee": 102425,
+    "lpFee": 100,
+    "liquidity": "53511347712979"
+   },
+   "0x7990aad9e8fb048f49a155a7df5603db0366f0657035b78eb4196395cccb3dcd": {
+    "symbol": "NVDA",
+    "sqrtPriceX96": "5862451061335463977994995749617664",
+    "tick": 224246,
+    "protocolFee": 0,
+    "lpFee": 0,
+    "liquidity": "69294091819194448"
+   },
+   "0xdf5c0bcd967d54774c139a4ef803ec994779736346fb4c21b50ed241b1fd2682": {
+    "symbol": "NVDA",
+    "sqrtPriceX96": "5412772196817723565839540831920042",
+    "tick": 222649,
+    "protocolFee": 409700,
+    "lpFee": 375,
+    "liquidity": "0"
+   },
+   "0x1d6b86ca25e01a320aa392d6b64e68c364245c2071a7315e80e3e0ccb7e87cc3": {
+    "symbol": "NVDA",
+    "sqrtPriceX96": "5602499562626316843852358884984278",
+    "tick": 223338,
+    "protocolFee": 53261,
+    "lpFee": 50,
+    "liquidity": "1394893242746"
+   },
+   "0x84e2847d2fe2dab492ca065326efa51b6f7e0924f200f983b9939530834df815": {
+    "symbol": "NVDA",
+    "sqrtPriceX96": "5501737007522645820214796257554812",
+    "tick": 222975,
+    "protocolFee": 86037,
+    "lpFee": 80,
+    "liquidity": "403217219740665"
+   },
+   "0x1a3c601f9bee0986053f5546bdcffe49367a5cc27ff68812b745f4f055630ab6": {
+    "symbol": "NVDA",
+    "sqrtPriceX96": "5432955191486691096402770897468889",
+    "tick": 222724,
+    "protocolFee": 0,
+    "lpFee": 0,
+    "liquidity": "0"
+   },
+   "0x53e74184f024eb01ceb7bbde68866bff3cc3ddf378c78745eb52bdd9ad7bcd91": {
+    "symbol": "NVDA",
+    "sqrtPriceX96": "1461446703485210103287273052203988822378723970341",
+    "tick": 887271,
+    "protocolFee": 0,
+    "lpFee": 0,
+    "liquidity": "0"
+   },
+   "0xcd5c9e43b3ae2cbfc806f9982183b77e2a480f12460af78b674ea30739bd358a": {
+    "symbol": "NVDA",
+    "sqrtPriceX96": "5435656899550786041689584812836290",
+    "tick": 222734,
+    "protocolFee": 0,
+    "lpFee": 0,
+    "liquidity": "0"
+   },
+   "0x55c2dddc6c6b85897009759787655c6fad1e1c4d5c63d33e38bd7e18c55000d2": {
+    "symbol": "NVDA",
+    "sqrtPriceX96": "5507980970582897124141854116859046",
+    "tick": 222998,
+    "protocolFee": 0,
+    "lpFee": 375,
+    "liquidity": "1945099349675205"
+   },
+   "0xfe2a80bb5618fd14984b92ca6d45bf5ba67443ddb1435e28b2e48df2fc1526cd": {
+    "symbol": "SPY",
+    "sqrtPriceX96": "2175244476961509342024333",
+    "tick": -210070,
+    "protocolFee": 2048500,
+    "lpFee": 3000,
+    "liquidity": "2754156637826592793"
+   },
+   "0xe5923c8a8be481ec89a2ca784a2bbfa4235de6d88f92260fd66b660c4babf907": {
+    "symbol": "SPY",
+    "sqrtPriceX96": "2176931103311656540475280",
+    "tick": -210054,
+    "protocolFee": 512125,
+    "lpFee": 500,
+    "liquidity": "3481639047955947509"
+   },
+   "0x8674c1c5544f3c9563565b5d4bd5916701d90b3559b072acf7cef5b4fc5b8dcd": {
+    "symbol": "SPY",
+    "sqrtPriceX96": "2177110764244238860911496",
+    "tick": -210053,
+    "protocolFee": 0,
+    "lpFee": 0,
+    "liquidity": "1113928505226597696"
+   },
+   "0xe1ae6a4c6ccc9f037389a8d50a4f577bde1a9fe01d85d88ecbbd39955ce53288": {
+    "symbol": "SPY",
+    "sqrtPriceX96": "2177452476720463987374559",
+    "tick": -210050,
+    "protocolFee": 102425,
+    "lpFee": 100,
+    "liquidity": "192699206268930093"
+   },
+   "0xcb410a0728986ba05737420556d5fe128ffd6739823cc92fc745d37bad4b313f": {
+    "symbol": "SPY",
+    "sqrtPriceX96": "4295128740",
+    "tick": -887272,
+    "protocolFee": 0,
+    "lpFee": 75,
+    "liquidity": "0"
+   },
+   "0x008f06cd38b13ddd7712ba63fb3caff0fc7c969aa32d0407f1868539f3f688c2": {
+    "symbol": "SPY",
+    "sqrtPriceX96": "2176440211451975890153189",
+    "tick": -210059,
+    "protocolFee": 0,
+    "lpFee": 0,
+    "liquidity": "323540131533250"
+   },
+   "0x66801f5374b0af6ecd9e5fcde2178e56b1ec5074483bb6e2153ab9ff2980c278": {
+    "symbol": "SPY",
+    "sqrtPriceX96": "2180569684898507118943598",
+    "tick": -210021,
+    "protocolFee": 0,
+    "lpFee": 0,
+    "liquidity": "0"
+   },
+   "0x0a062a1545464e3b466a3c9d16b3c5e9e969b9d1d6573b167e14631661b8027a": {
+    "symbol": "SPY",
+    "sqrtPriceX96": "2186227137541576254227998",
+    "tick": -209969,
+    "protocolFee": 0,
+    "lpFee": 0,
+    "liquidity": "0"
+   },
+   "0x60da0588619c621803b8ae8749ba7094a1868016dcf809496fbbdcd1a73e6400": {
+    "symbol": "SPY",
+    "sqrtPriceX96": "2177089330256289708849076",
+    "tick": -210053,
+    "protocolFee": 0,
+    "lpFee": 0,
+    "liquidity": "0"
+   },
+   "0xf5666332afeeb7228d2a611f73032f5f4ad4a53b0d50150c6ee5e39276854935": {
+    "symbol": "SPY",
+    "sqrtPriceX96": "2191702231451682449222794",
+    "tick": -209919,
+    "protocolFee": 0,
+    "lpFee": 0,
+    "liquidity": "0"
+   }
+  },
+  "feeds": {
+   "nvda": {
+    "proxy": "0x379EC4f7C378F34a1B47E4F3cbeBCbAC3E8E9F15",
+    "aggregator_at_END": "0xc9d16e4f2569b9e3ea0468fd85844953713dc2a2",
+    "roundId": "18446744073709553289",
+    "phase": 1,
+    "aggregator_round": 1673,
+    "answer": "18234093376",
+    "startedAt": 1794303056,
+    "updatedAt": 1794303069
+   },
+   "spy": {
+    "proxy": "0x319724394D3A0e3669269846abE664Cd621f9f6A",
+    "aggregator_at_END": "0x78bcb218fa04b9b3a278ebc865ed320bf8defbac",
+    "roundId": "18446744073709551843",
+    "phase": 1,
+    "aggregator_round": 227,
+    "answer": "75416843261",
+    "startedAt": 1794245629,
+    "updatedAt": 1794245641
+   },
+   "usdg": {
+    "proxy": "0x61B7e5650328764B076A108EFF5fa7282a1B9aD2",
+    "aggregator_at_END": "0x8beee3503f6860d5dac4ce26b5eee92982951c2e",
+    "roundId": "18446744073709551774",
+    "phase": 1,
+    "aggregator_round": 158,
+    "answer": "100005000",
+    "startedAt": 1794239477,
+    "updatedAt": 1794239489
+   },
+   "eth_usd": {
+    "proxy": "0x78F3556b67E17Df817D51Ef5a990cDaF09E8d3A9",
+    "aggregator_at_END": "0x6091e64eb7138eef066a80fd3a0d7427b91f2721",
+    "roundId": "18446744073709554848",
+    "phase": 1,
+    "aggregator_round": 3232,
+    "answer": "209778649210",
+    "startedAt": 1794301270,
+    "updatedAt": 1794301282
+   },
+   "nvda_247": {
+    "proxy": "0x321A36e441DfBadA01Aa6f9884F14a344E133D1F",
+    "aggregator_at_END": "0x1c28973bd1bab2e34efa5bff5e94a95c6cab72cc",
+    "roundId": "18446744073709551705",
+    "phase": 1,
+    "aggregator_round": 89,
+    "answer": "18192386071",
+    "startedAt": 1794302207,
+    "updatedAt": 1794302219
+   }
+  },
+  "read_seconds": 32.2,
+  "head_after_reads": 110792382
+ },
+ "state_retention_probe": {
+  "2000": "ok",
+  "3000": "ok",
+  "6000": "ok",
+  "12000": "ERR eth_call: rpc error -32000: historical state 532b420cc04bca008f6a7911ec988ac33617c9891ae9aa8d2948cba4be80e909 is not available",
+  "20000": "ERR eth_call: rpc error -32000: historical state 8ccb36cd922b66da9ac97ab24ba9eeca4e5fc552c4b1fd2fa9407a362496bb95 is not available",
+  "40000": "ERR eth_call: rpc error -32000: historical state 67ce52e1690f5c2f0d63a0bca28df4c4b3bc9ec92c8c02367a4ad9a5dfae1e05 is not available"
+ },
+ "v4_pools_table": "v4_pools.json",
+ "univ3_check": {
+  "table": "univ3_pools.json",
+  "factory": "0x1f7d7550b1b028f7571e69a784071f0205fd2efa",
+  "factory_source": "https://developers.uniswap.org/docs/protocols/v3/deployments/v3-robinhood-chain-deployments (fetched 2026-11-10)",
+  "repo_grep_note": "no Uniswap V3 factory for chain 4663 in the repos under /Users/joshua/Peridot (UNIV3_FACTORY in peridot-contracts-2-5/operator/src/constants.ts is the Avalanche one; other 'V3' hits are RamsesV3)",
+  "pools": [
+   {
+    "symbol": "NVDA",
+    "pool": "0xb944cec30bd4175855215d767adc81f39e5f7e2b",
+    "token0": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+    "token1": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
+    "fee": 3000,
+    "tick_spacing": 60,
+    "created_block": 7923871,
+    "initialize": {
+     "block": 7923871,
+     "log_index": 3,
+     "sqrtPriceX96": "5454627287843277876657888769993904",
+     "tick": 222804
+    },
+    "getPool_matches": true,
+    "swaps": 26691,
+    "usdg_volume_raw": "4904840149587",
+    "mints": 1614,
+    "burns": 3038,
+    "complete": true,
+    "counted_through_block": 110790000,
+    "dataset_files": {
+     "swaps": "univ3_nvda_swaps.csv.gz",
+     "liquidity": "univ3_nvda_liquidity.csv.gz"
+    },
+    "state_at_END": {
+     "address": "0xb944cec30bd4175855215d767adc81f39e5f7e2b",
+     "sqrtPriceX96": "5869902401722211179805620369700194",
+     "tick": 224271,
+     "feeProtocol_raw": 102,
+     "liquidity": "29088842481660900",
+     "fee": 3000,
+     "tickSpacing": 60
+    }
+   },
+   {
+    "symbol": "NVDA",
+    "pool": "0xb75d2d02b0ec3de50d32e40a4f1a8dae8acc4333",
+    "token0": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+    "token1": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
+    "fee": 100,
+    "tick_spacing": 1,
+    "created_block": 13090320,
+    "initialize": {
+     "block": 13090320,
+     "log_index": 31,
+     "sqrtPriceX96": "5568152226295450582555994020641015",
+     "tick": 223216
+    },
+    "getPool_matches": true,
+    "swaps": null,
+    "note": "not counted"
+   },
+   {
+    "symbol": "NVDA",
+    "pool": "0xd4eb21209c4d6093f80b5b84f5c45cc093ea14a3",
+    "token0": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+    "token1": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
+    "fee": 500,
+    "tick_spacing": 10,
+    "created_block": 15511376,
+    "initialize": {
+     "block": 15511376,
+     "log_index": 3,
+     "sqrtPriceX96": "5524339303215608326195244251269016",
+     "tick": 223058
+    },
+    "getPool_matches": true,
+    "swaps": null,
+    "note": "not counted"
+   },
+   {
+    "symbol": "NVDA",
+    "pool": "0xc277560df3689a401ba7dedd7626168b234ceb5e",
+    "token0": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+    "token1": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
+    "fee": 10000,
+    "tick_spacing": 200,
+    "created_block": 41860530,
+    "initialize": {
+     "block": 41860530,
+     "log_index": 1,
+     "sqrtPriceX96": "5374228530660364356510843796105403",
+     "tick": 222507
+    },
+    "getPool_matches": true,
+    "swaps": null,
+    "note": "not counted"
+   },
+   {
+    "symbol": "SPY",
+    "pool": "0xa43b424bc609495aed4bcd88d654934b510b0ad9",
+    "token0": "0x117cc2133c37b721f49de2a7a74833232b3b4c0c",
+    "token1": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+    "fee": 3000,
+    "tick_spacing": 60,
+    "created_block": 15259439,
+    "initialize": {
+     "block": 15259439,
+     "log_index": 19,
+     "sqrtPriceX96": "2161521899871414029637078",
+     "tick": -210196
+    },
+    "getPool_matches": true,
+    "swaps": 22744,
+    "usdg_volume_raw": "2226892994939",
+    "mints": 1476,
+    "burns": 2805,
+    "complete": true,
+    "counted_through_block": 110790000,
+    "dataset_files": {
+     "swaps": "univ3_spy_swaps.csv.gz",
+     "liquidity": "univ3_spy_liquidity.csv.gz"
+    },
+    "state_at_END": {
+     "address": "0xa43b424bc609495aed4bcd88d654934b510b0ad9",
+     "sqrtPriceX96": "2175733701176822225862283",
+     "tick": -210065,
+     "feeProtocol_raw": 102,
+     "liquidity": "11569760914085643",
+     "fee": 3000,
+     "tickSpacing": 60
+    }
+   },
+   {
+    "symbol": "SPY",
+    "pool": "0xa7bb1ac63bbab0c44316e6c8c455213441689167",
+    "token0": "0x117cc2133c37b721f49de2a7a74833232b3b4c0c",
+    "token1": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+    "fee": 500,
+    "tick_spacing": 10,
+    "created_block": 34839529,
+    "initialize": {
+     "block": 34839529,
+     "log_index": 47,
+     "sqrtPriceX96": "2203201658875878679686783",
+     "tick": -209814
+    },
+    "getPool_matches": true,
+    "swaps": null,
+    "note": "not counted"
+   },
+   {
+    "symbol": "SPY",
+    "pool": "0x62fde201c424d6d07730b77450dd73928ebac5f5",
+    "token0": "0x117cc2133c37b721f49de2a7a74833232b3b4c0c",
+    "token1": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+    "fee": 100,
+    "tick_spacing": 1,
+    "created_block": 67801025,
+    "initialize": {
+     "block": 67801025,
+     "log_index": 12,
+     "sqrtPriceX96": "2187833865665472271912613",
+     "tick": -209954
+    },
+    "getPool_matches": true,
+    "swaps": null,
+    "note": "not counted"
+   }
+  ]
+ },
+ "check_files_merged": [
+  "state/checks.json",
+  "state/checks_online.json",
+  "state/checks_univ3.json"
+ ],
+ "checks_summary": {
+  "feed_eth_usd.csv.gz": {
+   "order_pass": true,
+   "refetch_pass": true,
+   "refetch_windows": 1
+  },
+  "feed_eth_usd_pre27m.csv.gz": {
+   "order_pass": true,
+   "refetch_pass": true,
+   "refetch_windows": 1
+  },
+  "feed_nvda.csv.gz": {
+   "order_pass": true,
+   "refetch_pass": true,
+   "refetch_windows": 1
+  },
+  "feed_nvda_247.csv.gz": {
+   "order_pass": true,
+   "refetch_pass": true,
+   "refetch_windows": 1
+  },
+  "feed_nvda_pre27m.csv.gz": {
+   "order_pass": true,
+   "refetch_pass": true,
+   "refetch_windows": 1
+  },
+  "feed_spy.csv.gz": {
+   "order_pass": true,
+   "refetch_pass": true,
+   "refetch_windows": 1
+  },
+  "feed_spy_pre27m.csv.gz": {
+   "order_pass": true,
+   "refetch_pass": true,
+   "refetch_windows": 1
+  },
+  "feed_usdg.csv.gz": {
+   "order_pass": true,
+   "refetch_pass": true,
+   "refetch_windows": 1
+  },
+  "feed_usdg_pre27m.csv.gz": {
+   "order_pass": true,
+   "refetch_pass": true,
+   "refetch_windows": 1
+  },
+  "gauge_nvda_notify.csv.gz": {
+   "order_pass": true,
+   "refetch_pass": true,
+   "refetch_windows": 1
+  },
+  "gauge_spy_notify.csv.gz": {
+   "order_pass": true,
+   "refetch_pass": true,
+   "refetch_windows": 1
+  },
+  "headers.csv.gz": null,
+  "ram_pool_swaps.csv.gz": {
+   "order_pass": true,
+   "refetch_pass": true,
+   "refetch_windows": 5,
+   "end_state_pass": true,
+   "v3_math_eligible_pairs": 66945,
+   "v3_math_output_leg_over_10_units": 5,
+   "v3_math_input_leg_over_10_units": 5,
+   "ts_max_abs_error_s": 2.797
+  },
+  "ramses_nvda_liquidity.csv.gz": null,
+  "ramses_nvda_swaps.csv.gz": {
+   "order_pass": true,
+   "refetch_pass": true,
+   "refetch_windows": 6,
+   "end_state_pass": true,
+   "liquidity_rebuild_pass": true,
+   "v3_math_eligible_pairs": 349591,
+   "v3_math_output_leg_over_10_units": 3,
+   "v3_math_input_leg_over_10_units": 3,
+   "v3_math_exceptions": {
+    "exceptions": 3,
+    "crossed_at_least_one_initialized_tick": 3,
+    "with_liquidity_event_between": 3,
+    "neither": 0
+   },
+   "ts_max_abs_error_s": 4.036
+  },
+  "ramses_spy_liquidity.csv.gz": null,
+  "ramses_spy_swaps.csv.gz": {
+   "order_pass": true,
+   "refetch_pass": true,
+   "refetch_windows": 6,
+   "end_state_pass": true,
+   "liquidity_rebuild_pass": true,
+   "v3_math_eligible_pairs": 659955,
+   "v3_math_output_leg_over_10_units": 29,
+   "v3_math_input_leg_over_10_units": 29,
+   "v3_math_exceptions": {
+    "exceptions": 29,
+    "crossed_at_least_one_initialized_tick": 29,
+    "with_liquidity_event_between": 18,
+    "neither": 0
+   },
+   "ts_max_abs_error_s": 3.135
+  },
+  "univ3_nvda_liquidity.csv.gz": null,
+  "univ3_nvda_swaps.csv.gz": {
+   "order_pass": true,
+   "refetch_pass": true,
+   "refetch_windows": 5,
+   "end_state_pass": true,
+   "liquidity_rebuild_pass": true,
+   "v3_math_eligible_pairs": 25010,
+   "v3_math_output_leg_over_10_units": 0,
+   "v3_math_input_leg_over_10_units": 0,
+   "v3_math_exceptions": {
+    "exceptions": 0,
+    "crossed_at_least_one_initialized_tick": 0,
+    "with_liquidity_event_between": 0,
+    "neither": 0
+   },
+   "ts_max_abs_error_s": 7.047
+  },
+  "univ3_spy_liquidity.csv.gz": null,
+  "univ3_spy_swaps.csv.gz": {
+   "order_pass": true,
+   "refetch_pass": true,
+   "refetch_windows": 5,
+   "end_state_pass": true,
+   "liquidity_rebuild_pass": true,
+   "v3_math_eligible_pairs": 21591,
+   "v3_math_output_leg_over_10_units": 0,
+   "v3_math_input_leg_over_10_units": 0,
+   "v3_math_exceptions": {
+    "exceptions": 0,
+    "crossed_at_least_one_initialized_tick": 0,
+    "with_liquidity_event_between": 0,
+    "neither": 0
+   },
+   "ts_max_abs_error_s": 2.261
+  },
+  "v4_nvda_liquidity.csv.gz": null,
+  "v4_nvda_swaps.csv.gz": {
+   "order_pass": true,
+   "refetch_pass": true,
+   "refetch_windows": 5,
+   "end_state_pass": true,
+   "liquidity_rebuild_pass": true,
+   "v3_math_eligible_pairs": 198052,
+   "v3_math_output_leg_over_10_units": 4,
+   "v3_math_input_leg_over_10_units": 4,
+   "v3_math_exceptions": {
+    "exceptions": 4,
+    "crossed_at_least_one_initialized_tick": 4,
+    "with_liquidity_event_between": 0,
+    "neither": 0
+   },
+   "ts_max_abs_error_s": 3.52
+  },
+  "v4_spy_liquidity.csv.gz": null,
+  "v4_spy_swaps.csv.gz": {
+   "order_pass": true,
+   "refetch_pass": true,
+   "refetch_windows": 5,
+   "end_state_pass": true,
+   "liquidity_rebuild_pass": true,
+   "v3_math_eligible_pairs": 537868,
+   "v3_math_output_leg_over_10_units": 0,
+   "v3_math_input_leg_over_10_units": 0,
+   "v3_math_exceptions": {
+    "exceptions": 0,
+    "crossed_at_least_one_initialized_tick": 0,
+    "with_liquidity_event_between": 0,
+    "neither": 0
+   },
+   "ts_max_abs_error_s": 3.972
+  }
+ },
+ "gauge_signature_check": {
+  "nvda": {
+   "gauge": "0x93c6A733FB3165D94774B3A5Fc4319D29bd7b6ce",
+   "notify_reward_events": 7,
+   "signature": "NotifyReward(address,address,uint256,uint256)",
+   "topic0": "0x52977ea98a2220a03ee9ba5cb003ada08d394ea10155483c95dc2dc77a7eb24b",
+   "sample_tx": "0xc88793c904748060f5a7f37ffa1ac5be9a4b87143e490eb1a19ce1802977b6b4",
+   "sample_tx_gauge_topic0s": [
+    "0x52977ea98a2220a03ee9ba5cb003ada08d394ea10155483c95dc2dc77a7eb24b"
+   ],
+   "sample_topics_count": 3,
+   "sample_data_words": 2,
+   "topic0_histogram_last_2M_blocks": {
+    "0xc8c7ebd754a625a8677ab2031c7674259be1e8c1a7f3521cbf5edbca8f48099c": 7,
+    "0x664facd930da6a01b5a6aa33775fc2cc77117d7de31622f4d083197d8ef824ed": 4
+   }
+  },
+  "spy": {
+   "gauge": "0x739e31798efe8cff3ef4c613d8ae751e179c7337",
+   "notify_reward_events": 8,
+   "signature": "NotifyReward(address,address,uint256,uint256)",
+   "topic0": "0x52977ea98a2220a03ee9ba5cb003ada08d394ea10155483c95dc2dc77a7eb24b",
+   "sample_tx": "0xc88793c904748060f5a7f37ffa1ac5be9a4b87143e490eb1a19ce1802977b6b4",
+   "sample_tx_gauge_topic0s": [
+    "0x52977ea98a2220a03ee9ba5cb003ada08d394ea10155483c95dc2dc77a7eb24b"
+   ],
+   "sample_topics_count": 3,
+   "sample_data_words": 2,
+   "topic0_histogram_last_2M_blocks": {
+    "0xc8c7ebd754a625a8677ab2031c7674259be1e8c1a7f3521cbf5edbca8f48099c": 36,
+    "0x664facd930da6a01b5a6aa33775fc2cc77117d7de31622f4d083197d8ef824ed": 19
+   }
+  }
+ },
+ "feeds_discovery": {
+  "nvda": {
+   "proxy": "0x379EC4f7C378F34a1B47E4F3cbeBCbAC3E8E9F15",
+   "aggregator_named_in_task": "0xc9d16e4f2569b9e3ea0468fd85844953713dc2a2",
+   "aggregator_now": "0xc9d16e4f2569b9e3ea0468fd85844953713dc2a2",
+   "decimals": 8,
+   "description": "RHNVDA / USD",
+   "phaseId": 1,
+   "phaseAggregators": {
+    "1": "0xc9d16e4f2569b9e3ea0468fd85844953713dc2a2"
+   },
+   "aggregator_typeAndVersion": "DualAggregator 1.0.0",
+   "aggregator_decimals": 8
+  },
+  "spy": {
+   "proxy": "0x319724394D3A0e3669269846abE664Cd621f9f6A",
+   "aggregator_named_in_task": "0x78bcb218fa04b9b3a278ebc865ed320bf8defbac",
+   "aggregator_now": "0x78bcb218fa04b9b3a278ebc865ed320bf8defbac",
+   "decimals": 8,
+   "description": "RHSPY / USD",
+   "phaseId": 1,
+   "phaseAggregators": {
+    "1": "0x78bcb218fa04b9b3a278ebc865ed320bf8defbac"
+   },
+   "aggregator_typeAndVersion": "DualAggregator 1.0.0",
+   "aggregator_decimals": 8
+  },
+  "usdg": {
+   "proxy": "0x61B7e5650328764B076A108EFF5fa7282a1B9aD2",
+   "aggregator_named_in_task": "0x8beee3503f6860d5dac4ce26b5eee92982951c2e",
+   "aggregator_now": "0x8beee3503f6860d5dac4ce26b5eee92982951c2e",
+   "decimals": 8,
+   "description": "USDG / USD",
+   "phaseId": 1,
+   "phaseAggregators": {
+    "1": "0x8beee3503f6860d5dac4ce26b5eee92982951c2e"
+   },
+   "aggregator_typeAndVersion": "DualAggregator 1.0.0",
+   "aggregator_decimals": 8
+  },
+  "eth_usd": {
+   "proxy": "0x78F3556b67E17Df817D51Ef5a990cDaF09E8d3A9",
+   "aggregator_named_in_task": "0x6091E64eb7138EEF066a80FD3A0d7427B91f2721",
+   "aggregator_now": "0x6091e64eb7138eef066a80fd3a0d7427b91f2721",
+   "decimals": 8,
+   "description": "ETH / USD",
+   "phaseId": 1,
+   "phaseAggregators": {
+    "1": "0x6091e64eb7138eef066a80fd3a0d7427b91f2721"
+   },
+   "aggregator_typeAndVersion": "DualAggregator 1.0.0",
+   "aggregator_decimals": 8
+  },
+  "nvda_247": {
+   "proxy": "0x321A36e441DfBadA01Aa6f9884F14a344E133D1F",
+   "aggregator_named_in_task": null,
+   "aggregator_now": "0x1c28973bd1bab2e34efa5bff5e94a95c6cab72cc",
+   "decimals": 8,
+   "description": "Robinhood NVDA (24/7)",
+   "phaseId": 1,
+   "phaseAggregators": {
+    "1": "0x1c28973bd1bab2e34efa5bff5e94a95c6cab72cc"
+   },
+   "aggregator_typeAndVersion": "DualAggregator 1.0.0",
+   "aggregator_decimals": 8
+  }
+ },
+ "files": [
+  {
+   "path": "feed_eth_usd.csv.gz",
+   "columns": [
+    "block",
+    "log_index",
+    "updated_at",
+    "answer",
+    "round_id"
+   ],
+   "rows": 1840,
+   "bytes": 32803,
+   "sha256": "c3a3d9f202bfdfe016ef5b29de5680008745d612c930498ee06f24ae5525eb98",
+   "first_block": 27106639,
+   "last_block": 110762212,
+   "first_time": "2026-08-03T22:03:20Z",
+   "last_time": "2026-11-10T09:01:22Z",
+   "time_source": "updated_at column (from the event)",
+   "source": {
+    "proxy": "0x78F3556b67E17Df817D51Ef5a990cDaF09E8d3A9",
+    "description": "ETH / USD",
+    "decimals": 8,
+    "phaseId_at_discovery": 1,
+    "aggregators": [
+     {
+      "phase": 1,
+      "aggregator": "0x6091e64eb7138eef066a80fd3a0d7427b91f2721",
+      "rows": 1840,
+      "events_before_block_27000000": 1392,
+      "first_block": 27106639,
+      "last_block": 110762212,
+      "first_round": 1393,
+      "last_round": 3232,
+      "round_id_not_consecutive_steps": 0,
+      "first_updated_at": 1785794600,
+      "last_updated_at": 1794301282
+     }
+    ],
+    "topic0": "0x0559884fd3a460db3073b7fc896cc77986f16e378210ded43186175bf646fc5f",
+    "signature": "AnswerUpdated(int256,uint256,uint256)",
+    "from_block": 27000000,
+    "updated_at_non_monotonic_steps": 0,
+    "latestRoundData_at_END": {
+     "roundId": "18446744073709554848",
+     "phase": 1,
+     "aggregator_round": 3232,
+     "answer": "209778649210",
+     "updatedAt": 1794301282,
+     "aggregator_at_END": "0x6091e64eb7138eef066a80fd3a0d7427b91f2721"
+    },
+    "last_row_matches_latestRoundData_at_END": true,
+    "pre_27000000_file": "feed_eth_usd_pre27m.csv.gz"
+   },
+   "checks": {
+    "order": {
+     "rows": 1840,
+     "pass": true
+    },
+    "refetch": {
+     "windows": [
+      {
+       "aggregator_or_gauge": "0x6091e64eb7138eef066a80fd3a0d7427b91f2721",
+       "from": 27000000,
+       "to": 110790000,
+       "refetched": 1840,
+       "dataset_rows_in_window": 1840,
+       "match": true,
+       "rule": "equal",
+       "chunk_blocks": 7777777
+      }
+     ],
+     "pass": true
+    }
+   }
+  },
+  {
+   "path": "feed_eth_usd_pre27m.csv.gz",
+   "columns": [
+    "block",
+    "log_index",
+    "updated_at",
+    "answer",
+    "round_id"
+   ],
+   "rows": 1392,
+   "bytes": 22329,
+   "sha256": "af1261a5be7cd2cd15c0d188fe25c7c24fba17d041df4d1dd56d9e1f0961d74e",
+   "first_block": 34860,
+   "last_block": 26903224,
+   "first_time": "2026-06-05T15:02:52Z",
+   "last_time": "2026-08-03T16:23:44Z",
+   "time_source": "updated_at column (from the event)",
+   "source": {
+    "proxy": "0x78F3556b67E17Df817D51Ef5a990cDaF09E8d3A9",
+    "description": "ETH / USD",
+    "decimals": 8,
+    "topic0": "0x0559884fd3a460db3073b7fc896cc77986f16e378210ded43186175bf646fc5f",
+    "signature": "AnswerUpdated(int256,uint256,uint256)",
+    "aggregators": [
+     "0x6091e64eb7138eef066a80fd3a0d7427b91f2721"
+    ],
+    "block_range": [
+     0,
+     26999999
+    ],
+    "first_block": 34860,
+    "last_block": 26903224,
+    "first_round": 1,
+    "last_round": 1392,
+    "round_id_not_consecutive_steps": 0,
+    "continues_into_main_file": true
+   },
+   "checks": {
+    "order": {
+     "rows": 1392,
+     "pass": true
+    },
+    "refetch": {
+     "windows": [
+      {
+       "aggregator_or_gauge": "0x6091e64eb7138eef066a80fd3a0d7427b91f2721",
+       "from": 0,
+       "to": 26999999,
+       "refetched": 1392,
+       "dataset_rows_in_window": 1392,
+       "match": true,
+       "rule": "equal",
+       "chunk_blocks": 7777777
+      }
+     ],
+     "pass": true
+    }
+   }
+  },
+  {
+   "path": "feed_nvda.csv.gz",
+   "columns": [
+    "block",
+    "log_index",
+    "updated_at",
+    "answer",
+    "round_id"
+   ],
+   "rows": 1047,
+   "bytes": 18187,
+   "sha256": "e74b81a388c63ba0756dfb979e7dd9f89b823ee8625b9b34f1dc5caf35b0845a",
+   "first_block": 27020109,
+   "last_block": 110779346,
+   "first_time": "2026-08-03T19:38:44Z",
+   "last_time": "2026-11-10T09:31:09Z",
+   "time_source": "updated_at column (from the event)",
+   "source": {
+    "proxy": "0x379EC4f7C378F34a1B47E4F3cbeBCbAC3E8E9F15",
+    "description": "RHNVDA / USD",
+    "decimals": 8,
+    "phaseId_at_discovery": 1,
+    "aggregators": [
+     {
+      "phase": 1,
+      "aggregator": "0xc9d16e4f2569b9e3ea0468fd85844953713dc2a2",
+      "rows": 1047,
+      "events_before_block_27000000": 626,
+      "first_block": 27020109,
+      "last_block": 110779346,
+      "first_round": 627,
+      "last_round": 1673,
+      "round_id_not_consecutive_steps": 0,
+      "first_updated_at": 1785785924,
+      "last_updated_at": 1794303069
+     }
+    ],
+    "topic0": "0x0559884fd3a460db3073b7fc896cc77986f16e378210ded43186175bf646fc5f",
+    "signature": "AnswerUpdated(int256,uint256,uint256)",
+    "from_block": 27000000,
+    "updated_at_non_monotonic_steps": 0,
+    "latestRoundData_at_END": {
+     "roundId": "18446744073709553289",
+     "phase": 1,
+     "aggregator_round": 1673,
+     "answer": "18234093376",
+     "updatedAt": 1794303069,
+     "aggregator_at_END": "0xc9d16e4f2569b9e3ea0468fd85844953713dc2a2"
+    },
+    "last_row_matches_latestRoundData_at_END": true,
+    "pre_27000000_file": "feed_nvda_pre27m.csv.gz"
+   },
+   "checks": {
+    "order": {
+     "rows": 1047,
+     "pass": true
+    },
+    "refetch": {
+     "windows": [
+      {
+       "aggregator_or_gauge": "0xc9d16e4f2569b9e3ea0468fd85844953713dc2a2",
+       "from": 27000000,
+       "to": 110790000,
+       "refetched": 1047,
+       "dataset_rows_in_window": 1047,
+       "match": true,
+       "rule": "equal",
+       "chunk_blocks": 7777777
+      }
+     ],
+     "pass": true
+    }
+   }
+  },
+  {
+   "path": "feed_nvda_247.csv.gz",
+   "columns": [
+    "block",
+    "log_index",
+    "updated_at",
+    "answer",
+    "round_id"
+   ],
+   "rows": 89,
+   "bytes": 1573,
+   "sha256": "b81c66a400a10511c65f68a50dcdc946e3e908607f510566c30b36c93f508617",
+   "first_block": 107857105,
+   "last_block": 110771275,
+   "first_time": "2026-11-06T20:21:23Z",
+   "last_time": "2026-11-10T09:16:59Z",
+   "time_source": "updated_at column (from the event)",
+   "source": {
+    "proxy": "0x321A36e441DfBadA01Aa6f9884F14a344E133D1F",
+    "description": "Robinhood NVDA (24/7)",
+    "decimals": 8,
+    "phaseId_at_discovery": 1,
+    "aggregators": [
+     {
+      "phase": 1,
+      "aggregator": "0x1c28973bd1bab2e34efa5bff5e94a95c6cab72cc",
+      "rows": 89,
+      "events_before_block_27000000": 0,
+      "first_block": 107857105,
+      "last_block": 110771275,
+      "first_round": 1,
+      "last_round": 89,
+      "round_id_not_consecutive_steps": 0,
+      "first_updated_at": 1793996483,
+      "last_updated_at": 1794302219
+     }
+    ],
+    "topic0": "0x0559884fd3a460db3073b7fc896cc77986f16e378210ded43186175bf646fc5f",
+    "signature": "AnswerUpdated(int256,uint256,uint256)",
+    "from_block": 27000000,
+    "updated_at_non_monotonic_steps": 0,
+    "latestRoundData_at_END": {
+     "roundId": "18446744073709551705",
+     "phase": 1,
+     "aggregator_round": 89,
+     "answer": "18192386071",
+     "updatedAt": 1794302219,
+     "aggregator_at_END": "0x1c28973bd1bab2e34efa5bff5e94a95c6cab72cc"
+    },
+    "last_row_matches_latestRoundData_at_END": true,
+    "reproduces_feed247_rounds_json": {
+     "file": "/Users/joshua/Peridot/RobinhoodVaults/deployments/nvda-247-feed-2026-11-07/feed247-rounds.json",
+     "rounds_in_file": 4,
+     "all_match": true
+    }
+   },
+   "checks": {
+    "order": {
+     "rows": 89,
+     "pass": true
+    },
+    "refetch": {
+     "windows": [
+      {
+       "aggregator_or_gauge": "0x1c28973bd1bab2e34efa5bff5e94a95c6cab72cc",
+       "from": 27000000,
+       "to": 110790000,
+       "refetched": 89,
+       "dataset_rows_in_window": 89,
+       "match": true,
+       "rule": "equal",
+       "chunk_blocks": 7777777
+      }
+     ],
+     "pass": true
+    }
+   }
+  },
+  {
+   "path": "feed_nvda_pre27m.csv.gz",
+   "columns": [
+    "block",
+    "log_index",
+    "updated_at",
+    "answer",
+    "round_id"
+   ],
+   "rows": 626,
+   "bytes": 9711,
+   "sha256": "0a46a1c2c75ead07048cfb677e09941f93bd2dc7ecf0b4f71eb16cc05147ff1e",
+   "first_block": 138546,
+   "last_block": 26941291,
+   "first_time": "2026-06-22T00:00:43Z",
+   "last_time": "2026-08-03T17:27:12Z",
+   "time_source": "updated_at column (from the event)",
+   "source": {
+    "proxy": "0x379EC4f7C378F34a1B47E4F3cbeBCbAC3E8E9F15",
+    "description": "RHNVDA / USD",
+    "decimals": 8,
+    "topic0": "0x0559884fd3a460db3073b7fc896cc77986f16e378210ded43186175bf646fc5f",
+    "signature": "AnswerUpdated(int256,uint256,uint256)",
+    "aggregators": [
+     "0xc9d16e4f2569b9e3ea0468fd85844953713dc2a2"
+    ],
+    "block_range": [
+     0,
+     26999999
+    ],
+    "first_block": 138546,
+    "last_block": 26941291,
+    "first_round": 1,
+    "last_round": 626,
+    "round_id_not_consecutive_steps": 0,
+    "continues_into_main_file": true
+   },
+   "checks": {
+    "order": {
+     "rows": 626,
+     "pass": true
+    },
+    "refetch": {
+     "windows": [
+      {
+       "aggregator_or_gauge": "0xc9d16e4f2569b9e3ea0468fd85844953713dc2a2",
+       "from": 0,
+       "to": 26999999,
+       "refetched": 626,
+       "dataset_rows_in_window": 626,
+       "match": true,
+       "rule": "equal",
+       "chunk_blocks": 7777777
+      }
+     ],
+     "pass": true
+    }
+   }
+  },
+  {
+   "path": "feed_spy.csv.gz",
+   "columns": [
+    "block",
+    "log_index",
+    "updated_at",
+    "answer",
+    "round_id"
+   ],
+   "rows": 144,
+   "bytes": 2686,
+   "sha256": "2e2020003632041e671fbb31458afd67f87f27c28a26391cc270bf9462aa0c35",
+   "first_block": 27661653,
+   "last_block": 110236509,
+   "first_time": "2026-08-04T13:30:52Z",
+   "last_time": "2026-11-09T17:34:01Z",
+   "time_source": "updated_at column (from the event)",
+   "source": {
+    "proxy": "0x319724394D3A0e3669269846abE664Cd621f9f6A",
+    "description": "RHSPY / USD",
+    "decimals": 8,
+    "phaseId_at_discovery": 1,
+    "aggregators": [
+     {
+      "phase": 1,
+      "aggregator": "0x78bcb218fa04b9b3a278ebc865ed320bf8defbac",
+      "rows": 144,
+      "events_before_block_27000000": 83,
+      "first_block": 27661653,
+      "last_block": 110236509,
+      "first_round": 84,
+      "last_round": 227,
+      "round_id_not_consecutive_steps": 0,
+      "first_updated_at": 1785850252,
+      "last_updated_at": 1794245641
+     }
+    ],
+    "topic0": "0x0559884fd3a460db3073b7fc896cc77986f16e378210ded43186175bf646fc5f",
+    "signature": "AnswerUpdated(int256,uint256,uint256)",
+    "from_block": 27000000,
+    "updated_at_non_monotonic_steps": 0,
+    "latestRoundData_at_END": {
+     "roundId": "18446744073709551843",
+     "phase": 1,
+     "aggregator_round": 227,
+     "answer": "75416843261",
+     "updatedAt": 1794245641,
+     "aggregator_at_END": "0x78bcb218fa04b9b3a278ebc865ed320bf8defbac"
+    },
+    "last_row_matches_latestRoundData_at_END": true,
+    "pre_27000000_file": "feed_spy_pre27m.csv.gz"
+   },
+   "checks": {
+    "order": {
+     "rows": 144,
+     "pass": true
+    },
+    "refetch": {
+     "windows": [
+      {
+       "aggregator_or_gauge": "0x78bcb218fa04b9b3a278ebc865ed320bf8defbac",
+       "from": 27000000,
+       "to": 110790000,
+       "refetched": 144,
+       "dataset_rows_in_window": 144,
+       "match": true,
+       "rule": "equal",
+       "chunk_blocks": 7777777
+      }
+     ],
+     "pass": true
+    }
+   }
+  },
+  {
+   "path": "feed_spy_pre27m.csv.gz",
+   "columns": [
+    "block",
+    "log_index",
+    "updated_at",
+    "answer",
+    "round_id"
+   ],
+   "rows": 83,
+   "bytes": 1394,
+   "sha256": "902716862ff23faf14fdceccc1ca2425360f49a62e958a659c596614659637db",
+   "first_block": 138551,
+   "last_block": 26946539,
+   "first_time": "2026-06-22T00:00:43Z",
+   "last_time": "2026-08-03T17:35:58Z",
+   "time_source": "updated_at column (from the event)",
+   "source": {
+    "proxy": "0x319724394D3A0e3669269846abE664Cd621f9f6A",
+    "description": "RHSPY / USD",
+    "decimals": 8,
+    "topic0": "0x0559884fd3a460db3073b7fc896cc77986f16e378210ded43186175bf646fc5f",
+    "signature": "AnswerUpdated(int256,uint256,uint256)",
+    "aggregators": [
+     "0x78bcb218fa04b9b3a278ebc865ed320bf8defbac"
+    ],
+    "block_range": [
+     0,
+     26999999
+    ],
+    "first_block": 138551,
+    "last_block": 26946539,
+    "first_round": 1,
+    "last_round": 83,
+    "round_id_not_consecutive_steps": 0,
+    "continues_into_main_file": true
+   },
+   "checks": {
+    "order": {
+     "rows": 83,
+     "pass": true
+    },
+    "refetch": {
+     "windows": [
+      {
+       "aggregator_or_gauge": "0x78bcb218fa04b9b3a278ebc865ed320bf8defbac",
+       "from": 0,
+       "to": 26999999,
+       "refetched": 83,
+       "dataset_rows_in_window": 83,
+       "match": true,
+       "rule": "equal",
+       "chunk_blocks": 7777777
+      }
+     ],
+     "pass": true
+    }
+   }
+  },
+  {
+   "path": "feed_usdg.csv.gz",
+   "columns": [
+    "block",
+    "log_index",
+    "updated_at",
+    "answer",
+    "round_id"
+   ],
+   "rows": 98,
+   "bytes": 1678,
+   "sha256": "d075d69329ca263ec11f3dd278a045327812e794751af11d3412d642a84c5793",
+   "first_block": 27726761,
+   "last_block": 110176116,
+   "first_time": "2026-08-04T15:19:35Z",
+   "last_time": "2026-11-09T15:51:29Z",
+   "time_source": "updated_at column (from the event)",
+   "source": {
+    "proxy": "0x61B7e5650328764B076A108EFF5fa7282a1B9aD2",
+    "description": "USDG / USD",
+    "decimals": 8,
+    "phaseId_at_discovery": 1,
+    "aggregators": [
+     {
+      "phase": 1,
+      "aggregator": "0x8beee3503f6860d5dac4ce26b5eee92982951c2e",
+      "rows": 98,
+      "events_before_block_27000000": 60,
+      "first_block": 27726761,
+      "last_block": 110176116,
+      "first_round": 61,
+      "last_round": 158,
+      "round_id_not_consecutive_steps": 0,
+      "first_updated_at": 1785856775,
+      "last_updated_at": 1794239489
+     }
+    ],
+    "topic0": "0x0559884fd3a460db3073b7fc896cc77986f16e378210ded43186175bf646fc5f",
+    "signature": "AnswerUpdated(int256,uint256,uint256)",
+    "from_block": 27000000,
+    "updated_at_non_monotonic_steps": 0,
+    "latestRoundData_at_END": {
+     "roundId": "18446744073709551774",
+     "phase": 1,
+     "aggregator_round": 158,
+     "answer": "100005000",
+     "updatedAt": 1794239489,
+     "aggregator_at_END": "0x8beee3503f6860d5dac4ce26b5eee92982951c2e"
+    },
+    "last_row_matches_latestRoundData_at_END": true,
+    "pre_27000000_file": "feed_usdg_pre27m.csv.gz"
+   },
+   "checks": {
+    "order": {
+     "rows": 98,
+     "pass": true
+    },
+    "refetch": {
+     "windows": [
+      {
+       "aggregator_or_gauge": "0x8beee3503f6860d5dac4ce26b5eee92982951c2e",
+       "from": 27000000,
+       "to": 110790000,
+       "refetched": 98,
+       "dataset_rows_in_window": 98,
+       "match": true,
+       "rule": "equal",
+       "chunk_blocks": 7777777
+      }
+     ],
+     "pass": true
+    }
+   }
+  },
+  {
+   "path": "feed_usdg_pre27m.csv.gz",
+   "columns": [
+    "block",
+    "log_index",
+    "updated_at",
+    "answer",
+    "round_id"
+   ],
+   "rows": 60,
+   "bytes": 965,
+   "sha256": "255af1357227794a8e9cdfe5d6b283e6690d728486455f7da977f0e1e241e3e4",
+   "first_block": 34847,
+   "last_block": 26864465,
+   "first_time": "2026-06-05T15:02:49Z",
+   "last_time": "2026-08-03T15:19:06Z",
+   "time_source": "updated_at column (from the event)",
+   "source": {
+    "proxy": "0x61B7e5650328764B076A108EFF5fa7282a1B9aD2",
+    "description": "USDG / USD",
+    "decimals": 8,
+    "topic0": "0x0559884fd3a460db3073b7fc896cc77986f16e378210ded43186175bf646fc5f",
+    "signature": "AnswerUpdated(int256,uint256,uint256)",
+    "aggregators": [
+     "0x8beee3503f6860d5dac4ce26b5eee92982951c2e"
+    ],
+    "block_range": [
+     0,
+     26999999
+    ],
+    "first_block": 34847,
+    "last_block": 26864465,
+    "first_round": 1,
+    "last_round": 60,
+    "round_id_not_consecutive_steps": 0,
+    "continues_into_main_file": true
+   },
+   "checks": {
+    "order": {
+     "rows": 60,
+     "pass": true
+    },
+    "refetch": {
+     "windows": [
+      {
+       "aggregator_or_gauge": "0x8beee3503f6860d5dac4ce26b5eee92982951c2e",
+       "from": 0,
+       "to": 26999999,
+       "refetched": 60,
+       "dataset_rows_in_window": 60,
+       "match": true,
+       "rule": "equal",
+       "chunk_blocks": 7777777
+      }
+     ],
+     "pass": true
+    }
+   }
+  },
+  {
+   "path": "gauge_nvda_notify.csv.gz",
+   "columns": [
+    "block",
+    "log_index",
+    "ts",
+    "from",
+    "token",
+    "amount",
+    "period"
+   ],
+   "rows": 7,
+   "bytes": 357,
+   "sha256": "a4c46e95bb50f1fdf019bcf3b731bd668e05d1835547ce14366b74573f669ce5",
+   "first_block": 76907896,
+   "last_block": 106286712,
+   "first_time": "2026-09-30T23:25:08Z",
+   "last_time": "2026-11-04T23:32:21Z",
+   "time_source": "ts column (interpolated on the header grid)",
+   "source": {
+    "gauge": "0x93c6A733FB3165D94774B3A5Fc4319D29bd7b6ce",
+    "topic0": "0x52977ea98a2220a03ee9ba5cb003ada08d394ea10155483c95dc2dc77a7eb24b",
+    "signature": "NotifyReward(address,address,uint256,uint256)",
+    "by_token": {
+     "0x5173d45a1191ee33cbb7d8c7e65f21b04ed54802": {
+      "events": 7,
+      "amount_raw": "228999087774209306000000"
+     }
+    },
+    "by_sender": {
+     "0xbe0ca442d6b7d81e0faa7dbfd09331019f893f89": 1,
+     "0x20d630cf1f5628285bfb91dfac8c89eb9087be1a": 2,
+     "0xc389e1af91f197762608a3541e0ba90019e14a77": 4
+    },
+    "ram_token": "0x5173d45a1191ee33cbb7d8c7e65f21b04ed54802",
+    "amount_decimals_note": "amount is the raw token amount (RAM has 18 decimals); period is the event's 4th field as emitted"
+   },
+   "checks": {
+    "order": {
+     "rows": 7,
+     "pass": true
+    },
+    "refetch": {
+     "windows": [
+      {
+       "aggregator_or_gauge": "0x93c6A733FB3165D94774B3A5Fc4319D29bd7b6ce",
+       "from": 0,
+       "to": 110790000,
+       "refetched": 7,
+       "dataset_rows_in_window": 7,
+       "match": true,
+       "rule": "equal",
+       "chunk_blocks": 7777777
+      }
+     ],
+     "pass": true
+    }
+   }
+  },
+  {
+   "path": "gauge_spy_notify.csv.gz",
+   "columns": [
+    "block",
+    "log_index",
+    "ts",
+    "from",
+    "token",
+    "amount",
+    "period"
+   ],
+   "rows": 8,
+   "bytes": 378,
+   "sha256": "55fef4a2f8e4cf49829f3fbaa9fac858b47a2d5055f68da7a31e061dfaf1ad1c",
+   "first_block": 76905242,
+   "last_block": 106286712,
+   "first_time": "2026-09-30T23:20:42Z",
+   "last_time": "2026-11-04T23:32:21Z",
+   "time_source": "ts column (interpolated on the header grid)",
+   "source": {
+    "gauge": "0x739e31798efe8cff3ef4c613d8ae751e179c7337",
+    "topic0": "0x52977ea98a2220a03ee9ba5cb003ada08d394ea10155483c95dc2dc77a7eb24b",
+    "signature": "NotifyReward(address,address,uint256,uint256)",
+    "by_token": {
+     "0x5173d45a1191ee33cbb7d8c7e65f21b04ed54802": {
+      "events": 8,
+      "amount_raw": "128103335133044488754789"
+     }
+    },
+    "by_sender": {
+     "0xbe0ca442d6b7d81e0faa7dbfd09331019f893f89": 1,
+     "0x20d630cf1f5628285bfb91dfac8c89eb9087be1a": 2,
+     "0xc389e1af91f197762608a3541e0ba90019e14a77": 5
+    },
+    "ram_token": "0x5173d45a1191ee33cbb7d8c7e65f21b04ed54802",
+    "amount_decimals_note": "amount is the raw token amount (RAM has 18 decimals); period is the event's 4th field as emitted"
+   },
+   "checks": {
+    "order": {
+     "rows": 8,
+     "pass": true
+    },
+    "refetch": {
+     "windows": [
+      {
+       "aggregator_or_gauge": "0x739e31798efe8cff3ef4c613d8ae751e179c7337",
+       "from": 0,
+       "to": 110790000,
+       "refetched": 8,
+       "dataset_rows_in_window": 8,
+       "match": true,
+       "rule": "equal",
+       "chunk_blocks": 7777777
+      }
+     ],
+     "pass": true
+    }
+   }
+  },
+  {
+   "path": "headers.csv.gz",
+   "columns": [
+    "block",
+    "timestamp"
+   ],
+   "rows": 10923,
+   "bytes": 68898,
+   "sha256": "7b56fe117898fac21f16c177130b81f6daf4253fed6b7102f5e9775af2aec3db",
+   "first_block": 1570000,
+   "last_block": 110790000,
+   "first_time": "2026-07-02T23:12:20Z",
+   "last_time": "2026-11-10T09:49:57Z",
+   "time_source": "timestamp column (block header)",
+   "source": {
+    "method": "eth_getBlockByNumber on every multiple of 10,000",
+    "grid_step": 10000,
+    "first_block": 1570000,
+    "last_block": 110790000,
+    "fetched_now": 3242,
+    "copied_from_existing_cache": 7681,
+    "non_monotonic_steps": 0
+   },
+   "checks": null
+  },
+  {
+   "path": "ram_pool_swaps.csv.gz",
+   "columns": [
+    "block",
+    "log_index",
+    "ts",
+    "amount0",
+    "amount1",
+    "sqrt_price_x96",
+    "liquidity",
+    "tick",
+    "fee_ppm",
+    "protocol_share"
+   ],
+   "rows": 78633,
+   "bytes": 3954719,
+   "sha256": "9905cf68eb5c3f4e3e100ae1282d80d9f503a0b152ec98d31402f0ebb30ee2ec",
+   "first_block": 50756824,
+   "last_block": 110789183,
+   "first_time": "2026-08-31T09:27:47Z",
+   "last_time": "2026-11-10T09:48:30Z",
+   "time_source": "ts column (interpolated on the header grid)",
+   "source": {
+    "pool": "0x5860dd468b4fc1740eaf80a3b7f22e78d70a076a",
+    "static": {
+     "address": "0x5860dd468b4fc1740eaf80a3b7f22e78d70a076a",
+     "token0()": "0x0bd7d308f8e1639fab988df18a8011f41eacad73",
+     "token1()": "0x5173d45a1191ee33cbb7d8c7e65f21b04ed54802",
+     "factory()": "0xe0c4ceb92d08ca985bb70fe0a22feb121a9854a8",
+     "fee()": 17500,
+     "tickSpacing()": 100,
+     "token0().decimals": 18,
+     "token0().symbol": "WETH",
+     "token1().decimals": 18,
+     "token1().symbol": "RAM"
+    },
+    "token0": "WETH",
+    "decimals0": 18,
+    "token1": "RAM",
+    "decimals1": 18,
+    "tick_spacing": 100,
+    "price_note": "price of RAM in WETH = 1 / (sqrt_price_x96 / 2**96)**2 (token1 = RAM per token0 = WETH, both 18 dp); multiply by feed_eth_usd (8 dp) for USD",
+    "since_unix": 1785542400,
+    "since_iso": "2026-08-01T00:00:00Z",
+    "start_block_first_with_interpolated_ts_ge_cut": 24591566,
+    "fetched_from_block": 24590000,
+    "swaps_fetched_before_cut_dropped": 0,
+    "initialize": {
+     "block": 50754877,
+     "sqrtPriceX96": "24411675242139672548377492892849",
+     "tick": 114615
+    },
+    "fee_events": {
+     "FeeAdjustment": 2,
+     "SetFee": 0,
+     "initial_fee_ppm": 10000,
+     "fee_ppm_in_force_at_END_from_events": 17500,
+     "fee()_at_END": 17500,
+     "match": true,
+     "source_when_no_events": null
+    },
+    "protocol_share_events": {
+     "SetFeeProtocol(uint24,uint24)": 3,
+     "initial_ppm": 50000,
+     "changes": [
+      {
+       "block": 64314860,
+       "log_index": 2,
+       "new_ppm": 250000
+      },
+      {
+       "block": 64315087,
+       "log_index": 1,
+       "new_ppm": 50000
+      },
+      {
+       "block": 76903304,
+       "log_index": 11,
+       "new_ppm": 500000
+      }
+     ],
+     "in_force_at_END_from_events_ppm": 500000,
+     "slot0_feeProtocol_at_END": 500000,
+     "match": true,
+     "source_when_no_events": null
+    },
+    "topics": {
+     "swap": "0xc42079f94a6350d7e6235f29174924f928cc2ac818eb64fed8004e115fbcca67"
+    }
+   },
+   "checks": {
+    "order": {
+     "rows": 78633,
+     "duplicates_adjacent": 0,
+     "descending_steps": 0,
+     "pass": true
+    },
+    "v3_math": {
+     "pairs_total": 78632,
+     "eligible_equal_liquidity": 66945,
+     "price_unchanged": 0,
+     "output_leg": {
+      "within_2": 66940,
+      "within_10": 0,
+      "over_10": 5,
+      "max_abs": "5499999999999999999999"
+     },
+     "input_leg_fee": {
+      "within_2": 66940,
+      "within_10": 0,
+      "over_10": 5,
+      "max_abs": "1573523410063339280913",
+      "over_10_rel_gt_1e-6": 5
+     },
+     "sign_mismatch": 0,
+     "examples_output_over_10": [
+      {
+       "block": 50983599,
+       "log_index": 47,
+       "previous_swap": [
+        50983596,
+        10
+       ],
+       "tick_before": 92558,
+       "tick_after": 92708,
+       "event_out": "882912978355279053",
+       "from_prices": "748975191570199412",
+       "liquidity_events_between": null
+      },
+      {
+       "block": 53042806,
+       "log_index": 159,
+       "previous_swap": [
+        53042327,
+        19
+       ],
+       "tick_before": 97237,
+       "tick_after": 97164,
+       "event_out": "10279592512137242326550",
+       "from_prices": "10212299565118409931813",
+       "liquidity_events_between": null
+      },
+      {
+       "block": 78470242,
+       "log_index": 29,
+       "previous_swap": [
+        78458494,
+        14
+       ],
+       "tick_before": 110799,
+       "tick_after": 110805,
+       "event_out": "150407908442449004",
+       "from_prices": "126376813137716349",
+       "liquidity_events_between": null
+      },
+      {
+       "block": 92536322,
+       "log_index": 16,
+       "previous_swap": [
+        92530545,
+        7
+       ],
+       "tick_before": 112102,
+       "tick_after": 112050,
+       "event_out": "25014287058945014278700",
+       "from_prices": "24992352579699410202712",
+       "liquidity_events_between": null
+      },
+      {
+       "block": 97564081,
+       "log_index": 24,
+       "previous_swap": [
+        97556280,
+        10
+       ],
+       "tick_before": 111517,
+       "tick_after": 111420,
+       "event_out": "72163575449984762239964",
+       "from_prices": "66663575449984762239965",
+       "liquidity_events_between": null
+      }
+     ],
+     "examples_input_over_10": [
+      {
+       "block": 50983599,
+       "log_index": 47,
+       "event_in": "9401472761181724843353",
+       "expected_in": "7973219826746017545109",
+       "fee_ppm_column": 10000,
+       "implied_fee_ppm": 160398.81952640155
+      },
+      {
+       "block": 53042806,
+       "log_index": 159,
+       "event_in": "623956565333938628",
+       "expected_in": "619879082487803989",
+       "fee_ppm_column": 10000,
+       "implied_fee_ppm": 16469.533685430248
+      },
+      {
+       "block": 78470242,
+       "log_index": 29,
+       "event_in": "9850678598951968727269",
+       "expected_in": "8277155188888629446356",
+       "fee_ppm_column": 10000,
+       "implied_fee_ppm": 168140.1890554466
+      },
+      {
+       "block": 92536322,
+       "log_index": 16,
+       "event_in": "345684792959271948",
+       "expected_in": "345382415911420308",
+       "fee_ppm_column": 17500,
+       "implied_fee_ppm": 18359.411393168324
+      },
+      {
+       "block": 97564081,
+       "log_index": 24,
+       "event_in": "1059405940594059405",
+       "expected_in": "978959213360608523",
+       "fee_ppm_column": 17500,
+       "implied_fee_ppm": 92106.82112330293
+      }
+     ],
+     "tolerance_note": "differences in raw token units (wei); within_2 = at most 2 units",
+     "exceptions_unclassified_no_liquidity_file": [
+      {
+       "block": 50983599,
+       "log_index": 47,
+       "previous_swap": [
+        50983596,
+        10
+       ],
+       "tick_before": 92558,
+       "tick_after": 92708,
+       "event_out": "882912978355279053",
+       "out_from_prices": "748975191570199412",
+       "event_in": "9401472761181724843353",
+       "expected_in": "7973219826746017545109",
+       "fee_ppm_column": 10000,
+       "implied_fee_ppm": 160398.82
+      },
+      {
+       "block": 53042806,
+       "log_index": 159,
+       "previous_swap": [
+        53042327,
+        19
+       ],
+       "tick_before": 97237,
+       "tick_after": 97164,
+       "event_out": "10279592512137242326550",
+       "out_from_prices": "10212299565118409931813",
+       "event_in": "623956565333938628",
+       "expected_in": "619879082487803989",
+       "fee_ppm_column": 10000,
+       "implied_fee_ppm": 16469.534
+      },
+      {
+       "block": 78470242,
+       "log_index": 29,
+       "previous_swap": [
+        78458494,
+        14
+       ],
+       "tick_before": 110799,
+       "tick_after": 110805,
+       "event_out": "150407908442449004",
+       "out_from_prices": "126376813137716349",
+       "event_in": "9850678598951968727269",
+       "expected_in": "8277155188888629446356",
+       "fee_ppm_column": 10000,
+       "implied_fee_ppm": 168140.189
+      },
+      {
+       "block": 92536322,
+       "log_index": 16,
+       "previous_swap": [
+        92530545,
+        7
+       ],
+       "tick_before": 112102,
+       "tick_after": 112050,
+       "event_out": "25014287058945014278700",
+       "out_from_prices": "24992352579699410202712",
+       "event_in": "345684792959271948",
+       "expected_in": "345382415911420308",
+       "fee_ppm_column": 17500,
+       "implied_fee_ppm": 18359.411
+      },
+      {
+       "block": 97564081,
+       "log_index": 24,
+       "previous_swap": [
+        97556280,
+        10
+       ],
+       "tick_before": 111517,
+       "tick_after": 111420,
+       "event_out": "72163575449984762239964",
+       "out_from_prices": "66663575449984762239965",
+       "event_in": "1059405940594059405",
+       "expected_in": "978959213360608523",
+       "fee_ppm_column": 17500,
+       "implied_fee_ppm": 92106.821
+      }
+     ]
+    },
+    "end_state": {
+     "last_swap": {
+      "block": 110789183,
+      "log_index": 20,
+      "sqrt_price_x96": "22110186395243945033193183955753",
+      "tick": 112634,
+      "liquidity": "257990307558680393500787"
+     },
+     "state_at_END": {
+      "sqrtPriceX96": "22110186395243945033193183955753",
+      "tick": 112634,
+      "liquidity": "257990307558680393500787"
+     },
+     "sqrt_price_match": true,
+     "tick_match": true,
+     "liquidity_match_raw": true,
+     "liquidity_events_after_last_swap": 0,
+     "liquidity_after_in_range_events": "257990307558680393500787",
+     "liquidity_match_adjusted": true,
+     "pass": true
+    },
+    "refetch": {
+     "windows": [
+      {
+       "from": 84551378,
+       "to": 85551377,
+       "kind": "random",
+       "refetched": 271,
+       "dataset": 271,
+       "count_match": true,
+       "values_match": true,
+       "rpc_calls": 6
+      },
+      {
+       "from": 58262248,
+       "to": 59262247,
+       "kind": "random",
+       "refetched": 1310,
+       "dataset": 1310,
+       "count_match": true,
+       "values_match": true,
+       "rpc_calls": 6
+      },
+      {
+       "from": 70715226,
+       "to": 71715225,
+       "kind": "random",
+       "refetched": 672,
+       "dataset": 672,
+       "count_match": true,
+       "values_match": true,
+       "rpc_calls": 6
+      },
+      {
+       "from": 70437769,
+       "to": 71437768,
+       "kind": "random",
+       "refetched": 667,
+       "dataset": 667,
+       "count_match": true,
+       "values_match": true,
+       "rpc_calls": 6
+      },
+      {
+       "from": 70929927,
+       "to": 71929926,
+       "kind": "random",
+       "refetched": 529,
+       "dataset": 529,
+       "count_match": true,
+       "values_match": true,
+       "rpc_calls": 6
+      }
+     ],
+     "pass": true,
+     "split": "173331-block unaligned chunks (halved when the node refuses), uncached client",
+     "compared": "row count and sha256 of block,log_index,amount0,amount1,sqrt_price_x96,liquidity,tick lines"
+    },
+    "ts_error": {
+     "samples": 20,
+     "max_abs_error_s": 2.797,
+     "median_abs_error_s": 0.955,
+     "detail": [
+      {
+       "block": 50857768,
+       "interpolated": 1788178645.0,
+       "header": 1788178646,
+       "abs_error_s": 0.986
+      },
+      {
+       "block": 72308058,
+       "interpolated": 1790347478.2,
+       "header": 1790347479,
+       "abs_error_s": 0.783
+      },
+      {
+       "block": 50857563,
+       "interpolated": 1788178624.4,
+       "header": 1788178625,
+       "abs_error_s": 0.65
+      },
+      {
+       "block": 50848819,
+       "interpolated": 1788177743.0,
+       "header": 1788177742,
+       "abs_error_s": 0.955
+      },
+      {
+       "block": 51022502,
+       "interpolated": 1788195288.2,
+       "header": 1788195291,
+       "abs_error_s": 2.797
+      },
+      {
+       "block": 51659302,
+       "interpolated": 1788259604.5,
+       "header": 1788259605,
+       "abs_error_s": 0.498
+      },
+      {
+       "block": 50959187,
+       "interpolated": 1788188865.6,
+       "header": 1788188864,
+       "abs_error_s": 1.562
+      },
+      {
+       "block": 73400942,
+       "interpolated": 1790457697.0,
+       "header": 1790457698,
+       "abs_error_s": 1.046
+      },
+      {
+       "block": 60177564,
+       "interpolated": 1789121610.8,
+       "header": 1789121609,
+       "abs_error_s": 1.772
+      },
+      {
+       "block": 108435745,
+       "interpolated": 1794057541.6,
+       "header": 1794057541,
+       "abs_error_s": 0.629
+      },
+      {
+       "block": 56369663,
+       "interpolated": 1788737244.0,
+       "header": 1788737244,
+       "abs_error_s": 0.003
+      },
+      {
+       "block": 61258625,
+       "interpolated": 1789231691.2,
+       "header": 1789231692,
+       "abs_error_s": 0.838
+      },
+      {
+       "block": 71267227,
+       "interpolated": 1790242562.1,
+       "header": 1790242563,
+       "abs_error_s": 0.905
+      },
+      {
+       "block": 62995932,
+       "interpolated": 1789408025.3,
+       "header": 1789408028,
+       "abs_error_s": 2.75
+      },
+      {
+       "block": 50861023,
+       "interpolated": 1788178973.5,
+       "header": 1788178974,
+       "abs_error_s": 0.472
+      },
+      {
+       "block": 51021553,
+       "interpolated": 1788195191.8,
+       "header": 1788195194,
+       "abs_error_s": 2.215
+      },
+      {
+       "block": 50959262,
+       "interpolated": 1788188873.2,
+       "header": 1788188871,
+       "abs_error_s": 2.167
+      },
+      {
+       "block": 51718382,
+       "interpolated": 1788265565.9,
+       "header": 1788265566,
+       "abs_error_s": 0.094
+      },
+      {
+       "block": 51006147,
+       "interpolated": 1788193628.1,
+       "header": 1788193629,
+       "abs_error_s": 0.85
+      },
+      {
+       "block": 50993415,
+       "interpolated": 1788192336.6,
+       "header": 1788192335,
+       "abs_error_s": 1.598
+      }
+     ]
+    }
+   }
+  },
+  {
+   "path": "ramses_nvda_liquidity.csv.gz",
+   "columns": [
+    "block",
+    "log_index",
+    "kind",
+    "tick_lower",
+    "tick_upper",
+    "liquidity_delta"
+   ],
+   "rows": 3216,
+   "bytes": 45353,
+   "sha256": "a843add929d0c240fb6ce0a4260f768ac9255da07df0a8ad12c0e7baf503e5af",
+   "first_block": 27574595,
+   "last_block": 110408497,
+   "first_time": "2026-08-04T11:05:21Z",
+   "last_time": "2026-11-09T22:30:05Z",
+   "time_source": "block interpolated on the header grid (file has no time column)",
+   "source": {
+    "contract": "0xdac1904d823f7d6bcaaf431ceee40c934fed321b",
+    "token0": "USDG",
+    "decimals0": 6,
+    "token1": "NVDA",
+    "decimals1": 18,
+    "tick_spacing": 10,
+    "initialize": {
+     "block": 27574595,
+     "log_index": 10,
+     "tx": "0x1592e2da840ba46327053de135cca9d43131b2442ff4787b71207e2f2ba9b51f",
+     "sqrtPriceX96": "5490054449229188117583916387355815",
+     "tick": 222933
+    },
+    "provenance": {
+     "existing_file": "/Users/joshua/Peridot/ramses-group-pool-NVDA.json",
+     "existing_file_head": 104187711,
+     "existing_file_sha256": "902eb4f9860c637313f3403918ddaebea5d205cacba77597cc49f41aa5baf2da",
+     "swap": {
+      "from_existing_file": 331494,
+      "fetched_tail": 31665,
+      "topic0": "0xc42079f94a6350d7e6235f29174924f928cc2ac818eb64fed8004e115fbcca67",
+      "signature": "Swap(address,address,int256,int256,uint160,uint128,int24)"
+     },
+     "mint": {
+      "from_existing_file": 1446,
+      "fetched_tail": 29,
+      "topic0": "0xd78218c0d304e8893cb3200abe394bbc8d5b7804d9c51f236df9fdcf481d02d3",
+      "signature": "Mint(address,address,uint256,int24,int24,uint128,uint256,uint256)"
+     },
+     "burn": {
+      "from_existing_file": 1699,
+      "fetched_tail": 42,
+      "topic0": "0x0c396cd989a39f4459b5fa1aed6a9a8dcdbc45908acfd67e028cd568da98982c",
+      "signature": "Burn(address,int24,int24,uint128,uint256,uint256)"
+     },
+     "init": {
+      "from_existing_file": 1,
+      "fetched_tail": 0,
+      "topic0": "0x98636036cb66a9c19a37435efc1e90142190214e8abeb821bdba3f2990dd4c95",
+      "signature": "Initialize(uint160,int24)"
+     },
+     "feeadj": {
+      "from_existing_file": 1786,
+      "fetched_tail": 1543,
+      "topic0": "0x0cba87189055d3b5ab05c96fbd641bc766576c9e7cf0d195bdfb58a0c6a6df24",
+      "signature": "FeeAdjustment(uint24,uint24)"
+     },
+     "setfee": {
+      "from_existing_file": 0,
+      "fetched_tail": 0,
+      "topic0": "0x0eb63f4a36d6bdeee05aa00020a97d80c3e84f1b5b3ebf345fb67262e62b0f33",
+      "signature": "SetFee(uint24,uint24)"
+     },
+     "proto_a": {
+      "from_existing_file": 0,
+      "fetched_tail": 0,
+      "topic0": "0x973d8d92bb299f4af6ce49b52a8adb85ae46b9f214c4c4fc06ac77401237b133",
+      "signature": "SetFeeProtocol(uint8,uint8,uint8,uint8)"
+     },
+     "proto_b": {
+      "from_existing_file": 1,
+      "fetched_tail": 0,
+      "topic0": "0x67a069e4d951485f3e494a1edfa67d7334e991e8514ba748fd1636270acd1c97",
+      "signature": "SetFeeProtocol(uint24,uint24)"
+     },
+     "proto_c": {
+      "from_existing_file": 0,
+      "fetched_tail": 0,
+      "topic0": "0x8f517a34947cf2fca464c6548f5250e5a5693f78cd46052cde6e4cf65e60e527",
+      "signature": "SetFeeProtocol(uint24)"
+     },
+     "tail_range": [
+      104187712,
+      110790000
+     ]
+    },
+    "topics": [
+     [
+      "0xd78218c0d304e8893cb3200abe394bbc8d5b7804d9c51f236df9fdcf481d02d3",
+      "0x0c396cd989a39f4459b5fa1aed6a9a8dcdbc45908acfd67e028cd568da98982c"
+     ]
+    ],
+    "events": [
+     "Mint(address,address,uint256,int24,int24,uint128,uint256,uint256)",
+     "Burn(address,int24,int24,uint128,uint256,uint256)"
+    ],
+    "mints": 1475,
+    "burns": 1741,
+    "decoding": "Mint: topics owner,tickLower,tickUpper; data sender,index,amount,amount0,amount1. Burn: data amount,amount0,amount1 (negated)"
+   },
+   "checks": null
+  },
+  {
+   "path": "ramses_nvda_swaps.csv.gz",
+   "columns": [
+    "block",
+    "log_index",
+    "ts",
+    "amount0",
+    "amount1",
+    "sqrt_price_x96",
+    "liquidity",
+    "tick",
+    "fee_ppm",
+    "protocol_share"
+   ],
+   "rows": 363159,
+   "bytes": 15568169,
+   "sha256": "5b9ea01947c5682cdbea7af49924e1b0b99ee683a750d565c68783d1f3ecf6aa",
+   "first_block": 27576611,
+   "last_block": 110789811,
+   "first_time": "2026-08-04T11:08:43Z",
+   "last_time": "2026-11-10T09:49:37Z",
+   "time_source": "ts column (interpolated on the header grid)",
+   "source": {
+    "contract": "0xdac1904d823f7d6bcaaf431ceee40c934fed321b",
+    "token0": "USDG",
+    "decimals0": 6,
+    "token1": "NVDA",
+    "decimals1": 18,
+    "tick_spacing": 10,
+    "initialize": {
+     "block": 27574595,
+     "log_index": 10,
+     "tx": "0x1592e2da840ba46327053de135cca9d43131b2442ff4787b71207e2f2ba9b51f",
+     "sqrtPriceX96": "5490054449229188117583916387355815",
+     "tick": 222933
+    },
+    "provenance": {
+     "existing_file": "/Users/joshua/Peridot/ramses-group-pool-NVDA.json",
+     "existing_file_head": 104187711,
+     "existing_file_sha256": "902eb4f9860c637313f3403918ddaebea5d205cacba77597cc49f41aa5baf2da",
+     "swap": {
+      "from_existing_file": 331494,
+      "fetched_tail": 31665,
+      "topic0": "0xc42079f94a6350d7e6235f29174924f928cc2ac818eb64fed8004e115fbcca67",
+      "signature": "Swap(address,address,int256,int256,uint160,uint128,int24)"
+     },
+     "mint": {
+      "from_existing_file": 1446,
+      "fetched_tail": 29,
+      "topic0": "0xd78218c0d304e8893cb3200abe394bbc8d5b7804d9c51f236df9fdcf481d02d3",
+      "signature": "Mint(address,address,uint256,int24,int24,uint128,uint256,uint256)"
+     },
+     "burn": {
+      "from_existing_file": 1699,
+      "fetched_tail": 42,
+      "topic0": "0x0c396cd989a39f4459b5fa1aed6a9a8dcdbc45908acfd67e028cd568da98982c",
+      "signature": "Burn(address,int24,int24,uint128,uint256,uint256)"
+     },
+     "init": {
+      "from_existing_file": 1,
+      "fetched_tail": 0,
+      "topic0": "0x98636036cb66a9c19a37435efc1e90142190214e8abeb821bdba3f2990dd4c95",
+      "signature": "Initialize(uint160,int24)"
+     },
+     "feeadj": {
+      "from_existing_file": 1786,
+      "fetched_tail": 1543,
+      "topic0": "0x0cba87189055d3b5ab05c96fbd641bc766576c9e7cf0d195bdfb58a0c6a6df24",
+      "signature": "FeeAdjustment(uint24,uint24)"
+     },
+     "setfee": {
+      "from_existing_file": 0,
+      "fetched_tail": 0,
+      "topic0": "0x0eb63f4a36d6bdeee05aa00020a97d80c3e84f1b5b3ebf345fb67262e62b0f33",
+      "signature": "SetFee(uint24,uint24)"
+     },
+     "proto_a": {
+      "from_existing_file": 0,
+      "fetched_tail": 0,
+      "topic0": "0x973d8d92bb299f4af6ce49b52a8adb85ae46b9f214c4c4fc06ac77401237b133",
+      "signature": "SetFeeProtocol(uint8,uint8,uint8,uint8)"
+     },
+     "proto_b": {
+      "from_existing_file": 1,
+      "fetched_tail": 0,
+      "topic0": "0x67a069e4d951485f3e494a1edfa67d7334e991e8514ba748fd1636270acd1c97",
+      "signature": "SetFeeProtocol(uint24,uint24)"
+     },
+     "proto_c": {
+      "from_existing_file": 0,
+      "fetched_tail": 0,
+      "topic0": "0x8f517a34947cf2fca464c6548f5250e5a5693f78cd46052cde6e4cf65e60e527",
+      "signature": "SetFeeProtocol(uint24)"
+     },
+     "tail_range": [
+      104187712,
+      110790000
+     ]
+    },
+    "topics": [
+     "0xc42079f94a6350d7e6235f29174924f928cc2ac818eb64fed8004e115fbcca67"
+    ],
+    "event": "Swap(address,address,int256,int256,uint160,uint128,int24)",
+    "fee_events": {
+     "FeeAdjustment": 3329,
+     "SetFee": 0,
+     "initial_fee_ppm": 500,
+     "first_event_block": 54013057,
+     "fee_ppm_in_force_at_END_from_events": 300,
+     "fee()_at_END": 300,
+     "match": true,
+     "min_fee_ppm": 70,
+     "max_fee_ppm": 2460
+    },
+    "protocol_share_events": {
+     "SetFeeProtocol(uint24,uint24)": 1,
+     "SetFeeProtocol(uint8,uint8,uint8,uint8)": 0,
+     "SetFeeProtocol(uint24)": 0,
+     "initial_ppm": 50000,
+     "changes": [
+      {
+       "block": 76907586,
+       "log_index": 24,
+       "new_ppm": 500000
+      }
+     ],
+     "in_force_at_END_from_events_ppm": 500000,
+     "slot0_feeProtocol_at_END": 500000,
+     "match": true
+    },
+    "amount_sign": "as emitted by the pool: positive = paid into the pool"
+   },
+   "checks": {
+    "order": {
+     "rows": 363159,
+     "duplicates_adjacent": 0,
+     "descending_steps": 0,
+     "pass": true
+    },
+    "v3_math": {
+     "pairs_total": 363158,
+     "eligible_equal_liquidity": 349591,
+     "price_unchanged": 0,
+     "output_leg": {
+      "within_2": 349588,
+      "within_10": 0,
+      "over_10": 3,
+      "max_abs": "1352879534917991749"
+     },
+     "input_leg_fee": {
+      "within_2": 349588,
+      "within_10": 0,
+      "over_10": 3,
+      "max_abs": "2657322878168838",
+      "over_10_rel_gt_1e-6": 3
+     },
+     "sign_mismatch": 0,
+     "examples_output_over_10": [
+      {
+       "block": 83322007,
+       "log_index": 40,
+       "previous_swap": [
+        83320582,
+        8
+       ],
+       "tick_before": 221699,
+       "tick_after": 221700,
+       "event_out": "328316111",
+       "from_prices": "327690111",
+       "liquidity_events_between": 1
+      },
+      {
+       "block": 88243867,
+       "log_index": 9,
+       "previous_swap": [
+        88243588,
+        3
+       ],
+       "tick_before": 221980,
+       "tick_after": 221979,
+       "event_out": "2781374243684317350",
+       "from_prices": "2592014620417751010",
+       "liquidity_events_between": 1
+      },
+      {
+       "block": 94706728,
+       "log_index": 18,
+       "previous_swap": [
+        94706452,
+        16
+       ],
+       "tick_before": 222371,
+       "tick_after": 222369,
+       "event_out": "2544186810246552311",
+       "from_prices": "1191307275328560562",
+       "liquidity_events_between": 1
+      }
+     ],
+     "examples_input_over_10": [
+      {
+       "block": 83322007,
+       "log_index": 40,
+       "event_in": "1393709578887448810",
+       "expected_in": "1391052256009279972",
+       "fee_ppm_column": 100,
+       "implied_fee_ppm": 2006.464005221309
+      },
+      {
+       "block": 88243867,
+       "log_index": 9,
+       "event_in": "637256793",
+       "expected_in": "593872273",
+       "fee_ppm_column": 100,
+       "implied_fee_ppm": 68173.31486649215
+      },
+      {
+       "block": 94706728,
+       "log_index": 18,
+       "event_in": "560584648",
+       "expected_in": "262493222",
+       "fee_ppm_column": 100,
+       "implied_fee_ppm": 531797.7883689743
+      }
+     ],
+     "output_over_10_with_liquidity_event_between": 3,
+     "tolerance_note": "differences in raw token units (wei); within_2 = at most 2 units",
+     "exceptions_classified": {
+      "exceptions": 3,
+      "crossed_at_least_one_initialized_tick": 3,
+      "with_liquidity_event_between": 3,
+      "neither": 0,
+      "detail": [
+       {
+        "block": 83322007,
+        "log_index": 40,
+        "previous_swap": [
+         83320582,
+         8
+        ],
+        "tick_before": 221699,
+        "tick_after": 221700,
+        "event_out": "328316111",
+        "out_from_prices": "327690111",
+        "event_in": "1393709578887448810",
+        "expected_in": "1391052256009279972",
+        "fee_ppm_column": 100,
+        "implied_fee_ppm": 2006.464,
+        "liquidity_events_between": 1,
+        "initialized_ticks_crossed": 1
+       },
+       {
+        "block": 88243867,
+        "log_index": 9,
+        "previous_swap": [
+         88243588,
+         3
+        ],
+        "tick_before": 221980,
+        "tick_after": 221979,
+        "event_out": "2781374243684317350",
+        "out_from_prices": "2592014620417751010",
+        "event_in": "637256793",
+        "expected_in": "593872273",
+        "fee_ppm_column": 100,
+        "implied_fee_ppm": 68173.315,
+        "liquidity_events_between": 1,
+        "initialized_ticks_crossed": 1
+       },
+       {
+        "block": 94706728,
+        "log_index": 18,
+        "previous_swap": [
+         94706452,
+         16
+        ],
+        "tick_before": 222371,
+        "tick_after": 222369,
+        "event_out": "2544186810246552311",
+        "out_from_prices": "1191307275328560562",
+        "event_in": "560584648",
+        "expected_in": "262493222",
+        "fee_ppm_column": 100,
+        "implied_fee_ppm": 531797.788,
+        "liquidity_events_between": 1,
+        "initialized_ticks_crossed": 1
+       }
+      ]
+     }
+    },
+    "liquidity_file_order": {
+     "rows": 3216,
+     "pass": true
+    },
+    "liquidity_rebuild": {
+     "samples": 400,
+     "mismatches": 0,
+     "max_abs_difference": "0",
+     "examples": [],
+     "pass": true,
+     "ranges_with_negative_net_liquidity_at_END": 0,
+     "ranges_open_at_END": 22
+    },
+    "end_state": {
+     "last_swap": {
+      "block": 110789811,
+      "log_index": 29,
+      "sqrt_price_x96": "5863145936603847916732664309806396",
+      "tick": 224248,
+      "liquidity": "31852565403993159"
+     },
+     "state_at_END": {
+      "sqrtPriceX96": "5863145936603847916732664309806396",
+      "tick": 224248,
+      "liquidity": "31852565403993159"
+     },
+     "sqrt_price_match": true,
+     "tick_match": true,
+     "liquidity_match_raw": true,
+     "liquidity_events_after_last_swap": 0,
+     "liquidity_after_in_range_events": "31852565403993159",
+     "liquidity_match_adjusted": true,
+     "pass": true
+    },
+    "refetch": {
+     "windows": [
+      {
+       "from": 46050082,
+       "to": 47050081,
+       "kind": "random",
+       "refetched": 458,
+       "dataset": 458,
+       "count_match": true,
+       "values_match": true,
+       "rpc_calls": 6
+      },
+      {
+       "from": 106179660,
+       "to": 107179659,
+       "kind": "random",
+       "refetched": 5140,
+       "dataset": 5140,
+       "count_match": true,
+       "values_match": true,
+       "rpc_calls": 6
+      },
+      {
+       "from": 109363435,
+       "to": 110363434,
+       "kind": "random",
+       "refetched": 9403,
+       "dataset": 9403,
+       "count_match": true,
+       "values_match": true,
+       "rpc_calls": 6
+      },
+      {
+       "from": 73748088,
+       "to": 74748087,
+       "kind": "random",
+       "refetched": 3478,
+       "dataset": 3478,
+       "count_match": true,
+       "values_match": true,
+       "rpc_calls": 6
+      },
+      {
+       "from": 92344958,
+       "to": 93344957,
+       "kind": "random",
+       "refetched": 5280,
+       "dataset": 5280,
+       "count_match": true,
+       "values_match": true,
+       "rpc_calls": 6
+      },
+      {
+       "from": 103687711,
+       "to": 104687710,
+       "kind": "seam between the existing raw file and the fetched tail",
+       "refetched": 2616,
+       "dataset": 2616,
+       "count_match": true,
+       "values_match": true,
+       "rpc_calls": 6
+      }
+     ],
+     "pass": true,
+     "split": "173331-block unaligned chunks (halved when the node refuses), uncached client",
+     "compared": "row count and sha256 of block,log_index,amount0,amount1,sqrt_price_x96,liquidity,tick lines"
+    },
+    "ts_error": {
+     "samples": 20,
+     "max_abs_error_s": 4.036,
+     "median_abs_error_s": 0.691,
+     "detail": [
+      {
+       "block": 81688841,
+       "interpolated": 1791295692.1,
+       "header": 1791295692,
+       "abs_error_s": 0.13
+      },
+      {
+       "block": 77438128,
+       "interpolated": 1790864096.2,
+       "header": 1790864097,
+       "abs_error_s": 0.762
+      },
+      {
+       "block": 106954038,
+       "interpolated": 1793903912.5,
+       "header": 1793903913,
+       "abs_error_s": 0.528
+      },
+      {
+       "block": 81059770,
+       "interpolated": 1791231247.7,
+       "header": 1791231247,
+       "abs_error_s": 0.655
+      },
+      {
+       "block": 76816467,
+       "interpolated": 1790801521.6,
+       "header": 1790801520,
+       "abs_error_s": 1.58
+      },
+      {
+       "block": 79714898,
+       "interpolated": 1791094427.6,
+       "header": 1791094429,
+       "abs_error_s": 1.384
+      },
+      {
+       "block": 78887257,
+       "interpolated": 1791010434.8,
+       "header": 1791010436,
+       "abs_error_s": 1.158
+      },
+      {
+       "block": 59514714,
+       "interpolated": 1789054541.6,
+       "header": 1789054543,
+       "abs_error_s": 1.357
+      },
+      {
+       "block": 84254684,
+       "interpolated": 1791558926.8,
+       "header": 1791558927,
+       "abs_error_s": 0.232
+      },
+      {
+       "block": 66559430,
+       "interpolated": 1789768196.7,
+       "header": 1789768195,
+       "abs_error_s": 1.715
+      },
+      {
+       "block": 64721473,
+       "interpolated": 1789583147.0,
+       "header": 1789583143,
+       "abs_error_s": 4.036
+      },
+      {
+       "block": 86709958,
+       "interpolated": 1791811847.7,
+       "header": 1791811847,
+       "abs_error_s": 0.674
+      },
+      {
+       "block": 55074538,
+       "interpolated": 1788606630.9,
+       "header": 1788606630,
+       "abs_error_s": 0.884
+      },
+      {
+       "block": 88802868,
+       "interpolated": 1792024864.9,
+       "header": 1792024865,
+       "abs_error_s": 0.053
+      },
+      {
+       "block": 76425989,
+       "interpolated": 1790762296.7,
+       "header": 1790762296,
+       "abs_error_s": 0.691
+      },
+      {
+       "block": 77200242,
+       "interpolated": 1790840162.3,
+       "header": 1790840162,
+       "abs_error_s": 0.321
+      },
+      {
+       "block": 82436611,
+       "interpolated": 1791372423.3,
+       "header": 1791372423,
+       "abs_error_s": 0.322
+      },
+      {
+       "block": 78028231,
+       "interpolated": 1790923583.1,
+       "header": 1790923584,
+       "abs_error_s": 0.907
+      },
+      {
+       "block": 107765814,
+       "interpolated": 1793987212.2,
+       "header": 1793987212,
+       "abs_error_s": 0.214
+      },
+      {
+       "block": 59243325,
+       "interpolated": 1789027173.5,
+       "header": 1789027174,
+       "abs_error_s": 0.507
+      }
+     ]
+    }
+   }
+  },
+  {
+   "path": "ramses_spy_liquidity.csv.gz",
+   "columns": [
+    "block",
+    "log_index",
+    "kind",
+    "tick_lower",
+    "tick_upper",
+    "liquidity_delta"
+   ],
+   "rows": 4506,
+   "bytes": 62829,
+   "sha256": "208163034bd2813465ccdb8d717c2c49b72cb9bdb5c39be3147ae5f3bce2a571",
+   "first_block": 40907861,
+   "last_block": 110565291,
+   "first_time": "2026-08-19T22:11:37Z",
+   "last_time": "2026-11-10T03:05:19Z",
+   "time_source": "block interpolated on the header grid (file has no time column)",
+   "source": {
+    "contract": "0x38453c115607463ac284820ce959831042f3df4e",
+    "token0": "SPY",
+    "decimals0": 18,
+    "token1": "USDG",
+    "decimals1": 6,
+    "tick_spacing": 1,
+    "initialize": {
+     "block": 40907861,
+     "log_index": 33,
+     "tx": "0x760a938e61f905f0a16aa328c1d5219e3f1e510f2fa857d571b20d2596c053e8",
+     "sqrtPriceX96": "2195725485166469025328727",
+     "tick": -209882
+    },
+    "provenance": {
+     "existing_file": "/Users/joshua/Peridot/ramses-group-pool-SPY.json",
+     "existing_file_head": 104071867,
+     "existing_file_sha256": "ff7ada97754c7ee3eda916a13ca5e7ae269b594d1716e3b95e92fa787d07595b",
+     "swap": {
+      "from_existing_file": 655414,
+      "fetched_tail": 36390,
+      "topic0": "0xc42079f94a6350d7e6235f29174924f928cc2ac818eb64fed8004e115fbcca67",
+      "signature": "Swap(address,address,int256,int256,uint160,uint128,int24)"
+     },
+     "mint": {
+      "from_existing_file": 1942,
+      "fetched_tail": 205,
+      "topic0": "0xd78218c0d304e8893cb3200abe394bbc8d5b7804d9c51f236df9fdcf481d02d3",
+      "signature": "Mint(address,address,uint256,int24,int24,uint128,uint256,uint256)"
+     },
+     "burn": {
+      "from_existing_file": 2107,
+      "fetched_tail": 252,
+      "topic0": "0x0c396cd989a39f4459b5fa1aed6a9a8dcdbc45908acfd67e028cd568da98982c",
+      "signature": "Burn(address,int24,int24,uint128,uint256,uint256)"
+     },
+     "init": {
+      "from_existing_file": 1,
+      "fetched_tail": 0,
+      "topic0": "0x98636036cb66a9c19a37435efc1e90142190214e8abeb821bdba3f2990dd4c95",
+      "signature": "Initialize(uint160,int24)"
+     },
+     "feeadj": {
+      "from_existing_file": 503,
+      "fetched_tail": 255,
+      "topic0": "0x0cba87189055d3b5ab05c96fbd641bc766576c9e7cf0d195bdfb58a0c6a6df24",
+      "signature": "FeeAdjustment(uint24,uint24)"
+     },
+     "setfee": {
+      "from_existing_file": 0,
+      "fetched_tail": 0,
+      "topic0": "0x0eb63f4a36d6bdeee05aa00020a97d80c3e84f1b5b3ebf345fb67262e62b0f33",
+      "signature": "SetFee(uint24,uint24)"
+     },
+     "proto_a": {
+      "from_existing_file": 0,
+      "fetched_tail": 0,
+      "topic0": "0x973d8d92bb299f4af6ce49b52a8adb85ae46b9f214c4c4fc06ac77401237b133",
+      "signature": "SetFeeProtocol(uint8,uint8,uint8,uint8)"
+     },
+     "proto_b": {
+      "from_existing_file": 1,
+      "fetched_tail": 0,
+      "topic0": "0x67a069e4d951485f3e494a1edfa67d7334e991e8514ba748fd1636270acd1c97",
+      "signature": "SetFeeProtocol(uint24,uint24)"
+     },
+     "proto_c": {
+      "from_existing_file": 0,
+      "fetched_tail": 0,
+      "topic0": "0x8f517a34947cf2fca464c6548f5250e5a5693f78cd46052cde6e4cf65e60e527",
+      "signature": "SetFeeProtocol(uint24)"
+     },
+     "tail_range": [
+      104071868,
+      110790000
+     ]
+    },
+    "topics": [
+     [
+      "0xd78218c0d304e8893cb3200abe394bbc8d5b7804d9c51f236df9fdcf481d02d3",
+      "0x0c396cd989a39f4459b5fa1aed6a9a8dcdbc45908acfd67e028cd568da98982c"
+     ]
+    ],
+    "events": [
+     "Mint(address,address,uint256,int24,int24,uint128,uint256,uint256)",
+     "Burn(address,int24,int24,uint128,uint256,uint256)"
+    ],
+    "mints": 2147,
+    "burns": 2359,
+    "decoding": "Mint: topics owner,tickLower,tickUpper; data sender,index,amount,amount0,amount1. Burn: data amount,amount0,amount1 (negated)"
+   },
+   "checks": null
+  },
+  {
+   "path": "ramses_spy_swaps.csv.gz",
+   "columns": [
+    "block",
+    "log_index",
+    "ts",
+    "amount0",
+    "amount1",
+    "sqrt_price_x96",
+    "liquidity",
+    "tick",
+    "fee_ppm",
+    "protocol_share"
+   ],
+   "rows": 691804,
+   "bytes": 25627117,
+   "sha256": "c830b831d0d04533bcc71ed612327c5f7190f5d68943847aed4ba35ec8cf69b5",
+   "first_block": 40919052,
+   "last_block": 110789697,
+   "first_time": "2026-08-19T22:30:12Z",
+   "last_time": "2026-11-10T09:49:24Z",
+   "time_source": "ts column (interpolated on the header grid)",
+   "source": {
+    "contract": "0x38453c115607463ac284820ce959831042f3df4e",
+    "token0": "SPY",
+    "decimals0": 18,
+    "token1": "USDG",
+    "decimals1": 6,
+    "tick_spacing": 1,
+    "initialize": {
+     "block": 40907861,
+     "log_index": 33,
+     "tx": "0x760a938e61f905f0a16aa328c1d5219e3f1e510f2fa857d571b20d2596c053e8",
+     "sqrtPriceX96": "2195725485166469025328727",
+     "tick": -209882
+    },
+    "provenance": {
+     "existing_file": "/Users/joshua/Peridot/ramses-group-pool-SPY.json",
+     "existing_file_head": 104071867,
+     "existing_file_sha256": "ff7ada97754c7ee3eda916a13ca5e7ae269b594d1716e3b95e92fa787d07595b",
+     "swap": {
+      "from_existing_file": 655414,
+      "fetched_tail": 36390,
+      "topic0": "0xc42079f94a6350d7e6235f29174924f928cc2ac818eb64fed8004e115fbcca67",
+      "signature": "Swap(address,address,int256,int256,uint160,uint128,int24)"
+     },
+     "mint": {
+      "from_existing_file": 1942,
+      "fetched_tail": 205,
+      "topic0": "0xd78218c0d304e8893cb3200abe394bbc8d5b7804d9c51f236df9fdcf481d02d3",
+      "signature": "Mint(address,address,uint256,int24,int24,uint128,uint256,uint256)"
+     },
+     "burn": {
+      "from_existing_file": 2107,
+      "fetched_tail": 252,
+      "topic0": "0x0c396cd989a39f4459b5fa1aed6a9a8dcdbc45908acfd67e028cd568da98982c",
+      "signature": "Burn(address,int24,int24,uint128,uint256,uint256)"
+     },
+     "init": {
+      "from_existing_file": 1,
+      "fetched_tail": 0,
+      "topic0": "0x98636036cb66a9c19a37435efc1e90142190214e8abeb821bdba3f2990dd4c95",
+      "signature": "Initialize(uint160,int24)"
+     },
+     "feeadj": {
+      "from_existing_file": 503,
+      "fetched_tail": 255,
+      "topic0": "0x0cba87189055d3b5ab05c96fbd641bc766576c9e7cf0d195bdfb58a0c6a6df24",
+      "signature": "FeeAdjustment(uint24,uint24)"
+     },
+     "setfee": {
+      "from_existing_file": 0,
+      "fetched_tail": 0,
+      "topic0": "0x0eb63f4a36d6bdeee05aa00020a97d80c3e84f1b5b3ebf345fb67262e62b0f33",
+      "signature": "SetFee(uint24,uint24)"
+     },
+     "proto_a": {
+      "from_existing_file": 0,
+      "fetched_tail": 0,
+      "topic0": "0x973d8d92bb299f4af6ce49b52a8adb85ae46b9f214c4c4fc06ac77401237b133",
+      "signature": "SetFeeProtocol(uint8,uint8,uint8,uint8)"
+     },
+     "proto_b": {
+      "from_existing_file": 1,
+      "fetched_tail": 0,
+      "topic0": "0x67a069e4d951485f3e494a1edfa67d7334e991e8514ba748fd1636270acd1c97",
+      "signature": "SetFeeProtocol(uint24,uint24)"
+     },
+     "proto_c": {
+      "from_existing_file": 0,
+      "fetched_tail": 0,
+      "topic0": "0x8f517a34947cf2fca464c6548f5250e5a5693f78cd46052cde6e4cf65e60e527",
+      "signature": "SetFeeProtocol(uint24)"
+     },
+     "tail_range": [
+      104071868,
+      110790000
+     ]
+    },
+    "topics": [
+     "0xc42079f94a6350d7e6235f29174924f928cc2ac818eb64fed8004e115fbcca67"
+    ],
+    "event": "Swap(address,address,int256,int256,uint160,uint128,int24)",
+    "fee_events": {
+     "FeeAdjustment": 758,
+     "SetFee": 0,
+     "initial_fee_ppm": 100,
+     "first_event_block": 48792669,
+     "fee_ppm_in_force_at_END_from_events": 100,
+     "fee()_at_END": 100,
+     "match": true,
+     "min_fee_ppm": 70,
+     "max_fee_ppm": 1000
+    },
+    "protocol_share_events": {
+     "SetFeeProtocol(uint24,uint24)": 1,
+     "SetFeeProtocol(uint8,uint8,uint8,uint8)": 0,
+     "SetFeeProtocol(uint24)": 0,
+     "initial_ppm": 50000,
+     "changes": [
+      {
+       "block": 76901418,
+       "log_index": 16,
+       "new_ppm": 500000
+      }
+     ],
+     "in_force_at_END_from_events_ppm": 500000,
+     "slot0_feeProtocol_at_END": 500000,
+     "match": true
+    },
+    "amount_sign": "as emitted by the pool: positive = paid into the pool"
+   },
+   "checks": {
+    "order": {
+     "rows": 691804,
+     "duplicates_adjacent": 0,
+     "descending_steps": 0,
+     "pass": true
+    },
+    "v3_math": {
+     "pairs_total": 691803,
+     "eligible_equal_liquidity": 659955,
+     "price_unchanged": 0,
+     "output_leg": {
+      "within_2": 659926,
+      "within_10": 0,
+      "over_10": 29,
+      "max_abs": "2582598060489053017"
+     },
+     "input_leg_fee": {
+      "within_2": 659926,
+      "within_10": 0,
+      "over_10": 29,
+      "max_abs": "2582856346123665388",
+      "over_10_rel_gt_1e-6": 29
+     },
+     "sign_mismatch": 0,
+     "examples_output_over_10": [
+      {
+       "block": 41776629,
+       "log_index": 17,
+       "previous_swap": [
+        41776447,
+        12
+       ],
+       "tick_before": -209943,
+       "tick_after": -209938,
+       "event_out": "303301229349109163",
+       "from_prices": "293301229349109166",
+       "liquidity_events_between": 0
+      },
+      {
+       "block": 49956929,
+       "log_index": 12,
+       "previous_swap": [
+        49956892,
+        119
+       ],
+       "tick_before": -209794,
+       "tick_after": -209792,
+       "event_out": "309551277364136454",
+       "from_prices": "261242236492156672",
+       "liquidity_events_between": 2
+      },
+      {
+       "block": 60589019,
+       "log_index": 31,
+       "previous_swap": [
+        60588960,
+        55
+       ],
+       "tick_before": -209929,
+       "tick_after": -209925,
+       "event_out": "12169585246932193125",
+       "from_prices": "9975114868109736387",
+       "liquidity_events_between": 0
+      },
+      {
+       "block": 79730614,
+       "log_index": 8,
+       "previous_swap": [
+        79730481,
+        17
+       ],
+       "tick_before": -209826,
+       "tick_after": -209827,
+       "event_out": "1049780201",
+       "from_prices": "1018509126",
+       "liquidity_events_between": 1
+      },
+      {
+       "block": 83258147,
+       "log_index": 36,
+       "previous_swap": [
+        83257268,
+        8
+       ],
+       "tick_before": -209802,
+       "tick_after": -209803,
+       "event_out": "1085298564",
+       "from_prices": "1080819893",
+       "liquidity_events_between": 1
+      }
+     ],
+     "examples_input_over_10": [
+      {
+       "block": 41776629,
+       "log_index": 17,
+       "event_in": "231629529",
+       "expected_in": "223993706",
+       "fee_ppm_column": 100,
+       "implied_fee_ppm": 33062.37781107779
+      },
+      {
+       "block": 49956929,
+       "log_index": 12,
+       "event_in": "239916117",
+       "expected_in": "202476800",
+       "fee_ppm_column": 100,
+       "implied_fee_ppm": 156136.09234931058
+      },
+      {
+       "block": 60589019,
+       "log_index": 31,
+       "event_in": "9306163065",
+       "expected_in": "7628157134",
+       "fee_ppm_column": 100,
+       "implied_fee_ppm": 180393.2227787586
+      },
+      {
+       "block": 79730614,
+       "log_index": 8,
+       "event_in": "1359298234331157464",
+       "expected_in": "1318807626715087857",
+       "fee_ppm_column": 100,
+       "implied_fee_ppm": 29884.897480742635
+      },
+      {
+       "block": 83258147,
+       "log_index": 36,
+       "event_in": "1401946276490338743",
+       "expected_in": "1396161074112189571",
+       "fee_ppm_column": 100,
+       "implied_fee_ppm": 4226.1380374665205
+      }
+     ],
+     "output_over_10_without_liquidity_event_between": 11,
+     "output_over_10_with_liquidity_event_between": 18,
+     "tolerance_note": "differences in raw token units (wei); within_2 = at most 2 units",
+     "exceptions_classified": {
+      "exceptions": 29,
+      "crossed_at_least_one_initialized_tick": 29,
+      "with_liquidity_event_between": 18,
+      "neither": 0,
+      "detail": [
+       {
+        "block": 41776629,
+        "log_index": 17,
+        "previous_swap": [
+         41776447,
+         12
+        ],
+        "tick_before": -209943,
+        "tick_after": -209938,
+        "event_out": "303301229349109163",
+        "out_from_prices": "293301229349109166",
+        "event_in": "231629529",
+        "expected_in": "223993706",
+        "fee_ppm_column": 100,
+        "implied_fee_ppm": 33062.378,
+        "liquidity_events_between": 0,
+        "initialized_ticks_crossed": 2
+       },
+       {
+        "block": 49956929,
+        "log_index": 12,
+        "previous_swap": [
+         49956892,
+         119
+        ],
+        "tick_before": -209794,
+        "tick_after": -209792,
+        "event_out": "309551277364136454",
+        "out_from_prices": "261242236492156672",
+        "event_in": "239916117",
+        "expected_in": "202476800",
+        "fee_ppm_column": 100,
+        "implied_fee_ppm": 156136.092,
+        "liquidity_events_between": 2,
+        "initialized_ticks_crossed": 1
+       },
+       {
+        "block": 60589019,
+        "log_index": 31,
+        "previous_swap": [
+         60588960,
+         55
+        ],
+        "tick_before": -209929,
+        "tick_after": -209925,
+        "event_out": "12169585246932193125",
+        "out_from_prices": "9975114868109736387",
+        "event_in": "9306163065",
+        "expected_in": "7628157134",
+        "fee_ppm_column": 100,
+        "implied_fee_ppm": 180393.223,
+        "liquidity_events_between": 0,
+        "initialized_ticks_crossed": 2
+       },
+       {
+        "block": 79730614,
+        "log_index": 8,
+        "previous_swap": [
+         79730481,
+         17
+        ],
+        "tick_before": -209826,
+        "tick_after": -209827,
+        "event_out": "1049780201",
+        "out_from_prices": "1018509126",
+        "event_in": "1359298234331157464",
+        "expected_in": "1318807626715087857",
+        "fee_ppm_column": 100,
+        "implied_fee_ppm": 29884.897,
+        "liquidity_events_between": 1,
+        "initialized_ticks_crossed": 1
+       },
+       {
+        "block": 83258147,
+        "log_index": 36,
+        "previous_swap": [
+         83257268,
+         8
+        ],
+        "tick_before": -209802,
+        "tick_after": -209803,
+        "event_out": "1085298564",
+        "out_from_prices": "1080819893",
+        "event_in": "1401946276490338743",
+        "expected_in": "1396161074112189571",
+        "fee_ppm_column": 100,
+        "implied_fee_ppm": 4226.138,
+        "liquidity_events_between": 1,
+        "initialized_ticks_crossed": 1
+       },
+       {
+        "block": 89782215,
+        "log_index": 35,
+        "previous_swap": [
+         89781695,
+         11
+        ],
+        "tick_before": -209799,
+        "tick_after": -209800,
+        "event_out": "415535939",
+        "out_from_prices": "412939246",
+        "event_in": "536609780475629364",
+        "expected_in": "533256565268704502",
+        "fee_ppm_column": 100,
+        "implied_fee_ppm": 6348.265,
+        "liquidity_events_between": 1,
+        "initialized_ticks_crossed": 1
+       },
+       {
+        "block": 90453715,
+        "log_index": 12,
+        "previous_swap": [
+         90453467,
+         31
+        ],
+        "tick_before": -209946,
+        "tick_after": -209947,
+        "event_out": "874091972",
+        "out_from_prices": "583133854",
+        "event_in": "1145483900200167178",
+        "expected_in": "764195309543045130",
+        "fee_ppm_column": 100,
+        "implied_fee_ppm": 332929.175,
+        "liquidity_events_between": 3,
+        "initialized_ticks_crossed": 1
+       },
+       {
+        "block": 90503629,
+        "log_index": 10,
+        "previous_swap": [
+         90502260,
+         161
+        ],
+        "tick_before": -209954,
+        "tick_after": -209955,
+        "event_out": "350146639",
+        "out_from_prices": "314721326",
+        "event_in": "459232985965601016",
+        "expected_in": "412772127811558331",
+        "fee_ppm_column": 100,
+        "implied_fee_ppm": 101260.442,
+        "liquidity_events_between": 1,
+        "initialized_ticks_crossed": 1
+       },
+       {
+        "block": 90526571,
+        "log_index": 14,
+        "previous_swap": [
+         90525739,
+         52
+        ],
+        "tick_before": -209952,
+        "tick_after": -209951,
+        "event_out": "390478182087707086",
+        "out_from_prices": "205481981693944637",
+        "event_in": "297879449",
+        "expected_in": "156754274",
+        "fee_ppm_column": 100,
+        "implied_fee_ppm": 473818.692,
+        "liquidity_events_between": 1,
+        "initialized_ticks_crossed": 1
+       },
+       {
+        "block": 90669510,
+        "log_index": 19,
+        "previous_swap": [
+         90665033,
+         85
+        ],
+        "tick_before": -209952,
+        "tick_after": -209951,
+        "event_out": "458802399612289996",
+        "out_from_prices": "200927508529712344",
+        "event_in": "350000000",
+        "expected_in": "153279269",
+        "fee_ppm_column": 100,
+        "implied_fee_ppm": 562103.026,
+        "liquidity_events_between": 1,
+        "initialized_ticks_crossed": 1
+       },
+       {
+        "block": 90677374,
+        "log_index": 62,
+        "previous_swap": [
+         90676837,
+         40
+        ],
+        "tick_before": -209944,
+        "tick_after": -209945,
+        "event_out": "2305699984",
+        "out_from_prices": "790263030",
+        "event_in": "3020849785168537436",
+        "expected_in": "1035390934510490253",
+        "fee_ppm_column": 100,
+        "implied_fee_ppm": 657286.039,
+        "liquidity_events_between": 1,
+        "initialized_ticks_crossed": 1
+       },
+       {
+        "block": 90835014,
+        "log_index": 16,
+        "previous_swap": [
+         90834367,
+         75
+        ],
+        "tick_before": -209940,
+        "tick_after": -209939,
+        "event_out": "1198454666907588458",
+        "out_from_prices": "770618845211648845",
+        "event_in": "915358060",
+        "expected_in": "588591271",
+        "fee_ppm_column": 100,
+        "implied_fee_ppm": 357046.781,
+        "liquidity_events_between": 1,
+        "initialized_ticks_crossed": 1
+       },
+       {
+        "block": 90915304,
+        "log_index": 18,
+        "previous_swap": [
+         90915014,
+         83
+        ],
+        "tick_before": -209936,
+        "tick_after": -209937,
+        "event_out": "742099929",
+        "out_from_prices": "685036543",
+        "event_in": "971564613612605145",
+        "expected_in": "896859703948150169",
+        "fee_ppm_column": 100,
+        "implied_fee_ppm": 76983.656,
+        "liquidity_events_between": 1,
+        "initialized_ticks_crossed": 1
+       },
+       {
+        "block": 90958998,
+        "log_index": 53,
+        "previous_swap": [
+         90957876,
+         39
+        ],
+        "tick_before": -209940,
+        "tick_after": -209942,
+        "event_out": "2790560626",
+        "out_from_prices": "818534783",
+        "event_in": "3654932706260001222",
+        "expected_in": "1072076360136335834",
+        "fee_ppm_column": 100,
+        "implied_fee_ppm": 706706.186,
+        "liquidity_events_between": 0,
+        "initialized_ticks_crossed": 2
+       },
+       {
+        "block": 90959827,
+        "log_index": 8,
+        "previous_swap": [
+         90958998,
+         53
+        ],
+        "tick_before": -209942,
+        "tick_after": -209938,
+        "event_out": "6434260412309478353",
+        "out_from_prices": "3851662351820425336",
+        "event_in": "4913987279",
+        "expected_in": "2941764210",
+        "fee_ppm_column": 100,
+        "implied_fee_ppm": 401408.7,
+        "liquidity_events_between": 0,
+        "initialized_ticks_crossed": 2
+       },
+       {
+        "block": 91027312,
+        "log_index": 9,
+        "previous_swap": [
+         91024828,
+         40
+        ],
+        "tick_before": -209937,
+        "tick_after": -209938,
+        "event_out": "272176158",
+        "out_from_prices": "148521218",
+        "event_in": "356357554806371989",
+        "expected_in": "194457959851980106",
+        "fee_ppm_column": 100,
+        "implied_fee_ppm": 454372.409,
+        "liquidity_events_between": 1,
+        "initialized_ticks_crossed": 1
+       },
+       {
+        "block": 91032293,
+        "log_index": 5,
+        "previous_swap": [
+         91029792,
+         41
+        ],
+        "tick_before": -209939,
+        "tick_after": -209940,
+        "event_out": "921603342",
+        "out_from_prices": "648895188",
+        "event_in": "1206909299385784052",
+        "expected_in": "849786459314101647",
+        "fee_ppm_column": 100,
+        "implied_fee_ppm": 295969.067,
+        "liquidity_events_between": 3,
+        "initialized_ticks_crossed": 1
+       },
+       {
+        "block": 91083813,
+        "log_index": 21,
+        "previous_swap": [
+         91082540,
+         24
+        ],
+        "tick_before": -209951,
+        "tick_after": -209952,
+        "event_out": "1131240052",
+        "out_from_prices": "335248221",
+        "event_in": "1483166385436247033",
+        "expected_in": "439543848088447535",
+        "fee_ppm_column": 100,
+        "implied_fee_ppm": 703674.586,
+        "liquidity_events_between": 3,
+        "initialized_ticks_crossed": 1
+       },
+       {
+        "block": 91818538,
+        "log_index": 46,
+        "previous_swap": [
+         91818121,
+         53
+        ],
+        "tick_before": -209956,
+        "tick_after": -209957,
+        "event_out": "372210456",
+        "out_from_prices": "335707228",
+        "event_in": "488265606186074240",
+        "expected_in": "440381473956554557",
+        "fee_ppm_column": 100,
+        "implied_fee_ppm": 98160.038,
+        "liquidity_events_between": 1,
+        "initialized_ticks_crossed": 1
+       },
+       {
+        "block": 93401358,
+        "log_index": 28,
+        "previous_swap": [
+         93401338,
+         4
+        ],
+        "tick_before": -209896,
+        "tick_after": -209898,
+        "event_out": "1581379221",
+        "out_from_prices": "1485997420",
+        "event_in": "2062080135259157691",
+        "expected_in": "1937702478885366710",
+        "fee_ppm_column": 100,
+        "implied_fee_ppm": 60410.565,
+        "liquidity_events_between": 0,
+        "initialized_ticks_crossed": 2
+       },
+       {
+        "block": 93486469,
+        "log_index": 131,
+        "previous_swap": [
+         93486469,
+         94
+        ],
+        "tick_before": -209895,
+        "tick_after": -209898,
+        "event_out": "2838266127",
+        "out_from_prices": "2742884327",
+        "event_in": "3700821770427121236",
+        "expected_in": "3576444114053330255",
+        "fee_ppm_column": 100,
+        "implied_fee_ppm": 33704.758,
+        "liquidity_events_between": 0,
+        "initialized_ticks_crossed": 2
+       },
+       {
+        "block": 96301471,
+        "log_index": 47,
+        "previous_swap": [
+         96301389,
+         218
+        ],
+        "tick_before": -209964,
+        "tick_after": -209959,
+        "event_out": "5872176157975574769",
+        "out_from_prices": "5080329008395002328",
+        "event_in": "4475253745",
+        "expected_in": "3871791209",
+        "fee_ppm_column": 100,
+        "implied_fee_ppm": 134930.833,
+        "liquidity_events_between": 0,
+        "initialized_ticks_crossed": 2
+       },
+       {
+        "block": 96460099,
+        "log_index": 7,
+        "previous_swap": [
+         96458530,
+         7
+        ],
+        "tick_before": -209953,
+        "tick_after": -209952,
+        "event_out": "537304007101592893",
+        "out_from_prices": "282373005910989934",
+        "event_in": "409846086",
+        "expected_in": "215390228",
+        "fee_ppm_column": 100,
+        "implied_fee_ppm": 474513.249,
+        "liquidity_events_between": 1,
+        "initialized_ticks_crossed": 1
+       },
+       {
+        "block": 103279088,
+        "log_index": 27,
+        "previous_swap": [
+         103278100,
+         23
+        ],
+        "tick_before": -210018,
+        "tick_after": -210020,
+        "event_out": "1033431361",
+        "out_from_prices": "795347344",
+        "event_in": "1364108434091081929",
+        "expected_in": "1049836774585218215",
+        "fee_ppm_column": 100,
+        "implied_fee_ppm": 230463.089,
+        "liquidity_events_between": 0,
+        "initialized_ticks_crossed": 2
+       },
+       {
+        "block": 103279729,
+        "log_index": 60,
+        "previous_swap": [
+         103279212,
+         69
+        ],
+        "tick_before": -210018,
+        "tick_after": -210021,
+        "event_out": "1199760765",
+        "out_from_prices": "961676749",
+        "event_in": "1583733990707423847",
+        "expected_in": "1269462331201560135",
+        "fee_ppm_column": 100,
+        "implied_fee_ppm": 198517.306,
+        "liquidity_events_between": 0,
+        "initialized_ticks_crossed": 2
+       },
+       {
+        "block": 103340499,
+        "log_index": 8,
+        "previous_swap": [
+         103339333,
+         3
+        ],
+        "tick_before": -210018,
+        "tick_after": -210021,
+        "event_out": "1461176504",
+        "out_from_prices": "1223092488",
+        "event_in": "1928817852312595562",
+        "expected_in": "1614546192806731849",
+        "fee_ppm_column": 100,
+        "implied_fee_ppm": 163018.563,
+        "liquidity_events_between": 0,
+        "initialized_ticks_crossed": 2
+       },
+       {
+        "block": 103531448,
+        "log_index": 7,
+        "previous_swap": [
+         103530562,
+         43
+        ],
+        "tick_before": -210018,
+        "tick_after": -210016,
+        "event_out": "865157721114201557",
+        "out_from_prices": "757770970479119416",
+        "event_in": "655678490",
+        "expected_in": "574292538",
+        "fee_ppm_column": 100,
+        "implied_fee_ppm": 124212.374,
+        "liquidity_events_between": 0,
+        "initialized_ticks_crossed": 2
+       },
+       {
+        "block": 103904935,
+        "log_index": 8,
+        "previous_swap": [
+         103903078,
+         52
+        ],
+        "tick_before": -209982,
+        "tick_after": -209981,
+        "event_out": "578943590414558447",
+        "out_from_prices": "131151929480644411",
+        "event_in": "440324768",
+        "expected_in": "99749787",
+        "fee_ppm_column": 100,
+        "implied_fee_ppm": 773485.801,
+        "liquidity_events_between": 2,
+        "initialized_ticks_crossed": 1
+       },
+       {
+        "block": 107577042,
+        "log_index": 20,
+        "previous_swap": [
+         107575856,
+         29
+        ],
+        "tick_before": -210291,
+        "tick_after": -210288,
+        "event_out": "1341968181875328517",
+        "out_from_prices": "1246755665860392454",
+        "event_in": "989704944",
+        "expected_in": "919493853",
+        "fee_ppm_column": 100,
+        "implied_fee_ppm": 71034.344,
+        "liquidity_events_between": 1,
+        "initialized_ticks_crossed": 1
+       }
+      ]
+     }
+    },
+    "liquidity_file_order": {
+     "rows": 4506,
+     "pass": true
+    },
+    "liquidity_rebuild": {
+     "samples": 400,
+     "mismatches": 0,
+     "max_abs_difference": "0",
+     "examples": [],
+     "pass": true,
+     "ranges_with_negative_net_liquidity_at_END": 0,
+     "ranges_open_at_END": 48
+    },
+    "end_state": {
+     "last_swap": {
+      "block": 110789697,
+      "log_index": 16,
+      "sqrt_price_x96": "2177458706053411598767062",
+      "tick": -210050,
+      "liquidity": "215980238697077245"
+     },
+     "state_at_END": {
+      "sqrtPriceX96": "2177458706053411598767062",
+      "tick": -210050,
+      "liquidity": "215980238697077245"
+     },
+     "sqrt_price_match": true,
+     "tick_match": true,
+     "liquidity_match_raw": true,
+     "liquidity_events_after_last_swap": 0,
+     "liquidity_after_in_range_events": "215980238697077245",
+     "liquidity_match_adjusted": true,
+     "pass": true
+    },
+    "refetch": {
+     "windows": [
+      {
+       "from": 80891156,
+       "to": 81891155,
+       "kind": "random",
+       "refetched": 2712,
+       "dataset": 2712,
+       "count_match": true,
+       "values_match": true,
+       "rpc_calls": 6
+      },
+      {
+       "from": 41631873,
+       "to": 42631872,
+       "kind": "random",
+       "refetched": 4698,
+       "dataset": 4698,
+       "count_match": true,
+       "values_match": true,
+       "rpc_calls": 6
+      },
+      {
+       "from": 91457162,
+       "to": 92457161,
+       "kind": "random",
+       "refetched": 4424,
+       "dataset": 4424,
+       "count_match": true,
+       "values_match": true,
+       "rpc_calls": 6
+      },
+      {
+       "from": 74924932,
+       "to": 75924931,
+       "kind": "random",
+       "refetched": 5283,
+       "dataset": 5283,
+       "count_match": true,
+       "values_match": true,
+       "rpc_calls": 6
+      },
+      {
+       "from": 57563649,
+       "to": 58563648,
+       "kind": "random",
+       "refetched": 8087,
+       "dataset": 8087,
+       "count_match": true,
+       "values_match": true,
+       "rpc_calls": 6
+      },
+      {
+       "from": 103571867,
+       "to": 104571866,
+       "kind": "seam between the existing raw file and the fetched tail",
+       "refetched": 5281,
+       "dataset": 5281,
+       "count_match": true,
+       "values_match": true,
+       "rpc_calls": 6
+      }
+     ],
+     "pass": true,
+     "split": "173331-block unaligned chunks (halved when the node refuses), uncached client",
+     "compared": "row count and sha256 of block,log_index,amount0,amount1,sqrt_price_x96,liquidity,tick lines"
+    },
+    "ts_error": {
+     "samples": 20,
+     "max_abs_error_s": 3.135,
+     "median_abs_error_s": 0.82,
+     "detail": [
+      {
+       "block": 64758593,
+       "interpolated": 1789586873.7,
+       "header": 1789586874,
+       "abs_error_s": 0.263
+      },
+      {
+       "block": 70080487,
+       "interpolated": 1790122879.1,
+       "header": 1790122879,
+       "abs_error_s": 0.09
+      },
+      {
+       "block": 88623133,
+       "interpolated": 1792006679.2,
+       "header": 1792006680,
+       "abs_error_s": 0.82
+      },
+      {
+       "block": 50954219,
+       "interpolated": 1788188361.8,
+       "header": 1788188363,
+       "abs_error_s": 1.193
+      },
+      {
+       "block": 51083519,
+       "interpolated": 1788201462.8,
+       "header": 1788201463,
+       "abs_error_s": 0.173
+      },
+      {
+       "block": 68992868,
+       "interpolated": 1790013340.8,
+       "header": 1790013342,
+       "abs_error_s": 1.2
+      },
+      {
+       "block": 53609653,
+       "interpolated": 1788458536.7,
+       "header": 1788458537,
+       "abs_error_s": 0.261
+      },
+      {
+       "block": 50139854,
+       "interpolated": 1788106115.2,
+       "header": 1788106115,
+       "abs_error_s": 0.225
+      },
+      {
+       "block": 53645357,
+       "interpolated": 1788462196.9,
+       "header": 1788462197,
+       "abs_error_s": 0.086
+      },
+      {
+       "block": 51804761,
+       "interpolated": 1788274289.8,
+       "header": 1788274291,
+       "abs_error_s": 1.187
+      },
+      {
+       "block": 49376906,
+       "interpolated": 1788028989.9,
+       "header": 1788028993,
+       "abs_error_s": 3.135
+      },
+      {
+       "block": 48197858,
+       "interpolated": 1787909903.9,
+       "header": 1787909905,
+       "abs_error_s": 1.128
+      },
+      {
+       "block": 52244445,
+       "interpolated": 1788318775.9,
+       "header": 1788318776,
+       "abs_error_s": 0.055
+      },
+      {
+       "block": 86890966,
+       "interpolated": 1791830313.3,
+       "header": 1791830313,
+       "abs_error_s": 0.339
+      },
+      {
+       "block": 51803470,
+       "interpolated": 1788274159.2,
+       "header": 1788274160,
+       "abs_error_s": 0.836
+      },
+      {
+       "block": 57282905,
+       "interpolated": 1788829388.8,
+       "header": 1788829389,
+       "abs_error_s": 0.176
+      },
+      {
+       "block": 62449641,
+       "interpolated": 1789352538.5,
+       "header": 1789352538,
+       "abs_error_s": 0.526
+      },
+      {
+       "block": 52725985,
+       "interpolated": 1788367368.5,
+       "header": 1788367366,
+       "abs_error_s": 2.477
+      },
+      {
+       "block": 53647965,
+       "interpolated": 1788462459.3,
+       "header": 1788462461,
+       "abs_error_s": 1.721
+      },
+      {
+       "block": 50194793,
+       "interpolated": 1788111665.7,
+       "header": 1788111663,
+       "abs_error_s": 2.655
+      }
+     ]
+    }
+   }
+  },
+  {
+   "path": "univ3_nvda_liquidity.csv.gz",
+   "columns": [
+    "block",
+    "log_index",
+    "kind",
+    "tick_lower",
+    "tick_upper",
+    "liquidity_delta"
+   ],
+   "rows": 4652,
+   "bytes": 54234,
+   "sha256": "22372f91bba2a789726064d01eeffa63076381c22cc6631d1c6737494424f4f2",
+   "first_block": 7923871,
+   "last_block": 110727864,
+   "first_time": "2026-07-12T15:46:52Z",
+   "last_time": "2026-11-10T07:59:59Z",
+   "time_source": "block interpolated on the header grid (file has no time column)",
+   "source": {
+    "contract": "0xb944cec30bd4175855215d767adc81f39e5f7e2b",
+    "factory": "0x1f7d7550b1b028f7571e69a784071f0205fd2efa",
+    "symbol": "NVDA",
+    "fee": 3000,
+    "tick_spacing": 60,
+    "token0": "USDG",
+    "decimals0": 6,
+    "token1": "NVDA",
+    "decimals1": 18,
+    "initialize": {
+     "block": 7923871,
+     "log_index": 3,
+     "sqrtPriceX96": "5454627287843277876657888769993904",
+     "tick": 222804
+    },
+    "created_block": 7923871,
+    "topics": [
+     [
+      "0x7a53080ba414158be7ec69b987b5fb7d07dee101fe85488f0853ae16239d0bde",
+      "0x0c396cd989a39f4459b5fa1aed6a9a8dcdbc45908acfd67e028cd568da98982c"
+     ]
+    ],
+    "events": [
+     "Mint(address,address,int24,int24,uint128,uint256,uint256)",
+     "Burn(address,int24,int24,uint128,uint256,uint256)"
+    ],
+    "mints": 1614,
+    "burns": 3038
+   },
+   "checks": null
+  },
+  {
+   "path": "univ3_nvda_swaps.csv.gz",
+   "columns": [
+    "block",
+    "log_index",
+    "ts",
+    "amount0",
+    "amount1",
+    "sqrt_price_x96",
+    "liquidity",
+    "tick",
+    "fee_ppm",
+    "protocol_share"
+   ],
+   "rows": 26691,
+   "bytes": 1198568,
+   "sha256": "05cd4f06b6e163d2ba2a0a2fce3f8cfc109e63161b72991c80679892adb8d924",
+   "first_block": 7924991,
+   "last_block": 110788357,
+   "first_time": "2026-07-12T15:48:45Z",
+   "last_time": "2026-11-10T09:47:03Z",
+   "time_source": "ts column (interpolated on the header grid)",
+   "source": {
+    "contract": "0xb944cec30bd4175855215d767adc81f39e5f7e2b",
+    "factory": "0x1f7d7550b1b028f7571e69a784071f0205fd2efa",
+    "symbol": "NVDA",
+    "fee": 3000,
+    "tick_spacing": 60,
+    "token0": "USDG",
+    "decimals0": 6,
+    "token1": "NVDA",
+    "decimals1": 18,
+    "initialize": {
+     "block": 7923871,
+     "log_index": 3,
+     "sqrtPriceX96": "5454627287843277876657888769993904",
+     "tick": 222804
+    },
+    "created_block": 7923871,
+    "topics": [
+     "0xc42079f94a6350d7e6235f29174924f928cc2ac818eb64fed8004e115fbcca67"
+    ],
+    "event": "Swap(address,address,int256,int256,uint160,uint128,int24)",
+    "fee_ppm_source": "immutable pool fee",
+    "fee()_at_END": 3000,
+    "fee_match": true,
+    "protocol_share_unit": "fraction of the swap fee taken by the protocol = 1/n for the swap's input token (n = feeProtocol nibble; 0 = none)",
+    "protocol_share_events": {
+     "SetFeeProtocol(uint8,uint8,uint8,uint8)": 1,
+     "events": [
+      {
+       "block": 20862393,
+       "log_index": 661,
+       "old0_old1_new0_new1": [
+        0,
+        0,
+        6,
+        6
+       ]
+      }
+     ],
+     "initial_feeProtocol0_1": [
+      0,
+      0
+     ],
+     "in_force_at_END_from_events": [
+      6,
+      6
+     ],
+     "slot0_feeProtocol_at_END_0_1": [
+      6,
+      6
+     ],
+     "match": true
+    },
+    "amount_sign": "as emitted by the pool: positive = paid into the pool"
+   },
+   "checks": {
+    "order": {
+     "rows": 26691,
+     "duplicates_adjacent": 0,
+     "descending_steps": 0,
+     "pass": true
+    },
+    "v3_math": {
+     "pairs_total": 26690,
+     "eligible_equal_liquidity": 25010,
+     "price_unchanged": 0,
+     "output_leg": {
+      "within_2": 25010,
+      "within_10": 0,
+      "over_10": 0,
+      "max_abs": "0"
+     },
+     "input_leg_fee": {
+      "within_2": 25010,
+      "within_10": 0,
+      "over_10": 0,
+      "max_abs": "1",
+      "over_10_rel_gt_1e-6": 0
+     },
+     "sign_mismatch": 0,
+     "examples_output_over_10": [],
+     "examples_input_over_10": [],
+     "tolerance_note": "differences in raw token units (wei); within_2 = at most 2 units",
+     "exceptions_classified": {
+      "exceptions": 0,
+      "crossed_at_least_one_initialized_tick": 0,
+      "with_liquidity_event_between": 0,
+      "neither": 0,
+      "detail": []
+     }
+    },
+    "liquidity_file_order": {
+     "rows": 4652,
+     "pass": true
+    },
+    "liquidity_rebuild": {
+     "samples": 400,
+     "mismatches": 0,
+     "max_abs_difference": "0",
+     "examples": [],
+     "pass": true,
+     "ranges_with_negative_net_liquidity_at_END": 0,
+     "ranges_open_at_END": 49
+    },
+    "end_state": {
+     "last_swap": {
+      "block": 110788357,
+      "log_index": 5,
+      "sqrt_price_x96": "5869902401722211179805620369700194",
+      "tick": 224271,
+      "liquidity": "29088842481660900"
+     },
+     "state_at_END": {
+      "sqrtPriceX96": "5869902401722211179805620369700194",
+      "tick": 224271,
+      "liquidity": "29088842481660900"
+     },
+     "sqrt_price_match": true,
+     "tick_match": true,
+     "liquidity_match_raw": true,
+     "liquidity_events_after_last_swap": 0,
+     "liquidity_after_in_range_events": "29088842481660900",
+     "liquidity_match_adjusted": true,
+     "pass": true
+    },
+    "refetch": {
+     "windows": [
+      {
+       "from": 53184421,
+       "to": 54184420,
+       "kind": "random",
+       "refetched": 302,
+       "dataset": 302,
+       "count_match": true,
+       "values_match": true,
+       "rpc_calls": 6
+      },
+      {
+       "from": 30500555,
+       "to": 31500554,
+       "kind": "random",
+       "refetched": 17,
+       "dataset": 17,
+       "count_match": true,
+       "values_match": true,
+       "rpc_calls": 6
+      },
+      {
+       "from": 86697421,
+       "to": 87697420,
+       "kind": "random",
+       "refetched": 228,
+       "dataset": 228,
+       "count_match": true,
+       "values_match": true,
+       "rpc_calls": 6
+      },
+      {
+       "from": 85322745,
+       "to": 86322744,
+       "kind": "random",
+       "refetched": 45,
+       "dataset": 45,
+       "count_match": true,
+       "values_match": true,
+       "rpc_calls": 6
+      },
+      {
+       "from": 89691460,
+       "to": 90691459,
+       "kind": "random",
+       "refetched": 153,
+       "dataset": 153,
+       "count_match": true,
+       "values_match": true,
+       "rpc_calls": 6
+      }
+     ],
+     "pass": true,
+     "split": "173331-block unaligned chunks (halved when the node refuses), uncached client",
+     "compared": "row count and sha256 of block,log_index,amount0,amount1,sqrt_price_x96,liquidity,tick lines"
+    },
+    "ts_error": {
+     "samples": 20,
+     "max_abs_error_s": 7.047,
+     "median_abs_error_s": 0.728,
+     "detail": [
+      {
+       "block": 15422790,
+       "interpolated": 1784622839.8,
+       "header": 1784622840,
+       "abs_error_s": 0.163
+      },
+      {
+       "block": 53404376,
+       "interpolated": 1788437178.7,
+       "header": 1788437178,
+       "abs_error_s": 0.728
+      },
+      {
+       "block": 16417667,
+       "interpolated": 1784722540.0,
+       "header": 1784722540,
+       "abs_error_s": 0.0
+      },
+      {
+       "block": 40632602,
+       "interpolated": 1787149916.7,
+       "header": 1787149916,
+       "abs_error_s": 0.72
+      },
+      {
+       "block": 68691015,
+       "interpolated": 1789983055.2,
+       "header": 1789983056,
+       "abs_error_s": 0.789
+      },
+      {
+       "block": 105911669,
+       "interpolated": 1793796467.9,
+       "header": 1793796466,
+       "abs_error_s": 1.904
+      },
+      {
+       "block": 95158983,
+       "interpolated": 1792677017.5,
+       "header": 1792677020,
+       "abs_error_s": 2.463
+      },
+      {
+       "block": 64267444,
+       "interpolated": 1789537426.9,
+       "header": 1789537427,
+       "abs_error_s": 0.134
+      },
+      {
+       "block": 105989397,
+       "interpolated": 1793804485.0,
+       "header": 1793804478,
+       "abs_error_s": 7.047
+      },
+      {
+       "block": 47694898,
+       "interpolated": 1787859155.7,
+       "header": 1787859156,
+       "abs_error_s": 0.302
+      },
+      {
+       "block": 104334645,
+       "interpolated": 1793634625.9,
+       "header": 1793634627,
+       "abs_error_s": 1.068
+      },
+      {
+       "block": 110129019,
+       "interpolated": 1794234720.9,
+       "header": 1794234720,
+       "abs_error_s": 0.897
+      },
+      {
+       "block": 40585911,
+       "interpolated": 1787145232.9,
+       "header": 1787145233,
+       "abs_error_s": 0.127
+      },
+      {
+       "block": 107286774,
+       "interpolated": 1793937880.1,
+       "header": 1793937882,
+       "abs_error_s": 1.891
+      },
+      {
+       "block": 60121526,
+       "interpolated": 1789115914.0,
+       "header": 1789115913,
+       "abs_error_s": 1.042
+      },
+      {
+       "block": 27392122,
+       "interpolated": 1785823221.8,
+       "header": 1785823222,
+       "abs_error_s": 0.163
+      },
+      {
+       "block": 26958396,
+       "interpolated": 1785779747.1,
+       "header": 1785779746,
+       "abs_error_s": 1.119
+      },
+      {
+       "block": 39656968,
+       "interpolated": 1787051962.9,
+       "header": 1787051963,
+       "abs_error_s": 0.11
+      },
+      {
+       "block": 39370279,
+       "interpolated": 1787023193.0,
+       "header": 1787023193,
+       "abs_error_s": 0.016
+      },
+      {
+       "block": 9023073,
+       "interpolated": 1783981345.2,
+       "header": 1783981345,
+       "abs_error_s": 0.222
+      }
+     ]
+    }
+   }
+  },
+  {
+   "path": "univ3_spy_liquidity.csv.gz",
+   "columns": [
+    "block",
+    "log_index",
+    "kind",
+    "tick_lower",
+    "tick_upper",
+    "liquidity_delta"
+   ],
+   "rows": 4281,
+   "bytes": 47652,
+   "sha256": "8b1af715c3ef1b7e70f3cee186d7092282926645714a22a34b0e0d161083a90d",
+   "first_block": 15259439,
+   "last_block": 110770464,
+   "first_time": "2026-07-21T04:00:52Z",
+   "last_time": "2026-11-10T09:15:34Z",
+   "time_source": "block interpolated on the header grid (file has no time column)",
+   "source": {
+    "contract": "0xa43b424bc609495aed4bcd88d654934b510b0ad9",
+    "factory": "0x1f7d7550b1b028f7571e69a784071f0205fd2efa",
+    "symbol": "SPY",
+    "fee": 3000,
+    "tick_spacing": 60,
+    "token0": "SPY",
+    "decimals0": 18,
+    "token1": "USDG",
+    "decimals1": 6,
+    "initialize": {
+     "block": 15259439,
+     "log_index": 19,
+     "sqrtPriceX96": "2161521899871414029637078",
+     "tick": -210196
+    },
+    "created_block": 15259439,
+    "topics": [
+     [
+      "0x7a53080ba414158be7ec69b987b5fb7d07dee101fe85488f0853ae16239d0bde",
+      "0x0c396cd989a39f4459b5fa1aed6a9a8dcdbc45908acfd67e028cd568da98982c"
+     ]
+    ],
+    "events": [
+     "Mint(address,address,int24,int24,uint128,uint256,uint256)",
+     "Burn(address,int24,int24,uint128,uint256,uint256)"
+    ],
+    "mints": 1476,
+    "burns": 2805
+   },
+   "checks": null
+  },
+  {
+   "path": "univ3_spy_swaps.csv.gz",
+   "columns": [
+    "block",
+    "log_index",
+    "ts",
+    "amount0",
+    "amount1",
+    "sqrt_price_x96",
+    "liquidity",
+    "tick",
+    "fee_ppm",
+    "protocol_share"
+   ],
+   "rows": 22744,
+   "bytes": 853225,
+   "sha256": "f3f98b3cb1505ce34eb871069dd77912e9727abee65f84d087fbe0fb39434528",
+   "first_block": 16112346,
+   "last_block": 110701124,
+   "first_time": "2026-07-22T03:45:20Z",
+   "last_time": "2026-11-10T07:10:59Z",
+   "time_source": "ts column (interpolated on the header grid)",
+   "source": {
+    "contract": "0xa43b424bc609495aed4bcd88d654934b510b0ad9",
+    "factory": "0x1f7d7550b1b028f7571e69a784071f0205fd2efa",
+    "symbol": "SPY",
+    "fee": 3000,
+    "tick_spacing": 60,
+    "token0": "SPY",
+    "decimals0": 18,
+    "token1": "USDG",
+    "decimals1": 6,
+    "initialize": {
+     "block": 15259439,
+     "log_index": 19,
+     "sqrtPriceX96": "2161521899871414029637078",
+     "tick": -210196
+    },
+    "created_block": 15259439,
+    "topics": [
+     "0xc42079f94a6350d7e6235f29174924f928cc2ac818eb64fed8004e115fbcca67"
+    ],
+    "event": "Swap(address,address,int256,int256,uint160,uint128,int24)",
+    "fee_ppm_source": "immutable pool fee",
+    "fee()_at_END": 3000,
+    "fee_match": true,
+    "protocol_share_unit": "fraction of the swap fee taken by the protocol = 1/n for the swap's input token (n = feeProtocol nibble; 0 = none)",
+    "protocol_share_events": {
+     "SetFeeProtocol(uint8,uint8,uint8,uint8)": 1,
+     "events": [
+      {
+       "block": 20821972,
+       "log_index": 675,
+       "old0_old1_new0_new1": [
+        0,
+        0,
+        6,
+        6
+       ]
+      }
+     ],
+     "initial_feeProtocol0_1": [
+      0,
+      0
+     ],
+     "in_force_at_END_from_events": [
+      6,
+      6
+     ],
+     "slot0_feeProtocol_at_END_0_1": [
+      6,
+      6
+     ],
+     "match": true
+    },
+    "amount_sign": "as emitted by the pool: positive = paid into the pool"
+   },
+   "checks": {
+    "order": {
+     "rows": 22744,
+     "duplicates_adjacent": 0,
+     "descending_steps": 0,
+     "pass": true
+    },
+    "v3_math": {
+     "pairs_total": 22743,
+     "eligible_equal_liquidity": 21591,
+     "price_unchanged": 0,
+     "output_leg": {
+      "within_2": 21591,
+      "within_10": 0,
+      "over_10": 0,
+      "max_abs": "0"
+     },
+     "input_leg_fee": {
+      "within_2": 21591,
+      "within_10": 0,
+      "over_10": 0,
+      "max_abs": "1",
+      "over_10_rel_gt_1e-6": 0
+     },
+     "sign_mismatch": 0,
+     "examples_output_over_10": [],
+     "examples_input_over_10": [],
+     "tolerance_note": "differences in raw token units (wei); within_2 = at most 2 units",
+     "exceptions_classified": {
+      "exceptions": 0,
+      "crossed_at_least_one_initialized_tick": 0,
+      "with_liquidity_event_between": 0,
+      "neither": 0,
+      "detail": []
+     }
+    },
+    "liquidity_file_order": {
+     "rows": 4281,
+     "pass": true
+    },
+    "liquidity_rebuild": {
+     "samples": 400,
+     "mismatches": 0,
+     "max_abs_difference": "0",
+     "examples": [],
+     "pass": true,
+     "ranges_with_negative_net_liquidity_at_END": 0,
+     "ranges_open_at_END": 34
+    },
+    "end_state": {
+     "last_swap": {
+      "block": 110701124,
+      "log_index": 31,
+      "sqrt_price_x96": "2175733701176822225862283",
+      "tick": -210065,
+      "liquidity": "10617205011669210"
+     },
+     "state_at_END": {
+      "sqrtPriceX96": "2175733701176822225862283",
+      "tick": -210065,
+      "liquidity": "11569760914085643"
+     },
+     "sqrt_price_match": true,
+     "tick_match": true,
+     "liquidity_match_raw": false,
+     "liquidity_events_after_last_swap": 1,
+     "liquidity_after_in_range_events": "11569760914085643",
+     "liquidity_match_adjusted": true,
+     "pass": true
+    },
+    "refetch": {
+     "windows": [
+      {
+       "from": 76540170,
+       "to": 77540169,
+       "kind": "random",
+       "refetched": 78,
+       "dataset": 78,
+       "count_match": true,
+       "values_match": true,
+       "rpc_calls": 6
+      },
+      {
+       "from": 75050911,
+       "to": 76050910,
+       "kind": "random",
+       "refetched": 39,
+       "dataset": 39,
+       "count_match": true,
+       "values_match": true,
+       "rpc_calls": 6
+      },
+      {
+       "from": 108138692,
+       "to": 109138691,
+       "kind": "random",
+       "refetched": 8,
+       "dataset": 8,
+       "count_match": true,
+       "values_match": true,
+       "rpc_calls": 6
+      },
+      {
+       "from": 81176478,
+       "to": 82176477,
+       "kind": "random",
+       "refetched": 146,
+       "dataset": 146,
+       "count_match": true,
+       "values_match": true,
+       "rpc_calls": 6
+      },
+      {
+       "from": 16206896,
+       "to": 17206895,
+       "kind": "random",
+       "refetched": 9,
+       "dataset": 9,
+       "count_match": true,
+       "values_match": true,
+       "rpc_calls": 6
+      }
+     ],
+     "pass": true,
+     "split": "173331-block unaligned chunks (halved when the node refuses), uncached client",
+     "compared": "row count and sha256 of block,log_index,amount0,amount1,sqrt_price_x96,liquidity,tick lines"
+    },
+    "ts_error": {
+     "samples": 20,
+     "max_abs_error_s": 2.261,
+     "median_abs_error_s": 0.894,
+     "detail": [
+      {
+       "block": 27829646,
+       "interpolated": 1785867090.5,
+       "header": 1785867092,
+       "abs_error_s": 1.506
+      },
+      {
+       "block": 27723837,
+       "interpolated": 1785856483.5,
+       "header": 1785856483,
+       "abs_error_s": 0.467
+      },
+      {
+       "block": 105989741,
+       "interpolated": 1793804521.0,
+       "header": 1793804519,
+       "abs_error_s": 1.96
+      },
+      {
+       "block": 23403798,
+       "interpolated": 1785423373.2,
+       "header": 1785423373,
+       "abs_error_s": 0.18
+      },
+      {
+       "block": 19061982,
+       "interpolated": 1784987746.4,
+       "header": 1784987747,
+       "abs_error_s": 0.602
+      },
+      {
+       "block": 32302086,
+       "interpolated": 1786315169.0,
+       "header": 1786315170,
+       "abs_error_s": 0.983
+      },
+      {
+       "block": 71587935,
+       "interpolated": 1790274856.7,
+       "header": 1790274858,
+       "abs_error_s": 1.326
+      },
+      {
+       "block": 23626606,
+       "interpolated": 1785445706.3,
+       "header": 1785445704,
+       "abs_error_s": 2.261
+      },
+      {
+       "block": 65924718,
+       "interpolated": 1789704234.0,
+       "header": 1789704234,
+       "abs_error_s": 0.046
+      },
+      {
+       "block": 23631665,
+       "interpolated": 1785446213.3,
+       "header": 1785446213,
+       "abs_error_s": 0.332
+      },
+      {
+       "block": 52659090,
+       "interpolated": 1788360599.1,
+       "header": 1788360598,
+       "abs_error_s": 1.089
+      },
+      {
+       "block": 59898067,
+       "interpolated": 1789093228.6,
+       "header": 1789093229,
+       "abs_error_s": 0.359
+      },
+      {
+       "block": 21694645,
+       "interpolated": 1785252000.9,
+       "header": 1785252000,
+       "abs_error_s": 0.894
+      },
+      {
+       "block": 35430740,
+       "interpolated": 1786628147.1,
+       "header": 1786628147,
+       "abs_error_s": 0.074
+      },
+      {
+       "block": 24642971,
+       "interpolated": 1785547553.0,
+       "header": 1785547554,
+       "abs_error_s": 1.009
+      },
+      {
+       "block": 24634790,
+       "interpolated": 1785546733.0,
+       "header": 1785546734,
+       "abs_error_s": 1.042
+      },
+      {
+       "block": 24644063,
+       "interpolated": 1785547662.5,
+       "header": 1785547662,
+       "abs_error_s": 0.519
+      },
+      {
+       "block": 27947488,
+       "interpolated": 1785878928.8,
+       "header": 1785878929,
+       "abs_error_s": 0.205
+      },
+      {
+       "block": 54669880,
+       "interpolated": 1788565830.9,
+       "header": 1788565831,
+       "abs_error_s": 0.12
+      },
+      {
+       "block": 18395653,
+       "interpolated": 1784920836.0,
+       "header": 1784920837,
+       "abs_error_s": 1.004
+      }
+     ]
+    }
+   }
+  },
+  {
+   "path": "v4_nvda_liquidity.csv.gz",
+   "columns": [
+    "block",
+    "log_index",
+    "sender",
+    "tick_lower",
+    "tick_upper",
+    "liquidity_delta",
+    "salt"
+   ],
+   "rows": 12419,
+   "bytes": 219267,
+   "sha256": "c9c8d24aab5e918ba9f71ece2d207eb3e1f39e826269fda433e3d62e8eb6c32b",
+   "first_block": 1576460,
+   "last_block": 110768812,
+   "first_time": "2026-07-02T23:27:54Z",
+   "last_time": "2026-11-10T09:12:42Z",
+   "time_source": "block interpolated on the header grid (file has no time column)",
+   "source": {
+    "contract": "0x8366a39CC670B4001A1121B8F6A443A643e40951",
+    "pool_id": "0x3bb34a44f1b2b5f32c034c38a53065a521a47b199700fa9bd19d60985ff24bf1",
+    "currency0": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+    "currency1": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
+    "fee": 3000,
+    "tick_spacing": 60,
+    "hooks": "0x0000000000000000000000000000000000000000",
+    "initialize": {
+     "block": 1576460,
+     "log_index": 6,
+     "sqrtPriceX96": "5533461530730337671229635943033163",
+     "tick": 223091
+    },
+    "topics": [
+     "0xf208f4912782fd25c7f114ca3723a2d5dd6f3bcc3ac8db5af63baa85f711d5ec",
+     "0x3bb34a44f1b2b5f32c034c38a53065a521a47b199700fa9bd19d60985ff24bf1"
+    ],
+    "event": "ModifyLiquidity(bytes32,address,int24,int24,int256,bytes32)"
+   },
+   "checks": null
+  },
+  {
+   "path": "v4_nvda_swaps.csv.gz",
+   "columns": [
+    "block",
+    "log_index",
+    "ts",
+    "amount0",
+    "amount1",
+    "sqrt_price_x96",
+    "liquidity",
+    "tick",
+    "fee_ppm"
+   ],
+   "rows": 205833,
+   "bytes": 8615991,
+   "sha256": "e7f2f1270ad69e93deaeec9f321c7bd75c4f314f585e8b14c9e3e7e32f58eed6",
+   "first_block": 1576462,
+   "last_block": 110788889,
+   "first_time": "2026-07-02T23:27:55Z",
+   "last_time": "2026-11-10T09:47:59Z",
+   "time_source": "ts column (interpolated on the header grid)",
+   "source": {
+    "contract": "0x8366a39CC670B4001A1121B8F6A443A643e40951",
+    "pool_id": "0x3bb34a44f1b2b5f32c034c38a53065a521a47b199700fa9bd19d60985ff24bf1",
+    "currency0": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+    "currency1": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
+    "fee": 3000,
+    "tick_spacing": 60,
+    "hooks": "0x0000000000000000000000000000000000000000",
+    "initialize": {
+     "block": 1576460,
+     "log_index": 6,
+     "sqrtPriceX96": "5533461530730337671229635943033163",
+     "tick": 223091
+    },
+    "topics": [
+     "0x40e9cecb9f5f1f1c5b9c97dec2917b7ee92e57ba5563708daca94dd84ad7112f",
+     "0x3bb34a44f1b2b5f32c034c38a53065a521a47b199700fa9bd19d60985ff24bf1"
+    ],
+    "event": "Swap(bytes32,address,int128,int128,uint160,uint128,int24,uint24)",
+    "swap_fee_field_histogram": {
+     "3000": 87313,
+     "3499": 118520
+    },
+    "amount_sign": "event reports the swapper's delta; both signs flipped so positive = paid into the pool"
+   },
+   "checks": {
+    "order": {
+     "rows": 205833,
+     "duplicates_adjacent": 0,
+     "descending_steps": 0,
+     "pass": true
+    },
+    "v3_math": {
+     "pairs_total": 205832,
+     "eligible_equal_liquidity": 198052,
+     "price_unchanged": 0,
+     "output_leg": {
+      "within_2": 198048,
+      "within_10": 0,
+      "over_10": 4,
+      "max_abs": "3349381818676172"
+     },
+     "input_leg_fee": {
+      "within_2": 198048,
+      "within_10": 0,
+      "over_10": 4,
+      "max_abs": "3359460199273996",
+      "over_10_rel_gt_1e-6": 4
+     },
+     "sign_mismatch": 0,
+     "examples_output_over_10": [
+      {
+       "block": 9770560,
+       "log_index": 26,
+       "previous_swap": [
+        9770543,
+        8
+       ],
+       "tick_before": 222817,
+       "tick_after": 223102,
+       "event_out": "6149911198",
+       "from_prices": "6149209215",
+       "liquidity_events_between": 0
+      },
+      {
+       "block": 9803925,
+       "log_index": 47,
+       "previous_swap": [
+        9803925,
+        36
+       ],
+       "tick_before": 222920,
+       "tick_after": 222817,
+       "event_out": "10736760776131794731",
+       "from_prices": "10733411394313118559",
+       "liquidity_events_between": 0
+      },
+      {
+       "block": 9804293,
+       "log_index": 78,
+       "previous_swap": [
+        9804214,
+        12
+       ],
+       "tick_before": 222810,
+       "tick_after": 222908,
+       "event_out": "2154636649",
+       "from_prices": "2153934665",
+       "liquidity_events_between": 0
+      },
+      {
+       "block": 9804294,
+       "log_index": 7,
+       "previous_swap": [
+        9804293,
+        78
+       ],
+       "tick_before": 222908,
+       "tick_after": 222821,
+       "event_out": "9161820311799509981",
+       "from_prices": "9158470929980833809",
+       "liquidity_events_between": 0
+      }
+     ],
+     "examples_input_over_10": [
+      {
+       "block": 9770560,
+       "log_index": 26,
+       "event_in": "29697251236163518129",
+       "expected_in": "29693891775964244133",
+       "fee_ppm_column": 3000,
+       "implied_fee_ppm": 3112.784236899202
+      },
+      {
+       "block": 9803925,
+       "log_index": 47,
+       "event_in": "2257253017",
+       "expected_in": "2256548919",
+       "fee_ppm_column": 3000,
+       "implied_fee_ppm": 3310.9912551730904
+      },
+      {
+       "block": 9804293,
+       "log_index": 78,
+       "event_in": "10300639116440345678",
+       "expected_in": "10297279656241071682",
+       "fee_ppm_column": 3000,
+       "implied_fee_ppm": 3325.162524462244
+      },
+      {
+       "block": 9804294,
+       "log_index": 7,
+       "event_in": "1926949878",
+       "expected_in": "1926245780",
+       "fee_ppm_column": 3000,
+       "implied_fee_ppm": 3364.2992347723275
+      }
+     ],
+     "output_over_10_without_liquidity_event_between": 4,
+     "tolerance_note": "differences in raw token units (wei); within_2 = at most 2 units",
+     "exceptions_classified": {
+      "exceptions": 4,
+      "crossed_at_least_one_initialized_tick": 4,
+      "with_liquidity_event_between": 0,
+      "neither": 0,
+      "detail": [
+       {
+        "block": 9770560,
+        "log_index": 26,
+        "previous_swap": [
+         9770543,
+         8
+        ],
+        "tick_before": 222817,
+        "tick_after": 223102,
+        "event_out": "6149911198",
+        "out_from_prices": "6149209215",
+        "event_in": "29697251236163518129",
+        "expected_in": "29693891775964244133",
+        "fee_ppm_column": 3000,
+        "implied_fee_ppm": 3112.784,
+        "liquidity_events_between": 0,
+        "initialized_ticks_crossed": 2
+       },
+       {
+        "block": 9803925,
+        "log_index": 47,
+        "previous_swap": [
+         9803925,
+         36
+        ],
+        "tick_before": 222920,
+        "tick_after": 222817,
+        "event_out": "10736760776131794731",
+        "out_from_prices": "10733411394313118559",
+        "event_in": "2257253017",
+        "expected_in": "2256548919",
+        "fee_ppm_column": 3000,
+        "implied_fee_ppm": 3310.991,
+        "liquidity_events_between": 0,
+        "initialized_ticks_crossed": 2
+       },
+       {
+        "block": 9804293,
+        "log_index": 78,
+        "previous_swap": [
+         9804214,
+         12
+        ],
+        "tick_before": 222810,
+        "tick_after": 222908,
+        "event_out": "2154636649",
+        "out_from_prices": "2153934665",
+        "event_in": "10300639116440345678",
+        "expected_in": "10297279656241071682",
+        "fee_ppm_column": 3000,
+        "implied_fee_ppm": 3325.163,
+        "liquidity_events_between": 0,
+        "initialized_ticks_crossed": 2
+       },
+       {
+        "block": 9804294,
+        "log_index": 7,
+        "previous_swap": [
+         9804293,
+         78
+        ],
+        "tick_before": 222908,
+        "tick_after": 222821,
+        "event_out": "9161820311799509981",
+        "out_from_prices": "9158470929980833809",
+        "event_in": "1926949878",
+        "expected_in": "1926245780",
+        "fee_ppm_column": 3000,
+        "implied_fee_ppm": 3364.299,
+        "liquidity_events_between": 0,
+        "initialized_ticks_crossed": 2
+       }
+      ]
+     }
+    },
+    "liquidity_file_order": {
+     "rows": 12419,
+     "pass": true
+    },
+    "liquidity_rebuild": {
+     "samples": 400,
+     "mismatches": 0,
+     "max_abs_difference": "0",
+     "examples": [],
+     "pass": true,
+     "ranges_with_negative_net_liquidity_at_END": 0,
+     "ranges_open_at_END": 145
+    },
+    "end_state": {
+     "last_swap": {
+      "block": 110788889,
+      "log_index": 7,
+      "sqrt_price_x96": "5869055222606936907350112741318901",
+      "tick": 224268,
+      "liquidity": "128406677551474183"
+     },
+     "state_at_END": {
+      "sqrtPriceX96": "5869055222606936907350112741318901",
+      "tick": 224268,
+      "liquidity": "128406677551474183"
+     },
+     "sqrt_price_match": true,
+     "tick_match": true,
+     "liquidity_match_raw": true,
+     "liquidity_events_after_last_swap": 0,
+     "liquidity_after_in_range_events": "128406677551474183",
+     "liquidity_match_adjusted": true,
+     "pass": true
+    },
+    "refetch": {
+     "windows": [
+      {
+       "from": 38959201,
+       "to": 39959200,
+       "kind": "random",
+       "refetched": 1458,
+       "dataset": 1458,
+       "count_match": true,
+       "values_match": true,
+       "rpc_calls": 6
+      },
+      {
+       "from": 79830011,
+       "to": 80830010,
+       "kind": "random",
+       "refetched": 4316,
+       "dataset": 4316,
+       "count_match": true,
+       "values_match": true,
+       "rpc_calls": 6
+      },
+      {
+       "from": 58703654,
+       "to": 59703653,
+       "kind": "random",
+       "refetched": 1528,
+       "dataset": 1528,
+       "count_match": true,
+       "values_match": true,
+       "rpc_calls": 6
+      },
+      {
+       "from": 26484641,
+       "to": 27484640,
+       "kind": "random",
+       "refetched": 1015,
+       "dataset": 1015,
+       "count_match": true,
+       "values_match": true,
+       "rpc_calls": 6
+      },
+      {
+       "from": 40636257,
+       "to": 41636256,
+       "kind": "random",
+       "refetched": 1068,
+       "dataset": 1068,
+       "count_match": true,
+       "values_match": true,
+       "rpc_calls": 6
+      }
+     ],
+     "pass": true,
+     "split": "173331-block unaligned chunks (halved when the node refuses), uncached client",
+     "compared": "row count and sha256 of block,log_index,amount0,amount1,sqrt_price_x96,liquidity,tick lines"
+    },
+    "ts_error": {
+     "samples": 20,
+     "max_abs_error_s": 3.52,
+     "median_abs_error_s": 0.827,
+     "detail": [
+      {
+       "block": 15407866,
+       "interpolated": 1784621341.2,
+       "header": 1784621342,
+       "abs_error_s": 0.827
+      },
+      {
+       "block": 16544177,
+       "interpolated": 1784735208.5,
+       "header": 1784735208,
+       "abs_error_s": 0.535
+      },
+      {
+       "block": 19388243,
+       "interpolated": 1785020472.6,
+       "header": 1785020473,
+       "abs_error_s": 0.403
+      },
+      {
+       "block": 16595589,
+       "interpolated": 1784740351.9,
+       "header": 1784740352,
+       "abs_error_s": 0.1
+      },
+      {
+       "block": 34919897,
+       "interpolated": 1786576903.7,
+       "header": 1786576903,
+       "abs_error_s": 0.7
+      },
+      {
+       "block": 35995333,
+       "interpolated": 1786684713.4,
+       "header": 1786684713,
+       "abs_error_s": 0.367
+      },
+      {
+       "block": 15270190,
+       "interpolated": 1784607531.1,
+       "header": 1784607531,
+       "abs_error_s": 0.076
+      },
+      {
+       "block": 34870247,
+       "interpolated": 1786571931.8,
+       "header": 1786571932,
+       "abs_error_s": 0.177
+      },
+      {
+       "block": 29913680,
+       "interpolated": 1786075869.1,
+       "header": 1786075869,
+       "abs_error_s": 0.104
+      },
+      {
+       "block": 15559531,
+       "interpolated": 1784636558.0,
+       "header": 1784636558,
+       "abs_error_s": 0.041
+      },
+      {
+       "block": 14178155,
+       "interpolated": 1784497987.8,
+       "header": 1784497989,
+       "abs_error_s": 1.238
+      },
+      {
+       "block": 101779574,
+       "interpolated": 1793368773.1,
+       "header": 1793368774,
+       "abs_error_s": 0.878
+      },
+      {
+       "block": 106453370,
+       "interpolated": 1793852469.5,
+       "header": 1793852473,
+       "abs_error_s": 3.52
+      },
+      {
+       "block": 80298110,
+       "interpolated": 1791153570.7,
+       "header": 1791153572,
+       "abs_error_s": 1.323
+      },
+      {
+       "block": 36040889,
+       "interpolated": 1786689271.9,
+       "header": 1786689270,
+       "abs_error_s": 1.9
+      },
+      {
+       "block": 70522144,
+       "interpolated": 1790167412.9,
+       "header": 1790167415,
+       "abs_error_s": 2.099
+      },
+      {
+       "block": 15629311,
+       "interpolated": 1784643548.0,
+       "header": 1784643547,
+       "abs_error_s": 0.962
+      },
+      {
+       "block": 20858852,
+       "interpolated": 1785168008.2,
+       "header": 1785168007,
+       "abs_error_s": 1.2
+      },
+      {
+       "block": 77863746,
+       "interpolated": 1790906914.6,
+       "header": 1790906915,
+       "abs_error_s": 0.403
+      },
+      {
+       "block": 59511151,
+       "interpolated": 1789054182.1,
+       "header": 1789054183,
+       "abs_error_s": 0.864
+      }
+     ]
+    }
+   }
+  },
+  {
+   "path": "v4_spy_liquidity.csv.gz",
+   "columns": [
+    "block",
+    "log_index",
+    "sender",
+    "tick_lower",
+    "tick_upper",
+    "liquidity_delta",
+    "salt"
+   ],
+   "rows": 22877,
+   "bytes": 247656,
+   "sha256": "6517134cfefc20b21ee73825d7ea3bfaee43f96a2304f065516691da2e5d8eaf",
+   "first_block": 9349681,
+   "last_block": 110724768,
+   "first_time": "2026-07-14T07:28:30Z",
+   "last_time": "2026-11-10T07:54:23Z",
+   "time_source": "block interpolated on the header grid (file has no time column)",
+   "source": {
+    "contract": "0x8366a39CC670B4001A1121B8F6A443A643e40951",
+    "pool_id": "0xfe2a80bb5618fd14984b92ca6d45bf5ba67443ddb1435e28b2e48df2fc1526cd",
+    "currency0": "0x117cc2133c37b721f49de2a7a74833232b3b4c0c",
+    "currency1": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+    "fee": 3000,
+    "tick_spacing": 60,
+    "hooks": "0x0000000000000000000000000000000000000000",
+    "initialize": {
+     "block": 9349681,
+     "log_index": 16,
+     "sqrtPriceX96": "2165849053027949171803061",
+     "tick": -210156
+    },
+    "topics": [
+     "0xf208f4912782fd25c7f114ca3723a2d5dd6f3bcc3ac8db5af63baa85f711d5ec",
+     "0xfe2a80bb5618fd14984b92ca6d45bf5ba67443ddb1435e28b2e48df2fc1526cd"
+    ],
+    "event": "ModifyLiquidity(bytes32,address,int24,int24,int256,bytes32)"
+   },
+   "checks": null
+  },
+  {
+   "path": "v4_spy_swaps.csv.gz",
+   "columns": [
+    "block",
+    "log_index",
+    "ts",
+    "amount0",
+    "amount1",
+    "sqrt_price_x96",
+    "liquidity",
+    "tick",
+    "fee_ppm"
+   ],
+   "rows": 544277,
+   "bytes": 19035138,
+   "sha256": "d38ba42a492c69d22718070ec4f01de0624a55e566a9b8d10f5e46c4ebb8d060",
+   "first_block": 9368546,
+   "last_block": 110764667,
+   "first_time": "2026-07-14T08:00:02Z",
+   "last_time": "2026-11-10T09:05:29Z",
+   "time_source": "ts column (interpolated on the header grid)",
+   "source": {
+    "contract": "0x8366a39CC670B4001A1121B8F6A443A643e40951",
+    "pool_id": "0xfe2a80bb5618fd14984b92ca6d45bf5ba67443ddb1435e28b2e48df2fc1526cd",
+    "currency0": "0x117cc2133c37b721f49de2a7a74833232b3b4c0c",
+    "currency1": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+    "fee": 3000,
+    "tick_spacing": 60,
+    "hooks": "0x0000000000000000000000000000000000000000",
+    "initialize": {
+     "block": 9349681,
+     "log_index": 16,
+     "sqrtPriceX96": "2165849053027949171803061",
+     "tick": -210156
+    },
+    "topics": [
+     "0x40e9cecb9f5f1f1c5b9c97dec2917b7ee92e57ba5563708daca94dd84ad7112f",
+     "0xfe2a80bb5618fd14984b92ca6d45bf5ba67443ddb1435e28b2e48df2fc1526cd"
+    ],
+    "event": "Swap(bytes32,address,int128,int128,uint160,uint128,int24,uint24)",
+    "swap_fee_field_histogram": {
+     "3000": 24525,
+     "3499": 519752
+    },
+    "amount_sign": "event reports the swapper's delta; both signs flipped so positive = paid into the pool"
+   },
+   "checks": {
+    "order": {
+     "rows": 544277,
+     "duplicates_adjacent": 0,
+     "descending_steps": 0,
+     "pass": true
+    },
+    "v3_math": {
+     "pairs_total": 544276,
+     "eligible_equal_liquidity": 537868,
+     "price_unchanged": 0,
+     "output_leg": {
+      "within_2": 537868,
+      "within_10": 0,
+      "over_10": 0,
+      "max_abs": "1"
+     },
+     "input_leg_fee": {
+      "within_2": 537868,
+      "within_10": 0,
+      "over_10": 0,
+      "max_abs": "2",
+      "over_10_rel_gt_1e-6": 0
+     },
+     "sign_mismatch": 0,
+     "examples_output_over_10": [],
+     "examples_input_over_10": [],
+     "tolerance_note": "differences in raw token units (wei); within_2 = at most 2 units",
+     "exceptions_classified": {
+      "exceptions": 0,
+      "crossed_at_least_one_initialized_tick": 0,
+      "with_liquidity_event_between": 0,
+      "neither": 0,
+      "detail": []
+     }
+    },
+    "liquidity_file_order": {
+     "rows": 22877,
+     "pass": true
+    },
+    "liquidity_rebuild": {
+     "samples": 400,
+     "mismatches": 0,
+     "max_abs_difference": "0",
+     "examples": [],
+     "pass": true,
+     "ranges_with_negative_net_liquidity_at_END": 0,
+     "ranges_open_at_END": 180
+    },
+    "end_state": {
+     "last_swap": {
+      "block": 110764667,
+      "log_index": 43,
+      "sqrt_price_x96": "2175244476961509342024333",
+      "tick": -210070,
+      "liquidity": "2754156637826592793"
+     },
+     "state_at_END": {
+      "sqrtPriceX96": "2175244476961509342024333",
+      "tick": -210070,
+      "liquidity": "2754156637826592793"
+     },
+     "sqrt_price_match": true,
+     "tick_match": true,
+     "liquidity_match_raw": true,
+     "liquidity_events_after_last_swap": 0,
+     "liquidity_after_in_range_events": "2754156637826592793",
+     "liquidity_match_adjusted": true,
+     "pass": true
+    },
+    "refetch": {
+     "windows": [
+      {
+       "from": 58261931,
+       "to": 59261930,
+       "kind": "random",
+       "refetched": 10194,
+       "dataset": 10194,
+       "count_match": true,
+       "values_match": true,
+       "rpc_calls": 6
+      },
+      {
+       "from": 56303241,
+       "to": 57303240,
+       "kind": "random",
+       "refetched": 36322,
+       "dataset": 36322,
+       "count_match": true,
+       "values_match": true,
+       "rpc_calls": 11
+      },
+      {
+       "from": 60268861,
+       "to": 61268860,
+       "kind": "random",
+       "refetched": 19721,
+       "dataset": 19721,
+       "count_match": true,
+       "values_match": true,
+       "rpc_calls": 6
+      },
+      {
+       "from": 27191449,
+       "to": 28191448,
+       "kind": "random",
+       "refetched": 895,
+       "dataset": 895,
+       "count_match": true,
+       "values_match": true,
+       "rpc_calls": 6
+      },
+      {
+       "from": 104370050,
+       "to": 105370049,
+       "kind": "random",
+       "refetched": 880,
+       "dataset": 880,
+       "count_match": true,
+       "values_match": true,
+       "rpc_calls": 6
+      }
+     ],
+     "pass": true,
+     "split": "173331-block unaligned chunks (halved when the node refuses), uncached client",
+     "compared": "row count and sha256 of block,log_index,amount0,amount1,sqrt_price_x96,liquidity,tick lines"
+    },
+    "ts_error": {
+     "samples": 20,
+     "max_abs_error_s": 3.972,
+     "median_abs_error_s": 0.939,
+     "detail": [
+      {
+       "block": 52104682,
+       "interpolated": 1788304657.8,
+       "header": 1788304659,
+       "abs_error_s": 1.182
+      },
+      {
+       "block": 50994108,
+       "interpolated": 1788192406.7,
+       "header": 1788192405,
+       "abs_error_s": 1.73
+      },
+      {
+       "block": 35716901,
+       "interpolated": 1786656822.1,
+       "header": 1786656823,
+       "abs_error_s": 0.9
+      },
+      {
+       "block": 40155018,
+       "interpolated": 1787101891.8,
+       "header": 1787101892,
+       "abs_error_s": 0.193
+      },
+      {
+       "block": 59775597,
+       "interpolated": 1789080837.9,
+       "header": 1789080837,
+       "abs_error_s": 0.939
+      },
+      {
+       "block": 59652714,
+       "interpolated": 1789068439.0,
+       "header": 1789068443,
+       "abs_error_s": 3.972
+      },
+      {
+       "block": 78575093,
+       "interpolated": 1790978746.4,
+       "header": 1790978746,
+       "abs_error_s": 0.356
+      },
+      {
+       "block": 18333127,
+       "interpolated": 1784914574.0,
+       "header": 1784914574,
+       "abs_error_s": 0.013
+      },
+      {
+       "block": 53452750,
+       "interpolated": 1788442162.6,
+       "header": 1788442163,
+       "abs_error_s": 0.375
+      },
+      {
+       "block": 54075576,
+       "interpolated": 1788505720.3,
+       "header": 1788505718,
+       "abs_error_s": 2.291
+      },
+      {
+       "block": 50152502,
+       "interpolated": 1788107393.0,
+       "header": 1788107393,
+       "abs_error_s": 0.048
+      },
+      {
+       "block": 48666766,
+       "interpolated": 1787957267.0,
+       "header": 1787957265,
+       "abs_error_s": 2.043
+      },
+      {
+       "block": 55578943,
+       "interpolated": 1788657508.0,
+       "header": 1788657508,
+       "abs_error_s": 0.032
+      },
+      {
+       "block": 81623019,
+       "interpolated": 1791288973.7,
+       "header": 1791288973,
+       "abs_error_s": 0.73
+      },
+      {
+       "block": 55753808,
+       "interpolated": 1788675136.8,
+       "header": 1788675138,
+       "abs_error_s": 1.154
+      },
+      {
+       "block": 50870897,
+       "interpolated": 1788179972.4,
+       "header": 1788179970,
+       "abs_error_s": 2.418
+      },
+      {
+       "block": 57968737,
+       "interpolated": 1788898586.6,
+       "header": 1788898586,
+       "abs_error_s": 0.563
+      },
+      {
+       "block": 62861851,
+       "interpolated": 1789394363.2,
+       "header": 1789394365,
+       "abs_error_s": 1.828
+      },
+      {
+       "block": 62082854,
+       "interpolated": 1789315301.4,
+       "header": 1789315301,
+       "abs_error_s": 0.396
+      },
+      {
+       "block": 57013627,
+       "interpolated": 1788802214.0,
+       "header": 1788802215,
+       "abs_error_s": 1.036
+      }
+     ]
+    }
+   }
+  }
+ ],
+ "other_files": [
+  {
+   "path": "live_pair_checkpoints.json",
+   "bytes": 65610,
+   "sha256": "8f7267fb9f162f2ac4d7c8bf084ac660a227ff231bdc0a0f2defd2d3d768474b"
+  },
+  {
+   "path": "state/END.json",
+   "bytes": 302,
+   "sha256": "28ecdaa92e6c8f83604de93d68124c08f0faf76e27a1f659c07a621b6594b70a"
+  },
+  {
+   "path": "state/checks.json",
+   "bytes": 10306,
+   "sha256": "9e265b665b5a909261c7fa01bc281cd8d1cab7639413e4d544229a5d06afa991"
+  },
+  {
+   "path": "state/checks_online.json",
+   "bytes": 60384,
+   "sha256": "0f5fd7a3c2887a498759c81b49a11bdecea47422402444fbd2f5cfc6c0290cf9"
+  },
+  {
+   "path": "state/checks_univ3.json",
+   "bytes": 11148,
+   "sha256": "928812bf0de26c50bcfd913f8cfc4f3d801969c4089e302f393f8e5f66c7e162"
+  },
+  {
+   "path": "state/discovery.json",
+   "bytes": 325524,
+   "sha256": "4a96b6ac9e07711c6032eee871ab03c24be4edb05d3f6f2e30223ebd13ac51e3"
+  },
+  {
+   "path": "state/end_state.json",
+   "bytes": 42902,
+   "sha256": "a04315a1edcfd61b15f5aee888d56833c31b1584c69ac03e5b86c054bd6a8b31"
+  },
+  {
+   "path": "state/feeds_info.json",
+   "bytes": 7544,
+   "sha256": "1f509bd506be405abf267763b18bdca8336233ae24b15b2970149193eabbe8df"
+  },
+  {
+   "path": "state/headers_info.json",
+   "bytes": 300,
+   "sha256": "5717dd6dff9e084e94c699d65b1ac20853d3a6e772ec8a16b5319e6638bd37d9"
+  },
+  {
+   "path": "state/ramses_nvda_info.json",
+   "bytes": 3935,
+   "sha256": "2147239880297987863ff5ffe37393d943ed11641b1aabfb2890d888cc58e32b"
+  },
+  {
+   "path": "state/ramses_spy_info.json",
+   "bytes": 3895,
+   "sha256": "e9a9397d1de7a1468b86cf3fb0a23d98c336c191b67eddb314e19d46808f9a46"
+  },
+  {
+   "path": "state/rewards_info.json",
+   "bytes": 4745,
+   "sha256": "b8a4d934c88086b0ad8202ac873bf6a6a2a532da49bd36f022bf826509753375"
+  },
+  {
+   "path": "state/univ3_discovery.json",
+   "bytes": 5003,
+   "sha256": "b982b9026dabbc041c9abd85578b04cb77eb1466587595f7aedde87bf849a059"
+  },
+  {
+   "path": "state/univ3_info.json",
+   "bytes": 6980,
+   "sha256": "c140d3381d0291972dfc2371e123dd30146645e82f3fd4cda31955a09837b8eb"
+  },
+  {
+   "path": "state/v4_info.json",
+   "bytes": 5030,
+   "sha256": "92050cf561951057c1d0149f12fde52ab27758fde7481de900afa0ca2148deef"
+  },
+  {
+   "path": "univ3_pools.json",
+   "bytes": 5595,
+   "sha256": "49041d0102c73e0bd2ad663352438f1c125cb58caf805751cdf0d17bd31fbd1c"
+  },
+  {
+   "path": "v4_pools.json",
+   "bytes": 367812,
+   "sha256": "0cca2bc5f5435aa1f62eef44b0c12d0f0ea5e7b9386be88027adee4b40040c9d"
+  }
+ ]
+}

@@ -59,10 +59,14 @@ VENUES = {
                          "robinhood/feed_nvda.csv.gz", spacing=10),
     "ramses_spy": Venue("ramses_spy", "Ramses SPY/USDG (CL1, dynamic fee)", "robinhood/ramses_spy_swaps.csv.gz", True, 0.10, True, None,
                         "robinhood/feed_spy.csv.gz", spacing=1),
+    "v4_spy": Venue("v4_spy", "Uniswap v4 SPY/USDG (0.30%)", "robinhood/v4_spy_swaps.csv.gz", True, 0.10, True, None,
+                    "robinhood/feed_spy.csv.gz", lp_fee_ppm=3000.0, spacing=60),
     # Pharaoh: the pool's protocol share is 1,000,000 ppm (data/facts/pharaoh-wavax-usdc-lp-fee-check.json): LPs earn no swap fee.
     "pharaoh_wavax": Venue("pharaoh_wavax", "Pharaoh WAVAX/USDC (CL10, dynamic fee)", "avalanche/pharaoh_wavax_usdc_swaps.csv.gz", True, 1.0, False, 1.0,
                            "avalanche/feed_avax_usd.csv.gz", spacing=10),
     # reward-token price pools (quote is not USD: converted with the quote's USD series where used)
+    "ram_weth": Venue("ram_weth", "Ramses RAM/WETH (CL100)", "robinhood/ram_pool_swaps.csv.gz", False, 0.10, False, None, None, spacing=100,
+                      quote_decimals=18),
     "phar_wavax": Venue("phar_wavax", "Pharaoh PHAR/WAVAX (CL5)", "avalanche/phar_wavax_cl_swaps.csv.gz", True, 1.0, False, 1.0, None, spacing=5,
                         quote_decimals=18),
 }
@@ -242,13 +246,17 @@ class Series:
 
 def load_feed(rel: str, decimals: int = 8, min_price: float = 1.0) -> Series:
     t, v = [], []
-    with gzip.open(DATA / rel, "rt") as f:
-        r = csv.DictReader(f)
-        for row in r:
-            px = int(row["answer"]) / 10 ** decimals
-            if px > min_price and px < 1e7:  # the first rounds of a feed can be seed values
-                t.append(float(row["updated_at"]))
-                v.append(px)
+    files = [DATA / rel]
+    pre = DATA / rel.replace(".csv.gz", "_pre27m.csv.gz")   # rounds before block 27,000,000 were pulled into their own file
+    if pre.exists():
+        files.insert(0, pre)
+    for path in files:
+        with gzip.open(path, "rt") as f:
+            for row in csv.DictReader(f):
+                px = int(row["answer"]) / 10 ** decimals
+                if px > min_price and px < 1e7:  # the first rounds of a feed can be seed values
+                    t.append(float(row["updated_at"]))
+                    v.append(px)
     o = np.argsort(t, kind="stable")
     return Series(np.array(t)[o], np.array(v)[o])
 

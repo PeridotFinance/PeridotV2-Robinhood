@@ -1,0 +1,433 @@
+{
+ "seed": 20261110,
+ "ramses_nvda_swaps.csv.gz": {
+  "order": {
+   "rows": 363159,
+   "duplicates_adjacent": 0,
+   "descending_steps": 0,
+   "pass": true
+  },
+  "v3_math": {
+   "pairs_total": 363158,
+   "eligible_equal_liquidity": 349591,
+   "price_unchanged": 0,
+   "output_leg": {
+    "within_2": 349588,
+    "within_10": 0,
+    "over_10": 3,
+    "max_abs": "1352879534917991749"
+   },
+   "input_leg_fee": {
+    "within_2": 349588,
+    "within_10": 0,
+    "over_10": 3,
+    "max_abs": "2657322878168838",
+    "over_10_rel_gt_1e-6": 3
+   },
+   "sign_mismatch": 0,
+   "examples_output_over_10": [
+    {
+     "block": 83322007,
+     "log_index": 40,
+     "event_out": "328316111",
+     "from_prices": "327690111"
+    },
+    {
+     "block": 88243867,
+     "log_index": 9,
+     "event_out": "2781374243684317350",
+     "from_prices": "2592014620417751010"
+    },
+    {
+     "block": 94706728,
+     "log_index": 18,
+     "event_out": "2544186810246552311",
+     "from_prices": "1191307275328560562"
+    }
+   ],
+   "examples_input_over_10": [
+    {
+     "block": 83322007,
+     "log_index": 40,
+     "event_in": "1393709578887448810",
+     "expected_in": "1391052256009279972",
+     "fee_ppm_column": 100,
+     "implied_fee_ppm": 2006.464005221309
+    },
+    {
+     "block": 88243867,
+     "log_index": 9,
+     "event_in": "637256793",
+     "expected_in": "593872273",
+     "fee_ppm_column": 100,
+     "implied_fee_ppm": 68173.31486649215
+    },
+    {
+     "block": 94706728,
+     "log_index": 18,
+     "event_in": "560584648",
+     "expected_in": "262493222",
+     "fee_ppm_column": 100,
+     "implied_fee_ppm": 531797.7883689743
+    }
+   ],
+   "tolerance_note": "differences in raw token units (wei); within_2 = at most 2 units"
+  },
+  "liquidity_file_order": {
+   "rows": 3216,
+   "pass": true
+  },
+  "liquidity_rebuild": {
+   "samples": 400,
+   "mismatches": 0,
+   "max_abs_difference": "0",
+   "examples": [],
+   "pass": true,
+   "ranges_with_negative_net_liquidity_at_END": 0,
+   "ranges_open_at_END": 22
+  },
+  "end_state": {
+   "last_swap": {
+    "block": 110789811,
+    "log_index": 29,
+    "sqrt_price_x96": "5863145936603847916732664309806396",
+    "tick": 224248,
+    "liquidity": "31852565403993159"
+   },
+   "state_at_END": {
+    "sqrtPriceX96": "5863145936603847916732664309806396",
+    "tick": 224248,
+    "liquidity": "31852565403993159"
+   },
+   "sqrt_price_match": true,
+   "tick_match": true,
+   "liquidity_match_raw": true,
+   "liquidity_events_after_last_swap": 0,
+   "liquidity_after_in_range_events": "31852565403993159",
+   "liquidity_match_adjusted": true,
+   "pass": true
+  }
+ },
+ "ramses_spy_swaps.csv.gz": {
+  "order": {
+   "rows": 691804,
+   "duplicates_adjacent": 0,
+   "descending_steps": 0,
+   "pass": true
+  },
+  "v3_math": {
+   "pairs_total": 691803,
+   "eligible_equal_liquidity": 659955,
+   "price_unchanged": 0,
+   "output_leg": {
+    "within_2": 659926,
+    "within_10": 0,
+    "over_10": 29,
+    "max_abs": "2582598060489053017"
+   },
+   "input_leg_fee": {
+    "within_2": 659926,
+    "within_10": 0,
+    "over_10": 29,
+    "max_abs": "2582856346123665388",
+    "over_10_rel_gt_1e-6": 29
+   },
+   "sign_mismatch": 0,
+   "examples_output_over_10": [
+    {
+     "block": 41776629,
+     "log_index": 17,
+     "event_out": "303301229349109163",
+     "from_prices": "293301229349109166"
+    },
+    {
+     "block": 49956929,
+     "log_index": 12,
+     "event_out": "309551277364136454",
+     "from_prices": "261242236492156672"
+    },
+    {
+     "block": 60589019,
+     "log_index": 31,
+     "event_out": "12169585246932193125",
+     "from_prices": "9975114868109736387"
+    },
+    {
+     "block": 79730614,
+     "log_index": 8,
+     "event_out": "1049780201",
+     "from_prices": "1018509126"
+    },
+    {
+     "block": 83258147,
+     "log_index": 36,
+     "event_out": "1085298564",
+     "from_prices": "1080819893"
+    }
+   ],
+   "examples_input_over_10": [
+    {
+     "block": 41776629,
+     "log_index": 17,
+     "event_in": "231629529",
+     "expected_in": "223993706",
+     "fee_ppm_column": 100,
+     "implied_fee_ppm": 33062.37781107779
+    },
+    {
+     "block": 49956929,
+     "log_index": 12,
+     "event_in": "239916117",
+     "expected_in": "202476800",
+     "fee_ppm_column": 100,
+     "implied_fee_ppm": 156136.09234931058
+    },
+    {
+     "block": 60589019,
+     "log_index": 31,
+     "event_in": "9306163065",
+     "expected_in": "7628157134",
+     "fee_ppm_column": 100,
+     "implied_fee_ppm": 180393.2227787586
+    },
+    {
+     "block": 79730614,
+     "log_index": 8,
+     "event_in": "1359298234331157464",
+     "expected_in": "1318807626715087857",
+     "fee_ppm_column": 100,
+     "implied_fee_ppm": 29884.897480742635
+    },
+    {
+     "block": 83258147,
+     "log_index": 36,
+     "event_in": "1401946276490338743",
+     "expected_in": "1396161074112189571",
+     "fee_ppm_column": 100,
+     "implied_fee_ppm": 4226.1380374665205
+    }
+   ],
+   "tolerance_note": "differences in raw token units (wei); within_2 = at most 2 units"
+  },
+  "liquidity_file_order": {
+   "rows": 4506,
+   "pass": true
+  },
+  "liquidity_rebuild": {
+   "samples": 400,
+   "mismatches": 0,
+   "max_abs_difference": "0",
+   "examples": [],
+   "pass": true,
+   "ranges_with_negative_net_liquidity_at_END": 0,
+   "ranges_open_at_END": 48
+  },
+  "end_state": {
+   "last_swap": {
+    "block": 110789697,
+    "log_index": 16,
+    "sqrt_price_x96": "2177458706053411598767062",
+    "tick": -210050,
+    "liquidity": "215980238697077245"
+   },
+   "state_at_END": {
+    "sqrtPriceX96": "2177458706053411598767062",
+    "tick": -210050,
+    "liquidity": "215980238697077245"
+   },
+   "sqrt_price_match": true,
+   "tick_match": true,
+   "liquidity_match_raw": true,
+   "liquidity_events_after_last_swap": 0,
+   "liquidity_after_in_range_events": "215980238697077245",
+   "liquidity_match_adjusted": true,
+   "pass": true
+  }
+ },
+ "v4_nvda_swaps.csv.gz": {
+  "order": {
+   "rows": 205833,
+   "duplicates_adjacent": 0,
+   "descending_steps": 0,
+   "pass": true
+  },
+  "v3_math": {
+   "pairs_total": 205832,
+   "eligible_equal_liquidity": 198052,
+   "price_unchanged": 0,
+   "output_leg": {
+    "within_2": 198048,
+    "within_10": 0,
+    "over_10": 4,
+    "max_abs": "3349381818676172"
+   },
+   "input_leg_fee": {
+    "within_2": 198048,
+    "within_10": 0,
+    "over_10": 4,
+    "max_abs": "3359460199273996",
+    "over_10_rel_gt_1e-6": 4
+   },
+   "sign_mismatch": 0,
+   "examples_output_over_10": [
+    {
+     "block": 9770560,
+     "log_index": 26,
+     "event_out": "6149911198",
+     "from_prices": "6149209215"
+    },
+    {
+     "block": 9803925,
+     "log_index": 47,
+     "event_out": "10736760776131794731",
+     "from_prices": "10733411394313118559"
+    },
+    {
+     "block": 9804293,
+     "log_index": 78,
+     "event_out": "2154636649",
+     "from_prices": "2153934665"
+    },
+    {
+     "block": 9804294,
+     "log_index": 7,
+     "event_out": "9161820311799509981",
+     "from_prices": "9158470929980833809"
+    }
+   ],
+   "examples_input_over_10": [
+    {
+     "block": 9770560,
+     "log_index": 26,
+     "event_in": "29697251236163518129",
+     "expected_in": "29693891775964244133",
+     "fee_ppm_column": 3000,
+     "implied_fee_ppm": 3112.784236899202
+    },
+    {
+     "block": 9803925,
+     "log_index": 47,
+     "event_in": "2257253017",
+     "expected_in": "2256548919",
+     "fee_ppm_column": 3000,
+     "implied_fee_ppm": 3310.9912551730904
+    },
+    {
+     "block": 9804293,
+     "log_index": 78,
+     "event_in": "10300639116440345678",
+     "expected_in": "10297279656241071682",
+     "fee_ppm_column": 3000,
+     "implied_fee_ppm": 3325.162524462244
+    },
+    {
+     "block": 9804294,
+     "log_index": 7,
+     "event_in": "1926949878",
+     "expected_in": "1926245780",
+     "fee_ppm_column": 3000,
+     "implied_fee_ppm": 3364.2992347723275
+    }
+   ],
+   "tolerance_note": "differences in raw token units (wei); within_2 = at most 2 units"
+  },
+  "liquidity_file_order": {
+   "rows": 12419,
+   "pass": true
+  },
+  "liquidity_rebuild": {
+   "samples": 400,
+   "mismatches": 0,
+   "max_abs_difference": "0",
+   "examples": [],
+   "pass": true,
+   "ranges_with_negative_net_liquidity_at_END": 0,
+   "ranges_open_at_END": 145
+  },
+  "end_state": {
+   "last_swap": {
+    "block": 110788889,
+    "log_index": 7,
+    "sqrt_price_x96": "5869055222606936907350112741318901",
+    "tick": 224268,
+    "liquidity": "128406677551474183"
+   },
+   "state_at_END": {
+    "sqrtPriceX96": "5869055222606936907350112741318901",
+    "tick": 224268,
+    "liquidity": "128406677551474183"
+   },
+   "sqrt_price_match": true,
+   "tick_match": true,
+   "liquidity_match_raw": true,
+   "liquidity_events_after_last_swap": 0,
+   "liquidity_after_in_range_events": "128406677551474183",
+   "liquidity_match_adjusted": true,
+   "pass": true
+  }
+ },
+ "v4_spy_swaps.csv.gz": {
+  "order": {
+   "rows": 544277,
+   "duplicates_adjacent": 0,
+   "descending_steps": 0,
+   "pass": true
+  },
+  "v3_math": {
+   "pairs_total": 544276,
+   "eligible_equal_liquidity": 537868,
+   "price_unchanged": 0,
+   "output_leg": {
+    "within_2": 537868,
+    "within_10": 0,
+    "over_10": 0,
+    "max_abs": "1"
+   },
+   "input_leg_fee": {
+    "within_2": 537868,
+    "within_10": 0,
+    "over_10": 0,
+    "max_abs": "2",
+    "over_10_rel_gt_1e-6": 0
+   },
+   "sign_mismatch": 0,
+   "examples_output_over_10": [],
+   "examples_input_over_10": [],
+   "tolerance_note": "differences in raw token units (wei); within_2 = at most 2 units"
+  },
+  "liquidity_file_order": {
+   "rows": 22877,
+   "pass": true
+  },
+  "liquidity_rebuild": {
+   "samples": 400,
+   "mismatches": 0,
+   "max_abs_difference": "0",
+   "examples": [],
+   "pass": true,
+   "ranges_with_negative_net_liquidity_at_END": 0,
+   "ranges_open_at_END": 180
+  },
+  "end_state": {
+   "last_swap": {
+    "block": 110764667,
+    "log_index": 43,
+    "sqrt_price_x96": "2175244476961509342024333",
+    "tick": -210070,
+    "liquidity": "2754156637826592793"
+   },
+   "state_at_END": {
+    "sqrtPriceX96": "2175244476961509342024333",
+    "tick": -210070,
+    "liquidity": "2754156637826592793"
+   },
+   "sqrt_price_match": true,
+   "tick_match": true,
+   "liquidity_match_raw": true,
+   "liquidity_events_after_last_swap": 0,
+   "liquidity_after_in_range_events": "2754156637826592793",
+   "liquidity_match_adjusted": true,
+   "pass": true
+  }
+ }
+}

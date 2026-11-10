@@ -297,53 +297,60 @@ def v4_scan_swaps(r: Rpc, ids: list[str], lo: int, hi: int, progress=None):
 
 
 # ------------------------------------------------------------- compact, streaming scan of one contract's logs
-def scan_compact(r: Rpc, address: str, topics: list, lo: int, hi: int, progress=None, unit: int = 500_000):
-    """Generator over ``unit``-block cache units of [lo, hi]: yields each unit's logs as [block, log_index, topics[1:], data],
-    oldest first. For contracts with millions of events: nothing but the current unit is held in memory and the cache
-    (data/.cache/robinhood/scan/<address>-<topic0[:10]>-<hash>/<from>-<to>.json.gz) is gzip-compressed.
+def scan_compact(r: Rpc, address: str, topics: list, lo: int, hi: int, progress=None):
+    """The pieces of ``scan_pieces`` without their block ranges."""
+    for _, _, rows in scan_pieces(r, address, topics, lo, hi, progress):
+        yield rows
 
-    Inside a unit the request width adapts: halved when the node refuses (more than 10,000 logs, range limit), doubled
-    after a response with fewer than 3,000 logs."""
+
+def scan_pieces(r: Rpc, address: str, topics: list, lo: int, hi: int, progress=None, start_step: int = 2_000_000):
+    """Generator: yields (from, to, logs) for one contract over [lo, hi] piece by piece, logs being a list of
+    [block, log_index, topics[1:], data], oldest first. For contracts with millions of events: only one response
+    (at most 10,000 logs) is held in memory, and every response is cached gzip-compressed as
+    data/.cache/robinhood/scan/<address>-<topic0[:10]>-<hash>/<from>-<to>.json.gz.
+
+    The request width adapts to the density: halved when the node refuses (more than 10,000 logs), doubled after a
+    response with fewer than 3,000 logs (up to 9,000,000 blocks). A re-run reads the cached pieces while they are
+    contiguous from ``lo`` and fetches from where they end."""
     key = hashlib.sha1(json.dumps([address.lower(), topics]).encode()).hexdigest()[:10]
     d = CACHE / "scan" / f"{address.lower()}-{str(topics[0])[:10]}-{key}"
     d.mkdir(parents=True, exist_ok=True)
-    step = unit
-    cur, n, total = lo, 0, 0
+    have = {}
+    for f in d.glob("*.json.gz"):
+        a, b = f.name[:-8].split("-")
+        have[int(a)] = (int(b), f)
+    cur, n, total, step = lo, 0, 0, start_step
     while cur <= hi:
-        top = min((cur // unit + 1) * unit - 1, hi)
-        f = d / f"{cur}-{top}.json.gz"
-        if f.exists():
+        if cur in have and have[cur][0] <= hi:
+            top, f = have[cur]
             with gzip.open(f, "rt") as fh:
                 rows = json.load(fh)
         else:
-            rows = []
-            a = cur
-            while a <= top:
-                b = min(a + step - 1, top)
+            while True:
+                top = min(cur + step - 1, hi)
                 try:
-                    logs = r._logs_raw(address, topics, a, b)
+                    logs = r._logs_raw(address, topics, cur, top)
+                    break
                 except Exception as e:  # SplitWindow from evidence_lib
-                    if type(e).__name__ != "SplitWindow" or a == b:
+                    if type(e).__name__ != "SplitWindow" or top == cur:
                         raise
-                    step = max((b - a + 1) // 2, 1)
-                    continue
-                rows += [[l["blockNumber"], l["logIndex"], l["topics"][1:], l["data"]] for l in logs]
-                if len(logs) < 3000:
-                    step = min(step * 2, unit)
-                a = b + 1
-            rows.sort(key=lambda x: (x[0], x[1]))
+                    step = max((top - cur + 1) // 2, 1)
+            rows = sorted(([l["blockNumber"], l["logIndex"], l["topics"][1:], l["data"]] for l in logs), key=lambda x: (x[0], x[1]))
             for x, y in zip(rows, rows[1:]):
                 if (x[0], x[1]) == (y[0], y[1]):
                     raise EvidenceError(f"duplicate log position {(x[0], x[1])} from {address}")
+            f = d / f"{cur}-{top}.json.gz"
             tmp = f.with_suffix(f".tmp{os.getpid()}")
             with gzip.open(tmp, "wt", compresslevel=5) as fh:
                 json.dump(rows, fh)
             os.replace(tmp, f)
+            if len(logs) < 3000:
+                step = min(step * 2, 9_000_000)
         n += 1
         total += len(rows)
-        if progress and n % 20 == 0:
-            progress(f"scan {address[:10]} {str(topics[0])[:10]} unit {cur}-{top}: {total} logs so far")
-        yield rows
+        if progress and n % 25 == 0:
+            progress(f"scan {address[:10]} {str(topics[0])[:10]} piece {cur}-{top}: {total} logs so far")
+        yield cur, top, rows
         cur = top + 1
 
 

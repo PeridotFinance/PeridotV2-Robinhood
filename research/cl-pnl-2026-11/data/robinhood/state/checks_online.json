@@ -1,0 +1,2611 @@
+{
+ "seed": 20261110,
+ "ramses_nvda_swaps.csv.gz": {
+  "order": {
+   "rows": 363159,
+   "duplicates_adjacent": 0,
+   "descending_steps": 0,
+   "pass": true
+  },
+  "v3_math": {
+   "pairs_total": 363158,
+   "eligible_equal_liquidity": 349591,
+   "price_unchanged": 0,
+   "output_leg": {
+    "within_2": 349588,
+    "within_10": 0,
+    "over_10": 3,
+    "max_abs": "1352879534917991749"
+   },
+   "input_leg_fee": {
+    "within_2": 349588,
+    "within_10": 0,
+    "over_10": 3,
+    "max_abs": "2657322878168838",
+    "over_10_rel_gt_1e-6": 3
+   },
+   "sign_mismatch": 0,
+   "examples_output_over_10": [
+    {
+     "block": 83322007,
+     "log_index": 40,
+     "previous_swap": [
+      83320582,
+      8
+     ],
+     "tick_before": 221699,
+     "tick_after": 221700,
+     "event_out": "328316111",
+     "from_prices": "327690111",
+     "liquidity_events_between": 1
+    },
+    {
+     "block": 88243867,
+     "log_index": 9,
+     "previous_swap": [
+      88243588,
+      3
+     ],
+     "tick_before": 221980,
+     "tick_after": 221979,
+     "event_out": "2781374243684317350",
+     "from_prices": "2592014620417751010",
+     "liquidity_events_between": 1
+    },
+    {
+     "block": 94706728,
+     "log_index": 18,
+     "previous_swap": [
+      94706452,
+      16
+     ],
+     "tick_before": 222371,
+     "tick_after": 222369,
+     "event_out": "2544186810246552311",
+     "from_prices": "1191307275328560562",
+     "liquidity_events_between": 1
+    }
+   ],
+   "examples_input_over_10": [
+    {
+     "block": 83322007,
+     "log_index": 40,
+     "event_in": "1393709578887448810",
+     "expected_in": "1391052256009279972",
+     "fee_ppm_column": 100,
+     "implied_fee_ppm": 2006.464005221309
+    },
+    {
+     "block": 88243867,
+     "log_index": 9,
+     "event_in": "637256793",
+     "expected_in": "593872273",
+     "fee_ppm_column": 100,
+     "implied_fee_ppm": 68173.31486649215
+    },
+    {
+     "block": 94706728,
+     "log_index": 18,
+     "event_in": "560584648",
+     "expected_in": "262493222",
+     "fee_ppm_column": 100,
+     "implied_fee_ppm": 531797.7883689743
+    }
+   ],
+   "output_over_10_with_liquidity_event_between": 3,
+   "tolerance_note": "differences in raw token units (wei); within_2 = at most 2 units",
+   "exceptions_classified": {
+    "exceptions": 3,
+    "crossed_at_least_one_initialized_tick": 3,
+    "with_liquidity_event_between": 3,
+    "neither": 0,
+    "detail": [
+     {
+      "block": 83322007,
+      "log_index": 40,
+      "previous_swap": [
+       83320582,
+       8
+      ],
+      "tick_before": 221699,
+      "tick_after": 221700,
+      "event_out": "328316111",
+      "out_from_prices": "327690111",
+      "event_in": "1393709578887448810",
+      "expected_in": "1391052256009279972",
+      "fee_ppm_column": 100,
+      "implied_fee_ppm": 2006.464,
+      "liquidity_events_between": 1,
+      "initialized_ticks_crossed": 1
+     },
+     {
+      "block": 88243867,
+      "log_index": 9,
+      "previous_swap": [
+       88243588,
+       3
+      ],
+      "tick_before": 221980,
+      "tick_after": 221979,
+      "event_out": "2781374243684317350",
+      "out_from_prices": "2592014620417751010",
+      "event_in": "637256793",
+      "expected_in": "593872273",
+      "fee_ppm_column": 100,
+      "implied_fee_ppm": 68173.315,
+      "liquidity_events_between": 1,
+      "initialized_ticks_crossed": 1
+     },
+     {
+      "block": 94706728,
+      "log_index": 18,
+      "previous_swap": [
+       94706452,
+       16
+      ],
+      "tick_before": 222371,
+      "tick_after": 222369,
+      "event_out": "2544186810246552311",
+      "out_from_prices": "1191307275328560562",
+      "event_in": "560584648",
+      "expected_in": "262493222",
+      "fee_ppm_column": 100,
+      "implied_fee_ppm": 531797.788,
+      "liquidity_events_between": 1,
+      "initialized_ticks_crossed": 1
+     }
+    ]
+   }
+  },
+  "liquidity_file_order": {
+   "rows": 3216,
+   "pass": true
+  },
+  "liquidity_rebuild": {
+   "samples": 400,
+   "mismatches": 0,
+   "max_abs_difference": "0",
+   "examples": [],
+   "pass": true,
+   "ranges_with_negative_net_liquidity_at_END": 0,
+   "ranges_open_at_END": 22
+  },
+  "end_state": {
+   "last_swap": {
+    "block": 110789811,
+    "log_index": 29,
+    "sqrt_price_x96": "5863145936603847916732664309806396",
+    "tick": 224248,
+    "liquidity": "31852565403993159"
+   },
+   "state_at_END": {
+    "sqrtPriceX96": "5863145936603847916732664309806396",
+    "tick": 224248,
+    "liquidity": "31852565403993159"
+   },
+   "sqrt_price_match": true,
+   "tick_match": true,
+   "liquidity_match_raw": true,
+   "liquidity_events_after_last_swap": 0,
+   "liquidity_after_in_range_events": "31852565403993159",
+   "liquidity_match_adjusted": true,
+   "pass": true
+  },
+  "refetch": {
+   "windows": [
+    {
+     "from": 46050082,
+     "to": 47050081,
+     "kind": "random",
+     "refetched": 458,
+     "dataset": 458,
+     "count_match": true,
+     "values_match": true,
+     "rpc_calls": 6
+    },
+    {
+     "from": 106179660,
+     "to": 107179659,
+     "kind": "random",
+     "refetched": 5140,
+     "dataset": 5140,
+     "count_match": true,
+     "values_match": true,
+     "rpc_calls": 6
+    },
+    {
+     "from": 109363435,
+     "to": 110363434,
+     "kind": "random",
+     "refetched": 9403,
+     "dataset": 9403,
+     "count_match": true,
+     "values_match": true,
+     "rpc_calls": 6
+    },
+    {
+     "from": 73748088,
+     "to": 74748087,
+     "kind": "random",
+     "refetched": 3478,
+     "dataset": 3478,
+     "count_match": true,
+     "values_match": true,
+     "rpc_calls": 6
+    },
+    {
+     "from": 92344958,
+     "to": 93344957,
+     "kind": "random",
+     "refetched": 5280,
+     "dataset": 5280,
+     "count_match": true,
+     "values_match": true,
+     "rpc_calls": 6
+    },
+    {
+     "from": 103687711,
+     "to": 104687710,
+     "kind": "seam between the existing raw file and the fetched tail",
+     "refetched": 2616,
+     "dataset": 2616,
+     "count_match": true,
+     "values_match": true,
+     "rpc_calls": 6
+    }
+   ],
+   "pass": true,
+   "split": "173331-block unaligned chunks (halved when the node refuses), uncached client",
+   "compared": "row count and sha256 of block,log_index,amount0,amount1,sqrt_price_x96,liquidity,tick lines"
+  },
+  "ts_error": {
+   "samples": 20,
+   "max_abs_error_s": 4.036,
+   "median_abs_error_s": 0.691,
+   "detail": [
+    {
+     "block": 81688841,
+     "interpolated": 1791295692.1,
+     "header": 1791295692,
+     "abs_error_s": 0.13
+    },
+    {
+     "block": 77438128,
+     "interpolated": 1790864096.2,
+     "header": 1790864097,
+     "abs_error_s": 0.762
+    },
+    {
+     "block": 106954038,
+     "interpolated": 1793903912.5,
+     "header": 1793903913,
+     "abs_error_s": 0.528
+    },
+    {
+     "block": 81059770,
+     "interpolated": 1791231247.7,
+     "header": 1791231247,
+     "abs_error_s": 0.655
+    },
+    {
+     "block": 76816467,
+     "interpolated": 1790801521.6,
+     "header": 1790801520,
+     "abs_error_s": 1.58
+    },
+    {
+     "block": 79714898,
+     "interpolated": 1791094427.6,
+     "header": 1791094429,
+     "abs_error_s": 1.384
+    },
+    {
+     "block": 78887257,
+     "interpolated": 1791010434.8,
+     "header": 1791010436,
+     "abs_error_s": 1.158
+    },
+    {
+     "block": 59514714,
+     "interpolated": 1789054541.6,
+     "header": 1789054543,
+     "abs_error_s": 1.357
+    },
+    {
+     "block": 84254684,
+     "interpolated": 1791558926.8,
+     "header": 1791558927,
+     "abs_error_s": 0.232
+    },
+    {
+     "block": 66559430,
+     "interpolated": 1789768196.7,
+     "header": 1789768195,
+     "abs_error_s": 1.715
+    },
+    {
+     "block": 64721473,
+     "interpolated": 1789583147.0,
+     "header": 1789583143,
+     "abs_error_s": 4.036
+    },
+    {
+     "block": 86709958,
+     "interpolated": 1791811847.7,
+     "header": 1791811847,
+     "abs_error_s": 0.674
+    },
+    {
+     "block": 55074538,
+     "interpolated": 1788606630.9,
+     "header": 1788606630,
+     "abs_error_s": 0.884
+    },
+    {
+     "block": 88802868,
+     "interpolated": 1792024864.9,
+     "header": 1792024865,
+     "abs_error_s": 0.053
+    },
+    {
+     "block": 76425989,
+     "interpolated": 1790762296.7,
+     "header": 1790762296,
+     "abs_error_s": 0.691
+    },
+    {
+     "block": 77200242,
+     "interpolated": 1790840162.3,
+     "header": 1790840162,
+     "abs_error_s": 0.321
+    },
+    {
+     "block": 82436611,
+     "interpolated": 1791372423.3,
+     "header": 1791372423,
+     "abs_error_s": 0.322
+    },
+    {
+     "block": 78028231,
+     "interpolated": 1790923583.1,
+     "header": 1790923584,
+     "abs_error_s": 0.907
+    },
+    {
+     "block": 107765814,
+     "interpolated": 1793987212.2,
+     "header": 1793987212,
+     "abs_error_s": 0.214
+    },
+    {
+     "block": 59243325,
+     "interpolated": 1789027173.5,
+     "header": 1789027174,
+     "abs_error_s": 0.507
+    }
+   ]
+  }
+ },
+ "ramses_spy_swaps.csv.gz": {
+  "order": {
+   "rows": 691804,
+   "duplicates_adjacent": 0,
+   "descending_steps": 0,
+   "pass": true
+  },
+  "v3_math": {
+   "pairs_total": 691803,
+   "eligible_equal_liquidity": 659955,
+   "price_unchanged": 0,
+   "output_leg": {
+    "within_2": 659926,
+    "within_10": 0,
+    "over_10": 29,
+    "max_abs": "2582598060489053017"
+   },
+   "input_leg_fee": {
+    "within_2": 659926,
+    "within_10": 0,
+    "over_10": 29,
+    "max_abs": "2582856346123665388",
+    "over_10_rel_gt_1e-6": 29
+   },
+   "sign_mismatch": 0,
+   "examples_output_over_10": [
+    {
+     "block": 41776629,
+     "log_index": 17,
+     "previous_swap": [
+      41776447,
+      12
+     ],
+     "tick_before": -209943,
+     "tick_after": -209938,
+     "event_out": "303301229349109163",
+     "from_prices": "293301229349109166",
+     "liquidity_events_between": 0
+    },
+    {
+     "block": 49956929,
+     "log_index": 12,
+     "previous_swap": [
+      49956892,
+      119
+     ],
+     "tick_before": -209794,
+     "tick_after": -209792,
+     "event_out": "309551277364136454",
+     "from_prices": "261242236492156672",
+     "liquidity_events_between": 2
+    },
+    {
+     "block": 60589019,
+     "log_index": 31,
+     "previous_swap": [
+      60588960,
+      55
+     ],
+     "tick_before": -209929,
+     "tick_after": -209925,
+     "event_out": "12169585246932193125",
+     "from_prices": "9975114868109736387",
+     "liquidity_events_between": 0
+    },
+    {
+     "block": 79730614,
+     "log_index": 8,
+     "previous_swap": [
+      79730481,
+      17
+     ],
+     "tick_before": -209826,
+     "tick_after": -209827,
+     "event_out": "1049780201",
+     "from_prices": "1018509126",
+     "liquidity_events_between": 1
+    },
+    {
+     "block": 83258147,
+     "log_index": 36,
+     "previous_swap": [
+      83257268,
+      8
+     ],
+     "tick_before": -209802,
+     "tick_after": -209803,
+     "event_out": "1085298564",
+     "from_prices": "1080819893",
+     "liquidity_events_between": 1
+    }
+   ],
+   "examples_input_over_10": [
+    {
+     "block": 41776629,
+     "log_index": 17,
+     "event_in": "231629529",
+     "expected_in": "223993706",
+     "fee_ppm_column": 100,
+     "implied_fee_ppm": 33062.37781107779
+    },
+    {
+     "block": 49956929,
+     "log_index": 12,
+     "event_in": "239916117",
+     "expected_in": "202476800",
+     "fee_ppm_column": 100,
+     "implied_fee_ppm": 156136.09234931058
+    },
+    {
+     "block": 60589019,
+     "log_index": 31,
+     "event_in": "9306163065",
+     "expected_in": "7628157134",
+     "fee_ppm_column": 100,
+     "implied_fee_ppm": 180393.2227787586
+    },
+    {
+     "block": 79730614,
+     "log_index": 8,
+     "event_in": "1359298234331157464",
+     "expected_in": "1318807626715087857",
+     "fee_ppm_column": 100,
+     "implied_fee_ppm": 29884.897480742635
+    },
+    {
+     "block": 83258147,
+     "log_index": 36,
+     "event_in": "1401946276490338743",
+     "expected_in": "1396161074112189571",
+     "fee_ppm_column": 100,
+     "implied_fee_ppm": 4226.1380374665205
+    }
+   ],
+   "output_over_10_without_liquidity_event_between": 11,
+   "output_over_10_with_liquidity_event_between": 18,
+   "tolerance_note": "differences in raw token units (wei); within_2 = at most 2 units",
+   "exceptions_classified": {
+    "exceptions": 29,
+    "crossed_at_least_one_initialized_tick": 29,
+    "with_liquidity_event_between": 18,
+    "neither": 0,
+    "detail": [
+     {
+      "block": 41776629,
+      "log_index": 17,
+      "previous_swap": [
+       41776447,
+       12
+      ],
+      "tick_before": -209943,
+      "tick_after": -209938,
+      "event_out": "303301229349109163",
+      "out_from_prices": "293301229349109166",
+      "event_in": "231629529",
+      "expected_in": "223993706",
+      "fee_ppm_column": 100,
+      "implied_fee_ppm": 33062.378,
+      "liquidity_events_between": 0,
+      "initialized_ticks_crossed": 2
+     },
+     {
+      "block": 49956929,
+      "log_index": 12,
+      "previous_swap": [
+       49956892,
+       119
+      ],
+      "tick_before": -209794,
+      "tick_after": -209792,
+      "event_out": "309551277364136454",
+      "out_from_prices": "261242236492156672",
+      "event_in": "239916117",
+      "expected_in": "202476800",
+      "fee_ppm_column": 100,
+      "implied_fee_ppm": 156136.092,
+      "liquidity_events_between": 2,
+      "initialized_ticks_crossed": 1
+     },
+     {
+      "block": 60589019,
+      "log_index": 31,
+      "previous_swap": [
+       60588960,
+       55
+      ],
+      "tick_before": -209929,
+      "tick_after": -209925,
+      "event_out": "12169585246932193125",
+      "out_from_prices": "9975114868109736387",
+      "event_in": "9306163065",
+      "expected_in": "7628157134",
+      "fee_ppm_column": 100,
+      "implied_fee_ppm": 180393.223,
+      "liquidity_events_between": 0,
+      "initialized_ticks_crossed": 2
+     },
+     {
+      "block": 79730614,
+      "log_index": 8,
+      "previous_swap": [
+       79730481,
+       17
+      ],
+      "tick_before": -209826,
+      "tick_after": -209827,
+      "event_out": "1049780201",
+      "out_from_prices": "1018509126",
+      "event_in": "1359298234331157464",
+      "expected_in": "1318807626715087857",
+      "fee_ppm_column": 100,
+      "implied_fee_ppm": 29884.897,
+      "liquidity_events_between": 1,
+      "initialized_ticks_crossed": 1
+     },
+     {
+      "block": 83258147,
+      "log_index": 36,
+      "previous_swap": [
+       83257268,
+       8
+      ],
+      "tick_before": -209802,
+      "tick_after": -209803,
+      "event_out": "1085298564",
+      "out_from_prices": "1080819893",
+      "event_in": "1401946276490338743",
+      "expected_in": "1396161074112189571",
+      "fee_ppm_column": 100,
+      "implied_fee_ppm": 4226.138,
+      "liquidity_events_between": 1,
+      "initialized_ticks_crossed": 1
+     },
+     {
+      "block": 89782215,
+      "log_index": 35,
+      "previous_swap": [
+       89781695,
+       11
+      ],
+      "tick_before": -209799,
+      "tick_after": -209800,
+      "event_out": "415535939",
+      "out_from_prices": "412939246",
+      "event_in": "536609780475629364",
+      "expected_in": "533256565268704502",
+      "fee_ppm_column": 100,
+      "implied_fee_ppm": 6348.265,
+      "liquidity_events_between": 1,
+      "initialized_ticks_crossed": 1
+     },
+     {
+      "block": 90453715,
+      "log_index": 12,
+      "previous_swap": [
+       90453467,
+       31
+      ],
+      "tick_before": -209946,
+      "tick_after": -209947,
+      "event_out": "874091972",
+      "out_from_prices": "583133854",
+      "event_in": "1145483900200167178",
+      "expected_in": "764195309543045130",
+      "fee_ppm_column": 100,
+      "implied_fee_ppm": 332929.175,
+      "liquidity_events_between": 3,
+      "initialized_ticks_crossed": 1
+     },
+     {
+      "block": 90503629,
+      "log_index": 10,
+      "previous_swap": [
+       90502260,
+       161
+      ],
+      "tick_before": -209954,
+      "tick_after": -209955,
+      "event_out": "350146639",
+      "out_from_prices": "314721326",
+      "event_in": "459232985965601016",
+      "expected_in": "412772127811558331",
+      "fee_ppm_column": 100,
+      "implied_fee_ppm": 101260.442,
+      "liquidity_events_between": 1,
+      "initialized_ticks_crossed": 1
+     },
+     {
+      "block": 90526571,
+      "log_index": 14,
+      "previous_swap": [
+       90525739,
+       52
+      ],
+      "tick_before": -209952,
+      "tick_after": -209951,
+      "event_out": "390478182087707086",
+      "out_from_prices": "205481981693944637",
+      "event_in": "297879449",
+      "expected_in": "156754274",
+      "fee_ppm_column": 100,
+      "implied_fee_ppm": 473818.692,
+      "liquidity_events_between": 1,
+      "initialized_ticks_crossed": 1
+     },
+     {
+      "block": 90669510,
+      "log_index": 19,
+      "previous_swap": [
+       90665033,
+       85
+      ],
+      "tick_before": -209952,
+      "tick_after": -209951,
+      "event_out": "458802399612289996",
+      "out_from_prices": "200927508529712344",
+      "event_in": "350000000",
+      "expected_in": "153279269",
+      "fee_ppm_column": 100,
+      "implied_fee_ppm": 562103.026,
+      "liquidity_events_between": 1,
+      "initialized_ticks_crossed": 1
+     },
+     {
+      "block": 90677374,
+      "log_index": 62,
+      "previous_swap": [
+       90676837,
+       40
+      ],
+      "tick_before": -209944,
+      "tick_after": -209945,
+      "event_out": "2305699984",
+      "out_from_prices": "790263030",
+      "event_in": "3020849785168537436",
+      "expected_in": "1035390934510490253",
+      "fee_ppm_column": 100,
+      "implied_fee_ppm": 657286.039,
+      "liquidity_events_between": 1,
+      "initialized_ticks_crossed": 1
+     },
+     {
+      "block": 90835014,
+      "log_index": 16,
+      "previous_swap": [
+       90834367,
+       75
+      ],
+      "tick_before": -209940,
+      "tick_after": -209939,
+      "event_out": "1198454666907588458",
+      "out_from_prices": "770618845211648845",
+      "event_in": "915358060",
+      "expected_in": "588591271",
+      "fee_ppm_column": 100,
+      "implied_fee_ppm": 357046.781,
+      "liquidity_events_between": 1,
+      "initialized_ticks_crossed": 1
+     },
+     {
+      "block": 90915304,
+      "log_index": 18,
+      "previous_swap": [
+       90915014,
+       83
+      ],
+      "tick_before": -209936,
+      "tick_after": -209937,
+      "event_out": "742099929",
+      "out_from_prices": "685036543",
+      "event_in": "971564613612605145",
+      "expected_in": "896859703948150169",
+      "fee_ppm_column": 100,
+      "implied_fee_ppm": 76983.656,
+      "liquidity_events_between": 1,
+      "initialized_ticks_crossed": 1
+     },
+     {
+      "block": 90958998,
+      "log_index": 53,
+      "previous_swap": [
+       90957876,
+       39
+      ],
+      "tick_before": -209940,
+      "tick_after": -209942,
+      "event_out": "2790560626",
+      "out_from_prices": "818534783",
+      "event_in": "3654932706260001222",
+      "expected_in": "1072076360136335834",
+      "fee_ppm_column": 100,
+      "implied_fee_ppm": 706706.186,
+      "liquidity_events_between": 0,
+      "initialized_ticks_crossed": 2
+     },
+     {
+      "block": 90959827,
+      "log_index": 8,
+      "previous_swap": [
+       90958998,
+       53
+      ],
+      "tick_before": -209942,
+      "tick_after": -209938,
+      "event_out": "6434260412309478353",
+      "out_from_prices": "3851662351820425336",
+      "event_in": "4913987279",
+      "expected_in": "2941764210",
+      "fee_ppm_column": 100,
+      "implied_fee_ppm": 401408.7,
+      "liquidity_events_between": 0,
+      "initialized_ticks_crossed": 2
+     },
+     {
+      "block": 91027312,
+      "log_index": 9,
+      "previous_swap": [
+       91024828,
+       40
+      ],
+      "tick_before": -209937,
+      "tick_after": -209938,
+      "event_out": "272176158",
+      "out_from_prices": "148521218",
+      "event_in": "356357554806371989",
+      "expected_in": "194457959851980106",
+      "fee_ppm_column": 100,
+      "implied_fee_ppm": 454372.409,
+      "liquidity_events_between": 1,
+      "initialized_ticks_crossed": 1
+     },
+     {
+      "block": 91032293,
+      "log_index": 5,
+      "previous_swap": [
+       91029792,
+       41
+      ],
+      "tick_before": -209939,
+      "tick_after": -209940,
+      "event_out": "921603342",
+      "out_from_prices": "648895188",
+      "event_in": "1206909299385784052",
+      "expected_in": "849786459314101647",
+      "fee_ppm_column": 100,
+      "implied_fee_ppm": 295969.067,
+      "liquidity_events_between": 3,
+      "initialized_ticks_crossed": 1
+     },
+     {
+      "block": 91083813,
+      "log_index": 21,
+      "previous_swap": [
+       91082540,
+       24
+      ],
+      "tick_before": -209951,
+      "tick_after": -209952,
+      "event_out": "1131240052",
+      "out_from_prices": "335248221",
+      "event_in": "1483166385436247033",
+      "expected_in": "439543848088447535",
+      "fee_ppm_column": 100,
+      "implied_fee_ppm": 703674.586,
+      "liquidity_events_between": 3,
+      "initialized_ticks_crossed": 1
+     },
+     {
+      "block": 91818538,
+      "log_index": 46,
+      "previous_swap": [
+       91818121,
+       53
+      ],
+      "tick_before": -209956,
+      "tick_after": -209957,
+      "event_out": "372210456",
+      "out_from_prices": "335707228",
+      "event_in": "488265606186074240",
+      "expected_in": "440381473956554557",
+      "fee_ppm_column": 100,
+      "implied_fee_ppm": 98160.038,
+      "liquidity_events_between": 1,
+      "initialized_ticks_crossed": 1
+     },
+     {
+      "block": 93401358,
+      "log_index": 28,
+      "previous_swap": [
+       93401338,
+       4
+      ],
+      "tick_before": -209896,
+      "tick_after": -209898,
+      "event_out": "1581379221",
+      "out_from_prices": "1485997420",
+      "event_in": "2062080135259157691",
+      "expected_in": "1937702478885366710",
+      "fee_ppm_column": 100,
+      "implied_fee_ppm": 60410.565,
+      "liquidity_events_between": 0,
+      "initialized_ticks_crossed": 2
+     },
+     {
+      "block": 93486469,
+      "log_index": 131,
+      "previous_swap": [
+       93486469,
+       94
+      ],
+      "tick_before": -209895,
+      "tick_after": -209898,
+      "event_out": "2838266127",
+      "out_from_prices": "2742884327",
+      "event_in": "3700821770427121236",
+      "expected_in": "3576444114053330255",
+      "fee_ppm_column": 100,
+      "implied_fee_ppm": 33704.758,
+      "liquidity_events_between": 0,
+      "initialized_ticks_crossed": 2
+     },
+     {
+      "block": 96301471,
+      "log_index": 47,
+      "previous_swap": [
+       96301389,
+       218
+      ],
+      "tick_before": -209964,
+      "tick_after": -209959,
+      "event_out": "5872176157975574769",
+      "out_from_prices": "5080329008395002328",
+      "event_in": "4475253745",
+      "expected_in": "3871791209",
+      "fee_ppm_column": 100,
+      "implied_fee_ppm": 134930.833,
+      "liquidity_events_between": 0,
+      "initialized_ticks_crossed": 2
+     },
+     {
+      "block": 96460099,
+      "log_index": 7,
+      "previous_swap": [
+       96458530,
+       7
+      ],
+      "tick_before": -209953,
+      "tick_after": -209952,
+      "event_out": "537304007101592893",
+      "out_from_prices": "282373005910989934",
+      "event_in": "409846086",
+      "expected_in": "215390228",
+      "fee_ppm_column": 100,
+      "implied_fee_ppm": 474513.249,
+      "liquidity_events_between": 1,
+      "initialized_ticks_crossed": 1
+     },
+     {
+      "block": 103279088,
+      "log_index": 27,
+      "previous_swap": [
+       103278100,
+       23
+      ],
+      "tick_before": -210018,
+      "tick_after": -210020,
+      "event_out": "1033431361",
+      "out_from_prices": "795347344",
+      "event_in": "1364108434091081929",
+      "expected_in": "1049836774585218215",
+      "fee_ppm_column": 100,
+      "implied_fee_ppm": 230463.089,
+      "liquidity_events_between": 0,
+      "initialized_ticks_crossed": 2
+     },
+     {
+      "block": 103279729,
+      "log_index": 60,
+      "previous_swap": [
+       103279212,
+       69
+      ],
+      "tick_before": -210018,
+      "tick_after": -210021,
+      "event_out": "1199760765",
+      "out_from_prices": "961676749",
+      "event_in": "1583733990707423847",
+      "expected_in": "1269462331201560135",
+      "fee_ppm_column": 100,
+      "implied_fee_ppm": 198517.306,
+      "liquidity_events_between": 0,
+      "initialized_ticks_crossed": 2
+     },
+     {
+      "block": 103340499,
+      "log_index": 8,
+      "previous_swap": [
+       103339333,
+       3
+      ],
+      "tick_before": -210018,
+      "tick_after": -210021,
+      "event_out": "1461176504",
+      "out_from_prices": "1223092488",
+      "event_in": "1928817852312595562",
+      "expected_in": "1614546192806731849",
+      "fee_ppm_column": 100,
+      "implied_fee_ppm": 163018.563,
+      "liquidity_events_between": 0,
+      "initialized_ticks_crossed": 2
+     },
+     {
+      "block": 103531448,
+      "log_index": 7,
+      "previous_swap": [
+       103530562,
+       43
+      ],
+      "tick_before": -210018,
+      "tick_after": -210016,
+      "event_out": "865157721114201557",
+      "out_from_prices": "757770970479119416",
+      "event_in": "655678490",
+      "expected_in": "574292538",
+      "fee_ppm_column": 100,
+      "implied_fee_ppm": 124212.374,
+      "liquidity_events_between": 0,
+      "initialized_ticks_crossed": 2
+     },
+     {
+      "block": 103904935,
+      "log_index": 8,
+      "previous_swap": [
+       103903078,
+       52
+      ],
+      "tick_before": -209982,
+      "tick_after": -209981,
+      "event_out": "578943590414558447",
+      "out_from_prices": "131151929480644411",
+      "event_in": "440324768",
+      "expected_in": "99749787",
+      "fee_ppm_column": 100,
+      "implied_fee_ppm": 773485.801,
+      "liquidity_events_between": 2,
+      "initialized_ticks_crossed": 1
+     },
+     {
+      "block": 107577042,
+      "log_index": 20,
+      "previous_swap": [
+       107575856,
+       29
+      ],
+      "tick_before": -210291,
+      "tick_after": -210288,
+      "event_out": "1341968181875328517",
+      "out_from_prices": "1246755665860392454",
+      "event_in": "989704944",
+      "expected_in": "919493853",
+      "fee_ppm_column": 100,
+      "implied_fee_ppm": 71034.344,
+      "liquidity_events_between": 1,
+      "initialized_ticks_crossed": 1
+     }
+    ]
+   }
+  },
+  "liquidity_file_order": {
+   "rows": 4506,
+   "pass": true
+  },
+  "liquidity_rebuild": {
+   "samples": 400,
+   "mismatches": 0,
+   "max_abs_difference": "0",
+   "examples": [],
+   "pass": true,
+   "ranges_with_negative_net_liquidity_at_END": 0,
+   "ranges_open_at_END": 48
+  },
+  "end_state": {
+   "last_swap": {
+    "block": 110789697,
+    "log_index": 16,
+    "sqrt_price_x96": "2177458706053411598767062",
+    "tick": -210050,
+    "liquidity": "215980238697077245"
+   },
+   "state_at_END": {
+    "sqrtPriceX96": "2177458706053411598767062",
+    "tick": -210050,
+    "liquidity": "215980238697077245"
+   },
+   "sqrt_price_match": true,
+   "tick_match": true,
+   "liquidity_match_raw": true,
+   "liquidity_events_after_last_swap": 0,
+   "liquidity_after_in_range_events": "215980238697077245",
+   "liquidity_match_adjusted": true,
+   "pass": true
+  },
+  "refetch": {
+   "windows": [
+    {
+     "from": 80891156,
+     "to": 81891155,
+     "kind": "random",
+     "refetched": 2712,
+     "dataset": 2712,
+     "count_match": true,
+     "values_match": true,
+     "rpc_calls": 6
+    },
+    {
+     "from": 41631873,
+     "to": 42631872,
+     "kind": "random",
+     "refetched": 4698,
+     "dataset": 4698,
+     "count_match": true,
+     "values_match": true,
+     "rpc_calls": 6
+    },
+    {
+     "from": 91457162,
+     "to": 92457161,
+     "kind": "random",
+     "refetched": 4424,
+     "dataset": 4424,
+     "count_match": true,
+     "values_match": true,
+     "rpc_calls": 6
+    },
+    {
+     "from": 74924932,
+     "to": 75924931,
+     "kind": "random",
+     "refetched": 5283,
+     "dataset": 5283,
+     "count_match": true,
+     "values_match": true,
+     "rpc_calls": 6
+    },
+    {
+     "from": 57563649,
+     "to": 58563648,
+     "kind": "random",
+     "refetched": 8087,
+     "dataset": 8087,
+     "count_match": true,
+     "values_match": true,
+     "rpc_calls": 6
+    },
+    {
+     "from": 103571867,
+     "to": 104571866,
+     "kind": "seam between the existing raw file and the fetched tail",
+     "refetched": 5281,
+     "dataset": 5281,
+     "count_match": true,
+     "values_match": true,
+     "rpc_calls": 6
+    }
+   ],
+   "pass": true,
+   "split": "173331-block unaligned chunks (halved when the node refuses), uncached client",
+   "compared": "row count and sha256 of block,log_index,amount0,amount1,sqrt_price_x96,liquidity,tick lines"
+  },
+  "ts_error": {
+   "samples": 20,
+   "max_abs_error_s": 3.135,
+   "median_abs_error_s": 0.82,
+   "detail": [
+    {
+     "block": 64758593,
+     "interpolated": 1789586873.7,
+     "header": 1789586874,
+     "abs_error_s": 0.263
+    },
+    {
+     "block": 70080487,
+     "interpolated": 1790122879.1,
+     "header": 1790122879,
+     "abs_error_s": 0.09
+    },
+    {
+     "block": 88623133,
+     "interpolated": 1792006679.2,
+     "header": 1792006680,
+     "abs_error_s": 0.82
+    },
+    {
+     "block": 50954219,
+     "interpolated": 1788188361.8,
+     "header": 1788188363,
+     "abs_error_s": 1.193
+    },
+    {
+     "block": 51083519,
+     "interpolated": 1788201462.8,
+     "header": 1788201463,
+     "abs_error_s": 0.173
+    },
+    {
+     "block": 68992868,
+     "interpolated": 1790013340.8,
+     "header": 1790013342,
+     "abs_error_s": 1.2
+    },
+    {
+     "block": 53609653,
+     "interpolated": 1788458536.7,
+     "header": 1788458537,
+     "abs_error_s": 0.261
+    },
+    {
+     "block": 50139854,
+     "interpolated": 1788106115.2,
+     "header": 1788106115,
+     "abs_error_s": 0.225
+    },
+    {
+     "block": 53645357,
+     "interpolated": 1788462196.9,
+     "header": 1788462197,
+     "abs_error_s": 0.086
+    },
+    {
+     "block": 51804761,
+     "interpolated": 1788274289.8,
+     "header": 1788274291,
+     "abs_error_s": 1.187
+    },
+    {
+     "block": 49376906,
+     "interpolated": 1788028989.9,
+     "header": 1788028993,
+     "abs_error_s": 3.135
+    },
+    {
+     "block": 48197858,
+     "interpolated": 1787909903.9,
+     "header": 1787909905,
+     "abs_error_s": 1.128
+    },
+    {
+     "block": 52244445,
+     "interpolated": 1788318775.9,
+     "header": 1788318776,
+     "abs_error_s": 0.055
+    },
+    {
+     "block": 86890966,
+     "interpolated": 1791830313.3,
+     "header": 1791830313,
+     "abs_error_s": 0.339
+    },
+    {
+     "block": 51803470,
+     "interpolated": 1788274159.2,
+     "header": 1788274160,
+     "abs_error_s": 0.836
+    },
+    {
+     "block": 57282905,
+     "interpolated": 1788829388.8,
+     "header": 1788829389,
+     "abs_error_s": 0.176
+    },
+    {
+     "block": 62449641,
+     "interpolated": 1789352538.5,
+     "header": 1789352538,
+     "abs_error_s": 0.526
+    },
+    {
+     "block": 52725985,
+     "interpolated": 1788367368.5,
+     "header": 1788367366,
+     "abs_error_s": 2.477
+    },
+    {
+     "block": 53647965,
+     "interpolated": 1788462459.3,
+     "header": 1788462461,
+     "abs_error_s": 1.721
+    },
+    {
+     "block": 50194793,
+     "interpolated": 1788111665.7,
+     "header": 1788111663,
+     "abs_error_s": 2.655
+    }
+   ]
+  }
+ },
+ "v4_nvda_swaps.csv.gz": {
+  "order": {
+   "rows": 205833,
+   "duplicates_adjacent": 0,
+   "descending_steps": 0,
+   "pass": true
+  },
+  "v3_math": {
+   "pairs_total": 205832,
+   "eligible_equal_liquidity": 198052,
+   "price_unchanged": 0,
+   "output_leg": {
+    "within_2": 198048,
+    "within_10": 0,
+    "over_10": 4,
+    "max_abs": "3349381818676172"
+   },
+   "input_leg_fee": {
+    "within_2": 198048,
+    "within_10": 0,
+    "over_10": 4,
+    "max_abs": "3359460199273996",
+    "over_10_rel_gt_1e-6": 4
+   },
+   "sign_mismatch": 0,
+   "examples_output_over_10": [
+    {
+     "block": 9770560,
+     "log_index": 26,
+     "previous_swap": [
+      9770543,
+      8
+     ],
+     "tick_before": 222817,
+     "tick_after": 223102,
+     "event_out": "6149911198",
+     "from_prices": "6149209215",
+     "liquidity_events_between": 0
+    },
+    {
+     "block": 9803925,
+     "log_index": 47,
+     "previous_swap": [
+      9803925,
+      36
+     ],
+     "tick_before": 222920,
+     "tick_after": 222817,
+     "event_out": "10736760776131794731",
+     "from_prices": "10733411394313118559",
+     "liquidity_events_between": 0
+    },
+    {
+     "block": 9804293,
+     "log_index": 78,
+     "previous_swap": [
+      9804214,
+      12
+     ],
+     "tick_before": 222810,
+     "tick_after": 222908,
+     "event_out": "2154636649",
+     "from_prices": "2153934665",
+     "liquidity_events_between": 0
+    },
+    {
+     "block": 9804294,
+     "log_index": 7,
+     "previous_swap": [
+      9804293,
+      78
+     ],
+     "tick_before": 222908,
+     "tick_after": 222821,
+     "event_out": "9161820311799509981",
+     "from_prices": "9158470929980833809",
+     "liquidity_events_between": 0
+    }
+   ],
+   "examples_input_over_10": [
+    {
+     "block": 9770560,
+     "log_index": 26,
+     "event_in": "29697251236163518129",
+     "expected_in": "29693891775964244133",
+     "fee_ppm_column": 3000,
+     "implied_fee_ppm": 3112.784236899202
+    },
+    {
+     "block": 9803925,
+     "log_index": 47,
+     "event_in": "2257253017",
+     "expected_in": "2256548919",
+     "fee_ppm_column": 3000,
+     "implied_fee_ppm": 3310.9912551730904
+    },
+    {
+     "block": 9804293,
+     "log_index": 78,
+     "event_in": "10300639116440345678",
+     "expected_in": "10297279656241071682",
+     "fee_ppm_column": 3000,
+     "implied_fee_ppm": 3325.162524462244
+    },
+    {
+     "block": 9804294,
+     "log_index": 7,
+     "event_in": "1926949878",
+     "expected_in": "1926245780",
+     "fee_ppm_column": 3000,
+     "implied_fee_ppm": 3364.2992347723275
+    }
+   ],
+   "output_over_10_without_liquidity_event_between": 4,
+   "tolerance_note": "differences in raw token units (wei); within_2 = at most 2 units",
+   "exceptions_classified": {
+    "exceptions": 4,
+    "crossed_at_least_one_initialized_tick": 4,
+    "with_liquidity_event_between": 0,
+    "neither": 0,
+    "detail": [
+     {
+      "block": 9770560,
+      "log_index": 26,
+      "previous_swap": [
+       9770543,
+       8
+      ],
+      "tick_before": 222817,
+      "tick_after": 223102,
+      "event_out": "6149911198",
+      "out_from_prices": "6149209215",
+      "event_in": "29697251236163518129",
+      "expected_in": "29693891775964244133",
+      "fee_ppm_column": 3000,
+      "implied_fee_ppm": 3112.784,
+      "liquidity_events_between": 0,
+      "initialized_ticks_crossed": 2
+     },
+     {
+      "block": 9803925,
+      "log_index": 47,
+      "previous_swap": [
+       9803925,
+       36
+      ],
+      "tick_before": 222920,
+      "tick_after": 222817,
+      "event_out": "10736760776131794731",
+      "out_from_prices": "10733411394313118559",
+      "event_in": "2257253017",
+      "expected_in": "2256548919",
+      "fee_ppm_column": 3000,
+      "implied_fee_ppm": 3310.991,
+      "liquidity_events_between": 0,
+      "initialized_ticks_crossed": 2
+     },
+     {
+      "block": 9804293,
+      "log_index": 78,
+      "previous_swap": [
+       9804214,
+       12
+      ],
+      "tick_before": 222810,
+      "tick_after": 222908,
+      "event_out": "2154636649",
+      "out_from_prices": "2153934665",
+      "event_in": "10300639116440345678",
+      "expected_in": "10297279656241071682",
+      "fee_ppm_column": 3000,
+      "implied_fee_ppm": 3325.163,
+      "liquidity_events_between": 0,
+      "initialized_ticks_crossed": 2
+     },
+     {
+      "block": 9804294,
+      "log_index": 7,
+      "previous_swap": [
+       9804293,
+       78
+      ],
+      "tick_before": 222908,
+      "tick_after": 222821,
+      "event_out": "9161820311799509981",
+      "out_from_prices": "9158470929980833809",
+      "event_in": "1926949878",
+      "expected_in": "1926245780",
+      "fee_ppm_column": 3000,
+      "implied_fee_ppm": 3364.299,
+      "liquidity_events_between": 0,
+      "initialized_ticks_crossed": 2
+     }
+    ]
+   }
+  },
+  "liquidity_file_order": {
+   "rows": 12419,
+   "pass": true
+  },
+  "liquidity_rebuild": {
+   "samples": 400,
+   "mismatches": 0,
+   "max_abs_difference": "0",
+   "examples": [],
+   "pass": true,
+   "ranges_with_negative_net_liquidity_at_END": 0,
+   "ranges_open_at_END": 145
+  },
+  "end_state": {
+   "last_swap": {
+    "block": 110788889,
+    "log_index": 7,
+    "sqrt_price_x96": "5869055222606936907350112741318901",
+    "tick": 224268,
+    "liquidity": "128406677551474183"
+   },
+   "state_at_END": {
+    "sqrtPriceX96": "5869055222606936907350112741318901",
+    "tick": 224268,
+    "liquidity": "128406677551474183"
+   },
+   "sqrt_price_match": true,
+   "tick_match": true,
+   "liquidity_match_raw": true,
+   "liquidity_events_after_last_swap": 0,
+   "liquidity_after_in_range_events": "128406677551474183",
+   "liquidity_match_adjusted": true,
+   "pass": true
+  },
+  "refetch": {
+   "windows": [
+    {
+     "from": 38959201,
+     "to": 39959200,
+     "kind": "random",
+     "refetched": 1458,
+     "dataset": 1458,
+     "count_match": true,
+     "values_match": true,
+     "rpc_calls": 6
+    },
+    {
+     "from": 79830011,
+     "to": 80830010,
+     "kind": "random",
+     "refetched": 4316,
+     "dataset": 4316,
+     "count_match": true,
+     "values_match": true,
+     "rpc_calls": 6
+    },
+    {
+     "from": 58703654,
+     "to": 59703653,
+     "kind": "random",
+     "refetched": 1528,
+     "dataset": 1528,
+     "count_match": true,
+     "values_match": true,
+     "rpc_calls": 6
+    },
+    {
+     "from": 26484641,
+     "to": 27484640,
+     "kind": "random",
+     "refetched": 1015,
+     "dataset": 1015,
+     "count_match": true,
+     "values_match": true,
+     "rpc_calls": 6
+    },
+    {
+     "from": 40636257,
+     "to": 41636256,
+     "kind": "random",
+     "refetched": 1068,
+     "dataset": 1068,
+     "count_match": true,
+     "values_match": true,
+     "rpc_calls": 6
+    }
+   ],
+   "pass": true,
+   "split": "173331-block unaligned chunks (halved when the node refuses), uncached client",
+   "compared": "row count and sha256 of block,log_index,amount0,amount1,sqrt_price_x96,liquidity,tick lines"
+  },
+  "ts_error": {
+   "samples": 20,
+   "max_abs_error_s": 3.52,
+   "median_abs_error_s": 0.827,
+   "detail": [
+    {
+     "block": 15407866,
+     "interpolated": 1784621341.2,
+     "header": 1784621342,
+     "abs_error_s": 0.827
+    },
+    {
+     "block": 16544177,
+     "interpolated": 1784735208.5,
+     "header": 1784735208,
+     "abs_error_s": 0.535
+    },
+    {
+     "block": 19388243,
+     "interpolated": 1785020472.6,
+     "header": 1785020473,
+     "abs_error_s": 0.403
+    },
+    {
+     "block": 16595589,
+     "interpolated": 1784740351.9,
+     "header": 1784740352,
+     "abs_error_s": 0.1
+    },
+    {
+     "block": 34919897,
+     "interpolated": 1786576903.7,
+     "header": 1786576903,
+     "abs_error_s": 0.7
+    },
+    {
+     "block": 35995333,
+     "interpolated": 1786684713.4,
+     "header": 1786684713,
+     "abs_error_s": 0.367
+    },
+    {
+     "block": 15270190,
+     "interpolated": 1784607531.1,
+     "header": 1784607531,
+     "abs_error_s": 0.076
+    },
+    {
+     "block": 34870247,
+     "interpolated": 1786571931.8,
+     "header": 1786571932,
+     "abs_error_s": 0.177
+    },
+    {
+     "block": 29913680,
+     "interpolated": 1786075869.1,
+     "header": 1786075869,
+     "abs_error_s": 0.104
+    },
+    {
+     "block": 15559531,
+     "interpolated": 1784636558.0,
+     "header": 1784636558,
+     "abs_error_s": 0.041
+    },
+    {
+     "block": 14178155,
+     "interpolated": 1784497987.8,
+     "header": 1784497989,
+     "abs_error_s": 1.238
+    },
+    {
+     "block": 101779574,
+     "interpolated": 1793368773.1,
+     "header": 1793368774,
+     "abs_error_s": 0.878
+    },
+    {
+     "block": 106453370,
+     "interpolated": 1793852469.5,
+     "header": 1793852473,
+     "abs_error_s": 3.52
+    },
+    {
+     "block": 80298110,
+     "interpolated": 1791153570.7,
+     "header": 1791153572,
+     "abs_error_s": 1.323
+    },
+    {
+     "block": 36040889,
+     "interpolated": 1786689271.9,
+     "header": 1786689270,
+     "abs_error_s": 1.9
+    },
+    {
+     "block": 70522144,
+     "interpolated": 1790167412.9,
+     "header": 1790167415,
+     "abs_error_s": 2.099
+    },
+    {
+     "block": 15629311,
+     "interpolated": 1784643548.0,
+     "header": 1784643547,
+     "abs_error_s": 0.962
+    },
+    {
+     "block": 20858852,
+     "interpolated": 1785168008.2,
+     "header": 1785168007,
+     "abs_error_s": 1.2
+    },
+    {
+     "block": 77863746,
+     "interpolated": 1790906914.6,
+     "header": 1790906915,
+     "abs_error_s": 0.403
+    },
+    {
+     "block": 59511151,
+     "interpolated": 1789054182.1,
+     "header": 1789054183,
+     "abs_error_s": 0.864
+    }
+   ]
+  }
+ },
+ "v4_spy_swaps.csv.gz": {
+  "order": {
+   "rows": 544277,
+   "duplicates_adjacent": 0,
+   "descending_steps": 0,
+   "pass": true
+  },
+  "v3_math": {
+   "pairs_total": 544276,
+   "eligible_equal_liquidity": 537868,
+   "price_unchanged": 0,
+   "output_leg": {
+    "within_2": 537868,
+    "within_10": 0,
+    "over_10": 0,
+    "max_abs": "1"
+   },
+   "input_leg_fee": {
+    "within_2": 537868,
+    "within_10": 0,
+    "over_10": 0,
+    "max_abs": "2",
+    "over_10_rel_gt_1e-6": 0
+   },
+   "sign_mismatch": 0,
+   "examples_output_over_10": [],
+   "examples_input_over_10": [],
+   "tolerance_note": "differences in raw token units (wei); within_2 = at most 2 units",
+   "exceptions_classified": {
+    "exceptions": 0,
+    "crossed_at_least_one_initialized_tick": 0,
+    "with_liquidity_event_between": 0,
+    "neither": 0,
+    "detail": []
+   }
+  },
+  "liquidity_file_order": {
+   "rows": 22877,
+   "pass": true
+  },
+  "liquidity_rebuild": {
+   "samples": 400,
+   "mismatches": 0,
+   "max_abs_difference": "0",
+   "examples": [],
+   "pass": true,
+   "ranges_with_negative_net_liquidity_at_END": 0,
+   "ranges_open_at_END": 180
+  },
+  "end_state": {
+   "last_swap": {
+    "block": 110764667,
+    "log_index": 43,
+    "sqrt_price_x96": "2175244476961509342024333",
+    "tick": -210070,
+    "liquidity": "2754156637826592793"
+   },
+   "state_at_END": {
+    "sqrtPriceX96": "2175244476961509342024333",
+    "tick": -210070,
+    "liquidity": "2754156637826592793"
+   },
+   "sqrt_price_match": true,
+   "tick_match": true,
+   "liquidity_match_raw": true,
+   "liquidity_events_after_last_swap": 0,
+   "liquidity_after_in_range_events": "2754156637826592793",
+   "liquidity_match_adjusted": true,
+   "pass": true
+  },
+  "refetch": {
+   "windows": [
+    {
+     "from": 58261931,
+     "to": 59261930,
+     "kind": "random",
+     "refetched": 10194,
+     "dataset": 10194,
+     "count_match": true,
+     "values_match": true,
+     "rpc_calls": 6
+    },
+    {
+     "from": 56303241,
+     "to": 57303240,
+     "kind": "random",
+     "refetched": 36322,
+     "dataset": 36322,
+     "count_match": true,
+     "values_match": true,
+     "rpc_calls": 11
+    },
+    {
+     "from": 60268861,
+     "to": 61268860,
+     "kind": "random",
+     "refetched": 19721,
+     "dataset": 19721,
+     "count_match": true,
+     "values_match": true,
+     "rpc_calls": 6
+    },
+    {
+     "from": 27191449,
+     "to": 28191448,
+     "kind": "random",
+     "refetched": 895,
+     "dataset": 895,
+     "count_match": true,
+     "values_match": true,
+     "rpc_calls": 6
+    },
+    {
+     "from": 104370050,
+     "to": 105370049,
+     "kind": "random",
+     "refetched": 880,
+     "dataset": 880,
+     "count_match": true,
+     "values_match": true,
+     "rpc_calls": 6
+    }
+   ],
+   "pass": true,
+   "split": "173331-block unaligned chunks (halved when the node refuses), uncached client",
+   "compared": "row count and sha256 of block,log_index,amount0,amount1,sqrt_price_x96,liquidity,tick lines"
+  },
+  "ts_error": {
+   "samples": 20,
+   "max_abs_error_s": 3.972,
+   "median_abs_error_s": 0.939,
+   "detail": [
+    {
+     "block": 52104682,
+     "interpolated": 1788304657.8,
+     "header": 1788304659,
+     "abs_error_s": 1.182
+    },
+    {
+     "block": 50994108,
+     "interpolated": 1788192406.7,
+     "header": 1788192405,
+     "abs_error_s": 1.73
+    },
+    {
+     "block": 35716901,
+     "interpolated": 1786656822.1,
+     "header": 1786656823,
+     "abs_error_s": 0.9
+    },
+    {
+     "block": 40155018,
+     "interpolated": 1787101891.8,
+     "header": 1787101892,
+     "abs_error_s": 0.193
+    },
+    {
+     "block": 59775597,
+     "interpolated": 1789080837.9,
+     "header": 1789080837,
+     "abs_error_s": 0.939
+    },
+    {
+     "block": 59652714,
+     "interpolated": 1789068439.0,
+     "header": 1789068443,
+     "abs_error_s": 3.972
+    },
+    {
+     "block": 78575093,
+     "interpolated": 1790978746.4,
+     "header": 1790978746,
+     "abs_error_s": 0.356
+    },
+    {
+     "block": 18333127,
+     "interpolated": 1784914574.0,
+     "header": 1784914574,
+     "abs_error_s": 0.013
+    },
+    {
+     "block": 53452750,
+     "interpolated": 1788442162.6,
+     "header": 1788442163,
+     "abs_error_s": 0.375
+    },
+    {
+     "block": 54075576,
+     "interpolated": 1788505720.3,
+     "header": 1788505718,
+     "abs_error_s": 2.291
+    },
+    {
+     "block": 50152502,
+     "interpolated": 1788107393.0,
+     "header": 1788107393,
+     "abs_error_s": 0.048
+    },
+    {
+     "block": 48666766,
+     "interpolated": 1787957267.0,
+     "header": 1787957265,
+     "abs_error_s": 2.043
+    },
+    {
+     "block": 55578943,
+     "interpolated": 1788657508.0,
+     "header": 1788657508,
+     "abs_error_s": 0.032
+    },
+    {
+     "block": 81623019,
+     "interpolated": 1791288973.7,
+     "header": 1791288973,
+     "abs_error_s": 0.73
+    },
+    {
+     "block": 55753808,
+     "interpolated": 1788675136.8,
+     "header": 1788675138,
+     "abs_error_s": 1.154
+    },
+    {
+     "block": 50870897,
+     "interpolated": 1788179972.4,
+     "header": 1788179970,
+     "abs_error_s": 2.418
+    },
+    {
+     "block": 57968737,
+     "interpolated": 1788898586.6,
+     "header": 1788898586,
+     "abs_error_s": 0.563
+    },
+    {
+     "block": 62861851,
+     "interpolated": 1789394363.2,
+     "header": 1789394365,
+     "abs_error_s": 1.828
+    },
+    {
+     "block": 62082854,
+     "interpolated": 1789315301.4,
+     "header": 1789315301,
+     "abs_error_s": 0.396
+    },
+    {
+     "block": 57013627,
+     "interpolated": 1788802214.0,
+     "header": 1788802215,
+     "abs_error_s": 1.036
+    }
+   ]
+  }
+ },
+ "ram_pool_swaps.csv.gz": {
+  "order": {
+   "rows": 78633,
+   "duplicates_adjacent": 0,
+   "descending_steps": 0,
+   "pass": true
+  },
+  "v3_math": {
+   "pairs_total": 78632,
+   "eligible_equal_liquidity": 66945,
+   "price_unchanged": 0,
+   "output_leg": {
+    "within_2": 66940,
+    "within_10": 0,
+    "over_10": 5,
+    "max_abs": "5499999999999999999999"
+   },
+   "input_leg_fee": {
+    "within_2": 66940,
+    "within_10": 0,
+    "over_10": 5,
+    "max_abs": "1573523410063339280913",
+    "over_10_rel_gt_1e-6": 5
+   },
+   "sign_mismatch": 0,
+   "examples_output_over_10": [
+    {
+     "block": 50983599,
+     "log_index": 47,
+     "previous_swap": [
+      50983596,
+      10
+     ],
+     "tick_before": 92558,
+     "tick_after": 92708,
+     "event_out": "882912978355279053",
+     "from_prices": "748975191570199412",
+     "liquidity_events_between": null
+    },
+    {
+     "block": 53042806,
+     "log_index": 159,
+     "previous_swap": [
+      53042327,
+      19
+     ],
+     "tick_before": 97237,
+     "tick_after": 97164,
+     "event_out": "10279592512137242326550",
+     "from_prices": "10212299565118409931813",
+     "liquidity_events_between": null
+    },
+    {
+     "block": 78470242,
+     "log_index": 29,
+     "previous_swap": [
+      78458494,
+      14
+     ],
+     "tick_before": 110799,
+     "tick_after": 110805,
+     "event_out": "150407908442449004",
+     "from_prices": "126376813137716349",
+     "liquidity_events_between": null
+    },
+    {
+     "block": 92536322,
+     "log_index": 16,
+     "previous_swap": [
+      92530545,
+      7
+     ],
+     "tick_before": 112102,
+     "tick_after": 112050,
+     "event_out": "25014287058945014278700",
+     "from_prices": "24992352579699410202712",
+     "liquidity_events_between": null
+    },
+    {
+     "block": 97564081,
+     "log_index": 24,
+     "previous_swap": [
+      97556280,
+      10
+     ],
+     "tick_before": 111517,
+     "tick_after": 111420,
+     "event_out": "72163575449984762239964",
+     "from_prices": "66663575449984762239965",
+     "liquidity_events_between": null
+    }
+   ],
+   "examples_input_over_10": [
+    {
+     "block": 50983599,
+     "log_index": 47,
+     "event_in": "9401472761181724843353",
+     "expected_in": "7973219826746017545109",
+     "fee_ppm_column": 10000,
+     "implied_fee_ppm": 160398.81952640155
+    },
+    {
+     "block": 53042806,
+     "log_index": 159,
+     "event_in": "623956565333938628",
+     "expected_in": "619879082487803989",
+     "fee_ppm_column": 10000,
+     "implied_fee_ppm": 16469.533685430248
+    },
+    {
+     "block": 78470242,
+     "log_index": 29,
+     "event_in": "9850678598951968727269",
+     "expected_in": "8277155188888629446356",
+     "fee_ppm_column": 10000,
+     "implied_fee_ppm": 168140.1890554466
+    },
+    {
+     "block": 92536322,
+     "log_index": 16,
+     "event_in": "345684792959271948",
+     "expected_in": "345382415911420308",
+     "fee_ppm_column": 17500,
+     "implied_fee_ppm": 18359.411393168324
+    },
+    {
+     "block": 97564081,
+     "log_index": 24,
+     "event_in": "1059405940594059405",
+     "expected_in": "978959213360608523",
+     "fee_ppm_column": 17500,
+     "implied_fee_ppm": 92106.82112330293
+    }
+   ],
+   "tolerance_note": "differences in raw token units (wei); within_2 = at most 2 units",
+   "exceptions_unclassified_no_liquidity_file": [
+    {
+     "block": 50983599,
+     "log_index": 47,
+     "previous_swap": [
+      50983596,
+      10
+     ],
+     "tick_before": 92558,
+     "tick_after": 92708,
+     "event_out": "882912978355279053",
+     "out_from_prices": "748975191570199412",
+     "event_in": "9401472761181724843353",
+     "expected_in": "7973219826746017545109",
+     "fee_ppm_column": 10000,
+     "implied_fee_ppm": 160398.82
+    },
+    {
+     "block": 53042806,
+     "log_index": 159,
+     "previous_swap": [
+      53042327,
+      19
+     ],
+     "tick_before": 97237,
+     "tick_after": 97164,
+     "event_out": "10279592512137242326550",
+     "out_from_prices": "10212299565118409931813",
+     "event_in": "623956565333938628",
+     "expected_in": "619879082487803989",
+     "fee_ppm_column": 10000,
+     "implied_fee_ppm": 16469.534
+    },
+    {
+     "block": 78470242,
+     "log_index": 29,
+     "previous_swap": [
+      78458494,
+      14
+     ],
+     "tick_before": 110799,
+     "tick_after": 110805,
+     "event_out": "150407908442449004",
+     "out_from_prices": "126376813137716349",
+     "event_in": "9850678598951968727269",
+     "expected_in": "8277155188888629446356",
+     "fee_ppm_column": 10000,
+     "implied_fee_ppm": 168140.189
+    },
+    {
+     "block": 92536322,
+     "log_index": 16,
+     "previous_swap": [
+      92530545,
+      7
+     ],
+     "tick_before": 112102,
+     "tick_after": 112050,
+     "event_out": "25014287058945014278700",
+     "out_from_prices": "24992352579699410202712",
+     "event_in": "345684792959271948",
+     "expected_in": "345382415911420308",
+     "fee_ppm_column": 17500,
+     "implied_fee_ppm": 18359.411
+    },
+    {
+     "block": 97564081,
+     "log_index": 24,
+     "previous_swap": [
+      97556280,
+      10
+     ],
+     "tick_before": 111517,
+     "tick_after": 111420,
+     "event_out": "72163575449984762239964",
+     "out_from_prices": "66663575449984762239965",
+     "event_in": "1059405940594059405",
+     "expected_in": "978959213360608523",
+     "fee_ppm_column": 17500,
+     "implied_fee_ppm": 92106.821
+    }
+   ]
+  },
+  "end_state": {
+   "last_swap": {
+    "block": 110789183,
+    "log_index": 20,
+    "sqrt_price_x96": "22110186395243945033193183955753",
+    "tick": 112634,
+    "liquidity": "257990307558680393500787"
+   },
+   "state_at_END": {
+    "sqrtPriceX96": "22110186395243945033193183955753",
+    "tick": 112634,
+    "liquidity": "257990307558680393500787"
+   },
+   "sqrt_price_match": true,
+   "tick_match": true,
+   "liquidity_match_raw": true,
+   "liquidity_events_after_last_swap": 0,
+   "liquidity_after_in_range_events": "257990307558680393500787",
+   "liquidity_match_adjusted": true,
+   "pass": true
+  },
+  "refetch": {
+   "windows": [
+    {
+     "from": 84551378,
+     "to": 85551377,
+     "kind": "random",
+     "refetched": 271,
+     "dataset": 271,
+     "count_match": true,
+     "values_match": true,
+     "rpc_calls": 6
+    },
+    {
+     "from": 58262248,
+     "to": 59262247,
+     "kind": "random",
+     "refetched": 1310,
+     "dataset": 1310,
+     "count_match": true,
+     "values_match": true,
+     "rpc_calls": 6
+    },
+    {
+     "from": 70715226,
+     "to": 71715225,
+     "kind": "random",
+     "refetched": 672,
+     "dataset": 672,
+     "count_match": true,
+     "values_match": true,
+     "rpc_calls": 6
+    },
+    {
+     "from": 70437769,
+     "to": 71437768,
+     "kind": "random",
+     "refetched": 667,
+     "dataset": 667,
+     "count_match": true,
+     "values_match": true,
+     "rpc_calls": 6
+    },
+    {
+     "from": 70929927,
+     "to": 71929926,
+     "kind": "random",
+     "refetched": 529,
+     "dataset": 529,
+     "count_match": true,
+     "values_match": true,
+     "rpc_calls": 6
+    }
+   ],
+   "pass": true,
+   "split": "173331-block unaligned chunks (halved when the node refuses), uncached client",
+   "compared": "row count and sha256 of block,log_index,amount0,amount1,sqrt_price_x96,liquidity,tick lines"
+  },
+  "ts_error": {
+   "samples": 20,
+   "max_abs_error_s": 2.797,
+   "median_abs_error_s": 0.955,
+   "detail": [
+    {
+     "block": 50857768,
+     "interpolated": 1788178645.0,
+     "header": 1788178646,
+     "abs_error_s": 0.986
+    },
+    {
+     "block": 72308058,
+     "interpolated": 1790347478.2,
+     "header": 1790347479,
+     "abs_error_s": 0.783
+    },
+    {
+     "block": 50857563,
+     "interpolated": 1788178624.4,
+     "header": 1788178625,
+     "abs_error_s": 0.65
+    },
+    {
+     "block": 50848819,
+     "interpolated": 1788177743.0,
+     "header": 1788177742,
+     "abs_error_s": 0.955
+    },
+    {
+     "block": 51022502,
+     "interpolated": 1788195288.2,
+     "header": 1788195291,
+     "abs_error_s": 2.797
+    },
+    {
+     "block": 51659302,
+     "interpolated": 1788259604.5,
+     "header": 1788259605,
+     "abs_error_s": 0.498
+    },
+    {
+     "block": 50959187,
+     "interpolated": 1788188865.6,
+     "header": 1788188864,
+     "abs_error_s": 1.562
+    },
+    {
+     "block": 73400942,
+     "interpolated": 1790457697.0,
+     "header": 1790457698,
+     "abs_error_s": 1.046
+    },
+    {
+     "block": 60177564,
+     "interpolated": 1789121610.8,
+     "header": 1789121609,
+     "abs_error_s": 1.772
+    },
+    {
+     "block": 108435745,
+     "interpolated": 1794057541.6,
+     "header": 1794057541,
+     "abs_error_s": 0.629
+    },
+    {
+     "block": 56369663,
+     "interpolated": 1788737244.0,
+     "header": 1788737244,
+     "abs_error_s": 0.003
+    },
+    {
+     "block": 61258625,
+     "interpolated": 1789231691.2,
+     "header": 1789231692,
+     "abs_error_s": 0.838
+    },
+    {
+     "block": 71267227,
+     "interpolated": 1790242562.1,
+     "header": 1790242563,
+     "abs_error_s": 0.905
+    },
+    {
+     "block": 62995932,
+     "interpolated": 1789408025.3,
+     "header": 1789408028,
+     "abs_error_s": 2.75
+    },
+    {
+     "block": 50861023,
+     "interpolated": 1788178973.5,
+     "header": 1788178974,
+     "abs_error_s": 0.472
+    },
+    {
+     "block": 51021553,
+     "interpolated": 1788195191.8,
+     "header": 1788195194,
+     "abs_error_s": 2.215
+    },
+    {
+     "block": 50959262,
+     "interpolated": 1788188873.2,
+     "header": 1788188871,
+     "abs_error_s": 2.167
+    },
+    {
+     "block": 51718382,
+     "interpolated": 1788265565.9,
+     "header": 1788265566,
+     "abs_error_s": 0.094
+    },
+    {
+     "block": 51006147,
+     "interpolated": 1788193628.1,
+     "header": 1788193629,
+     "abs_error_s": 0.85
+    },
+    {
+     "block": 50993415,
+     "interpolated": 1788192336.6,
+     "header": 1788192335,
+     "abs_error_s": 1.598
+    }
+   ]
+  }
+ },
+ "feed_nvda.csv.gz": {
+  "order": {
+   "rows": 1047,
+   "pass": true
+  },
+  "refetch": {
+   "windows": [
+    {
+     "aggregator_or_gauge": "0xc9d16e4f2569b9e3ea0468fd85844953713dc2a2",
+     "from": 27000000,
+     "to": 110790000,
+     "refetched": 1047,
+     "dataset_rows_in_window": 1047,
+     "match": true,
+     "rule": "equal",
+     "chunk_blocks": 7777777
+    }
+   ],
+   "pass": true
+  }
+ },
+ "feed_nvda_pre27m.csv.gz": {
+  "order": {
+   "rows": 626,
+   "pass": true
+  },
+  "refetch": {
+   "windows": [
+    {
+     "aggregator_or_gauge": "0xc9d16e4f2569b9e3ea0468fd85844953713dc2a2",
+     "from": 0,
+     "to": 26999999,
+     "refetched": 626,
+     "dataset_rows_in_window": 626,
+     "match": true,
+     "rule": "equal",
+     "chunk_blocks": 7777777
+    }
+   ],
+   "pass": true
+  }
+ },
+ "feed_spy.csv.gz": {
+  "order": {
+   "rows": 144,
+   "pass": true
+  },
+  "refetch": {
+   "windows": [
+    {
+     "aggregator_or_gauge": "0x78bcb218fa04b9b3a278ebc865ed320bf8defbac",
+     "from": 27000000,
+     "to": 110790000,
+     "refetched": 144,
+     "dataset_rows_in_window": 144,
+     "match": true,
+     "rule": "equal",
+     "chunk_blocks": 7777777
+    }
+   ],
+   "pass": true
+  }
+ },
+ "feed_spy_pre27m.csv.gz": {
+  "order": {
+   "rows": 83,
+   "pass": true
+  },
+  "refetch": {
+   "windows": [
+    {
+     "aggregator_or_gauge": "0x78bcb218fa04b9b3a278ebc865ed320bf8defbac",
+     "from": 0,
+     "to": 26999999,
+     "refetched": 83,
+     "dataset_rows_in_window": 83,
+     "match": true,
+     "rule": "equal",
+     "chunk_blocks": 7777777
+    }
+   ],
+   "pass": true
+  }
+ },
+ "feed_usdg.csv.gz": {
+  "order": {
+   "rows": 98,
+   "pass": true
+  },
+  "refetch": {
+   "windows": [
+    {
+     "aggregator_or_gauge": "0x8beee3503f6860d5dac4ce26b5eee92982951c2e",
+     "from": 27000000,
+     "to": 110790000,
+     "refetched": 98,
+     "dataset_rows_in_window": 98,
+     "match": true,
+     "rule": "equal",
+     "chunk_blocks": 7777777
+    }
+   ],
+   "pass": true
+  }
+ },
+ "feed_usdg_pre27m.csv.gz": {
+  "order": {
+   "rows": 60,
+   "pass": true
+  },
+  "refetch": {
+   "windows": [
+    {
+     "aggregator_or_gauge": "0x8beee3503f6860d5dac4ce26b5eee92982951c2e",
+     "from": 0,
+     "to": 26999999,
+     "refetched": 60,
+     "dataset_rows_in_window": 60,
+     "match": true,
+     "rule": "equal",
+     "chunk_blocks": 7777777
+    }
+   ],
+   "pass": true
+  }
+ },
+ "feed_eth_usd.csv.gz": {
+  "order": {
+   "rows": 1840,
+   "pass": true
+  },
+  "refetch": {
+   "windows": [
+    {
+     "aggregator_or_gauge": "0x6091e64eb7138eef066a80fd3a0d7427b91f2721",
+     "from": 27000000,
+     "to": 110790000,
+     "refetched": 1840,
+     "dataset_rows_in_window": 1840,
+     "match": true,
+     "rule": "equal",
+     "chunk_blocks": 7777777
+    }
+   ],
+   "pass": true
+  }
+ },
+ "feed_eth_usd_pre27m.csv.gz": {
+  "order": {
+   "rows": 1392,
+   "pass": true
+  },
+  "refetch": {
+   "windows": [
+    {
+     "aggregator_or_gauge": "0x6091e64eb7138eef066a80fd3a0d7427b91f2721",
+     "from": 0,
+     "to": 26999999,
+     "refetched": 1392,
+     "dataset_rows_in_window": 1392,
+     "match": true,
+     "rule": "equal",
+     "chunk_blocks": 7777777
+    }
+   ],
+   "pass": true
+  }
+ },
+ "feed_nvda_247.csv.gz": {
+  "order": {
+   "rows": 89,
+   "pass": true
+  },
+  "refetch": {
+   "windows": [
+    {
+     "aggregator_or_gauge": "0x1c28973bd1bab2e34efa5bff5e94a95c6cab72cc",
+     "from": 27000000,
+     "to": 110790000,
+     "refetched": 89,
+     "dataset_rows_in_window": 89,
+     "match": true,
+     "rule": "equal",
+     "chunk_blocks": 7777777
+    }
+   ],
+   "pass": true
+  }
+ },
+ "gauge_nvda_notify.csv.gz": {
+  "order": {
+   "rows": 7,
+   "pass": true
+  },
+  "refetch": {
+   "windows": [
+    {
+     "aggregator_or_gauge": "0x93c6A733FB3165D94774B3A5Fc4319D29bd7b6ce",
+     "from": 0,
+     "to": 110790000,
+     "refetched": 7,
+     "dataset_rows_in_window": 7,
+     "match": true,
+     "rule": "equal",
+     "chunk_blocks": 7777777
+    }
+   ],
+   "pass": true
+  }
+ },
+ "gauge_spy_notify.csv.gz": {
+  "order": {
+   "rows": 8,
+   "pass": true
+  },
+  "refetch": {
+   "windows": [
+    {
+     "aggregator_or_gauge": "0x739e31798efe8cff3ef4c613d8ae751e179c7337",
+     "from": 0,
+     "to": 110790000,
+     "refetched": 8,
+     "dataset_rows_in_window": 8,
+     "match": true,
+     "rule": "equal",
+     "chunk_blocks": 7777777
+    }
+   ],
+   "pass": true
+  }
+ }
+}

@@ -1,0 +1,194 @@
+{
+ "END": 110790000,
+ "factory": "0x1f7d7550b1b028f7571e69a784071f0205fd2efa",
+ "factory_source": "https://developers.uniswap.org/docs/protocols/v3/deployments/v3-robinhood-chain-deployments (fetched 2026-11-10)",
+ "factory_code_bytes": 24535,
+ "fee_tiers_enabled_tick_spacing": {
+  "100": 1,
+  "200": 0,
+  "300": 0,
+  "400": 0,
+  "500": 10,
+  "2500": 0,
+  "3000": 60,
+  "10000": 200
+ },
+ "getPool": {
+  "NVDA": {
+   "100": "0xb75d2d02b0ec3de50d32e40a4f1a8dae8acc4333",
+   "500": "0xd4eb21209c4d6093f80b5b84f5c45cc093ea14a3",
+   "3000": "0xb944cec30bd4175855215d767adc81f39e5f7e2b",
+   "10000": "0xc277560df3689a401ba7dedd7626168b234ceb5e"
+  },
+  "SPY": {
+   "100": "0x62fde201c424d6d07730b77450dd73928ebac5f5",
+   "500": "0xa7bb1ac63bbab0c44316e6c8c455213441689167",
+   "3000": "0xa43b424bc609495aed4bcd88d654934b510b0ad9",
+   "10000": "0x0000000000000000000000000000000000000000"
+  }
+ },
+ "repo_grep_note": "no Uniswap V3 factory for chain 4663 in the repos under /Users/joshua/Peridot (UNIV3_FACTORY in peridot-contracts-2-5/operator/src/constants.ts is the Avalanche one; other 'V3' hits are RamsesV3)",
+ "usdg_volume_raw_note": "sum of |USDG leg| over the pool's swaps, raw 6-decimal units",
+ "pools": [
+  {
+   "symbol": "NVDA",
+   "pool": "0xb944cec30bd4175855215d767adc81f39e5f7e2b",
+   "token0": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "token1": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
+   "fee": 3000,
+   "tick_spacing": 60,
+   "created_block": 7923871,
+   "initialize": {
+    "block": 7923871,
+    "log_index": 3,
+    "sqrtPriceX96": "5454627287843277876657888769993904",
+    "tick": 222804
+   },
+   "getPool_matches": true,
+   "swaps": 26691,
+   "usdg_volume_raw": "4904840149587",
+   "mints": 1614,
+   "burns": 3038,
+   "complete": true,
+   "counted_through_block": 110790000,
+   "dataset_files": {
+    "swaps": "univ3_nvda_swaps.csv.gz",
+    "liquidity": "univ3_nvda_liquidity.csv.gz"
+   },
+   "state_at_END": {
+    "address": "0xb944cec30bd4175855215d767adc81f39e5f7e2b",
+    "sqrtPriceX96": "5869902401722211179805620369700194",
+    "tick": 224271,
+    "feeProtocol_raw": 102,
+    "liquidity": "29088842481660900",
+    "fee": 3000,
+    "tickSpacing": 60
+   }
+  },
+  {
+   "symbol": "NVDA",
+   "pool": "0xb75d2d02b0ec3de50d32e40a4f1a8dae8acc4333",
+   "token0": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "token1": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
+   "fee": 100,
+   "tick_spacing": 1,
+   "created_block": 13090320,
+   "initialize": {
+    "block": 13090320,
+    "log_index": 31,
+    "sqrtPriceX96": "5568152226295450582555994020641015",
+    "tick": 223216
+   },
+   "getPool_matches": true,
+   "swaps": null,
+   "note": "not counted"
+  },
+  {
+   "symbol": "NVDA",
+   "pool": "0xd4eb21209c4d6093f80b5b84f5c45cc093ea14a3",
+   "token0": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "token1": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
+   "fee": 500,
+   "tick_spacing": 10,
+   "created_block": 15511376,
+   "initialize": {
+    "block": 15511376,
+    "log_index": 3,
+    "sqrtPriceX96": "5524339303215608326195244251269016",
+    "tick": 223058
+   },
+   "getPool_matches": true,
+   "swaps": null,
+   "note": "not counted"
+  },
+  {
+   "symbol": "NVDA",
+   "pool": "0xc277560df3689a401ba7dedd7626168b234ceb5e",
+   "token0": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "token1": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
+   "fee": 10000,
+   "tick_spacing": 200,
+   "created_block": 41860530,
+   "initialize": {
+    "block": 41860530,
+    "log_index": 1,
+    "sqrtPriceX96": "5374228530660364356510843796105403",
+    "tick": 222507
+   },
+   "getPool_matches": true,
+   "swaps": null,
+   "note": "not counted"
+  },
+  {
+   "symbol": "SPY",
+   "pool": "0xa43b424bc609495aed4bcd88d654934b510b0ad9",
+   "token0": "0x117cc2133c37b721f49de2a7a74833232b3b4c0c",
+   "token1": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "fee": 3000,
+   "tick_spacing": 60,
+   "created_block": 15259439,
+   "initialize": {
+    "block": 15259439,
+    "log_index": 19,
+    "sqrtPriceX96": "2161521899871414029637078",
+    "tick": -210196
+   },
+   "getPool_matches": true,
+   "swaps": 22744,
+   "usdg_volume_raw": "2226892994939",
+   "mints": 1476,
+   "burns": 2805,
+   "complete": true,
+   "counted_through_block": 110790000,
+   "dataset_files": {
+    "swaps": "univ3_spy_swaps.csv.gz",
+    "liquidity": "univ3_spy_liquidity.csv.gz"
+   },
+   "state_at_END": {
+    "address": "0xa43b424bc609495aed4bcd88d654934b510b0ad9",
+    "sqrtPriceX96": "2175733701176822225862283",
+    "tick": -210065,
+    "feeProtocol_raw": 102,
+    "liquidity": "11569760914085643",
+    "fee": 3000,
+    "tickSpacing": 60
+   }
+  },
+  {
+   "symbol": "SPY",
+   "pool": "0xa7bb1ac63bbab0c44316e6c8c455213441689167",
+   "token0": "0x117cc2133c37b721f49de2a7a74833232b3b4c0c",
+   "token1": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "fee": 500,
+   "tick_spacing": 10,
+   "created_block": 34839529,
+   "initialize": {
+    "block": 34839529,
+    "log_index": 47,
+    "sqrtPriceX96": "2203201658875878679686783",
+    "tick": -209814
+   },
+   "getPool_matches": true,
+   "swaps": null,
+   "note": "not counted"
+  },
+  {
+   "symbol": "SPY",
+   "pool": "0x62fde201c424d6d07730b77450dd73928ebac5f5",
+   "token0": "0x117cc2133c37b721f49de2a7a74833232b3b4c0c",
+   "token1": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "fee": 100,
+   "tick_spacing": 1,
+   "created_block": 67801025,
+   "initialize": {
+    "block": 67801025,
+    "log_index": 12,
+    "sqrtPriceX96": "2187833865665472271912613",
+    "tick": -209954
+   },
+   "getPool_matches": true,
+   "swaps": null,
+   "note": "not counted"
+  }
+ ]
+}

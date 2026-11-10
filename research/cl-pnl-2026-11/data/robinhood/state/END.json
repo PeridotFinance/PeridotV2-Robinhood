@@ -1,0 +1,10 @@
+{
+ "END": 110790000,
+ "hash": "0x2e7fe9da51f5b156c74e4ef78713cab6d2c28c60cc7093e9826ef265ce61cf75",
+ "timestamp": 1794304197,
+ "iso": "2026-11-10T09:49:57Z",
+ "l1BlockNumber": 26383720,
+ "head_when_fixed": 110792087,
+ "fixed_at_unix": 1794304419,
+ "rule": "largest multiple of 10,000 <= head - 2,000"
+}

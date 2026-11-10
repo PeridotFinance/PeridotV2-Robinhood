@@ -1,0 +1,155 @@
+{
+ "pool": "0xdac1904d823f7d6bcaaf431ceee40c934fed321b",
+ "token0": "USDG",
+ "decimals0": 6,
+ "token1": "NVDA",
+ "decimals1": 18,
+ "tick_spacing": 10,
+ "initialize": {
+  "block": 27574595,
+  "log_index": 10,
+  "tx": "0x1592e2da840ba46327053de135cca9d43131b2442ff4787b71207e2f2ba9b51f",
+  "sqrtPriceX96": "5490054449229188117583916387355815",
+  "tick": 222933
+ },
+ "provenance": {
+  "existing_file": "/Users/joshua/Peridot/ramses-group-pool-NVDA.json",
+  "existing_file_head": 104187711,
+  "existing_file_sha256": "902eb4f9860c637313f3403918ddaebea5d205cacba77597cc49f41aa5baf2da",
+  "swap": {
+   "from_existing_file": 331494,
+   "fetched_tail": 31665,
+   "topic0": "0xc42079f94a6350d7e6235f29174924f928cc2ac818eb64fed8004e115fbcca67",
+   "signature": "Swap(address,address,int256,int256,uint160,uint128,int24)"
+  },
+  "mint": {
+   "from_existing_file": 1446,
+   "fetched_tail": 29,
+   "topic0": "0xd78218c0d304e8893cb3200abe394bbc8d5b7804d9c51f236df9fdcf481d02d3",
+   "signature": "Mint(address,address,uint256,int24,int24,uint128,uint256,uint256)"
+  },
+  "burn": {
+   "from_existing_file": 1699,
+   "fetched_tail": 42,
+   "topic0": "0x0c396cd989a39f4459b5fa1aed6a9a8dcdbc45908acfd67e028cd568da98982c",
+   "signature": "Burn(address,int24,int24,uint128,uint256,uint256)"
+  },
+  "init": {
+   "from_existing_file": 1,
+   "fetched_tail": 0,
+   "topic0": "0x98636036cb66a9c19a37435efc1e90142190214e8abeb821bdba3f2990dd4c95",
+   "signature": "Initialize(uint160,int24)"
+  },
+  "feeadj": {
+   "from_existing_file": 1786,
+   "fetched_tail": 1543,
+   "topic0": "0x0cba87189055d3b5ab05c96fbd641bc766576c9e7cf0d195bdfb58a0c6a6df24",
+   "signature": "FeeAdjustment(uint24,uint24)"
+  },
+  "setfee": {
+   "from_existing_file": 0,
+   "fetched_tail": 0,
+   "topic0": "0x0eb63f4a36d6bdeee05aa00020a97d80c3e84f1b5b3ebf345fb67262e62b0f33",
+   "signature": "SetFee(uint24,uint24)"
+  },
+  "proto_a": {
+   "from_existing_file": 0,
+   "fetched_tail": 0,
+   "topic0": "0x973d8d92bb299f4af6ce49b52a8adb85ae46b9f214c4c4fc06ac77401237b133",
+   "signature": "SetFeeProtocol(uint8,uint8,uint8,uint8)"
+  },
+  "proto_b": {
+   "from_existing_file": 1,
+   "fetched_tail": 0,
+   "topic0": "0x67a069e4d951485f3e494a1edfa67d7334e991e8514ba748fd1636270acd1c97",
+   "signature": "SetFeeProtocol(uint24,uint24)"
+  },
+  "proto_c": {
+   "from_existing_file": 0,
+   "fetched_tail": 0,
+   "topic0": "0x8f517a34947cf2fca464c6548f5250e5a5693f78cd46052cde6e4cf65e60e527",
+   "signature": "SetFeeProtocol(uint24)"
+  },
+  "tail_range": [
+   104187712,
+   110790000
+  ]
+ },
+ "swaps": {
+  "path": "ramses_nvda_swaps.csv.gz",
+  "rows": 363159,
+  "first_row": [
+   "27576611",
+   "17",
+   "1785841723.7",
+   "64058991",
+   "-306899691903369497",
+   "5480448227383175944541768559634855",
+   "2531182295752594",
+   "222898",
+   "500",
+   "0.05"
+  ],
+  "last_row": [
+   "110789811",
+   "29",
+   "1794304177.0",
+   "-60904796",
+   "333597351922477497",
+   "5863145936603847916732664309806396",
+   "31852565403993159",
+   "224248",
+   "300",
+   "0.5"
+  ]
+ },
+ "liquidity": {
+  "path": "ramses_nvda_liquidity.csv.gz",
+  "rows": 3216,
+  "first_row": [
+   "27574595",
+   "14",
+   "mint",
+   "221240",
+   "224270",
+   "17775819272441"
+  ],
+  "last_row": [
+   "110408497",
+   "2",
+   "mint",
+   "223830",
+   "224430",
+   "737169320303671"
+  ]
+ },
+ "mints": 1475,
+ "burns": 1741,
+ "fee_events": {
+  "FeeAdjustment": 3329,
+  "SetFee": 0,
+  "initial_fee_ppm": 500,
+  "first_event_block": 54013057,
+  "fee_ppm_in_force_at_END_from_events": 300,
+  "fee()_at_END": 300,
+  "match": true,
+  "min_fee_ppm": 70,
+  "max_fee_ppm": 2460
+ },
+ "protocol_share_events": {
+  "SetFeeProtocol(uint24,uint24)": 1,
+  "SetFeeProtocol(uint8,uint8,uint8,uint8)": 0,
+  "SetFeeProtocol(uint24)": 0,
+  "initial_ppm": 50000,
+  "changes": [
+   {
+    "block": 76907586,
+    "log_index": 24,
+    "new_ppm": 500000
+   }
+  ],
+  "in_force_at_END_from_events_ppm": 500000,
+  "slot0_feeProtocol_at_END": 500000,
+  "match": true
+ }
+}

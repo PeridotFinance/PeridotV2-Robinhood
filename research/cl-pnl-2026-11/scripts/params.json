@@ -95,6 +95,30 @@
    "_sale_cost": "assumption: PHAR/WAVAX CL pool fee 1% in force at END plus 1% impact and the WAVAX leg; applies at pilot size only (the pool trades about $23k a day)",
    "form": "liquid PHAR (voter.xRatio = 0 at START and END)",
    "forfeit_window_s": 111
+  },
+  "ramses_nvda": {
+   "token_symbol": "RAM",
+   "token": "0x5173d45a1191ee33cbb7d8c7e65f21b04ed54802",
+   "notify_file": "robinhood/gauge_nvda_notify.csv.gz",
+   "price_venue": "ram_weth",
+   "quote_usd_feed": "robinhood/feed_eth_usd.csv.gz",
+   "quote_feed_decimals": 8,
+   "sale_cost": 0.03,
+   "_sale_cost": "assumption: RAM/WETH pool fee 1.75% in force at END, plus impact and the WETH leg; pilot size only",
+   "form": "liquid RAM (voter.xRatio = 0); the vault cannot sell or distribute it today [MECHANICS 3.4]",
+   "forfeit_window_s": 99
+  },
+  "ramses_spy": {
+   "token_symbol": "RAM",
+   "token": "0x5173d45a1191ee33cbb7d8c7e65f21b04ed54802",
+   "notify_file": "robinhood/gauge_spy_notify.csv.gz",
+   "price_venue": "ram_weth",
+   "quote_usd_feed": "robinhood/feed_eth_usd.csv.gz",
+   "quote_feed_decimals": 8,
+   "sale_cost": 0.03,
+   "_sale_cost": "assumption: RAM/WETH pool fee 1.75% in force at END, plus impact and the WETH leg; pilot size only",
+   "form": "liquid RAM (voter.xRatio = 0); the vault cannot sell or distribute it today [MECHANICS 3.4]",
+   "forfeit_window_s": 99
   }
  }
 }

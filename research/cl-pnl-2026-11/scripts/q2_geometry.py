@@ -72,8 +72,10 @@ def main():
     ap.add_argument("--from-ts", type=float)
     ap.add_argument("--tag", default="")
     ap.add_argument("--no-reserve", action="store_true")
+    ap.add_argument("--sample-s", type=float, default=3600.0, help="sampling of the delta-matched benchmark (LVR decomposition only)")
     a = ap.parse_args()
     extra = {"reserve_bps": 0} if a.no_reserve else {}
+    extra["sample_s"] = a.sample_s
     ds = X.load_dataset(a.venue)
     t0 = max(ds.ts[0], a.from_ts or 0.0, ds.oracle_t[0])
     t1 = ds.ts[-1]

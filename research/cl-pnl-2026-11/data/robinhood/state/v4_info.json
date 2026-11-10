@@ -1,0 +1,186 @@
+{
+ "nvda": {
+  "pool": {
+   "symbol": "NVDA",
+   "pool_id": "0x3bb34a44f1b2b5f32c034c38a53065a521a47b199700fa9bd19d60985ff24bf1",
+   "currency0": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "currency1": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
+   "fee": 3000,
+   "tick_spacing": 60,
+   "hooks": "0x0000000000000000000000000000000000000000",
+   "init_sqrt_price_x96": "5533461530730337671229635943033163",
+   "init_tick": 223091,
+   "init_block": 1576460,
+   "init_log_index": 6,
+   "init_tx": "0x5e8dc688542e10d18550569a6c07a01e8cecee42317dc81a59c4a28a02c75b4f",
+   "swaps": 205833,
+   "usdg_volume_raw": "52281778065943",
+   "first_swap_block": 1576462,
+   "last_swap_block": 110788889,
+   "state_at_END": {
+    "symbol": "NVDA",
+    "sqrtPriceX96": "5869055222606936907350112741318901",
+    "tick": 224268,
+    "protocolFee": 2048500,
+    "lpFee": 3000,
+    "liquidity": "128406677551474183"
+   },
+   "most_swaps_of_symbol": "0x6444a8e0b267406a15db74ca00c4a24bdfa81ed3180f5b6d0851f8ed6f4f29c5",
+   "most_usdg_volume_of_symbol": "0x6444a8e0b267406a15db74ca00c4a24bdfa81ed3180f5b6d0851f8ed6f4f29c5"
+  },
+  "swaps": {
+   "path": "v4_nvda_swaps.csv.gz",
+   "rows": 205833,
+   "first_row": [
+    "1576462",
+    "8",
+    "1783034875.1",
+    "-26422699",
+    "132443636032262071",
+    "5669063752059613527398480808105680",
+    "77150551216869",
+    "223575",
+    "3000"
+   ],
+   "last_row": [
+    "110788889",
+    "7",
+    "1794304079.5",
+    "224285854",
+    "-1226627918326790957",
+    "5869055222606936907350112741318901",
+    "128406677551474183",
+    "224268",
+    "3499"
+   ]
+  },
+  "liquidity": {
+   "path": "v4_nvda_liquidity.csv.gz",
+   "rows": 12419,
+   "first_row": [
+    "1576460",
+    "9",
+    "0x58daec3116aae6d93017baaea7749052e8a04fa7",
+    "221100",
+    "224940",
+    "77150551216869",
+    "0x000000000000000000000000000000000000000000000000000000000000024e"
+   ],
+   "last_row": [
+    "110768812",
+    "7",
+    "0x58daec3116aae6d93017baaea7749052e8a04fa7",
+    "221040",
+    "224820",
+    "0",
+    "0x000000000000000000000000000000000000000000000000000000000040a0cd"
+   ]
+  },
+  "swap_fee_field_histogram": {
+   "3000": 87313,
+   "3499": 118520
+  },
+  "topics": {
+   "swap": [
+    "0x40e9cecb9f5f1f1c5b9c97dec2917b7ee92e57ba5563708daca94dd84ad7112f",
+    "0x3bb34a44f1b2b5f32c034c38a53065a521a47b199700fa9bd19d60985ff24bf1"
+   ],
+   "modify": [
+    "0xf208f4912782fd25c7f114ca3723a2d5dd6f3bcc3ac8db5af63baa85f711d5ec",
+    "0x3bb34a44f1b2b5f32c034c38a53065a521a47b199700fa9bd19d60985ff24bf1"
+   ]
+  }
+ },
+ "spy": {
+  "pool": {
+   "symbol": "SPY",
+   "pool_id": "0xfe2a80bb5618fd14984b92ca6d45bf5ba67443ddb1435e28b2e48df2fc1526cd",
+   "currency0": "0x117cc2133c37b721f49de2a7a74833232b3b4c0c",
+   "currency1": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+   "fee": 3000,
+   "tick_spacing": 60,
+   "hooks": "0x0000000000000000000000000000000000000000",
+   "init_sqrt_price_x96": "2165849053027949171803061",
+   "init_tick": -210156,
+   "init_block": 9349681,
+   "init_log_index": 16,
+   "init_tx": "0x6f6fe0e62239f67a3fefe99679e0b5071f890281fa66ebf789d663512463275d",
+   "swaps": 544277,
+   "usdg_volume_raw": "119082086707713",
+   "first_swap_block": 9368546,
+   "last_swap_block": 110764667,
+   "state_at_END": {
+    "symbol": "SPY",
+    "sqrtPriceX96": "2175244476961509342024333",
+    "tick": -210070,
+    "protocolFee": 2048500,
+    "lpFee": 3000,
+    "liquidity": "2754156637826592793"
+   },
+   "most_swaps_of_symbol": "0xfe2a80bb5618fd14984b92ca6d45bf5ba67443ddb1435e28b2e48df2fc1526cd",
+   "most_usdg_volume_of_symbol": "0xe5923c8a8be481ec89a2ca784a2bbfa4235de6d88f92260fd66b660c4babf907"
+  },
+  "swaps": {
+   "path": "v4_spy_swaps.csv.gz",
+   "rows": 544277,
+   "first_row": [
+    "9368546",
+    "28",
+    "1784016002.0",
+    "-4217338468116764",
+    "3243327",
+    "2222175662845404509192983",
+    "4548328599729",
+    "-209643",
+    "3000"
+   ],
+   "last_row": [
+    "110764667",
+    "43",
+    "1794301529.8",
+    "-1275765631437419",
+    "965051",
+    "2175244476961509342024333",
+    "2754156637826592793",
+    "-210070",
+    "3499"
+   ]
+  },
+  "liquidity": {
+   "path": "v4_spy_liquidity.csv.gz",
+   "rows": 22877,
+   "first_row": [
+    "9349681",
+    "18",
+    "0x58daec3116aae6d93017baaea7749052e8a04fa7",
+    "-887220",
+    "887220",
+    "1104040766307",
+    "0x000000000000000000000000000000000000000000000000000000000001528b"
+   ],
+   "last_row": [
+    "110724768",
+    "0",
+    "0x58daec3116aae6d93017baaea7749052e8a04fa7",
+    "-210360",
+    "-209460",
+    "114021443907627",
+    "0x00000000000000000000000000000000000000000000000000000000002b9582"
+   ]
+  },
+  "swap_fee_field_histogram": {
+   "3000": 24525,
+   "3499": 519752
+  },
+  "topics": {
+   "swap": [
+    "0x40e9cecb9f5f1f1c5b9c97dec2917b7ee92e57ba5563708daca94dd84ad7112f",
+    "0xfe2a80bb5618fd14984b92ca6d45bf5ba67443ddb1435e28b2e48df2fc1526cd"
+   ],
+   "modify": [
+    "0xf208f4912782fd25c7f114ca3723a2d5dd6f3bcc3ac8db5af63baa85f711d5ec",
+    "0xfe2a80bb5618fd14984b92ca6d45bf5ba67443ddb1435e28b2e48df2fc1526cd"
+   ]
+  }
+ }
+}

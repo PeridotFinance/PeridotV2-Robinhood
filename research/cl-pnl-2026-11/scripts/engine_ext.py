@@ -93,9 +93,15 @@ def session_plan(by_session: dict[str, tuple[int, int]], equity: bool = True):
 
 
 class Sim(E.Sim):
-    def __init__(self, ds, cfg, session_fn=engine_session, start_index=0, end_index=None, start_stock_frac: float = 0.5, plan=None):
+    def __init__(self, ds, cfg, session_fn=engine_session, start_index=0, end_index=None, start_stock_frac: float = 0.5, plan=None, outages=(),
+                 initial_half: int | None = None, initial_center_price: float | None = None):
         super().__init__(ds, dataclasses.replace(cfg), session_fn, start_index, end_index)
         self.start_stock_frac = start_stock_frac
+        self.outages = tuple(outages)   # (start, end) unix intervals in which the keeper sends nothing
+        # replay of a live pair: the range already in the pool at the start (its half-width and centre), which the policy
+        # in force afterwards did not place
+        self._initial = (initial_half, initial_center_price) if initial_half else None
+        self._policy_half = self.cfg.core_half
         self.plan = plan
         self._first_targets = True
         self._force = False
@@ -119,7 +125,35 @@ class Sim(E.Sim):
                 stock_raw, usdg_raw = stock_raw * (f / 0.5), usdg_raw * ((1 - f) / 0.5)
                 self.idle0, self.idle1 = m.split_raw(stock_raw, usdg_raw)
                 self.hold0, self.hold1 = self.idle0, self.idle1
+            if self._initial:
+                self.cfg.core_half = self._initial[0]
         return super()._targets(price_o)
+
+    def _deploy(self, name, s_pool, price_o, cap_usd_per_side, s_ref):
+        if self._initial and self._initial[1] and self.cfg.core_half == self._initial[0] and self.layers[name].L == 0 and not self.recenters[name]:
+            # centre the pre-existing range where it really was; value the inventory at the oracle as usual
+            ok = self._deploy_centered(name, s_pool, price_o, cap_usd_per_side, self._initial[1])
+            self.cfg.core_half = self._policy_half
+            self._initial = None
+            return ok
+        return super()._deploy(name, s_pool, price_o, cap_usd_per_side, s_ref)
+
+    def _deploy_centered(self, name, s_pool, price_o, cap_usd_per_side, center_price):
+        c, ly, m = self.cfg, self.layers[name], self.m
+        lo, hi = E.new_range(m.tick_for_usd(center_price), c.core_half, c.spacing)
+        stock_idle = self.idle0 if m.stock_is_token0 else self.idle1
+        usdg_idle = self.idle1 if m.stock_is_token0 else self.idle0
+        # the live pair had its whole inventory in or beside the range: deploy the most liquidity both sides allow
+        a0, a1 = (stock_idle, usdg_idle) if m.stock_is_token0 else (usdg_idle, stock_idle)
+        L = E.liquidity_for(a0, a1, s_pool, lo, hi)
+        if L <= 0:
+            return True
+        u0, u1 = E.amounts(L, s_pool, lo, hi)
+        self.idle0 -= u0
+        self.idle1 -= u1
+        ly.lo, ly.hi, ly.L = lo, hi, L
+        ly.center = m.tick_for_usd(center_price)
+        return True
 
     # -- delta recording: run() calls equity() exactly once per sample, in order
     def equity(self, s, price):
@@ -136,6 +170,8 @@ class Sim(E.Sim):
 
     # -- session plan: a change of the planned width is a due recentre like any other
     def _try_recenter(self, t, s_pool):
+        if any(a <= t < b for a, b in self.outages):
+            return
         if self.plan is not None:
             half, trig = self.plan(t)
             if half != self.cfg.core_half or trig != self.cfg.trigger_ticks:
@@ -173,10 +209,11 @@ def single_range_config(half: int, trigger: int, capital: float, spacing: int, *
 
 
 def run_window(ds: E.Dataset, cfg: E.Config, t_from: float | None = None, t_to: float | None = None, equity_sessions: bool = True,
-               start_stock_frac: float = 0.5, plan=None, keep_series: bool = False, reward_price=None, reward_sale_cost: float = 0.0) -> dict:
+               start_stock_frac: float = 0.5, plan=None, keep_series: bool = False, reward_price=None, reward_sale_cost: float = 0.0, outages=(),
+               initial_half: int | None = None, initial_center_price: float | None = None) -> dict:
     i0 = 0 if t_from is None else bisect.bisect_left(ds.ts, t_from)
     i1 = len(ds.ts) if t_to is None else bisect.bisect_right(ds.ts, t_to)
-    sim = Sim(ds, cfg, (lambda t: session_of(t, equity_sessions)), i0, i1, start_stock_frac, plan)
+    sim = Sim(ds, cfg, (lambda t: session_of(t, equity_sessions)), i0, i1, start_stock_frac, plan, outages, initial_half, initial_center_price)
     sim.run()
     # mark the end at the oracle when it is fresh there, else at the pool (both legs of every comparison use the same price)
     p_o, age = sim.oracle_at(sim.end_ts)

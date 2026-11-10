@@ -18,7 +18,7 @@ INK, INK2, GRID = "#0b0b0b", "#52514e", "#e4e3df"
 BLUE, ORANGE, AQUA, YELLOW, MAGENTA, GREEN, VIOLET, RED = "#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4", "#008300", "#6250d6", "#e34948"
 # fixed entity colours used across the report
 C_FEE, C_LOSS, C_NET, C_HOLD, C_HEDGED, C_REWARD = BLUE, ORANGE, AQUA, INK2, VIOLET, YELLOW
-VENUE_COLOR = {"v4_nvda": BLUE, "ramses_nvda": ORANGE, "ramses_spy": AQUA, "pharaoh_wavax": YELLOW}
+VENUE_COLOR = {"v4_nvda": BLUE, "ramses_nvda": ORANGE, "ramses_spy": AQUA, "pharaoh_wavax": YELLOW, "v4_spy": VIOLET}
 
 plt.rcParams.update({
     "figure.facecolor": SURFACE, "axes.facecolor": SURFACE, "savefig.facecolor": SURFACE,

@@ -1,0 +1,18 @@
+
+=== Uniswap v4 SPY/USDG (0.30%)  2026-07-14 08:00 .. 2026-11-10 09:05  (119.0 d, 544,277 swaps, sigma 11%)
+bucket              days     vol $/d LPfee bp   LP fee $    loss0 $   loss1m $   loss1h $ fee/L1m fee/L1h refFee% refL1h%  fcLVR%  Ptrade
+TOTAL              119.0   1,000,305    30.00    355,620      4,116     10,629     76,666   33.46    4.64     8.7     1.7     1.4  0.0006
+regular             22.8   1,695,953    30.00    114,343      1,387      5,218     49,707   21.91    2.30    12.0     3.8     1.2  0.0009
+extended            33.3     951,286    30.00     94,694      1,454      3,059     18,674   30.96    5.07    10.4     2.8     3.0  0.0007
+overnight           28.3     739,538    30.00     62,849        897      1,763      6,254   35.65   10.05     9.6     0.5     0.9  0.0005
+weekend             34.7     804,168    30.00     83,734        378        590      2,032  141.94   41.21     4.2     0.3     0.3  0.0004
+vol Q1              29.9   1,099,662    30.00     98,530        112        164        480  601.79  205.13     0.7     0.0     0.0  0.0000
+vol Q2              31.2   1,161,795    30.00    108,628        376        928      5,382  117.02   20.18     2.1     0.1     0.0  0.0002
+vol Q3              28.5     863,900    30.00     73,917      1,325      3,052     17,861   24.22    4.14     4.3     0.6     0.2  0.0005
+vol Q4              29.5     860,989    30.00     74,545      2,303      6,485     52,943   11.49    1.41    28.1     6.3     5.3  0.0018
+external-reference loss: {'total': {'loss_usd': 38390.87836063797, 'lp_fee_usd_on_scored': 30923.096016092997, 'fee_over_loss': 0.8054802947097541, 'scored_swaps': 15648}} gap {'swaps': 15648, 'median_abs': 29.78634103598443, 'p95_abs': 64.77251295740315, 'mean': 24.444040974785295}
+   regular {'loss_usd': 31144.039942123152, 'lp_fee_usd_on_scored': 23417.159345832, 'fee_over_loss': 0.7518985780055997, 'scored_swaps': 11932}
+   extended {'loss_usd': 7237.73261910559, 'lp_fee_usd_on_scored': 7454.544363237002, 'fee_over_loss': 1.0299557548670821, 'scored_swaps': 3701}
+   overnight {'loss_usd': -8.318002941174303, 'lp_fee_usd_on_scored': 26.360042615999998, 'fee_over_loss': None, 'scored_swaps': 8}
+   weekend {'loss_usd': 17.423802350401836, 'lp_fee_usd_on_scored': 25.032264408000003, 'fee_over_loss': 1.4366705902987185, 'scored_swaps': 7}
+wrote /Users/joshua/Peridot/wt-cl-research/research/cl-pnl-2026-11/out/q1_v4_spy.json

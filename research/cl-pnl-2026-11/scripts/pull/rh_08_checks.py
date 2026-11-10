@@ -17,7 +17,8 @@ Feeds / gauges: the whole range re-fetched in 7,777,777-block chunks when the fi
              random 2,000,000-block windows in 173,331-block chunks (count and (block, log_index) keys).
 Nothing is asserted here: results, including failures, are recorded.
 
-Usage: rh_08_checks.py [--offline] [file names ...]   (--offline skips the re-fetch and header reads)
+Usage: rh_08_checks.py [--offline] [--out=<name>.json] [file names ...]
+  --offline skips the re-fetch and header reads; --out writes to data/robinhood/state/<name>.json (default checks.json).
 """
 from __future__ import annotations
 
@@ -84,11 +85,13 @@ def line7(t):
 class V3Math:
     """Consecutive swaps with equal event liquidity. Pool-side amounts: positive = into the pool."""
 
-    def __init__(self):
+    def __init__(self, liq_keys=None):
+        self.liq_keys = liq_keys   # sorted (block, log_index) of the liquidity events, when a liquidity file exists
         self.s = {"pairs_total": 0, "eligible_equal_liquidity": 0, "price_unchanged": 0,
                   "output_leg": {"within_2": 0, "within_10": 0, "over_10": 0, "max_abs": 0},
                   "input_leg_fee": {"within_2": 0, "within_10": 0, "over_10": 0, "max_abs": 0, "over_10_rel_gt_1e-6": 0},
                   "sign_mismatch": 0, "examples_output_over_10": [], "examples_input_over_10": []}
+        self.exc = []   # every pair whose output or input leg is off by more than 10 units (capped at 2,000)
 
     def add(self, p, c):
         st = self.s
@@ -116,13 +119,24 @@ class V3Math:
         o = st["output_leg"]
         o["max_abs"] = max(o["max_abs"], d_out)
         o["within_2" if d_out <= 2 else "within_10" if d_out <= 10 else "over_10"] += 1
-        if d_out > 10 and len(st["examples_output_over_10"]) < 5:
-            st["examples_output_over_10"].append({"block": b, "log_index": li, "event_out": str(got_out), "from_prices": str(out)})
+        if d_out > 10:
+            between = None
+            if self.liq_keys is not None:
+                between = bisect.bisect_left(self.liq_keys, (b, li)) - bisect.bisect_right(self.liq_keys, (p[0], p[1]))
+                k = "output_over_10_with_liquidity_event_between" if between else "output_over_10_without_liquidity_event_between"
+                st[k] = st.get(k, 0) + 1
+            if len(st["examples_output_over_10"]) < 5:
+                st["examples_output_over_10"].append({"block": b, "log_index": li, "previous_swap": [p[0], p[1]], "tick_before": p[6], "tick_after": tick,
+                                                      "event_out": str(got_out), "from_prices": str(out), "liquidity_events_between": between})
         exp_gross = -(-(net_in * 1_000_000) // (1_000_000 - fee))
         d_in = abs(gross - exp_gross)
         s = st["input_leg_fee"]
         s["max_abs"] = max(s["max_abs"], d_in)
         s["within_2" if d_in <= 2 else "within_10" if d_in <= 10 else "over_10"] += 1
+        if (d_in > 10 or d_out > 10) and len(self.exc) < 2000:
+            self.exc.append({"block": b, "log_index": li, "previous_swap": [p[0], p[1]], "tick_before": p[6], "tick_after": tick,
+                             "event_out": str(got_out), "out_from_prices": str(out), "event_in": str(gross), "expected_in": str(exp_gross),
+                             "fee_ppm_column": fee, "implied_fee_ppm": round(1e6 * (1 - net_in / gross), 3) if gross else None})
         if d_in > 10:
             if gross and d_in / gross > 1e-6:
                 s["over_10_rel_gt_1e-6"] += 1
@@ -137,10 +151,36 @@ class V3Math:
         return self.s
 
 
-def pass1(name):
+def classify_exceptions(exc, liq):
+    """For each exception: liquidity events between the two swaps, and how many initialized ticks (boundaries of ranges
+    that held liquidity just before the swap) lie in (min(tick_before, tick_after), max(...)], i.e. were crossed by it."""
+    pos, j, out = {}, 0, []
+    for e in exc:
+        key = (e["block"], e["log_index"])
+        pk = tuple(e["previous_swap"])
+        while j < len(liq) and (liq[j][0], liq[j][1]) < key:
+            k = (liq[j][2], liq[j][3])
+            pos[k] = pos.get(k, 0) + liq[j][4]
+            j += 1
+        between = sum(1 for x in liq[max(j - 50, 0):j] if pk < (x[0], x[1]) < key)
+        lo, hi = min(e["tick_before"], e["tick_after"]), max(e["tick_before"], e["tick_after"])
+        ticks = set()
+        for (a, b), v in pos.items():
+            if v > 0:
+                for t in (a, b):
+                    if lo < t <= hi:
+                        ticks.add(t)
+        out.append(dict(e, liquidity_events_between=between, initialized_ticks_crossed=len(ticks)))
+    return {"exceptions": len(out), "crossed_at_least_one_initialized_tick": sum(1 for x in out if x["initialized_ticks_crossed"] > 0),
+            "with_liquidity_event_between": sum(1 for x in out if x["liquidity_events_between"] > 0),
+            "neither": sum(1 for x in out if not x["initialized_ticks_crossed"] and not x["liquidity_events_between"]),
+            "detail": out}
+
+
+def pass1(name, liq_keys=None):
     """One streaming pass: order, v3 math, the (block, log_index) columns, first/last row."""
     blocks, idxs = array("q"), array("q")
-    vm = V3Math()
+    vm = V3Math(liq_keys)
     prev = None
     dup = unsorted = 0
     first = None
@@ -158,7 +198,9 @@ def pass1(name):
         idxs.append(row[1])
         prev = row
     order = {"rows": len(blocks), "duplicates_adjacent": dup, "descending_steps": unsorted, "pass": dup == 0 and unsorted == 0}
-    return blocks, idxs, first, prev, order, vm.result()
+    res = vm.result()
+    res["_exc"] = vm.exc
+    return blocks, idxs, first, prev, order, res
 
 
 def pass2(name, want_idx, windows):
@@ -234,7 +276,8 @@ def main():
     rinfo = {s: jload(STATE / f"ramses_{s}_info.json") for s in ("nvda", "spy") if (STATE / f"ramses_{s}_info.json").exists()}
     rew = jload(STATE / "rewards_info.json") if (STATE / "rewards_info.json").exists() else {}
     u3 = jload(STATE / "univ3_info.json") if (STATE / "univ3_info.json").exists() else {"files": {}}
-    checks_path = STATE / "checks.json"
+    out_name = ([a.split("=", 1)[1] for a in sys.argv[1:] if a.startswith("--out=")] or ["checks.json"])[0]
+    checks_path = STATE / out_name
     checks = jload(checks_path) if checks_path.exists() else {}
     checks["seed"] = SEED
 
@@ -261,10 +304,18 @@ def main():
             continue
         rnd = random.Random(SEED + sum(name.encode()))
         say(name)
-        blocks, idxs, first, last, order, vm = pass1(name)
+        liq = load_liq(ds["liq"]) if ds["liq"] else None
+        blocks, idxs, first, last, order, vm = pass1(name, [(x[0], x[1]) for x in liq] if liq is not None else None)
+        exc = vm.pop("_exc")
+        if liq is not None:
+            vm["exceptions_classified"] = classify_exceptions(exc, liq)
+        else:
+            vm["exceptions_unclassified_no_liquidity_file"] = exc[:50]
         c = {"order": order, "v3_math": vm}
         say("  order", order)
-        say("  v3 math", {k: v for k, v in vm.items() if not k.startswith("examples")})
+        say("  v3 math", {k: v for k, v in vm.items() if not k.startswith("examples") and not k.startswith("exceptions")})
+        if "exceptions_classified" in vm:
+            say("  exceptions", {k: v for k, v in vm["exceptions_classified"].items() if k != "detail"})
         n = len(blocks)
         # windows for the re-fetch
         windows = []
@@ -281,7 +332,6 @@ def main():
         got, digests = pass2(name, want, windows) if n else ({}, [])
 
         if ds["liq"]:
-            liq = load_liq(ds["liq"])
             lk = [(x[0], x[1]) for x in liq]
             c["liquidity_file_order"] = {"rows": len(lk), "pass": all(b > a for a, b in zip(lk, lk[1:]))}
             c["liquidity_rebuild"] = liquidity_rebuild([got[i] for i in want], liq)
@@ -336,12 +386,14 @@ def main():
         others = []
         for name, f in feeds.items():
             for a in f["aggregators"]:
-                others.append((f"feed_{name}.csv.gz", a["aggregator"], [T(SIG["answer_updated"])], FEED_FROM_BLOCK))
+                others.append((f"feed_{name}.csv.gz", a["aggregator"], [T(SIG["answer_updated"])], FEED_FROM_BLOCK, end))
+                if f.get("pre_27000000_file"):
+                    others.append((f["pre_27000000_file"]["path"], a["aggregator"], [T(SIG["answer_updated"])], 0, FEED_FROM_BLOCK - 1))
         for sym, g in GAUGES.items():
             if (DATA / f"gauge_{sym}_notify.csv.gz").exists():
-                others.append((f"gauge_{sym}_notify.csv.gz", g, [T(SIG["notify_reward"])], 0))
+                others.append((f"gauge_{sym}_notify.csv.gz", g, [T(SIG["notify_reward"])], 0, end))
         cache = {}
-        for j, (fname, addr, topics, lo) in enumerate(others):
+        for j, (fname, addr, topics, lo, hi) in enumerate(others):
             if only and fname not in only:
                 continue
             if fname not in cache:
@@ -356,7 +408,7 @@ def main():
             multi = sum(1 for o in others if o[0] == fname) > 1
             small = len(keys) < 9000
             # small files: the whole range again in 7,777,777-block chunks; large ones: 3 random 2,000,000-block windows
-            spans = [(lo, end, 7_777_777)] if small else [(a, a + 2_000_000 - 1, CHUNK) for a in (rnd.randrange(lo, end - 2_000_000 + 1) for _ in range(3))]
+            spans = [(lo, hi, 7_777_777)] if small else [(a, a + 2_000_000 - 1, CHUNK) for a in (rnd.randrange(lo, hi - 2_000_000 + 1) for _ in range(3))]
             for a, b, chunk in spans:
                 logs, calls = fresh_logs(r, addr, topics, a, b, chunk)
                 fresh = [log_key(l) for l in logs]
