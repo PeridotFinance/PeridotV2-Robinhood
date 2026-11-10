@@ -80,8 +80,20 @@
     "tick": 223216
    },
    "getPool_matches": true,
-   "swaps": null,
-   "note": "not counted"
+   "swaps": 2135,
+   "usdg_volume_raw": "167686607470",
+   "complete": true,
+   "counted_through_block": 110790000,
+   "dataset_files": null,
+   "state_at_END": {
+    "address": "0xb75d2d02b0ec3de50d32e40a4f1a8dae8acc4333",
+    "sqrtPriceX96": "5506415238774881071790920856353536",
+    "tick": 222992,
+    "feeProtocol_raw": 68,
+    "liquidity": "14297015922504961",
+    "fee": 100,
+    "tickSpacing": 1
+   }
   },
   {
    "symbol": "NVDA",
@@ -98,8 +110,20 @@
     "tick": 223058
    },
    "getPool_matches": true,
-   "swaps": null,
-   "note": "not counted"
+   "swaps": 3569537,
+   "usdg_volume_raw": "1358055358483282",
+   "complete": true,
+   "counted_through_block": 110790000,
+   "dataset_files": null,
+   "state_at_END": {
+    "address": "0xd4eb21209c4d6093f80b5b84f5c45cc093ea14a3",
+    "sqrtPriceX96": "5862330994840907573585432263589888",
+    "tick": 224245,
+    "feeProtocol_raw": 68,
+    "liquidity": "563225868862125244",
+    "fee": 500,
+    "tickSpacing": 10
+   }
   },
   {
    "symbol": "NVDA",
@@ -116,8 +140,20 @@
     "tick": 222507
    },
    "getPool_matches": true,
-   "swaps": null,
-   "note": "not counted"
+   "swaps": 1625,
+   "usdg_volume_raw": "109124565347",
+   "complete": true,
+   "counted_through_block": 110790000,
+   "dataset_files": null,
+   "state_at_END": {
+    "address": "0xc277560df3689a401ba7dedd7626168b234ceb5e",
+    "sqrtPriceX96": "5882312381759459432469822038151091",
+    "tick": 224313,
+    "feeProtocol_raw": 102,
+    "liquidity": "11089497995315009",
+    "fee": 10000,
+    "tickSpacing": 200
+   }
   },
   {
    "symbol": "SPY",
@@ -169,8 +205,20 @@
     "tick": -209814
    },
    "getPool_matches": true,
-   "swaps": null,
-   "note": "not counted"
+   "swaps": 175409,
+   "usdg_volume_raw": "36202798554959",
+   "complete": true,
+   "counted_through_block": 110790000,
+   "dataset_files": null,
+   "state_at_END": {
+    "address": "0xa7bb1ac63bbab0c44316e6c8c455213441689167",
+    "sqrtPriceX96": "2177069899529223754022311",
+    "tick": -210053,
+    "feeProtocol_raw": 68,
+    "liquidity": "306435904058267065",
+    "fee": 500,
+    "tickSpacing": 10
+   }
   },
   {
    "symbol": "SPY",
@@ -187,8 +235,20 @@
     "tick": -209954
    },
    "getPool_matches": true,
-   "swaps": null,
-   "note": "not counted"
+   "swaps": 878,
+   "usdg_volume_raw": "461271156019",
+   "complete": true,
+   "counted_through_block": 110790000,
+   "dataset_files": null,
+   "state_at_END": {
+    "address": "0x62fde201c424d6d07730b77450dd73928ebac5f5",
+    "sqrtPriceX96": "2178801905731427758476658",
+    "tick": -210037,
+    "feeProtocol_raw": 68,
+    "liquidity": "894307235208",
+    "fee": 100,
+    "tickSpacing": 1
+   }
   }
  ]
 }

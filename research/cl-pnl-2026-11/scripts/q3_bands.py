@@ -151,6 +151,7 @@ def main():
     ap.add_argument("--step-hours", type=float, default=6.0)
     ap.add_argument("--width-ticks", type=int, default=PAR["bands"]["width_ticks"])
     ap.add_argument("--from-ts", type=float)
+    ap.add_argument("--dist-ticks", default=None, help="comma-separated distances in ticks (default: the prototype presets)")
     ap.add_argument("--no-gates", action="store_true", help="ignore the feed-age and pool-versus-feed conditions on finalize")
     ap.add_argument("--tag", default="")
     a = ap.parse_args()
@@ -172,12 +173,12 @@ def main():
     t_first = s.ts[0] + 3600 if oracle is None else max(s.ts[0] + 3600, oracle.t[0] + 60)
     starts = np.arange(t_first, s.ts[-1] - H, a.step_hours * 3600)
     res = {"venue": a.venue, "label": v.label, "window": [iso(s.ts[0]), iso(s.ts[-1])], "notional_usd": a.notional, "horizon_days": a.horizon_days,
-           "width_ticks": a.width_ticks, "venue_params": vp, "gates": not a.no_gates, "starts": len(starts), "results": {}}
+           "width_ticks": a.width_ticks, "dist_ticks": a.dist_ticks or PAR["bands"]["dist_ticks"], "venue_params": vp, "gates": not a.no_gates, "starts": len(starts), "results": {}}
     print(f"{v.label}  {res['window']}  {len(starts)} start times, horizon {a.horizon_days:g} d, notional ${a.notional:,.0f}, gates {'on' if oracle is not None else 'off'}")
     print(f"{'side':<5}{'dist':>5}{'fill%':>7}{'touch%':>7}{'limit%':>7}{'lim-only%':>10}{'blocked%':>9}{'fee bp':>8}{'fee|fill':>9}{'rew bp':>8}{'diff bp':>9}{'median':>8}"
           f"{'p05':>8}{'p95':>8}{'vsEdge':>8}{'h to fill':>10}")
     for side in ("sell", "buy"):
-        for dt in PAR["bands"]["dist_ticks"]:
+        for dt in ([int(x) for x in a.dist_ticks.split(",")] if a.dist_ticks else PAR["bands"]["dist_ticks"]):
             rows = []
             for t in starts:
                 i0 = int(np.searchsorted(s.ts, t, side="right"))

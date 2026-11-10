@@ -85,6 +85,8 @@ def main():
     while s + WINDOW_S <= t1 + 1:
         windows.append((s, s + WINDOW_S, "30d@" + iso(s)[:10]))
         s += STEP_S
+    if t1 - WINDOW_S > t0 and (not windows[1:] or t1 - WINDOW_S - (s - STEP_S) > 86400):
+        windows.append((t1 - WINDOW_S, t1, "30d@" + iso(t1 - WINDOW_S)[:10]))   # the latest 30 days, whatever the step
     kinds = ("fixed_narrow", "fixed_wide", "weekend_wide", "weekend_narrow", "hours_wide")
     sp = SPACING[a.venue]
     pairs = [(n, w) for n, w in PAIRS if n[0] % sp == 0 and w[0] % sp == 0]

@@ -17,7 +17,8 @@ Feeds / gauges: the whole range re-fetched in 7,777,777-block chunks when the fi
              random 2,000,000-block windows in 173,331-block chunks (count and (block, log_index) keys).
 Nothing is asserted here: results, including failures, are recorded.
 
-Usage: rh_08_checks.py [--offline] [--out=<name>.json] [file names ...]
+Usage: rh_08_checks.py [--offline] [--no-refetch] [--out=<name>.json] [file names ...]
+  --no-refetch keeps the END-state and timestamp checks but skips the window re-fetch (and the feed/gauge re-fetch);
   --offline skips the re-fetch and header reads; --out writes to data/robinhood/state/<name>.json (default checks.json).
 """
 from __future__ import annotations
@@ -269,6 +270,7 @@ def main():
     end = load_end()["END"]
     st = jload(END_STATE_FILE)
     offline = "--offline" in sys.argv
+    no_refetch = "--no-refetch" in sys.argv
     only = set(a for a in sys.argv[1:] if not a.startswith("--"))
     r = rpc(cached=False)
     ti = time_index(r)
@@ -294,6 +296,10 @@ def main():
         if fname.endswith("_swaps.csv.gz"):
             sets.append({"name": fname, "address": src["contract"], "topics": [T(SIG["v3_swap"])], "decode": dec_v3,
                          "liq": fname.replace("_swaps.csv.gz", "_liquidity.csv.gz"), "state": st["univ3"][src["contract"]], "extra": []})
+    u3b = jload(STATE / "univ3_005_info.json") if (STATE / "univ3_005_info.json").exists() else {"files": {}}
+    for fname, src in u3b["files"].items():   # swaps only: no liquidity file, Mint/Burn after the last swap are fetched for the END comparison
+        sets.append({"name": fname, "address": src["contract"], "topics": [T(SIG["v3_swap"])], "decode": dec_v3, "liq": None,
+                     "state": st["univ3"][src["contract"]], "extra": [], "mint_sig": "v3_mint_std", "mint_word": 1})
     if "ram_pool" in rew:
         sets.append({"name": "ram_pool_swaps.csv.gz", "address": RAM_POOL, "topics": [T(SIG["v3_swap"])], "decode": dec_v3, "liq": None,
                      "state": st["ramses"]["ram_pool"], "extra": [], "mint_sig": "v3_mint", "mint_word": 2})
@@ -352,7 +358,9 @@ def main():
         if "end_state" in c:
             say("  end state", {k: v for k, v in c["end_state"].items() if k.endswith("match") or k.endswith("adjusted") or k == "pass"})
 
-        if not offline and n:
+        if not offline and n and no_refetch:
+            c["refetch"] = None
+        if not offline and n and not no_refetch:
             res = []
             for (a, b, label), (dig, cnt) in zip(windows, digests):
                 logs, calls = fresh_logs(r, ds["address"], ds["topics"], a, b)
@@ -365,6 +373,7 @@ def main():
             c["refetch"] = {"windows": res, "pass": all(x["count_match"] and x["values_match"] for x in res),
                             "split": f"{CHUNK}-block unaligned chunks (halved when the node refuses), uncached client",
                             "compared": "row count and sha256 of block,log_index,amount0,amount1,sqrt_price_x96,liquidity,tick lines"}
+        if not offline and n:
             errs = []
             for i in ts_idx:
                 b = blocks[i]
@@ -373,7 +382,7 @@ def main():
             e = sorted(x["abs_error_s"] for x in errs)
             c["ts_error"] = {"samples": len(errs), "max_abs_error_s": e[-1], "median_abs_error_s": e[len(e) // 2], "detail": errs}
             say("  ts error max", e[-1], "median", e[len(e) // 2])
-        elif name in checks:
+        elif offline and name in checks:
             for k in ("refetch", "ts_error", "end_state"):
                 if k in checks[name] and k not in c:
                     c[k] = checks[name][k]
@@ -381,7 +390,7 @@ def main():
         jdump(checks_path, checks)
 
     # ---- feeds and gauges: order, and count/key re-fetch ----------------------------------------------------------
-    if not offline:
+    if not offline and not no_refetch:
         feeds = jload(STATE / "feeds_info.json") if (STATE / "feeds_info.json").exists() else {}
         others = []
         for name, f in feeds.items():

@@ -84,6 +84,8 @@ def main():
     while s + WINDOW_S <= t1 + 1:
         windows.append((s, s + WINDOW_S, "30d@" + iso(s)[:10]))
         s += STEP_S
+    if t1 - WINDOW_S > t0 and (not windows[1:] or t1 - WINDOW_S - (s - STEP_S) > 86400):
+        windows.append((t1 - WINDOW_S, t1, "30d@" + iso(t1 - WINDOW_S)[:10]))   # the latest 30 days, whatever the step
     cells = [(h, t) for h, t in itertools.product(HALVES, TRIGGERS) if feasible(h, t, SPACING[a.venue])]
     jobs = [(h, t, w0, w1, lab) for (h, t) in cells for (w0, w1, lab) in windows]
     tic = time.time()

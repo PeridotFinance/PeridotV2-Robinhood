@@ -261,6 +261,38 @@
     "fee": 100,
     "tickSpacing": 1
    }
+  },
+  "0xd4eb21209c4d6093f80b5b84f5c45cc093ea14a3": {
+   "swaps": 3569537,
+   "usdg_volume_raw": "1358055358483282",
+   "complete": true,
+   "counted_through_block": 110790000,
+   "dataset_files": null,
+   "state_at_END": {
+    "address": "0xd4eb21209c4d6093f80b5b84f5c45cc093ea14a3",
+    "sqrtPriceX96": "5862330994840907573585432263589888",
+    "tick": 224245,
+    "feeProtocol_raw": 68,
+    "liquidity": "563225868862125244",
+    "fee": 500,
+    "tickSpacing": 10
+   }
+  },
+  "0xa7bb1ac63bbab0c44316e6c8c455213441689167": {
+   "swaps": 175409,
+   "usdg_volume_raw": "36202798554959",
+   "complete": true,
+   "counted_through_block": 110790000,
+   "dataset_files": null,
+   "state_at_END": {
+    "address": "0xa7bb1ac63bbab0c44316e6c8c455213441689167",
+    "sqrtPriceX96": "2177069899529223754022311",
+    "tick": -210053,
+    "feeProtocol_raw": 68,
+    "liquidity": "306435904058267065",
+    "fee": 500,
+    "tickSpacing": 10
+   }
   }
  },
  "factory": "0x1f7d7550b1b028f7571e69a784071f0205fd2efa",

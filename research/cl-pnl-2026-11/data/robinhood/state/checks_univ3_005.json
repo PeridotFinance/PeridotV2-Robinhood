@@ -1,0 +1,403 @@
+{
+ "seed": 20261110,
+ "univ3_nvda_005_swaps.csv.gz": {
+  "order": {
+   "rows": 3569537,
+   "duplicates_adjacent": 0,
+   "descending_steps": 0,
+   "pass": true
+  },
+  "v3_math": {
+   "pairs_total": 3569536,
+   "eligible_equal_liquidity": 3479937,
+   "price_unchanged": 19,
+   "output_leg": {
+    "within_2": 3479917,
+    "within_10": 0,
+    "over_10": 1,
+    "max_abs": "654923113342895091"
+   },
+   "input_leg_fee": {
+    "within_2": 3479917,
+    "within_10": 0,
+    "over_10": 1,
+    "max_abs": "149513284",
+    "over_10_rel_gt_1e-6": 1
+   },
+   "sign_mismatch": 0,
+   "examples_output_over_10": [
+    {
+     "block": 75920904,
+     "log_index": 65,
+     "previous_swap": [
+      75920903,
+      20
+     ],
+     "tick_before": 222020,
+     "tick_after": 222018,
+     "event_out": "30261004799802470804",
+     "from_prices": "29606081686459575713",
+     "liquidity_events_between": null
+    }
+   ],
+   "examples_input_over_10": [
+    {
+     "block": 75920904,
+     "log_index": 65,
+     "event_in": "6908704496",
+     "expected_in": "6759191212",
+     "fee_ppm_column": 500,
+     "implied_fee_ppm": 22130.470349183695
+    }
+   ],
+   "tolerance_note": "differences in raw token units (wei); within_2 = at most 2 units",
+   "exceptions_unclassified_no_liquidity_file": [
+    {
+     "block": 75920904,
+     "log_index": 65,
+     "previous_swap": [
+      75920903,
+      20
+     ],
+     "tick_before": 222020,
+     "tick_after": 222018,
+     "event_out": "30261004799802470804",
+     "out_from_prices": "29606081686459575713",
+     "event_in": "6908704496",
+     "expected_in": "6759191212",
+     "fee_ppm_column": 500,
+     "implied_fee_ppm": 22130.47
+    }
+   ]
+  },
+  "end_state": {
+   "last_swap": {
+    "block": 110789812,
+    "log_index": 3,
+    "sqrt_price_x96": "5862330994840907573585432263589888",
+    "tick": 224245,
+    "liquidity": "563225868862125244"
+   },
+   "state_at_END": {
+    "sqrtPriceX96": "5862330994840907573585432263589888",
+    "tick": 224245,
+    "liquidity": "563225868862125244"
+   },
+   "sqrt_price_match": true,
+   "tick_match": true,
+   "liquidity_match_raw": true,
+   "liquidity_events_after_last_swap": 0,
+   "liquidity_after_in_range_events": "563225868862125244",
+   "liquidity_match_adjusted": true,
+   "pass": true
+  },
+  "refetch": null,
+  "ts_error": {
+   "samples": 20,
+   "max_abs_error_s": 3.071,
+   "median_abs_error_s": 0.741,
+   "detail": [
+    {
+     "block": 57036421,
+     "interpolated": 1788804515.2,
+     "header": 1788804516,
+     "abs_error_s": 0.763
+    },
+    {
+     "block": 59563207,
+     "interpolated": 1789059440.6,
+     "header": 1789059441,
+     "abs_error_s": 0.414
+    },
+    {
+     "block": 53515364,
+     "interpolated": 1788448680.9,
+     "header": 1788448684,
+     "abs_error_s": 3.071
+    },
+    {
+     "block": 27704303,
+     "interpolated": 1785854526.6,
+     "header": 1785854526,
+     "abs_error_s": 0.591
+    },
+    {
+     "block": 59075836,
+     "interpolated": 1789010267.4,
+     "header": 1789010267,
+     "abs_error_s": 0.436
+    },
+    {
+     "block": 109589583,
+     "interpolated": 1794178880.0,
+     "header": 1794178881,
+     "abs_error_s": 1.034
+    },
+    {
+     "block": 47030520,
+     "interpolated": 1787792118.3,
+     "header": 1787792116,
+     "abs_error_s": 2.312
+    },
+    {
+     "block": 51918764,
+     "interpolated": 1788285850.0,
+     "header": 1788285851,
+     "abs_error_s": 0.96
+    },
+    {
+     "block": 50672055,
+     "interpolated": 1788159924.3,
+     "header": 1788159924,
+     "abs_error_s": 0.349
+    },
+    {
+     "block": 70687528,
+     "interpolated": 1790184034.3,
+     "header": 1790184036,
+     "abs_error_s": 1.694
+    },
+    {
+     "block": 31145507,
+     "interpolated": 1786199328.8,
+     "header": 1786199329,
+     "abs_error_s": 0.199
+    },
+    {
+     "block": 57707598,
+     "interpolated": 1788872241.6,
+     "header": 1788872242,
+     "abs_error_s": 0.362
+    },
+    {
+     "block": 60319690,
+     "interpolated": 1789136122.8,
+     "header": 1789136123,
+     "abs_error_s": 0.209
+    },
+    {
+     "block": 62226394,
+     "interpolated": 1789329885.0,
+     "header": 1789329886,
+     "abs_error_s": 1.009
+    },
+    {
+     "block": 53145622,
+     "interpolated": 1788410710.9,
+     "header": 1788410713,
+     "abs_error_s": 2.058
+    },
+    {
+     "block": 87572927,
+     "interpolated": 1791900670.5,
+     "header": 1791900670,
+     "abs_error_s": 0.456
+    },
+    {
+     "block": 18170706,
+     "interpolated": 1784898314.7,
+     "header": 1784898314,
+     "abs_error_s": 0.741
+    },
+    {
+     "block": 55277253,
+     "interpolated": 1788627066.4,
+     "header": 1788627068,
+     "abs_error_s": 1.623
+    },
+    {
+     "block": 53434646,
+     "interpolated": 1788440296.7,
+     "header": 1788440296,
+     "abs_error_s": 0.68
+    },
+    {
+     "block": 70922943,
+     "interpolated": 1790207737.9,
+     "header": 1790207738,
+     "abs_error_s": 0.051
+    }
+   ]
+  }
+ },
+ "univ3_spy_005_swaps.csv.gz": {
+  "order": {
+   "rows": 175409,
+   "duplicates_adjacent": 0,
+   "descending_steps": 0,
+   "pass": true
+  },
+  "v3_math": {
+   "pairs_total": 175408,
+   "eligible_equal_liquidity": 167760,
+   "price_unchanged": 6,
+   "output_leg": {
+    "within_2": 167754,
+    "within_10": 0,
+    "over_10": 0,
+    "max_abs": "1"
+   },
+   "input_leg_fee": {
+    "within_2": 167754,
+    "within_10": 0,
+    "over_10": 0,
+    "max_abs": "2",
+    "over_10_rel_gt_1e-6": 0
+   },
+   "sign_mismatch": 0,
+   "examples_output_over_10": [],
+   "examples_input_over_10": [],
+   "tolerance_note": "differences in raw token units (wei); within_2 = at most 2 units",
+   "exceptions_unclassified_no_liquidity_file": []
+  },
+  "end_state": {
+   "last_swap": {
+    "block": 110788559,
+    "log_index": 21,
+    "sqrt_price_x96": "2177069899529223754022311",
+    "tick": -210053,
+    "liquidity": "306435904058267065"
+   },
+   "state_at_END": {
+    "sqrtPriceX96": "2177069899529223754022311",
+    "tick": -210053,
+    "liquidity": "306435904058267065"
+   },
+   "sqrt_price_match": true,
+   "tick_match": true,
+   "liquidity_match_raw": true,
+   "liquidity_events_after_last_swap": 0,
+   "liquidity_after_in_range_events": "306435904058267065",
+   "liquidity_match_adjusted": true,
+   "pass": true
+  },
+  "refetch": null,
+  "ts_error": {
+   "samples": 20,
+   "max_abs_error_s": 8.521,
+   "median_abs_error_s": 1.475,
+   "detail": [
+    {
+     "block": 52785563,
+     "interpolated": 1788373613.9,
+     "header": 1788373613,
+     "abs_error_s": 0.883
+    },
+    {
+     "block": 55188864,
+     "interpolated": 1788618154.5,
+     "header": 1788618153,
+     "abs_error_s": 1.491
+    },
+    {
+     "block": 69767563,
+     "interpolated": 1790091444.8,
+     "header": 1790091445,
+     "abs_error_s": 0.187
+    },
+    {
+     "block": 52547975,
+     "interpolated": 1788349368.5,
+     "header": 1788349367,
+     "abs_error_s": 1.475
+    },
+    {
+     "block": 69436699,
+     "interpolated": 1790058031.6,
+     "header": 1790058032,
+     "abs_error_s": 0.362
+    },
+    {
+     "block": 56484713,
+     "interpolated": 1788748853.0,
+     "header": 1788748853,
+     "abs_error_s": 0.013
+    },
+    {
+     "block": 52118209,
+     "interpolated": 1788306026.8,
+     "header": 1788306027,
+     "abs_error_s": 0.249
+    },
+    {
+     "block": 100406384,
+     "interpolated": 1793225032.2,
+     "header": 1793225036,
+     "abs_error_s": 3.81
+    },
+    {
+     "block": 74966736,
+     "interpolated": 1790615486.6,
+     "header": 1790615485,
+     "abs_error_s": 1.621
+    },
+    {
+     "block": 55207961,
+     "interpolated": 1788620077.3,
+     "header": 1788620077,
+     "abs_error_s": 0.265
+    },
+    {
+     "block": 61651588,
+     "interpolated": 1789271568.9,
+     "header": 1789271571,
+     "abs_error_s": 2.136
+    },
+    {
+     "block": 58977735,
+     "interpolated": 1789000370.5,
+     "header": 1789000370,
+     "abs_error_s": 0.461
+    },
+    {
+     "block": 52223410,
+     "interpolated": 1788316652.7,
+     "header": 1788316654,
+     "abs_error_s": 1.272
+    },
+    {
+     "block": 52250357,
+     "interpolated": 1788319372.9,
+     "header": 1788319371,
+     "abs_error_s": 1.95
+    },
+    {
+     "block": 97816954,
+     "interpolated": 1792955300.5,
+     "header": 1792955292,
+     "abs_error_s": 8.521
+    },
+    {
+     "block": 55152885,
+     "interpolated": 1788614529.2,
+     "header": 1788614528,
+     "abs_error_s": 1.231
+    },
+    {
+     "block": 54124499,
+     "interpolated": 1788510675.6,
+     "header": 1788510674,
+     "abs_error_s": 1.648
+    },
+    {
+     "block": 103150863,
+     "interpolated": 1793511897.1,
+     "header": 1793511899,
+     "abs_error_s": 1.938
+    },
+    {
+     "block": 56988157,
+     "interpolated": 1788799644.0,
+     "header": 1788799646,
+     "abs_error_s": 1.959
+    },
+    {
+     "block": 51180074,
+     "interpolated": 1788211230.5,
+     "header": 1788211231,
+     "abs_error_s": 0.519
+    }
+   ]
+  }
+ }
+}

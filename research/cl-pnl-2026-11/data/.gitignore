@@ -1,1 +1,3 @@
 .cache/
+# 142 MB, over the hosting limit per file: rebuilt by scripts/pull/rh_05c_univ3_005.py; its sha256 is in robinhood/SHA256SUMS
+robinhood/univ3_nvda_005_swaps.csv.gz

@@ -28,7 +28,7 @@ def main():
     # checks.json: the first (offline) run; checks_online.json / checks_univ3.json: later runs with the re-fetch and header reads.
     # A later run recomputes the offline parts too, so its entry replaces the earlier one key by key.
     checks, check_files = {}, []
-    for name in ("checks.json", "checks_online.json", "checks_univ3.json"):
+    for name in ("checks.json", "checks_online.json", "checks_univ3.json", "checks_univ3_005.json"):
         c = opt(STATE / name)
         if c:
             check_files.append("state/" + name)
@@ -82,6 +82,8 @@ def main():
     if univ3:
         for fname, i in univ3.get("files", {}).items():
             source[fname] = i
+    for fname, i in (opt(STATE / "univ3_005_info.json") or {"files": {}})["files"].items():
+        source[fname] = i
 
     files = []
     for path in sorted(DATA.glob("*.csv.gz")):
@@ -128,7 +130,7 @@ def main():
         row = {}
         if "order" in c:
             row["order_pass"] = c["order"].get("pass")
-        if "refetch" in c:
+        if c.get("refetch"):
             row["refetch_pass"] = c["refetch"].get("pass")
             row["refetch_windows"] = len(c["refetch"].get("windows", []))
         if "end_state" in c:
@@ -150,6 +152,20 @@ def main():
         "generated_by": "research/cl-pnl-2026-11/scripts/pull (rh_01_discover .. rh_09_manifest, rh_lib)",
         "chain": {"name": "Robinhood Chain mainnet", "chain_id": disc["chain_id"], "rpc": "https://rpc.mainnet.chain.robinhood.com"},
         "END": end,
+        "run_order": [
+            "rh_01_discover.py            (v4 pool list + all-pool swap scan, feeds, gauges, RAM pool facts; before END)",
+            "rh_01b_univ3_discover.py     (Uniswap V3 factory and pools; before END)",
+            "rh_02_fix_end.py --wait      (fixes END and reads state at END; refuses to overwrite END.json without --force; that state cannot be re-read later)",
+            "rh_03_headers.py", "rh_04_ramses.py", "rh_06_feeds.py", "rh_05_v4.py", "rh_07_rewards.py",
+            "rh_05b_univ3.py datasets     (the two 0.30% pools)",
+            "rh_05b_univ3.py counts --minutes=18   (other fee tiers: swap count and USDG volume only)",
+            "rh_08_checks.py --offline <ramses/v4 swap files>          -> state/checks.json (default output name: a bare run rewrites state/checks.json)",
+            "rh_08_checks.py --out=checks_univ3.json univ3_nvda_swaps.csv.gz univ3_spy_swaps.csv.gz",
+            "rh_08_checks.py --out=checks_online.json <ramses, v4, ram_pool swap files, feed files, gauge files>",
+            "rh_05c_univ3_005.py          (the two 0.05% V3 pools, swaps only, from the scan cache of the counts run)",
+            "rh_08_checks.py --no-refetch --out=checks_univ3_005.json univ3_nvda_005_swaps.csv.gz univ3_spy_005_swaps.csv.gz",
+            "rh_09_manifest.py",
+        ],
         "conventions": {
             "integers": "plain decimal strings", "ts": "unix seconds, linear interpolation between real headers on the 10,000-block grid, 1 decimal",
             "gzip": "mtime 0, no embedded file name (sha256 stable across re-runs of the same content)",

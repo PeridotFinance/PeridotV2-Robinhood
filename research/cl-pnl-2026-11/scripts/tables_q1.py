@@ -3,9 +3,9 @@ import json
 
 from lib_cl import OUT, SESSIONS, VENUES
 
-ORDER = ("v4_nvda", "v4_spy", "ramses_nvda", "ramses_spy", "pharaoh_wavax")
+ORDER = ("v4_nvda", "univ3_nvda", "univ3_nvda_005", "ramses_nvda", "v4_spy", "univ3_spy", "univ3_spy_005", "ramses_spy", "pharaoh_wavax")
 R = {v: json.loads((OUT / f"q1_{v}.json").read_text()) for v in ORDER if (OUT / f"q1_{v}.json").exists()}
-short = lambda v: VENUES[v].label.split(" (")[0]
+short = lambda v: VENUES[v].label.replace(" (0.30%)", " 0.30%").replace(" (0.05%)", " 0.05%").split(" (")[0]
 f2 = lambda x: "n/a" if x is None else f"{x:.2f}"
 
 print("### A. Whole window, all liquidity in the pool\n")
@@ -69,9 +69,3 @@ for v, o in R.items():
     fee = t["lp_fee_usd_scored"]
     print(f"| {short(v)} | " + " | ".join(f2(fee / t[f"loss_{h}_usd"]) for h in (0, 60, 300, 3600, 14400, 86400)) + " |")
 
-print("\n### H. $1 of liquidity kept in range in a ±2,400-tick band (annualised, % of capital in range)\n")
-print("| Pool | Fee income | Loss at +1 h | Net | Naive LVR forecast |")
-print("| --- | --- | --- | --- | --- |")
-for v, o in R.items():
-    t = o["total"]
-    print(f"| {short(v)} | {t['ref_fee_apr_pct']:.1f}% | {t['ref_loss_3600_apr_pct']:.1f}% | {t['ref_net_3600_apr_pct']:+.1f}% | {t['forecast']['ref_lvr_naive_apr_pct']:.1f}% |")

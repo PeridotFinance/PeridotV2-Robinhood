@@ -15,6 +15,24 @@
   "fixed_at_unix": 1794304419,
   "rule": "largest multiple of 10,000 <= head - 2,000"
  },
+ "run_order": [
+  "rh_01_discover.py            (v4 pool list + all-pool swap scan, feeds, gauges, RAM pool facts; before END)",
+  "rh_01b_univ3_discover.py     (Uniswap V3 factory and pools; before END)",
+  "rh_02_fix_end.py --wait      (fixes END and reads state at END; refuses to overwrite END.json without --force; that state cannot be re-read later)",
+  "rh_03_headers.py",
+  "rh_04_ramses.py",
+  "rh_06_feeds.py",
+  "rh_05_v4.py",
+  "rh_07_rewards.py",
+  "rh_05b_univ3.py datasets     (the two 0.30% pools)",
+  "rh_05b_univ3.py counts --minutes=18   (other fee tiers: swap count and USDG volume only)",
+  "rh_08_checks.py --offline <ramses/v4 swap files>          -> state/checks.json (default output name: a bare run rewrites state/checks.json)",
+  "rh_08_checks.py --out=checks_univ3.json univ3_nvda_swaps.csv.gz univ3_spy_swaps.csv.gz",
+  "rh_08_checks.py --out=checks_online.json <ramses, v4, ram_pool swap files, feed files, gauge files>",
+  "rh_05c_univ3_005.py          (the two 0.05% V3 pools, swaps only, from the scan cache of the counts run)",
+  "rh_08_checks.py --no-refetch --out=checks_univ3_005.json univ3_nvda_005_swaps.csv.gz univ3_spy_005_swaps.csv.gz",
+  "rh_09_manifest.py"
+ ],
  "conventions": {
   "integers": "plain decimal strings",
   "ts": "unix seconds, linear interpolation between real headers on the 10,000-block grid, 1 decimal",
@@ -398,8 +416,20 @@
      "tick": 223216
     },
     "getPool_matches": true,
-    "swaps": null,
-    "note": "not counted"
+    "swaps": 2135,
+    "usdg_volume_raw": "167686607470",
+    "complete": true,
+    "counted_through_block": 110790000,
+    "dataset_files": null,
+    "state_at_END": {
+     "address": "0xb75d2d02b0ec3de50d32e40a4f1a8dae8acc4333",
+     "sqrtPriceX96": "5506415238774881071790920856353536",
+     "tick": 222992,
+     "feeProtocol_raw": 68,
+     "liquidity": "14297015922504961",
+     "fee": 100,
+     "tickSpacing": 1
+    }
    },
    {
     "symbol": "NVDA",
@@ -416,8 +446,20 @@
      "tick": 223058
     },
     "getPool_matches": true,
-    "swaps": null,
-    "note": "not counted"
+    "swaps": 3569537,
+    "usdg_volume_raw": "1358055358483282",
+    "complete": true,
+    "counted_through_block": 110790000,
+    "dataset_files": null,
+    "state_at_END": {
+     "address": "0xd4eb21209c4d6093f80b5b84f5c45cc093ea14a3",
+     "sqrtPriceX96": "5862330994840907573585432263589888",
+     "tick": 224245,
+     "feeProtocol_raw": 68,
+     "liquidity": "563225868862125244",
+     "fee": 500,
+     "tickSpacing": 10
+    }
    },
    {
     "symbol": "NVDA",
@@ -434,8 +476,20 @@
      "tick": 222507
     },
     "getPool_matches": true,
-    "swaps": null,
-    "note": "not counted"
+    "swaps": 1625,
+    "usdg_volume_raw": "109124565347",
+    "complete": true,
+    "counted_through_block": 110790000,
+    "dataset_files": null,
+    "state_at_END": {
+     "address": "0xc277560df3689a401ba7dedd7626168b234ceb5e",
+     "sqrtPriceX96": "5882312381759459432469822038151091",
+     "tick": 224313,
+     "feeProtocol_raw": 102,
+     "liquidity": "11089497995315009",
+     "fee": 10000,
+     "tickSpacing": 200
+    }
    },
    {
     "symbol": "SPY",
@@ -487,8 +541,20 @@
      "tick": -209814
     },
     "getPool_matches": true,
-    "swaps": null,
-    "note": "not counted"
+    "swaps": 175409,
+    "usdg_volume_raw": "36202798554959",
+    "complete": true,
+    "counted_through_block": 110790000,
+    "dataset_files": null,
+    "state_at_END": {
+     "address": "0xa7bb1ac63bbab0c44316e6c8c455213441689167",
+     "sqrtPriceX96": "2177069899529223754022311",
+     "tick": -210053,
+     "feeProtocol_raw": 68,
+     "liquidity": "306435904058267065",
+     "fee": 500,
+     "tickSpacing": 10
+    }
    },
    {
     "symbol": "SPY",
@@ -505,15 +571,28 @@
      "tick": -209954
     },
     "getPool_matches": true,
-    "swaps": null,
-    "note": "not counted"
+    "swaps": 878,
+    "usdg_volume_raw": "461271156019",
+    "complete": true,
+    "counted_through_block": 110790000,
+    "dataset_files": null,
+    "state_at_END": {
+     "address": "0x62fde201c424d6d07730b77450dd73928ebac5f5",
+     "sqrtPriceX96": "2178801905731427758476658",
+     "tick": -210037,
+     "feeProtocol_raw": 68,
+     "liquidity": "894307235208",
+     "fee": 100,
+     "tickSpacing": 1
+    }
    }
   ]
  },
  "check_files_merged": [
   "state/checks.json",
   "state/checks_online.json",
-  "state/checks_univ3.json"
+  "state/checks_univ3.json",
+  "state/checks_univ3_005.json"
  ],
  "checks_summary": {
   "feed_eth_usd.csv.gz": {
@@ -618,6 +697,14 @@
    },
    "ts_max_abs_error_s": 3.135
   },
+  "univ3_nvda_005_swaps.csv.gz": {
+   "order_pass": true,
+   "end_state_pass": true,
+   "v3_math_eligible_pairs": 3479937,
+   "v3_math_output_leg_over_10_units": 1,
+   "v3_math_input_leg_over_10_units": 1,
+   "ts_max_abs_error_s": 3.071
+  },
   "univ3_nvda_liquidity.csv.gz": null,
   "univ3_nvda_swaps.csv.gz": {
    "order_pass": true,
@@ -635,6 +722,14 @@
     "neither": 0
    },
    "ts_max_abs_error_s": 7.047
+  },
+  "univ3_spy_005_swaps.csv.gz": {
+   "order_pass": true,
+   "end_state_pass": true,
+   "v3_math_eligible_pairs": 167760,
+   "v3_math_output_leg_over_10_units": 0,
+   "v3_math_input_leg_over_10_units": 0,
+   "ts_max_abs_error_s": 8.521
   },
   "univ3_spy_liquidity.csv.gz": null,
   "univ3_spy_swaps.csv.gz": {
@@ -3833,6 +3928,309 @@
    }
   },
   {
+   "path": "univ3_nvda_005_swaps.csv.gz",
+   "columns": [
+    "block",
+    "log_index",
+    "ts",
+    "amount0",
+    "amount1",
+    "sqrt_price_x96",
+    "liquidity",
+    "tick",
+    "fee_ppm",
+    "protocol_share"
+   ],
+   "rows": 3569537,
+   "bytes": 142352954,
+   "sha256": "6d175473ee6cfe9e9e9142d224c87e753d5a7323bf6cee4a508842a4200a7093",
+   "first_block": 15518936,
+   "last_block": 110789812,
+   "first_time": "2026-07-21T11:14:44Z",
+   "last_time": "2026-11-10T09:49:37Z",
+   "time_source": "ts column (interpolated on the header grid)",
+   "source": {
+    "contract": "0xd4eb21209c4d6093f80b5b84f5c45cc093ea14a3",
+    "factory": "0x1f7d7550b1b028f7571e69a784071f0205fd2efa",
+    "symbol": "NVDA",
+    "fee": 500,
+    "tick_spacing": 10,
+    "token0": "USDG",
+    "decimals0": 6,
+    "token1": "NVDA",
+    "decimals1": 18,
+    "initialize": {
+     "block": 15511376,
+     "log_index": 3,
+     "sqrtPriceX96": "5524339303215608326195244251269016",
+     "tick": 223058
+    },
+    "created_block": 15511376,
+    "topics": [
+     "0xc42079f94a6350d7e6235f29174924f928cc2ac818eb64fed8004e115fbcca67"
+    ],
+    "event": "Swap(address,address,int256,int256,uint160,uint128,int24)",
+    "rows": 3569537,
+    "usdg_volume_raw": "1358055358483282",
+    "swap_logs_from": "compact scan cache (data/.cache/robinhood/scan), filled by rh_05b_univ3.py counts",
+    "eth_getLogs_calls_for_swaps_in_this_run": 0,
+    "fee_ppm_source": "immutable pool fee",
+    "fee()_at_END": 500,
+    "fee_match": true,
+    "protocol_share_unit": "fraction of the swap fee taken by the protocol = 1/n for the swap's input token (n = feeProtocol nibble; 0 = none)",
+    "protocol_share_events": {
+     "SetFeeProtocol(uint8,uint8,uint8,uint8)": 1,
+     "events": [
+      {
+       "block": 20579075,
+       "log_index": 15,
+       "old0_old1_new0_new1": [
+        0,
+        0,
+        4,
+        4
+       ]
+      }
+     ],
+     "initial_feeProtocol0_1": [
+      0,
+      0
+     ],
+     "in_force_at_END_from_events": [
+      4,
+      4
+     ],
+     "slot0_feeProtocol_at_END_0_1": [
+      4,
+      4
+     ],
+     "match": true
+    },
+    "amount_sign": "as emitted by the pool: positive = paid into the pool",
+    "liquidity_file": null
+   },
+   "checks": {
+    "order": {
+     "rows": 3569537,
+     "duplicates_adjacent": 0,
+     "descending_steps": 0,
+     "pass": true
+    },
+    "v3_math": {
+     "pairs_total": 3569536,
+     "eligible_equal_liquidity": 3479937,
+     "price_unchanged": 19,
+     "output_leg": {
+      "within_2": 3479917,
+      "within_10": 0,
+      "over_10": 1,
+      "max_abs": "654923113342895091"
+     },
+     "input_leg_fee": {
+      "within_2": 3479917,
+      "within_10": 0,
+      "over_10": 1,
+      "max_abs": "149513284",
+      "over_10_rel_gt_1e-6": 1
+     },
+     "sign_mismatch": 0,
+     "examples_output_over_10": [
+      {
+       "block": 75920904,
+       "log_index": 65,
+       "previous_swap": [
+        75920903,
+        20
+       ],
+       "tick_before": 222020,
+       "tick_after": 222018,
+       "event_out": "30261004799802470804",
+       "from_prices": "29606081686459575713",
+       "liquidity_events_between": null
+      }
+     ],
+     "examples_input_over_10": [
+      {
+       "block": 75920904,
+       "log_index": 65,
+       "event_in": "6908704496",
+       "expected_in": "6759191212",
+       "fee_ppm_column": 500,
+       "implied_fee_ppm": 22130.470349183695
+      }
+     ],
+     "tolerance_note": "differences in raw token units (wei); within_2 = at most 2 units",
+     "exceptions_unclassified_no_liquidity_file": [
+      {
+       "block": 75920904,
+       "log_index": 65,
+       "previous_swap": [
+        75920903,
+        20
+       ],
+       "tick_before": 222020,
+       "tick_after": 222018,
+       "event_out": "30261004799802470804",
+       "out_from_prices": "29606081686459575713",
+       "event_in": "6908704496",
+       "expected_in": "6759191212",
+       "fee_ppm_column": 500,
+       "implied_fee_ppm": 22130.47
+      }
+     ]
+    },
+    "end_state": {
+     "last_swap": {
+      "block": 110789812,
+      "log_index": 3,
+      "sqrt_price_x96": "5862330994840907573585432263589888",
+      "tick": 224245,
+      "liquidity": "563225868862125244"
+     },
+     "state_at_END": {
+      "sqrtPriceX96": "5862330994840907573585432263589888",
+      "tick": 224245,
+      "liquidity": "563225868862125244"
+     },
+     "sqrt_price_match": true,
+     "tick_match": true,
+     "liquidity_match_raw": true,
+     "liquidity_events_after_last_swap": 0,
+     "liquidity_after_in_range_events": "563225868862125244",
+     "liquidity_match_adjusted": true,
+     "pass": true
+    },
+    "refetch": null,
+    "ts_error": {
+     "samples": 20,
+     "max_abs_error_s": 3.071,
+     "median_abs_error_s": 0.741,
+     "detail": [
+      {
+       "block": 57036421,
+       "interpolated": 1788804515.2,
+       "header": 1788804516,
+       "abs_error_s": 0.763
+      },
+      {
+       "block": 59563207,
+       "interpolated": 1789059440.6,
+       "header": 1789059441,
+       "abs_error_s": 0.414
+      },
+      {
+       "block": 53515364,
+       "interpolated": 1788448680.9,
+       "header": 1788448684,
+       "abs_error_s": 3.071
+      },
+      {
+       "block": 27704303,
+       "interpolated": 1785854526.6,
+       "header": 1785854526,
+       "abs_error_s": 0.591
+      },
+      {
+       "block": 59075836,
+       "interpolated": 1789010267.4,
+       "header": 1789010267,
+       "abs_error_s": 0.436
+      },
+      {
+       "block": 109589583,
+       "interpolated": 1794178880.0,
+       "header": 1794178881,
+       "abs_error_s": 1.034
+      },
+      {
+       "block": 47030520,
+       "interpolated": 1787792118.3,
+       "header": 1787792116,
+       "abs_error_s": 2.312
+      },
+      {
+       "block": 51918764,
+       "interpolated": 1788285850.0,
+       "header": 1788285851,
+       "abs_error_s": 0.96
+      },
+      {
+       "block": 50672055,
+       "interpolated": 1788159924.3,
+       "header": 1788159924,
+       "abs_error_s": 0.349
+      },
+      {
+       "block": 70687528,
+       "interpolated": 1790184034.3,
+       "header": 1790184036,
+       "abs_error_s": 1.694
+      },
+      {
+       "block": 31145507,
+       "interpolated": 1786199328.8,
+       "header": 1786199329,
+       "abs_error_s": 0.199
+      },
+      {
+       "block": 57707598,
+       "interpolated": 1788872241.6,
+       "header": 1788872242,
+       "abs_error_s": 0.362
+      },
+      {
+       "block": 60319690,
+       "interpolated": 1789136122.8,
+       "header": 1789136123,
+       "abs_error_s": 0.209
+      },
+      {
+       "block": 62226394,
+       "interpolated": 1789329885.0,
+       "header": 1789329886,
+       "abs_error_s": 1.009
+      },
+      {
+       "block": 53145622,
+       "interpolated": 1788410710.9,
+       "header": 1788410713,
+       "abs_error_s": 2.058
+      },
+      {
+       "block": 87572927,
+       "interpolated": 1791900670.5,
+       "header": 1791900670,
+       "abs_error_s": 0.456
+      },
+      {
+       "block": 18170706,
+       "interpolated": 1784898314.7,
+       "header": 1784898314,
+       "abs_error_s": 0.741
+      },
+      {
+       "block": 55277253,
+       "interpolated": 1788627066.4,
+       "header": 1788627068,
+       "abs_error_s": 1.623
+      },
+      {
+       "block": 53434646,
+       "interpolated": 1788440296.7,
+       "header": 1788440296,
+       "abs_error_s": 0.68
+      },
+      {
+       "block": 70922943,
+       "interpolated": 1790207737.9,
+       "header": 1790207738,
+       "abs_error_s": 0.051
+      }
+     ]
+    }
+   }
+  },
+  {
    "path": "univ3_nvda_liquidity.csv.gz",
    "columns": [
     "block",
@@ -4210,6 +4608,269 @@
        "interpolated": 1783981345.2,
        "header": 1783981345,
        "abs_error_s": 0.222
+      }
+     ]
+    }
+   }
+  },
+  {
+   "path": "univ3_spy_005_swaps.csv.gz",
+   "columns": [
+    "block",
+    "log_index",
+    "ts",
+    "amount0",
+    "amount1",
+    "sqrt_price_x96",
+    "liquidity",
+    "tick",
+    "fee_ppm",
+    "protocol_share"
+   ],
+   "rows": 175409,
+   "bytes": 6571182,
+   "sha256": "ef9855041b5b138e0bfc5f0e89d764e26f635346f902bb4005429db543511e20",
+   "first_block": 34839868,
+   "last_block": 110788559,
+   "first_time": "2026-08-12T21:08:08Z",
+   "last_time": "2026-11-10T09:47:24Z",
+   "time_source": "ts column (interpolated on the header grid)",
+   "source": {
+    "contract": "0xa7bb1ac63bbab0c44316e6c8c455213441689167",
+    "factory": "0x1f7d7550b1b028f7571e69a784071f0205fd2efa",
+    "symbol": "SPY",
+    "fee": 500,
+    "tick_spacing": 10,
+    "token0": "SPY",
+    "decimals0": 18,
+    "token1": "USDG",
+    "decimals1": 6,
+    "initialize": {
+     "block": 34839529,
+     "log_index": 47,
+     "sqrtPriceX96": "2203201658875878679686783",
+     "tick": -209814
+    },
+    "created_block": 34839529,
+    "topics": [
+     "0xc42079f94a6350d7e6235f29174924f928cc2ac818eb64fed8004e115fbcca67"
+    ],
+    "event": "Swap(address,address,int256,int256,uint160,uint128,int24)",
+    "rows": 175409,
+    "usdg_volume_raw": "36202798554959",
+    "swap_logs_from": "compact scan cache (data/.cache/robinhood/scan), filled by rh_05b_univ3.py counts",
+    "eth_getLogs_calls_for_swaps_in_this_run": 0,
+    "fee_ppm_source": "immutable pool fee",
+    "fee()_at_END": 500,
+    "fee_match": true,
+    "protocol_share_unit": "fraction of the swap fee taken by the protocol = 1/n for the swap's input token (n = feeProtocol nibble; 0 = none)",
+    "protocol_share_events": {
+     "SetFeeProtocol(uint8,uint8,uint8,uint8)": 1,
+     "events": [
+      {
+       "block": 34839669,
+       "log_index": 91,
+       "old0_old1_new0_new1": [
+        0,
+        0,
+        4,
+        4
+       ]
+      }
+     ],
+     "initial_feeProtocol0_1": [
+      0,
+      0
+     ],
+     "in_force_at_END_from_events": [
+      4,
+      4
+     ],
+     "slot0_feeProtocol_at_END_0_1": [
+      4,
+      4
+     ],
+     "match": true
+    },
+    "amount_sign": "as emitted by the pool: positive = paid into the pool",
+    "liquidity_file": null
+   },
+   "checks": {
+    "order": {
+     "rows": 175409,
+     "duplicates_adjacent": 0,
+     "descending_steps": 0,
+     "pass": true
+    },
+    "v3_math": {
+     "pairs_total": 175408,
+     "eligible_equal_liquidity": 167760,
+     "price_unchanged": 6,
+     "output_leg": {
+      "within_2": 167754,
+      "within_10": 0,
+      "over_10": 0,
+      "max_abs": "1"
+     },
+     "input_leg_fee": {
+      "within_2": 167754,
+      "within_10": 0,
+      "over_10": 0,
+      "max_abs": "2",
+      "over_10_rel_gt_1e-6": 0
+     },
+     "sign_mismatch": 0,
+     "examples_output_over_10": [],
+     "examples_input_over_10": [],
+     "tolerance_note": "differences in raw token units (wei); within_2 = at most 2 units",
+     "exceptions_unclassified_no_liquidity_file": []
+    },
+    "end_state": {
+     "last_swap": {
+      "block": 110788559,
+      "log_index": 21,
+      "sqrt_price_x96": "2177069899529223754022311",
+      "tick": -210053,
+      "liquidity": "306435904058267065"
+     },
+     "state_at_END": {
+      "sqrtPriceX96": "2177069899529223754022311",
+      "tick": -210053,
+      "liquidity": "306435904058267065"
+     },
+     "sqrt_price_match": true,
+     "tick_match": true,
+     "liquidity_match_raw": true,
+     "liquidity_events_after_last_swap": 0,
+     "liquidity_after_in_range_events": "306435904058267065",
+     "liquidity_match_adjusted": true,
+     "pass": true
+    },
+    "refetch": null,
+    "ts_error": {
+     "samples": 20,
+     "max_abs_error_s": 8.521,
+     "median_abs_error_s": 1.475,
+     "detail": [
+      {
+       "block": 52785563,
+       "interpolated": 1788373613.9,
+       "header": 1788373613,
+       "abs_error_s": 0.883
+      },
+      {
+       "block": 55188864,
+       "interpolated": 1788618154.5,
+       "header": 1788618153,
+       "abs_error_s": 1.491
+      },
+      {
+       "block": 69767563,
+       "interpolated": 1790091444.8,
+       "header": 1790091445,
+       "abs_error_s": 0.187
+      },
+      {
+       "block": 52547975,
+       "interpolated": 1788349368.5,
+       "header": 1788349367,
+       "abs_error_s": 1.475
+      },
+      {
+       "block": 69436699,
+       "interpolated": 1790058031.6,
+       "header": 1790058032,
+       "abs_error_s": 0.362
+      },
+      {
+       "block": 56484713,
+       "interpolated": 1788748853.0,
+       "header": 1788748853,
+       "abs_error_s": 0.013
+      },
+      {
+       "block": 52118209,
+       "interpolated": 1788306026.8,
+       "header": 1788306027,
+       "abs_error_s": 0.249
+      },
+      {
+       "block": 100406384,
+       "interpolated": 1793225032.2,
+       "header": 1793225036,
+       "abs_error_s": 3.81
+      },
+      {
+       "block": 74966736,
+       "interpolated": 1790615486.6,
+       "header": 1790615485,
+       "abs_error_s": 1.621
+      },
+      {
+       "block": 55207961,
+       "interpolated": 1788620077.3,
+       "header": 1788620077,
+       "abs_error_s": 0.265
+      },
+      {
+       "block": 61651588,
+       "interpolated": 1789271568.9,
+       "header": 1789271571,
+       "abs_error_s": 2.136
+      },
+      {
+       "block": 58977735,
+       "interpolated": 1789000370.5,
+       "header": 1789000370,
+       "abs_error_s": 0.461
+      },
+      {
+       "block": 52223410,
+       "interpolated": 1788316652.7,
+       "header": 1788316654,
+       "abs_error_s": 1.272
+      },
+      {
+       "block": 52250357,
+       "interpolated": 1788319372.9,
+       "header": 1788319371,
+       "abs_error_s": 1.95
+      },
+      {
+       "block": 97816954,
+       "interpolated": 1792955300.5,
+       "header": 1792955292,
+       "abs_error_s": 8.521
+      },
+      {
+       "block": 55152885,
+       "interpolated": 1788614529.2,
+       "header": 1788614528,
+       "abs_error_s": 1.231
+      },
+      {
+       "block": 54124499,
+       "interpolated": 1788510675.6,
+       "header": 1788510674,
+       "abs_error_s": 1.648
+      },
+      {
+       "block": 103150863,
+       "interpolated": 1793511897.1,
+       "header": 1793511899,
+       "abs_error_s": 1.938
+      },
+      {
+       "block": 56988157,
+       "interpolated": 1788799644.0,
+       "header": 1788799646,
+       "abs_error_s": 1.959
+      },
+      {
+       "block": 51180074,
+       "interpolated": 1788211230.5,
+       "header": 1788211231,
+       "abs_error_s": 0.519
       }
      ]
     }
@@ -5449,87 +6110,116 @@
   {
    "path": "live_pair_checkpoints.json",
    "bytes": 65610,
-   "sha256": "8f7267fb9f162f2ac4d7c8bf084ac660a227ff231bdc0a0f2defd2d3d768474b"
+   "sha256": "8f7267fb9f162f2ac4d7c8bf084ac660a227ff231bdc0a0f2defd2d3d768474b",
+   "origin": "not written by the rh_* pull scripts (listed and hashed only)"
   },
   {
    "path": "state/END.json",
    "bytes": 302,
-   "sha256": "28ecdaa92e6c8f83604de93d68124c08f0faf76e27a1f659c07a621b6594b70a"
+   "sha256": "28ecdaa92e6c8f83604de93d68124c08f0faf76e27a1f659c07a621b6594b70a",
+   "origin": "rh_* pull scripts"
   },
   {
    "path": "state/checks.json",
    "bytes": 10306,
-   "sha256": "9e265b665b5a909261c7fa01bc281cd8d1cab7639413e4d544229a5d06afa991"
+   "sha256": "9e265b665b5a909261c7fa01bc281cd8d1cab7639413e4d544229a5d06afa991",
+   "origin": "rh_* pull scripts"
   },
   {
    "path": "state/checks_online.json",
    "bytes": 60384,
-   "sha256": "0f5fd7a3c2887a498759c81b49a11bdecea47422402444fbd2f5cfc6c0290cf9"
+   "sha256": "0f5fd7a3c2887a498759c81b49a11bdecea47422402444fbd2f5cfc6c0290cf9",
+   "origin": "rh_* pull scripts"
   },
   {
    "path": "state/checks_univ3.json",
    "bytes": 11148,
-   "sha256": "928812bf0de26c50bcfd913f8cfc4f3d801969c4089e302f393f8e5f66c7e162"
+   "sha256": "928812bf0de26c50bcfd913f8cfc4f3d801969c4089e302f393f8e5f66c7e162",
+   "origin": "rh_* pull scripts"
+  },
+  {
+   "path": "state/checks_univ3_005.json",
+   "bytes": 8837,
+   "sha256": "4fc65b06868501698275ada48676157a2dfd96b143733943008f1c7b4b66b2bd",
+   "origin": "rh_* pull scripts"
   },
   {
    "path": "state/discovery.json",
    "bytes": 325524,
-   "sha256": "4a96b6ac9e07711c6032eee871ab03c24be4edb05d3f6f2e30223ebd13ac51e3"
+   "sha256": "4a96b6ac9e07711c6032eee871ab03c24be4edb05d3f6f2e30223ebd13ac51e3",
+   "origin": "rh_* pull scripts"
   },
   {
    "path": "state/end_state.json",
    "bytes": 42902,
-   "sha256": "a04315a1edcfd61b15f5aee888d56833c31b1584c69ac03e5b86c054bd6a8b31"
+   "sha256": "a04315a1edcfd61b15f5aee888d56833c31b1584c69ac03e5b86c054bd6a8b31",
+   "origin": "rh_* pull scripts"
   },
   {
    "path": "state/feeds_info.json",
    "bytes": 7544,
-   "sha256": "1f509bd506be405abf267763b18bdca8336233ae24b15b2970149193eabbe8df"
+   "sha256": "1f509bd506be405abf267763b18bdca8336233ae24b15b2970149193eabbe8df",
+   "origin": "rh_* pull scripts"
   },
   {
    "path": "state/headers_info.json",
    "bytes": 300,
-   "sha256": "5717dd6dff9e084e94c699d65b1ac20853d3a6e772ec8a16b5319e6638bd37d9"
+   "sha256": "5717dd6dff9e084e94c699d65b1ac20853d3a6e772ec8a16b5319e6638bd37d9",
+   "origin": "rh_* pull scripts"
   },
   {
    "path": "state/ramses_nvda_info.json",
    "bytes": 3935,
-   "sha256": "2147239880297987863ff5ffe37393d943ed11641b1aabfb2890d888cc58e32b"
+   "sha256": "2147239880297987863ff5ffe37393d943ed11641b1aabfb2890d888cc58e32b",
+   "origin": "rh_* pull scripts"
   },
   {
    "path": "state/ramses_spy_info.json",
    "bytes": 3895,
-   "sha256": "e9a9397d1de7a1468b86cf3fb0a23d98c336c191b67eddb314e19d46808f9a46"
+   "sha256": "e9a9397d1de7a1468b86cf3fb0a23d98c336c191b67eddb314e19d46808f9a46",
+   "origin": "rh_* pull scripts"
   },
   {
    "path": "state/rewards_info.json",
    "bytes": 4745,
-   "sha256": "b8a4d934c88086b0ad8202ac873bf6a6a2a532da49bd36f022bf826509753375"
+   "sha256": "b8a4d934c88086b0ad8202ac873bf6a6a2a532da49bd36f022bf826509753375",
+   "origin": "rh_* pull scripts"
+  },
+  {
+   "path": "state/univ3_005_info.json",
+   "bytes": 3272,
+   "sha256": "5595468968095722a0a38fb96f5f8a651d51cfe5de233a8f06c45d028f7a7b5c",
+   "origin": "rh_* pull scripts"
   },
   {
    "path": "state/univ3_discovery.json",
    "bytes": 5003,
-   "sha256": "b982b9026dabbc041c9abd85578b04cb77eb1466587595f7aedde87bf849a059"
+   "sha256": "b982b9026dabbc041c9abd85578b04cb77eb1466587595f7aedde87bf849a059",
+   "origin": "rh_* pull scripts"
   },
   {
    "path": "state/univ3_info.json",
-   "bytes": 6980,
-   "sha256": "c140d3381d0291972dfc2371e123dd30146645e82f3fd4cda31955a09837b8eb"
+   "bytes": 8365,
+   "sha256": "4e328c2b6c61c4fa6a20fe1ac69569d88c00ad3ceae08372da6654e29a8fe368",
+   "origin": "rh_* pull scripts"
   },
   {
    "path": "state/v4_info.json",
    "bytes": 5030,
-   "sha256": "92050cf561951057c1d0149f12fde52ab27758fde7481de900afa0ca2148deef"
+   "sha256": "92050cf561951057c1d0149f12fde52ab27758fde7481de900afa0ca2148deef",
+   "origin": "rh_* pull scripts"
   },
   {
    "path": "univ3_pools.json",
-   "bytes": 5595,
-   "sha256": "49041d0102c73e0bd2ad663352438f1c125cb58caf805751cdf0d17bd31fbd1c"
+   "bytes": 7423,
+   "sha256": "9f5d717a7c5557dd9d7c881e48bd2ead9857dbbb7aa970e9671e475f79b3b03b",
+   "origin": "rh_* pull scripts"
   },
   {
    "path": "v4_pools.json",
    "bytes": 367812,
-   "sha256": "0cca2bc5f5435aa1f62eef44b0c12d0f0ea5e7b9386be88027adee4b40040c9d"
+   "sha256": "0cca2bc5f5435aa1f62eef44b0c12d0f0ea5e7b9386be88027adee4b40040c9d",
+   "origin": "rh_* pull scripts"
   }
  ]
 }
