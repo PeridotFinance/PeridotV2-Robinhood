@@ -59,6 +59,11 @@ class RangeKeeperTests(unittest.TestCase):
 
 
 class RebalanceTests(unittest.TestCase):
+    def setUp(self):  # the value gate has its own tests in keeper/test_worker.py
+        gate = mock.patch.object(k, 'rebalance_value_gate', return_value=(True, {}))
+        gate.start()
+        self.addCleanup(gate.stop)
+
     def test_idle_assets_are_deployed_when_the_real_call_succeeds(self):
         fake = mock.Mock(returncode=0, stdout='{"status":"0x1"}', stderr='', elapsed=1)
         with mock.patch.object(k, 'simulate', return_value=('due', False, '')), \
