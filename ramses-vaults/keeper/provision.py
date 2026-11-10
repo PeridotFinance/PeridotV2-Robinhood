@@ -45,6 +45,14 @@ def cast(*args):
     return r.stdout.strip()
 
 
+def keccak(text):
+    # offline: `cast keccak` takes no --rpc-url
+    r = subprocess.run(['cast', 'keccak', text], capture_output=True, text=True, timeout=60)
+    if r.returncode:
+        raise RuntimeError('cast keccak failed')
+    return r.stdout.strip()
+
+
 def env(key, value, secret=False):
     item = {'key': key, 'value': value, 'scope': 'RUN_TIME'}
     if secret:
@@ -100,7 +108,7 @@ def update(spec):
 
 
 def has_role(vault, name, who):
-    role = '0x' + '00' * 32 if name == 'DEFAULT_ADMIN_ROLE' else cast('keccak', name)
+    role = '0x' + '00' * 32 if name == 'DEFAULT_ADMIN_ROLE' else keccak(name)
     return cast('call', vault, 'hasRole(bytes32,address)(bool)', role, who) == 'true'
 
 

@@ -172,9 +172,14 @@ class Enable(Base):
                   'IN_KIND_OPERATOR_ROLE': '0x' + '04' * 32, 'DEFAULT_ADMIN_ROLE': '0x' + '00' * 32}
         held = {hashes[r] for r in roles}
 
+        self._hashes = hashes
+        patcher = mock.patch.object(provision, 'keccak', lambda name: hashes[name])
+        patcher.start()
+        self.addCleanup(patcher.stop)
+
         def run(*args):
             if args[0] == 'keccak':
-                return hashes[args[1]]
+                raise AssertionError('keccak must not go through cast() (that adds --rpc-url)')
             if args[0] == 'call':
                 self.assertEqual(args[1:3], (VAULT, 'hasRole(bytes32,address)(bool)'))
                 self.assertEqual(args[4], KEEPER)
@@ -203,6 +208,15 @@ class Enable(Base):
         with mock.patch.object(provision, 'doctl', fake), mock.patch.object(provision, 'cast', self.fake_cast()):
             with self.assertRaises(RuntimeError):
                 provision.cmd_enable()
+
+    def test_keccak_runs_offline_without_rpc_url(self):
+        seen = []
+        def run(cmd, **kw):
+            seen.append(cmd)
+            return mock.Mock(returncode=0, stdout='0x' + 'ab' * 32 + '\n')
+        with mock.patch.object(provision.subprocess, 'run', run):
+            self.assertEqual(provision.keccak('KEEPER_ROLE'), '0x' + 'ab' * 32)
+        self.assertEqual(seen, [['cast', 'keccak', 'KEEPER_ROLE']])
 
     def test_refuses_without_keeper_role(self):
         self.assertIn('KEEPER_ROLE', self.assert_refused(roles=()))
