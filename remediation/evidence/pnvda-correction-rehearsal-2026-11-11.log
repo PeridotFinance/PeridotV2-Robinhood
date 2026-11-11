@@ -1,0 +1,35 @@
+fork block 111619215
+== preflight
+flags(alloc,swap,emerg)=110 stockPrincipal=19752436359047005 usdgPrincipal=0 stockIdle=19202066847681856 usdgIdle=96123 liquidity=0
+cumulativeLossUSDG=1931524549719213950 feedAge=682s pNVDA claims-backing=550369511365148 raw NVDA
+reserve available NVDA 340503236225664
+NOTE: outside Mon-Fri 14:30-21:00 UTC
+operation 0xfe8b9ad7ca6ea91833026ac6015f36ab4c46e702a3f20dfe8a17267daba6a598 pending=false ready=false done=false
+  pUSDG claims 127134445 backing 127134446 exchangeRate 190316295326020  pNVDA exchangeRate 190814955901450592581687631
+== schedule
+   tx 0x527259858d93652e2ce9b750f143c863988ffd0ff198a37482e603d22379e2fc status 0x1 gas 57570
+operation 0xfe8b9ad7ca6ea91833026ac6015f36ab4c46e702a3f20dfe8a17267daba6a598 pending=true; executable from 11:06 UTC
+  early execute: STOPPED: operation is not ready yet
+== execute
+   tx 0x56cf40786c3248e7e381092c2fc4cfc78183a8b81482d7654cbb04cda7eaeafe status 0x1 gas 57064
+PASS: swaps open, allocation paused (flags 100)
+== gonogo
+eth_call pNVDA.syncVault from Ledger: returned=19745512287813608 realizedLoss=6924071233397 (stockPrincipal 19752436359047005, gap 550369511365148)
+GO: full claim accounted for, realised loss 0.00000692 NVDA (limit 0.0001)
+== sync
+   tx 0x9515c7ff089386cff550b80196596064cc1651f067b0bd24a23977307ce917cb status 0x1 gas 642982
+after sync: flags=100 stockPrincipal=0 pNVDA claims-backing=-1 cumulativeLossUSDG 1931524549719213950 -> 1932749258678049713
+PASS: pNVDA fully backed; now close
+== close
+   tx 0xc83f0d04f8f90118c383966da6e31baf171cf860d8c9d45bc986afe9aab91ad1 status 0x1 gas 39820
+PASS: swaps closed, flags 110
+== checkpoint
+   tx 0xa670fd1aa4cb7703c82ff0fcaf8c01f3215d7ac90f8fde0bf5f5e6258c268794 status 0x1 gas 252555
+flags(alloc,swap,emerg)=110 stockPrincipal=9470133852025 usdgPrincipal=46957 stockIdle=9470133852025 usdgIdle=46957 liquidity=0
+cumulativeLossUSDG=1932749258678049713 feedAge=4311s pNVDA claims-backing=-1 raw NVDA
+reserve available NVDA 65318480543090
+== state
+flags(alloc,swap,emerg)=110 stockPrincipal=9470133852025 usdgPrincipal=46957 stockIdle=9470133852025 usdgIdle=46957 liquidity=0
+cumulativeLossUSDG=1932749258678049713 feedAge=4311s pNVDA claims-backing=-1 raw NVDA
+reserve available NVDA 65318480543090
+  pUSDG claims 127181402 backing 127181403 exchangeRate 190386588488580  pNVDA exchangeRate 190815375995216730866013750
