@@ -378,6 +378,25 @@ abstract contract AdapterTestBase is AdapterFixture {
         adapter.harvest(PAIR, block.timestamp);
     }
 
+    /// @dev The gauge pays this position's reward to a third address (the live gauges' treasury slice after a position change).
+    /// With forfeiture on, everything that left the gauge but did not arrive is booked; above the ceiling it is refused.
+    function test_rewardPaidElsewhereIsBookedOrRefusedByCeiling() public {
+        _add();
+        vm.warp(vm.getBlockTimestamp() + 3600);
+        gauge.setSlash(true);
+        adapter.setAllowRewardForfeiture(PAIR, true);
+        adapter.setRewardShortfallCeiling(PAIR, 2000);
+        vm.expectPartialRevert(RamsesV3PairedAdapter.RewardShortfallTooHigh.selector);
+        adapter.harvest(PAIR, block.timestamp);
+        adapter.setRewardShortfallCeiling(PAIR, 10_000);
+        uint256 gaugeBefore = ram.balanceOf(address(gauge));
+        adapter.harvest(PAIR, block.timestamp);
+        uint256 paid = gaugeBefore - ram.balanceOf(address(gauge));
+        assertGt(paid, 0);
+        assertEq(adapter.rewardShortfall(PAIR, address(ram)), paid, "all of it booked as forfeited");
+        assertEq(adapter.pendingRewards(PAIR, address(ram)), 0, "nothing credited that did not arrive");
+    }
+
     function test_wrongManagerReturnRejected() public {
         pm.setFaults(false, true, false);
         vm.expectRevert(RamsesV3PairedAdapter.BalanceDeltaMismatch.selector);

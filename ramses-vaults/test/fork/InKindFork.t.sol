@@ -10,7 +10,7 @@ import { RamsesLossReserve } from "../../src/RamsesLossReserve.sol";
 import { RamsesBoostedDelegate } from "../../src/lending/RamsesBoostedDelegate.sol";
 import { IRamsesPool, IRamsesGauge } from "../../src/interfaces/IRamsesV3.sol";
 import { IAggregatorV3 } from "baseline/src/interfaces/IAggregatorV3.sol";
-import { InKindScenarios } from "../prototypes/InKindScenarios.sol";
+import { InKindScenarios } from "../inkind/InKindScenarios.sol";
 
 /// @notice The in-kind scenarios on a mainnet fork: real pool, position manager, gauge and tokens with real transfers and real swaps; the repository's vault, markets and
 /// reserve deployed on the fork behind the test-only router; later feed updates SIMULATED with vm.mockCall. Mechanism proofs at small size, not capacity.

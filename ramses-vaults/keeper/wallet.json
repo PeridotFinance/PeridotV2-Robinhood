@@ -1,0 +1,8 @@
+{
+  "address": "0x9eaF3552449c26b95a55CcDc363258345DEA031E",
+  "chainId": 4663,
+  "purpose": "Ramses SPY/USDG keeper: KEEPER_ROLE on the vault only, plus gas. No admin roles.",
+  "keystorePath": "/Users/joshua/Peridot/RobinhoodVaults/PeridotV2-Robinhood/.ramses-keeper-signer/keystore",
+  "passwordPath": "/Users/joshua/Peridot/RobinhoodVaults/PeridotV2-Robinhood/.ramses-keeper-signer/password",
+  "fundingTargetWei": "3000000000000000"
+}

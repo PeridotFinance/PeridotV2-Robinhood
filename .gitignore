@@ -38,3 +38,7 @@ ramses-vaults/research/dual-range-backtest/__pycache__/
 
 # release archives are built locally by make_release.py and published (if at all) as release assets
 ramses-vaults/research/dual-range-backtest/release/
+**/.ramses-keeper-signer/
+**/.ramses-deployer/
+**/.orders-deployer/
+**/.range-deployer/
