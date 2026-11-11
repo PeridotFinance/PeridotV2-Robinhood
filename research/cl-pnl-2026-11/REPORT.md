@@ -1044,13 +1044,14 @@ to test on (the vault is unwound) and the repository has no Uniswap V3 adapter, 
 ## 13. Reproducing this report
 
 - `sh scripts/run_all.sh` rebuilds every file in `out/` and `charts/` from `data/` with no network (Python 3.9 or later
-  with numpy and matplotlib; about an hour and a half on six cores). **Tested in two fresh clones of the branch:** the pipeline
+  with numpy and matplotlib; about an hour and a half on six cores). **Tested in three fresh clones of the branch:** the pipeline
   for questions 1 to 6 at commit `805a828` reproduced every number in the 45 result files it can rebuild, the
   question 7 and 8 steps at `da0daae` reproduced every number in their 16, and the steps changed after that (the
   in-range rebuild for question 7 and the reserve cuts for question 8) reproduced every number in their 11 at `b9e15c6`
-  (`scripts/compare_out.py`). The differences found were metadata fields added by later script versions. Every data
-  folder verifies against its `SHA256SUMS`. The runs that need the 142 MB table could not be re-run in a clone. `out/logs/` holds the console output of the runs behind this
-  report, and `out/tables_q1.md`, `tables_q2.md`, `tables_q3.md` and `tables_q456.md` hold every table in full.
+  (`scripts/compare_out.py`). The differences found were metadata fields added by later script versions. All four data
+  folders verify against their `SHA256SUMS` (93 files, re-run on 11 November in the working copy; a clone reports one
+  file missing, the 142 MB table below). The runs that need that table could not be re-run in a clone. `out/logs/` holds the console output of the runs behind this
+  report, and `out/tables_q1.md`, `tables_q2.md`, `tables_q3.md`, `tables_q456.md`, `tables_q7.md` and `tables_q8.md` hold every table in full.
 - `scripts/pull/` holds the read-only fetch scripts; `data/*/MANIFEST.json` and `SHA256SUMS` list every table with its
   source, block range, checksum and checks.
 - `data/facts/MECHANICS.md` holds the contract and keeper facts with file and line references, and the on-chain
