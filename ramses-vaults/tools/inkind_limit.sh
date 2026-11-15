@@ -53,8 +53,10 @@ cfg = c('call', V, '0xf1a8151c' + P[2:])
 w = [int(cfg[2:][i:i+64], 16) for i in range(0, len(cfg) - 2, 64)]
 flags = '%d%d%d' % (w[14], w[15], w[16])
 short = n(c('call', AD, 'rewardShortfall(bytes32,address)(uint256)', P, RAM))
-cov = n(c('call', CG, 'status()(uint8)'))
-head = n(c('call', CG, 'headroomUsd()(uint256)'))
+def safe(sig):
+    out = c('call', CG, sig)
+    return n(out) if out else None  # the coverage guard reads prices: it reverts while the stock feed is stale (weekends)
+cov = safe('status()(uint8)'); head = safe('headroomUsd()(uint256)')
 kbal = int(c('balance', K)); knonce = int(c('nonce', K))
 age = now - led[5]
 ok = []
@@ -63,7 +65,10 @@ ok.append(('keeper live for %.1f h (a clean day needs >= 24 h)' % (live / 3600),
 ok.append(('last checkpoint age %d s (harvest checkpoints every 6 h; expect <= 25,200)' % age, age <= 25200))
 ok.append(('cumulative loss since launch %.6f USD (expect < $0.01)' % (led[4] / 1e18), led[4] < 10**16))
 ok.append(('reward shortfall booked %d RAM raw (expect 0)' % short, short == 0))
-ok.append(('coverage status %d, headroom $%.2f (0 = covered)' % (cov, head / 1e18), cov == 0))
+if cov is None or head is None:
+    ok.append(('coverage unreadable: stock feed stale (outside market hours); rerun in a US session', False))
+else:
+    ok.append(('coverage status %d, headroom $%.2f (0 = covered)' % (cov, head / 1e18), cov == 0))
 ok.append(('pause flags %s (allocation open, swaps per config, no emergency: expect 0x0 or 000)' % flags, w[16] == 0 and w[14] == 0))
 ok.append(('keeper %s: %d txs, %.5f ETH (>= 0.0005)' % (K, knonce, kbal / 1e18), kbal >= 5 * 10**14))
 for label, good in ok:
