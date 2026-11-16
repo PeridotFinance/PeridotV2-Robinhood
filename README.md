@@ -30,7 +30,7 @@ Suppliers deposit NVDA or USDG and receive pTokens. A controlled share of matche
 
 NVDA (`0xd0601CE157Db5bdC3162BbaC2a2C8aF5320D9EEC`), USDG (`0x5fc5360D0400a0Fd4f2af552ADD042D716F1d168`) and the Uniswap v4 PoolManager (`0x8366a39CC670B4001A1121B8F6A443A643e40951`) are third-party contracts. USDG has 6 decimals, NVDA 18, and both pTokens 8. The full address manifest and all ABIs for integrators are in [`contracts/robinhood-vaults/frontend/margin-mainnet`](contracts/robinhood-vaults/frontend/margin-mainnet).
 
-**Current settings:** margin up to **5x** both directions, 20% initial and 10% maintenance margin, **$2 gross and $1 debt per position**, no aggregate cap. Supply, borrowing and ordinary collateral seizure are enabled. LP allocation was **reopened on Oct 6, 2026** (four user-signed transactions, verified in [`remediation/evidence/reopen-allocation-verified.json`](remediation/evidence/reopen-allocation-verified.json)); the position was converted to a concentrated one on **Oct 9, 2026** (see below) and holds about **$10**. Settlement swaps remain paused.
+**Current settings:** margin up to **5x** both directions, 20% initial and 10% maintenance margin, **$2 gross and $1 debt per position**, no aggregate cap. Supply, borrowing and ordinary collateral seizure are enabled. LP allocation was **reopened on Oct 6, 2026** (four user-signed transactions, verified in `reopen-allocation-verified.json`, evidence set [`reopen-allocation-2026-10`](remediation/evidence/reopen-allocation-2026-10/README.md)); the position was converted to a concentrated one on **Oct 9, 2026** (see below) and holds about **$10**. Settlement swaps remain paused.
 
 ## How it works
 
@@ -83,7 +83,15 @@ make reproduce         # exact recompilation against archived deployment bytecod
 | [`frontend`](frontend) | Integration notes for the separately developed application |
 | `Makefile`, `.github/workflows` | Verification entry points and CI |
 
-The two directories under `contracts/` preserve the original Solidity import paths and are not edited. Do not replace them with a newer upstream checkout.
+The two directories under `contracts/` preserve the original Solidity import paths and are not edited (the only removals are five localhost rehearsal outputs and test logs moved to the evidence store, set `margin-deployment-rehearsal-2026-09`). Do not replace them with a newer upstream checkout.
+
+## Evidence and scratch files
+
+Evidence does not live in git. Raw logs, attempt folders, broadcast journals, payload archives (`.tar.gz`, `.tar.xz`, `.jsonl` captures) and recorded run JSON go to the evidence store (`PeridotFinance/peridot-evidence`, private), one directory per evidence set. The repository keeps, per set, `remediation/evidence/<set>/README.md` with what it records, where it is, and its SHA-256 manifest, indexed in [`remediation/evidence/README.md`](remediation/evidence/README.md). Reports and design documents meant for people stay in the repository.
+
+- **Scratch goes in `.scratch/`** (git-ignored). Tools in `remediation/tools` write records to `$PERIDOT_EVIDENCE_DIR`, default `.scratch/evidence/`, and read prior records from there; signing paths require the variable to be set explicitly.
+- **Publishing evidence:** upload the set directory to the store, add `MANIFEST.sha256` (`shasum -a 256` of every file, sorted relative paths) and commit only `remediation/evidence/<set>/README.md` containing that manifest and its own digest.
+- **No committed file over 1 MB** without a reason stated in the commit message and next to the file.
 
 ## Known limitations
 

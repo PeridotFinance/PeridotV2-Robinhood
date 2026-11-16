@@ -1,6 +1,7 @@
 """Read-only receipt, event, runtime and pinned-state verification of lending reactivation."""
 import json
 from state import ROOT, GOVERNOR, CONTROLLER, MARKETS, read_state, call, cast, save
+from evidence_dir import EVIDENCE, prior
 from record_vault_queue import VAULT, SLOT, rpc
 from vault_state import PAIRS, GUARD, ADAPTER
 
@@ -60,7 +61,7 @@ def main():
         expected_code = preflight['contracts'][role]
         if cast('keccak', rpc('eth_getCode', [expected_code['address'], tag])) != expected_code['codeHash']:
             raise RuntimeError('Controller runtime changed: ' + role)
-    prior_runtimes = json.loads((ROOT / 'remediation/evidence/runtime-check.json').read_text())
+    prior_runtimes = json.loads(prior(EVIDENCE / 'runtime-check.json').read_text())
     delegate = prior_runtimes['runtimeChecks']['replacementDelegate']
     if cast('keccak', rpc('eth_getCode', [delegate['address'], tag])) != delegate['runtimeCodeHash']:
         raise RuntimeError('Market delegate runtime changed')
@@ -115,7 +116,7 @@ def main():
               'positionStateRaw': list(map(str, words(ADAPTER, 'positionState(bytes32)', PAIRS['production']))),
               'providerReportedFinality': finality, 'transactions': records,
               'scope': 'Exact successful canonical receipts/events, ordered actions and pinned resulting state from one public RPC. Provider safe/finalized tags are not independent L1 settlement proof. No live user lifecycle, margin fills, resumed LP activity or independent adoption is established.'}
-    save(ROOT / 'remediation/evidence/reactivation-execution-2026-09-29.json', report)
+    save(EVIDENCE / 'reactivation-execution-2026-09-29.json', report)
     print(json.dumps({k: v for k, v in report.items() if k not in ('state', 'transactions')}, indent=2))
 
 

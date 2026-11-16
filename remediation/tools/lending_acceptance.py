@@ -6,6 +6,7 @@ import os
 import subprocess
 import sys
 from state import ROOT, GOVERNOR, CONTROLLER, MARKETS, call, cast, save
+from evidence_dir import EVIDENCE, prior, require_explicit, writable
 sys.path.insert(0, str(ROOT / 'contracts/robinhood-vaults/margin-mainnet/tools'))
 from rpc import rpc, RPC
 
@@ -39,7 +40,7 @@ def verify(stage, pin):
         raise ValueError('Receipt verification requires open or close stage')
     journal_path = ROOT / ('broadcast/LendingAcceptance.s.sol/4663/' + ENTRYPOINTS[stage] + '-latest.json')
     journal = json.loads(journal_path.read_text())
-    save(ROOT / ('remediation/evidence/lending-acceptance-' + stage + '-broadcast.json'), journal)
+    save(EVIDENCE / ('lending-acceptance-' + stage + '-broadcast.json'), journal)
     stock, dollar = MARKETS['pNVDA'], MARKETS['pUSDG']
     if stage == 'open':
         expected = [(STOCK, 'approve(address,uint256)', [stock, '1000000000000000']),
@@ -102,7 +103,7 @@ def verify(stage, pin):
         raise RuntimeError('Unexpected final balances/debt/allowances/membership; inspect before continuing')
     pin.update(verified=True, after=after, receipts=receipts,
                scope='Canonical L2 receipts, calldata, success events and state deltas from one RPC; operator acceptance only, not independent adoption or L1 finality proof.')
-    save(ROOT / ('remediation/evidence/lending-acceptance-' + stage + '-verified.json'), pin)
+    save(EVIDENCE / ('lending-acceptance-' + stage + '-verified.json'), pin)
     print(stage.upper() + ' VERIFIED', flush=True)
 
 
@@ -117,13 +118,15 @@ def main():
         raise RuntimeError('Broadcast separate --stage open and --stage close, with verification between them')
     if args.broadcast and not sys.stdin.isatty():
         raise RuntimeError('Run in your terminal; Foundry prompts for your keystore password locally')
+    if args.broadcast:
+        require_explicit('Lending acceptance --broadcast')
     if int(rpc('eth_chainId', []), 16) != 4663:
         raise RuntimeError('Wrong chain')
     if args.verify:
         if args.stage not in ('open', 'close'):
             raise RuntimeError('--verify requires --stage open or --stage close')
-        intent = ROOT / ('remediation/evidence/lending-acceptance-' + args.stage + '-intent.json')
-        pin = json.loads(intent.read_text())
+        intent = EVIDENCE / ('lending-acceptance-' + args.stage + '-intent.json')
+        pin = json.loads(prior(intent).read_text())
         if pin['stage'] != args.stage or pin['chainId'] != 4663 or not pin['broadcast']:
             raise RuntimeError('Intent stage/chain mismatch')
         verify(args.stage, pin)
@@ -153,15 +156,15 @@ def main():
         result = subprocess.run(command, cwd=ROOT, env=env)
         pin['exitCode'] = result.returncode
         pin['scope'] = 'Local simulation only; no signing or mainnet transactions'
-        save(ROOT / ('remediation/evidence/lending-acceptance-' + args.stage + '-simulation.json'), pin)
+        save(EVIDENCE / ('lending-acceptance-' + args.stage + '-simulation.json'), pin)
         if result.returncode:
             print('SIMULATION FAILED. Do not broadcast. Resolve the reported cause (including stale guard prices) and simulate again.', flush=True)
         raise SystemExit(result.returncode)
     # An interruption is deliberately not retried automatically: inspect public receipts first.
-    intent = ROOT / ('remediation/evidence/lending-acceptance-' + args.stage + '-intent.json')
+    intent = EVIDENCE / ('lending-acceptance-' + args.stage + '-intent.json')
     lock_path = ROOT.parent / 'deployments/.robinhood-deployer-signing.lock'
     if not lock_path.parent.is_dir():
-        lock_path = ROOT / 'remediation/evidence/.governor-signing.lock'
+        lock_path = writable(EVIDENCE / '.governor-signing.lock')
     with lock_path.open('a') as lock:
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
         if intent.exists():
@@ -172,7 +175,7 @@ def main():
         pin['nonceBefore'] = int(nonce, 16)
         pin['before'] = snapshot()
         if args.stage == 'close':
-            opened_path = ROOT / 'remediation/evidence/lending-acceptance-open-verified.json'
+            opened_path = EVIDENCE / 'lending-acceptance-open-verified.json'
             if not opened_path.exists() or not json.loads(opened_path.read_text()).get('verified'):
                 raise RuntimeError('Opening must be independently verified before this close command')
         save(intent, pin)

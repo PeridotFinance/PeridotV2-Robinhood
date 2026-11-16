@@ -1,6 +1,7 @@
 """Independently verify the completed vault upgrade and retained containment; read-only."""
 import json
 from state import ROOT, GOVERNOR, CONTROLLER, MARKETS, call, cast, save, read_state
+from evidence_dir import EVIDENCE, prior
 from record_vault_queue import VAULT, ADMIN, TIMELOCK, LIBRARY, SLOT, ZERO, rpc
 from vault_state import PAIRS
 
@@ -8,7 +9,7 @@ from vault_state import PAIRS
 def main():
     if int(rpc('eth_chainId', []), 16) != 4663:
         raise RuntimeError('Wrong chain')
-    queue = json.loads((ROOT / 'remediation/evidence/vault-upgrade-queue.json').read_text())
+    queue = json.loads(prior(EVIDENCE / 'vault-upgrade-queue.json').read_text())
     candidate = queue['candidate']
     payload = cast('calldata', 'upgradeAndCall(address,address,bytes)', VAULT, candidate, '0x')
     operation = cast('keccak', cast('abi-encode', 'f(address,uint256,bytes,bytes32,bytes32)',
@@ -61,10 +62,10 @@ def main():
     if words[-4:] != [1, 1, 0, 1]:
         raise RuntimeError('Unexpected pair containment flags')
     integration = {}
-    prior = json.loads((ROOT / 'remediation/evidence/installed-adapter.json').read_text())['state']
+    prior_state = json.loads(prior(EVIDENCE / 'installed-adapter.json').read_text())['state']
     for name, market in MARKETS.items():
         m = state['markets'][name]
-        if m['exchangeRateStored'] != prior['markets'][name]['exchangeRateStored']:
+        if m['exchangeRateStored'] != prior_state['markets'][name]['exchangeRateStored']:
             raise RuntimeError('Stored exchange rate changed: ' + name)
         cash = int(call(market, 'getCash()', block=tag), 16)
         vault_cash = int(call(VAULT, 'withdrawableAssets(bytes32,address)',
@@ -84,7 +85,7 @@ def main():
               'state': state, 'transaction': {'hash': tx_hash, 'from': tx['from'], 'to': tx['to'],
               'nonce': int(tx['nonce'], 16), 'valueWei': '0', 'inputKeccak': cast('keccak', tx['input']),
               'executionTimestamp': int(execution_block['timestamp'], 16), 'receipt': receipt}}
-    save(ROOT / 'remediation/evidence/vault-upgrade-execution.json', report)
+    save(EVIDENCE / 'vault-upgrade-execution.json', report)
     print(json.dumps({k: v for k, v in report.items() if k not in ('state', 'pairLedgersRaw', 'transaction')}, indent=2))
     print('Canonical execution transaction:', tx_hash)
 

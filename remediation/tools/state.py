@@ -7,6 +7,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / 'tools'))
 from verify_mainnet import rpc, cast
+from evidence_dir import EVIDENCE, prior, writable  # noqa: F401  (re-exported for tools)
 
 GOVERNOR = '0x94696d767e65a75581145646960FA0eC886cE5d2'
 CONTROLLER = '0x6148183676e304dbe63a85c350c208da3ceac39c'
@@ -65,5 +66,5 @@ def read_state():
 
 if __name__ == '__main__':
     report = read_state()
-    save(ROOT / 'remediation/evidence/current-state.json', report)
+    save(EVIDENCE / 'current-state.json', report)
     print(json.dumps(report, indent=2))

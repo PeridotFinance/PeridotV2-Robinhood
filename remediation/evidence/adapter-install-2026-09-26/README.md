@@ -1,0 +1,68 @@
+# Evidence set `adapter-install-2026-09-26`
+
+Sep 26, 2026 containment pauses and lending price adapter installation: containment transactions and contained state, install simulation, installation receipts, installed adapter runtime check, explorer and standard-JSON reproduction, Slither runs, reviewed source hashes, validation summary, baseline/unit/remediation test logs, build sizes and fork pin.
+
+- Files: 54, 113,094 bytes
+- Location: evidence store: PeridotFinance/peridot-evidence (private) path PeridotV2-Robinhood/adapter-install-2026-09-26/ — pending creation; export at .scratch/evidence-export/
+- SHA-256 of the set's `MANIFEST.sha256`: `8293b9fa2cfe4f00b97e554e08f29d5e124d6642a2895f61e78ea1ffd8c41fb3`
+- Last committed in this repository at `5f542a0` (origin/main before the move). Path inside the set `<path>` was `remediation/evidence/<path>` in the repository.
+  Recover any file from git: `git show 5f542a0:<original path>`.
+
+Verify a downloaded copy: from the set directory, `shasum -a 256 -c MANIFEST.sha256`, and `shasum -a 256 MANIFEST.sha256` must print the digest above. The manifest below is byte-identical to that file.
+
+```
+af5151ce5f4ba7adecf6dcc5afb5ccd096d4355ac3e4fc52cb49dc1b5d15c24b  baseline-tests.txt
+509b4b6ae81df3c2bb803e5a194492beb0d185f2ad00316ada3b394760154fe0  baseline-tests.txt.sha256
+9ac881eae5ebe380f9d56a5c6fb07a0731575bca6b7e8b5dcacec58e2928ee75  build-sizes.txt
+50b5fb513cc324c16d3862e64b7da10cdbd13fa595330ee2c0fe93ca3813c4cb  build-sizes.txt.sha256
+5202fbe65a2d39891f8e8f87748a5f37be9bdaa45c5ccd4add67a42a03eb86fa  contained-state.json
+70b37a46c237eff3d422c71ac901264e39f912d4459c468091ae4bf5dd2436b0  contained-state.json.sha256
+70b37a46c237eff3d422c71ac901264e39f912d4459c468091ae4bf5dd2436b0  contained-state.sha256
+54473d230caf8d079412df22a9a9b3a9fa32e7cb64a0d70d457a5f8065e9356e  containment-transactions.json
+9f20b874c900a56a39dcbf22b292bccc77c7c61201ef4a8731409ded100df683  containment-transactions.json.sha256
+9f20b874c900a56a39dcbf22b292bccc77c7c61201ef4a8731409ded100df683  containment-transactions.sha256
+13f5e6efe1389f5def6609edd3e3d986fea0b260a3b4ce2c71f261369f46861c  current-state.json
+aaf148006223cd3b761ddd7d51a7b6681cf81d29cfdceb2b91625860918ef1b4  current-state.json.sha256
+03a279b16ae64076f51402c0d2e0dba159b900690115bb92bbbe211d70209d81  current-state.sha256
+df3fb3194d747a42ab2e17d27317b08b8cc006bad26e2d77dc807e0efe4321d3  explorer-verification.txt
+4f5d61756cc2e259523d3e39f2e0d8ed29d0fdeffe8487039725f2ec28fabf1b  explorer-verification.txt.sha256
+b1840ee3082911dc0d71dfc3821706020bd4f09349bb00201b3b53d9f3964daf  final-build.txt
+b6b2152379040c9344832f060d020aae32e492b180100b7a2fee57fa52abd38d  final-build.txt.sha256
+7fd7a2f839a49c71c6169d402596c994996c16206cfbccd860da21f9e647a6d2  final-remediation-tests.txt
+bf900de70434f2e586ae8b9199ef490ba8c23a9a26d78c990e360ed617ff30c0  final-remediation-tests.txt.sha256
+cad8305a8dfa190d866fb0e245a5b235da7bf727900b253f92da79b0bf4485ca  fork-pin.json
+ddd4703d47ea324e9df96824b6b86791c34190e9fbf9f66bb67193d837fbd109  fork-pin.json.sha256
+11f21e68de97cf04f0316352d3e1ef960c52533e61e1d90faa65a2970705c42f  fork-pin.sha256
+7a2b7911bfe3648fbe334d5eb645cbc5722ff2b61dbcd3178a2aefad20fdd54c  fork-tests.txt
+7120d508f85414675b0c62eb007ad224462905a36bd73885e91ace2e359087b4  fork-tests.txt.sha256
+e3b018b6232701a0fc7b26c337b3338729c5fe0aa8d74f685e71a4b8fa7b2a22  install-simulation.txt
+3fe5837b1798eff3dcb2c1327f4436c7aad425151af443f856d4580c0f2796c0  install-simulation.txt.sha256
+71f305cab18922d327556c76349de53c4642884c3cff9f3a940cdf2a2a7176f0  installation-transactions.json
+83c265d253e77fdc328488ae3f0df08a843bb6d9b4a573adcd6bd4f91dc95108  installation-transactions.json.sha256
+83c265d253e77fdc328488ae3f0df08a843bb6d9b4a573adcd6bd4f91dc95108  installation-transactions.sha256
+6d7bbbff21f6b8b07cee8661e92fc56416e8ba934fd1febaa68bbe6842a32b5a  installed-adapter.json
+e451e4d92f1802bcda4461161974b4372fc7f780840e563d42c2916742fc2bde  installed-adapter.json.sha256
+e451e4d92f1802bcda4461161974b4372fc7f780840e563d42c2916742fc2bde  installed-adapter.sha256
+9e7d7f226a6d468af2d3f2af8d19f898d5efb9b9ebe1c8e0a3fe89f132d306b6  remediation-tests.txt
+d484d4c4ddd7bbfff30ed983c9b76a79ea4bbb6e55c8f0f413be9b12ee7b228b  reviewed-source-hashes.json
+1720f151f9085c17f8fe9d87e34fb2318a3c42baec40fe6ae64914384d225f49  reviewed-source-hashes.json.sha256
+603db52fd0016ca5cdcf83b2588160ae92bde08c66ba4c61dfc8a2a74cdb95c9  runner-tests.txt
+911746509eb7390834d370d4a28d61e04d15602f9706f4638edbda532f9f50ea  runner-tests.txt.sha256
+85aabd26a3619933168c72cc81878de4889b94c0ca750af61c8a6be8fc206d8b  runtime-check.json
+99474ab6fb4448d133028950a3a3a5b24bdc5984ba372b0b52c4967665fb5cd6  runtime-check.json.sha256
+99474ab6fb4448d133028950a3a3a5b24bdc5984ba372b0b52c4967665fb5cd6  runtime-check.sha256
+3dc292d9cb9d5ddaff4d10d0a85d78418e6f871c4e5278677723214a74a0e2a9  slither-adapter-final.json
+2647dd37172564f44c6aef5604516dd04ca83a4b4ed649c2cd90275e9a51ed58  slither-adapter-final.json.sha256
+e8daa82a434dbd3884a4801ff877fd72cabff96aa47a9c48e436db1a10af5f03  slither-adapter-final.txt
+498c30cef4f64b37b2fdc0761dda5261138defadbc13900baac34c4c83e65e07  slither-adapter-final.txt.sha256
+16e318cb719055a687fce3ea7e788dc06a38ba5adde948cdbb978d6cba36c9d6  slither-adapter.json
+3eb0b5243fcee3597e907eea9d5156157a874088854688c60f4bbac415727a49  slither-adapter.json.sha256
+e2205054fa0842cfa5f570a2c340a85759045c83244e0904822adadc012bd3cf  slither-adapter.txt
+043c27684509699bc026d3ca6a0a896a2b5d3294390964c2205390ee8306e133  slither-adapter.txt.sha256
+e72e3105ce8320186b4b3b1fa22e66ec66e2e8b97cbc0a968e3c1b1c7cd5ee34  standard-reproduction.json
+9cb62ec5a2372ca2aed919618ce41132c861964a182915cf2cafa13c00bc60bd  standard-reproduction.json.sha256
+06273d65f987e3cc9160234094964843d9014db0f4c063ce10a58b906efba79b  unit-tests.txt
+9cd612ac26e85cac2893b9a58a907c8f2f5e7c2be8e0e5e49f0148153f70471f  unit-tests.txt.sha256
+e0c2512ea8d2490be5cba48b2e55eefe5be50e658f98bc4ef4ac1cb7073fdd5d  validation-summary.json
+a4a13c17b96973c6b4ca6912ee415fee2d6d30edf63a974495841afb2100a912  validation-summary.json.sha256
+```

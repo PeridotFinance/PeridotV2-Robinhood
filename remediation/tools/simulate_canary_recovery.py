@@ -3,6 +3,7 @@ import hashlib
 import os
 import subprocess
 from state import ROOT, GOVERNOR, call, save
+from evidence_dir import EVIDENCE, writable
 from record_vault_queue import rpc
 from vault_state import VAULT, STOCK, USDG, PAIRS, ADAPTER, RESERVE
 
@@ -27,7 +28,7 @@ def main():
     pin['before']['vaultStock'] = int(call(STOCK, 'balanceOf(address)', VAULT, block=tag), 16)
     env = dict(os.environ, FOUNDRY_PROFILE='vault_upgrade')
     script = ROOT / 'remediation/script/RecoverCanaryResidue.s.sol'
-    log = ROOT / 'remediation/evidence/canary-recovery-simulation.txt'
+    log = writable(EVIDENCE / 'canary-recovery-simulation.txt')
     with log.open('w') as output:
         result = subprocess.run(['forge', 'script', str(script.relative_to(ROOT))+':RecoverCanaryResidue',
                                  '--rpc-url', 'https://rpc.mainnet.chain.robinhood.com',
@@ -38,7 +39,7 @@ def main():
                scriptSha256=hashlib.sha256(script.read_bytes()).hexdigest(),
                logSha256=hashlib.sha256(log.read_bytes()).hexdigest(),
                scope='Read-only exact user signing script simulation, both Foundry simulation phases retained; no keys or mainnet transactions.')
-    save(ROOT / 'remediation/evidence/canary-recovery-simulation.json', pin)
+    save(EVIDENCE / 'canary-recovery-simulation.json', pin)
     log.with_suffix(log.suffix+'.sha256').write_text(pin['logSha256']+'  '+log.name+'\n')
     print(log.read_text())
     if result.returncode or not pin['canonicalAfterSimulation']:

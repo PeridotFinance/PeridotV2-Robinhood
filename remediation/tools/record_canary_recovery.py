@@ -1,6 +1,7 @@
 """Read-only verification of the two user-signed canary residue recovery calls."""
 import json
 from state import ROOT, GOVERNOR, call, cast, save
+from evidence_dir import EVIDENCE, prior
 from record_vault_queue import rpc, SLOT
 from vault_state import VAULT, STOCK, USDG, PAIRS, ADAPTER, RESERVE
 
@@ -14,9 +15,9 @@ def require(ok, message):
 
 def main():
     require(int(rpc('eth_chainId', []), 16) == 4663, 'Wrong chain')
-    pin = json.loads((ROOT / 'remediation/evidence/canary-recovery-simulation.json').read_text())
+    pin = json.loads(prior(EVIDENCE / 'canary-recovery-simulation.json').read_text())
     source = ROOT / 'broadcast/RecoverCanaryResidue.s.sol/4663/run-latest.json'
-    archive = ROOT / 'remediation/evidence/canary-recovery-broadcast.json'
+    archive = EVIDENCE / 'canary-recovery-broadcast.json'
     journal = json.loads((archive if archive.exists() else source).read_text())
     require(len(journal['transactions']) == 2, 'Expected exactly checkpoint and withdrawal')
     records = []
@@ -96,7 +97,7 @@ def main():
             'Balance delta differs from preparation; review intervening transfers')
     require(rpc('eth_getBlockByNumber', [tag, False])['hash'] == block['hash'], 'Evidence block changed')
     save(archive, journal)
-    save(ROOT / 'remediation/evidence/canary-recovery-verified.json', {
+    save(EVIDENCE / 'canary-recovery-verified.json', {
         'chainId': 4663, 'block': int(tag, 16), 'blockHash': block['hash'], 'verified': True,
         'returnedStockRaw': RESIDUE, 'receiver': GOVERNOR, 'after': current, 'transactions': records,
         'scope': 'Exact canonical receipts/events and pinned post-state. Balances and production/reserve state compared to recorded preparation; unrelated intervening activity requires separate review. Single-RPC L2 proof; no production settlement, LP reopening or L1 finality claim.'})

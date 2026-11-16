@@ -1,6 +1,7 @@
 """Verify the installed adapter's runtime, immutable wiring, prices and paused state; read-only."""
 import json
 from state import ROOT, OLD_ORACLE, MARKETS, call, cast, rpc, read_state, save
+from evidence_dir import EVIDENCE
 
 
 def masked_runtime(code, references):
@@ -92,7 +93,7 @@ def main():
               'runtimeTemplateMatches': True, 'immutableWiring': expected, 'prices': prices,
               'liquidationQuotes': quotes, 'marginBackingSourceUnchanged': True, 'state': state,
               'scope': 'Runtime, immutable wiring, price units, quotes and pause flags. No unpause or fresh-price/depeg guarantee.'}
-    save(ROOT / 'remediation/evidence/installed-adapter.json', report)
+    save(EVIDENCE / 'installed-adapter.json', report)
     print(json.dumps(report, indent=2))
 
 

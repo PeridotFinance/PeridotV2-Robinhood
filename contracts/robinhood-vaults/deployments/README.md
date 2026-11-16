@@ -16,6 +16,6 @@ Start with:
 - [5× source hashes and test evidence](robinhood-mainnet.margin-5x-validation.json).
 - [Fresh snapshot mainnet check](../../../snapshot/mainnet-check.json).
 
-Detached SHA-256 files are included where present in the original records. Some historical reports reference larger localhost rehearsals or testnet evidence not included in this mainnet-focused snapshot. Their absence must not be interpreted as newly reproduced evidence.
+Detached SHA-256 files are included where present in the original records. Some historical reports reference larger localhost rehearsals or testnet evidence not included in this mainnet-focused snapshot. Their absence must not be interpreted as newly reproduced evidence. The localhost rehearsal record `robinhood-mainnet.margin-rehearsal.json` (with its `.sha256`) and the logs `robinhood-mainnet.margin-{fork-tests,keeper-tests,activation-followup}.txt` listed in `robinhood-mainnet.margin-validation.json` were moved to the evidence store on 2026-11-16: see [evidence set `margin-deployment-rehearsal-2026-09`](../../../remediation/evidence/margin-deployment-rehearsal-2026-09/README.md).
 
 The frontend [manifest and ABIs](../frontend/margin-mainnet/manifest.json) use deployed proxy/call addresses. Rehearsal addresses and historical predicted addresses are never frontend destinations. The snapshot provenance explains exact source selection and bytecode reproduction.

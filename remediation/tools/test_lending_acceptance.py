@@ -51,7 +51,7 @@ class AcceptanceVerificationTest(unittest.TestCase):
         raise AssertionError(method)
 
     def verify(self, stage="open"):
-        with patch.object(runner, 'ROOT', self.root), patch.object(runner, 'rpc', self.rpc), patch.object(runner, 'snapshot', return_value=self.after):
+        with patch.object(runner, 'ROOT', self.root), patch.object(runner, 'EVIDENCE', self.root/'remediation/evidence'), patch.object(runner, 'rpc', self.rpc), patch.object(runner, 'snapshot', return_value=self.after):
             runner.verify(stage, copy.deepcopy(self.pin))
 
     def close_fixture(self):
@@ -101,7 +101,7 @@ class AcceptanceVerificationTest(unittest.TestCase):
         intent = self.root/'remediation/evidence/lending-acceptance-open-intent.json'
         intent.parent.mkdir(parents=True)
         intent.write_text(json.dumps(dict(self.pin, chainId=4663, stage='open', broadcast=True)))
-        with patch.object(runner, 'ROOT', self.root), patch.object(runner, 'rpc', return_value=hex(4663)), patch.object(runner, 'verify') as verify, patch.object(runner.subprocess, 'run', side_effect=AssertionError('must not execute subprocess')), patch.object(runner.sys, 'argv', ['lending_acceptance.py', '--stage', 'open', '--verify']):
+        with patch.object(runner, 'ROOT', self.root), patch.object(runner, 'EVIDENCE', self.root/'remediation/evidence'), patch.object(runner, 'rpc', return_value=hex(4663)), patch.object(runner, 'verify') as verify, patch.object(runner.subprocess, 'run', side_effect=AssertionError('must not execute subprocess')), patch.object(runner.sys, 'argv', ['lending_acceptance.py', '--stage', 'open', '--verify']):
             runner.main()
         verify.assert_called_once()
         self.assertEqual(verify.call_args.args[0], 'open')
@@ -115,7 +115,7 @@ class AcceptanceVerificationTest(unittest.TestCase):
             if method == 'eth_call':
                 return hex(26000000)
             raise AssertionError(method)
-        with patch.object(runner, 'ROOT', self.root), patch.object(runner, 'rpc', side_effect=chain), patch.object(runner.subprocess, 'run') as process, patch.object(runner.sys, 'argv', ['lending_acceptance.py', '--stage', 'close']):
+        with patch.object(runner, 'ROOT', self.root), patch.object(runner, 'EVIDENCE', self.root/'remediation/evidence'), patch.object(runner, 'rpc', side_effect=chain), patch.object(runner.subprocess, 'run') as process, patch.object(runner.sys, 'argv', ['lending_acceptance.py', '--stage', 'close']):
             process.return_value.returncode = 0
             with self.assertRaises(SystemExit) as result:
                 runner.main()

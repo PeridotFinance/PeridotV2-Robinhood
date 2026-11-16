@@ -17,6 +17,7 @@ import json
 import re
 import subprocess
 from pathlib import Path
+from evidence_dir import EVIDENCE, writable
 
 ROOT = Path(__file__).resolve().parents[2]
 EIP170 = 24576
@@ -199,7 +200,7 @@ def main():
     diff = ''.join(difflib.unified_diff(
         FROZEN_SOURCE.read_text().splitlines(True), CANDIDATE_SOURCE.read_text().splitlines(True),
         'contracts/.../boosted/RobinhoodBoostedDelegate.sol', 'remediation/src/RobinhoodBoostedDelegateV2.sol'))
-    diff_path = ROOT / 'remediation/evidence/lending-delegate-candidate-source.diff'
+    diff_path = writable(EVIDENCE / 'lending-delegate-candidate-source.diff')
     diff_path.write_text(diff)
 
     report = {
@@ -230,11 +231,11 @@ def main():
         for label, res in anchor['installed'].items():
             assert res['sameLength'] and res['bodyIdenticalExcludingMetadata'] \
                 and res['moduleBodyIdenticalExcludingMetadata'], f'Anchor build does not reproduce installed {label}'
-        apath = ROOT / 'remediation/evidence/lending-delegate-installed-anchor.json'
+        apath = EVIDENCE / 'lending-delegate-installed-anchor.json'
         apath.write_text(json.dumps(anchor, indent=2) + '\n')
         apath.with_suffix('.sha256').write_text(hashlib.sha256(apath.read_bytes()).hexdigest() + '  ' + apath.name + '\n')
         report['installedBytecodeAnchorFile'] = apath.name
-    path = ROOT / 'remediation/evidence/lending-delegate-candidate-gates.json'
+    path = EVIDENCE / 'lending-delegate-candidate-gates.json'
     path.write_text(json.dumps(report, indent=2) + '\n')
     path.with_suffix('.sha256').write_text(hashlib.sha256(path.read_bytes()).hexdigest() + '  ' + path.name + '\n')
     diff_path.with_suffix('.diff.sha256').write_text(hashlib.sha256(diff_path.read_bytes()).hexdigest() + '  ' + diff_path.name + '\n')

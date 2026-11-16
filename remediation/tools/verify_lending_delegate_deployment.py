@@ -13,6 +13,7 @@ import json
 from pathlib import Path
 
 from verify_lending_delegate_candidate import ROOT, CANDIDATE, cast, fill, load
+from evidence_dir import EVIDENCE, writable
 
 GOVERNOR = '0x94696d767e65a75581145646960FA0eC886cE5d2'
 EIP170 = 24576
@@ -24,7 +25,7 @@ def main():
     parser.add_argument('--rpc', default='https://rpc.mainnet.chain.robinhood.com')
     parser.add_argument('--tx', default=None, help='Deployment transaction hash (checks creation input and sender)')
     parser.add_argument('--out', default='remediation/out-lending-candidate')
-    parser.add_argument('--evidence', default='remediation/evidence/lending-delegate-deployment-check.json')
+    parser.add_argument('--evidence', default=str(EVIDENCE / 'lending-delegate-deployment-check.json'))
     args = parser.parse_args()
     release = ROOT / args.out
     cand, module_art = load(release, CANDIDATE), load(release, 'BorrowAccountingModule')
@@ -64,7 +65,7 @@ def main():
         checks['txSucceeded'] = t['receiptStatus'] in (1, '1', '0x1')
     ok = all(checks.values())
     report['allChecksPassed'] = ok
-    path = ROOT / args.evidence
+    path = writable(ROOT / args.evidence)
     path.write_text(json.dumps(report, indent=2) + '\n')
     path.with_suffix('.sha256').write_text(hashlib.sha256(path.read_bytes()).hexdigest() + '  ' + path.name + '\n')
     print(json.dumps(report, indent=2))

@@ -3,11 +3,11 @@
 Dune indexes Robinhood Chain natively (`robinhood.logs`, `robinhood.transactions`, ...), so the vault's own
 events need no upload. **These queries were written from the contract's event signatures and the documented
 table names; they have not been run on Dune** (no Dune access from the repository tooling). Run each once in
-the Dune editor and compare against `remediation/evidence/vault-yield/events.csv`, which decodes the same
+the Dune editor and compare against `vault-yield/events.csv` of evidence set [`vault-yield-2026-10`](../evidence/vault-yield-2026-10/README.md) (a fresh run of `remediation/tools/vault_yield.py` writes it to `$PERIDOT_EVIDENCE_DIR/vault-yield/`), which decodes the same
 logs independently: it holds 6 events, 3 `FeesProcessed`, 2 `PairCheckpoint`, 1 `LiquidityRebalanced`.
 
 Exchange-rate history is **not an event**, so it comes from the recorder: upload
-`remediation/evidence/vault-yield/snapshots.csv` (Upload Data in the Dune UI, or the Tables API for scheduled
+`vault-yield/snapshots.csv` (same set, or your own recorder run) (Upload Data in the Dune UI, or the Tables API for scheduled
 updates) as a table, e.g. `vault_snapshots`. Replace `YOURTEAM` below with your Dune team name.
 
 Constants: vault `0x280825b2d856706Ff7E0d6351CcB2e935E1a9A2f`, pair id (`keccak("NVDA/USDG")`)

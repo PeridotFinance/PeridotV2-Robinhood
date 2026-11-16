@@ -10,7 +10,7 @@ Corrections, tests and verification written on top of the frozen deployment sour
 | [`script`](script) | Reviewed, user-signed procedures: vault upgrade, lending reactivation, delegate deploy and install, plus prepared-but-unexecuted LP reopen, margin cap raise and router deploy |
 | [`test`](test) | Unit, fuzz and invariant tests, and fork tests against the live deployment |
 | [`tools`](tools) | Read-only verifiers, rehearsal runners and the vault yield recorder |
-| [`evidence`](evidence/README.md) | Dated records of every verification, with detached SHA-256 digests |
+| [`evidence`](evidence/README.md) | Index of dated verification records: one README with a SHA-256 manifest per evidence set; the files are in the evidence store |
 | [`dune`](dune/README.md) | Dune queries for the vault's events |
 
 ## Executed on mainnet, then verified independently
@@ -55,4 +55,4 @@ Fork rehearsals need an archive-capable `ROBINHOOD_RPC_URL`. The delegate rehear
 
 ## Review limits
 
-A second Almanax scan of the V3 code ([triage record](evidence/almanax-c5d9086-triage.json)) reported 102 findings; six were verified and dismissed, the rest are grouped by theme and not individually verified. No independent external audit. An Almanax scan reported 81 automated findings; only part of it has been triaged (the three high-severity claims and two medium ones), and that is not a claim that the rest are resolved.
+A second Almanax scan of the V3 code (triage record `almanax-c5d9086-triage.json`, evidence set [`almanax-2026-10`](evidence/almanax-2026-10/README.md)) reported 102 findings; six were verified and dismissed, the rest are grouped by theme and not individually verified. No independent external audit. An Almanax scan reported 81 automated findings; only part of it has been triaged (the three high-severity claims and two medium ones), and that is not a claim that the rest are resolved.

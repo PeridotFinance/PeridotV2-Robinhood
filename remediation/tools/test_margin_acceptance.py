@@ -104,7 +104,7 @@ class MarginAcceptanceTest(unittest.TestCase):
 
     def test_verify_mode_never_runs_forge(self):
         intent={'example':'existing intent'}
-        with patch.object(m,'rpc',return_value=hex(4663)), patch.object(m.Path,'read_text',return_value=json.dumps(intent)), patch.object(m,'verify') as verify, patch.object(m.subprocess,'run',side_effect=AssertionError('must not run')), patch.object(m.sys,'argv',['margin_acceptance.py','--side','long','--stage','open','--verify']):
+        with patch.object(m,'rpc',return_value=hex(4663)), patch.object(m.Path,'read_text',return_value=json.dumps(intent)), patch.object(m.Path,'is_file',return_value=True), patch.object(m,'verify') as verify, patch.object(m.subprocess,'run',side_effect=AssertionError('must not run')), patch.object(m.sys,'argv',['margin_acceptance.py','--side','long','--stage','open','--verify']):
             m.main()
         verify.assert_called_once_with('long','open',intent)
 

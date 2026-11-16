@@ -10,6 +10,7 @@ import subprocess
 import sys
 import time
 from state import ROOT, GOVERNOR, MARKETS, call, cast, save
+from evidence_dir import EVIDENCE, prior as prior_record, require_explicit, writable
 from record_vault_queue import rpc
 
 RPC_URL = 'https://rpc.mainnet.chain.robinhood.com'
@@ -27,7 +28,7 @@ SCRIPT = 'remediation/script/MarginAcceptance.s.sol:MarginAcceptance'
 
 
 def path(side, stage, suffix):
-    return ROOT / ('remediation/evidence/margin-acceptance-' + side + '-' + stage + '-' + suffix + '.json')
+    return EVIDENCE / ('margin-acceptance-' + side + '-' + stage + '-' + suffix + '.json')
 
 
 def words(target, signature, *args, block='latest'):
@@ -261,15 +262,17 @@ def main():
         raise RuntimeError('Roundtrip is simulation-only; sign open/close/withdraw separately')
     intent_path = path(side, stage, 'intent')
     if args.verify:
-        verify(side,stage,json.loads(intent_path.read_text())); return
+        verify(side,stage,json.loads(prior_record(intent_path).read_text())); return
     if args.broadcast and not sys.stdin.isatty():
         raise RuntimeError('Only run --broadcast in your own terminal; Foundry prompts locally')
+    if args.broadcast:
+        require_explicit('Margin acceptance --broadcast')
     if args.broadcast and intent_path.exists():
         raise RuntimeError('Existing attempt: use --verify or inspect partial receipts; never blindly retry')
     position_id, account = None, None
     if stage in ('close','withdraw'):
         prior = path(side, 'open' if stage == 'close' else 'close', 'verified')
-        prev = json.loads(prior.read_text())
+        prev = json.loads(prior_record(prior).read_text())
         if not prev.get('verified') or prev['side'] != side:
             raise RuntimeError('Prior stage not verified')
         position_id, account = prev['positionId'], prev['account']
@@ -306,7 +309,7 @@ def main():
     validate_plan(stage,plan,side,position_id,before['free'])
     lock_path=ROOT.parent/'deployments/.robinhood-deployer-signing.lock'
     if not lock_path.parent.is_dir():
-        lock_path=ROOT/'remediation/evidence/.governor-signing.lock'
+        lock_path=writable(EVIDENCE / '.governor-signing.lock')
     with lock_path.open('a') as lock:
         fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
         if intent_path.exists():

@@ -4,6 +4,7 @@ import os
 import subprocess
 from record_vault_queue import rpc
 from state import ROOT, save
+from evidence_dir import EVIDENCE, writable
 
 
 def main():
@@ -19,7 +20,7 @@ def main():
     tests = [ROOT / 'remediation/test/fork/LendingDelegateUpgradeMainnet.t.sol',
              ROOT / 'remediation/test/fork/LendingDelegateMarginCompat.t.sol']
     source = ROOT / 'remediation/src/RobinhoodBoostedDelegateV2.sol'
-    log = ROOT / 'remediation/evidence/lending-delegate-upgrade-fork.txt'
+    log = writable(EVIDENCE / 'lending-delegate-upgrade-fork.txt')
     env = dict(os.environ, FOUNDRY_PROFILE='lending_candidate',
                ROBINHOOD_RPC_URL='https://rpc.mainnet.chain.robinhood.com',
                REMEDIATION_FORK_BLOCK=str(int(tag, 16)), REMEDIATION_NATIVE_BLOCK=str(native))
@@ -35,7 +36,7 @@ def main():
               'logSha256': hashlib.sha256(log.read_bytes()).hexdigest(),
               'foundryProfile': 'lending_candidate',
               'scope': 'Candidate deployed and installed on local fork only. Current installed markets, vault and governor balances, no oracle mocks or funding overrides. Not a mainnet deployment. No keys, signing or broadcasts.'}
-    save(ROOT / 'remediation/evidence/lending-delegate-upgrade-fork.json', report)
+    save(EVIDENCE / 'lending-delegate-upgrade-fork.json', report)
     log.with_suffix('.txt.sha256').write_text(report['logSha256'] + '  ' + log.name + '\n')
     text = log.read_text()
     print(text[text.find('Ran '):] if 'Ran ' in text else text[-4000:])

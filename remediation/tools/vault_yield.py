@@ -26,9 +26,10 @@ import subprocess
 import sys
 import time
 from pathlib import Path
+from evidence_dir import EVIDENCE
 
 ROOT = Path(__file__).resolve().parents[2]
-OUT = ROOT / 'remediation/evidence/vault-yield'
+OUT = EVIDENCE / 'vault-yield'
 RPC = 'https://rpc.mainnet.chain.robinhood.com'
 VAULT = '0x280825b2d856706Ff7E0d6351CcB2e935E1a9A2f'
 ADAPTER = '0xadA73211711e4790bc83B5d6B39f47fE04D276f3'
