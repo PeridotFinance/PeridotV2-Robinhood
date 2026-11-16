@@ -11,6 +11,7 @@
 #
 # Optional: LEDGER_HD, RH_RPC, REHEARSE=1 (local fork only: Ledger unlocked).
 set -uo pipefail
+SELF="$(cd "$(dirname "$0")" && pwd)/$(basename "$0")"
 cd "$(dirname "$0")/.."
 LIMIT_USD=${LIMIT_USD:-250}
 LIMIT=$(python3 -c "print(int('$LIMIT_USD')*10**18)")
@@ -86,7 +87,7 @@ E
   execute)
     [[ "$(call $T 'isOperationReady(bytes32)(bool)' "$(op_id)")" == true ]] || die "operation is not ready yet"
     ledger_send $T 'execute(address,uint256,bytes,bytes32,bytes32)' "$V" 0 "$(data)" "$ZERO32" "$SALT"
-    bash "$0" verify
+    bash "$SELF" verify
     ;;
   verify)
     got=$(limit_now)
