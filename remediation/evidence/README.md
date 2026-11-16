@@ -26,7 +26,7 @@ Records describe a block, a transaction or a test run at a point in time; they a
 
 ## Check a set
 
-Download the set directory from the store, then run `shasum -a 256 -c MANIFEST.sha256` inside it and compare `shasum -a 256 MANIFEST.sha256` with the value above (and with the manifest printed in the set README). Each original record also keeps its detached `.sha256` inside the set.
+Download the set directory from the store, then run `shasum -a 256 -c MANIFEST.sha256` inside it and compare `shasum -a 256 MANIFEST.sha256` with the value above (and with the manifest printed in the set README). Records that had a detached `.sha256` keep it inside the set; several logs never had one.
 
 ## Tools
 
