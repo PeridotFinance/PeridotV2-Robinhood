@@ -39,7 +39,9 @@ contract InKindRedemptionModel {
     error InsufficientSurplus();
     error ClaimExceedsPrincipal();
 
-    event RedeemedInKind(address indexed account, bool usdgSide, uint256 claim, uint256 usdgOut, uint256 stockOut);
+    event RedeemedInKind(
+        address indexed account, bool usdgSide, uint256 claim, uint256 usdgOut, uint256 stockOut
+    );
 
     constructor(RamsesOracleGuard g, bytes32 id, IDebtView d) {
         guard = g;
@@ -52,7 +54,11 @@ contract InKindRedemptionModel {
     }
 
     /// @dev Quote only: the same arithmetic as `redeemInKind` without state change.
-    function quote(bool usdgSide, uint256 claim) public view returns (uint256 usdgOut, uint256 stockOut) {
+    function quote(bool usdgSide, uint256 claim)
+        public
+        view
+        returns (uint256 usdgOut, uint256 stockOut)
+    {
         (uint256 ps,) = guard.pricesUSD18(pairId); // reverts on a stale feed
         State memory t = s;
         if (claim == 0) revert NothingToRedeem();
@@ -62,18 +68,25 @@ contract InKindRedemptionModel {
             usdgOut = Math.mulDiv(claim, t.usdgAssets, t.usdgPrincipal);
             uint256 restUsd18 = (claim - usdgOut) * 1e12;
             stockOut = Math.mulDiv(restUsd18, 1e18, ps); // floor: the remaining holders keep the dust
-            if (stockOut > t.stockAssets - Math.min(t.stockAssets, t.stockPrincipal)) revert InsufficientSurplus();
+            if (stockOut > t.stockAssets - Math.min(t.stockAssets, t.stockPrincipal)) {
+                revert InsufficientSurplus();
+            }
         } else {
             if (claim > t.stockPrincipal) revert ClaimExceedsPrincipal();
             if (t.stockAssets >= t.stockPrincipal) return (0, claim);
             stockOut = Math.mulDiv(claim, t.stockAssets, t.stockPrincipal);
             uint256 restUsd18 = Math.mulDiv(claim - stockOut, ps, 1e18);
             usdgOut = restUsd18 / 1e12;
-            if (usdgOut > t.usdgAssets - Math.min(t.usdgAssets, t.usdgPrincipal)) revert InsufficientSurplus();
+            if (usdgOut > t.usdgAssets - Math.min(t.usdgAssets, t.usdgPrincipal)) {
+                revert InsufficientSurplus();
+            }
         }
     }
 
-    function redeemInKind(address account, bool usdgSide, uint256 claim) external returns (uint256 usdgOut, uint256 stockOut) {
+    function redeemInKind(address account, bool usdgSide, uint256 claim)
+        external
+        returns (uint256 usdgOut, uint256 stockOut)
+    {
         if (debt.hasDebt(account)) revert HasDebt();
         (usdgOut, stockOut) = quote(usdgSide, claim);
         if (usdgSide) {

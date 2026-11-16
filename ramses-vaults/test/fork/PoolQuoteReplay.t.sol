@@ -42,6 +42,8 @@ contract PoolQuoteReplay is Test {
     bool usdg0;
 
     function setUp() public {
+        // Research replay, driven by env inputs (see above); skipped in a plain fork run.
+        if (vm.envOr("POOL", address(0)) == address(0)) vm.skip(true);
         vm.createSelectFork(vm.envString("ROBINHOOD_RPC_URL"), vm.envUint("REMEDIATION_FORK_BLOCK"));
         vm.roll(vm.envUint("REMEDIATION_NATIVE_BLOCK"));
         assertEq(block.chainid, 4663, "chain");

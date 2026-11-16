@@ -71,7 +71,7 @@ abstract contract LendingFixture is Test {
         return false;
     }
 
-    /// @dev Override to wrap the unmodified vault code (test/prototypes/RoutedVault.sol).
+    /// @dev Override to wrap the unmodified vault code (src/inkind/RoutedVault.sol).
     function _newVault() internal virtual returns (RamsesBoostedVault) {
         return new RamsesBoostedVault();
     }

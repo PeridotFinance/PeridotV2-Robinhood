@@ -9,8 +9,8 @@ import { RamsesBoostedVault } from "../../src/RamsesBoostedVault.sol";
 import { RamsesOracleGuard } from "../../src/RamsesOracleGuard.sol";
 import { RamsesLossReserve } from "../../src/RamsesLossReserve.sol";
 import { RamsesBoostedDelegate } from "../../src/lending/RamsesBoostedDelegate.sol";
-import { RoutedVault, InKindExtension } from "./RoutedVault.sol";
-import { InKindRedeemer } from "./InKindRedeemer.sol";
+import { RoutedVault, InKindExtension } from "../../src/inkind/RoutedVault.sol";
+import { InKindRedeemer } from "../../src/inkind/InKindRedeemer.sol";
 
 /// @notice Shared by the local fixture and the SPY and NVDA mainnet forks. Real vault, adapter, markets, controller and reserve code; real token transfers.
 abstract contract InKindScenarios is Test {
@@ -35,12 +35,18 @@ abstract contract InKindScenarios is Test {
     function _poolOnly(int24 ticks) internal virtual; // moves the pool only: the feed stays
 
     function _routed() internal returns (RamsesBoostedVault) {
-        return RamsesBoostedVault(payable(address(new RoutedVault(address(new RamsesBoostedVault()), address(new InKindExtension())))));
+        return RamsesBoostedVault(
+            payable(address(
+                    new RoutedVault(
+                        address(new RamsesBoostedVault()), address(new InKindExtension())
+                    )
+                ))
+        );
     }
 
     function _setUpInKind() internal {
         _ready();
-        redeemer = new InKindRedeemer(_v(), _pair(), _sm(), _um(), address(0)); // no outside funding source
+        redeemer = new InKindRedeemer(_v(), _pair(), _sm(), _um()); // self-funded only; production has no float
         _authorize(redeemer);
         InKindExtension(address(_v())).setInKindLimit(_pair(), 1_000e18);
         vm.prank(_bob());
@@ -75,7 +81,11 @@ abstract contract InKindScenarios is Test {
 
     function _usdgGap() internal view returns (uint256 available, uint256 principal) {
         PairLedger memory l = _v().ledger(_pair());
-        return (l.usdgIdle + _v().liquidityAdapter().positionState(_pair()).usdgAmount, l.usdgPrincipal);
+        return
+            (
+                l.usdgIdle + _v().liquidityAdapter().positionState(_pair()).usdgAmount,
+                l.usdgPrincipal
+            );
     }
 
     function testDebtFreeMixedRedemptionPaysTheFullValueWhereThePlainRedeemReverts() public {
@@ -108,7 +118,8 @@ abstract contract InKindScenarios is Test {
         uint256 value = shares * rate0 / 1e18;
 
         vm.prank(bob);
-        (uint256 own, uint256 other) = redeemer.redeemInKind{ gas: 15_000_000 }(true, shares, 0, 0, vm.getBlockTimestamp());
+        (uint256 own, uint256 other) =
+            redeemer.redeemInKind{ gas: 15_000_000 }(true, shares, 0, 0, vm.getBlockTimestamp());
         uint256 paidUsd = own * 1e12 + other * ps / 1e18;
         emit log_named_uint("value owed (USD 1e18)", value * 1e12);
         emit log_named_uint("paid in USDG (raw)", own);
@@ -118,7 +129,9 @@ abstract contract InKindScenarios is Test {
 
         assertEq(_um().balanceOf(bob), 0, "all shares taken");
         assertEq(_um().balanceOf(address(redeemer)), 0, "and burned by the market");
-        assertEq(supplyBefore - _um().totalSupply(), shares, "total supply fell by exactly the shares");
+        assertEq(
+            supplyBefore - _um().totalSupply(), shares, "total supply fell by exactly the shares"
+        );
         assertEq(_us().balanceOf(bob) - bobUsdg, own, "real USDG received");
         assertEq(_st().balanceOf(bob), other, "real stock received");
         assertGt(other, 0, "a mixture");
@@ -131,10 +144,18 @@ abstract contract InKindScenarios is Test {
         assertLe(paidUsd, value * 1e12 + dust, "not above the value owed beyond rounding");
         assertGe(paidUsd + dust, value * 1e12, "not below it beyond rounding");
         assertEq(_r().accountedBalance(address(_us())), reserveBefore, "no reserve used");
-        assertEq(_v().ledger(_pair()).cumulativeLossUSDG, lossBefore, "no new loss recognized by the exchange");
+        assertEq(
+            _v().ledger(_pair()).cumulativeLossUSDG,
+            lossBefore,
+            "no new loss recognized by the exchange"
+        );
         assertEq(_v().ledger(_pair()).stockPrincipal, stockPrincipal, "stock principal untouched");
         PairLedger memory l = _v().ledger(_pair());
-        assertGe(l.stockIdle + _v().liquidityAdapter().positionState(_pair()).stockAmount, l.stockPrincipal, "stock side still fully backed");
+        assertGe(
+            l.stockIdle + _v().liquidityAdapter().positionState(_pair()).stockAmount,
+            l.stockPrincipal,
+            "stock side still fully backed"
+        );
     }
 
     function testExitOrderDoesNotChangeTheMixAndRemainingHoldersKeepTheirValue() public {
@@ -148,7 +169,8 @@ abstract contract InKindScenarios is Test {
 
         uint256 rate0 = _um().exchangeRateCurrent();
         vm.prank(bob);
-        (uint256 u1, uint256 s1) = redeemer.redeemInKind{ gas: 15_000_000 }(true, half, 0, 0, vm.getBlockTimestamp());
+        (uint256 u1, uint256 s1) =
+            redeemer.redeemInKind{ gas: 15_000_000 }(true, half, 0, 0, vm.getBlockTimestamp());
         vm.prank(carol);
         uint256 carolShares = _um().balanceOf(carol);
         vm.prank(carol);
@@ -159,7 +181,11 @@ abstract contract InKindScenarios is Test {
         // Explained: rounding on each redeem leaves dust WITH the remaining holders, so the rate may only rise, by at most (raw units of dust x 1e18 / remaining supply).
         assertGe(rateAfter, rate0, "the remaining holders' rate never falls");
         uint256 remainingSupply = _um().totalSupply();
-        assertLe(rateAfter - rate0, 20 * 1e18 / remainingSupply + 1, "and rises only by the rounding dust (20 raw USDG at most)");
+        assertLe(
+            rateAfter - rate0,
+            20 * 1e18 / remainingSupply + 1,
+            "and rises only by the rounding dust (20 raw USDG at most)"
+        );
         (uint256 availA, uint256 prinA) = _usdgGap();
         vm.revertToState(snap);
 
@@ -168,15 +194,26 @@ abstract contract InKindScenarios is Test {
         vm.prank(carol);
         redeemer.redeemInKind{ gas: 15_000_000 }(true, cs, 0, 0, vm.getBlockTimestamp());
         vm.prank(bob);
-        (uint256 u2, uint256 s2) = redeemer.redeemInKind{ gas: 15_000_000 }(true, half, 0, 0, vm.getBlockTimestamp());
+        (uint256 u2, uint256 s2) =
+            redeemer.redeemInKind{ gas: 15_000_000 }(true, half, 0, 0, vm.getBlockTimestamp());
         (uint256 availB, uint256 prinB) = _usdgGap();
         emit log_named_uint("bob USDG, first / second", u1);
         emit log_named_uint("bob USDG if second", u2);
         emit log_named_uint("bob stock, first", s1);
         emit log_named_uint("bob stock if second", s2);
         (uint256 psx,) = _g().pricesUSD18(_pair());
-        assertApproxEqAbs(u1, u2, 4, "own-token part is order-independent to 4 raw units (each exit has two floors and one ceil)");
-        assertApproxEqAbs(s1, s2, 4 * 1e12 * 1e18 / psx + 2, "the other-token part differs only by those USDG units at the oracle price");
+        assertApproxEqAbs(
+            u1,
+            u2,
+            4,
+            "own-token part is order-independent to 4 raw units (each exit has two floors and one ceil)"
+        );
+        assertApproxEqAbs(
+            s1,
+            s2,
+            4 * 1e12 * 1e18 / psx + 2,
+            "the other-token part differs only by those USDG units at the oracle price"
+        );
         assertApproxEqAbs(prinA, prinB, 8, "same remaining principal to rounding");
         assertApproxEqAbs(availA, availB, 8, "same remaining scarce-token balance to rounding");
         assertGe(_sm().exchangeRateCurrent(), alicePs, "the stock side's rate is not charged");
@@ -252,7 +289,11 @@ abstract contract InKindScenarios is Test {
         _us().approve(address(_v()), type(uint256).max);
         uint256 snap = vm.snapshotState();
         vm.prank(address(redeemer));
-        assertGt(x.exchangeSurplus(_pair(), true, 1e6), 0, "control: admitted when fresh and within the bound");
+        assertGt(
+            x.exchangeSurplus(_pair(), true, 1e6),
+            0,
+            "control: admitted when fresh and within the bound"
+        );
         vm.revertToState(snap);
         _poolOnly(1000);
         vm.prank(address(redeemer));
@@ -275,17 +316,27 @@ abstract contract InKindScenarios is Test {
         vm.prank(bob);
         redeemer.redeemInKind{ gas: 15_000_000 }(true, shares, 0, 0, vm.getBlockTimestamp());
         Vm.Log[] memory logs = vm.getRecordedLogs();
-        bytes32 cp = keccak256("PairCheckpoint(bytes32,uint256,uint256,uint256,int256,uint256,uint256)");
+        bytes32 cp =
+            keccak256("PairCheckpoint(bytes32,uint256,uint256,uint256,int256,uint256,uint256)");
         bytes32 tr = keccak256("Transfer(address,address,uint256)");
         uint256 firstCheckpoint = type(uint256).max;
         uint256 sharesTaken = type(uint256).max;
         for (uint256 i; i < logs.length; i++) {
-            if (logs[i].topics[0] == cp && firstCheckpoint == type(uint256).max) firstCheckpoint = i;
-            if (logs[i].topics[0] == tr && logs[i].emitter == address(_um()) && sharesTaken == type(uint256).max
-                && address(uint160(uint256(logs[i].topics[1]))) == bob) sharesTaken = i;
+            if (logs[i].topics[0] == cp && firstCheckpoint == type(uint256).max) {
+                firstCheckpoint = i;
+            }
+            if (
+                logs[i].topics[0] == tr && logs[i].emitter == address(_um())
+                    && sharesTaken == type(uint256).max
+                    && address(uint160(uint256(logs[i].topics[1]))) == bob
+            ) sharesTaken = i;
         }
         assertLt(sharesTaken, type(uint256).max, "shares were taken");
-        assertLt(firstCheckpoint, sharesTaken, "the loss is written down before the share of the deficit is computed");
+        assertLt(
+            firstCheckpoint,
+            sharesTaken,
+            "the loss is written down before the share of the deficit is computed"
+        );
     }
 
     function testRedeemerHoldsNoKeeperPower() public {
@@ -309,10 +360,10 @@ abstract contract InKindScenarios is Test {
     function testExitIsSelfFundedWhenThereIsNoBridge() public {
         _setUpInKind();
         _oneSided();
-        assertEq(redeemer.bridge(), address(0));
         uint256 shares = _um().balanceOf(_bob());
         vm.prank(_bob());
-        (uint256 own, uint256 other) = redeemer.redeemInKind{ gas: 15_000_000 }(true, shares, 0, 0, vm.getBlockTimestamp());
+        (uint256 own, uint256 other) =
+            redeemer.redeemInKind{ gas: 15_000_000 }(true, shares, 0, 0, vm.getBlockTimestamp());
         assertGt(own, 0);
         assertGt(other, 0);
     }
@@ -330,7 +381,8 @@ abstract contract InKindScenarios is Test {
         uint256 slice = total / n;
         uint256 snap = vm.snapshotState();
         vm.prank(bob);
-        (uint256 u1, uint256 s1) = redeemer.redeemInKind{ gas: 15_000_000 }(true, slice * n, 0, 0, vm.getBlockTimestamp());
+        (uint256 u1, uint256 s1) =
+            redeemer.redeemInKind{ gas: 15_000_000 }(true, slice * n, 0, 0, vm.getBlockTimestamp());
         uint256 oneShotUsd = u1 * 1e12 + s1 * ps / 1e18;
         vm.revertToState(snap);
 
@@ -339,7 +391,8 @@ abstract contract InKindScenarios is Test {
         uint256 sumS;
         for (uint256 i; i < n; i++) {
             vm.prank(bob);
-            (uint256 u, uint256 s) = redeemer.redeemInKind{ gas: 15_000_000 }(true, slice, 0, 0, vm.getBlockTimestamp());
+            (uint256 u, uint256 s) =
+                redeemer.redeemInKind{ gas: 15_000_000 }(true, slice, 0, 0, vm.getBlockTimestamp());
             sumU += u;
             sumS += s;
         }
@@ -348,19 +401,31 @@ abstract contract InKindScenarios is Test {
         emit log_named_uint("25 exits, paid (USD 1e18)", splitUsd);
         InKindExtension.Stats memory st = x.inKindStats(_pair());
         assertEq(st.calls, n, "every exchange is counted");
-        assertEq(st.lifetimeUsdgIn * 1e12, st.lifetimeUsd, "lifetime value equals the USDG exchanged");
+        assertEq(
+            st.lifetimeUsdgIn * 1e12, st.lifetimeUsd, "lifetime value equals the USDG exchanged"
+        );
         assertEq(st.lifetimeStockOut, sumS, "lifetime stock out equals what was paid");
         // Splitting cannot beat one exit beyond per-call rounding, which is bounded; dust stays with the remaining holders.
         uint256 perCall = 5e12 + ps / 1e18 + 1;
-        assertLe(splitUsd, oneShotUsd + n * perCall, "splitting earns nothing beyond the bounded rounding");
+        assertLe(
+            splitUsd,
+            oneShotUsd + n * perCall,
+            "splitting earns nothing beyond the bounded rounding"
+        );
         assertGe(splitUsd + n * perCall, oneShotUsd, "and loses only that");
-        assertGe(_um().exchangeRateCurrent() + 1, rate0, "remaining holders are not charged by the repetitions");
+        assertGe(
+            _um().exchangeRateCurrent() + 1,
+            rate0,
+            "remaining holders are not charged by the repetitions"
+        );
         // the daily limit binds across calls: a low limit stops the next exchange even though each call is small
         InKindExtension(address(_v())).setInKindLimit(_pair(), st.usedTodayUsd);
         uint256 carolShares = _um().balanceOf(carol);
         vm.prank(carol);
         vm.expectPartialRevert(InKindExtension.InKindLimitExceeded.selector);
-        redeemer.redeemInKind{ gas: 15_000_000 }(true, carolShares / 10, 0, 0, vm.getBlockTimestamp());
+        redeemer.redeemInKind{ gas: 15_000_000 }(
+            true, carolShares / 10, 0, 0, vm.getBlockTimestamp()
+        );
         // a new UTC day resets it, and only CONFIG_ROLE can set it
         vm.prank(carol);
         vm.expectRevert(InKindExtension.NotConfig.selector);

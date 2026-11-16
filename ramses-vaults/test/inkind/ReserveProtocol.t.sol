@@ -6,7 +6,7 @@ import { LendingFixture } from "../LendingFixture.sol";
 import { PairLedger, PairConfig } from "baseline/src/libraries/VaultTypes.sol";
 import { RamsesBoostedVault } from "../../src/RamsesBoostedVault.sol";
 import { RamsesLossReserve } from "../../src/RamsesLossReserve.sol";
-import { CoverageGuard } from "./CoverageGuard.sol";
+import { CoverageGuard } from "../../src/inkind/CoverageGuard.sol";
 import { InKindRedemptionModel, IDebtView } from "./InKindRedemptionModel.sol";
 
 contract PairDebtView is IDebtView {
@@ -65,7 +65,11 @@ contract ReserveProtocolTest is LendingFixture, LendingFixtureMarkets {
         for (uint256 i; i < logs.length; i++) {
             if (logs[i].topics[0] == sig) {
                 seen = true;
-                assertEq(address(uint160(uint256(logs[i].topics[3]))), seeder, "the seed's funder is the operator address");
+                assertEq(
+                    address(uint160(uint256(logs[i].topics[3]))),
+                    seeder,
+                    "the seed's funder is the operator address"
+                );
                 assertEq(abi.decode(logs[i].data, (uint256)), 50e6);
             }
         }
@@ -79,7 +83,11 @@ contract ReserveProtocolTest is LendingFixture, LendingFixtureMarkets {
         uint256 fromVault;
         for (uint256 i; i < logs.length; i++) {
             if (logs[i].topics[0] == sig) {
-                assertEq(address(uint160(uint256(logs[i].topics[3]))), address(vault), "retained earnings: funder is the vault");
+                assertEq(
+                    address(uint160(uint256(logs[i].topics[3]))),
+                    address(vault),
+                    "retained earnings: funder is the vault"
+                );
                 fromVault++;
             }
         }
@@ -87,13 +95,26 @@ contract ReserveProtocolTest is LendingFixture, LendingFixtureMarkets {
         // a plain transfer is NOT reserve protection: it is surplus, invisible to `available`
         uint256 availBefore = reserve.available(PAIR, address(usdg));
         usdg.mint(address(reserve), 7e6);
-        assertEq(reserve.available(PAIR, address(usdg)), availBefore, "an unrecorded transfer does not count as protection");
-        assertEq(IERC20Like(address(usdg)).balanceOf(address(reserve)) - reserve.accountedBalance(address(usdg)), 7e6, "it is visible as surplus");
+        assertEq(
+            reserve.available(PAIR, address(usdg)),
+            availBefore,
+            "an unrecorded transfer does not count as protection"
+        );
+        assertEq(
+            IERC20Like(address(usdg)).balanceOf(address(reserve))
+                - reserve.accountedBalance(address(usdg)),
+            7e6,
+            "it is visible as surplus"
+        );
         // supplier deposits never enter the reserve
         uint256 before_ = reserve.accountedBalance(address(usdg));
         vm.prank(bob);
         uMarket.mint(10e6);
-        assertEq(reserve.accountedBalance(address(usdg)), before_, "ordinary supplier deposits are not reserve funding");
+        assertEq(
+            reserve.accountedBalance(address(usdg)),
+            before_,
+            "ordinary supplier deposits are not reserve funding"
+        );
         // the seed cannot be withdrawn while the reserve is active (the admin can only take funds from a PAUSED reserve; seed and retained are fungible)
         vm.expectRevert(RamsesLossReserve.PairMustBePaused.selector);
         reserve.withdrawPausedReserve(PAIR, address(usdg), address(this), 1);
@@ -122,7 +143,10 @@ contract ReserveProtocolTest is LendingFixture, LendingFixtureMarkets {
         assertFalse(vault.pairConfig(PAIR).allocationPaused);
         assertGt(gate.headroomUsd(), 0, "the reserve supports some more liquidity");
         assertTrue(gate.allowedAfter(gate.headroomUsd() / 2));
-        assertFalse(gate.allowedAfter(gate.headroomUsd() + 1e18), "more than the headroom would leave the exposure uncovered");
+        assertFalse(
+            gate.allowedAfter(gate.headroomUsd() + 1e18),
+            "more than the headroom would leave the exposure uncovered"
+        );
     }
 
     function testDepletedReserveRestrictsNewRiskOnlyAndTheGuardCanNeverUnpause() public {
@@ -131,13 +155,20 @@ contract ReserveProtocolTest is LendingFixture, LendingFixtureMarkets {
         _seedReserve(50e6, 0.5e18);
         // deplete: the reserve is paused and the admin withdraws it (the same effect as repeated cover() payouts)
         reserve.setPaused(PAIR, true);
-        reserve.withdrawPausedReserve(PAIR, address(usdg), address(this), reserve.available(PAIR, address(usdg)));
-        reserve.withdrawPausedReserve(PAIR, address(stock), address(this), reserve.available(PAIR, address(stock)));
+        reserve.withdrawPausedReserve(
+            PAIR, address(usdg), address(this), reserve.available(PAIR, address(usdg))
+        );
+        reserve.withdrawPausedReserve(
+            PAIR, address(stock), address(this), reserve.available(PAIR, address(stock))
+        );
         reserve.setPaused(PAIR, false);
         assertFalse(gate.allowedAfter(0), "uncovered");
         assertTrue(gate.enforce(), "enforce() pauses");
         PairConfig memory c = vault.pairConfig(PAIR);
-        assertTrue(c.allocationPaused && c.swapsPaused && !c.emergencyMode, "allocation and swaps paused, nothing else changed");
+        assertTrue(
+            c.allocationPaused && c.swapsPaused && !c.emergencyMode,
+            "allocation and swaps paused, nothing else changed"
+        );
         assertTrue(gate.enforce(), "idempotent");
 
         // new risk is blocked on every path...
@@ -180,17 +211,27 @@ contract ReserveProtocolTest is LendingFixture, LendingFixtureMarkets {
         vm.warp(vm.getBlockTimestamp() + 13 hours); // feed older than 12 h; reserve empty
         vm.expectRevert();
         gate.enforce();
-        assertFalse(vault.pairConfig(PAIR).allocationPaused, "no sticky pause can be forced during staleness");
+        assertFalse(
+            vault.pairConfig(PAIR).allocationPaused,
+            "no sticky pause can be forced during staleness"
+        );
     }
 
     // ------------------------------------------------------------------ 3. in-kind redemption
-    function _modelFromTheRealVault() internal returns (InKindRedemptionModel m, InKindRedemptionModel.State memory st) {
+    function _modelFromTheRealVault()
+        internal
+        returns (InKindRedemptionModel m, InKindRedemptionModel.State memory st)
+    {
         PairLedger memory l = vault.ledger(PAIR);
         uint160 ref = guard.referenceSqrtPriceX96(PAIR, false);
         (uint256 tokenId,, uint256 sAmt, uint256 uAmt) = _pos(ref);
         tokenId;
-        st = InKindRedemptionModel.State(l.stockPrincipal, l.usdgPrincipal, l.stockIdle + sAmt, l.usdgIdle + uAmt);
-        m = new InKindRedemptionModel(guard, PAIR, new PairDebtView(LendingFixtureMarkets(address(this))));
+        st = InKindRedemptionModel.State(
+            l.stockPrincipal, l.usdgPrincipal, l.stockIdle + sAmt, l.usdgIdle + uAmt
+        );
+        m = new InKindRedemptionModel(
+            guard, PAIR, new PairDebtView(LendingFixtureMarkets(address(this)))
+        );
         m.load(st);
     }
 
@@ -200,7 +241,8 @@ contract ReserveProtocolTest is LendingFixture, LendingFixtureMarkets {
     }
 
     function adapterState(uint160 ref) internal view returns (uint256, uint128, uint256, uint256) {
-        (bool ok, bytes memory ret) = address(adapter).staticcall(abi.encodeWithSignature("positionStateAt(bytes32,uint160)", PAIR, ref));
+        (bool ok, bytes memory ret) = address(adapter)
+            .staticcall(abi.encodeWithSignature("positionStateAt(bytes32,uint160)", PAIR, ref));
         require(ok);
         return abi.decode(ret, (uint256, uint128, uint256, uint256));
     }
@@ -220,13 +262,20 @@ contract ReserveProtocolTest is LendingFixture, LendingFixtureMarkets {
         emit log_named_uint("stock surplus (USD 1e18)", surplusUsd);
         emit log_named_uint("USDG deficit (USD 1e18)", deficitUsd);
         // the premise of the rule, measured on the real contracts: after the pro-rata write-down the surplus value equals the deficit
-        assertApproxEqRel(surplusUsd, deficitUsd, 0.001e18, "surplus value equals the scarce side's deficit");
+        assertApproxEqRel(
+            surplusUsd, deficitUsd, 0.001e18, "surplus value equals the scarce side's deficit"
+        );
         // the whole USDG side leaves in kind
         (uint256 usdgOut, uint256 stockOut) = m.redeemInKind(bob, true, st.usdgPrincipal);
         emit log_named_uint("USDG paid", usdgOut);
         emit log_named_uint("stock paid (wei)", stockOut);
         assertEq(usdgOut, st.usdgAssets, "all the USDG the pair holds");
-        assertApproxEqRel(usdgOut * 1e12 + stockOut * ps / 1e18, st.usdgPrincipal * 1e12, 1e12, "paid exactly the claim at the oracle price (rounding down only)");
+        assertApproxEqRel(
+            usdgOut * 1e12 + stockOut * ps / 1e18,
+            st.usdgPrincipal * 1e12,
+            1e12,
+            "paid exactly the claim at the oracle price (rounding down only)"
+        );
         (,, uint256 sa, uint256 ua) = m.s();
         assertGe(sa, st.stockPrincipal, "the stock side's own claim is still fully covered");
         assertEq(ua, 0);
@@ -254,7 +303,11 @@ contract ReserveProtocolTest is LendingFixture, LendingFixtureMarkets {
     }
 
     // ------------------------------------------------------------------ properties of the rule (fuzzed)
-    function _state(uint256 pu, uint256 deltaBps, uint256 psUsd, uint256 pStock) internal pure returns (InKindRedemptionModel.State memory st, uint256 ps) {
+    function _state(uint256 pu, uint256 deltaBps, uint256 psUsd, uint256 pStock)
+        internal
+        pure
+        returns (InKindRedemptionModel.State memory st, uint256 ps)
+    {
         pu = bound(pu, 1e6, 1e12);
         deltaBps = bound(deltaBps, 0, 9_999);
         ps = bound(psUsd, 1e18, 5e21) / 1e10 * 1e10; // the 8-decimal feed cannot carry finer prices: use exactly what the guard will return
@@ -264,13 +317,24 @@ contract ReserveProtocolTest is LendingFixture, LendingFixtureMarkets {
         st = InKindRedemptionModel.State(pStock, pu, pStock + surplusUnits, au);
     }
 
-    function _modelAt(InKindRedemptionModel.State memory st, uint256 ps) internal returns (InKindRedemptionModel m) {
+    function _modelAt(InKindRedemptionModel.State memory st, uint256 ps)
+        internal
+        returns (InKindRedemptionModel m)
+    {
         feed.set(int256(ps / 1e10));
-        m = new InKindRedemptionModel(guard, PAIR, new PairDebtView(LendingFixtureMarkets(address(this))));
+        m = new InKindRedemptionModel(
+            guard, PAIR, new PairDebtView(LendingFixtureMarkets(address(this)))
+        );
         m.load(st);
     }
 
-    function testFuzzTheMixDoesNotDependOnTheOrderOfExits(uint256 pu, uint256 delta, uint256 psUsd, uint256 pStock, uint256 split) public {
+    function testFuzzTheMixDoesNotDependOnTheOrderOfExits(
+        uint256 pu,
+        uint256 delta,
+        uint256 psUsd,
+        uint256 pStock,
+        uint256 split
+    ) public {
         (InKindRedemptionModel.State memory st, uint256 ps) = _state(pu, delta, psUsd, pStock);
         split = bound(split, 1, st.usdgPrincipal - 1);
         InKindRedemptionModel a = _modelAt(st, ps);
@@ -282,52 +346,95 @@ contract ReserveProtocolTest is LendingFixture, LendingFixtureMarkets {
         // the same claim gets the same mix whichever order: within one unit of rounding of the claim
         assertApproxEqAbs(u1, u4, 2, "USDG part of the same claim");
         assertApproxEqAbs(u2, u3, 2, "USDG part of the other claim");
-        assertApproxEqAbs(s1, s4, 2 * 1e12 * 1e18 / ps + 2, "stock part of the same claim: only the one-unit USDG rounding can differ");
+        assertApproxEqAbs(
+            s1,
+            s4,
+            2 * 1e12 * 1e18 / ps + 2,
+            "stock part of the same claim: only the one-unit USDG rounding can differ"
+        );
         assertApproxEqAbs(s2, s3, 2 * 1e12 * 1e18 / ps + 2, "and of the other claim");
     }
 
-    function testFuzzConservationAndRemainingHoldersAreNotCharged(uint256 pu, uint256 delta, uint256 psUsd, uint256 pStock, uint256 take) public {
+    function testFuzzConservationAndRemainingHoldersAreNotCharged(
+        uint256 pu,
+        uint256 delta,
+        uint256 psUsd,
+        uint256 pStock,
+        uint256 take
+    ) public {
         (InKindRedemptionModel.State memory st, uint256 ps) = _state(pu, delta, psUsd, pStock);
         take = bound(take, 1, st.usdgPrincipal);
         InKindRedemptionModel m = _modelAt(st, ps);
         (uint256 uOut, uint256 sOut) = m.redeemInKind(bob, true, take);
         // never pays more than the claim at the oracle price
-        assertLe(uOut * 1e12 + sOut * ps / 1e18, take * 1e12, "rounding favours the remaining holders");
+        assertLe(
+            uOut * 1e12 + sOut * ps / 1e18, take * 1e12, "rounding favours the remaining holders"
+        );
         // within rounding it pays the claim
-        assertGe(uOut * 1e12 + sOut * ps / 1e18 + ps / 1e18 + 1e12, take * 1e12, "and not materially less");
+        assertGe(
+            uOut * 1e12 + sOut * ps / 1e18 + ps / 1e18 + 1e12,
+            take * 1e12,
+            "and not materially less"
+        );
         (uint256 Ps, uint256 Pu, uint256 As, uint256 Au) = _read(m);
         assertGe(As, Ps, "the stock side's claim stays covered");
         assertEq(Ps, st.stockPrincipal, "stock principal untouched");
         // remaining USDG holders keep the same assets-to-principal ratio (cross-multiplied, one unit of rounding)
-        if (Pu > 0) assertApproxEqAbs(Au * st.usdgPrincipal, st.usdgAssets * Pu, st.usdgPrincipal + Pu + 1, "same share of the deficit");
+        if (Pu > 0) {
+            assertApproxEqAbs(
+                Au * st.usdgPrincipal,
+                st.usdgAssets * Pu,
+                st.usdgPrincipal + Pu + 1,
+                "same share of the deficit"
+            );
+        }
     }
 
-
     /// @dev The mirror case: the stock price ROSE, the STOCK is scarce and the USDG side holds the surplus.
-    function testFuzzStockSideMirror(uint256 pStock, uint256 delta, uint256 psUsd, uint256 pu, uint256 take) public {
+    function testFuzzStockSideMirror(
+        uint256 pStock,
+        uint256 delta,
+        uint256 psUsd,
+        uint256 pu,
+        uint256 take
+    ) public {
         pStock = bound(pStock, 1e15, 1e21);
         delta = bound(delta, 0, 9_999);
         uint256 ps = bound(psUsd, 1e18, 5e21) / 1e10 * 1e10;
         pu = bound(pu, 1e6, 1e12);
         uint256 as_ = pStock - pStock * delta / 10_000;
         uint256 surplusUsdg = ((pStock - as_) * ps / 1e18) / 1e12; // floor: the surplus never overstates the deficit
-        InKindRedemptionModel.State memory st = InKindRedemptionModel.State(pStock, pu, as_, pu + surplusUsdg);
+        InKindRedemptionModel.State memory st =
+            InKindRedemptionModel.State(pStock, pu, as_, pu + surplusUsdg);
         take = bound(take, 1, pStock);
         InKindRedemptionModel m = _modelAt(st, ps);
         (uint256 uOut, uint256 sOut) = m.redeemInKind(bob, false, take);
-        assertLe(uOut * 1e12 + sOut * ps / 1e18, take * ps / 1e18 + 1, "never more than the claim at the oracle price");
+        assertLe(
+            uOut * 1e12 + sOut * ps / 1e18,
+            take * ps / 1e18 + 1,
+            "never more than the claim at the oracle price"
+        );
         (uint256 Ps, uint256 Pu, uint256 As, uint256 Au) = _read(m);
         assertGe(Au, Pu, "the USDG side's own claim stays covered");
         assertEq(Pu, st.usdgPrincipal, "USDG principal untouched");
-        if (Ps > 0) assertApproxEqAbs(As * st.stockPrincipal, st.stockAssets * Ps, st.stockPrincipal + Ps + 1, "same share of the deficit");
+        if (Ps > 0) {
+            assertApproxEqAbs(
+                As * st.stockPrincipal,
+                st.stockAssets * Ps,
+                st.stockPrincipal + Ps + 1,
+                "same share of the deficit"
+            );
+        }
     }
-
 
     function testBothTokensMustBeCoveredNotEither() public {
         supply();
         recenter();
         _seedReserve(500e6, 0); // plenty of USDG, no stock token at all
-        assertFalse(gate.allowedAfter(0), "USDG alone is not enough: a price rise leaves the stock token scarce");
+        assertFalse(
+            gate.allowedAfter(0),
+            "USDG alone is not enough: a price rise leaves the stock token scarce"
+        );
         assertTrue(gate.enforce());
         vault.setPairPause(PAIR, false, false, false);
         _seedReserve(0, 5e18); // now plenty of stock token but remove USDG coverage by using a fresh pair state
@@ -348,7 +455,8 @@ contract ReserveProtocolTest is LendingFixture, LendingFixtureMarkets {
     }
 
     function testOneSidedInventoryPaysEntirelyInTheOtherToken() public {
-        InKindRedemptionModel.State memory st = InKindRedemptionModel.State(1e18, 100e6, 1e18 + 1e18, 0); // all the USDG is gone; 1 stock of surplus at $100
+        InKindRedemptionModel.State memory st =
+            InKindRedemptionModel.State(1e18, 100e6, 1e18 + 1e18, 0); // all the USDG is gone; 1 stock of surplus at $100
         InKindRedemptionModel m = _modelAt(st, 100e18);
         (uint256 u, uint256 s) = m.redeemInKind(bob, true, 100e6);
         assertEq(u, 0);
@@ -369,14 +477,19 @@ contract ReserveProtocolTest is LendingFixture, LendingFixtureMarkets {
     }
 
     function testNoDeficitMeansNoMixing() public {
-        InKindRedemptionModel.State memory st = InKindRedemptionModel.State(1e18, 100e6, 1e18, 100e6);
+        InKindRedemptionModel.State memory st =
+            InKindRedemptionModel.State(1e18, 100e6, 1e18, 100e6);
         InKindRedemptionModel m = _modelAt(st, 100e18);
         (uint256 u, uint256 s) = m.redeemInKind(bob, true, 40e6);
         assertEq(u, 40e6);
         assertEq(s, 0, "fully covered claims are paid in their own token");
     }
 
-    function _read(InKindRedemptionModel m) internal view returns (uint256 ps, uint256 pu, uint256 as_, uint256 au) {
+    function _read(InKindRedemptionModel m)
+        internal
+        view
+        returns (uint256 ps, uint256 pu, uint256 as_, uint256 au)
+    {
         (ps, pu, as_, au) = m.s();
     }
 

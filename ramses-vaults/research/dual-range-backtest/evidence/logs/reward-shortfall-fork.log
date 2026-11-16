@@ -1,0 +1,76 @@
+pin 107558030 26355640
+No files changed, compilation skipped
+warning: invalid natspec tag '@member', custom tags must use format '@custom:name'
+112 │ ┏     /**
+113 │ ┃      * @notice Container for borrow balance information
+114 │ ┃      * @member principal Total balance (with accrued interest), after applying the most recent balance-changing action
+115 │ ┃      * @member interestIndex Global borrowIndex as of the most recent balance-changing action
+116 │ ┃      */
+[2m2026-11-06T12:08:20.961477Z[0m [31mERROR[0m [2msharedbackend[0m[2m:[0m Failed to send/recv `storage` [3merr[0m[2m=[0mfailed to get storage for 0x93c6A733FB3165D94774B3A5Fc4319D29bd7b6ce at 113840131848904610228928916375004698274216464768748617520113730670409591172471: server returned an error response: error code -32000: historical state d7147069b3a6a4a3eb167d6e39ac5708df91ee6a85aa5cafe6f9ca1555be4f1c is not available [3maddress[0m[2m=[0m0x93c6A733FB3165D94774B3A5Fc4319D29bd7b6ce [3mindex[0m[2m=[0m113840131848904610228928916375004698274216464768748617520113730670409591172471
+[2m2026-11-06T12:08:20.961481Z[0m [31mERROR[0m [2msharedbackend[0m[2m:[0m Failed to send/recv `storage` [3merr[0m[2m=[0mfailed to get storage for 0x739E31798EFE8Cff3ef4c613D8ae751e179C7337 at 52126102972868135464101324385660693677071588602828201372819787276758112057391: server returned an error response: error code -32000: historical state d7147069b3a6a4a3eb167d6e39ac5708df91ee6a85aa5cafe6f9ca1555be4f1c is not available [3maddress[0m[2m=[0m0x739E31798EFE8Cff3ef4c613D8ae751e179C7337 [3mindex[0m[2m=[0m52126102972868135464101324385660693677071588602828201372819787276758112057391
+Ran 5 tests for ramses-vaults/test/fork/RewardShortfallFork.t.sol:NvdaRewardShortfallForkTest
+[PASS] testCeilingRefusesAboveAndAcceptsBelow() (gas: 1379756)
+Logs:
+  1-day shortfall bps: 0
+[PASS] testForfeitureOffStillRejectsAnyShortfall() (gas: 1377739)
+[FAIL: EVM error; database error: failed to get storage for 0x93c6A733FB3165D94774B3A5Fc4319D29bd7b6ce at 113840131848904610228928916375004698274216464768748617520113730670409591172471: server returned an error response: error code -32000: historical state d7147069b3a6a4a3eb167d6e39ac5708df91ee6a85aa5cafe6f9ca1555be4f1c is not available] testMeasureUnderpaymentAcrossWaits() (gas: 0)
+[PASS] testRecentreBelowCeilingProceedsAndBooks() (gas: 3565884)
+Logs:
+  recentre ok: 1
+  shortfall events in the recentre: 0
+[PASS] testTreasurySliceAfterRecenterThenRebalance() (gas: 2909708)
+Logs:
+  SLICE,earned=4273316638236475,expected=4375887840591609,received=4273316638236475,gaugePaid=4375887840591609,booked=102571202355134,bookedBps=234,harvestOk=1
+Suite result: FAILED. 4 passed; 1 failed; 0 skipped; finished in 424.07ms (236.68ms CPU time)
+Ran 5 tests for ramses-vaults/test/fork/RewardShortfallFork.t.sol:SpyRewardShortfallForkTest
+[PASS] testCeilingRefusesAboveAndAcceptsBelow() (gas: 1394344)
+Logs:
+  1-day shortfall bps: 0
+[PASS] testForfeitureOffStillRejectsAnyShortfall() (gas: 1392327)
+[FAIL: EVM error; database error: failed to get storage for 0x739E31798EFE8Cff3ef4c613D8ae751e179C7337 at 52126102972868135464101324385660693677071588602828201372819787276758112057391: server returned an error response: error code -32000: historical state d7147069b3a6a4a3eb167d6e39ac5708df91ee6a85aa5cafe6f9ca1555be4f1c is not available] testMeasureUnderpaymentAcrossWaits() (gas: 0)
+[PASS] testRecentreBelowCeilingProceedsAndBooks() (gas: 4447036)
+Logs:
+  recentre ok: 1
+  shortfall events in the recentre: 0
+[PASS] testTreasurySliceAfterRecenterThenRebalance() (gas: 2913137)
+Logs:
+  SLICE,earned=1101613024976761,expected=1125619334519001,received=1101613024976761,gaugePaid=1125619334519001,booked=24006309542240,bookedBps=213,harvestOk=1
+Suite result: FAILED. 4 passed; 1 failed; 0 skipped; finished in 423.84ms (246.32ms CPU time)
+Ran 2 test suites in 439.37ms (847.91ms CPU time): 8 tests passed, 2 failed, 0 skipped (10 total tests)
+Failing tests:
+Encountered 1 failing test in ramses-vaults/test/fork/RewardShortfallFork.t.sol:NvdaRewardShortfallForkTest
+[FAIL: EVM error; database error: failed to get storage for 0x93c6A733FB3165D94774B3A5Fc4319D29bd7b6ce at 113840131848904610228928916375004698274216464768748617520113730670409591172471: server returned an error response: error code -32000: historical state d7147069b3a6a4a3eb167d6e39ac5708df91ee6a85aa5cafe6f9ca1555be4f1c is not available] testMeasureUnderpaymentAcrossWaits() (gas: 0)
+Encountered 1 failing test in ramses-vaults/test/fork/RewardShortfallFork.t.sol:SpyRewardShortfallForkTest
+[FAIL: EVM error; database error: failed to get storage for 0x739E31798EFE8Cff3ef4c613D8ae751e179C7337 at 52126102972868135464101324385660693677071588602828201372819787276758112057391: server returned an error response: error code -32000: historical state d7147069b3a6a4a3eb167d6e39ac5708df91ee6a85aa5cafe6f9ca1555be4f1c is not available] testMeasureUnderpaymentAcrossWaits() (gas: 0)
+Encountered a total of 2 failing tests, 8 tests succeeded
+Tip: Run `forge test --rerun` to retry only the 2 failed tests
+pin 107566558 26355712 (grid rerun: the first pin's history was pruned mid-run)
+Ran 1 test for ramses-vaults/test/fork/RewardShortfallFork.t.sol:NvdaRewardShortfallForkTest
+[PASS] testMeasureUnderpaymentAcrossWaits() (gas: 15083036)
+  GRID,waitSeconds=0,earned=0,expected=0,received=0,shortfall=0,shortfallBps=0,harvestOk=1
+  GRID,waitSeconds=30,earned=618007630476211,expected=618007630476211,received=0,shortfall=618007630476211,shortfallBps=10000,harvestOk=1
+  GRID,waitSeconds=60,earned=1236015260952423,expected=1236015260952423,received=0,shortfall=1236015260952423,shortfallBps=10000,harvestOk=1
+  GRID,waitSeconds=99,earned=2039425180571498,expected=2039425180571498,received=0,shortfall=2039425180571498,shortfallBps=10000,harvestOk=1
+  GRID,waitSeconds=100,earned=2060025434920705,expected=2060025434920705,received=2060025434920705,shortfall=0,shortfallBps=0,harvestOk=1
+  GRID,waitSeconds=200,earned=4120050869841410,expected=4120050869841410,received=4120050869841410,shortfall=0,shortfallBps=0,harvestOk=1
+  GRID,waitSeconds=600,earned=12360152609524230,expected=12360152609524230,received=12360152609524230,shortfall=0,shortfallBps=0,harvestOk=1
+  GRID,waitSeconds=1800,earned=37080457828572691,expected=37080457828572691,received=37080457828572691,shortfall=0,shortfallBps=0,harvestOk=1
+  GRID,waitSeconds=3600,earned=74160915657145382,expected=74160915657145382,received=74160915657145382,shortfall=0,shortfallBps=0,harvestOk=1
+  GRID,waitSeconds=86400,earned=1779861975771489188,expected=1779861975771489188,received=1779861975771489188,shortfall=0,shortfallBps=0,harvestOk=1
+  GRID,waitSeconds=604800,earned=9778631735753348903,expected=9778631735753348903,received=9778631735753348903,shortfall=0,shortfallBps=0,harvestOk=1
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 34.02s (12.92s CPU time)
+Ran 1 test for ramses-vaults/test/fork/RewardShortfallFork.t.sol:SpyRewardShortfallForkTest
+[PASS] testMeasureUnderpaymentAcrossWaits() (gas: 15080220)
+  GRID,waitSeconds=0,earned=0,expected=0,received=0,shortfall=0,shortfallBps=0,harvestOk=1
+  GRID,waitSeconds=30,earned=144037857253441,expected=144037857253441,received=0,shortfall=144037857253441,shortfallBps=10000,harvestOk=1
+  GRID,waitSeconds=60,earned=288075714506882,expected=288075714506882,received=0,shortfall=288075714506882,shortfallBps=10000,harvestOk=1
+  GRID,waitSeconds=99,earned=475324928936356,expected=475324928936356,received=0,shortfall=475324928936356,shortfallBps=10000,harvestOk=1
+  GRID,waitSeconds=100,earned=480126190844804,expected=480126190844804,received=480126190844804,shortfall=0,shortfallBps=0,harvestOk=1
+  GRID,waitSeconds=200,earned=960252381689609,expected=960252381689609,received=960252381689609,shortfall=0,shortfallBps=0,harvestOk=1
+  GRID,waitSeconds=600,earned=2880757145068828,expected=2880757145068828,received=2880757145068828,shortfall=0,shortfallBps=0,harvestOk=1
+  GRID,waitSeconds=1800,earned=8642271435206485,expected=8642271435206485,received=8642271435206485,shortfall=0,shortfallBps=0,harvestOk=1
+  GRID,waitSeconds=3600,earned=17284542870412971,expected=17284542870412971,received=17284542870412971,shortfall=0,shortfallBps=0,harvestOk=1
+  GRID,waitSeconds=86400,earned=414829028889911322,expected=414829028889911322,received=414829028889911322,shortfall=0,shortfallBps=0,harvestOk=1
+  GRID,waitSeconds=604800,earned=2279087009011661529,expected=2279087009011661529,received=2279087009011661529,shortfall=0,shortfallBps=0,harvestOk=1
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 34.13s (13.03s CPU time)
+Ran 2 test suites in 34.15s (68.14s CPU time): 2 tests passed, 0 failed, 0 skipped (2 total tests)

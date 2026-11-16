@@ -117,6 +117,11 @@ contract LiveRecoveryForkTest is Test {
     int256 answer0;
 
     function setUp() public {
+        // RETIRED 2026-11-06. This rehearsal assumes the pre-incident operators: the old governor GOV and keeper 0x978e.
+        // Both lost every role in the 2026-11-05 handover to the Ledger, so the suite can no longer run against live
+        // state. The same recovery, signed by the Ledger, is covered by SequentialRecoveryLedger.t.sol on PR 20
+        // (ops/solvency-sequential). Kept for its recorded evidence; never point it at a different signer.
+        vm.skip(true);
         vm.createSelectFork(vm.envString("ROBINHOOD_RPC_URL"), vm.envUint("REMEDIATION_FORK_BLOCK"));
         vm.roll(vm.envUint("REMEDIATION_NATIVE_BLOCK"));
         assertEq(block.chainid, 4663);

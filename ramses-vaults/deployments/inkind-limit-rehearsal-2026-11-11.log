@@ -1,0 +1,20 @@
+fork block 111848232
+== cleanday
+  FAIL keeper live for 9.1 h (a clean day needs >= 24 h)
+  ok   last checkpoint age 10662 s (harvest checkpoints every 6 h; expect <= 25,200)
+  ok   cumulative loss since launch 0.000186 USD (expect < $0.01)
+  ok   reward shortfall booked 0 RAM raw (expect 0)
+  ok   coverage status 0, headroom $2.02 (0 = covered)
+  ok   pause flags 000 (allocation open, swaps per config, no emergency: expect 0x0 or 000)
+  ok   keeper 0x9eaF3552449c26b95a55CcDc363258345DEA031E: 3 txs, 0.00292 ETH (>= 0.0005)
+NOT CLEAN: do not schedule; send me this output
+  in-kind limit now: 0 (expect 0 before the pair)
+  operation 0xe2c752a2b8d89bbd22be84f35315e7cf779b138886f9cfbea57442fd75b8966e pending=false done=false
+== schedule
+   tx 0xf62a5f05ff1b63c973bb5533f6ae7cdccae076728f8105e649e279c7e6058e1b status 0x1 gas 56826
+operation 0xe2c752a2b8d89bbd22be84f35315e7cf779b138886f9cfbea57442fd75b8966e pending=true; executable from 17:43 UTC
+  early execute: STOPPED: operation is not ready yet
+  direct setInKindLimit from the Ledger (not CONFIG): reverted: custom error 0x037816cf, data: "0x037816cf"
+== execute
+   tx 0xd9a402749ea5e225976b56dc0f338651301d15d0993fe2154229e12f8a596d7e status 0x1 gas 82951
+verified: in-kind limit 250 USD per UTC day (250000000000000000000); used today 0
