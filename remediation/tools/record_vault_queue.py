@@ -4,6 +4,7 @@ from pathlib import Path
 from datetime import datetime,timezone
 from zoneinfo import ZoneInfo
 from state import ROOT,GOVERNOR,CONTROLLER,MARKETS,call,cast,rpc,save
+from evidence_dir import EVIDENCE
 from vault_state import PAIRS
 sys.path.insert(0,str(ROOT/'contracts/robinhood-vaults/margin-mainnet/tools'))
 from rpc import rpc
@@ -66,7 +67,7 @@ def main():
     if not int(call(CONTROLLER,'seizeGuardianPaused()',block=tag),16): raise RuntimeError('Seizure not paused')
     if rpc('eth_getBlockByNumber',[tag,False])['hash']!=block['hash']: raise RuntimeError('Evidence block changed')
     report={'status':'DEPLOYED_AND_QUEUED_NOT_ACTIVATED','chainId':4663,'block':int(tag,16),'blockHash':block['hash'],'timestamp':int(block['timestamp'],16),'candidate':candidate,'runtimeHash':cast('keccak',code),'runtimeMatchesReviewedArtifact':True,'currentImplementation':implementation,'proxyAdmin':ADMIN,'timelock':TIMELOCK,'operationId':operation,'payload':payload,'salt':salt,'minDelaySeconds':delay,'readyAtTimestamp':eta,'readyAtUTC':datetime.fromtimestamp(eta,timezone.utc).isoformat(),'readyAtNewYork':datetime.fromtimestamp(eta,ZoneInfo('America/New_York')).isoformat(),'isReady':ready,'remainingSeconds':max(0,eta-int(block['timestamp'],16)),'containment':{'bothSupplyPaused':True,'bothBorrowPaused':True,'ordinarySeizePaused':True,'allocationPaused':True,'settlementSwapsPaused':True,'emergencyMode':False,'bothTotalBorrowsZero':True},'preExecutionLedgersRaw':ledgers,'transactions':records}
-    save(ROOT/'remediation/evidence/vault-upgrade-queue.json',report)
+    save(EVIDENCE / 'vault-upgrade-queue.json',report)
     print(json.dumps({k:v for k,v in report.items() if k not in ['transactions','preExecutionLedgersRaw','payload']},indent=2))
 
 

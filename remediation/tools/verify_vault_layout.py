@@ -1,6 +1,7 @@
 """Compare complete vault storage type topology and public ABI, ignoring compiler AST IDs."""
 import json
 from state import ROOT, save
+from evidence_dir import EVIDENCE
 
 
 def canonical_layout(layout):
@@ -37,7 +38,7 @@ def main():
     report = {'status': 'MATCH', 'storage': new_layout, 'abiUnchanged': True,
               'runtimeBytes': len(new['deployedBytecode']['object'].removeprefix('0x')) // 2,
               'scope': 'Every declared field/gap, nested struct member, slot/offset/type and public ABI. Inherited OpenZeppelin namespace implementations are unchanged imports.'}
-    save(ROOT / 'remediation/evidence/vault-layout.json', report)
+    save(EVIDENCE / 'vault-layout.json', report)
     print('Vault fields, gaps, nested types and ABI unchanged. Runtime:', report['runtimeBytes'], 'bytes.')
 
 

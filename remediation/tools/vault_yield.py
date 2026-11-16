@@ -26,9 +26,10 @@ import subprocess
 import sys
 import time
 from pathlib import Path
+from evidence_dir import EVIDENCE
 
 ROOT = Path(__file__).resolve().parents[2]
-OUT = ROOT / 'remediation/evidence/vault-yield'
+OUT = EVIDENCE / 'vault-yield'
 RPC = 'https://rpc.mainnet.chain.robinhood.com'
 VAULT = '0x280825b2d856706Ff7E0d6351CcB2e935E1a9A2f'
 ADAPTER = '0xadA73211711e4790bc83B5d6B39f47fE04D276f3'
@@ -171,7 +172,8 @@ def report():
     snap_file = OUT / 'snapshots.jsonl'
     snaps = [json.loads(line) for line in snap_file.read_text().splitlines()] if snap_file.exists() else []
     if not snaps:
-        raise SystemExit('No snapshots yet. Run `snapshot` first (and then on a schedule).')
+        raise SystemExit(f'No snapshots in {OUT}. Run `snapshot` first (and then on a schedule), or copy vault-yield/ '
+                         'from evidence set vault-yield-2026-10 into PERIDOT_EVIDENCE_DIR.')
     events_file = OUT / 'events.json'
     events = json.loads(events_file.read_text()) if events_file.exists() else []
     latest = snaps[-1]

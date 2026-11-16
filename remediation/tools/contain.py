@@ -8,10 +8,11 @@ import sys
 import time
 
 from state import ROOT, GOVERNOR, CONTROLLER, MARKETS, call, cast, read_state, save
+from evidence_dir import EVIDENCE, require_explicit, writable
 sys.path.insert(0, str(ROOT / 'contracts/robinhood-vaults/margin-mainnet/tools'))
 from rpc import rpc, RPC
 
-RECORD = ROOT / 'remediation/evidence/containment-transactions.json'
+RECORD = EVIDENCE / 'containment-transactions.json'
 
 
 def plan():
@@ -59,10 +60,11 @@ def main():
         return
     if not sys.stdin.isatty():
         raise RuntimeError('Run --broadcast yourself in a terminal; Foundry prompts locally')
+    require_explicit('Containment --broadcast')
     # Share the original workspace's governor lock with its deployment runners.
     lock_path = ROOT.parent / 'deployments/.robinhood-deployer-signing.lock'
     if not lock_path.parent.is_dir():
-        lock_path = ROOT / 'remediation/evidence/.governor-signing.lock'
+        lock_path = writable(EVIDENCE / '.governor-signing.lock')
     with lock_path.open('a') as lock:
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
         record = json.loads(RECORD.read_text()) if RECORD.exists() else {'chainId': 4663, 'transactions': []}
@@ -97,7 +99,7 @@ def main():
         final = read_state()
         if not final['seizePaused'] or not all(m['borrowPaused'] for m in final['markets'].values()):
             raise RuntimeError('Containment incomplete')
-        save(ROOT / 'remediation/evidence/contained-state.json', final)
+        save(EVIDENCE / 'contained-state.json', final)
         print('Verified both borrow pauses and ordinary seizure pause on chain.')
 
 

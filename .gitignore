@@ -31,3 +31,10 @@ frontend/dist/
 
 # Stray local terminal capture
 /ran
+
+# Scratch space and evidence stay out of git (rule 2026-11-16): evidence goes to the evidence store,
+# only each set's README with its SHA-256 manifest is committed under remediation/evidence/.
+.scratch/
+remediation/evidence/**
+!remediation/evidence/**/
+!remediation/evidence/**/README.md

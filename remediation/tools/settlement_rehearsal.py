@@ -4,6 +4,7 @@ import os
 import subprocess
 from record_vault_queue import rpc
 from state import ROOT, save
+from evidence_dir import EVIDENCE, writable
 
 
 def main():
@@ -17,7 +18,7 @@ def main():
     if not 0 < native <= int(tag, 16):
         raise RuntimeError('Unexpected native clock')
     test = ROOT / 'remediation/test/fork/VaultSettlementMainnet.t.sol'
-    log = ROOT / 'remediation/evidence/settlement-rehearsal-tests.txt'
+    log = writable(EVIDENCE / 'settlement-rehearsal-tests.txt')
     env = dict(os.environ, FOUNDRY_PROFILE='vault_upgrade',
                ROBINHOOD_RPC_URL='https://rpc.mainnet.chain.robinhood.com',
                REMEDIATION_FORK_BLOCK=str(int(tag, 16)), REMEDIATION_NATIVE_BLOCK=str(native))
@@ -31,7 +32,7 @@ def main():
            'testSha256': hashlib.sha256(test.read_bytes()).hexdigest(),
            'logSha256': hashlib.sha256(log.read_bytes()).hexdigest(),
            'scope': 'Installed-contract local fork only. Actual timelock scheduling/execution with a local time advance; no injected balances, oracle overrides, keys or mainnet transactions. Tests both withdrawal orders separately; success alone does not assert equal economics between orders.'}
-    save(ROOT / 'remediation/evidence/settlement-rehearsal.json', pin)
+    save(EVIDENCE / 'settlement-rehearsal.json', pin)
     log.with_suffix(log.suffix + '.sha256').write_text(pin['logSha256'] + '  ' + log.name + '\n')
     print(log.read_text())
     if result.returncode or not pin['canonicalAfterTests']:

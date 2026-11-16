@@ -1,5 +1,6 @@
 """Pinned read-only pair balances, reserve balances and oracle availability."""
 from state import ROOT, call, rpc, save
+from evidence_dir import EVIDENCE
 from governance import VAULT
 
 ADAPTER = '0xadA73211711e4790bc83B5d6B39f47fE04D276f3'
@@ -39,7 +40,7 @@ def main():
         report['pairs'][name] = item
     if rpc('eth_getBlockByNumber', [tag, False])['hash'] != block['hash']:
         raise RuntimeError('Evidence block changed')
-    save(ROOT / 'remediation/evidence/vault-state.json', report)
+    save(EVIDENCE / 'vault-state.json', report)
     import json
     print(json.dumps(report, indent=2))
 

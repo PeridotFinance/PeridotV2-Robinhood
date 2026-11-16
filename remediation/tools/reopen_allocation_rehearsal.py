@@ -4,6 +4,7 @@ import os
 import subprocess
 from record_vault_queue import rpc
 from state import ROOT, save
+from evidence_dir import EVIDENCE, writable
 
 
 def main():
@@ -15,7 +16,7 @@ def main():
     native = int(rpc('eth_call', [{'to': probe, 'data': '0x'}, tag, {probe: {'code': '0x4360005260206000f3'}}]), 16)
     if not 0 < native <= int(tag, 16):
         raise RuntimeError('Unexpected native clock')
-    log = ROOT / 'remediation/evidence/reopen-allocation-fork.txt'
+    log = writable(EVIDENCE / 'reopen-allocation-fork.txt')
     env = dict(os.environ, FOUNDRY_PROFILE='lending_candidate', ROBINHOOD_RPC_URL='https://rpc.mainnet.chain.robinhood.com',
                REMEDIATION_FORK_BLOCK=str(int(tag, 16)), REMEDIATION_NATIVE_BLOCK=str(native))
     with log.open('w') as output:
@@ -28,7 +29,7 @@ def main():
               'sourceSha256': {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in src},
               'logSha256': hashlib.sha256(log.read_bytes()).hexdigest(),
               'scope': 'Reopen sequence on a local fork of live state: no keys, signing or broadcasts. Not a mainnet change.'}
-    save(ROOT / 'remediation/evidence/reopen-allocation-fork.json', report)
+    save(EVIDENCE / 'reopen-allocation-fork.json', report)
     log.with_suffix('.txt.sha256').write_text(report['logSha256'] + '  ' + log.name + '\n')
     text = log.read_text()
     print(text[text.find('Ran '):] if 'Ran ' in text else text[-4000:])

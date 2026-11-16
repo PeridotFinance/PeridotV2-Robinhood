@@ -1,6 +1,7 @@
 """Read-only inventory for the user-designated Safe; never transfers control."""
 import json
 from state import ROOT, GOVERNOR, CONTROLLER, MARKETS, OLD_ORACLE, call, cast, rpc, save
+from evidence_dir import EVIDENCE
 
 SAFE = '0x80f4207e0810EA2C39B6C8387E5ffC6FF34dfB12'
 TIMELOCK = '0x6797FB8Ce049B42C5BC2b42Bf76c6d15C7B12498'
@@ -70,7 +71,7 @@ def main():
               'scope': 'Known deployed roles and outgoing governor. Unenumerable oracle admins require transaction-history review. No transfers or funding performed.'}
     if rpc('eth_getBlockByNumber', [tag, False])['hash'] != block['hash']:
         raise RuntimeError('Inventory block changed')
-    save(ROOT / 'remediation/evidence/governance-inventory.json', report)
+    save(EVIDENCE / 'governance-inventory.json', report)
     print(json.dumps(report, indent=2))
 
 

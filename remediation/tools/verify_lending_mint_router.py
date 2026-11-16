@@ -8,6 +8,7 @@ import hashlib
 import json
 
 from verify_lending_delegate_candidate import ROOT, cast, load
+from evidence_dir import EVIDENCE, writable
 
 PSTOCK = '0xa155ccCB986774AE818b3F10F07d01D1b7A47b26'
 PUSDG = '0x55aEd0569c8f0D166D71facE57B57C2f2624a563'
@@ -20,7 +21,7 @@ def main():
     parser.add_argument('--rpc', default='https://rpc.mainnet.chain.robinhood.com')
     parser.add_argument('--tx', default=None)
     parser.add_argument('--out', default='remediation/out-lending-candidate')
-    parser.add_argument('--evidence', default='remediation/evidence/lending-mint-router-deployment-check.json')
+    parser.add_argument('--evidence', default=str(EVIDENCE / 'lending-mint-router-deployment-check.json'))
     args = parser.parse_args()
     art = json.loads((ROOT / args.out / f'{ROUTER_JSON}.sol/{ROUTER_JSON}.json').read_text())
     router = cast('to-check-sum-address', args.router)
@@ -66,7 +67,7 @@ def main():
         checks['txSucceeded'] = receipt.get('status') in (1, '1', '0x1')
         report['transaction'] = {'hash': args.tx, 'from': tx['from'], 'block': receipt.get('blockNumber')}
     report['allChecksPassed'] = all(checks.values())
-    path = ROOT / args.evidence
+    path = writable(ROOT / args.evidence)
     path.write_text(json.dumps(report, indent=2) + '\n')
     path.with_suffix('.sha256').write_text(hashlib.sha256(path.read_bytes()).hexdigest() + '  ' + path.name + '\n')
     print(json.dumps(report, indent=2))

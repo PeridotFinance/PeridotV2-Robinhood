@@ -3,6 +3,7 @@ import os
 import argparse
 import subprocess
 from state import ROOT, rpc, save
+from evidence_dir import EVIDENCE, writable
 
 
 def main():
@@ -21,7 +22,7 @@ def main():
                REMEDIATION_FORK_BLOCK=str(pin['stateBlock']))
     env['FOUNDRY_PROFILE'] = 'vault_upgrade'
     prefix = 'queued-vault-fork' if args.queued else ('vault-fork' if args.vault else 'fork')
-    path = ROOT / ('remediation/evidence/' + prefix + '-tests.txt')
+    path = writable(EVIDENCE / (prefix + '-tests.txt'))
     test_path = ('*/fork/QueuedVaultExecution.t.sol' if args.queued else
                  ('*/fork/VaultUpgradeMainnet.t.sol' if args.vault else '*/fork/LendingMainnet.t.sol'))
     with path.open('w') as log:
@@ -32,7 +33,7 @@ def main():
     pin['scope'] = 'Local-only vault implementation upgrade / state and market integration checks.' if args.vault else pin['scope']
     if args.queued:
         pin['scope'] = 'Actual queued mainnet operation executed on a local fork after advancing fork time only. No mainnet execution.'
-    save(ROOT / ('remediation/evidence/' + prefix + '-pin.json'), pin)
+    save(EVIDENCE / (prefix + '-pin.json'), pin)
     print(path.read_text())
     if result.returncode or not pin['canonicalAfterTests']:
         raise SystemExit(1)

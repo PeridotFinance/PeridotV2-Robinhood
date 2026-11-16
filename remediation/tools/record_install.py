@@ -2,12 +2,13 @@
 import json
 import sys
 from state import ROOT, GOVERNOR, CONTROLLER, MARKETS, OLD_ORACLE, cast, save
+from evidence_dir import EVIDENCE, prior
 sys.path.insert(0, str(ROOT / 'contracts/robinhood-vaults/margin-mainnet/tools'))
 from rpc import rpc
 
 
 def main():
-    installed = json.loads((ROOT / 'remediation/evidence/installed-adapter.json').read_text())
+    installed = json.loads(prior(EVIDENCE / 'installed-adapter.json').read_text())
     adapter = installed['adapter']
     broadcast = json.loads((ROOT / 'broadcast/InstallLendingPriceAdapter.s.sol/4663/run-latest.json').read_text())
     artifact = json.loads((ROOT / 'remediation/out/RobinhoodLendingPriceAdapter.sol/RobinhoodLendingPriceAdapter.json').read_text())
@@ -37,7 +38,7 @@ def main():
                         'hash': tx_hash, 'from': tx['from'], 'to': tx['to'],
                         'nonce': int(tx['nonce'], 16), 'valueWei': '0',
                         'inputKeccak': cast('keccak', tx['input']), 'receipt': receipt})
-    save(ROOT / 'remediation/evidence/installation-transactions.json',
+    save(EVIDENCE / 'installation-transactions.json',
          {'chainId': 4663, 'adapter': adapter, 'transactions': records,
           'verificationBlock': installed['block'], 'scope': 'Canonical successful receipts and exact reviewed creation / installation calldata.'})
     print(json.dumps({'adapter': adapter, 'transactions': [r['hash'] for r in records]}, indent=2))
