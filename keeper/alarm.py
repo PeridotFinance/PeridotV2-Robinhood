@@ -37,7 +37,7 @@ ISSUE_AUTHOR = 'github-actions[bot]'
 
 GAS_FLOOR_WEI = 300_000_000_000_000  # worker.MIN_GAS_WEI: below this the worker sends nothing
 # The margin worker reports gasReady only above one maximum-budget call: 8,000,000 gas at 0.1 gwei.
-MARGIN_GAS_FLOOR_WEI = 8_000_000 * 100_000_000
+MARGIN_GAS_FLOOR_WEI = 12_000_000 * 100_000_000  # matches the margin keeper gas cap (12M, robinhood-margin-keeper-v1 cefe964)
 BURN_WEI_PER_ACTIVE_DAY = 500_000_000_000_000  # measured; override with ALARM_BURN_WEI_PER_DAY
 LOW_RUNWAY_DAYS = 3
 FEED_MAX_AGE = 43_200  # the guard's 12 h staleness bound
