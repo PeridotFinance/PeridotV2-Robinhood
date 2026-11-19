@@ -1,0 +1,322 @@
+[
+  {
+    "type": "function",
+    "name": "IN_KIND_OPERATOR_ROLE",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "exchangeSurplus",
+    "inputs": [
+      {
+        "name": "pairId",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      },
+      {
+        "name": "scarceIsUsdg",
+        "type": "bool",
+        "internalType": "bool"
+      },
+      {
+        "name": "amountIn",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "amountOut",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "inKindCheckpoint",
+    "inputs": [
+      {
+        "name": "pairId",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      },
+      {
+        "name": "deadline",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "inKindStats",
+    "inputs": [
+      {
+        "name": "pairId",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "tuple",
+        "internalType": "struct InKindExtension.Stats",
+        "components": [
+          {
+            "name": "limitUsdPerDay",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "day",
+            "type": "uint64",
+            "internalType": "uint64"
+          },
+          {
+            "name": "usedTodayUsd",
+            "type": "uint192",
+            "internalType": "uint192"
+          },
+          {
+            "name": "calls",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "lifetimeUsd",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "lifetimeStockIn",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "lifetimeUsdgIn",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "lifetimeStockOut",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "lifetimeUsdgOut",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ]
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "setInKindLimit",
+    "inputs": [
+      {
+        "name": "pairId",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      },
+      {
+        "name": "limitUsdPerDay",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "setRewardShortfallCeiling",
+    "inputs": [
+      {
+        "name": "pairId",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      },
+      {
+        "name": "maxShortfallBps",
+        "type": "uint16",
+        "internalType": "uint16"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "event",
+    "name": "InKindLimitSet",
+    "inputs": [
+      {
+        "name": "pairId",
+        "type": "bytes32",
+        "indexed": true,
+        "internalType": "bytes32"
+      },
+      {
+        "name": "limitUsdPerDay",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "SurplusExchanged",
+    "inputs": [
+      {
+        "name": "pairId",
+        "type": "bytes32",
+        "indexed": true,
+        "internalType": "bytes32"
+      },
+      {
+        "name": "tokenIn",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "amountIn",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      },
+      {
+        "name": "amountOut",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      },
+      {
+        "name": "stockPrice",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      },
+      {
+        "name": "usedTodayUsd",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      },
+      {
+        "name": "lifetimeUsd",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "error",
+    "name": "ExceedsDeficit",
+    "inputs": [
+      {
+        "name": "amountIn",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "deficit",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "ExceedsIdle",
+    "inputs": [
+      {
+        "name": "amountOut",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "idle",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "ExceedsSurplus",
+    "inputs": [
+      {
+        "name": "amountOut",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "surplus",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "InKindLimitExceeded",
+    "inputs": [
+      {
+        "name": "used",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "limit",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "NotConfig",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "NotOperator",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "Reentrant",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "SafeERC20FailedOperation",
+    "inputs": [
+      {
+        "name": "token",
+        "type": "address",
+        "internalType": "address"
+      }
+    ]
+  }
+]
