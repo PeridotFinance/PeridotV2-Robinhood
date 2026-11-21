@@ -282,7 +282,10 @@ LAST_PRICE_CHECKPOINT = 0
 
 def stock_price():
     """Oracle stock price in USD 1e18, or None when the guard cannot price (stale feed, paused token)."""
-    result = cast('call', GUARD, 'pricesUSD18(bytes32)(uint256,uint256)', PAIR, check=False)
+    try:
+        result = cast('call', GUARD, 'pricesUSD18(bytes32)(uint256,uint256)', PAIR, check=False)
+    except (RuntimeError, OSError):  # a failed read is "cannot price", never a crashed cycle
+        return None
     if result.returncode:
         return None
     try:
