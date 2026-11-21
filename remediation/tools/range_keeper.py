@@ -7,9 +7,12 @@ anyone holding the keeper role to do. Default is read-only. Signing stays with t
 Foundry keystore: `cast send --account` prompts for the password in the user's terminal, so the
 script never sees a key or password.
 
-    python3 remediation/tools/range_keeper.py              # status + simulation, sends nothing
-    python3 remediation/tools/range_keeper.py --execute    # sends one recenter if due
-    python3 remediation/tools/range_keeper.py --watch 300 --execute
+    python3 remediation/tools/range_keeper.py --sender 0xKEEPER                    # status + simulation, sends nothing
+    python3 remediation/tools/range_keeper.py --sender 0xKEEPER --account NAME --execute
+    python3 remediation/tools/range_keeper.py --sender 0xKEEPER --account NAME --watch 300 --execute
+
+There is no default sender or keystore account: both must name the keeper wallet explicitly. The
+retired deployer 0x9469...5d2 (possibly compromised, 2026-11-05) is refused outright.
 """
 import argparse
 import json
@@ -23,12 +26,15 @@ from pathlib import Path
 
 RPC = 'https://rpc.mainnet.chain.robinhood.com'
 UNLOCKED = False  # local rehearsal only (anvil with impersonation)
-SENDER = None  # defaults to GOVERNOR
+SENDER = None  # required: set by configure() or --sender; there is deliberately no default
 KEYSTORE = None  # (keystore path, password file) for an unattended dedicated keeper wallet
 VAULT = '0x280825b2d856706Ff7E0d6351CcB2e935E1a9A2f'
 ADAPTER = '0xadA73211711e4790bc83B5d6B39f47fE04D276f3'
-GOVERNOR = '0x94696d767e65a75581145646960FA0eC886cE5d2'
-ACCOUNT = 'robinhood-deployer'
+# Retired signers this keeper must never simulate or send from. The deployer below may have been
+# compromised (2026-11-05); admin moved to the Ledger and the keeper role to a dedicated wallet.
+RETIRED_SIGNERS = frozenset({'0x94696d767e65a75581145646960fa0ec886ce5d2'})
+RETIRED_ACCOUNTS = frozenset({'robinhood-deployer'})  # the retired deployer's Foundry keystore name
+ACCOUNT = None  # Foundry keystore name for interactive --execute; required, no default
 PAIR = '0xe2050352f4346597cc69d2776d99ae60c9440dfc28f9406ce66be0bbe3fb6b06'
 GAS_LIMIT = 3_000_000
 # The vault rejects deadlines more than maxDeadlineDelay (300s) ahead, so this is the longest the
@@ -98,8 +104,19 @@ def _status():
     return {'upgraded': True, 'ticks': lower_upper_ranged, 'rangeState': state, 'pairConfigHex': cfg.strip()[:20] + '...'}
 
 
+def check_sender(address):
+    """Returns the address if it is a usable sender; raises otherwise. Refuses the retired signer."""
+    if not isinstance(address, str) or not re.fullmatch(r'0x[0-9a-fA-F]{40}', address):
+        raise RuntimeError('keeper sender is required: pass --sender / KEEPER_ADDRESS (a 0x address)')
+    if address.lower() in RETIRED_SIGNERS:
+        raise RuntimeError('refusing the retired signer ' + address + ' as keeper sender')
+    return address
+
+
 def sender():
-    return SENDER or GOVERNOR
+    if not SENDER:
+        raise RuntimeError('keeper sender is required: pass --sender / KEEPER_ADDRESS (no default)')
+    return check_sender(SENDER)
 
 
 def configure(rpc=None, sender=None, keystore=None, max_gas_price_wei=None, deadline_seconds=None, journal=None):
@@ -109,8 +126,8 @@ def configure(rpc=None, sender=None, keystore=None, max_gas_price_wei=None, dead
         JOURNAL = Path(journal)
     if rpc:
         RPC = rpc
-    if sender:
-        SENDER = sender
+    if sender is not None:
+        SENDER = check_sender(sender)
     if keystore:
         KEYSTORE = keystore
     if max_gas_price_wei:
@@ -154,7 +171,12 @@ def send(fn='recenter'):
     if KEYSTORE:
         signer = ['--keystore', KEYSTORE[0], '--password-file', KEYSTORE[1]]
     else:
-        signer = ['--unlocked'] if UNLOCKED else ['--account', ACCOUNT]
+        if UNLOCKED:
+            signer = ['--unlocked']
+        elif ACCOUNT:
+            signer = ['--account', ACCOUNT]
+        else:
+            raise RuntimeError('a keystore account is required to send: pass --account (no default)')
     started = time.time()
     result = cast('send', VAULT, fn + '(bytes32,uint256)', PAIR, str(deadline),
                   *signer, '--from', sender(), '--gas-limit', str(GAS_LIMIT),
@@ -340,8 +362,18 @@ def main():
     parser.add_argument('--max-gas-price-wei', type=int, default=None, help='override the gas price cap (default 0.1 gwei)')
     parser.add_argument('--rpc', default=None, help='override the RPC (local rehearsal)')
     parser.add_argument('--unlocked', action='store_true', help='send from an impersonated account; localhost only')
+    parser.add_argument('--sender', required=True, help='keeper wallet address (required; no default)')
+    parser.add_argument('--account', default=None, help='Foundry keystore name to sign with (required for --execute)')
     args = parser.parse_args()
-    global RPC, UNLOCKED, MAX_GAS_PRICE_WEI
+    global RPC, UNLOCKED, MAX_GAS_PRICE_WEI, SENDER, ACCOUNT
+    try:
+        SENDER = check_sender(args.sender)
+    except RuntimeError as error:
+        raise SystemExit(str(error))
+    if args.account:
+        if args.account in RETIRED_ACCOUNTS:
+            raise SystemExit('refusing the retired keystore account ' + args.account)
+        ACCOUNT = args.account
     if args.max_gas_price_wei:
         MAX_GAS_PRICE_WEI = args.max_gas_price_wei
     if args.rpc:
@@ -350,6 +382,8 @@ def main():
         if not RPC.startswith(('http://127.0.0.1', 'http://localhost')):
             raise SystemExit('--unlocked is for a local rehearsal node only')
         UNLOCKED = True
+    if args.execute and not (UNLOCKED or ACCOUNT):
+        raise SystemExit('--execute needs --account (the keeper wallet keystore); there is no default')
     if int(cast('chain-id').stdout) != 4663:
         raise SystemExit('wrong chain')
     current = status()

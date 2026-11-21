@@ -123,6 +123,8 @@ def main():
     keeper = os.environ.get('KEEPER_ADDRESS', '')
     if not (keeper.startswith('0x') and len(keeper) == 42):
         raise RuntimeError('KEEPER_ADDRESS is required')
+    if keeper.lower() in rk.RETIRED_SIGNERS:
+        raise RuntimeError('KEEPER_ADDRESS is the retired signer; refusing to start')
     execute = os.environ.get('EXECUTE', 'false') == 'true'
     interval = max(60, int(os.environ.get('INTERVAL_SECONDS', '300')))
     rpc = os.environ.get('RPC_URL', RPC)
