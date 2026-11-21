@@ -149,5 +149,85 @@ class OutcomeTests(unittest.TestCase):
         self.assertLessEqual(k.DEADLINE_SECONDS, 300)
 
 
+
+RETIRED = '0x94696d767e65a75581145646960FA0eC886cE5d2'
+DEDICATED = '0x82ABD8eE038c10F5bE00E5200C94265400999f7e'
+
+
+class SenderTests(unittest.TestCase):
+    """There is no default sender, and the retired deployer is refused in every casing."""
+
+    def setUp(self):
+        self.saved = (k.SENDER, k.ACCOUNT, k.KEYSTORE, k.UNLOCKED)
+        k.SENDER, k.ACCOUNT, k.KEYSTORE, k.UNLOCKED = None, None, None, False
+
+    def tearDown(self):
+        k.SENDER, k.ACCOUNT, k.KEYSTORE, k.UNLOCKED = self.saved
+
+    def test_no_default_sender(self):
+        with self.assertRaisesRegex(RuntimeError, 'sender is required'):
+            k.sender()
+
+    def test_simulation_without_a_sender_fails_before_any_call(self):
+        with mock.patch.object(k, 'chain_deadline', return_value=1), mock.patch.object(k, 'cast') as cast:
+            with self.assertRaisesRegex(RuntimeError, 'sender is required'):
+                k.simulate()
+            cast.assert_not_called()
+
+    def test_retired_signer_is_refused_in_any_casing(self):
+        for address in (RETIRED, RETIRED.lower(), '0x' + RETIRED[2:].upper()):
+            with self.assertRaisesRegex(RuntimeError, 'retired signer'):
+                k.configure(sender=address)
+            self.assertIsNone(k.SENDER)
+            with self.assertRaisesRegex(RuntimeError, 'retired signer'):
+                k.check_sender(address)
+
+    def test_retired_signer_set_directly_is_still_refused(self):
+        k.SENDER = RETIRED
+        with self.assertRaisesRegex(RuntimeError, 'retired signer'):
+            k.sender()
+
+    def test_malformed_sender_is_refused(self):
+        for bad in ('', '0x1234', 'not-an-address', None):
+            with self.assertRaises(RuntimeError):
+                k.check_sender(bad)
+
+    def test_dedicated_sender_is_used(self):
+        k.configure(sender=DEDICATED)
+        self.assertEqual(k.sender(), DEDICATED)
+
+    def test_send_without_keystore_or_account_fails_before_any_call(self):
+        k.configure(sender=DEDICATED)
+        with mock.patch.object(k, 'chain_deadline', return_value=1), mock.patch.object(k, 'cast') as cast:
+            with self.assertRaisesRegex(RuntimeError, 'account is required'):
+                k.send()
+            cast.assert_not_called()
+
+    def test_cli_requires_sender(self):
+        with mock.patch('sys.argv', ['range_keeper.py']), mock.patch.object(k, 'cast') as cast, \
+                mock.patch('sys.stderr'):
+            with self.assertRaises(SystemExit):
+                k.main()
+            cast.assert_not_called()
+
+    def test_cli_refuses_retired_sender_and_account(self):
+        for argv in (['--sender', RETIRED], ['--sender', DEDICATED, '--account', 'robinhood-deployer']):
+            with mock.patch('sys.argv', ['range_keeper.py', *argv]), mock.patch.object(k, 'cast') as cast:
+                with self.assertRaisesRegex(SystemExit, 'retired'):
+                    k.main()
+                cast.assert_not_called()
+
+    def test_cli_execute_requires_an_account(self):
+        with mock.patch('sys.argv', ['range_keeper.py', '--sender', DEDICATED, '--execute']), \
+                mock.patch.object(k, 'cast') as cast:
+            with self.assertRaisesRegex(SystemExit, '--account'):
+                k.main()
+            cast.assert_not_called()
+
+    def test_no_runtime_default_address_remains(self):
+        self.assertFalse(hasattr(k, 'GOVERNOR'))
+        self.assertIsNone(k.ACCOUNT)
+
+
 if __name__ == '__main__':
     unittest.main()

@@ -131,6 +131,14 @@ class CycleTests(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError, 'KEEPER_ADDRESS'):
                 w.main()
 
+    def test_retired_signer_is_refused_as_keeper_address(self):
+        for address in ('0x94696d767e65a75581145646960FA0eC886cE5d2', '0x94696d767e65a75581145646960fa0ec886ce5d2'):
+            with mock.patch.dict(os.environ, {'KEEPER_ADDRESS': address}, clear=True), \
+                    mock.patch.object(w.rk, 'configure') as configure:
+                with self.assertRaisesRegex(RuntimeError, 'retired signer'):
+                    w.main()
+                configure.assert_not_called()
+
 
 class FakeChain:
     """The contract's ordering for this pair, driven through the real range_keeper.step."""
