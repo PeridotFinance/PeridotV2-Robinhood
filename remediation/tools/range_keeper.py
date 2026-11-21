@@ -276,8 +276,38 @@ def rebalance_value_gate():
 # the oracle price has moved this far from the price at the last checkpoint.
 PRICE_CHECKPOINT_BPS = 50
 PRICE_CHECKPOINT_MIN_INTERVAL = 300
-BASELINE_PRICE = None  # oracle stock price (USD 1e18) at the last checkpoint this process saw or sent
-LAST_PRICE_CHECKPOINT = 0
+# Per pair (keyed by lower-case pairId), so a multi-pair keeper on one feed keeps independent baselines.
+BASELINE_PRICES = {}  # pairId -> oracle stock price (USD 1e18) at the last checkpoint this process saw or sent
+LAST_PRICE_CHECKPOINTS = {}  # pairId -> unix time of the last price-checkpoint attempt
+LIQUIDITY_SKIP = {}  # pairId -> last journalled skip reason, so a persistent skip is journalled once, not every cycle
+
+
+def _pair_key():
+    return PAIR.lower()
+
+
+def pair_liquidity():
+    """Open LP liquidity of the current pair, or None when the read fails or is unusable."""
+    try:
+        result = cast('call', ADAPTER, 'positionState(bytes32)(uint256,uint128,uint256,uint256)', PAIR, check=False)
+    except (RuntimeError, OSError):
+        return None
+    if result.returncode:
+        return None
+    try:
+        return int(result.stdout.split('\n')[1].split()[0])
+    except (IndexError, ValueError):
+        return None
+
+
+def _liquidity_skip(reason):
+    """Logs every skipped cycle; journals only when the skip reason changes for this pair."""
+    key = _pair_key()
+    info = {'time': int(time.time()), 'pair': PAIR, 'priceCheckpoint': 'skipped', 'reason': reason}
+    print(json.dumps(info))
+    if LIQUIDITY_SKIP.get(key) != reason:
+        LIQUIDITY_SKIP[key] = reason
+        journal(dict(info))
 
 
 def stock_price():
@@ -298,18 +328,30 @@ def stock_price():
 def maybe_price_checkpoint(execute):
     """Checkpoints when the oracle price moved >= PRICE_CHECKPOINT_BPS since the last checkpoint. Only acts
     when the real call succeeds; a closed market (stale feed) or any waiting revert is not a fault."""
-    global BASELINE_PRICE, LAST_PRICE_CHECKPOINT
+    key = _pair_key()
+    # Only while LP liquidity is open: with none, no LP loss can go unrecorded and a checkpoint is a no-op.
+    liquidity = pair_liquidity()
+    if liquidity is None:
+        _liquidity_skip('liquidity read failed')
+        return 0
+    if liquidity == 0:
+        BASELINE_PRICES.pop(key, None)  # start fresh when liquidity reopens
+        _liquidity_skip('no open liquidity')
+        return 0
+    LIQUIDITY_SKIP.pop(key, None)
     price = stock_price()
     if price is None:
         return 0
-    if BASELINE_PRICE is None:
-        BASELINE_PRICE = price
+    baseline = BASELINE_PRICES.get(key)
+    if baseline is None:
+        BASELINE_PRICES[key] = price
         return 0
-    if abs(price - BASELINE_PRICE) * 10000 < BASELINE_PRICE * PRICE_CHECKPOINT_BPS:
+    if abs(price - baseline) * 10000 < baseline * PRICE_CHECKPOINT_BPS:
         return 0
-    info = {'time': int(time.time()), 'priceCheckpoint': 'oracle moved >= ' + str(PRICE_CHECKPOINT_BPS) + ' bps',
-            'baselinePrice': str(BASELINE_PRICE), 'price': str(price)}
-    if time.time() - LAST_PRICE_CHECKPOINT < PRICE_CHECKPOINT_MIN_INTERVAL:
+    info = {'time': int(time.time()), 'pair': PAIR,
+            'priceCheckpoint': 'oracle moved >= ' + str(PRICE_CHECKPOINT_BPS) + ' bps',
+            'baselinePrice': str(baseline), 'price': str(price)}
+    if time.time() - LAST_PRICE_CHECKPOINTS.get(key, 0) < PRICE_CHECKPOINT_MIN_INTERVAL:
         info['action'] = 'wait (price checkpoint attempted less than 5 minutes ago)'
         print(json.dumps(info))
         return 0
@@ -324,7 +366,7 @@ def maybe_price_checkpoint(execute):
     elif not execute:
         info['action'] = 'price checkpoint is due; rerun with --execute to send'
     else:
-        LAST_PRICE_CHECKPOINT = time.time()
+        LAST_PRICE_CHECKPOINTS[key] = time.time()
         sent = send('checkpoint')
         info['action'] = outcome_of(sent)
         info['function'] = 'checkpoint'
@@ -332,7 +374,7 @@ def maybe_price_checkpoint(execute):
         journal(dict(info))
         print(json.dumps(info))
         if info['action'] == 'sent':
-            BASELINE_PRICE = price
+            BASELINE_PRICES[key] = price
             return 0
         return 3
     print(json.dumps(info))
@@ -364,8 +406,9 @@ def maybe_rebalance(execute):
             info['action'] = result_text + ' (checkpoint)'
             print(json.dumps(info))
             return 3
-        global BASELINE_PRICE
-        BASELINE_PRICE = stock_price() or BASELINE_PRICE
+        price = stock_price()
+        if price:
+            BASELINE_PRICES[_pair_key()] = price
         outcome, waiting, detail = simulate('rebalance')
         waiting = waiting or outcome in DUST_REBALANCES
     if outcome != 'due':

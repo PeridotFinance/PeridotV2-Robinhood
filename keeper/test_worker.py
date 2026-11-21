@@ -157,6 +157,7 @@ class FakeChain:
         self.reads = []
         self.price_reads = 0  # the 50 bp price-checkpoint read of the fixed guard, kept apart from the gate's reads
         self.price = self.STOCK_PRICE
+        self.liquidity = 10 ** 12  # open LP liquidity (positionState field 2)
 
     def simulate(self, fn='recenter'):
         if fn == 'recenter':
@@ -178,6 +179,9 @@ class FakeChain:
         return result
 
     def cast(self, *args, check=True):
+        if args[0] == 'call' and args[1] == w.rk.ADAPTER and 'positionState' in args[2]:
+            self.price_reads += 1
+            return mock.Mock(returncode=0, stdout='4238052\n' + str(self.liquidity) + '\n0\n0\n')
         if args[0] == 'call' and args[1] == w.rk.GUARD:
             self.price_reads += 1
             if self.broken_read and self.broken_read in ' '.join(args):
@@ -221,8 +225,9 @@ USDG = 10 ** 12  # USD18 per raw USDG
 
 class RebalanceValueTests(unittest.TestCase):
     def setUp(self):
-        w.rk.BASELINE_PRICE = None
-        w.rk.LAST_PRICE_CHECKPOINT = 0
+        w.rk.BASELINE_PRICES.clear()
+        w.rk.LAST_PRICE_CHECKPOINTS.clear()
+        w.rk.LIQUIDITY_SKIP.clear()
 
     def run_cycle(self, chain, execute=True):
         out = io.StringIO()
@@ -375,11 +380,21 @@ class RebalanceValueTests(unittest.TestCase):
         chain.price = chain.STOCK_PRICE - chain.STOCK_PRICE * 50 // 10000
         code, logs = self.run_cycle(chain)
         self.assertEqual(chain.sent, ['checkpoint'])
-        self.assertEqual(w.rk.BASELINE_PRICE, chain.price)
+        self.assertEqual(w.rk.BASELINE_PRICES[w.rk.PAIR.lower()], chain.price)
         chain.now += 10  # a further move inside 300 s waits
         chain.price = chain.price * 2
         self.run_cycle(chain)
         self.assertEqual(chain.sent, ['checkpoint'])
+
+    def test_zero_liquidity_sends_no_checkpoint_on_a_2_percent_move(self):
+        chain = FakeChain(usdg_idle=0)
+        chain.liquidity = 0
+        self.run_cycle(chain)
+        for move in (102, 104):
+            chain.now += 301
+            chain.price = chain.STOCK_PRICE * move // 100
+            self.run_cycle(chain)
+        self.assertEqual(chain.sent, [])
 
     def test_stale_guard_never_price_checkpoints(self):
         chain = FakeChain(oracle_ok=False, usdg_idle=0)
@@ -387,7 +402,7 @@ class RebalanceValueTests(unittest.TestCase):
             chain.now += 301
             self.run_cycle(chain)
         self.assertEqual(chain.sent, [])
-        self.assertIsNone(w.rk.BASELINE_PRICE)
+        self.assertIsNone(w.rk.BASELINE_PRICES.get(w.rk.PAIR.lower()))
 
     def test_monitor_mode_never_sends(self):
         for chain in (self.stale(usdg_idle=10 ** 9), FakeChain(usdg_idle=10 ** 9)):
