@@ -1,0 +1,3 @@
+# Rehearsal output is local only; the mainnet journal is committed after the throwaway deploy.
+*rehearsal*
+*.untouched-before.txt

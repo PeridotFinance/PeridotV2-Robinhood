@@ -111,9 +111,39 @@ def balance_wei(keeper):
     return int(cast('balance', keeper))
 
 
-def cycle(keeper, execute, funded):
-    """One keeper pass. Returns the exit-code style result of range_keeper.step."""
-    return rk.step(execute and funded)
+def pairs_from_env():
+    """PAIRS: comma-separated labels or ids from range_keeper.KNOWN_PAIRS; default the production pair only."""
+    raw = os.environ.get('PAIRS', '').strip()
+    if not raw:
+        return [PAIR]
+    pairs = []
+    for item in raw.split(','):
+        pair_id = rk.resolve_pair(item)
+        if pair_id not in pairs:
+            pairs.append(pair_id)
+    return pairs
+
+
+def cycle(keeper, execute, funded, pairs=None, directory=None):
+    """One keeper pass over every configured pair, each with its own journal (cooldowns and last-sent times are
+    per pair). Returns the worst exit-code style result of range_keeper.step; one pair's failure does not stop the
+    others."""
+    pairs = pairs or [PAIR]
+    worst = 0
+    for pair_id in pairs:
+        if directory is not None and len(pairs) > 1:
+            rk.configure(pair=pair_id, journal=Path(directory) / ('journal-' + pair_id[2:10] + '.json'))
+        else:
+            rk.configure(pair=pair_id)
+        try:
+            code = rk.step(execute and funded)
+        except Exception as error:  # isolate pairs; the caller still sees a failure code
+            emit('pair_error', pair=pair_id, errorType=type(error).__name__)
+            code = 2
+        if code:
+            emit('attention', pair=pair_id, code=code)
+        worst = max(worst, code)
+    return worst
 
 
 def main():
@@ -128,6 +158,7 @@ def main():
     rpc = os.environ.get('RPC_URL', RPC)
     if rpc != RPC and not rpc.startswith(('http://127.0.0.1', 'http://localhost')):
         raise RuntimeError('RPC_URL may only override to a local rehearsal node')
+    pairs = pairs_from_env()
     max_gas_price = min(int(os.environ.get('MAX_GAS_PRICE_WEI', '100000000')), 2_000_000_000)  # default 0.1 gwei, never above 2
     rk.configure(rpc=rpc, sender=keeper, deadline_seconds=120, max_gas_price_wei=max_gas_price)
     errors = 0
@@ -135,7 +166,7 @@ def main():
         rk.configure(journal=Path(directory) / 'journal.json')
         if execute:
             rk.configure(keystore=prepare_signer(directory, keeper))
-        emit('started', executionEnabled=execute, keeper=keeper)
+        emit('started', executionEnabled=execute, keeper=keeper, pairs=pairs)
         while not STOP:
             try:
                 holds = preflight(keeper, execute)
@@ -146,9 +177,7 @@ def main():
                 if execute and not funded:
                     emit('awaiting_gas', keeper=keeper, gasBalanceWei=str(balance))
                 else:
-                    code = cycle(keeper, execute, funded)
-                    if code:
-                        emit('attention', code=code)
+                    cycle(keeper, execute, funded, pairs, directory)
                 errors = 0
             except Exception as error:  # no raw messages from cast: they can carry call data
                 errors += 1

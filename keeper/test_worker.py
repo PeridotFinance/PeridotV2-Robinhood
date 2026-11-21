@@ -126,6 +126,55 @@ class CycleTests(unittest.TestCase):
             w.cycle(KEEPER, execute=True, funded=True)
             step.assert_called_once_with(True)
 
+    def test_each_pair_gets_its_own_step_and_journal(self):
+        prod, optin = w.rk.KNOWN_PAIRS['NVDA/USDG'], w.rk.KNOWN_PAIRS['NVDA/USDG/OPTIN']
+        seen = []
+
+        def fake_step(execute):
+            seen.append((w.rk.PAIR, Path(w.rk.JOURNAL).name, execute))
+            return 0
+
+        saved = (w.rk.PAIR, w.rk.JOURNAL)
+        try:
+            with tempfile.TemporaryDirectory() as d, mock.patch.object(w.rk, 'step', side_effect=fake_step):
+                self.assertEqual(w.cycle(KEEPER, True, True, [prod, optin], d), 0)
+            self.assertEqual([x[0] for x in seen], [prod, optin])
+            self.assertNotEqual(seen[0][1], seen[1][1])
+            self.assertTrue(all(x[2] for x in seen))
+        finally:
+            w.rk.PAIR, w.rk.JOURNAL = saved
+
+    def test_one_failing_pair_does_not_stop_the_other(self):
+        prod, optin = w.rk.KNOWN_PAIRS['NVDA/USDG'], w.rk.KNOWN_PAIRS['NVDA/USDG/OPTIN']
+        calls = []
+
+        def fake_step(execute):
+            calls.append(w.rk.PAIR)
+            if w.rk.PAIR == prod:
+                raise RuntimeError('boom')
+            return 0
+
+        saved = (w.rk.PAIR, w.rk.JOURNAL)
+        try:
+            with tempfile.TemporaryDirectory() as d, mock.patch.object(w.rk, 'step', side_effect=fake_step), \
+                    contextlib.redirect_stdout(io.StringIO()) as out:
+                self.assertEqual(w.cycle(KEEPER, True, True, [prod, optin], d), 2)
+            self.assertEqual(calls, [prod, optin])
+            self.assertIn('pair_error', out.getvalue())
+        finally:
+            w.rk.PAIR, w.rk.JOURNAL = saved
+
+    def test_pairs_env_accepts_only_known_pairs(self):
+        with mock.patch.dict(os.environ, {'PAIRS': ''}):
+            self.assertEqual(w.pairs_from_env(), [w.PAIR])
+        with mock.patch.dict(os.environ, {'PAIRS': 'NVDA/USDG, NVDA/USDG/OPTIN,NVDA/USDG'}):
+            self.assertEqual(w.pairs_from_env(), [w.rk.KNOWN_PAIRS['NVDA/USDG'], w.rk.KNOWN_PAIRS['NVDA/USDG/OPTIN']])
+        with mock.patch.dict(os.environ, {'PAIRS': w.rk.KNOWN_PAIRS['NVDA/USDG/OPTIN'].upper().replace('0X', '0x')}):
+            self.assertEqual(w.pairs_from_env(), [w.rk.KNOWN_PAIRS['NVDA/USDG/OPTIN']])
+        with mock.patch.dict(os.environ, {'PAIRS': '0x' + 'ab' * 32}):
+            with self.assertRaises(ValueError):
+                w.pairs_from_env()
+
     def test_keeper_address_is_required(self):
         with mock.patch.dict(os.environ, {}, clear=True):
             with self.assertRaisesRegex(RuntimeError, 'KEEPER_ADDRESS'):

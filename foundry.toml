@@ -63,6 +63,13 @@ optimizer_runs = 1
 bytecode_hash = "none"
 cbor_metadata = false
 
+# NVDA opt-in vault (pair NVDA/USDG/OPTIN): new markets upNVDA/upUSDG, 5-market controller oracle, ceremony tooling.
+[profile.nvda_optin]
+out = "remediation/out-nvda-optin"
+cache_path = "remediation/cache-nvda-optin"
+fs_permissions = [{ access = "read-write", path = "./remediation/nvda-optin/journals" }]
+libraries = ["contracts/robinhood-vaults/src/libraries/SettlementLib.sol:SettlementLib:0x813AbFeC0DE50f8674798CbaB72Ed7b5D8CcB9cB"]
+
 [fmt]
 line_length = 100
 bracket_spacing = true

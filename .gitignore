@@ -31,3 +31,6 @@ frontend/dist/
 
 # Stray local terminal capture
 /ran
+
+# Local scratch (rehearsal logs, copies of other worktrees)
+.scratch/

@@ -30,6 +30,12 @@ ADAPTER = '0xadA73211711e4790bc83B5d6B39f47fE04D276f3'
 GOVERNOR = '0x94696d767e65a75581145646960FA0eC886cE5d2'
 ACCOUNT = 'robinhood-deployer'
 PAIR = '0xe2050352f4346597cc69d2776d99ae60c9440dfc28f9406ce66be0bbe3fb6b06'
+# Every pair this keeper may serve on the vault. The worker (PAIRS env) and --pair choose among these; an id that is
+# not listed here is refused, so a typo cannot point the keeper at an unreviewed pair.
+KNOWN_PAIRS = {
+    'NVDA/USDG': '0xe2050352f4346597cc69d2776d99ae60c9440dfc28f9406ce66be0bbe3fb6b06',
+    'NVDA/USDG/OPTIN': '0x2b51aefddb0c4559298a4c9696c1b39f8885ac13462a3b428b2414bb97f88deb',
+}
 GAS_LIMIT = 3_000_000
 # The vault rejects deadlines more than maxDeadlineDelay (300s) ahead, so this is the longest the
 # operator has to answer the keystore password prompt before the transaction reverts on-chain.
@@ -102,9 +108,24 @@ def sender():
     return SENDER or GOVERNOR
 
 
-def configure(rpc=None, sender=None, keystore=None, max_gas_price_wei=None, deadline_seconds=None, journal=None):
-    """Used by the unattended worker: a dedicated sender and keystore, no interactive prompt."""
-    global RPC, SENDER, KEYSTORE, MAX_GAS_PRICE_WEI, DEADLINE_SECONDS, JOURNAL
+def resolve_pair(value):
+    """Pair label or id -> id. Only pairs in KNOWN_PAIRS are accepted."""
+    value = (value or '').strip()
+    if value in KNOWN_PAIRS:
+        return KNOWN_PAIRS[value]
+    for pair_id in KNOWN_PAIRS.values():
+        if value.lower() == pair_id.lower():
+            return pair_id
+    raise ValueError('unknown pair: ' + value[:80])
+
+
+def configure(rpc=None, sender=None, keystore=None, max_gas_price_wei=None, deadline_seconds=None, journal=None,
+              pair=None):
+    """Used by the unattended worker: a dedicated sender and keystore, no interactive prompt. `pair` switches the
+    pair every later call acts on (the worker calls it before each pair's step, with that pair's own journal)."""
+    global RPC, SENDER, KEYSTORE, MAX_GAS_PRICE_WEI, DEADLINE_SECONDS, JOURNAL, PAIR
+    if pair:
+        PAIR = resolve_pair(pair)
     if journal:
         JOURNAL = Path(journal)
     if rpc:
@@ -340,8 +361,12 @@ def main():
     parser.add_argument('--max-gas-price-wei', type=int, default=None, help='override the gas price cap (default 0.1 gwei)')
     parser.add_argument('--rpc', default=None, help='override the RPC (local rehearsal)')
     parser.add_argument('--unlocked', action='store_true', help='send from an impersonated account; localhost only')
+    parser.add_argument('--pair', default=None, help='pair label or id from KNOWN_PAIRS (default NVDA/USDG)')
+    parser.add_argument('--sender', default=None, help='keeper address to simulate and send from')
+    parser.add_argument('--journal', default=None, help='journal file (default remediation/evidence/range-keeper-journal.json)')
     args = parser.parse_args()
     global RPC, UNLOCKED, MAX_GAS_PRICE_WEI
+    configure(pair=args.pair, sender=args.sender, journal=args.journal)
     if args.max_gas_price_wei:
         MAX_GAS_PRICE_WEI = args.max_gas_price_wei
     if args.rpc:

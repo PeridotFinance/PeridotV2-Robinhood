@@ -149,5 +149,37 @@ class OutcomeTests(unittest.TestCase):
         self.assertLessEqual(k.DEADLINE_SECONDS, 300)
 
 
+class PairSelectionTests(unittest.TestCase):
+    def test_known_pair_ids_match_their_labels(self):
+        import subprocess
+        for label, pair_id in k.KNOWN_PAIRS.items():
+            out = subprocess.run(['cast', 'keccak', label], capture_output=True, text=True).stdout.strip()
+            self.assertEqual(out.lower(), pair_id.lower(), label)
+
+    def test_configure_switches_pair_and_refuses_unknown(self):
+        saved = k.PAIR
+        try:
+            k.configure(pair='NVDA/USDG/OPTIN')
+            self.assertEqual(k.PAIR, k.KNOWN_PAIRS['NVDA/USDG/OPTIN'])
+            k.configure(pair=k.KNOWN_PAIRS['NVDA/USDG'].upper().replace('0X', '0x'))
+            self.assertEqual(k.PAIR, k.KNOWN_PAIRS['NVDA/USDG'])
+            with self.assertRaises(ValueError):
+                k.configure(pair='NVDA/USDG/OTHER')
+            self.assertEqual(k.PAIR, k.KNOWN_PAIRS['NVDA/USDG'])
+        finally:
+            k.PAIR = saved
+
+    def test_calls_use_the_selected_pair(self):
+        saved = k.PAIR
+        try:
+            k.configure(pair='NVDA/USDG/OPTIN')
+            with mock.patch.object(k, 'cast') as cast, mock.patch.object(k, 'chain_deadline', return_value=1):
+                cast.return_value = mock.Mock(returncode=0, stdout='', stderr='')
+                k.simulate('rebalance')
+            self.assertIn(k.KNOWN_PAIRS['NVDA/USDG/OPTIN'], cast.call_args.args)
+        finally:
+            k.PAIR = saved
+
+
 if __name__ == '__main__':
     unittest.main()
