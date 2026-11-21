@@ -9,9 +9,7 @@ import { TickMath } from "@uniswap/v4-core/src/libraries/TickMath.sol";
 import { VaultMath } from "baseline/src/libraries/VaultMath.sol";
 import { Math } from "@openzeppelin/contracts/utils/math/Math.sol";
 
-interface IRewardRecovery {
-    function recoverReward(bytes32 id, address token, address receiver, uint256 amount) external;
-}
+import { IRewardRecovery } from "./mocks/IRewardRecovery.sol";
 
 abstract contract Phase5aAdapterBase is AdapterFixture {
     function hasRole(bytes32 role, address who) external view returns (bool) {
@@ -108,38 +106,42 @@ abstract contract Phase5aAdapterBase is AdapterFixture {
     }
 
     function testPhase5aAlternatePayoutTokenClaimRollsBackAndExits() public {
-        uint128 l=_add();
-        TokenDouble escrow=new TokenDouble("escrow",18);
-        escrow.mint(address(gauge),1000e18);
-        gauge.setPayoutToken(address(ram),address(escrow));
-        vm.warp(vm.getBlockTimestamp()+1 hours);
+        uint128 l = _add();
+        TokenDouble escrow = new TokenDouble("escrow", 18);
+        escrow.mint(address(gauge), 1000e18);
+        gauge.setPayoutToken(address(ram), address(escrow));
+        vm.warp(vm.getBlockTimestamp() + 1 hours);
         vm.expectRevert(RamsesV3PairedAdapter.RewardClaimMismatch.selector);
-        adapter.harvest(PAIR,block.timestamp);
-        assertEq(escrow.balanceOf(address(adapter)),0);
-        adapter.setAllowRewardForfeiture(PAIR,true);
-        adapter.decreaseLiquidity(PAIR,l,ref,block.timestamp);
-        adapter.burnEmptyPosition(PAIR,block.timestamp);
-        assertEq(escrow.balanceOf(address(gauge)),1000e18);
+        adapter.harvest(PAIR, block.timestamp);
+        assertEq(escrow.balanceOf(address(adapter)), 0);
+        adapter.setAllowRewardForfeiture(PAIR, true);
+        adapter.decreaseLiquidity(PAIR, l, ref, block.timestamp);
+        adapter.burnEmptyPosition(PAIR, block.timestamp);
+        assertEq(escrow.balanceOf(address(gauge)), 1000e18);
     }
 
     function testPhase5aRecoveryCannotSpendAnotherPairsPendingRewards() public {
-        uint128 l=_add(); vm.warp(vm.getBlockTimestamp()+1 hours);
-        adapter.decreaseLiquidity(PAIR,l/2,ref,block.timestamp);
-        uint256 pending=adapter.pendingRewards(PAIR,address(ram));
-        assertGt(pending,0);
-        PoolDouble other=new PoolDouble(pool.token0(),pool.token1(),address(factory),center);
-        GaugeDouble g=new GaugeDouble(other,pm,new address[](0));
-        factory.set(address(other),address(g));
-        RamsesV3PairedAdapter.RegisterPairParams memory p=_params();
-        p.pool=IRamsesPool(address(other)); p.gauge=IRamsesGauge(address(g));
-        bytes32 second=keccak256("second"); adapter.registerPair(second,p);
-        vm.expectRevert(); IRewardRecovery(address(adapter)).recoverReward(second,address(ram),address(8),pending);
-        ram.mint(address(adapter),1e18); // Only uncredited excess is available through the other pair.
-        IRewardRecovery(address(adapter)).recoverReward(second,address(ram),address(8),1e18);
-        assertEq(adapter.totalPendingRewards(address(ram)),pending);
-        assertEq(adapter.pendingRewards(PAIR,address(ram)),pending);
+        uint128 l = _add();
+        vm.warp(vm.getBlockTimestamp() + 1 hours);
+        adapter.decreaseLiquidity(PAIR, l / 2, ref, block.timestamp);
+        uint256 pending = adapter.pendingRewards(PAIR, address(ram));
+        assertGt(pending, 0);
+        PoolDouble other = new PoolDouble(pool.token0(), pool.token1(), address(factory), center);
+        GaugeDouble g = new GaugeDouble(other, pm, new address[](0));
+        factory.set(address(other), address(g));
+        RamsesV3PairedAdapter.RegisterPairParams memory p = _params();
+        p.pool = IRamsesPool(address(other));
+        p.gauge = IRamsesGauge(address(g));
+        bytes32 second = keccak256("second");
+        adapter.registerPair(second, p);
+        vm.expectRevert();
+        IRewardRecovery(address(adapter)).recoverReward(second, address(ram), address(8), pending);
+        ram.mint(address(adapter), 1e18); // Only uncredited excess is available through the other pair.
+        IRewardRecovery(address(adapter)).recoverReward(second, address(ram), address(8), 1e18);
+        assertEq(adapter.totalPendingRewards(address(ram)), pending);
+        assertEq(adapter.pendingRewards(PAIR, address(ram)), pending);
         adapter.claimPendingRewards(PAIR);
-        assertEq(adapter.totalPendingRewards(address(ram)),0);
+        assertEq(adapter.totalPendingRewards(address(ram)), 0);
     }
 
     function _allocation(int24 width, int24 move) internal {

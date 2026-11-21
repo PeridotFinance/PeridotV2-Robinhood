@@ -167,6 +167,32 @@ contract VaultForkTest is Test {
     }
 
     function _redeem(bool stockFirst) internal {
+        // Settlement success needs counterparty depth after removing our LP. Live depth is
+        // governance/market dependent; seed a real second NFP, never overwrite pool balances.
+        address maker = address(0xd00d);
+        deal(address(stock), maker, 1000e18);
+        deal(address(usdg), maker, 200_000e6);
+        (, int24 center,,,,,) = pool.slot0();
+        center = center / 10 * 10;
+        vm.startPrank(maker);
+        stock.approve(address(pm), type(uint256).max);
+        usdg.approve(address(pm), type(uint256).max);
+        pm.mint(
+            IRamsesNfp.MintParams(
+                address(usdg),
+                address(stock),
+                10,
+                center - 6000,
+                center + 6000,
+                200_000e6,
+                1000e18,
+                0,
+                0,
+                maker,
+                block.timestamp
+            )
+        );
+        vm.stopPrank();
         vm.warp(vm.getBlockTimestamp() + 1 hours);
         _shift(stockFirst ? int24(-700) : int24(700));
         address first = stockFirst ? address(stock) : address(usdg);

@@ -141,4 +141,6 @@ test-ramses-phase5a:
 
 fork-ramses-phase5a:
 	@test -n "$(ROBINHOOD_RPC_URL)" -a -n "$(REMEDIATION_FORK_BLOCK)" -a -n "$(REMEDIATION_NATIVE_BLOCK)"
+	python3 ramses-vaults/tools/check_phase2.py forge test --threads 1 --match-path ramses-vaults/test/fork/Phase5aAdapterFork.t.sol --list
+	python3 ramses-vaults/tools/check_phase2.py forge test --threads 1 --match-path ramses-vaults/test/fork/Phase5aMarketFork.t.sol --list
 	python3 ramses-vaults/tools/check_phase2.py forge test --threads 1 --match-path '*/fork/*' -vv

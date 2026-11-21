@@ -37,13 +37,9 @@ def main():
         path.write_text(changed)
         with log.open('w') as output:
             proc=subprocess.Popen(cmd,cwd=ROOT/'ramses-vaults/tools' if python else ROOT,env={**os.environ,'FOUNDRY_PROFILE':'ramses'},stdout=output,stderr=subprocess.STDOUT,start_new_session=True)
-            deadline=time.time()+590
-            while proc.poll() is None and time.time()<deadline:
-                time.sleep(0.2)
-            if proc.poll() is None:
+            try: code=proc.wait(timeout=590)
+            except subprocess.TimeoutExpired:
                 os.killpg(proc.pid,signal.SIGKILL); proc.wait(); code=124
-            else:
-                code=proc.returncode
     finally:
         path.write_bytes(original)
         assert path.read_bytes()==original

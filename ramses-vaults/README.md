@@ -468,3 +468,104 @@ The tests prove these bounded scenarios, not long-horizon solvency or all upstre
 3. Simulate deployment with `--account <encrypted-keystore-alias>` and the explicit sender, then operator-sign the reviewed deployment. Fund the timelock with both seed amounts plus 0.0002 NVDA. Schedule/review/wait/execute the configuration-and-seed batch during fresh feed hours. Its final actions enable supply, ordinary seizure and borrowing at 80% CF. Check actual receipts and the independent verifier.
 4. Verify the wallet’s vault role and both market-operator assignments. For a later grant/rotation, use `keeper/grant_keeper.sh` to print payloads, simulate queue/execute and then explicitly operator-broadcast through the timelock. Revoke any replaced keeper separately after handover.
 5. Build/review the runtime manifest, fund keeper gas, establish single-instance journal persistence/restoration and alerts, provision monitor-only, inspect heartbeats, then explicitly enable signing with `keeper/provision.py --enable`. Preserve and reconcile the journal before every restart/migration. Perform the real keystore/cloud end-to-end check as the operator; it was intentionally not performed here.
+
+## 12. Phase 5a: adapter, rewards and lending availability
+
+Work is isolated on `phase5/adapter-lending`, starting from `4c4ce34` plus the existing `b4ee2b3` non-owner NFT-increase regression. No vault-core, settlement, accounting, range or reserve source was changed. Tests were committed first in `aacb3b8`; the initial run demonstrated the failures below. Launch policy remains **80% collateral factor, 50% cash target, 10 bps deployment/recenter bounds and 2,400/600 ticks**. No real-network transaction, signer, keystore or cloud API was used.
+
+### Review checks and evidence
+
+Test names below are in `test/Phase5aAdapter.t.sol`, `test/Phase5aLending.t.sol` and `test/fork/Phase5aAdapterFork.t.sol` / `test/fork/Phase5aMarketFork.t.sol`, unless otherwise noted. Adapter unit scenarios run in both token orders. Faults injected into fork dependencies model future failures; they are not claims that the live token currently has those restrictions.
+
+| Check | Verdict | Evidence (test name) | Commit |
+| --- | --- | --- | --- |
+| 1 | changed | `testPhase5aRewardLifetimeLimitExits`, `testPhase5aOversizedLiveListExits`, `testPhase5aBrokenBalanceOfExits`, `testPhase5aRecenterForfeitureSkipsBrokenRewardBookkeeping`, `testPhase5aForkRewardListAndBrokenRamPrincipalExit`, `testPhase5aForkRecenterBrokenRamWithForfeiture` | tests `aacb3b8`; implementation recorded below |
+| 2 | changed | `testPhase5aRewardViewRoundingFailsAtomicallyButExits`, `testPhase5aRestrictedTransferRecoveryAndPrincipalExclusion`, `testPhase5aAlternatePayoutTokenClaimRollsBackAndExits`, `testPhase5aRecoveryCannotSpendAnotherPairsPendingRewards`, `testPhase5aForkRealRamExactClaimAndRestrictedRecipientRecovery`, `testPhase5aForkEarnedOneWeiDifferenceRollsBack` | tests `aacb3b8`; implementation recorded below |
+| 3 | changed | `testPhase5aAllocation{Wide,Narrow}{Upper,Lower}`, `testPhase5aAllocationNarrowSafe`, `testPhase5aFork{Wide,Narrow}Allocation{Upper,Lower}` | tests `aacb3b8`; implementation recorded below |
+| 4 | no change needed | `testPhase5aRemoval{Lower,Upper}GateEdge`, `testPhase5aForkRemoval{Lower,Upper}GateEdge`; existing `test_inverseRemovalBandFarEndpoint` | tests `aacb3b8` and final regression commit |
+| 5 | changed | `testPhase5aRegistrationRejectsGuardPoolMismatch`, `testPhase5aRegistrationRejectsGaugePoolMismatch`, `testPhase5aForkGuardIdentityAndGaugeMismatch` | tests `aacb3b8`; implementation recorded below |
+| 6 | changed | `testPhase5aBorrowChecksHealthAfterWithdrawalLoss` | tests `aacb3b8`; implementation recorded below |
+| 7 | documented | `testPhase5aDepositMismatchIsAtomicTripwire`, `testPhase5aRealDepositFailureDoesNotBlockMintBorrowRedeems`, `testPhase5aTaxedVaultDepositCaughtWithoutBlockingMint` | tests `aacb3b8` and final regression commit |
+| 8 | no change needed | `testPhase5aExternalShareAndUnderlyingPaths`, `testPhase5aSharesCannotBypassCollateralGate`; existing `testRoleBufferFloorAndPauseGates`, `testOperatorSyncDoesNotReportSilentWithdrawSuccess`, fork lending tests | tests `aacb3b8` and final regression commit |
+| 9 | documented | `testPhase5aUncheckpointedDirectDepositRedistributesPreview`, `testPhase5aSideRebalanceCheckpointsLossBeforeDeposit`, `testPhase5aForkDepositCheckpointBeforePairChange` | tests `aacb3b8` and final regression commit |
+| 10 | changed (verifier); rate logic unchanged | `testPhase5aWeekendSixtyHoursAtCashLimit`, `testPhase5aForkWeekendCashLimit`, Python `Phase5aRateTest.test_phase5a_maximum_rate_guard` | tests `aacb3b8`; implementation recorded below |
+
+### Rewards, exits and recovery
+
+The eight-token limit is a **lifetime union**, not just the current gauge list. Removed tokens remain tracked to preserve historical claims. A ninth unique token, nine current entries, broken `balanceOf`, failed claim or inconsistent receipt makes strict harvest revert atomically. One raw unit of `earned` mismatch also reverts; this deliberately continues to detect silent validator forfeiture. The real gauge pays RAM exactly in the tested hourly claim; no escrow variant was observed. The double additionally pays an unlisted escrow variant and proves that all transfers/claim state roll back on mismatch. Future gauge behavior is not inferred from today's payout.
+
+The narrow availability mechanism remains the existing **CONFIG_ROLE/timelock opt-in** `vault.setAllowRewardForfeiture(pair,true)`. No new keeper or guardian authority is granted. Decrease and burn already isolate their claim in a self-call, roll back a failed reward frame, emit `ExitHarvestFailed`, and continue principal operations. The gap was recenter's earlier reward-library call. In forfeiture mode, fresh reward processing now emits `RewardsDeferred` and returns before any list or balance reads. Recenter can then remove/burn through the existing isolated claim route. This mode suspends explicit fresh harvest too; use `claimPendingRewards` for healthy credited rewards, then restore strict mode after remediation. Historical rewards can become unclaimable when the NFT is burned. The switch does not bypass price freshness, slippage, principal balance checks, or restrictions on an underlying token itself.
+
+`adapter.recoverReward(pair,token,receiver,amount)` permits only the configured vault's CONFIG_ROLE holders. It recovers credited external rewards individually, or uncredited external-token surplus (including an escrow variant sent separately). It cannot transfer **any token registered as principal for any pair**, the NFT manager, or another pair's credited rewards. Aggregate pending liabilities are debited consistently. Exact sender/recipient deltas and the adapter lock remain enforced. Recovery to the vault itself is forbidden because it would bypass the vault's reward ledger. An external-token recovery has zero effect on market NAV. A token that refuses every transfer or balance read cannot be forced to move; it stays quarantined while principal exits use forfeiture mode. Recovery does not claim or erase a reward on an upstream gauge.
+
+### Range loss and removal floors
+
+At the unit fixture's near-300-bps price edges, returning to the unchanged oracle price loses **9.61 / 10.20 bps** for half-width 2,400 and **36.67 / 38.93 bps** for half-width 600. The fork at block **93,376,820** measured **9.64 / 10.24 bps** and **36.82 / 39.08 bps**, respectively. These figures mark the deposited amounts and resulting LP principal at the same oracle price; fees, rewards, idle balances and gas are excluded. The permitted wide upper edge also executes a real swap back to the reference and checks the resulting principal. The larger losses were accepted by the old adapter and are rejected by the new one.
+
+A fixed spot-deviation band alone is therefore insufficient. The adapter now values the **actual minted liquidity** at the oracle price and requires at least 99.9% of the oracle-marked amounts spent, with two raw units per asset for mint-up/valuation-down rounding. This automatically tightens the accepted displacement with range width and asymmetry, while retaining the configured price band and launch policy. It is an atomic post-mint check; failure rolls back mint, transfers and approvals. For example, a 100-tick displacement in the 600-tick range loses about 4.22 bps and remains accepted.
+
+Removal has a different purpose: it releases already-held LP inventory at an allowed current price and bounds each token's amount, rather than promising a 10-bps limit against the historical deposit value. The registration rule inverts `tolerance >= gate/2 + 100`; at launch `tolerance=400`, `gate=600`, so `d=2*(400-100)+20=620` bps. `_minimums` evaluates token0 at the high price endpoint and token1 at the low endpoint, then applies the 100-bps operational buffer. Inverse stock ordering inverts both endpoints. The guard independently rejects prices outside 600 bps; the extra 20 bps absorbs quantisation. Both fork directions succeed just inside the gate. One could derive the envelope as `gate+20`, but changing the adapter interface is unnecessary: the vault already requires its fixed envelope to cover the current gate. The floor is not a substitute for the guard or the vault's settlement-loss bound.
+
+### Lending ordering, tripwire and entry-point inventory
+
+A withdrawal can book an execution loss after a checkpoint. The borrow regression places Alice exactly at the 80% limit and uses a vault double that recognizes collateral loss only when USDG is withdrawn. Before the fix the borrow succeeded; now `doTransferOut` prepares liquidity first, then checks the borrower's updated controller liquidity before sending funds. A failing health check rolls back debt and withdrawal together. The redeem paths already price/check collateral after preparation.
+
+`DepositBalanceMismatch` remains a deliberate fail-closed tripwire. A fake vault can return success without moving the reported amount and trigger it; the entire mint rolls back. The configured real vault checks both sender and recipient deltas before returning `received==amount`, so a successful mismatch is not reachable under supported exact-transfer tokens. Reverting vault deposits (paused allocation and taxed vault transfers tested) are caught, approvals cleared, and mint retains local cash. Ordinary borrow/redeem paths also remain available while vault deposits are paused. Converting a successful inconsistent transfer into a soft failure without a rollback frame would silently accept corrupted asset accounting.
+
+The reviewed base files are `PErc20.sol`, `PToken.sol`, and `PErc20Delegate.sol`, including proxy dispatch. There is no additional mint/redeem/borrow-behalf implementation to override.
+
+| External path | Underlying/share movement and guard |
+| --- | --- |
+| `mint` | Delegate checkpoint, cap/seed checks, shared lock, `doTransferIn`; optional exact vault deposit; zero-share rejection |
+| `redeem`, `redeemUnderlying` | Delegate loss-aware loops; controller check and burn use the settled rate; exact-output burn rounds up |
+| `borrow` | Base controller/debt checks and lock, then delegate `doTransferOut` with final post-withdrawal health check |
+| `repayBorrow`, `repayBorrowBehalf` | Base lock/debt accounting and delegate transfer-in; no side-effect vault deposit for repayments |
+| `liquidateBorrow` | Base repayment and controller liquidation/seize checks; live market exchange-rate preview; repayment transfer-in remains independent of vault deposits |
+| `seize` | Shared lock and `seizeAllowed`; only listed market/controller-approved seizure; public arbitrary seizure fails |
+| `transfer`, `transferFrom` | Shared lock and controller `transferAllowed`/collateral check using market snapshots; cannot move encumbered collateral away |
+| `_addReserves`, `_reduceReserves` | Base reserve checks/lock; transfer-in independent of vault deposit; admin-only reduction uses delegate transfer-out |
+| `sweepToken` | Admin-only, underlying expressly forbidden; unrelated ERC20 tokens go to admin |
+| `flashLoan` | Launch-paused and independently verified; `maxFlashLoan` returns zero. If governance unpauses it, base implementation still routes through delegate transfer-out and verifies repayment |
+| `rebalanceVault`, `syncVault` | Operator/admin only and locked; maintenance checkpoints before deposits; withdrawal validates returned balances and reports losses |
+| `setVaultBuffer` | Admin only; checkpoint, rebalance and final buffer check; minimum remains 50% |
+| `activateBorrowAccounting` | Admin migration of debt shares, no underlying transfer or supplier-share mint; launch markets already activate the base module |
+| `_becomeImplementation`, `_resignImplementation`, `initialize`, other setters | Configuration/lifecycle only; base initialization/admin constraints; no separate underlying-transfer route |
+
+`approve` changes allowances only. Accrual and `*Current` queries change debt/reserve accounting but do not transfer assets. Unknown `mintBehalf`, `redeemBehalf`, and `borrowBehalf` selectors revert. Existing controller isolation, liquidation, buffer, cap and access tests remain part of the complete suite.
+
+### Unbooked loss and the stale weekend
+
+The proportional loss preview depends on the **current** pair denominator. A direct deposit into the vault while a loss is unbooked redistributes that estimated loss: newly deposited capital bears part of it and the other side's preview rises. The diagnostic deliberately impersonates a market to demonstrate this: adding 0.5 NVDA (about $47.56) to a roughly $197 pair raises the other side's preview by **0.053007 USDG** (about **5.3 bps** of its $100.02 vault claim) and adds **0.000557243781487791 NVDA** of haircut to the depositing side. Public market mint, maintenance and buffer-change paths already checkpoint before depositing, and withdrawals checkpoint/settle before changing principal. The market-route and real-fork regressions confirm that the other side's exchange rate stays stable within rounding through these operations. No accounting formula is changed.
+
+**Request to the vault-core owner:** if the vault will support side accounts other than these controlled delegates, require a checkpoint before principal-changing deposits (and review native-reward credits), or freeze each side's loss allocation at its last checkpoint. `depositForPair` itself currently has no such requirement. Do not represent the current ratio as invariant under arbitrary privileged direct deposits. This request is documented here instead of modifying the other developer's files.
+
+After borrowing all **100.020000 USDG** of local cash, 60 hours at the assumed 12-second native block cadence is **18,000 blocks**, with withdrawable cash zero and utilisation **100%**. The launch curve gives **121,765,601,217 / 1e18 per block**. One accrual after the interval yields **100.239221 USDG** of debt, a **0.219177%** increase before raw-unit rounding. It is below the base market's `5e12` maximum rate by about 41 times. Repayment of all debt succeeds without a feed; a subsequent unencumbered USDG redemption succeeds from returned local cash. Before repayment, a redemption needing vault cash reverts; an encumbered collateral redemption and liquidation revert on the stale oracle. These are the existing availability boundaries, not rate-guard failures. The verifier now explicitly checks the maximum-utilisation rate against `PToken.borrowRateMaxMantissa` in addition to checking the approved model parameters/runtime.
+
+### Reproduction and validation record
+
+```sh
+make test-ramses-phase5a
+export ROBINHOOD_RPC_URL=https://rpc.mainnet.chain.robinhood.com
+python3 ramses-vaults/tools/pin.py > /tmp/ramses-phase5a-pin.env
+source /tmp/ramses-phase5a-pin.env
+make fork-ramses-phase5a
+# One reversible, bounded mutation per invocation; do not run source mutations concurrently.
+python3 ramses-vaults/tools/mutations_phase5a.py allocation
+# Other cases: recovery, recovery-authority, recovery-principal, forfeiture, identity, borrow-order, rate.
+```
+
+Each command uses a ten-minute child-process bound. Over-limit compilation attempts were stopped (two manually before the wall-clock watchdog was added, then by that watchdog). A recovery-authority mutation compilation also timed out before succeeding on retry; a zero-test filter experiment was discarded. None is counted as passing evidence. On macOS the runner holds a temporary idle-sleep assertion only for the bounded child command. Logs are ignored under `research/phase5a-*.log`, with mutation results in `research/mutations-phase5a.json`. Final test counts, runtime sizes, local rehearsal results and implementation commits are recorded at completion below.
+
+### Applicability to the deployed Uniswap markets
+
+Read-only comparison used the requested `RobinhoodBoostedDelegate.sol` and `UniswapV4PairedAdapterV3.sol` from `/Users/joshua/Peridot/RobinhoodVaults/PeridotV2-Robinhood`; neither was modified. Source comparison is not a fresh deployed-bytecode attestation.
+
+- **1–2:** Ramses gauge/list/earned issues do not apply to that Uniswap adapter, which has no equivalent gauge reward route.
+- **3:** Concentrated-range sensitivity to price displacement also applies to Uniswap V3-style range amounts used by V4. Its adapter should receive the same oracle-marked allocation-loss review; the exact measured numbers above are Ramses fixture results.
+- **4:** The Uniswap adapter uses the same inverted tolerance/buffer/quantisation construction; the interpretation and range-endpoint tests apply.
+- **5:** The exact Ramses guard-pool/gauge identity gap is specific to this composition. Uniswap stores a `PoolKey`/pool ID and checks that identity.
+- **6:** The supplied Uniswap delegate prepares liquidity but has **no final borrower health check** in `doTransferOut`, so the withdrawal-loss concern applies there too.
+- **7:** It contains the same successful-return `DepositBalanceMismatch` tripwire. Its transfer-in also rebalances on repayment, unlike Ramses; repayment independence deserves a separate review.
+- **8:** The common base entry-point inventory applies. Launch flash-loan pause and controller policy must be verified independently for the deployed markets.
+- **9:** Ramses' live proportional preview is package-specific. The supplied Uniswap delegate has no Ramses-style checkpoint-before-deposit protection; the broader unbooked-loss/claim-change issue requires review of its vault/accounting as well.
+- **10:** Withdrawable-cash utilisation and the base maximum-rate guard apply to both. The 60-hour numbers only apply if the deployed interest model uses the same curve and block cadence.

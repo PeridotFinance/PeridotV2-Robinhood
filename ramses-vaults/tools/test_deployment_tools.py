@@ -44,18 +44,18 @@ class Phase5aRateTest(unittest.TestCase):
         with self.assertRaisesRegex(AssertionError, 'maximum borrow rate'):
             verifier.maximum_rate()
 
-class Phase5aWallTimeoutTest(unittest.TestCase):
-    def test_wall_clock_jump_stops_process_group(self):
+class Phase5aTimeoutTest(unittest.TestCase):
+    def test_timeout_stops_process_group(self):
         import runpy
         from unittest.mock import Mock, patch
         child = Mock(pid=43210)
-        child.poll.return_value = None
-        with patch('subprocess.Popen', return_value=child), patch('time.time', side_effect=[100, 701]), patch('os.killpg') as kill:
+        child.wait.side_effect = [subprocess.TimeoutExpired('test', 600), 0]
+        with patch('subprocess.Popen', return_value=child), patch('os.killpg') as kill:
             with self.assertRaises(SystemExit) as stopped:
                 runpy.run_path(str(ROOT/'ramses-vaults/tools/check_phase2.py'), run_name='__main__')
             self.assertEqual(stopped.exception.code, 124)
             kill.assert_called_once()
             self.assertEqual(kill.call_args.args[0], 43210)
-            child.wait.assert_called_once()
+            self.assertEqual(child.wait.call_count, 2)
 
 if __name__=='__main__': unittest.main()
