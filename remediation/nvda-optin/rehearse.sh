@@ -12,8 +12,9 @@
 #
 # Rehearsal-only adjustments, all marked below: (1) pNVDA / pUSDG accrual aligned to anvil's block number (anvil
 # reports the L2 height, the chain accrues on the native L1 number); (2) RHSPY and the NVDA 24/7 feed are etched with
-# fixed-answer, always-fresh mocks at their real last answers, so the 1 h warps keep them fresh. The real ceremony
-# runs in session with the live feeds.
+# fixed-answer, always-fresh mocks at their real last answers, so the 1 h warps keep them fresh; (3) on a weekend fork
+# the clock moves to the next Monday 15:00 UTC (the SPY ceremonies refuse the weekend window). The real ceremony runs
+# in session with the live feeds.
 #
 #   bash remediation/nvda-optin/rehearse.sh          # from the repository root
 set -euo pipefail
@@ -56,6 +57,19 @@ hold(){ local feed=$1 code=$2 ans; ans=$(cast call $feed 'latestRoundData()(uint
   echo "   $feed held at $ans"; }
 hold $SPYFEED $(python3 -c "import json;print(json.load(open('$SPY/out-spy/SpyFreshFeedMock.sol/SpyFreshFeedMock.json'))['deployedBytecode']['object'])")
 hold $NVFEED $(python3 -c "import json;print(json.load(open('remediation/out-nvda-optin/NvdaOptIn.t.sol/FreshFeedMock.json'))['deployedBytecode']['object'])")
+
+# (3) rehearsal-only: the SPY ceremonies refuse the weekend window. On a weekend fork, move the clock to the next
+# Monday 15:00 UTC (the feeds above are mocks, so they stay fresh; accrual is on block numbers, not time).
+NOW=$(cast block latest --field timestamp --rpc-url $F)
+MON=$(python3 -c "
+import datetime as d; t=d.datetime.fromtimestamp($NOW, d.timezone.utc)
+closed = t.weekday() >= 5 or (t.weekday() == 4 and t.hour >= 21)
+if not closed: print(0)
+else:
+    m = (t + d.timedelta(days=(7 - t.weekday()) % 7 or 7)).replace(hour=15, minute=0, second=0, microsecond=0)
+    print(int(m.timestamp()))")
+if [ "$MON" != 0 ]; then cast rpc evm_setNextBlockTimestamp $MON --rpc-url $F >/dev/null; cast rpc evm_mine --rpc-url $F >/dev/null
+  echo "   weekend fork: clock moved to $(date -u -r $MON)"; fi
 
 export RPC=$F SIGN=--unlocked
 MJ=$SPY/deployments/spy-margin/spy-margin-mainnet.json; CJ=$SPY/deployments/spy-collateral/spy-collateral-nvda-optin.json
@@ -107,7 +121,13 @@ KJ=$LOG/range-keeper-optin.json; rm -f $KJ
 for pass in 1 2; do
   python3 remediation/tools/range_keeper.py --rpc $F --unlocked --pair NVDA/USDG/OPTIN --sender $K --journal $KJ \
     --max-gas-price-wei 1000000000000 --execute > $LOG/keeper-$pass.log 2>&1 || true
-  sed -E 's/"output": "[^"]*"/"output": "..."/;s/"time": [0-9]+, //' $LOG/keeper-$pass.log | tail -2 | sed 's/^/   keeper: /'
+  python3 -c "
+import json,sys
+for line in open('$LOG/keeper-$pass.log'):
+    try: e=json.loads(line)
+    except ValueError: continue
+    if 'status' in e: continue
+    print('   keeper pass $pass:', {k: e[k] for k in ('simulation','rebalance','function','action') if k in e})"
 done
 echo "   OPTIN position: $(cast call $ADAPTER 'positionState(bytes32)((uint256,uint128,uint256,uint256))' $OPTIN --rpc-url $F)"
 echo "   production position (must stay liquidity 0): $(cast call $ADAPTER 'positionState(bytes32)((uint256,uint128,uint256,uint256))' $(cast keccak NVDA/USDG) --rpc-url $F)"

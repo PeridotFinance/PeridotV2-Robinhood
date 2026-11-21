@@ -90,3 +90,32 @@ Ledger) checkpoints and rebalances OPTIN once both sides have deposits.
 The vault-wide `KEEPER_ROLE` is already held by range keeper `0x82AB…9f7e`. Set `PAIRS=NVDA/USDG,NVDA/USDG/OPTIN` on
 app `peridot-range-keeper` and force-rebuild. Two other things are handled separately: the default-sender fix, and
 the 50 bp price checkpoint `81036aa` (not on this base).
+
+## Rehearsal
+
+```bash
+bash remediation/nvda-optin/rehearse.sh      # from the repository root; about 15 to 25 minutes
+```
+
+It needs `anvil`, `forge`, `cast`, `jq` and `rsync`, and read access to `/Users/joshua/Peridot/.wt-spy-collateral/contracts`
+(override with `SPY_REPO=...`). That worktree is copied to `.scratch/nvda-optin-rehearsal/spy-contracts` and never
+written. A specific block can be pinned with `FORK_BLOCK=...`.
+
+Expected output (development run 2026-11-21, fork block 119736342, a weekend fork moved to Mon 2026-11-23 15:00 UTC):
+
+```
+== [1] SPY margin ceremony preflight / t0 (13 Ledger txs) / gate / t1 (3)
+== [2] pSPY collateral: preflight / t0 (3)
+== [3] fork tests on the post-SPY state       Suite result: ok. 8 passed; 0 failed
+== [4] NVDA opt-in: fund, deploy (3 txs), preflight, t0, (warp), gate, t1, verify   -- no CHECK FAILED
+   keeper pass 1: {'simulation': 'due', 'function': 'recenter', 'action': 'sent'}   (first range deployed)
+   keeper pass 2: RecenterCooldown / rebalance InvalidConfiguration (dust, wait)
+   OPTIN position: own token id, liquidity > 0; production position liquidity 0
+   both suppliers redeem in their own token (0.29999998 of 0.3 NVDA; 43.999996 of 44 USDG)
+== ceremony rollback / rollback-t1  -> OPTIN flags true true false, vault claims 0/0
+== Ledger transactions sent in the NVDA opt-in ceremony (fund..t1): 34, rollback: 7
+REHEARSAL COMPLETE
+```
+
+Other checks: adapter unit tests 9/9; 11 of 11 hand-written adapter mutants killed; keeper tests 32 (worker) + 24
+(range_keeper).

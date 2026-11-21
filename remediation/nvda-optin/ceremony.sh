@@ -216,7 +216,7 @@ verify)
   need "$(c $ADAPTER 'removalTolerance(bytes32)(uint16)' $OPTIN)" 400 "adapter removal tolerance 400"
   need "$(c $PNVDA 'vaultPaused()(bool)')/$(c $PUSDG 'vaultPaused()(bool)')" true/true "pNVDA / pUSDG plain by configuration"
   forge_verify
-  echo "   OPTIN ledger: $(c $VAULT 'ledger(bytes32)(uint256,uint256,uint256,uint256,uint256,uint64)' $OPTIN | first | tr '\n' ' ')"
+  echo "   OPTIN ledger (stockPrincipal usdgPrincipal stockIdle usdgIdle lossUSD18 lastCheckpoint): $(c $VAULT 'ledger(bytes32)(uint256,uint256,uint256,uint256,uint256,uint64)' $OPTIN | cut -d' ' -f1 | tr '\n' ' ')"
   echo "   OPTIN position: $(c $ADAPTER 'positionState(bytes32)((uint256,uint128,uint256,uint256))' $OPTIN)"
   echo "   reserve OPTIN: $(c $RESERVE 'available(bytes32,address)(uint256)' $OPTIN $NVDA | first) NVDA wei, $(c $RESERVE 'available(bytes32,address)(uint256)' $OPTIN $USDG | first) USDG raw"
   ;;
