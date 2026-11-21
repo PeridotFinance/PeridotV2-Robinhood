@@ -7,9 +7,12 @@ anyone holding the keeper role to do. Default is read-only. Signing stays with t
 Foundry keystore: `cast send --account` prompts for the password in the user's terminal, so the
 script never sees a key or password.
 
-    python3 remediation/tools/range_keeper.py              # status + simulation, sends nothing
-    python3 remediation/tools/range_keeper.py --execute    # sends one recenter if due
-    python3 remediation/tools/range_keeper.py --watch 300 --execute
+    python3 remediation/tools/range_keeper.py --sender 0xKEEPER                    # status + simulation, sends nothing
+    python3 remediation/tools/range_keeper.py --sender 0xKEEPER --account NAME --execute
+    python3 remediation/tools/range_keeper.py --sender 0xKEEPER --account NAME --watch 300 --execute
+
+There is no default sender or keystore account: both must name the keeper wallet explicitly. The
+retired deployer 0x9469...5d2 (possibly compromised, 2026-11-05) is refused outright.
 """
 import argparse
 import json
@@ -23,12 +26,16 @@ from pathlib import Path
 
 RPC = 'https://rpc.mainnet.chain.robinhood.com'
 UNLOCKED = False  # local rehearsal only (anvil with impersonation)
-SENDER = None  # defaults to GOVERNOR
+SENDER = None  # required: set by configure() or --sender; there is deliberately no default
 KEYSTORE = None  # (keystore path, password file) for an unattended dedicated keeper wallet
 VAULT = '0x280825b2d856706Ff7E0d6351CcB2e935E1a9A2f'
 ADAPTER = '0xadA73211711e4790bc83B5d6B39f47fE04D276f3'
-GOVERNOR = '0x94696d767e65a75581145646960FA0eC886cE5d2'
-ACCOUNT = 'robinhood-deployer'
+# Retired signers this keeper must never simulate or send from. The deployer below may have been
+# compromised (2026-11-05); admin moved to the Ledger and the keeper role to a dedicated wallet.
+RETIRED_SIGNERS = frozenset({'0x94696d767e65a75581145646960fa0ec886ce5d2'})
+RETIRED_ACCOUNTS = frozenset({'robinhood-deployer'})  # the retired deployer's Foundry keystore name
+ACCOUNT = None  # Foundry keystore name for interactive --execute; required, no default
+GUARD = '0xaE4D4DdB8dD646951d54fE9B13BE23DcB61C6741'
 PAIR = '0xe2050352f4346597cc69d2776d99ae60c9440dfc28f9406ce66be0bbe3fb6b06'
 GAS_LIMIT = 3_000_000
 # The vault rejects deadlines more than maxDeadlineDelay (300s) ahead, so this is the longest the
@@ -98,8 +105,19 @@ def _status():
     return {'upgraded': True, 'ticks': lower_upper_ranged, 'rangeState': state, 'pairConfigHex': cfg.strip()[:20] + '...'}
 
 
+def check_sender(address):
+    """Returns the address if it is a usable sender; raises otherwise. Refuses the retired signer."""
+    if not isinstance(address, str) or not re.fullmatch(r'0x[0-9a-fA-F]{40}', address):
+        raise RuntimeError('keeper sender is required: pass --sender / KEEPER_ADDRESS (a 0x address)')
+    if address.lower() in RETIRED_SIGNERS:
+        raise RuntimeError('refusing the retired signer ' + address + ' as keeper sender')
+    return address
+
+
 def sender():
-    return SENDER or GOVERNOR
+    if not SENDER:
+        raise RuntimeError('keeper sender is required: pass --sender / KEEPER_ADDRESS (no default)')
+    return check_sender(SENDER)
 
 
 def configure(rpc=None, sender=None, keystore=None, max_gas_price_wei=None, deadline_seconds=None, journal=None):
@@ -109,8 +127,8 @@ def configure(rpc=None, sender=None, keystore=None, max_gas_price_wei=None, dead
         JOURNAL = Path(journal)
     if rpc:
         RPC = rpc
-    if sender:
-        SENDER = sender
+    if sender is not None:
+        SENDER = check_sender(sender)
     if keystore:
         KEYSTORE = keystore
     if max_gas_price_wei:
@@ -154,7 +172,12 @@ def send(fn='recenter'):
     if KEYSTORE:
         signer = ['--keystore', KEYSTORE[0], '--password-file', KEYSTORE[1]]
     else:
-        signer = ['--unlocked'] if UNLOCKED else ['--account', ACCOUNT]
+        if UNLOCKED:
+            signer = ['--unlocked']
+        elif ACCOUNT:
+            signer = ['--account', ACCOUNT]
+        else:
+            raise RuntimeError('a keystore account is required to send: pass --account (no default)')
     started = time.time()
     result = cast('send', VAULT, fn + '(bytes32,uint256)', PAIR, str(deadline),
                   *signer, '--from', sender(), '--gas-limit', str(GAS_LIMIT),
@@ -247,6 +270,117 @@ def rebalance_value_gate():
     return True, fields
 
 
+# Cash held in the pTokens is redeemable at the last CHECKPOINTED claim, so an unrecorded LP loss can be
+# escaped by a cash exit until the next checkpoint. The
+# hourly checkpoint above is the backstop; this shrinks the window to minutes by checkpointing as soon as
+# the oracle price has moved this far from the price at the last checkpoint.
+PRICE_CHECKPOINT_BPS = 50
+PRICE_CHECKPOINT_MIN_INTERVAL = 300
+# Per pair (keyed by lower-case pairId), so a multi-pair keeper on one feed keeps independent baselines.
+BASELINE_PRICES = {}  # pairId -> oracle stock price (USD 1e18) at the last checkpoint this process saw or sent
+LAST_PRICE_CHECKPOINTS = {}  # pairId -> unix time of the last price-checkpoint attempt
+LIQUIDITY_SKIP = {}  # pairId -> last journalled skip reason, so a persistent skip is journalled once, not every cycle
+
+
+def _pair_key():
+    return PAIR.lower()
+
+
+def pair_liquidity():
+    """Open LP liquidity of the current pair, or None when the read fails or is unusable."""
+    try:
+        result = cast('call', ADAPTER, 'positionState(bytes32)(uint256,uint128,uint256,uint256)', PAIR, check=False)
+    except (RuntimeError, OSError):
+        return None
+    if result.returncode:
+        return None
+    try:
+        return int(result.stdout.split('\n')[1].split()[0])
+    except (IndexError, ValueError):
+        return None
+
+
+def _liquidity_skip(reason):
+    """Logs every skipped cycle; journals only when the skip reason changes for this pair."""
+    key = _pair_key()
+    info = {'time': int(time.time()), 'pair': PAIR, 'priceCheckpoint': 'skipped', 'reason': reason}
+    print(json.dumps(info))
+    if LIQUIDITY_SKIP.get(key) != reason:
+        LIQUIDITY_SKIP[key] = reason
+        journal(dict(info))
+
+
+def stock_price():
+    """Oracle stock price in USD 1e18, or None when the guard cannot price (stale feed, paused token)."""
+    try:
+        result = cast('call', GUARD, 'pricesUSD18(bytes32)(uint256,uint256)', PAIR, check=False)
+    except (RuntimeError, OSError):  # a failed read is "cannot price", never a crashed cycle
+        return None
+    if result.returncode:
+        return None
+    try:
+        price = int(result.stdout.split()[0])
+    except (IndexError, ValueError):
+        return None
+    return price or None
+
+
+def maybe_price_checkpoint(execute):
+    """Checkpoints when the oracle price moved >= PRICE_CHECKPOINT_BPS since the last checkpoint. Only acts
+    when the real call succeeds; a closed market (stale feed) or any waiting revert is not a fault."""
+    key = _pair_key()
+    # Only while LP liquidity is open: with none, no LP loss can go unrecorded and a checkpoint is a no-op.
+    liquidity = pair_liquidity()
+    if liquidity is None:
+        _liquidity_skip('liquidity read failed')
+        return 0
+    if liquidity == 0:
+        BASELINE_PRICES.pop(key, None)  # start fresh when liquidity reopens
+        _liquidity_skip('no open liquidity')
+        return 0
+    LIQUIDITY_SKIP.pop(key, None)
+    price = stock_price()
+    if price is None:
+        return 0
+    baseline = BASELINE_PRICES.get(key)
+    if baseline is None:
+        BASELINE_PRICES[key] = price
+        return 0
+    if abs(price - baseline) * 10000 < baseline * PRICE_CHECKPOINT_BPS:
+        return 0
+    info = {'time': int(time.time()), 'pair': PAIR,
+            'priceCheckpoint': 'oracle moved >= ' + str(PRICE_CHECKPOINT_BPS) + ' bps',
+            'baselinePrice': str(baseline), 'price': str(price)}
+    if time.time() - LAST_PRICE_CHECKPOINTS.get(key, 0) < PRICE_CHECKPOINT_MIN_INTERVAL:
+        info['action'] = 'wait (price checkpoint attempted less than 5 minutes ago)'
+        print(json.dumps(info))
+        return 0
+    outcome, waiting, detail = simulate('checkpoint')
+    if outcome != 'due':
+        info.update(simulation=outcome, action='wait' if waiting else 'ATTENTION', detail=detail)
+        print(json.dumps(info))
+        return 0 if waiting else 2
+    ok, gas_price = gas_price_ok()
+    if not ok:
+        info['action'] = 'wait (gas price above cap)'
+    elif not execute:
+        info['action'] = 'price checkpoint is due; rerun with --execute to send'
+    else:
+        LAST_PRICE_CHECKPOINTS[key] = time.time()
+        sent = send('checkpoint')
+        info['action'] = outcome_of(sent)
+        info['function'] = 'checkpoint'
+        info['output'] = (sent.stdout or sent.stderr).strip()[:600]
+        journal(dict(info))
+        print(json.dumps(info))
+        if info['action'] == 'sent':
+            BASELINE_PRICES[key] = price
+            return 0
+        return 3
+    print(json.dumps(info))
+    return 0
+
+
 def maybe_rebalance(execute):
     """Idle assets (new deposits, an idle-exit recenter) are deployed by `rebalance`, which needs a
     checkpoint no older than the vault's maxCheckpointAge. Only acts when the real call succeeds."""
@@ -272,6 +406,9 @@ def maybe_rebalance(execute):
             info['action'] = result_text + ' (checkpoint)'
             print(json.dumps(info))
             return 3
+        price = stock_price()
+        if price:
+            BASELINE_PRICES[_pair_key()] = price
         outcome, waiting, detail = simulate('rebalance')
         waiting = waiting or outcome in DUST_REBALANCES
     if outcome != 'due':
@@ -303,6 +440,12 @@ def maybe_rebalance(execute):
 
 
 def step(execute):
+    price_code = maybe_price_checkpoint(execute)
+    code = _step(execute)
+    return code or price_code
+
+
+def _step(execute):
     outcome, waiting, detail = simulate()
     if outcome.startswith('unknown(0x)') or outcome == 'unknown':
         waiting = False
@@ -340,8 +483,18 @@ def main():
     parser.add_argument('--max-gas-price-wei', type=int, default=None, help='override the gas price cap (default 0.1 gwei)')
     parser.add_argument('--rpc', default=None, help='override the RPC (local rehearsal)')
     parser.add_argument('--unlocked', action='store_true', help='send from an impersonated account; localhost only')
+    parser.add_argument('--sender', required=True, help='keeper wallet address (required; no default)')
+    parser.add_argument('--account', default=None, help='Foundry keystore name to sign with (required for --execute)')
     args = parser.parse_args()
-    global RPC, UNLOCKED, MAX_GAS_PRICE_WEI
+    global RPC, UNLOCKED, MAX_GAS_PRICE_WEI, SENDER, ACCOUNT
+    try:
+        SENDER = check_sender(args.sender)
+    except RuntimeError as error:
+        raise SystemExit(str(error))
+    if args.account:
+        if args.account in RETIRED_ACCOUNTS:
+            raise SystemExit('refusing the retired keystore account ' + args.account)
+        ACCOUNT = args.account
     if args.max_gas_price_wei:
         MAX_GAS_PRICE_WEI = args.max_gas_price_wei
     if args.rpc:
@@ -350,6 +503,8 @@ def main():
         if not RPC.startswith(('http://127.0.0.1', 'http://localhost')):
             raise SystemExit('--unlocked is for a local rehearsal node only')
         UNLOCKED = True
+    if args.execute and not (UNLOCKED or ACCOUNT):
+        raise SystemExit('--execute needs --account (the keeper wallet keystore); there is no default')
     if int(cast('chain-id').stdout) != 4663:
         raise SystemExit('wrong chain')
     current = status()

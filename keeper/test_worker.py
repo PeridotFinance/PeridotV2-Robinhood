@@ -131,6 +131,14 @@ class CycleTests(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError, 'KEEPER_ADDRESS'):
                 w.main()
 
+    def test_retired_signer_is_refused_as_keeper_address(self):
+        for address in ('0x94696d767e65a75581145646960FA0eC886cE5d2', '0x94696d767e65a75581145646960fa0ec886ce5d2'):
+            with mock.patch.dict(os.environ, {'KEEPER_ADDRESS': address}, clear=True), \
+                    mock.patch.object(w.rk, 'configure') as configure:
+                with self.assertRaisesRegex(RuntimeError, 'retired signer'):
+                    w.main()
+                configure.assert_not_called()
+
 
 class FakeChain:
     """The contract's ordering for this pair, driven through the real range_keeper.step."""
@@ -147,6 +155,9 @@ class FakeChain:
         self.send_code = 0
         self.broken_read = None
         self.reads = []
+        self.price_reads = 0  # the 50 bp price-checkpoint read of the fixed guard, kept apart from the gate's reads
+        self.price = self.STOCK_PRICE
+        self.liquidity = 10 ** 12  # open LP liquidity (positionState field 2)
 
     def simulate(self, fn='recenter'):
         if fn == 'recenter':
@@ -168,6 +179,16 @@ class FakeChain:
         return result
 
     def cast(self, *args, check=True):
+        if args[0] == 'call' and args[1] == w.rk.ADAPTER and 'positionState' in args[2]:
+            self.price_reads += 1
+            return mock.Mock(returncode=0, stdout='4238052\n' + str(self.liquidity) + '\n0\n0\n')
+        if args[0] == 'call' and args[1] == w.rk.GUARD:
+            self.price_reads += 1
+            if self.broken_read and self.broken_read in ' '.join(args):
+                raise RuntimeError('rpc failed')
+            if not self.oracle_ok:
+                return mock.Mock(returncode=1, stdout='', stderr='StaleOracle')
+            return mock.Mock(returncode=0, stdout=str(self.price) + ' [x]\n1000000000000000000 [1e18]\n')
         key = args[1] if args[0] == 'call' else args[0]
         self.reads.append(key)
         if self.broken_read and self.broken_read in ' '.join(args):
@@ -180,7 +201,7 @@ class FakeChain:
         if 'oracleGuard' in args[2]:
             return mock.Mock(stdout='0x' + 'aa' * 20 + '\n')
         if 'pricesUSD18' in args[2]:
-            return mock.Mock(stdout=str(self.STOCK_PRICE) + ' [2.05e20]\n1000000000000000000 [1e18]\n')
+            return mock.Mock(stdout=str(self.price) + ' [2.05e20]\n1000000000000000000 [1e18]\n')
         if 'latestRoundData' in args[2]:
             row = [7, self.ETH_ANSWER, self.now - 60, self.now - 60, 7]
             return mock.Mock(stdout=''.join(str(v) + '\n' for v in row))
@@ -203,6 +224,11 @@ USDG = 10 ** 12  # USD18 per raw USDG
 
 
 class RebalanceValueTests(unittest.TestCase):
+    def setUp(self):
+        w.rk.BASELINE_PRICES.clear()
+        w.rk.LAST_PRICE_CHECKPOINTS.clear()
+        w.rk.LIQUIDITY_SKIP.clear()
+
     def run_cycle(self, chain, execute=True):
         out = io.StringIO()
         with chain.patches(), contextlib.redirect_stdout(out):
@@ -341,6 +367,42 @@ class RebalanceValueTests(unittest.TestCase):
         chain = self.stale(recenter_due=True, usdg_idle=0)
         self.assertEqual(self.run_cycle(chain)[0], 0)
         self.assertEqual((chain.sent, chain.reads), (['recenter'], []))
+
+    def test_price_move_of_50_bp_checkpoints_through_the_real_step(self):
+        chain = FakeChain(usdg_idle=0)  # fresh checkpoint, nothing idle worth deploying
+        self.run_cycle(chain)  # first cycle only records the baseline
+        self.assertEqual(chain.sent, [])
+        chain.now += 301
+        chain.price = chain.STOCK_PRICE + chain.STOCK_PRICE * 49 // 10000
+        self.run_cycle(chain)
+        self.assertEqual(chain.sent, [])
+        chain.now += 301
+        chain.price = chain.STOCK_PRICE - chain.STOCK_PRICE * 50 // 10000
+        code, logs = self.run_cycle(chain)
+        self.assertEqual(chain.sent, ['checkpoint'])
+        self.assertEqual(w.rk.BASELINE_PRICES[w.rk.PAIR.lower()], chain.price)
+        chain.now += 10  # a further move inside 300 s waits
+        chain.price = chain.price * 2
+        self.run_cycle(chain)
+        self.assertEqual(chain.sent, ['checkpoint'])
+
+    def test_zero_liquidity_sends_no_checkpoint_on_a_2_percent_move(self):
+        chain = FakeChain(usdg_idle=0)
+        chain.liquidity = 0
+        self.run_cycle(chain)
+        for move in (102, 104):
+            chain.now += 301
+            chain.price = chain.STOCK_PRICE * move // 100
+            self.run_cycle(chain)
+        self.assertEqual(chain.sent, [])
+
+    def test_stale_guard_never_price_checkpoints(self):
+        chain = FakeChain(oracle_ok=False, usdg_idle=0)
+        for _ in range(3):
+            chain.now += 301
+            self.run_cycle(chain)
+        self.assertEqual(chain.sent, [])
+        self.assertIsNone(w.rk.BASELINE_PRICES.get(w.rk.PAIR.lower()))
 
     def test_monitor_mode_never_sends(self):
         for chain in (self.stale(usdg_idle=10 ** 9), FakeChain(usdg_idle=10 ** 9)):
