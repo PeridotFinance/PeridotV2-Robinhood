@@ -62,7 +62,13 @@ library RamsesSettlementLib {
             : VaultMath.valueUSD18(deficit, config.usdgDecimals, p.usdgPrice, Math.Rounding.Ceil);
 
         address targetToken = p.stockSide ? config.stockToken : config.usdg;
-        uint256 reserveAvailable = p.lossReserve.available(p.pairId, targetToken);
+        // The reserve pays for LOSS, not for a shortfall that only reflects the pair now holding more of
+        // the other token. Without a loss the shortfall is settled by the bounded swap below, and any
+        // reserve payment would leave an unowned surplus that a later checkpoint credits to the other side.
+        uint256 lossValue = _pairLossValue(config, pairLedger, p);
+        if (lossValue < deficitValue) deficitValue = lossValue;
+        uint256 reserveAvailable =
+            deficitValue == 0 ? 0 : p.lossReserve.available(p.pairId, targetToken);
         if (reserveAvailable != 0) {
             uint256 requestedReserve = Math.min(deficit, reserveAvailable);
             uint256 requestedReserveValue = p.stockSide
@@ -82,7 +88,7 @@ library RamsesSettlementLib {
             targetIdle += covered;
             if (targetIdle >= p.requested) return;
             deficit = p.requested - targetIdle;
-        } else if (p.stockSide) {
+        } else if (p.stockSide && deficitValue != 0) {
             // If the stock reserve is empty, USDG reserve may fund one bounded USDG->stock
             // settlement. Only one reserve cover call is made per withdrawal event.
             uint256 usdgNeeded = VaultMath.amountFromValueUSD18(
@@ -110,6 +116,38 @@ library RamsesSettlementLib {
         }
 
         _settlementSwap(config, pairLedger, p);
+    }
+
+    /// @dev Oracle-valued shortfall of the whole pair: claims at the oracle price minus idle plus the position
+    /// valued at the oracle-derived reference price. Zero when the pair is whole (or in surplus).
+    function _pairLossValue(
+        PairConfig storage config,
+        PairLedger storage pairLedger,
+        SettleParams memory p
+    ) private view returns (uint256) {
+        (,, uint160 oracleRef) =
+            p.oracleGuard.validateRemovalPrice(p.pairId, p.liquidityAdapter.poolOf(p.pairId));
+        RamsesV3PairedAdapter.PositionState memory position =
+            p.liquidityAdapter.positionStateAt(p.pairId, oracleRef);
+        uint256 benchmark = VaultMath.valueUSD18(
+            pairLedger.stockPrincipal, config.stockDecimals, p.stockPrice, Math.Rounding.Ceil
+        )
+        + VaultMath.valueUSD18(
+            pairLedger.usdgPrincipal, config.usdgDecimals, p.usdgPrice, Math.Rounding.Ceil
+        );
+        uint256 gross = VaultMath.valueUSD18(
+            pairLedger.stockIdle + position.stockAmount,
+            config.stockDecimals,
+            p.stockPrice,
+            Math.Rounding.Floor
+        )
+        + VaultMath.valueUSD18(
+            pairLedger.usdgIdle + position.usdgAmount,
+            config.usdgDecimals,
+            p.usdgPrice,
+            Math.Rounding.Floor
+        );
+        return benchmark > gross ? benchmark - gross : 0;
     }
 
     function _settlementSwap(

@@ -231,16 +231,7 @@ contract RamsesBoostedVault is Initializable, AccessControlUpgradeable, Reentran
     {
         PairConfig storage current = _config(pairId);
         RamsesConfigLib.validatePairConfig(pairId, config);
-        if (
-            config.stockToken != current.stockToken || config.usdg != current.usdg
-                || config.stockAccount != current.stockAccount
-                || config.usdgAccount != current.usdgAccount
-                || config.stockDecimals != current.stockDecimals
-                || config.usdgDecimals != current.usdgDecimals
-        ) revert InvalidConfiguration();
-        _pairConfig[pairId] = config;
-        _pairConfig[pairId].exists = true;
-        emit PairRiskUpdated(pairId, config);
+        RamsesConfigLib.applyRisk(pairId, current, config);
     }
 
     function setPairPause(
@@ -376,6 +367,12 @@ contract RamsesBoostedVault is Initializable, AccessControlUpgradeable, Reentran
         received = balanceAfter - balanceBefore;
         if (received != amount || senderBalanceBefore - senderBalanceAfter != amount) {
             revert FeeOnTransferUnsupported();
+        }
+
+        // Record any loss that already exists BEFORE this deposit changes the principals it is shared over;
+        // otherwise the new money is charged a share of a loss it did not cause.
+        if (pairLedger.stockPrincipal != 0 || pairLedger.usdgPrincipal != 0) {
+            _recognizeBeforeDeposit(pairId, config, pairLedger);
         }
 
         if (token == config.stockToken) {
@@ -896,6 +893,17 @@ contract RamsesBoostedVault is Initializable, AccessControlUpgradeable, Reentran
             ),
             false
         );
+    }
+
+    function _recognizeBeforeDeposit(
+        bytes32 pairId,
+        PairConfig storage config,
+        PairLedger storage pairLedger
+    ) internal {
+        (,, uint160 referenceSqrtPriceX96) =
+            oracleGuard.validateRemovalPrice(pairId, liquidityAdapter.poolOf(pairId));
+        (uint256 stockPrice, uint256 usdgPrice) = oracleGuard.pricesUSD18(pairId);
+        _recognizeLoss(pairId, config, pairLedger, stockPrice, usdgPrice, referenceSqrtPriceX96);
     }
 
     function _enforcePairCap(
